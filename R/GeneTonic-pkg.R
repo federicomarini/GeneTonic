@@ -1,6 +1,6 @@
 #' GeneTonic
 #'
-#' \code{GeneTonic} is a Bioconductor package that provides an interactive Shiny-based
+#' `GeneTonic` is a Bioconductor package that provides an interactive Shiny-based
 #'  graphical user interface for...
 #'
 #' @author Federico Marini \email{marinif@@uni-mainz.de}
