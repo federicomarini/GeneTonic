@@ -1,17 +1,22 @@
 Package: GeneTonic
 Title: What the Package Does (One Line, Title Case)
 Version: 0.0.0.9000
+Date: 2019-06-24
 Authors@R: 
-    person(given = "First",
-           family = "Last",
-           role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+    c(
+    person("Simon", "Stahl", role=c("aut"), email="simon.t.stahl@gmail.com"),
+    person("Federico", "Marini", role=c("aut","cre"), email="marinif@uni-mainz.de", comment = c(ORCID = '0000-0003-3252-7758')))
 Description: What the package does (one paragraph).
+Imports:
+    shiny
+Suggests:
+    knitr,
+    rmarkdown,
+    BiocStyle
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
-Suggests: 
-    knitr,
-    rmarkdown
 VignetteBuilder: knitr
+URL: https://github.com/federicomarini/GeneTonic
+BugReports: https://github.com/federicomarini/GeneTonic/issues
+RoxygenNote: 6.1.1
+Roxygen: list(markdown = TRUE)
