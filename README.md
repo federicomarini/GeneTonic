@@ -1,7 +1,5 @@
 # GeneTonic
 
-Edit from Simon.
-
 <!-- badges: start -->
 <!-- badges: end -->
 
