@@ -1,20 +1,51 @@
 ---
-title: "GeneTonic_manual"
-output: rmarkdown::html_vignette
+title: >
+  The `GeneTonic` User's Guide
+author:
+- name: Federico Marini
+  affiliation: 
+  - &id1 Institute of Medical Biostatistics, Epidemiology and Informatics (IMBEI), Mainz
+  - Center for Thrombosis and Hemostasis (CTH), Mainz
+  email: marinif@uni-mainz.de
+- name: Simon Stahl
+  affiliation: 
+  - &id2 Institute of Medical Biostatistics, Epidemiology and Informatics (IMBEI), Mainz
+  email: simon.t.stahl@gmail.com
+date: "`r BiocStyle::doc_date()`"
+package: "`r BiocStyle::pkg_ver('GeneTonic')`"
+output: 
+  BiocStyle::html_document:
+    toc_float: true
 vignette: >
-  %\VignetteIndexEntry{GeneTonic_manual}
+  %\VignetteIndexEntry{The GeneTonic User's Guide}
+  %\VignetteEncoding{UTF-8}  
+  %\VignettePackage{GeneTonic}
+  %\VignetteKeywords{GeneExpression, RNASeq, FunctionalAnnotation, Sequencing, Visualization, QualityControl, GUI}
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+editor_options: 
+  chunk_output_type: console
+bibliography: GeneTonic.bib
 ---
 
-```{r, include = FALSE}
+**Compiled date**: `r Sys.Date()`
+
+**Last edited**: 2019-06-24
+
+**License**: `r packageDescription("GeneTonic")[["License"]]`
+
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
+    collapse = TRUE,
+    comment = "#>",
+    error = FALSE,
+    warning = FALSE,
+    message = FALSE
 )
 ```
+  
+---
 
-```{r setup}
+```{r}
 library(GeneTonic)
 ```
 
