@@ -1,0 +1,66 @@
+---
+title: >
+  The `GeneTonic` Functionality, as it comes along
+author:
+- name: Federico Marini
+  affiliation: 
+  - &id1 Institute of Medical Biostatistics, Epidemiology and Informatics (IMBEI), Mainz
+  - Center for Thrombosis and Hemostasis (CTH), Mainz
+  email: marinif@uni-mainz.de
+- name: Simon Stahl
+  affiliation: 
+  - &id2 Institute of Medical Biostatistics, Epidemiology and Informatics (IMBEI), Mainz
+  email: simon.t.stahl@gmail.com
+date: "`r BiocStyle::doc_date()`"
+package: "`r BiocStyle::pkg_ver('GeneTonic')`"
+output: 
+  BiocStyle::html_document:
+    toc_float: true
+vignette: >
+  %\VignetteIndexEntry{The GeneTonic Functionality}
+  %\VignetteEncoding{UTF-8}  
+  %\VignettePackage{GeneTonic}
+  %\VignetteKeywords{GeneExpression, RNASeq, FunctionalAnnotation, Sequencing, Visualization, QualityControl, GUI}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+bibliography: GeneTonic.bib
+---
+
+**Compiled date**: `r Sys.Date()`
+
+**Last edited**: 2019-06-24
+
+**License**: `r packageDescription("GeneTonic")[["License"]]`
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>",
+    error = FALSE,
+    warning = FALSE,
+    message = FALSE
+)
+```
+  
+---
+
+```{r}
+library(GeneTonic)
+```
+
+# Introduction
+
+# Input required for `GeneTonic`
+
+
+
+
+
+
+# Session Info {-}
+
+```{r}
+sessionInfo()
+```
+
