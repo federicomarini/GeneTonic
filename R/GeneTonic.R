@@ -8,8 +8,11 @@
 #'
 #' @return A Shiny app object is returned, for interactive data exploration
 #' @export
+#' @import shiny
 #'
 #' @examples
+#' library(GeneTonic)
+#' # whatever comes next
 GeneTonic <- function(dds,
                       res,
                       func_enrich) {

@@ -19,3 +19,7 @@ A Shiny app object is returned, for interactive data exploration
 \description{
 GeneTonic, main function for the Shiny app
 }
+\examples{
+library(GeneTonic)
+# whatever comes next
+}
