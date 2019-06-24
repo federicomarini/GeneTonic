@@ -1,0 +1,29 @@
+---
+title: "GeneTonic_manual"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{GeneTonic_manual}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(GeneTonic)
+```
+
+# Walking through the `GeneTonic` package
+
+
+# Session Info {-}
+
+```{r}
+sessionInfo()
+```
+
