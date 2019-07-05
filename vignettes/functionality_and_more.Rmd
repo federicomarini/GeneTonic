@@ -51,11 +51,26 @@ library(GeneTonic)
 
 # Introduction
 
+# Preliminaries
+
+First of all we setup the required packages - this operation needs to be done once
+
+```{r}
+install.packages("BiocManager")
+BiocManager::install(c("DESeq2","macrophage","igraph","dplyr","tximeta","ideal", "pcaExplorer",
+                       "visNetwork","ggraph", "clusterProfiler","plotly","knitr","rmarkdown"))
+```
+
+Other software/software packages include of course the latest version of R (and RStudio, for having a nice IDE for development).
+Rtools might be required on Windows to guarantee all the package building process goes smooth, but this should matter at a later time point.
+
 # Input required for `GeneTonic`
 
+- some count matrix-like object, e.g. a DESeqDataSet
+- some results-like object/table, e.g. a DESeqResults
+- a table of results from functional enrichment annotation
 
-
-
+For the first steps we are going to use the `macrophage` dataset, that we process in the chunks that follow
 
 
 # Session Info {-}
