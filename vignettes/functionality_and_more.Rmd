@@ -39,7 +39,8 @@ knitr::opts_chunk$set(
     comment = "#>",
     error = FALSE,
     warning = FALSE,
-    message = FALSE
+    message = FALSE,
+    eval = FALSE
 )
 ```
   
@@ -55,7 +56,7 @@ library(GeneTonic)
 
 First of all we setup the required packages - this operation needs to be done once
 
-```{r}
+```{r eval = FALSE}
 install.packages("BiocManager")
 BiocManager::install(c("DESeq2","macrophage","igraph","dplyr","tximeta","ideal", "pcaExplorer",
                        "visNetwork","ggraph", "clusterProfiler","plotly","knitr","rmarkdown"))
@@ -66,59 +67,82 @@ Rtools might be required on Windows to guarantee all the package building proces
 
 # Input required for `GeneTonic`
 
-- some count matrix-like object, e.g. a DESeqDataSet
-- some results-like object/table, e.g. a DESeqResults
+- some count matrix-like object, e.g. a `DESeqDataSet`
+- some results-like object/table, e.g. a `DESeqResults`
 - a table of results from functional enrichment annotation
 
-For the first steps we are going to use the `macrophage` dataset, that we process in the chunks that follow
+## Obtaining the `DESeqDataSet` 
 
-```{r}
+For the first steps we are going to use the `macrophage` dataset.
+This dataset is described in the publication of [@Alasoo2018].
+
+We process the quantifications in the chunks that follow
+
+```{r, eval = TRUE}
 library(macrophage)
 library(magrittr)
 dir <- system.file("extdata", package="macrophage")
-coldata <- file.path(dir, "coldata.csv") %>% 
-  read.csv() %>% 
-  dplyr::select(
-    names, 
-    id = sample_id, 
-    line = line_id, 
-    condition = condition_name
-  ) %>%
-  dplyr::mutate(
-    files = file.path(dir, "quants", names, "quant.sf.gz"),
-    condition = relevel(condition, "naive")
-  )
-head(coldata)
+coldata_macrophage <- read.csv(file.path(system.file("extdata", package="macrophage"), "coldata.csv"))
+coldata_macrophage$files <- file.path(system.file("extdata", package="macrophage"), "quants", coldata_macrophage$names, "quant.sf.gz")
+file.exists(coldata_macrophage$files)
 
+coldata_macrophage$condition <- coldata_macrophage$condition_name
+coldata_macrophage$line <- coldata_macrophage$line_id
+coldata_macrophage$condition <- relevel(coldata_macrophage$condition, "naive")
+
+head(coldata_macrophage)
+```
+
+Creating an object at the transcript level...
+
+```{r, eval = TRUE}
 library(SummarizedExperiment)
 library(tximeta)
-se <- tximeta(coldata, dropInfReps=TRUE,)
-
-assayNames(se)
-
-gse <- summarizeToGene(se)
-
-
-
+se_macrophage <- tximeta(coldata_macrophage, dropInfReps=TRUE)
+se_macrophage
 ```
+
+... and here summarized at the gene level.
+
+```{r, eval = TRUE}
+assayNames(se_macrophage)
+gse_macrophage <- summarizeToGene(se_macrophage)
+gse_macrophage
+# adding gene names to facilitate readout later
+library(org.Hs.eg.db)
+gse_macrophage <- addIds(gse_macrophage,"SYMBOL")
+```
+
+It is easy with DESeq2 to run the complete differential expression analysis [@Love2014]. 
+The design indicates that we want to control for the donor (`line`) and test for the effect on the `condition` (since it is specified as last in the formula of the `design` parameter). 
 
 ```{r}
 library(DESeq2)
-dds <- DESeqDataSet(gse, ~line + condition)
-## using counts and average transcript lengths from tximeta
-keep <- rowSums(counts(dds) >= 10) >= 6
-dds <- dds[keep,]
-dds <- DESeq(dds)
-rld <- rlog(dds)
-vst <- vst(dds)
+dds_macrophage <- DESeqDataSet(gse_macrophage, design = ~line + condition)
 
-dds <- addIds(dds,"SYMBOL")
+## using counts and average transcript lengths from tximeta
+keep <- rowSums(counts(dds_macrophage) >= 10) >= 6
+dds_macrophage <- dds_macrophage[keep,]
 ```
+
+Before running the complete pipeline, we perform some basic exploratory analysis steps, looking at the PCA for the samples - this gives us an idea of how (dis)similar are the samples, e.g. whether they do cluster by condition, or cell line, or to spot out any obvious outlier.
 
 ```{r}
-pcaExplorer::pcaplot(vst, intgroup = "condition")
-pcaExplorer::pcaplot(vst, intgroup = "line")
+rld_macrophage <- rlog(dds_macrophage)
+vst_macrophage <- vst(dds_macrophage)
+
+pcaExplorer::pcaplot(vst_macrophage, intgroup = "condition", ellipse = FALSE)
+pcaExplorer::pcaplot(vst_macrophage, intgroup = "line", ellipse = FALSE)
 ```
+
+Seems all good to go.
+We proceed then with running `DESeq` on `dds_macrophage`.
+
+```{r}
+dds_macrophage <- DESeq(dds_macrophage)
+```
+
+## Extracting the relevant `DESeqResults`
 
 ```{r}
 res <- results(dds, contrast=c("condition","IFNg","naive"),
@@ -171,3 +195,4 @@ Using other alternative procedures to similarly derive enriched functions/proces
 sessionInfo()
 ```
 
+# References {-}
