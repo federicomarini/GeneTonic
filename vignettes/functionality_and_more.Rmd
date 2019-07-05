@@ -72,6 +72,54 @@ Rtools might be required on Windows to guarantee all the package building proces
 
 For the first steps we are going to use the `macrophage` dataset, that we process in the chunks that follow
 
+```{r}
+library(macrophage)
+library(magrittr)
+dir <- system.file("extdata", package="macrophage")
+coldata <- file.path(dir, "coldata.csv") %>% 
+  read.csv() %>% 
+  dplyr::select(
+    names, 
+    id = sample_id, 
+    line = line_id, 
+    condition = condition_name
+  ) %>%
+  dplyr::mutate(
+    files = file.path(dir, "quants", names, "quant.sf.gz"),
+    condition = relevel(condition, "naive")
+  )
+head(coldata)
+
+library(SummarizedExperiment)
+library(tximeta)
+se <- tximeta(coldata, dropInfReps=TRUE,)
+
+assayNames(se)
+
+gse <- summarizeToGene(se)
+
+
+
+```
+
+```{r}
+library(DESeq2)
+dds <- DESeqDataSet(gse, ~line + condition)
+## using counts and average transcript lengths from tximeta
+keep <- rowSums(counts(dds) >= 10) >= 6
+dds <- dds[keep,]
+dds <- DESeq(dds)
+rld <- rlog(dds)
+vst <- vst(dds)
+
+dds <- addIds(dds,"SYMBOL")
+```
+
+```{r}
+pcaExplorer::pcaplot(vst, intgroup = "condition")
+pcaExplorer::pcaplot(vst, intgroup = "line")
+```
+
 
 # Session Info {-}
 
