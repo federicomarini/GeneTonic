@@ -120,6 +120,50 @@ pcaExplorer::pcaplot(vst, intgroup = "condition")
 pcaExplorer::pcaplot(vst, intgroup = "line")
 ```
 
+```{r}
+res <- results(dds, contrast=c("condition","IFNg","naive"),
+               lfcThreshold=1, alpha=0.01)
+summary(res)
+
+res$gene_name <- rowData(dds)$SYMBOL
+
+DESeq2::plotMA(res, ylim=c(-10,10))
+
+library("AnnotationDbi")
+library("org.Hs.eg.db")
+
+resOrdered <- as.data.frame(res[order(res$padj),])
+de_df <- resOrdered[resOrdered$padj < .05 & !is.na(resOrdered$padj),]
+de_symbols <- de_df$gene_name
+bg_ids <- rowData(dds)$SYMBOL[rowSums(counts(dds)) > 0]
+# bg_symbols <- mapIds(org.Hs.eg.db,
+#                      keys=bg_ids,
+#                      column="SYMBOL",
+#                      keytype="ENSEMBL",
+#                      multiVals="first")
+library(topGO)
+topgoDE_macro <- pcaExplorer::topGOtable(de_symbols, bg_ids,
+                                           ontology = "BP",
+                                           mapping = "org.Hs.eg.db",
+                                           geneID = "symbol")
+
+
+DT::datatable(topgoDE_macro)
+
+
+## with goseq, from ideal
+
+goseqDE_macro <- ideal::goseqTable(
+  de.genes = substr(rownames(de_df),1,15),
+  assayed.genes = substr(rownames(dds),1,15)
+)
+DT::datatable(goseqDE_macro)
+
+```
+
+Using other alternative procedures to similarly derive enriched functions/processes...
+
+
 
 # Session Info {-}
 
