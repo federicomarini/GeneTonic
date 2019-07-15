@@ -145,34 +145,59 @@ dds_macrophage <- DESeq(dds_macrophage)
 ## Extracting the relevant `DESeqResults`
 
 ```{r}
-res <- results(dds, contrast=c("condition","IFNg","naive"),
-               lfcThreshold=1, alpha=0.01)
-summary(res)
+res_macrophage_IFNg_vs_naive <- results(dds_macrophage, 
+                                        contrast=c("condition","IFNg","naive"),
+                                        lfcThreshold=1, alpha=0.01)
+summary(res_macrophage_IFNg_vs_naive)
 
-res$gene_name <- rowData(dds)$SYMBOL
+res_macrophage_IFNg_vs_naive$SYMBOL <- rowData(dds_macrophage)$SYMBOL
 
-DESeq2::plotMA(res, ylim=c(-10,10))
+DESeq2::plotMA(res_macrophage_IFNg_vs_naive, ylim=c(-10,10))
+
+
+res_macrophage_SL1344_vs_naive <- results(dds_macrophage, 
+                                        contrast=c("condition","SL1344","naive"),
+                                        lfcThreshold=1, alpha=0.01)
+res_macrophage_SL1344_vs_naive$SYMBOL <- rowData(dds_macrophage)$SYMBOL
+
+summary(res_macrophage_SL1344_vs_naive)
+res_macrophage_IFNg_vs_naive <- results(dds_macrophage, 
+                                        contrast=c("condition","IFNg","naive"),
+                                        lfcThreshold=1, alpha=0.01)
 
 library("AnnotationDbi")
 library("org.Hs.eg.db")
 
-resOrdered <- as.data.frame(res[order(res$padj),])
-de_df <- resOrdered[resOrdered$padj < .05 & !is.na(resOrdered$padj),]
-de_symbols <- de_df$gene_name
-bg_ids <- rowData(dds)$SYMBOL[rowSums(counts(dds)) > 0]
+# resOrdered <- as.data.frame(res_macrophage_IFNg_vs_naive[order(res_macrophage_IFNg_vs_naive$padj),])
+# de_df <- resOrdered[resOrdered$padj < .05 & !is.na(resOrdered$padj),]
+de_symbols_IFNg_vs_naive <- ideal::deseqresult2DEgenes(res_macrophage_IFNg_vs_naive)$SYMBOL
+de_symbols_SL1344_vs_naive <- ideal::deseqresult2DEgenes(res_macrophage_SL1344_vs_naive)$SYMBOL
+
+bg_ids <- rowData(dds_macrophage)$SYMBOL[rowSums(counts(dds_macrophage)) > 0]
 # bg_symbols <- mapIds(org.Hs.eg.db,
 #                      keys=bg_ids,
 #                      column="SYMBOL",
 #                      keytype="ENSEMBL",
 #                      multiVals="first")
+```
+
+
+```{r}
 library(topGO)
-topgoDE_macro <- pcaExplorer::topGOtable(de_symbols, bg_ids,
-                                           ontology = "BP",
-                                           mapping = "org.Hs.eg.db",
-                                           geneID = "symbol")
+topgoDE_macrophage_IFNg_vs_naive <- pcaExplorer::topGOtable(de_symbols_IFNg_vs_naive, 
+                                                            bg_ids,
+                                                            ontology = "BP",
+                                                            mapping = "org.Hs.eg.db",
+                                                            geneID = "symbol")
+topgoDE_macrophage_SL1344_vs_naive <- pcaExplorer::topGOtable(de_symbols_SL1344_vs_naive, 
+                                                              bg_ids,
+                                                              ontology = "BP",
+                                                              mapping = "org.Hs.eg.db",
+                                                              geneID = "symbol")
 
 
-DT::datatable(topgoDE_macro)
+DT::datatable(topgoDE_macrophage_IFNg_vs_naive)
+DT::datatable(topgoDE_macrophage_SL1344_vs_naive)
 
 
 ## with goseq, from ideal
@@ -186,6 +211,40 @@ DT::datatable(goseqDE_macro)
 ```
 
 Using other alternative procedures to similarly derive enriched functions/processes...
+
+
+
+```{r}
+library(clusterProfiler)
+
+ego_IFNg_vs_naive <- enrichGO(gene = de_symbols_IFNg_vs_naive,
+                universe      = bg_ids,
+                keyType = "SYMBOL",
+                OrgDb         = org.Hs.eg.db,
+                ont           = "BP",
+                pAdjustMethod = "BH",
+                pvalueCutoff  = 0.01,
+                qvalueCutoff  = 0.05,
+                readable      = F)
+
+ego_SL1344_vs_naive <- enrichGO(gene = de_symbols_SL1344_vs_naive,
+                universe      = bg_ids,
+                keyType = "SYMBOL",
+                OrgDb         = org.Hs.eg.db,
+                ont           = "BP",
+                pAdjustMethod = "BH",
+                pvalueCutoff  = 0.01,
+                qvalueCutoff  = 0.05,
+                readable      = F)
+
+head(ego_SL1344_vs_naive)
+
+emapplot(ego_IFNg_vs_naive)
+emapplot(ego_SL1344_vs_naive)
+
+
+
+```
 
 
 
