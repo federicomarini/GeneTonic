@@ -58,7 +58,7 @@ First of all we setup the required packages - this operation needs to be done on
 
 ```{r eval = FALSE}
 install.packages("BiocManager")
-BiocManager::install(c("DESeq2","macrophage","igraph","dplyr","tximeta","ideal", "pcaExplorer",
+BiocManager::install(c("DESeq2","macrophage","igraph","dplyr","tximeta","ideal", "pcaExplorer", "org.Hs.eg.db",
                        "visNetwork","ggraph", "clusterProfiler","plotly","knitr","rmarkdown"))
 ```
 
@@ -100,6 +100,11 @@ library(SummarizedExperiment)
 library(tximeta)
 se_macrophage <- tximeta(coldata_macrophage, dropInfReps=TRUE)
 se_macrophage
+
+# saveRDS(se_macrophage,file="WIP/se_macrophage.rds")
+dir.create("WIP")
+se_macrophage <- readRDS(file = "WIP/se_macrophage.rds")
+gse_macrophage <- summarizeToGene(se_macrophage)
 ```
 
 ... and here summarized at the gene level.
@@ -133,6 +138,9 @@ vst_macrophage <- vst(dds_macrophage)
 
 pcaExplorer::pcaplot(vst_macrophage, intgroup = "condition", ellipse = FALSE)
 pcaExplorer::pcaplot(vst_macrophage, intgroup = "line", ellipse = FALSE)
+
+library("org.Hs.eg.db")
+dds_macrophage <- addIds(dds_macrophage,"SYMBOL")
 ```
 
 Seems all good to go.
@@ -212,8 +220,6 @@ DT::datatable(goseqDE_macro)
 
 Using other alternative procedures to similarly derive enriched functions/processes...
 
-
-
 ```{r}
 library(clusterProfiler)
 
@@ -245,7 +251,6 @@ emapplot(ego_SL1344_vs_naive)
 
 
 ```
-
 
 
 # Session Info {-}
