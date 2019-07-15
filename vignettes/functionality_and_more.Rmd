@@ -57,7 +57,7 @@ First of all we setup the required packages - this operation needs to be done on
 
 ```{r}
 install.packages("BiocManager")
-BiocManager::install(c("DESeq2","macrophage","igraph","dplyr","tximeta","ideal", "pcaExplorer",
+BiocManager::install(c("DESeq2","macrophage","igraph","dplyr","tximeta","ideal", "pcaExplorer", "org.Hs.eg.db",
                        "visNetwork","ggraph", "clusterProfiler","plotly","knitr","rmarkdown"))
 ```
 
@@ -94,13 +94,16 @@ library(SummarizedExperiment)
 library(tximeta)
 se <- tximeta(coldata, dropInfReps=TRUE,)
 
+
+# saveRDS(se,file="WIP/se.rds")
+dir.create("WIP")
+se <- readRDS(file = "WIP/se.rds")
+
 assayNames(se)
 
 gse <- summarizeToGene(se)
-
-
-
 ```
+
 
 ```{r}
 library(DESeq2)
@@ -112,6 +115,7 @@ dds <- DESeq(dds)
 rld <- rlog(dds)
 vst <- vst(dds)
 
+library("org.Hs.eg.db")
 dds <- addIds(dds,"SYMBOL")
 ```
 
