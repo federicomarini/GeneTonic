@@ -208,14 +208,13 @@ DT::datatable(topgoDE_macrophage_IFNg_vs_naive)
 DT::datatable(topgoDE_macrophage_SL1344_vs_naive)
 
 
-## with goseq, from ideal
-
-goseqDE_macro <- ideal::goseqTable(
-  de.genes = substr(rownames(de_symbols_IFNg_vs_naive),1,15),
-  assayed.genes = substr(rownames(dds_macrophage),1,15)
-)
-DT::datatable(goseqDE_macro)
-
+# ## with goseq, from ideal
+# 
+# goseqDE_macro <- ideal::goseqTable(
+#   de.genes = substr(rownames(de_symbols_IFNg_vs_naive),1,15),
+#   assayed.genes = substr(rownames(dds_macrophage),1,15)
+# )
+# DT::datatable(goseqDE_macro)
 ```
 
 Using other alternative procedures to similarly derive enriched functions/processes...
