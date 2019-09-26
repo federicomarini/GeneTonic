@@ -4,14 +4,14 @@
 \alias{GeneTonic}
 \title{GeneTonic}
 \usage{
-GeneTonic(dds, res, func_enrich)
+GeneTonic(dds, res_de, res_enrich)
 }
 \arguments{
 \item{dds}{dds}
 
-\item{res}{result}
+\item{res_de}{res_de}
 
-\item{func_enrich}{functional enrichment}
+\item{res_enrich}{res_enrich}
 }
 \value{
 A Shiny app object is returned, for interactive data exploration
@@ -22,4 +22,7 @@ GeneTonic, main function for the Shiny app
 \examples{
 library(GeneTonic)
 # whatever comes next
+}
+\author{
+Federico Marini
 }
