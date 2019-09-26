@@ -2,7 +2,7 @@
 
 export(GeneTonic)
 import(igraph)
-import(shiny)
+import(shiny, except = c(renderDataTable, dataTableOutput))
 import(shinydashboard)
 import(visNetwork)
 importFrom(DT,dataTableOutput)
@@ -10,3 +10,4 @@ importFrom(DT,datatable)
 importFrom(DT,renderDataTable)
 importFrom(rintrojs,introjs)
 importFrom(rintrojs,introjsUI)
+importFrom(utils,read.delim)

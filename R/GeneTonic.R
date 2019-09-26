@@ -8,7 +8,6 @@
 #'
 #' @return A Shiny app object is returned, for interactive data exploration
 #' @export
-#' @import shiny
 #'
 #' @author Federico Marini
 #'
