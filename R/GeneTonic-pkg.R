@@ -4,7 +4,6 @@
 #'  graphical user interface for...
 #'
 #' @author Federico Marini \email{marinif@@uni-mainz.de}
-#' @author Simon Tiado Stahl \email{simon.t.stahl@@gmail.com}
 #'
 #' @import shinydashboard
 #' @importFrom DT dataTableOutput renderDataTable datatable

@@ -11,6 +11,4 @@ graphical user interface for...
 }
 \author{
 Federico Marini \email{marinif@uni-mainz.de}
-
-Simon Tiado Stahl \email{simon.t.stahl@gmail.com}
 }
