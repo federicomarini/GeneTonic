@@ -1,23 +1,31 @@
+---
+output: github_document
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
 
 # GeneTonic
 
 <!-- badges: start -->
-
 <!-- [![](https://bioconductor.org/shields/build/devel/bioc/GeneTonic.svg)](https://bioconductor.org/checkResults/devel/bioc-LATEST/GeneTonic/) -->
-
 [![](https://img.shields.io/github/last-commit/federicomarini/GeneTonic.svg)](https://github.com/federicomarini/GeneTonic/commits/master)
-[![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
-The goal of GeneTonic is to …
+The goal of GeneTonic is to ...
 
 ## Installation
 
-You can install the released version of GeneTonic from
-[CRAN](https://CRAN.R-project.org) with:
+You can install the released version of GeneTonic from [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
 install.packages("GeneTonic")
@@ -31,3 +39,4 @@ This is a basic example which shows you how to solve a common problem:
 library(GeneTonic)
 ## basic example code
 ```
+
