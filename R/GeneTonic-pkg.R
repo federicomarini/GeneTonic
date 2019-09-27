@@ -12,6 +12,9 @@
 #' @import igraph
 #' @import visNetwork
 #' @importFrom utils read.delim
+#' @importFrom grDevices colorRampPalette
+#' @importFrom RColorBrewer brewer.pal
+#' @importFrom scales alpha
 #'
 #' @name GeneTonic-pkg
 #' @docType package

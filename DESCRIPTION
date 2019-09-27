@@ -12,7 +12,10 @@ Imports:
     DT,
     rintrojs,
     igraph,
-    visNetwork
+    visNetwork,
+    scales,
+    RColorBrewer,
+    grDevices
 Suggests:
     knitr,
     rmarkdown,
