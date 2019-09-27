@@ -68,7 +68,7 @@ GeneTonic <- function(dds,
           ),
           column(
             width = 3,
-            h4("Genesetbox"),
+            h4("Genesetbox")
             # TODOTODO
           )
         )
