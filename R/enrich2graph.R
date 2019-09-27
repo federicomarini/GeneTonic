@@ -35,6 +35,7 @@ enrich2graph <- function(res_enrich,
 
   enriched_gsids <- res_enrich[[genesetid_colname]]
   enriched_gsnames <- res_enrich[[genesetname_colname]]
+  enriched_gsdescs <- sapply(enriched_gsids, function(arg) Definition(GOTERM[[arg]]))
 
   enrich2list <- lapply(seq_len(n_nodes),function(gs){
     # goterm <- res_enrich$Term[gs]
@@ -62,6 +63,8 @@ enrich2graph <- function(res_enrich,
     V(g)$nodetype[nodeIDs_gs] <- "GeneSet"
     V(g)$nodetype[nodeIDs_genes] <- "Feature"
 
+
+
     # V(g)$goid <- NA
     # V(g)$goid[1:n] <- goids
 
@@ -84,12 +87,22 @@ enrich2graph <- function(res_enrich,
       colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu",11))(50), 0.4))
     V(g)$color[nodeIDs_genes] <- map2color(fcs_genes,mypal,limits = c(-4,4))
     V(g)$color[nodeIDs_gs] <- geneset_graph_color
+
+    # title for tooltips
+    V(g)$title <- NA
+    V(g)$title[nodeIDs_gs] <- paste0("<h4>",
+                                     sprintf('<a href="http://amigo.geneontology.org/amigo/term/%s" target="_blank">%s</a>',enriched_gsids[nodeIDs_gs],enriched_gsids[nodeIDs_gs]),"</h4><br>",
+                                     V(g)$name[nodeIDs_gs], "<br><br>",
+                                     enriched_gsdescs[nodeIDs_gs])
+    V(g)$title[nodeIDs_genes] <- paste0("<h4>", V(g)$name[nodeIDs_genes], "</h4><br>",
+                                        "logFC = ", format(round(fcs_genes, 2), nsmall = 2))
+
+
     } else {
 
       V(g)$color[nodeIDs_genes] <- "#B3B3B3"
       V(g)$color[nodeIDs_gs] <- "#E5C494"
   }
   return(g)
-
 }
 
