@@ -47,7 +47,10 @@ GeneTonic <- function(dds,
       width = 250,
       shinydashboard::menuItem(
         text = "SomeSettings", icon = icon("cog"),
-        startExpanded = TRUE
+        startExpanded = TRUE,
+        numericInput(inputId = "n_genesets",
+                     label = "number of genesets",
+                     value = 15, min = 1, max = 50)
       )
     ),
 
@@ -55,7 +58,8 @@ GeneTonic <- function(dds,
       rintrojs::introjsUI(),
 
       fluidRow(
-        "The main content"
+        h1("The main content"),
+        visNetworkOutput("mynetwork", height = "700px", width = "100%")
       )
 
     )
@@ -67,6 +71,26 @@ GeneTonic <- function(dds,
   genetonic_server <- function(input, output, session) {
 
     values <- reactiveValues()
+
+    values$mygraph <- reactive({
+      enrich2graph(res_enrich = res_enrich,
+                                   res_de = res_de,
+                                   n_nodes = input$n_genesets,
+                                   genes_colname = "genes",
+                                   genesetname_colname = "Term",
+                                   genesetid_colname = "GO.ID",
+                                   prettify = TRUE,
+                                   geneset_graph_color = "gold",
+                                   annotation_obj = example_anno_df)
+    })
+
+    output$mynetwork <- renderVisNetwork({
+      # minimal example
+
+      visNetwork::visIgraph(values$mygraph()) %>%
+        visOptions(highlightNearest = list(enabled = T, degree = 1, hover = T), nodesIdSelection = TRUE)
+
+    })
 
     observeEvent(input$interface_overview, {
       tour <- read.delim(system.file("extdata", "interface_overview.txt",
