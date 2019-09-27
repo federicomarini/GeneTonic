@@ -4,7 +4,7 @@
 \alias{GeneTonic}
 \title{GeneTonic}
 \usage{
-GeneTonic(dds, res_de, res_enrich)
+GeneTonic(dds, res_de, res_enrich, annotation_obj)
 }
 \arguments{
 \item{dds}{dds}
@@ -12,6 +12,8 @@ GeneTonic(dds, res_de, res_enrich)
 \item{res_de}{res_de}
 
 \item{res_enrich}{res_enrich}
+
+\item{annotation_obj}{anno_obj}
 }
 \value{
 A Shiny app object is returned, for interactive data exploration

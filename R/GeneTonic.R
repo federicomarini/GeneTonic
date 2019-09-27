@@ -5,6 +5,7 @@
 #' @param dds dds
 #' @param res_de res_de
 #' @param res_enrich res_enrich
+#' @param annotation_obj anno_obj
 #'
 #' @return A Shiny app object is returned, for interactive data exploration
 #' @export
@@ -16,7 +17,8 @@
 #' # whatever comes next
 GeneTonic <- function(dds,
                       res_de,
-                      res_enrich) {
+                      res_enrich,
+                      annotation_obj) {
   # checks on the objects provided
 
 
@@ -59,7 +61,17 @@ GeneTonic <- function(dds,
 
       fluidRow(
         h1("The main content"),
-        visNetworkOutput("mynetwork", height = "700px", width = "100%")
+        fluidRow(
+          column(
+            width = 9,
+            visNetworkOutput("mynetwork", height = "700px", width = "100%")
+          ),
+          column(
+            width = 3,
+            h4("Genesetbox"),
+            # TODOTODO
+          )
+        )
       )
 
     )
@@ -74,14 +86,14 @@ GeneTonic <- function(dds,
 
     values$mygraph <- reactive({
       enrich2graph(res_enrich = res_enrich,
-                                   res_de = res_de,
-                                   n_nodes = input$n_genesets,
-                                   genes_colname = "genes",
-                                   genesetname_colname = "Term",
-                                   genesetid_colname = "GO.ID",
-                                   prettify = TRUE,
-                                   geneset_graph_color = "gold",
-                                   annotation_obj = example_anno_df)
+                   res_de = res_de,
+                   n_nodes = input$n_genesets,
+                   genes_colname = "genes",
+                   genesetname_colname = "Term",
+                   genesetid_colname = "GO.ID",
+                   prettify = TRUE,
+                   geneset_graph_color = "gold",
+                   annotation_obj = annotation_obj)
     })
 
     output$mynetwork <- renderVisNetwork({
