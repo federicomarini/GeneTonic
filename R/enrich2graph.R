@@ -1,3 +1,20 @@
+#' Title
+#'
+#' @param res_enrich TODO
+#' @param res_de TODO
+#' @param n_nodes TODO
+#' @param genes_colname TODO
+#' @param genesetname_colname TODO
+#' @param genesetid_colname TODO
+#' @param prettify TODO
+#' @param geneset_graph_color TODO
+#' @param genes_graph_colpal TODO
+#' @param annotation_obj TODO
+#'
+#' @return
+#' @export
+#'
+#' @examples
 enrich2graph <- function(res_enrich,
                          res_de,
                          n_nodes = 15,
@@ -20,8 +37,8 @@ enrich2graph <- function(res_enrich,
   enriched_gsnames <- res_enrich[[genesetname_colname]]
 
   enrich2list <- lapply(seq_len(n_nodes),function(gs){
-    # goterm <- example_GObps_ko_vs_ctrl$Term[gs]
-    go_genes <- example_GObps_ko_vs_ctrl$genes[gs]
+    # goterm <- res_enrich$Term[gs]
+    go_genes <- res_enrich$genes[gs]
     go_genes <- strsplit(go_genes,",") %>% unlist
     return(go_genes)
   })
@@ -75,3 +92,4 @@ enrich2graph <- function(res_enrich,
   return(g)
 
 }
+
