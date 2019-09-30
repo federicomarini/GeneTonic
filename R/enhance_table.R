@@ -1,4 +1,22 @@
 
+#' Title
+#'
+#' TODO
+#'
+#' @param res_enrich TODO
+#' @param res_de TODO
+#' @param n_gs TODO
+#' @param genes_colname TODO
+#' @param genesetname_colname TODO
+#' @param genesetid_colname TODO
+#' @param annotation_obj TODO
+#' @param chars_limit TODO
+#'
+#' @return TODO
+#' @export
+#'
+#' @examples
+#' #TODO
 enhance_table <- function(res_enrich,
                           res_de,
                           n_gs = 50,

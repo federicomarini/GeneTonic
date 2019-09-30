@@ -1,5 +1,7 @@
 #' Title
 #'
+#' TODO
+#'
 #' @param res_enrich TODO
 #' @param res_de TODO
 #' @param n_nodes TODO
@@ -11,10 +13,11 @@
 #' @param genes_graph_colpal TODO
 #' @param annotation_obj TODO
 #'
-#' @return
+#' @return TODO
 #' @export
 #'
 #' @examples
+#' #TODO
 enrich2graph <- function(res_enrich,
                          res_de,
                          n_nodes = 15,
