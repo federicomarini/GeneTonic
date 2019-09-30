@@ -3,6 +3,8 @@
 export(GeneTonic)
 export(enhance_table)
 export(enrich2graph)
+export(get_aggrscores)
+export(go_volcano)
 import(GO.db)
 import(ggplot2)
 import(igraph)
