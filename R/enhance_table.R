@@ -79,3 +79,38 @@ enhance_table <- function(res_enrich,
 
 
 # TODOTODO: Z score calculation
+get_aggrscores <- function(res_enrich,
+                           res_de,
+                           n_gs = 50,
+                           genes_colname = "genes",
+                           genesetname_colname = "Term",
+                           genesetid_colname = "GO.ID",
+                           annotation_obj,
+                           aggrfun = mean) {
+
+  # allgenes <- unlist(strsplit(res_enrich[[genes_colname]],","))
+  gs_expanded <- tidyr::separate_rows(res_enrich,{{genes_colname}}, sep = ",")
+  gs_expanded$log2FoldChange <- res_de$log2FoldChange[match(gs_expanded$genes,annotation_obj$gene_name)]
+
+  gs_aggregated <- lapply(seq_len(nrow(res_enrich)), function(i) {
+    this_gsid <- res_enrich[[genesetid_colname]][i]
+    this_genesetname <- res_enrich[[genesetname_colname]][i]
+    this_subset <- gs_expanded[gs_expanded[[genesetid_colname]]==this_gsid,]
+
+    upgenes <- sum(this_subset$log2FoldChange > 0)
+    downgenes <- sum(this_subset$log2FoldChange < 0)
+    z_score <- (upgenes - downgenes)/sqrt(upgenes+downgenes)
+
+    aggr_score <- aggrfun(this_subset$log2FoldChange)
+    return(c("Z_score" = z_score,
+             "aggr_score" = aggr_score))
+  })
+
+  names(gs_aggregated) <- res_enrich[[genesetid_colname]]
+
+  res_enrich$z_score <- sapply(gs_aggregated,"[",1)
+  res_enrich$aggr_score <- sapply(gs_aggregated,"[",2)
+
+  return(res_enrich)
+}
+
