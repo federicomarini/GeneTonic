@@ -18,9 +18,11 @@ Imports:
     grDevices,
     S4Vectors,
     ggplot2,
+    ggrepel,
     GO.db,
     AnnotationDbi,
-    plotly
+    plotly,
+    tidyr
 Suggests:
     knitr,
     rmarkdown,

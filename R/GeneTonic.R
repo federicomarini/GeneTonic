@@ -74,6 +74,7 @@ GeneTonic <- function(dds,
         ),
         fluidRow(
           plotOutput("enriched_funcres"),
+          plotOutput("go_volcano"),
           plotlyOutput("enriched_funcres_plotly")
         )
       )
@@ -113,6 +114,11 @@ GeneTonic <- function(dds,
                     n_gs = 50,
                     annotation_obj = annotation_obj)
     })
+
+    output$go_volcano <- renderPlot({
+      go_volcano(get_aggrscores(res_enrich,res_de,annotation_obj = annotation_obj))
+    })
+
     output$enriched_funcres_plotly <- renderPlotly({
       ggplotly(enhance_table(res_enrich, res_de,
                     n_gs = 50,
