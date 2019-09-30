@@ -1,6 +1,18 @@
 
 
 
+#' Title TODO
+#'
+#' @param res_enrich TODO
+#' @param genes_colname TODO
+#' @param genesetname_colname TODO
+#' @param genesetid_colname TODO
+#'
+#' @return TODO
+#' @export
+#'
+#' @examples
+#' # TODO
 create_kappa_matrix <- function(res_enrich,
                                 genes_colname = "genes",
                                 genesetname_colname = "Term",
