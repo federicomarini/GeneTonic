@@ -71,6 +71,10 @@ GeneTonic <- function(dds,
             h4("Genesetbox")
             # TODOTODO
           )
+        ),
+        fluidRow(
+          plotOutput("enriched_funcres"),
+          plotlyOutput("enriched_funcres_plotly")
         )
       )
 
@@ -102,6 +106,17 @@ GeneTonic <- function(dds,
       visNetwork::visIgraph(values$mygraph()) %>%
         visOptions(highlightNearest = list(enabled = T, degree = 1, hover = T), nodesIdSelection = TRUE)
 
+    })
+
+    output$enriched_funcres <- renderPlot({
+      enhance_table(res_enrich, res_de,
+                    n_gs = 50,
+                    annotation_obj = annotation_obj)
+    })
+    output$enriched_funcres_plotly <- renderPlotly({
+      ggplotly(enhance_table(res_enrich, res_de,
+                    n_gs = 50,
+                    annotation_obj = annotation_obj))
     })
 
     observeEvent(input$interface_overview, {
