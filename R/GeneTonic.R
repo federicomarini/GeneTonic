@@ -13,7 +13,7 @@
 #' @author Federico Marini
 #'
 #' @examples
-#' library(GeneTonic)
+#' # library(GeneTonic)
 #' # whatever comes next
 GeneTonic <- function(dds,
                       res_de,

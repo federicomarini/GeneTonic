@@ -22,7 +22,7 @@ A Shiny app object is returned, for interactive data exploration
 GeneTonic, main function for the Shiny app
 }
 \examples{
-library(GeneTonic)
+# library(GeneTonic)
 # whatever comes next
 }
 \author{
