@@ -27,6 +27,7 @@ go_volcano <- function(res_enrich,
   mydf <- res_enrich
   mydf$logpval <- -log10(mydf[[pvals_to_use]])
   mydf$mylabels <- mydf[[labels_to_use]]
+  mydf$`set members` <- mydf$Significant
 
   mydf <- mydf[mydf[[pvals_to_use]] <= p_threshold,]
   max_z <- max(abs(range(mydf$z_score)))
@@ -34,9 +35,9 @@ go_volcano <- function(res_enrich,
 
   p <- ggplot(
     mydf,
-    aes(x = z_score, y = logpval, size = Significant)) +
+    aes_string(x = "z_score", y = "logpval", size = "`set members`")) +
     # geom_point(aes(col = aggr_score),shape = 20, alpha = 1) +
-    geom_point(aes(col = aggr_score, text = mylabels),shape = 20, alpha = 1) +
+    geom_point(aes_string(col = "aggr_score", text = "mylabels"),shape = 20, alpha = 1) +
     scale_x_continuous(limits = limit) +
     theme_bw() +
     scale_color_gradient2(limit = limit,

@@ -59,11 +59,11 @@ enhance_table <- function(res_enrich,
   # z score, and evtl. option to sort by that? TODOTODO
 
   p <- ggplot(
-    gs_fulllist, aes(
-      x = log2FoldChange,
-      y = goterm,
-      fill = goid,
-      text = gene_name
+    gs_fulllist, aes_string(
+      x = "log2FoldChange",
+      y = "goterm",
+      fill = "goid",
+      text = "gene_name"
     )) +
     ggtitle(paste0(this_contrast," - TODOTODO")) +
     scale_x_continuous(limits = c(-max_lfc, max_lfc)) +
