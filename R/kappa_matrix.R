@@ -4,9 +4,8 @@
 create_kappa_matrix <- function(res_enrich,
                                 genes_colname = "genes",
                                 genesetname_colname = "Term",
-                                genesetid_colname = "GO.ID",
-                                use_names = FALSE,
-                                use_active_snw_genes = FALSE) {
+                                genesetid_colname = "GO.ID"
+                                ) {
 
   # initial checks
   ## more than one row
@@ -32,23 +31,31 @@ create_kappa_matrix <- function(res_enrich,
   }
 
   # creating Kappa Matrix
-  kappa_mat <- matrix(0, nrow = nrow(binary_mat), ncol = nrow(binary_mat),
+  kappa_matrix <- matrix(0, nrow = nrow(binary_mat), ncol = nrow(binary_mat),
                       dimnames = list(rownames(binary_mat), rownames(binary_mat)))
-  diag(kappa_mat) <- 1
+  diag(kappa_matrix) <- 1
+  N <- nrow(res_enrich)
 
-  for (i in 1:(nrow(binary_mat) - 1)) {
-    for (j in (i+1):nrow(binary_mat)) {
-      gene_vec_i <- binary_mat[i, ]
-      gene_vec_j <- binary_mat[j, ]
-      cross_tbl <- table(gene_vec_i, gene_vec_j)
+  for (i in 1:(N - 1)) {
+    for (j in (i + 1):N) {
+      genes_i <- genelists[[i]]
+      genes_j <- genelists[[j]]
 
-      observed<- (cross_tbl[1, 1] + cross_tbl[2, 2]) / sum(cross_tbl)
-      chance <- (sum(cross_tbl[1, ]) * sum(cross_tbl[, 1]) + sum(cross_tbl[2, ]) * sum(cross_tbl[, 2])) / (sum(cross_tbl)^2)
-      kappa_mat[j, i] <- kappa_mat[i, j] <- (observed - chance) / (1 - chance)
+      set_both <- length(intersect(genes_i, genes_j))
+      set_none <- sum(!all_genes %in% genes_i & !all_genes %in% genes_j)
+      set_only_i <- sum(all_genes %in% genes_i  & !all_genes %in% genes_j)
+      set_only_j <- sum(!all_genes %in% genes_i & all_genes %in% genes_j)
+
+      tot <- sum(set_none, set_only_i, set_only_j, set_both)
+
+      observed <- (set_both + set_none)/tot
+      chance <- (set_both + set_only_i)*(set_both + set_only_j) + (set_only_j + set_none)*(set_only_i + set_none)
+      chance <- chance/tot^2
+      kappa_matrix[j,i] <- kappa_matrix[i,j] <- (observed - chance)/(1 - chance)
     }
   }
 
-  return(kappa_mat)
+  return(kappa_matrix)
 }
 
 
