@@ -78,7 +78,24 @@ enhance_table <- function(res_enrich,
 }
 
 
-# TODOTODO: Z score calculation
+#' Title TODO
+#' TODO
+#' @param res_enrich TODO
+#' @param res_de TODO
+#' @param n_gs TODO
+#' @param genes_colname TODO
+#' @param genesetname_colname TODO
+#' @param genesetid_colname TODO
+#' @param annotation_obj TODO
+#' @param aggrfun TODO
+#'
+#' @return TODO
+#' @export
+#'
+#' @examples
+#' # TODO
+#'
+#' # TODOTODO: add some standardized column names, say "count"
 get_aggrscores <- function(res_enrich,
                            res_de,
                            n_gs = 50,

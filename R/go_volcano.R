@@ -1,3 +1,17 @@
+#' Title TODO
+#'
+#' @param res_enrich TODO
+#' @param labels_to_use TODO
+#' @param pvals_to_use TODO
+#' @param p_threshold TODO
+#' @param max_nr_labels TODO
+#' @param scale_circles TODO
+#'
+#' @return TODO
+#' @export
+#'
+#' @examples
+#' #  TODO
 go_volcano <- function(res_enrich,
                        labels_to_use = "Term",
                        pvals_to_use = "p.value_elim",
