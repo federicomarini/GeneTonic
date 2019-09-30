@@ -14,12 +14,13 @@
 #' @importFrom utils read.delim
 #' @importFrom grDevices colorRampPalette
 #' @importFrom RColorBrewer brewer.pal
-#' @importFrom scales alpha
+#' @importFrom scales alpha muted
 #' @importFrom S4Vectors mcols
 #' @import ggplot2
 #' @import GO.db
 #' @importFrom AnnotationDbi Definition
 #' @importFrom plotly ggplotly plotlyOutput renderPlotly
+#' @importFrom tidyr separate_rows
 #'
 #' @name GeneTonic-pkg
 #' @docType package
