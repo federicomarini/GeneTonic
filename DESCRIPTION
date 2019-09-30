@@ -15,7 +15,12 @@ Imports:
     visNetwork,
     scales,
     RColorBrewer,
-    grDevices
+    grDevices,
+    S4Vectors,
+    ggplot2,
+    GO.db,
+    AnnotationDbi,
+    plotly
 Suggests:
     knitr,
     rmarkdown,

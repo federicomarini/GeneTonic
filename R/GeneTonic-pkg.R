@@ -15,6 +15,11 @@
 #' @importFrom grDevices colorRampPalette
 #' @importFrom RColorBrewer brewer.pal
 #' @importFrom scales alpha
+#' @importFrom S4Vectors mcols
+#' @import ggplot2
+#' @import GO.db
+#' @importFrom AnnotationDbi Definition
+#' @importFrom plotly ggplotly plotlyOutput renderPlotly
 #'
 #' @name GeneTonic-pkg
 #' @docType package
