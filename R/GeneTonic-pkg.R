@@ -17,6 +17,7 @@
 #' @importFrom scales alpha muted
 #' @importFrom S4Vectors mcols
 #' @import ggplot2
+#' @importFrom ggrepel geom_label_repel
 #' @import GO.db
 #' @importFrom AnnotationDbi Definition
 #' @importFrom plotly ggplotly plotlyOutput renderPlotly

@@ -44,7 +44,7 @@ go_volcano <- function(res_enrich,
                           low = muted("deepskyblue"), high = muted("firebrick"), mid = "lightyellow")
 
   if(!is.null(labels_to_use)) {
-    p <- p + geom_text_repel(aes(label = mylabels),data = mydf[1:max_nr_labels,], size = 4)
+    p <- p + geom_label_repel(aes_string(label = "mylabels"),data = mydf[1:max_nr_labels,], size = 4)
   }
 
   # handling the title
