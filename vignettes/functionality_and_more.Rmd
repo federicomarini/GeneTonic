@@ -102,8 +102,8 @@ se_macrophage <- tximeta(coldata_macrophage, dropInfReps=TRUE)
 se_macrophage
 
 # saveRDS(se_macrophage,file="WIP/se_macrophage.rds")
-dir.create("WIP")
-se_macrophage <- readRDS(file = "WIP/se_macrophage.rds")
+# dir.create("WIP")
+# se_macrophage <- readRDS(file = "WIP/se_macrophage.rds")
 gse_macrophage <- summarizeToGene(se_macrophage)
 ```
 
@@ -124,6 +124,7 @@ The design indicates that we want to control for the donor (`line`) and test for
 ```{r}
 library(DESeq2)
 dds_macrophage <- DESeqDataSet(gse_macrophage, design = ~line + condition)
+rownames(dds_macrophage) <- substr(rownames(dds_macrophage),1,15)
 
 ## using counts and average transcript lengths from tximeta
 keep <- rowSums(counts(dds_macrophage) >= 10) >= 6
@@ -169,9 +170,6 @@ res_macrophage_SL1344_vs_naive <- results(dds_macrophage,
 res_macrophage_SL1344_vs_naive$SYMBOL <- rowData(dds_macrophage)$SYMBOL
 
 summary(res_macrophage_SL1344_vs_naive)
-res_macrophage_IFNg_vs_naive <- results(dds_macrophage, 
-                                        contrast=c("condition","IFNg","naive"),
-                                        lfcThreshold=1, alpha=0.01)
 
 library("AnnotationDbi")
 library("org.Hs.eg.db")
@@ -230,7 +228,7 @@ ego_IFNg_vs_naive <- enrichGO(gene = de_symbols_IFNg_vs_naive,
                 pAdjustMethod = "BH",
                 pvalueCutoff  = 0.01,
                 qvalueCutoff  = 0.05,
-                readable      = F)
+                readable      = FALSE)
 
 ego_SL1344_vs_naive <- enrichGO(gene = de_symbols_SL1344_vs_naive,
                 universe      = bg_ids,
@@ -240,15 +238,15 @@ ego_SL1344_vs_naive <- enrichGO(gene = de_symbols_SL1344_vs_naive,
                 pAdjustMethod = "BH",
                 pvalueCutoff  = 0.01,
                 qvalueCutoff  = 0.05,
-                readable      = F)
+                readable      = FALSE)
 
 head(ego_SL1344_vs_naive)
 
 emapplot(ego_IFNg_vs_naive)
 emapplot(ego_SL1344_vs_naive)
 
-
-
+cnetplot(ego_IFNg_vs_naive)
+cnetplot(ego_SL1344_vs_naive)
 ```
 
 
