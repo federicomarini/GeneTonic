@@ -66,7 +66,9 @@ enrich2graph <- function(res_enrich,
     V(g)$nodetype[nodeIDs_gs] <- "GeneSet"
     V(g)$nodetype[nodeIDs_genes] <- "Feature"
 
-
+    # TODOTODO: this does not work with visNetwork?
+    # V(g)$value <- 15 # size? size2? or does this not work with the shapes I selected?
+    # V(g)$value[nodeIDs_gs] <- 45
 
     # V(g)$goid <- NA
     # V(g)$goid[1:n] <- goids
@@ -78,14 +80,7 @@ enrich2graph <- function(res_enrich,
     # different colors for the gene nodes f logFC
     fcs_genes <- res_de$log2FoldChange[match((V(g)$name[nodeIDs_genes]),annotation_obj$gene_name)]
 
-    map2color <- function(x, pal, limits = NULL) {
-      if(is.null(limits))
-        limits=range(x)
-      pal[findInterval(x, seq(limits[1],
-                              limits[2],
-                              length.out=length(pal)+1),
-                       all.inside=TRUE)]
-    }
+
     mypal <- rev(scales::alpha(
       colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu",11))(50), 0.4))
     V(g)$color[nodeIDs_genes] <- map2color(fcs_genes,mypal,limits = c(-4,4))
