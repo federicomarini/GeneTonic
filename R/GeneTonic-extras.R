@@ -1,3 +1,12 @@
+#' Title
+#'
+#' @param x
+#' @param y
+#'
+#' @return
+#' @export
+#'
+#' @examples
 overlap_ratio <- function (x, y)
 {
   x <- unlist(x)
@@ -6,6 +15,16 @@ overlap_ratio <- function (x, y)
 }
 
 
+#' Title
+#'
+#' @param x
+#' @param pal
+#' @param limits
+#'
+#' @return
+#' @export
+#'
+#' @examples
 map2color <- function(x, pal, limits = NULL) {
   if(is.null(limits))
     limits=range(x)

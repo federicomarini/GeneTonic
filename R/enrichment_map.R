@@ -1,3 +1,21 @@
+#' Title
+#'
+#' @param res_enrich
+#' @param res_de
+#' @param annotation_obj
+#' @param n_gs
+#' @param overlap_threshold
+#' @param scale_edges_width
+#' @param color_by
+#' @param size_by
+#' @param genes_colname
+#' @param genesetname_colname
+#' @param genesetid_colname
+#'
+#' @return
+#' @export
+#'
+#' @examples
 enrichment_map <- function(res_enrich,
                            res_de,
                            annotation_obj,
@@ -39,11 +57,19 @@ enrichment_map <- function(res_enrich,
     }
   }
 
-  omm <- reshape2::melt(overlap_matrix)
+  om_df <- as.data.frame(overlap_matrix)
+  om_df$id <- rownames(om_df)
+
+  omm <- pivot_longer(om_df, seq_len(n_gs))
+  colnames(omm) <- c("gs_1","gs_2","value")
   # eliminate rows of diagonal...
-  omm <- omm[omm$Var1 != omm$Var2, ]
+  omm <- omm[omm$gs_1 != omm$gs_2, ]
   # ... and the ones from the other triangular portion
   omm <- omm[!is.na(omm$value), ]
+
+  # omm <- reshape2::melt(overlap_matrix)
+  # omm <- omm[omm$Var1 != omm$Var2, ]
+  # omm <- omm[!is.na(omm$value), ]
 
   # use this to construct the graph
   g <- graph.data.frame(omm[,c(1,2)], directed = FALSE)
@@ -78,21 +104,5 @@ enrichment_map <- function(res_enrich,
 # g %>% visIgraph() %>%
   # visOptions(highlightNearest = list(enabled = TRUE, degree = 1, hover = TRUE), nodesIdSelection = TRUE)
 
-overlap_ratio <- function (x, y)
-{
-  x <- unlist(x)
-  y <- unlist(y)
-  length(intersect(x, y))/length(unique(c(x, y)))
-}
-
-
-map2color <- function(x, pal, limits = NULL) {
-  if(is.null(limits))
-    limits=range(x)
-  pal[findInterval(x, seq(limits[1],
-                          limits[2],
-                          length.out=length(pal)+1),
-                   all.inside=TRUE)]
-}
 
 

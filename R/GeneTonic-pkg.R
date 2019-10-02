@@ -21,7 +21,7 @@
 #' @import GO.db
 #' @importFrom AnnotationDbi Definition
 #' @importFrom plotly ggplotly plotlyOutput renderPlotly
-#' @importFrom tidyr separate_rows
+#' @importFrom tidyr separate_rows pivot_longer
 #'
 #' @name GeneTonic-pkg
 #' @docType package
