@@ -49,7 +49,7 @@ enhance_table <- function(res_enrich,
   })
   gs_fulllist <- do.call(rbind, gs_fulllist)
 
-  this_contrast <- (sub(".*p-value: (.*)", "\\1", mcols(res_de, use.names = TRUE)["pvalue","description"]))
+  this_contrast <- (sub(".*p-value: (.*)", "\\1", mcols(res_de, use.names = TRUE)["pvalue", "description"]))
 
   # to have first rows viewed on top
   gs_fulllist <- gs_fulllist[nrow(gs_fulllist):1, ]
@@ -107,7 +107,8 @@ get_aggrscores <- function(res_enrich,
 
   # allgenes <- unlist(strsplit(res_enrich[[genes_colname]],","))
   gs_expanded <- tidyr::separate_rows(res_enrich, {{genes_colname}}, sep = ",")
-  gs_expanded$log2FoldChange <- res_de$log2FoldChange[match(gs_expanded$genes, annotation_obj$gene_name)]
+  gs_expanded$log2FoldChange <-
+    res_de[annotation_obj$gene_id[match(gs_expanded$genes, annotation_obj$gene_name)],]$log2FoldChange
 
   gs_aggregated <- lapply(seq_len(nrow(res_enrich)), function(i) {
     this_gsid <- res_enrich[[genesetid_colname]][i]
