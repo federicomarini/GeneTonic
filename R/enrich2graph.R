@@ -40,10 +40,10 @@ enrich2graph <- function(res_enrich,
   enriched_gsnames <- res_enrich[[genesetname_colname]]
   enriched_gsdescs <- sapply(enriched_gsids, function(arg) Definition(GOTERM[[arg]]))
 
-  enrich2list <- lapply(seq_len(n_nodes),function(gs){
+  enrich2list <- lapply(seq_len(n_nodes), function(gs){
     # goterm <- res_enrich$Term[gs]
     go_genes <- res_enrich$genes[gs]
-    go_genes <- strsplit(go_genes,",") %>% unlist
+    go_genes <- strsplit(go_genes, ",") %>% unlist
     return(go_genes)
   })
   names(enrich2list) <- enriched_gsnames[seq_len(n_nodes)]
@@ -57,7 +57,7 @@ enrich2graph <- function(res_enrich,
 
   g <- graph.data.frame(list2df, directed = FALSE)
 
-  if(prettify){
+  if (prettify) {
     # different shapes based on the node type
     nodeIDs_gs <- which(names(V(g)) %in% enriched_gsnames)
     nodeIDs_genes <- which(!(names(V(g)) %in% enriched_gsnames))
@@ -74,22 +74,22 @@ enrich2graph <- function(res_enrich,
     # V(g)$goid[1:n] <- goids
 
     # this one is handled correctly by visNetwork
-    V(g)$shape <- c("box","ellipse")[factor(V(g)$nodetype, levels=c("GeneSet","Feature"))]
+    V(g)$shape <- c("box", "ellipse")[factor(V(g)$nodetype, levels = c("GeneSet", "Feature"))]
 
 
     # different colors for the gene nodes f logFC
-    fcs_genes <- res_de$log2FoldChange[match((V(g)$name[nodeIDs_genes]),annotation_obj$gene_name)]
+    fcs_genes <- res_de$log2FoldChange[match((V(g)$name[nodeIDs_genes]), annotation_obj$gene_name)]
 
 
     mypal <- rev(scales::alpha(
-      colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu",11))(50), 0.4))
-    V(g)$color[nodeIDs_genes] <- map2color(fcs_genes,mypal,limits = c(-4,4))
+      colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.4))
+    V(g)$color[nodeIDs_genes] <- map2color(fcs_genes, mypal, limits = c(-4, 4))
     V(g)$color[nodeIDs_gs] <- geneset_graph_color
 
     # title for tooltips
     V(g)$title <- NA
     V(g)$title[nodeIDs_gs] <- paste0("<h4>",
-                                     sprintf('<a href="http://amigo.geneontology.org/amigo/term/%s" target="_blank">%s</a>',enriched_gsids[nodeIDs_gs],enriched_gsids[nodeIDs_gs]),"</h4><br>",
+                                     sprintf('<a href="http://amigo.geneontology.org/amigo/term/%s" target="_blank">%s</a>', enriched_gsids[nodeIDs_gs], enriched_gsids[nodeIDs_gs]), "</h4><br>",
                                      V(g)$name[nodeIDs_gs], "<br><br>",
                                      enriched_gsdescs[nodeIDs_gs])
     V(g)$title[nodeIDs_genes] <- paste0("<h4>", V(g)$name[nodeIDs_genes], "</h4><br>",
