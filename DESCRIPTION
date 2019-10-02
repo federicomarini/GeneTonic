@@ -23,11 +23,13 @@ Imports:
     AnnotationDbi,
     plotly,
     tidyr,
-    utils
+    utils,
+    DESeq2
 Suggests:
     knitr,
     rmarkdown,
-    BiocStyle
+    BiocStyle,
+    testthat (>= 2.1.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
 VignetteBuilder: knitr
