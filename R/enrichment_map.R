@@ -12,6 +12,8 @@
 #' @param genesetname_colname
 #' @param genesetid_colname
 #'
+#' TODOTODO: similarity measures, say, jaccard, or simple overlap
+#'
 #' @return
 #' @export
 #'
@@ -57,6 +59,7 @@ enrichment_map <- function(res_enrich,
     }
   }
 
+  # oooooor TODOTODO: go directly from this adjacency matrix? use overlap as weights
   om_df <- as.data.frame(overlap_matrix)
   om_df$id <- rownames(om_df)
 
@@ -88,12 +91,18 @@ enrichment_map <- function(res_enrich,
   colVar <- res_enrich[idx, color_by]
   if(all(colVar < 1)) # likely p-values...
     colVar <- -log10(colVar)
-  V(g)$color <- colVar
+  # V(g)$color <- colVar
 
   mypal <- (scales::alpha(
     colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu",11))(50), 0.8))
-  V(g)$color <- map2color(colVar,mypal,limits = range(colVar))
 
+  # V(g)$color <- map2color(colVar,mypal,limits = range(colVar))
+  V(g)$color.background <- map2color(colVar,mypal,limits = range(colVar))
+  V(g)$color.highlight <- map2color(colVar,mypal,limits = range(colVar))
+  V(g)$color.hover <- map2color(colVar,mypal,limits = range(colVar))
+
+  # TODOTODO: some kind of border prettifying?
+  V(g)$color.border <- "black"
 
   # additional specification of edge colors
   E(g)$color <- "lightgrey"
@@ -101,8 +110,7 @@ enrichment_map <- function(res_enrich,
   return(g)
 }
 
-# g %>% visIgraph() %>%
-  # visOptions(highlightNearest = list(enabled = TRUE, degree = 1, hover = TRUE), nodesIdSelection = TRUE)
+# g %>% visIgraph() %>% visOptions(highlightNearest = list(enabled = TRUE, degree = 1, hover = TRUE), nodesIdSelection = TRUE)
 
 
 
