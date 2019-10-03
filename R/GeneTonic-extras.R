@@ -1,19 +1,34 @@
 #' Title
 #'
-#' @param x
-#' @param y
+#' TODO
 #'
-#' @return
+#' @param x TODO
+#' @param y TODO
+#'
+#' @return TODO
 #' @export
 #'
 #' @seealso https://en.wikipedia.org/wiki/Overlap_coefficient
 #'
 #' @examples
+#' # TODO
 overlap_coefficient <- function (x, y)
 {
   length(intersect(x, y))/min(length(x), length(y))
 }
 
+#' Title
+#'
+#' TODO
+#'
+#' @param x TODO
+#' @param y TODO
+#'
+#' @return TODO
+#' @export
+#'
+#' @examples
+#' # TODO
 overlap_jaccard_index <- function (x, y)
 {
   length(intersect(x, y))/length(unique(c(x, y)))
@@ -24,14 +39,17 @@ overlap_jaccard_index <- function (x, y)
 
 #' Title
 #'
-#' @param x
-#' @param pal
-#' @param limits
+#' TODO
 #'
-#' @return
+#' @param x TODO
+#' @param pal TODO
+#' @param limits TODO
+#'
+#' @return TODO
 #' @export
 #'
 #' @examples
+#' # TODO
 map2color <- function(x, pal, limits = NULL) {
   if(is.null(limits))
     limits=range(x)

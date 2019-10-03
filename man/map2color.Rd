@@ -7,8 +7,18 @@
 map2color(x, pal, limits = NULL)
 }
 \arguments{
-\item{limits}{}
+\item{x}{TODO}
+
+\item{pal}{TODO}
+
+\item{limits}{TODO}
+}
+\value{
+TODO
 }
 \description{
-Title
+TODO
+}
+\examples{
+# TODO
 }
