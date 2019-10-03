@@ -1,12 +1,10 @@
-
-
-
 #' Title TODO
 #'
 #' @param res_enrich TODO
 #' @param genes_colname TODO
 #' @param genesetname_colname TODO
 #' @param genesetid_colname TODO
+#' @param genes_separator TODO
 #'
 #' @return TODO
 #' @export
@@ -16,7 +14,8 @@
 create_kappa_matrix <- function(res_enrich,
                                 genes_colname = "genes",
                                 genesetname_colname = "Term",
-                                genesetid_colname = "GO.ID"
+                                genesetid_colname = "GO.ID",
+                                genes_separator = ","
                                 ) {
 
   # initial checks
@@ -25,7 +24,7 @@ create_kappa_matrix <- function(res_enrich,
 
   genelists <- lapply(seq_len(nrow(res_enrich)), function(gs) {
     cur_set <- res_enrich[[genes_colname]][gs]
-    gene_vec <- unlist(strsplit(cur_set,","))
+    gene_vec <- unlist(strsplit(cur_set, genes_separator))
   })
 
   names(genelists) <- res_enrich[[genesetid_colname]]
@@ -70,6 +69,6 @@ create_kappa_matrix <- function(res_enrich,
   return(kappa_matrix)
 }
 
-
-
-
+# TODOTODO:
+# think of having methods working on this km for hierarchical or fuzzy clustering, a la David
+# Still: if using topGO, a good portion of redundancy is taken care of ;)

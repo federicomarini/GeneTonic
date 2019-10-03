@@ -10,8 +10,36 @@ enrichment_map(res_enrich, res_de, annotation_obj, n_gs = 50,
   genesetname_colname = "Term", genesetid_colname = "GO.ID")
 }
 \arguments{
-\item{genesetid_colname}{TODOTODO: similarity measures, say, jaccard, or simple overlap}
+\item{res_enrich}{TODO}
+
+\item{res_de}{TODO}
+
+\item{annotation_obj}{TODO}
+
+\item{n_gs}{TODO}
+
+\item{overlap_threshold}{TODO}
+
+\item{scale_edges_width}{TODO}
+
+\item{color_by}{TODO}
+
+\item{size_by}{TODO}
+
+\item{genes_colname}{TODO}
+
+\item{genesetname_colname}{TODO}
+
+\item{genesetid_colname}{TODO
+
+TODOTODO: similarity measures, say, jaccard, or simple overlap}
+}
+\value{
+TODO
 }
 \description{
-Title
+TODO
+}
+\examples{
+# TODO
 }

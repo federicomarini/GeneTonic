@@ -1,23 +1,26 @@
 #' Title
 #'
-#' @param res_enrich
-#' @param res_de
-#' @param annotation_obj
-#' @param n_gs
-#' @param overlap_threshold
-#' @param scale_edges_width
-#' @param color_by
-#' @param size_by
-#' @param genes_colname
-#' @param genesetname_colname
-#' @param genesetid_colname
+#' TODO
+#'
+#' @param res_enrich TODO
+#' @param res_de TODO
+#' @param annotation_obj TODO
+#' @param n_gs TODO
+#' @param overlap_threshold TODO
+#' @param scale_edges_width TODO
+#' @param color_by TODO
+#' @param size_by TODO
+#' @param genes_colname TODO
+#' @param genesetname_colname TODO
+#' @param genesetid_colname TODO
 #'
 #' TODOTODO: similarity measures, say, jaccard, or simple overlap
 #'
-#' @return
+#' @return TODO
 #' @export
 #'
 #' @examples
+#' # TODO
 enrichment_map <- function(res_enrich,
                            res_de,
                            annotation_obj,

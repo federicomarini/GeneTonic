@@ -5,7 +5,8 @@
 \title{Title TODO}
 \usage{
 create_kappa_matrix(res_enrich, genes_colname = "genes",
-  genesetname_colname = "Term", genesetid_colname = "GO.ID")
+  genesetname_colname = "Term", genesetid_colname = "GO.ID",
+  genes_separator = ",")
 }
 \arguments{
 \item{res_enrich}{TODO}
@@ -15,6 +16,8 @@ create_kappa_matrix(res_enrich, genes_colname = "genes",
 \item{genesetname_colname}{TODO}
 
 \item{genesetid_colname}{TODO}
+
+\item{genes_separator}{TODO}
 }
 \value{
 TODO
