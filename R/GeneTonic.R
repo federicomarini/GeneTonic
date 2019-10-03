@@ -68,7 +68,9 @@ GeneTonic <- function(dds,
           ),
           column(
             width = 3,
-            h4("Genesetbox")
+            h4("Genesetbox"),
+            verbatimTextOutput("netnode"),
+            plotOutput("sigheatplot")
             # TODOTODO
           )
         ),
@@ -89,6 +91,8 @@ GeneTonic <- function(dds,
 
     values <- reactiveValues()
 
+    myvst <- vst(dds)
+
     values$mygraph <- reactive({
       enrich2graph(res_enrich = res_enrich,
                    res_de = res_de,
@@ -107,6 +111,40 @@ GeneTonic <- function(dds,
       visNetwork::visIgraph(values$mygraph()) %>%
         visOptions(highlightNearest = list(enabled = T, degree = 1, hover = T), nodesIdSelection = TRUE)
 
+    })
+
+    output$netnode <- renderPrint({
+      g <- values$mygraph()
+      cur_sel <- input$mynetwork_selected
+      cur_node <- match(cur_sel,V(g)$name)
+      cur_nodetype <- V(g)$nodetype[cur_node]
+
+      cur_gsid <- res_enrich$GO.ID[match(cur_sel,res_enrich$Term)]
+
+      paste0("I'm selecting ",input$mynetwork_selected, ", which has index ", cur_node, " and is of type ", cur_nodetype, "this is from set", cur_gsid)
+
+    })
+
+    output$sigheatplot <- renderPlot({
+      cur_gsid <- res_enrich$GO.ID[match(input$mynetwork_selected,res_enrich$Term)]
+      gs_heatmap(myvst,
+                 res_de,
+                 res_enrich,
+                 geneset_id = cur_gsid, # TODOTODO check that I select a gene set
+                 genes_colname = "genes",
+                 genesetname_colname = "Term",
+                 genesetid_colname = "GO.ID",
+                 annotation_obj = annotation_obj,
+                 FDR = 0.05,
+                 de_only = FALSE,
+                 cluster_rows = TRUE, # TODOTODO: options for the heatmap go on left side, as could be common to more!
+                 cluster_cols = TRUE,
+                 center_mean = TRUE,
+                 scale_row = TRUE
+                 # TODOTODO: use ellipsis for passing params to pheatmap?
+                 # TODOTODO: option to just return the underlying data?s
+                 # TODOTODO: options to subset to specific samples?
+      )
     })
 
     output$enriched_funcres <- renderPlot({
