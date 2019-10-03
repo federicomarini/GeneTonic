@@ -6,13 +6,20 @@
 #' @return
 #' @export
 #'
+#' @seealso https://en.wikipedia.org/wiki/Overlap_coefficient
+#'
 #' @examples
-overlap_ratio <- function (x, y)
+overlap_coefficient <- function (x, y)
 {
-  x <- unlist(x)
-  y <- unlist(y)
-  length(intersect(x, y))/length(unique(c(x, y)))
+  length(intersect(x, y))/min(length(x), length(y))
 }
+
+overlap_jaccard_index <- function (x, y)
+{
+  length(intersect(x, y))/length(unique(c(x, y)))
+  # about 2x faster than using union()
+}
+
 
 
 #' Title

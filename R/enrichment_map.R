@@ -55,7 +55,7 @@ enrichment_map <- function(res_enrich,
     # no need to work on full mat, it is simmetric
     for (j in i:n) {
       overlap_matrix[i, j] <-
-        overlap_ratio(enrich2list[enriched_gsids[i]], enrich2list[enriched_gsids[j]])
+        overlap_jaccard_index(enrich2list[enriched_gsids[i]], enrich2list[enriched_gsids[j]])
     }
   }
 
@@ -107,6 +107,8 @@ enrichment_map <- function(res_enrich,
   # additional specification of edge colors
   E(g)$color <- "lightgrey"
 
+  # TODOTODO: think of sorting nodes alphabetically? ..
+  # g <- permute.vertices(g,Matrix::invPerm(order(V(g)$name)))
   return(g)
 }
 

@@ -10,7 +10,7 @@ enrichment_map(res_enrich, res_de, annotation_obj, n_gs = 50,
   genesetname_colname = "Term", genesetid_colname = "GO.ID")
 }
 \arguments{
-\item{genesetid_colname}{}
+\item{genesetid_colname}{TODOTODO: similarity measures, say, jaccard, or simple overlap}
 }
 \description{
 Title
