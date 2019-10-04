@@ -24,7 +24,8 @@ Imports:
     plotly,
     tidyr,
     utils,
-    DESeq2
+    DESeq2,
+    pheatmap
 Suggests:
     knitr,
     rmarkdown,

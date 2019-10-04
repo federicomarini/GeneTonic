@@ -22,6 +22,7 @@
 #' @importFrom AnnotationDbi Definition
 #' @importFrom plotly ggplotly plotlyOutput renderPlotly
 #' @importFrom tidyr separate_rows pivot_longer
+#' @import pheatmap
 #'
 #' @name GeneTonic-pkg
 #' @docType package
