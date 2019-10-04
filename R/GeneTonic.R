@@ -20,10 +20,6 @@ GeneTonic <- function(dds,
                       res_enrich,
                       annotation_obj) {
 
-  if ( !requireNamespace('shiny',quietly = TRUE) ) {
-    stop("GeneTonic requires 'shiny'. Please install it using
-         install.packages('shiny')")
-  }
   # checks on the objects provided
 
 
@@ -145,9 +141,7 @@ GeneTonic <- function(dds,
 
           # ui panel about -----------------------------------------------------------
           tabPanel(
-            "About", icon = icon("institution"),
-
-            # headerPanel("Information on ideal/session"),
+            title = "About", icon = icon("institution"), value="tab-about",
 
             fluidRow(
               column(
