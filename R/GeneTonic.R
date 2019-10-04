@@ -109,7 +109,7 @@ GeneTonic <- function(dds,
       # minimal example
 
       visNetwork::visIgraph(values$mygraph()) %>%
-        visOptions(highlightNearest = list(enabled = T, degree = 1, hover = T), nodesIdSelection = TRUE)
+        visOptions(highlightNearest = list(enabled = TRUE, degree = 1, hover = TRUE), nodesIdSelection = TRUE)
 
     })
 
