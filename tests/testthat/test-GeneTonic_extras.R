@@ -22,3 +22,7 @@ test_that("map2color works", {
   expect_length(m2c, 20)
   expect_length(m2c_nolimits, 20)
 })
+
+test_that("footer code is generated", {
+  expect_is(footer(),"shiny.tag")
+})
