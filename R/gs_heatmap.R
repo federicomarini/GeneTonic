@@ -2,26 +2,29 @@
 
 #' Title
 #'
-#' @param se
-#' @param res_de
-#' @param res_enrich
-#' @param geneset_id
-#' @param genelist
-#' @param genes_colname
-#' @param genesetname_colname
-#' @param genesetid_colname
-#' @param annotation_obj
-#' @param FDR
-#' @param de_only
-#' @param cluster_rows
-#' @param cluster_cols
-#' @param center_mean
-#' @param scale_row
+#' TODO
 #'
-#' @return
+#' @param se TODO
+#' @param res_de TODO
+#' @param res_enrich TODO
+#' @param geneset_id TODO
+#' @param genelist TODO
+#' @param genes_colname TODO
+#' @param genesetname_colname TODO
+#' @param genesetid_colname TODO
+#' @param annotation_obj TODO
+#' @param FDR TODO
+#' @param de_only TODO
+#' @param cluster_rows TODO
+#' @param cluster_cols TODO
+#' @param center_mean TODO
+#' @param scale_row TODO
+#'
+#' @return TODO
 #' @export
 #'
 #' @examples
+#' # TODO
 gs_heatmap <- function(se,
                        res_de,
                        res_enrich,
@@ -85,7 +88,7 @@ gs_heatmap <- function(se,
   # dim(mydata_sig)
 
   title <- paste0("Signature heatmap - ", thisset_name)
-  sample_decoration <- as.data.frame(colData(se))[,"condition",drop = F]
+  sample_decoration <- as.data.frame(colData(se))[,"condition",drop = FALSE]
 
   # if(returnData) {
   #
