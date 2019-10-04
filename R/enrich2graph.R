@@ -80,7 +80,7 @@ enrich2graph <- function(res_enrich,
 
 
     # different colors for the gene nodes f logFC
-    fcs_genes <- res_de$log2FoldChange[match((V(g)$name[nodeIDs_genes]), annotation_obj$gene_name)]
+    fcs_genes <- res_de[annotation_obj$gene_id[match((V(g)$name[nodeIDs_genes]), annotation_obj$gene_name)],]$log2FoldChange
 
 
     mypal <- rev(scales::alpha(
