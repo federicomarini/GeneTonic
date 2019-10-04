@@ -58,3 +58,24 @@ map2color <- function(x, pal, limits = NULL) {
                           length.out=length(pal)+1),
                    all.inside=TRUE)]
 }
+
+footer <- function(){
+  tags$div(
+    class = "panel-footer",
+    style = "text-align:center",
+    tags$div(
+      class = "foot-inner",
+      list(
+        # hr(),
+        "GeneTonic is a project developed by Federico Marini in the Bioinformatics division of the ",
+        tags$a(href="http://www.unimedizin-mainz.de/imbei","IMBEI"),
+        "- Institute for Medical Biostatistics, Epidemiology and Informatics",br(),
+        "License: ",tags$a(href="https://opensource.org/licenses/MIT","MIT"), br(),
+
+        "Development of the GeneTonic package is on ",
+        tags$a(href="https://github.com/federicomarini/GeneTonic", "GitHub")
+      )
+    )
+  )
+}
+
