@@ -58,7 +58,8 @@ enrichment_map <- function(res_enrich,
     # no need to work on full mat, it is simmetric
     for (j in i:n) {
       overlap_matrix[i, j] <-
-        overlap_jaccard_index(enrich2list[enriched_gsids[i]], enrich2list[enriched_gsids[j]])
+        overlap_jaccard_index(unlist(enrich2list[enriched_gsids[i]]),
+                              unlist(enrich2list[enriched_gsids[j]]))
     }
   }
 
@@ -98,11 +99,15 @@ enrichment_map <- function(res_enrich,
 
   mypal <- (scales::alpha(
     colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu",11))(50), 0.8))
+  mypal_hover <- (scales::alpha(
+    colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu",11))(50), 0.5))
+  mypal_select <- (scales::alpha(
+    colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu",11))(50), 1))
 
   # V(g)$color <- map2color(colVar,mypal,limits = range(colVar))
   V(g)$color.background <- map2color(colVar,mypal,limits = range(colVar))
-  V(g)$color.highlight <- map2color(colVar,mypal,limits = range(colVar))
-  V(g)$color.hover <- map2color(colVar,mypal,limits = range(colVar))
+  V(g)$color.highlight <- map2color(colVar,mypal_select,limits = range(colVar))
+  V(g)$color.hover <- map2color(colVar,mypal_hover,limits = range(colVar))
 
   # TODOTODO: some kind of border prettifying?
   V(g)$color.border <- "black"
