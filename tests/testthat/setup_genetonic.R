@@ -58,3 +58,4 @@ topgoDE_macrophage_IFNg_vs_naive <- pcaExplorer::topGOtable(de_symbols_IFNg_vs_n
                                                             ontology = "BP",
                                                             mapping = "org.Hs.eg.db",
                                                             geneID = "symbol")
+
