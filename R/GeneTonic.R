@@ -141,6 +141,13 @@ GeneTonic <- function(dds,
     })
 
     output$sigheatplot <- renderPlot({
+      g <- values$mygraph()
+      cur_sel <- input$mynetwork_selected
+      cur_node <- match(cur_sel,V(g)$name)
+      cur_nodetype <- V(g)$nodetype[cur_node]
+      validate(need(cur_nodetype == "GeneSet",
+                    message = "Please select a gene set."
+      ))
       cur_gsid <- res_enrich$GO.ID[match(input$mynetwork_selected,res_enrich$Term)]
       gs_heatmap(myvst,
                  res_de,
