@@ -57,10 +57,12 @@ enrich2graph <- function(res_enrich,
 
   g <- graph.data.frame(list2df, directed = FALSE)
 
+  nodeIDs_gs <- which(names(V(g)) %in% enriched_gsnames)
+  nodeIDs_genes <- which(!(names(V(g)) %in% enriched_gsnames))
+
+
   if (prettify) {
     # different shapes based on the node type
-    nodeIDs_gs <- which(names(V(g)) %in% enriched_gsnames)
-    nodeIDs_genes <- which(!(names(V(g)) %in% enriched_gsnames))
 
     V(g)$nodetype <- NA
     V(g)$nodetype[nodeIDs_gs] <- "GeneSet"
