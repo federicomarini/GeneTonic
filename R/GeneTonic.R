@@ -19,13 +19,20 @@ GeneTonic <- function(dds,
                       res_de,
                       res_enrich,
                       annotation_obj) {
+
+  if ( !requireNamespace('shiny',quietly = TRUE) ) {
+    stop("GeneTonic requires 'shiny'. Please install it using
+         install.packages('shiny')")
+  }
   # checks on the objects provided
 
 
-  # main body of the Shiny app function!
+
+  # UI definition -----------------------------------------------------------
   genetonic_ui <- shinydashboard::dashboardPage(
     skin = "black",
 
+    # header definition -------------------------------------------------------
     header = shinydashboard::dashboardHeader(
       title = "TODOtitle",
       titleWidth = 350,
@@ -45,6 +52,7 @@ GeneTonic <- function(dds,
       )
     ),
 
+    # sidebar definition ------------------------------------------------------
     sidebar = shinydashboard::dashboardSidebar(
       width = 250,
       shinydashboard::menuItem(
@@ -56,33 +64,103 @@ GeneTonic <- function(dds,
       )
     ),
 
+    # body definition ---------------------------------------------------------
     body = shinydashboard::dashboardBody(
       rintrojs::introjsUI(),
+      ## Define output size and style of error messages
+      ## plus, define the myscrollbox div to prevent y overflow when page fills up
+      tags$head(
+        tags$style(
+          HTML(
+            ".shiny-output-error-validation {
+            font-size: 15px;
+            color: forestgreen;
+            text-align: center;
+            }
 
-      fluidRow(
-        h1("The main content"),
-
-        fluidRow(
-          column(
-            width = 9,
-            visNetworkOutput("mynetwork", height = "700px", width = "100%")
-          ),
-          column(
-            width = 3,
-            h4("Genesetbox"),
-            verbatimTextOutput("netnode"),
-            plotOutput("sigheatplot")
-            # TODOTODO
+            #myScrollBox{
+              overflow-y: scroll;
+              .dataTables_wrapper{
+                overflow-x: scroll;
+              }
+            }"
           )
-        ),
-        fluidRow(
-          plotOutput("enriched_funcres"),
-          plotOutput("go_volcano"),
-          plotlyOutput("enriched_funcres_plotly"),
-          visNetworkOutput("emap_visnet", height = "700px", width = "100%")
+        )
+         # .icon-done {
+         # color: green;
+         # }
+
+         # #myAnchorBox{}
+      ),
+
+      ## main structure of the body for the dashboard
+      div(
+        id = "myScrollBox", # trick to have the y direction scrollable
+        tabBox(
+          width=12,
+
+          # ui panel welcome -----------------------------------------------------------
+          tabPanel(
+            title = "Welcome!",  icon = icon("home"), value="tab-welcome",
+            h2("Whatever goes in the home/welcome page")
+          ),
+
+
+          # ui panel geneset-gene ---------------------------------------------------
+          tabPanel(
+            title = "GeneSet-Gene",  icon = icon("home"), value="tab-gsg",
+
+            fluidRow(
+              column(
+                width = 9,
+                visNetworkOutput("mynetwork", height = "700px", width = "100%")
+              ),
+              column(
+                width = 3,
+                h4("Genesetbox"),
+                verbatimTextOutput("netnode"),
+                plotOutput("sigheatplot")
+                # TODOTODO
+              )
+            )
+          ),
+
+          # ui panel enrichment map -------------------------------------------------
+          tabPanel(
+            title = "Enrichment map",  icon = icon("home"), value="tab-em",
+            ###
+            visNetworkOutput("emap_visnet", height = "700px", width = "100%")
+          ),
+
+          # ui panel de view --------------------------------------------------------
+          tabPanel(
+            title = "DEview!",  icon = icon("home"), value="tab-deview",
+            ###
+            fluidRow(
+              plotOutput("go_volcano"),
+              plotOutput("enriched_funcres"),
+              plotlyOutput("enriched_funcres_plotly")
+            )
+          ),
+
+          # ui panel about -----------------------------------------------------------
+          tabPanel(
+            "About", icon = icon("institution"),
+
+            # headerPanel("Information on ideal/session"),
+
+            fluidRow(
+              column(
+                width = 8,
+                includeMarkdown(system.file("extdata", "about.md",package = "GeneTonic")),
+
+                verbatimTextOutput("sessioninfo")
+              )
+            )
+          )
         )
       )
-
+      # , footer()
     )
   )
 
@@ -190,6 +268,10 @@ GeneTonic <- function(dds,
       visNetwork::visIgraph(emap_graph()) %>%
         visOptions(highlightNearest = list(enabled = TRUE, degree = 1, hover = TRUE), nodesIdSelection = TRUE)
 
+    })
+
+    output$sessioninfo <- renderPrint({
+      sessionInfo()
     })
 
     observeEvent(input$interface_overview, {
