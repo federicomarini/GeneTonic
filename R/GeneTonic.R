@@ -61,6 +61,7 @@ GeneTonic <- function(dds,
 
       fluidRow(
         h1("The main content"),
+
         fluidRow(
           column(
             width = 9,
@@ -77,7 +78,8 @@ GeneTonic <- function(dds,
         fluidRow(
           plotOutput("enriched_funcres"),
           plotOutput("go_volcano"),
-          plotlyOutput("enriched_funcres_plotly")
+          plotlyOutput("enriched_funcres_plotly"),
+          visNetworkOutput("emap_visnet", height = "700px", width = "100%")
         )
       )
 
@@ -103,6 +105,19 @@ GeneTonic <- function(dds,
                    prettify = TRUE,
                    geneset_graph_color = "gold",
                    annotation_obj = annotation_obj)
+    })
+
+    emap_graph <- reactive({
+      enrichment_map(res_enrich = res_enrich,
+                     res_de = res_de,
+                     annotation_obj = annotation_obj,
+                     n_gs = input$n_genesets,
+                     overlap_threshold = 0.1,
+                     scale_edges_width = 200,
+                     color_by = "p.value_elim",
+                     genes_colname = "genes",
+                     genesetname_colname = "Term",
+                     genesetid_colname = "GO.ID")
     })
 
     output$mynetwork <- renderVisNetwork({
@@ -161,6 +176,13 @@ GeneTonic <- function(dds,
       ggplotly(enhance_table(res_enrich, res_de,
                     n_gs = 50,
                     annotation_obj = annotation_obj))
+    })
+
+    output$emap_visnet <- renderVisNetwork({
+
+      visNetwork::visIgraph(emap_graph()) %>%
+        visOptions(highlightNearest = list(enabled = TRUE, degree = 1, hover = TRUE), nodesIdSelection = TRUE)
+
     })
 
     observeEvent(input$interface_overview, {
