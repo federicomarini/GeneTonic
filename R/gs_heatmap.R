@@ -43,7 +43,7 @@ gs_heatmap <- function(se,
                        # TODOTODO: use ellipsis for passing params to pheatmap?
                        # TODOTODO: option to just return the underlying data?s
                        # TODOTODO: options to subset to specific samples?
-                       ) {
+) {
 
   # check that the data would ideally be a DST, so that it is not the counts/normalized?
   mydata <- assay(se)
@@ -103,3 +103,46 @@ gs_heatmap <- function(se,
 
 
 }
+
+
+
+
+
+
+gs_scores <- function(se,
+                      res_de, # maybe won't need it
+                      res_enrich,
+                      genes_colname = "genes",
+                      genesetname_colname = "Term",
+                      genesetid_colname = "GO.ID",
+                      annotation_obj = NULL) {
+
+  mydata <- assay(se)
+  # returns a matrix, rows = genesets, cols = samples
+  rownames(res_enrich) <- res_enrich[[genesetid_colname]]
+
+  rowsd_se <- matrixStats::rowSds(mydata)
+  rowavg_se <- rowMeans(mydata)
+  mydata_z <- (mydata - rowavg_se) / rowsd_se
+
+  gss_mat <- matrix(NA, nrow = nrow(res_enrich), ncol = ncol(se))
+  rownames(gss_mat) <- paste0(
+    res_enrich[[genesetid_colname]], "|",
+    res_enrich[[genesetname_colname]])
+  colnames(gss_mat) <- colnames(se)
+
+  for(i in seq_len(nrow(res_enrich))) {
+
+    thisset_members <- unlist(strsplit(res_enrich[i,genes_colname],","))
+    thisset_members_ids <- annotation_obj$gene_id[match(thisset_members, annotation_obj$gene_name)]
+
+    thisset_members_ids <- thisset_members_ids[thisset_members_ids %in% rownames(se)]
+    thisset_zs <- mydata_z[thisset_members_ids,]
+    thisset_mean_zs <- colMeans(thisset_zs)
+
+    gss_mat[i,] <- thisset_mean_zs
+  }
+
+  return(gss_mat)
+}
+
