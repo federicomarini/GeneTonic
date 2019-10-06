@@ -24,12 +24,19 @@ Imports:
     plotly,
     tidyr,
     utils,
+    SummarizedExperiment,
+    stats,
+    matrixStats,
     DESeq2,
     pheatmap
 Suggests:
     knitr,
     rmarkdown,
     BiocStyle,
+    macrophage,
+    topGO,
+    org.Hs.eg.db,
+    tximeta,
     testthat (>= 2.1.0)
 License: MIT + file LICENSE
 Encoding: UTF-8

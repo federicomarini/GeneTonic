@@ -11,7 +11,7 @@
 #' @importFrom rintrojs introjs introjsUI
 #' @import igraph
 #' @import visNetwork
-#' @importFrom utils read.delim
+#' @importFrom utils read.delim sessionInfo
 #' @importFrom grDevices colorRampPalette
 #' @importFrom RColorBrewer brewer.pal
 #' @importFrom scales alpha muted
@@ -19,10 +19,14 @@
 #' @import ggplot2
 #' @importFrom ggrepel geom_label_repel
 #' @import GO.db
+#' @import DESeq2
 #' @importFrom AnnotationDbi Definition
 #' @importFrom plotly ggplotly plotlyOutput renderPlotly
 #' @importFrom tidyr separate_rows pivot_longer
+#' @importFrom stats var
 #' @import pheatmap
+#' @importFrom matrixStats rowSds
+#' @import SummarizedExperiment
 #'
 #' @name GeneTonic-pkg
 #' @docType package
