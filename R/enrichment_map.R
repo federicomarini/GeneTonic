@@ -38,7 +38,7 @@ enrichment_map <- function(res_enrich,
 
   enriched_gsids <- res_enrich[[genesetid_colname]]
   enriched_gsnames <- res_enrich[[genesetname_colname]]
-  enriched_gsdescs <- vapply(enriched_gsids, function(arg) Definition(GOTERM[[arg]]))
+  enriched_gsdescs <- vapply(enriched_gsids, function(arg) Definition(GOTERM[[arg]]), character(1))
 
   rownames(res_enrich) <- enriched_gsids
 
@@ -86,7 +86,7 @@ enrichment_map <- function(res_enrich,
 
   idx <- match(V(g)$name, res_enrich$Term)
 
-  gs_size <- vapply(enrich2list[idx], length)
+  gs_size <- vapply(enrich2list[idx], length, numeric(1))
 
   V(g)$size <- 5 * sqrt(gs_size)
   V(g)$original_size <- gs_size

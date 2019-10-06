@@ -126,8 +126,8 @@ get_aggrscores <- function(res_enrich,
 
   names(gs_aggregated) <- res_enrich[[genesetid_colname]]
 
-  res_enrich$z_score <- vapply(gs_aggregated, "[", 1)
-  res_enrich$aggr_score <- vapply(gs_aggregated, "[", 2)
+  res_enrich$z_score <- vapply(gs_aggregated, "[", 1, FUN.VALUE = numeric(1))
+  res_enrich$aggr_score <- vapply(gs_aggregated, "[", 2, FUN.VALUE = numeric(1))
 
   return(res_enrich)
 }
