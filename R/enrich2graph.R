@@ -38,7 +38,7 @@ enrich2graph <- function(res_enrich,
 
   enriched_gsids <- res_enrich[[genesetid_colname]]
   enriched_gsnames <- res_enrich[[genesetname_colname]]
-  enriched_gsdescs <- sapply(enriched_gsids, function(arg) Definition(GOTERM[[arg]]))
+  enriched_gsdescs <- vapply(enriched_gsids, function(arg) Definition(GOTERM[[arg]]))
 
   enrich2list <- lapply(seq_len(n_nodes), function(gs){
     # goterm <- res_enrich$Term[gs]
