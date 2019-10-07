@@ -50,7 +50,7 @@ res_macrophage_IFNg_vs_naive$SYMBOL <- rowData(dds_macrophage)$SYMBOL
 
 library("AnnotationDbi")
 
-de_symbols_IFNg_vs_naive <- ideal::deseqresult2DEgenes(res_macrophage_IFNg_vs_naive)$SYMBOL
+de_symbols_IFNg_vs_naive <- res_macrophage_IFNg_vs_naive[ (!(is.na(res_macrophage_IFNg_vs_naive$padj))) & (res_macrophage_IFNg_vs_naive$padj <= 0.05), "SYMBOL"]
 bg_ids <- rowData(dds_macrophage)$SYMBOL[rowSums(counts(dds_macrophage)) > 0]
 
 library("topGO")

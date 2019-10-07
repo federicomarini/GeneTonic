@@ -26,3 +26,10 @@ test_that("map2color works", {
 test_that("footer code is generated", {
   expect_is(footer(),"shiny.tag")
 })
+
+test_that("results to data frame conversion works", {
+  res_df <- deseqresult2df(res_de, FDR = 1)
+  res_df2 <- deseqresult2df(res_de, FDR = 0.05)
+  res_df3 <- deseqresult2df(res_de)
+  expect_is(res_df, "data.frame")
+})

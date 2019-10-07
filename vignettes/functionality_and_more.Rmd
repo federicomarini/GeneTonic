@@ -178,8 +178,8 @@ library("org.Hs.eg.db")
 
 # resOrdered <- as.data.frame(res_macrophage_IFNg_vs_naive[order(res_macrophage_IFNg_vs_naive$padj),])
 # de_df <- resOrdered[resOrdered$padj < .05 & !is.na(resOrdered$padj),]
-de_symbols_IFNg_vs_naive <- ideal::deseqresult2DEgenes(res_macrophage_IFNg_vs_naive)$SYMBOL
-de_symbols_SL1344_vs_naive <- ideal::deseqresult2DEgenes(res_macrophage_SL1344_vs_naive)$SYMBOL
+de_symbols_IFNg_vs_naive <- deseqresult2df(res_macrophage_IFNg_vs_naive, FDR = 0.05)$SYMBOL
+de_symbols_SL1344_vs_naive <- deseqresult2df(res_macrophage_SL1344_vs_naive, FDR = 0.05)$SYMBOL
 
 bg_ids <- rowData(dds_macrophage)$SYMBOL[rowSums(counts(dds_macrophage)) > 0]
 # bg_symbols <- mapIds(org.Hs.eg.db,
