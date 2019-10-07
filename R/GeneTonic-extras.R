@@ -59,6 +59,32 @@ map2color <- function(x, pal, limits = NULL) {
                    all.inside=TRUE)]
 }
 
+
+#' Title TODO
+#'
+#' TODO
+#'
+#' @param deseqresult TODO
+#' @param FDR TODO
+#'
+#' @return TODO
+#' @export
+#'
+#' @examples
+#' # TODO
+deseqresult2df <- function (deseqresult, FDR = NULL) {
+  if (!is(deseqresult, "DESeqResults"))
+    stop("Not a DESeqResults object.")
+  res <- as.data.frame(deseqresult)
+  res <- cbind(rownames(res), res)
+  names(res)[1] <- "id"
+  res$id <- as.character(res$id)
+  res <- res[order(res$padj),]
+  if(!is.null(FDR))
+    res <- res[!(is.na(res$padj)) & res$padj <= FDR, ]
+  res
+}
+
 footer <- function(){
   tags$div(
     class = "panel-footer",
