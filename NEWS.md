@@ -1,3 +1,9 @@
+# GeneTonic 0.2.0
+
+## New features
+
+* added geneset scoring calculation and corresponding heatmap
+
 # GeneTonic 0.1.0
 
 ## New features

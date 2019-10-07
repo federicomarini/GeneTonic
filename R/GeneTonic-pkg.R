@@ -23,7 +23,7 @@
 #' @importFrom AnnotationDbi Definition
 #' @importFrom plotly ggplotly plotlyOutput renderPlotly
 #' @importFrom tidyr separate_rows pivot_longer
-#' @importFrom stats var
+#' @importFrom stats var dist hclust
 #' @import pheatmap
 #' @importFrom matrixStats rowSds
 #' @import SummarizedExperiment
