@@ -28,8 +28,9 @@ test_that("footer code is generated", {
 })
 
 test_that("results to data frame conversion works", {
-  res_df <- deseqresult2df(res_de, FDR = 1)
-  res_df2 <- deseqresult2df(res_de, FDR = 0.05)
-  res_df3 <- deseqresult2df(res_de)
+  res_df <- deseqresult2df(res_macrophage_IFNg_vs_naive, FDR = 1)
+  res_df2 <- deseqresult2df(res_macrophage_IFNg_vs_naive, FDR = 0.05)
+  res_df3 <- deseqresult2df(res_macrophage_IFNg_vs_naive)
   expect_is(res_df, "data.frame")
+  expect_error(deseqresult2df(res_df))
 })
