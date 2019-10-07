@@ -42,10 +42,10 @@ enrichment_map <- function(res_enrich,
 
   rownames(res_enrich) <- enriched_gsids
 
-  enrich2list <- lapply(seq_len(n_gs),function(gs){
+  enrich2list <- lapply(seq_len(n_gs), function(gs) {
     # goterm <- res_enrich$Term[gs]
     go_genes <- res_enrich$genes[gs]
-    go_genes <- strsplit(go_genes,",") %>% unlist
+    go_genes <- strsplit(go_genes, ",") %>% unlist
     return(go_genes)
   })
   names(enrich2list) <- enriched_gsids[seq_len(n_gs)]
@@ -68,7 +68,7 @@ enrichment_map <- function(res_enrich,
   om_df$id <- rownames(om_df)
 
   omm <- pivot_longer(om_df, seq_len(n_gs))
-  colnames(omm) <- c("gs_1","gs_2","value")
+  colnames(omm) <- c("gs_1", "gs_2", "value")
   # eliminate rows of diagonal...
   omm <- omm[omm$gs_1 != omm$gs_2, ]
   # ... and the ones from the other triangular portion
@@ -79,7 +79,7 @@ enrichment_map <- function(res_enrich,
   # omm <- omm[!is.na(omm$value), ]
 
   # use this to construct the graph
-  g <- graph.data.frame(omm[,c(1,2)], directed = FALSE)
+  g <- graph.data.frame(omm[, c(1,2)], directed = FALSE)
 
   E(g)$width <- sqrt(omm$value * scale_edges_width)
   g <- delete.edges(g, E(g)[omm$value < overlap_threshold])
@@ -93,21 +93,21 @@ enrichment_map <- function(res_enrich,
 
 
   colVar <- res_enrich[idx, color_by]
-  if(all(colVar < 1)) # likely p-values...
+  if (all(colVar < 1)) # likely p-values...
     colVar <- -log10(colVar)
   # V(g)$color <- colVar
 
   mypal <- (scales::alpha(
-    colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu",11))(50), 0.8))
+    colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.8))
   mypal_hover <- (scales::alpha(
-    colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu",11))(50), 0.5))
+    colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.5))
   mypal_select <- (scales::alpha(
-    colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu",11))(50), 1))
+    colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 1))
 
   # V(g)$color <- map2color(colVar,mypal,limits = range(colVar))
-  V(g)$color.background <- map2color(colVar,mypal,limits = range(colVar))
-  V(g)$color.highlight <- map2color(colVar,mypal_select,limits = range(colVar))
-  V(g)$color.hover <- map2color(colVar,mypal_hover,limits = range(colVar))
+  V(g)$color.background <- map2color(colVar, mypal, limits = range(colVar))
+  V(g)$color.highlight <- map2color(colVar, mypal_select, limits = range(colVar))
+  V(g)$color.hover <- map2color(colVar, mypal_hover, limits = range(colVar))
 
   # TODOTODO: some kind of border prettifying?
   V(g)$color.border <- "black"
@@ -117,10 +117,8 @@ enrichment_map <- function(res_enrich,
 
   # TODOTODO: think of sorting nodes alphabetically? ..
   # g <- permute.vertices(g,Matrix::invPerm(order(V(g)$name)))
+  ## TODO: or simply rank() :)
   return(g)
 }
 
 # g %>% visIgraph() %>% visOptions(highlightNearest = list(enabled = TRUE, degree = 1, hover = TRUE), nodesIdSelection = TRUE)
-
-
-

@@ -6,7 +6,7 @@ library("GeneTonic")
 
 context("Check that the Shiny app is generated")
 
-dds <- DESeq2::makeExampleDESeqDataSet(n=100, m=8)
+dds <- DESeq2::makeExampleDESeqDataSet(n = 100, m = 8)
 
 test_that("Shiny app is generated", {
   expect_is(GeneTonic(), "shiny.appobj")

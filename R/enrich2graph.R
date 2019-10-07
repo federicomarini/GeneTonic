@@ -42,7 +42,7 @@ enrich2graph <- function(res_enrich,
                              function(arg) Definition(GOTERM[[arg]]),
                              character(1))
 
-  enrich2list <- lapply(seq_len(n_nodes), function(gs){
+  enrich2list <- lapply(seq_len(n_nodes), function(gs) {
     # goterm <- res_enrich$Term[gs]
     go_genes <- res_enrich$genes[gs]
     go_genes <- strsplit(go_genes, ",") %>% unlist
@@ -82,7 +82,7 @@ enrich2graph <- function(res_enrich,
 
 
     # different colors for the gene nodes f logFC
-    fcs_genes <- res_de[annotation_obj$gene_id[match((V(g)$name[nodeIDs_genes]), annotation_obj$gene_name)],]$log2FoldChange
+    fcs_genes <- res_de[annotation_obj$gene_id[match((V(g)$name[nodeIDs_genes]), annotation_obj$gene_name)], ]$log2FoldChange
 
 
     mypal <- rev(scales::alpha(
@@ -107,4 +107,3 @@ enrich2graph <- function(res_enrich,
   }
   return(g)
 }
-

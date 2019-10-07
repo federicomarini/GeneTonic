@@ -108,7 +108,7 @@ get_aggrscores <- function(res_enrich,
   # allgenes <- unlist(strsplit(res_enrich[[genes_colname]],","))
   gs_expanded <- tidyr::separate_rows(res_enrich, {{genes_colname}}, sep = ",")
   gs_expanded$log2FoldChange <-
-    res_de[annotation_obj$gene_id[match(gs_expanded$genes, annotation_obj$gene_name)],]$log2FoldChange
+    res_de[annotation_obj$gene_id[match(gs_expanded$genes, annotation_obj$gene_name)], ]$log2FoldChange
 
   gs_aggregated <- lapply(seq_len(nrow(res_enrich)), function(i) {
     this_gsid <- res_enrich[[genesetid_colname]][i]
@@ -131,4 +131,3 @@ get_aggrscores <- function(res_enrich,
 
   return(res_enrich)
 }
-

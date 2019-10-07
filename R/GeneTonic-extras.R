@@ -12,9 +12,8 @@
 #'
 #' @examples
 #' # TODO
-overlap_coefficient <- function (x, y)
-{
-  length(intersect(x, y))/min(length(x), length(y))
+overlap_coefficient <- function(x, y) {
+  length(intersect(x, y)) / min(length(x), length(y))
 }
 
 #' Title
@@ -29,9 +28,8 @@ overlap_coefficient <- function (x, y)
 #'
 #' @examples
 #' # TODO
-overlap_jaccard_index <- function (x, y)
-{
-  length(intersect(x, y))/length(unique(c(x, y)))
+overlap_jaccard_index <- function(x, y) {
+  length(intersect(x, y)) / length(unique(c(x, y)))
   # about 2x faster than using union()
 }
 
@@ -51,12 +49,12 @@ overlap_jaccard_index <- function (x, y)
 #' @examples
 #' # TODO
 map2color <- function(x, pal, limits = NULL) {
-  if(is.null(limits))
-    limits=range(x)
+  if (is.null(limits))
+    limits <- range(x)
   pal[findInterval(x, seq(limits[1],
                           limits[2],
-                          length.out=length(pal)+1),
-                   all.inside=TRUE)]
+                          length.out = length(pal) + 1),
+                   all.inside = TRUE)]
 }
 
 
@@ -72,20 +70,20 @@ map2color <- function(x, pal, limits = NULL) {
 #'
 #' @examples
 #' # TODO
-deseqresult2df <- function (deseqresult, FDR = NULL) {
+deseqresult2df <- function(deseqresult, FDR = NULL) {
   if (!is(deseqresult, "DESeqResults"))
     stop("Not a DESeqResults object.")
   res <- as.data.frame(deseqresult)
   res <- cbind(rownames(res), res)
   names(res)[1] <- "id"
   res$id <- as.character(res$id)
-  res <- res[order(res$padj),]
-  if(!is.null(FDR))
+  res <- res[order(res$padj), ]
+  if (!is.null(FDR))
     res <- res[!(is.na(res$padj)) & res$padj <= FDR, ]
   res
 }
 
-footer <- function(){
+footer <- function() {
   tags$div(
     class = "panel-footer",
     style = "text-align:center",
@@ -94,14 +92,13 @@ footer <- function(){
       list(
         # hr(),
         "GeneTonic is a project developed by Federico Marini in the Bioinformatics division of the ",
-        tags$a(href="http://www.unimedizin-mainz.de/imbei","IMBEI"),
-        "- Institute for Medical Biostatistics, Epidemiology and Informatics",br(),
-        "License: ",tags$a(href="https://opensource.org/licenses/MIT","MIT"), br(),
+        tags$a(href = "http://www.unimedizin-mainz.de/imbei", "IMBEI"),
+        "- Institute for Medical Biostatistics, Epidemiology and Informatics", br(),
+        "License: ", tags$a(href = "https://opensource.org/licenses/MIT", "MIT"), br(),
 
         "Development of the GeneTonic package is on ",
-        tags$a(href="https://github.com/federicomarini/GeneTonic", "GitHub")
+        tags$a(href = "https://github.com/federicomarini/GeneTonic", "GitHub")
       )
     )
   )
 }
-

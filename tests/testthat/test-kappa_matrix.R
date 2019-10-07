@@ -8,5 +8,3 @@ test_that("Kappa matrix is created", {
   )
   expect_true(all(diag(kmat) == 1))
 })
-
-

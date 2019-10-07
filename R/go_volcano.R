@@ -21,7 +21,7 @@ go_volcano <- function(res_enrich,
 # TODO option to collapse similar terms?
                        ) {
   # res_enrich has to contain the aggregated scores
-  if(!all(c("z_score","aggr_score") %in% colnames(res_enrich)))
+  if(!all(c("z_score", "aggr_score") %in% colnames(res_enrich)))
     stop("You might need to compute the aggregated scores first")
 
   mydf <- res_enrich
@@ -29,22 +29,22 @@ go_volcano <- function(res_enrich,
   mydf$mylabels <- mydf[[labels_to_use]]
   mydf$`set members` <- mydf$Significant
 
-  mydf <- mydf[mydf[[pvals_to_use]] <= p_threshold,]
+  mydf <- mydf[mydf[[pvals_to_use]] <= p_threshold, ]
   max_z <- max(abs(range(mydf$z_score)))
-  limit <- max_z * c(-1,1)
+  limit <- max_z * c(-1, 1)
 
   p <- ggplot(
     mydf,
     aes_string(x = "z_score", y = "logpval", size = "`set members`")) +
     # geom_point(aes(col = aggr_score),shape = 20, alpha = 1) +
-    geom_point(aes_string(col = "aggr_score", text = "mylabels"),shape = 20, alpha = 1) +
+    geom_point(aes_string(col = "aggr_score", text = "mylabels"), shape = 20, alpha = 1) +
     scale_x_continuous(limits = limit) +
     theme_bw() +
     scale_color_gradient2(limit = limit,
                           low = muted("deepskyblue"), high = muted("firebrick"), mid = "lightyellow")
 
-  if(!is.null(labels_to_use)) {
-    p <- p + geom_label_repel(aes_string(label = "mylabels"),data = mydf[1:max_nr_labels,], size = 4)
+  if (!is.null(labels_to_use)) {
+    p <- p + geom_label_repel(aes_string(label = "mylabels"), data = mydf[1:max_nr_labels, ], size = 4)
   }
 
   # handling the title
@@ -59,5 +59,3 @@ go_volcano <- function(res_enrich,
   return(p)
 
 }
-
-
