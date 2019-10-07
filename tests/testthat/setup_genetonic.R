@@ -41,6 +41,7 @@ dds_macrophage <- dds_macrophage[keep,]
 library("org.Hs.eg.db")
 dds_macrophage <- addIds(dds_macrophage,"SYMBOL")
 dds_macrophage <- DESeq(dds_macrophage)
+vst_macrophage <- vst(dds_macrophage)
 res_macrophage_IFNg_vs_naive <- results(dds_macrophage,
                                         contrast=c("condition","IFNg","naive"),
                                         lfcThreshold=1, alpha=0.01)
