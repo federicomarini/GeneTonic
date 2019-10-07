@@ -43,7 +43,7 @@ gs_heatmap <- function(se,
                        # TODOTODO: use ellipsis for passing params to pheatmap?
                        # TODOTODO: option to just return the underlying data?s
                        # TODOTODO: options to subset to specific samples?
-) {
+                       ) {
 
   # check that the data would ideally be a DST, so that it is not the counts/normalized?
   mydata <- assay(se)
@@ -109,13 +109,30 @@ gs_heatmap <- function(se,
 
 
 
+#' Title
+#'
+#' TODO
+#'
+#' @param se TODO
+#' @param res_de TODO
+#' @param res_enrich TODO
+#' @param genes_colname TODO
+#' @param genesetname_colname TODO
+#' @param genesetid_colname TODO
+#' @param annotation_obj TODO
+#'
+#' @return TODO
+#' @export
+#'
+#' @examples
+#' # TODO
 gs_scores <- function(se,
-                      res_de, # maybe won't need it
-                      res_enrich,
-                      genes_colname = "genes",
-                      genesetname_colname = "Term",
-                      genesetid_colname = "GO.ID",
-                      annotation_obj = NULL) {
+                       res_de, # maybe won't be needed?
+                       res_enrich,
+                       genes_colname = "genes",
+                       genesetname_colname = "Term",
+                       genesetid_colname = "GO.ID",
+                       annotation_obj = NULL) {
 
   mydata <- assay(se)
   # returns a matrix, rows = genesets, cols = samples
@@ -146,3 +163,67 @@ gs_scores <- function(se,
   return(gss_mat)
 }
 
+#' Title
+#'
+#' TODO
+#'
+#' @param mat TODO
+#' @param clustering_distance_rows TODO
+#' @param clustering_distance_cols TODO
+#' @param cluster_rows TODO
+#' @param cluster_cols TODO
+#'
+#' @return TODO
+#' @export
+#'
+#' @examples
+#' # TODO
+gs_ggheatmap <- function(mat,
+                         clustering_distance_rows = "euclidean",
+                         clustering_distance_cols = "euclidean",
+                         cluster_rows = TRUE,
+                         cluster_cols = TRUE
+) {
+  d_rows <- dist(mat, method = clustering_distance_rows)
+  d_cols <- dist(t(mat), method = clustering_distance_cols)
+
+  row_tree <- hclust(d_rows)
+  col_tree <- hclust(d_cols)
+  score_matrix <- mat
+
+  if(cluster_rows)
+    score_matrix <- score_matrix[row_tree$order, ]
+
+  if(cluster_cols)
+    score_matrix <- score_matrix[ , col_tree$order]
+
+  labels_rows <- factor(rownames(score_matrix),
+                        levels = rev(rownames(score_matrix)))
+                        # to have the top ones on top, if not clustered
+  labels_cols <- factor(colnames(score_matrix),
+                        levels = colnames(score_matrix))
+
+  score_df <- expand.grid(list(labels_rows, labels_cols),
+                          KEEP.OUT.ATTRS = FALSE,
+                          stringsAsFactors = FALSE
+  )
+  scores <- data.frame(as.vector(score_matrix))
+  score_df <- cbind(score_df, scores)
+  colnames(score_df) <- c("GeneSet", "Sample", "Value")
+
+  p <- ggplot(score_df, aes_string(x = "Sample", y = "GeneSet")) +
+    geom_tile(aes_string(fill = "Value"), color = "white") +
+  # from brewer.pal(n = 11, name = 'RdYlBu') and brewer.pal(n = 11, name = 'YlGn') - or Spectal, 11?
+    scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
+    theme(
+      axis.title.x = element_blank(),
+      axis.title.y = element_blank(),
+      axis.text.x = element_text(
+        angle = 60,
+        hjust = 1
+      ),
+      legend.title = element_text(size = 9),
+      legend.text = element_text(size = 11)
+  )
+  return(p)
+}
