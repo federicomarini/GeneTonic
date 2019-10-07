@@ -120,14 +120,16 @@ get_aggrscores <- function(res_enrich,
     z_score <- (upgenes - downgenes) / sqrt(upgenes + downgenes)
 
     aggr_score <- aggrfun(this_subset$log2FoldChange)
-    return(c("Z_score" = z_score,
+    return(c("DE_count" = nrow(this_subset),
+             "Z_score" = z_score,
              "aggr_score" = aggr_score))
   })
 
   names(gs_aggregated) <- res_enrich[[genesetid_colname]]
 
-  res_enrich$z_score <- vapply(gs_aggregated, "[", 1, FUN.VALUE = numeric(1))
-  res_enrich$aggr_score <- vapply(gs_aggregated, "[", 2, FUN.VALUE = numeric(1))
+  res_enrich$DE_count <- vapply(gs_aggregated, "[", 1, FUN.VALUE = numeric(1))
+  res_enrich$z_score <- vapply(gs_aggregated, "[", 2, FUN.VALUE = numeric(1))
+  res_enrich$aggr_score <- vapply(gs_aggregated, "[", 3, FUN.VALUE = numeric(1))
 
   return(res_enrich)
 }
