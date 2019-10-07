@@ -28,7 +28,9 @@ Imports:
     stats,
     matrixStats,
     DESeq2,
-    pheatmap
+    pheatmap,
+    pcaExplorer,
+    methods
 Suggests:
     knitr,
     rmarkdown,

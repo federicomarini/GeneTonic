@@ -79,7 +79,7 @@ gs_heatmap <- function(se,
     mydata_sig <- mydata_sig - rowMeans(mydata_sig)
 
   if(de_only) {
-    de_res <- ideal::deseqresult2DEgenes(res_de,FDR)
+    de_res <- deseqresult2df(res_de,FDR)
     de_genes <- de_res$id
     de_to_keep <- rownames(mydata_sig) %in% de_genes
     mydata_sig <- mydata_sig[de_to_keep,]

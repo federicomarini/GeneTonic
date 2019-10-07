@@ -27,6 +27,8 @@
 #' @import pheatmap
 #' @importFrom matrixStats rowSds
 #' @import SummarizedExperiment
+#' @importFrom methods is
+#' @import pcaExplorer
 #'
 #' @name GeneTonic-pkg
 #' @docType package
