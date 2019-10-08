@@ -35,9 +35,9 @@ go_volcano <- function(res_enrich,
 
   p <- ggplot(
     mydf,
-    aes_string(x = "z_score", y = "logpval", size = "`set members`")) +
+    aes_string(x = "z_score", y = "logpval", size = "`set members`",  text = "mylabels")) +
     # geom_point(aes(col = aggr_score),shape = 20, alpha = 1) +
-    geom_point(aes_string(col = "aggr_score", text = "mylabels"), shape = 20, alpha = 1) +
+    geom_point(aes_string(col = "aggr_score"), shape = 20, alpha = 1) +
     scale_x_continuous(limits = limit) +
     theme_bw() +
     scale_color_gradient2(limit = limit,

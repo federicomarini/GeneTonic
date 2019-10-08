@@ -76,13 +76,16 @@ go_mds <- function(res_enrich,
   max_z <- max(abs(range(mds_go_df$gs_colby)))
   limit <- max_z * c(-1, 1)
 
-  p <- ggplot(mds_go_df, aes(x = dim1, y = dim2,
-                             text = paste0("GO Term: ", gs_id))) +
-    geom_point(aes(color = gs_colby,
-                   size = gs_DEcount,
-                   text = text)) +
+
+  p <- ggplot(mds_go_df, aes_string(x = "dim1",
+                                    y = "dim2",
+                                    text = "text")) +
+    geom_point(aes_string(color = "gs_colby",
+                          size = "gs_DEcount")) +
     scale_color_gradient2(limit = limit,
-                          low = muted("deepskyblue"), high = muted("firebrick"), mid = "lightyellow") +
+                          low = muted("deepskyblue"),
+                          mid = "lightyellow",
+                          high = muted("firebrick")) +
     theme_bw()
 
   if (!is.null(mds_labels)) {
