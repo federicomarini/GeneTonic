@@ -1,8 +1,5 @@
-test_that("multiplication works", {
-  expect_equal(2 * 2, 4)
-})
 
-context("Testing the GO volcano plot and and related functionality")
+context("Testing the GO volcano plot and related functionality")
 
 test_that("Plot is generated", {
   expect_error(
