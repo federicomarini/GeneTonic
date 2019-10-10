@@ -47,12 +47,10 @@ gs_summary_heat <- function (res_enrich,
                          name = "log2FoldChange") +
     xlab(NULL) + ylab(NULL) + theme_minimal() +
     theme(panel.grid.major = element_blank(),
-          axis.text.x = element_text(angle = 30, hjust = 1))
+          axis.text.x = element_text(angle = 75, hjust = 1))
 
   return(p)
 }
 
 # gs_summary_heat(res_enrich,res_de,annotation_obj = anno_df, n_gs = 30)
 # gs_summary_heat(res_enrich,res_de,annotation_obj = anno_df, n_gs = 30) %>% plotly::ggplotly()
-
-
