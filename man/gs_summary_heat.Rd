@@ -2,15 +2,33 @@
 % Please edit documentation in R/go_summaries.R
 \name{gs_summary_heat}
 \alias{gs_summary_heat}
-\title{Title}
+\title{Title TODO}
 \usage{
 gs_summary_heat(res_enrich, res_de, n_gs = 80, annotation_obj,
   genes_colname = "genes", genesetname_colname = "Term",
   genesetid_colname = "GO.ID")
 }
 \arguments{
-\item{genesetid_colname}{}
+\item{res_enrich}{TODO}
+
+\item{res_de}{TODO}
+
+\item{n_gs}{TODO}
+
+\item{annotation_obj}{TODO}
+
+\item{genes_colname}{TODO}
+
+\item{genesetname_colname}{TODO}
+
+\item{genesetid_colname}{TODO}
+}
+\value{
+TODO
 }
 \description{
-Title
+TODO
+}
+\examples{
+# TODO
 }

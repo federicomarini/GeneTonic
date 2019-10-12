@@ -1,20 +1,23 @@
 # something on the line of plotCounts, ggplotCounts, but with more pimpedity :D
 ## maybe even plotly-fied already, or pimped in gg so that it is readily plugged into ggplotly
 
-#' Title
+#' Title TODO
 #'
-#' @param dds
-#' @param gene
-#' @param assay
-#' @param intgroup
-#' @param annotation_obj
-#' @param transform
-#' @param labels_repel
+#' TODO
 #'
-#' @return
+#' @param dds TODO
+#' @param gene TODO
+#' @param assay TODO
+#' @param intgroup TODO
+#' @param annotation_obj TODO
+#' @param transform TODO
+#' @param labels_repel TODO
+#'
+#' @return TODO
 #' @export
 #'
 #' @examples
+#' # TODO
 gene_plot <- function(dds,
                       gene,
                       assay = "counts",
