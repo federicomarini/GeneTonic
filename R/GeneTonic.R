@@ -56,7 +56,8 @@ GeneTonic <- function(dds,
         startExpanded = TRUE,
         numericInput(inputId = "n_genesets",
                      label = "number of genesets",
-                     value = 15, min = 1, max = 50)
+                     value = 15, min = 1, max = 50),
+        uiOutput("ui_exp_condition")
       )
     ),
 
@@ -115,7 +116,8 @@ GeneTonic <- function(dds,
                 width = 3,
                 h4("Genesetbox"),
                 verbatimTextOutput("netnode"),
-                plotOutput("sigheatplot")
+                plotOutput("net_sigheatplot"),
+                plotOutput("net_geneplot"),
                 # TODOTODO
               )
             )
@@ -167,6 +169,13 @@ GeneTonic <- function(dds,
 
     myvst <- vst(dds)
 
+    output$ui_exp_condition <- renderUI({
+      poss_covars <- names(colData(dds))
+      selectInput("exp_condition", label = "Group/color by: ",
+                  choices = c(NULL, poss_covars), selected = NULL,multiple = TRUE)
+    })
+
+
     values$mygraph <- reactive({
       enrich2graph(res_enrich = res_enrich,
                    res_de = res_de,
@@ -212,7 +221,7 @@ GeneTonic <- function(dds,
 
     })
 
-    output$sigheatplot <- renderPlot({
+    output$net_sigheatplot <- renderPlot({
       g <- values$mygraph()
       cur_sel <- input$mynetwork_selected
       cur_node <- match(cur_sel,V(g)$name)
@@ -240,6 +249,29 @@ GeneTonic <- function(dds,
                  # TODOTODO: options to subset to specific samples?
       )
     })
+
+    output$net_geneplot <- renderPlot({
+      g <- values$mygraph()
+      cur_sel <- input$mynetwork_selected
+      cur_node <- match(cur_sel,V(g)$name)
+      cur_nodetype <- V(g)$nodetype[cur_node]
+      validate(need(cur_nodetype == "Feature",
+                    message = "Please select a gene/feature."
+      ))
+      validate(need(input$exp_condition != "",
+                    message = "Please select a group for the experimental condition."
+      ))
+
+
+      cur_geneid <- annotation_obj$gene_id[match(cur_sel, annotation_obj$gene_name)]
+      gene_plot(dds,
+                gene = cur_geneid,
+                intgroup = input$exp_condition,
+                annotation_obj = annotation_obj
+      )
+    })
+
+
 
     output$enriched_funcres <- renderPlot({
       enhance_table(res_enrich, res_de,
