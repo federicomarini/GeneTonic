@@ -22,6 +22,10 @@ GeneTonic <- function(dds,
 
   # checks on the objects provided
 
+  # clean up the result object, e.g. removing the NAs in the relevant columns
+  res_de <- res_de[!is.na(res_de$log2FoldChange),]
+  message("Removing ", sum(is.na(res_de$log2FoldChange)), " rows from the result object - logFC detected as NA")
+
 
 
   # UI definition -----------------------------------------------------------
