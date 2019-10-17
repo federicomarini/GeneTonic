@@ -30,7 +30,8 @@ Imports:
     DESeq2,
     pheatmap,
     pcaExplorer,
-    methods
+    methods,
+    shinycssloaders
 Suggests:
     knitr,
     rmarkdown,

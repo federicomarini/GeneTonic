@@ -20,6 +20,12 @@ GeneTonic <- function(dds,
                       res_enrich,
                       annotation_obj) {
 
+  options(spinner.type = 6)
+  # https://projects.lukehaas.me/css-loaders/
+  # or even think of https://cran.r-project.org/web/packages/shinycustomloader/README.html
+  options(spinner.color = .biocgreen)
+
+
   # checks on the objects provided
 
   # clean up the result object, e.g. removing the NAs in the relevant columns
@@ -44,7 +50,8 @@ GeneTonic <- function(dds,
         shinydashboard::notificationItem(
           text = actionButton(
             "interface_overview", "Overview of the interface",
-            icon("hand-o-right")
+            icon("hand-o-right"),
+            style = .actionbutton_biocstyle
           ),
           icon = icon(""), # tricking it to not have additional icon
           status = "primary"
@@ -114,7 +121,9 @@ GeneTonic <- function(dds,
             fluidRow(
               column(
                 width = 9,
-                visNetworkOutput("mynetwork", height = "700px", width = "100%")
+                withSpinner(
+                  visNetworkOutput("mynetwork", height = "700px", width = "100%")
+                )
               ),
               column(
                 width = 3,

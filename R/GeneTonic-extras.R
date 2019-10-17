@@ -102,3 +102,13 @@ footer <- function() {
     )
   )
 }
+
+# TODOTODO
+# clusterProfiler to common expected format:
+
+
+.actionbutton_biocstyle <- "color: #ffffff; background-color: #0092AC; border-color: #2e6da4"
+
+.biocgreen <- "#0092AC"
+
+

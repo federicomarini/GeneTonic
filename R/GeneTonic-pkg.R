@@ -29,6 +29,7 @@
 #' @import SummarizedExperiment
 #' @importFrom methods is
 #' @import pcaExplorer
+#' @import shinycssloaders
 #'
 #' @name GeneTonic-pkg
 #' @docType package
