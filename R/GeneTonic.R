@@ -178,6 +178,7 @@ GeneTonic <- function(dds,
   #nocov start
   genetonic_server <- function(input, output, session) {
 
+    # reactive objects and setup commands -------------------------------------
     values <- reactiveValues()
 
     myvst <- vst(dds)
@@ -189,8 +190,9 @@ GeneTonic <- function(dds,
     })
 
 
+    # panel GeneSet-Gene ------------------------------------------------------
     values$mygraph <- reactive({
-      enrich2graph(res_enrich = res_enrich,
+      g <- enrich2graph(res_enrich = res_enrich,
                    res_de = res_de,
                    n_nodes = input$n_genesets,
                    genes_colname = "genes",
@@ -199,26 +201,22 @@ GeneTonic <- function(dds,
                    prettify = TRUE,
                    geneset_graph_color = "gold",
                    annotation_obj = annotation_obj)
+      rank_gs <- rank(V(g)$name[V(g)$nodetype == "GeneSet"])
+      rank_feats <- rank(V(g)$name[V(g)$nodetype == "Feature"]) +
+        length(rank_gs) # to keep the GeneSets first
+      g <- permute.vertices(g, c(rank_gs, rank_feats))
+      return(g)
     })
 
-    emap_graph <- reactive({
-      enrichment_map(res_enrich = res_enrich,
-                     res_de = res_de,
-                     annotation_obj = annotation_obj,
-                     n_gs = input$n_genesets,
-                     overlap_threshold = 0.1,
-                     scale_edges_width = 200,
-                     color_by = "p.value_elim",
-                     genes_colname = "genes",
-                     genesetname_colname = "Term",
-                     genesetid_colname = "GO.ID")
-    })
 
     output$mynetwork <- renderVisNetwork({
       # minimal example
 
       visNetwork::visIgraph(values$mygraph()) %>%
-        visOptions(highlightNearest = list(enabled = TRUE, degree = 1, hover = TRUE), nodesIdSelection = TRUE)
+        visOptions(highlightNearest = list(enabled = TRUE,
+                                           degree = 1,
+                                           hover = TRUE),
+                   nodesIdSelection = TRUE)
 
     })
 
@@ -286,6 +284,7 @@ GeneTonic <- function(dds,
 
 
 
+    # panel DEview ------------------------------------------------------------
     output$enriched_funcres <- renderPlot({
       enhance_table(res_enrich, res_de,
                     n_gs = 50,
@@ -302,16 +301,41 @@ GeneTonic <- function(dds,
                     annotation_obj = annotation_obj))
     })
 
+
+    # panel EnrichmentMap -----------------------------------------------------
+    emap_graph <- reactive({
+      emg <- enrichment_map(res_enrich = res_enrich,
+                            res_de = res_de,
+                            annotation_obj = annotation_obj,
+                            n_gs = input$n_genesets,
+                            overlap_threshold = 0.1,
+                            scale_edges_width = 200,
+                            color_by = "p.value_elim",
+                            genes_colname = "genes",
+                            genesetname_colname = "Term",
+                            genesetid_colname = "GO.ID")
+      rank_gs <- rank(V(emg)$name)
+      emg <- permute.vertices(emg, rank_gs)
+      return(emg)
+    })
+
     output$emap_visnet <- renderVisNetwork({
 
       visNetwork::visIgraph(emap_graph()) %>%
-        visOptions(highlightNearest = list(enabled = TRUE, degree = 1, hover = TRUE), nodesIdSelection = TRUE)
+        visOptions(highlightNearest = list(enabled = TRUE,
+                                           degree = 1,
+                                           hover = TRUE),
+                   nodesIdSelection = TRUE)
 
     })
 
     output$sessioninfo <- renderPrint({
       sessionInfo()
     })
+
+
+    # observers ---------------------------------------------------------------
+
 
     observeEvent(input$interface_overview, {
       tour <- read.delim(system.file("extdata", "interface_overview.txt",
