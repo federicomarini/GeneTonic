@@ -1,6 +1,6 @@
 Package: GeneTonic
 Title: What the Package Does (One Line, Title Case)
-Version: 0.2.0
+Version: 0.3.0
 Date: 2019-10-07
 Authors@R: 
     c(
@@ -47,7 +47,7 @@ Encoding: UTF-8
 VignetteBuilder: knitr
 URL: https://github.com/federicomarini/GeneTonic
 BugReports: https://github.com/federicomarini/GeneTonic/issues
-RoxygenNote: 6.1.1.9000
+RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
 biocViews:
     GUI, GeneExpression, Software, Transcription, Transcriptomics, Visualization,
