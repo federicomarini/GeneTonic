@@ -148,7 +148,7 @@ GeneTonic <- function(dds,
             title = "DEview!",  icon = icon("home"), value="tab-deview",
             ###
             fluidRow(
-              plotOutput("go_volcano"),
+              plotOutput("gs_volcano"),
               plotOutput("enriched_funcres"),
               plotlyOutput("enriched_funcres_plotly")
             )
@@ -194,7 +194,7 @@ GeneTonic <- function(dds,
     values$mygraph <- reactive({
       g <- enrich2graph(res_enrich = res_enrich,
                    res_de = res_de,
-                   n_nodes = input$n_genesets,
+                   n_gs = input$n_genesets,
                    genes_colname = "genes",
                    genesetname_colname = "Term",
                    genesetid_colname = "GO.ID",
@@ -291,8 +291,8 @@ GeneTonic <- function(dds,
                     annotation_obj = annotation_obj)
     })
 
-    output$go_volcano <- renderPlot({
-      go_volcano(get_aggrscores(res_enrich,res_de,annotation_obj = annotation_obj))
+    output$gs_volcano <- renderPlot({
+      gs_volcano(get_aggrscores(res_enrich,res_de,annotation_obj = annotation_obj))
     })
 
     output$enriched_funcres_plotly <- renderPlotly({

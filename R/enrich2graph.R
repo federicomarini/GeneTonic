@@ -4,7 +4,7 @@
 #'
 #' @param res_enrich TODO
 #' @param res_de TODO
-#' @param n_nodes TODO
+#' @param n_gs TODO
 #' @param genes_colname TODO
 #' @param genesetname_colname TODO
 #' @param genesetid_colname TODO
@@ -20,7 +20,7 @@
 #' #TODO
 enrich2graph <- function(res_enrich,
                          res_de,
-                         n_nodes = 15,
+                         n_gs = 15,
                          genes_colname = "genes",
                          genesetname_colname = "Term",
                          genesetid_colname = "GO.ID",
@@ -42,13 +42,13 @@ enrich2graph <- function(res_enrich,
                              function(arg) Definition(GOTERM[[arg]]),
                              character(1))
 
-  enrich2list <- lapply(seq_len(n_nodes), function(gs) {
+  enrich2list <- lapply(seq_len(n_gs), function(gs) {
     # goterm <- res_enrich$Term[gs]
     go_genes <- res_enrich$genes[gs]
     go_genes <- strsplit(go_genes, ",") %>% unlist
     return(go_genes)
   })
-  names(enrich2list) <- enriched_gsnames[seq_len(n_nodes)]
+  names(enrich2list) <- enriched_gsnames[seq_len(n_gs)]
 
   list2df <- lapply(seq_len(length(enrich2list)), function(gs) {
     data.frame(

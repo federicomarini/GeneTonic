@@ -4,7 +4,7 @@
 \alias{enrich2graph}
 \title{Title}
 \usage{
-enrich2graph(res_enrich, res_de, n_nodes = 15, genes_colname = "genes",
+enrich2graph(res_enrich, res_de, n_gs = 15, genes_colname = "genes",
   genesetname_colname = "Term", genesetid_colname = "GO.ID",
   prettify = TRUE, geneset_graph_color = "gold", genes_graph_colpal,
   annotation_obj = NULL)
@@ -14,7 +14,7 @@ enrich2graph(res_enrich, res_de, n_nodes = 15, genes_colname = "genes",
 
 \item{res_de}{TODO}
 
-\item{n_nodes}{TODO}
+\item{n_gs}{TODO}
 
 \item{genes_colname}{TODO}
 

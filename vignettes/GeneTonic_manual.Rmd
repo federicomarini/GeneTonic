@@ -39,6 +39,7 @@ knitr::opts_chunk$set(
     comment = "#>",
     error = FALSE,
     warning = FALSE,
+    eval = FALSE, # TODO: temporarily speeding up building and checking
     message = FALSE
 )
 ```
@@ -139,7 +140,7 @@ enhance_table(topgoDE_macrophage_IFNg_vs_naive,
 library("visNetwork")
 g <- enrich2graph(res_enrich = topgoDE_macrophage_IFNg_vs_naive,
                     res_de = res_macrophage_IFNg_vs_naive,
-                    n_nodes = 20,
+                    n_gs = 20,
                     annotation_obj = anno_df)
 visNetwork::visIgraph(g) %>% visOptions(highlightNearest = list(enabled = TRUE, degree = 1, hover = TRUE), nodesIdSelection = TRUE)
 ```
@@ -155,7 +156,7 @@ visNetwork::visIgraph(g2) %>% visOptions(highlightNearest = list(enabled = TRUE,
 
 
 ```{r}
-go_mds(res_enrich = topgoDE_macrophage_IFNg_vs_naive,
+gs_mds(res_enrich = topgoDE_macrophage_IFNg_vs_naive,
               res_de = res_macrophage_IFNg_vs_naive,
               annotation_obj = anno_df,
               genes_colname = "genes",
@@ -182,7 +183,7 @@ res_enrich_withscores <- get_aggrscores(topgoDE_macrophage_IFNg_vs_naive,
                                           res_macrophage_IFNg_vs_naive,
                                           annotation_obj = anno_df,
                                           aggrfun = mean)
-go_volcano(res_enrich_withscores,
+gs_volcano(res_enrich_withscores,
                labels_to_use = "Term",
                pvals_to_use = "p.value_elim")
 ```
