@@ -11,7 +11,7 @@ test_that("Plot is generated", {
                                           annotation_obj = anno_df,
                                           aggrfun = mean)
   expect_is(
-    go_volcano(res_enrich_withscores,
+    gs_volcano(res_enrich_withscores,
                labels_to_use = "Term",
                pvals_to_use = "p.value_elim"), "gg")
 })

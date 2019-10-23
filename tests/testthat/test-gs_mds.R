@@ -1,7 +1,7 @@
 context("MDS plot of genesets works")
 
 test_that("mds plot works", {
-  p <- go_mds(res_enrich = topgoDE_macrophage_IFNg_vs_naive,
+  p <- gs_mds(res_enrich = topgoDE_macrophage_IFNg_vs_naive,
               res_de = res_macrophage_IFNg_vs_naive,
               annotation_obj = anno_df,
               genes_colname = "genes",

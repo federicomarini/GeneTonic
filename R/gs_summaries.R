@@ -55,6 +55,12 @@ gs_summary_heat <- function (res_enrich,
   return(p)
 }
 
+
+
+# or something like
+# TODO TODO https://www.biostars.org/p/299161/
+
+
 # gs_summary_heat(res_enrich,res_de,annotation_obj = anno_df, n_gs = 30)
 # gs_summary_heat(res_enrich,res_de,annotation_obj = anno_df, n_gs = 30) %>% plotly::ggplotly()
 #

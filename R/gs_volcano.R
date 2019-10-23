@@ -12,7 +12,7 @@
 #'
 #' @examples
 #' #  TODO
-go_volcano <- function(res_enrich,
+gs_volcano <- function(res_enrich,
                        labels_to_use = "Term",
                        pvals_to_use = "p.value_elim",
                        p_threshold = 0.05,

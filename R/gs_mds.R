@@ -19,7 +19,7 @@
 #'
 #' @examples
 #' # TODO
-go_mds <- function(res_enrich,
+gs_mds <- function(res_enrich,
                    res_de,
                    annotation_obj,
                    genes_colname = "genes",
