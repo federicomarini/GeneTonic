@@ -415,6 +415,23 @@ GeneTonic <- function(dds,
 
     })
 
+    output$ui_emap_sidecontent <- renderUI({
+      tagList(
+        plotOutput("emap_sigheatplot"),
+        uiOutput("emap_geneset_info")
+      )
+    })
+
+    output$emap_geneset_info <- renderUI({
+      cur_gsid <- res_enrich$GO.ID[match(input$emap_visnet_selected,res_enrich$Term)]
+      validate(need(!is.na(cur_gsid),
+                    message = "Please select a gene set from the enrichment map."))
+
+      # message(cur_gsid)
+      # GOTERM[[cur_gsid]]
+      go_2_html(cur_gsid)
+    })
+
     output$emap_sigheatplot <- renderPlot({
       # g <- values$emap_graph()
       # cur_sel <- input$emap_visnet_selected
@@ -427,7 +444,7 @@ GeneTonic <- function(dds,
       validate(need(!is.na(cur_gsid),
                     message = "Please select a gene set from the enrichment map."))
 
-      message(cur_gsid)
+      # message(cur_gsid)
       gs_heatmap(myvst,
                  res_de,
                  res_enrich,
