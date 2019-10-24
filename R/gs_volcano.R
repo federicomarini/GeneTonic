@@ -23,6 +23,7 @@ gs_volcano <- function(res_enrich,
   # res_enrich has to contain the aggregated scores
   if(!all(c("z_score", "aggr_score") %in% colnames(res_enrich)))
     stop("You might need to compute the aggregated scores first")
+  # TODO: or call in advance the get_aggr_scores function?
 
   mydf <- res_enrich
   mydf$logpval <- -log10(mydf[[pvals_to_use]])

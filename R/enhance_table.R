@@ -5,11 +5,11 @@
 #'
 #' @param res_enrich TODO
 #' @param res_de TODO
+#' @param annotation_obj TODO
 #' @param n_gs TODO
 #' @param genes_colname TODO
 #' @param genesetname_colname TODO
 #' @param genesetid_colname TODO
-#' @param annotation_obj TODO
 #' @param chars_limit TODO
 #'
 #' @return TODO
@@ -19,11 +19,11 @@
 #' #TODO
 enhance_table <- function(res_enrich,
                           res_de,
+                          annotation_obj,
                           n_gs = 50,
                           genes_colname = "genes",
                           genesetname_colname = "Term",
                           genesetid_colname = "GO.ID",
-                          annotation_obj,
                           chars_limit = 60) {
 
   # res_enrich has to have a column called containing the genes annotated to the term
@@ -82,11 +82,11 @@ enhance_table <- function(res_enrich,
 #' TODO
 #' @param res_enrich TODO
 #' @param res_de TODO
+#' @param annotation_obj TODO
 #' @param n_gs TODO
 #' @param genes_colname TODO
 #' @param genesetname_colname TODO
 #' @param genesetid_colname TODO
-#' @param annotation_obj TODO
 #' @param aggrfun TODO
 #'
 #' @return TODO
@@ -98,11 +98,11 @@ enhance_table <- function(res_enrich,
 #' # TODOTODO: add some standardized column names, say "count"
 get_aggrscores <- function(res_enrich,
                            res_de,
+                           annotation_obj,
                            n_gs = 50,
                            genes_colname = "genes",
                            genesetname_colname = "Term",
                            genesetid_colname = "GO.ID",
-                           annotation_obj,
                            aggrfun = mean) {
 
   # allgenes <- unlist(strsplit(res_enrich[[genes_colname]],","))

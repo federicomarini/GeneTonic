@@ -1,3 +1,9 @@
+# GeneTonic 0.3.0
+
+## Other notes
+
+* Rearranging the order of parameters to harmonize it across functions, and uniforming similarly called parameters
+
 # GeneTonic 0.2.0
 
 ## New features

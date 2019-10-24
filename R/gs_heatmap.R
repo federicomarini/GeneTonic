@@ -28,12 +28,12 @@
 gs_heatmap <- function(se,
                        res_de,
                        res_enrich,
+                       annotation_obj = NULL,
                        geneset_id,
                        genelist,
                        genes_colname = "genes",
                        genesetname_colname = "Term",
                        genesetid_colname = "GO.ID",
-                       annotation_obj = NULL,
                        FDR = 0.05,
                        de_only = FALSE,
                        cluster_rows = TRUE, # TODOTODO: options for the heatmap go on left side, as could be common to more!
@@ -127,12 +127,12 @@ gs_heatmap <- function(se,
 #' @examples
 #' # TODO
 gs_scores <- function(se,
-                       res_de, # maybe won't be needed?
-                       res_enrich,
-                       genes_colname = "genes",
-                       genesetname_colname = "Term",
-                       genesetid_colname = "GO.ID",
-                       annotation_obj = NULL) {
+                      res_de, # maybe won't be needed?
+                      res_enrich,
+                      annotation_obj = NULL,
+                      genes_colname = "genes",
+                      genesetname_colname = "Term",
+                      genesetid_colname = "GO.ID") {
 
   mydata <- assay(se)
   # returns a matrix, rows = genesets, cols = samples

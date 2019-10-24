@@ -4,8 +4,8 @@
 #'
 #' @param res_enrich TODO
 #' @param res_de TODO
-#' @param n_gs TODO
 #' @param annotation_obj TODO
+#' @param n_gs TODO
 #' @param genes_colname TODO
 #' @param genesetname_colname TODO
 #' @param genesetid_colname TODO
@@ -17,8 +17,8 @@
 #' # TODO
 gs_summary_heat <- function (res_enrich,
                              res_de,
-                             n_gs = 80,
                              annotation_obj,
+                             n_gs = 80,
                              genes_colname = "genes",
                              genesetname_colname = "Term",
                              genesetid_colname = "GO.ID") {

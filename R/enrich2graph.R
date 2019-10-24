@@ -4,6 +4,7 @@
 #'
 #' @param res_enrich TODO
 #' @param res_de TODO
+#' @param annotation_obj TODO
 #' @param n_gs TODO
 #' @param genes_colname TODO
 #' @param genesetname_colname TODO
@@ -11,7 +12,6 @@
 #' @param prettify TODO
 #' @param geneset_graph_color TODO
 #' @param genes_graph_colpal TODO
-#' @param annotation_obj TODO
 #'
 #' @return TODO
 #' @export
@@ -20,6 +20,7 @@
 #' #TODO
 enrich2graph <- function(res_enrich,
                          res_de,
+                         annotation_obj = NULL
                          n_gs = 15,
                          genes_colname = "genes",
                          genesetname_colname = "Term",
@@ -27,7 +28,6 @@ enrich2graph <- function(res_enrich,
                          prettify = TRUE,
                          geneset_graph_color = "gold",
                          genes_graph_colpal,
-                         annotation_obj = NULL
                          ) {
 
   # res_enrich has to have a column called containing the genes annotated to the term
