@@ -4,15 +4,17 @@
 \alias{enrich2graph}
 \title{Title}
 \usage{
-enrich2graph(res_enrich, res_de, n_gs = 15, genes_colname = "genes",
-  genesetname_colname = "Term", genesetid_colname = "GO.ID",
-  prettify = TRUE, geneset_graph_color = "gold", genes_graph_colpal,
-  annotation_obj = NULL)
+enrich2graph(res_enrich, res_de, annotation_obj = NULL, n_gs = 15,
+  genes_colname = "genes", genesetname_colname = "Term",
+  genesetid_colname = "GO.ID", prettify = TRUE,
+  geneset_graph_color = "gold", genes_graph_colpal)
 }
 \arguments{
 \item{res_enrich}{TODO}
 
 \item{res_de}{TODO}
+
+\item{annotation_obj}{TODO}
 
 \item{n_gs}{TODO}
 
@@ -27,8 +29,6 @@ enrich2graph(res_enrich, res_de, n_gs = 15, genes_colname = "genes",
 \item{geneset_graph_color}{TODO}
 
 \item{genes_graph_colpal}{TODO}
-
-\item{annotation_obj}{TODO}
 }
 \value{
 TODO

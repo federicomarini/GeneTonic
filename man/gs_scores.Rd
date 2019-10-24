@@ -4,9 +4,9 @@
 \alias{gs_scores}
 \title{Title}
 \usage{
-gs_scores(se, res_de, res_enrich, genes_colname = "genes",
-  genesetname_colname = "Term", genesetid_colname = "GO.ID",
-  annotation_obj = NULL)
+gs_scores(se, res_de, res_enrich, annotation_obj = NULL,
+  genes_colname = "genes", genesetname_colname = "Term",
+  genesetid_colname = "GO.ID")
 }
 \arguments{
 \item{se}{TODO}
@@ -15,13 +15,13 @@ gs_scores(se, res_de, res_enrich, genes_colname = "genes",
 
 \item{res_enrich}{TODO}
 
+\item{annotation_obj}{TODO}
+
 \item{genes_colname}{TODO}
 
 \item{genesetname_colname}{TODO}
 
 \item{genesetid_colname}{TODO}
-
-\item{annotation_obj}{TODO}
 }
 \value{
 TODO

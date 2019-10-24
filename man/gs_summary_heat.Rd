@@ -4,7 +4,7 @@
 \alias{gs_summary_heat}
 \title{Title TODO}
 \usage{
-gs_summary_heat(res_enrich, res_de, n_gs = 80, annotation_obj,
+gs_summary_heat(res_enrich, res_de, annotation_obj, n_gs = 80,
   genes_colname = "genes", genesetname_colname = "Term",
   genesetid_colname = "GO.ID")
 }
@@ -13,9 +13,9 @@ gs_summary_heat(res_enrich, res_de, n_gs = 80, annotation_obj,
 
 \item{res_de}{TODO}
 
-\item{n_gs}{TODO}
-
 \item{annotation_obj}{TODO}
+
+\item{n_gs}{TODO}
 
 \item{genes_colname}{TODO}
 

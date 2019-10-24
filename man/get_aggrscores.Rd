@@ -5,14 +5,16 @@
 \title{Title TODO
 TODO}
 \usage{
-get_aggrscores(res_enrich, res_de, n_gs = 50, genes_colname = "genes",
-  genesetname_colname = "Term", genesetid_colname = "GO.ID",
-  annotation_obj, aggrfun = mean)
+get_aggrscores(res_enrich, res_de, annotation_obj, n_gs = 50,
+  genes_colname = "genes", genesetname_colname = "Term",
+  genesetid_colname = "GO.ID", aggrfun = mean)
 }
 \arguments{
 \item{res_enrich}{TODO}
 
 \item{res_de}{TODO}
+
+\item{annotation_obj}{TODO}
 
 \item{n_gs}{TODO}
 
@@ -21,8 +23,6 @@ get_aggrscores(res_enrich, res_de, n_gs = 50, genes_colname = "genes",
 \item{genesetname_colname}{TODO}
 
 \item{genesetid_colname}{TODO}
-
-\item{annotation_obj}{TODO}
 
 \item{aggrfun}{TODO}
 }

@@ -4,11 +4,11 @@
 \alias{gs_heatmap}
 \title{Title}
 \usage{
-gs_heatmap(se, res_de, res_enrich, geneset_id, genelist,
-  genes_colname = "genes", genesetname_colname = "Term",
-  genesetid_colname = "GO.ID", annotation_obj = NULL, FDR = 0.05,
-  de_only = FALSE, cluster_rows = TRUE, cluster_cols = FALSE,
-  center_mean = TRUE, scale_row = FALSE)
+gs_heatmap(se, res_de, res_enrich, annotation_obj = NULL, geneset_id,
+  genelist, genes_colname = "genes", genesetname_colname = "Term",
+  genesetid_colname = "GO.ID", FDR = 0.05, de_only = FALSE,
+  cluster_rows = TRUE, cluster_cols = FALSE, center_mean = TRUE,
+  scale_row = FALSE)
 }
 \arguments{
 \item{se}{TODO}
@@ -16,6 +16,8 @@ gs_heatmap(se, res_de, res_enrich, geneset_id, genelist,
 \item{res_de}{TODO}
 
 \item{res_enrich}{TODO}
+
+\item{annotation_obj}{TODO}
 
 \item{geneset_id}{TODO}
 
@@ -26,8 +28,6 @@ gs_heatmap(se, res_de, res_enrich, geneset_id, genelist,
 \item{genesetname_colname}{TODO}
 
 \item{genesetid_colname}{TODO}
-
-\item{annotation_obj}{TODO}
 
 \item{FDR}{TODO}
 
