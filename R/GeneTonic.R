@@ -106,11 +106,53 @@ GeneTonic <- function(dds,
         id = "myScrollBox", # trick to have the y direction scrollable
         tabBox(
           width=12,
-
           # ui panel welcome -----------------------------------------------------------
           tabPanel(
             title = "Welcome!",  icon = icon("home"), value="tab-welcome",
-            h2("Whatever goes in the home/welcome page")
+            fluidRow(
+              column(
+                width = 12,
+                h2("Whatever goes in the home/welcome page"),
+
+                h3("Overview on the provided input objects"),
+                box(width = 6,
+                    title = "Expression Matrix",
+                    status = "danger",
+                    solidHeader = TRUE,
+                    collapsible = TRUE,
+                    collapsed = TRUE,
+                    DT::dataTableOutput("overview_dds")
+                ),
+                box(width = 6,
+                    title = "DE results",
+                    status = "warning",
+                    solidHeader = TRUE,
+                    collapsible = TRUE,
+                    collapsed = TRUE,
+                    DT::dataTableOutput("overview_res_de")
+                )
+              ),
+              column(
+                width = 12,
+                box(width = 6,
+                    title = "Functional analysis results",
+                    status = "success",
+                    solidHeader = TRUE,
+                    collapsible = TRUE,
+                    collapsed = TRUE,
+                    DT::dataTableOutput("overview_res_enrich")
+                ),
+                box(width = 6,
+                    title = "Annotation info",
+                    status = "info",
+                    solidHeader = TRUE,
+                    collapsible = TRUE,
+                    collapsed = TRUE,
+                    DT::dataTableOutput("overview_annotation")
+                )
+              )
+            ),
+
           ),
 
 
