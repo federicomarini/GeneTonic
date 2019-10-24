@@ -182,7 +182,19 @@ GeneTonic <- function(dds,
           tabPanel(
             title = "Enrichment map",  icon = icon("home"), value="tab-em",
             ###
-            visNetworkOutput("emap_visnet", height = "700px", width = "100%")
+            fluidRow(
+              column(
+                width = 8,
+                withSpinner(
+                  visNetworkOutput("emap_visnet", height = "700px", width = "100%")
+                )
+              ),
+              column(
+                width = 4,
+                plotOutput("emap_sigheatplot")
+              )
+            )
+
           ),
 
           # ui panel de view --------------------------------------------------------
@@ -401,6 +413,39 @@ GeneTonic <- function(dds,
                                            hover = TRUE),
                    nodesIdSelection = TRUE)
 
+    })
+
+    output$emap_sigheatplot <- renderPlot({
+      # g <- values$emap_graph()
+      # cur_sel <- input$emap_visnet_selected
+      # cur_node <- match(cur_sel,V(g)$name)
+      # cur_nodetype <- V(g)$nodetype[cur_node]
+      # validate(need(cur_nodetype == "GeneSet",
+      #               message = "Please select a gene set."
+      # ))
+      cur_gsid <- res_enrich$GO.ID[match(input$emap_visnet_selected,res_enrich$Term)]
+      validate(need(!is.na(cur_gsid),
+                    message = "Please select a gene set from the enrichment map."))
+
+      message(cur_gsid)
+      gs_heatmap(myvst,
+                 res_de,
+                 res_enrich,
+                 annotation_obj = annotation_obj,
+                 geneset_id = cur_gsid, # TODOTODO check that I select a gene set
+                 genes_colname = "genes",
+                 genesetname_colname = "Term",
+                 genesetid_colname = "GO.ID",
+                 FDR = 0.05,
+                 de_only = FALSE,
+                 cluster_rows = TRUE, # TODOTODO: options for the heatmap go on left side, as could be common to more!
+                 cluster_cols = TRUE,
+                 center_mean = TRUE,
+                 scale_row = TRUE
+                 # TODOTODO: use ellipsis for passing params to pheatmap?
+                 # TODOTODO: option to just return the underlying data?s
+                 # TODOTODO: options to subset to specific samples?
+      )
     })
 
     output$sessioninfo <- renderPrint({
