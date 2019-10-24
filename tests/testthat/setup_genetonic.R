@@ -54,9 +54,10 @@ de_symbols_IFNg_vs_naive <- res_macrophage_IFNg_vs_naive[ (!(is.na(res_macrophag
 bg_ids <- rowData(dds_macrophage)$SYMBOL[rowSums(counts(dds_macrophage)) > 0]
 
 library("topGO")
-topgoDE_macrophage_IFNg_vs_naive <- pcaExplorer::topGOtable(de_symbols_IFNg_vs_naive,
-                                                            bg_ids,
-                                                            ontology = "BP",
-                                                            mapping = "org.Hs.eg.db",
-                                                            geneID = "symbol",
-                                                            topTablerows = 200)
+topgoDE_macrophage_IFNg_vs_naive <-
+  pcaExplorer::topGOtable(de_symbols_IFNg_vs_naive,
+                          bg_ids,
+                          ontology = "BP",
+                          mapping = "org.Hs.eg.db",
+                          geneID = "symbol",
+                          topTablerows = 200)

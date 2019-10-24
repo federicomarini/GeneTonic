@@ -20,15 +20,14 @@
 #' #TODO
 enrich2graph <- function(res_enrich,
                          res_de,
-                         annotation_obj = NULL
+                         annotation_obj = NULL,
                          n_gs = 15,
                          genes_colname = "genes",
                          genesetname_colname = "Term",
                          genesetid_colname = "GO.ID",
                          prettify = TRUE,
                          geneset_graph_color = "gold",
-                         genes_graph_colpal,
-                         ) {
+                         genes_graph_colpal) {
 
   # res_enrich has to have a column called containing the genes annotated to the term
   # TODOTODO
