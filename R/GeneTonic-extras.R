@@ -1,3 +1,52 @@
+#' Title TODO
+#'
+#' TODO
+#'
+#' @param go_id _TODO
+#'
+#' @return TODO
+#' @export
+#'
+#' @examples
+#' # TODO
+go_2_html <- function(go_id) {
+  fullinfo <- GOTERM[[go_id]]
+  if(is.null(fullinfo)) {
+    return(HTML("GeneOntology term not found!"))
+  }
+
+  mycontent <- paste0(
+    "<b>GO ID: </b>", .link2amigo(GOID(fullinfo)), "<br>",
+    "<b>Term: </b>", Term(fullinfo),"<br></b>",
+    "<b>Ontology: </b>", Ontology(fullinfo), "<br><br>",
+    "<b>Definition: </b>", Definition(fullinfo), "<br>",
+
+    ## TODO: extra info from the res_enrich?
+    paste0(
+      unlist(
+        lapply(Synonym(fullinfo), function(arg) {
+          paste0("<b>Synonym: </b>", arg, "<br>")
+        })
+      ), collapse = ""
+    ),
+    ifelse(length(Secondary(fullinfo)) > 0,
+           paste0("<b>Secondary: </b>", Secondary(fullinfo), collapse = ""),
+           "")
+  )
+  # ALT IDEA TODO: return as a table?!
+  return(HTML(mycontent))
+
+}
+
+.link2amigo <- function(val) {
+  sprintf('<a href = "http://amigo.geneontology.org/amigo/term/%s" target = "_blank" class = "btn btn-primary" style = "%s">%s</a>',
+          val,
+          .actionbutton_biocstyle,
+          val)
+}
+
+
+
 #' Title
 #'
 #' TODO
