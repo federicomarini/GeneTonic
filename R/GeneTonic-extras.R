@@ -46,6 +46,45 @@ go_2_html <- function(go_id) {
 }
 
 
+#' Title TODO
+#'
+#' TODO
+#'
+#' @param gene_id TODO
+#'
+#' @return TODO
+#' @export
+#'
+#' @examples
+#' # TODO
+geneinfo_2_html <- function(gene_id) {
+  # entrez info
+  # genecards?
+  # using rentrez?
+
+  mycontent <- paste0(
+    "<b>", gene_id, "</b><br>",
+    "NCBI link: ",
+    .link2ncbi(gene_id), "<br>",
+    "GeneCards link: ",
+    .link2genecards(gene_id)
+  )
+  return(HTML(mycontent))
+}
+
+.link2ncbi <- function(val) {
+  sprintf('<a href = "http://www.ncbi.nlm.nih.gov/gene/?term=%s[sym]" target = "_blank" class = "btn btn-primary" style = "%s">%s</a>',
+          val,
+          .actionbutton_biocstyle,
+          val)
+}
+
+.link2genecards <- function(val) {
+  sprintf('<a href = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=%s" target = "_blank" class = "btn btn-primary" style = "%s">%s</a>',
+          val,
+          .actionbutton_biocstyle,
+          val)
+}
 
 #' Title
 #'
@@ -155,6 +194,8 @@ footer <- function() {
 # TODOTODO
 # clusterProfiler to common expected format:
 
+
+# Some constant values ----------------------------------------------------
 
 .actionbutton_biocstyle <- "color: #ffffff; background-color: #0092AC; border-color: #2e6da4"
 
