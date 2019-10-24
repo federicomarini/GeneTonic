@@ -172,7 +172,7 @@ GeneTonic <- function(dds,
                 h4("Genesetbox"),
                 verbatimTextOutput("netnode"),
                 plotOutput("net_sigheatplot"),
-                plotOutput("net_geneplot"),
+                uiOutput("ui_net_geneplot"),
                 # TODOTODO
               )
             )
@@ -191,7 +191,7 @@ GeneTonic <- function(dds,
               ),
               column(
                 width = 4,
-                plotOutput("emap_sigheatplot")
+                uiOutput("ui_emap_sidecontent")
               )
             )
 
@@ -341,6 +341,31 @@ GeneTonic <- function(dds,
                  # TODOTODO: option to just return the underlying data?s
                  # TODOTODO: options to subset to specific samples?
       )
+    })
+
+    output$ui_net_geneplot <- renderUI({
+      tagList(
+        uiOutput("ggs_gene_info"),
+        plotOutput("net_geneplot")
+      )
+    })
+
+    output$ggs_gene_info <- renderUI({
+      g <- values$mygraph()
+      cur_sel <- input$mynetwork_selected
+      cur_node <- match(cur_sel,V(g)$name)
+      cur_nodetype <- V(g)$nodetype[cur_node]
+      validate(need(cur_nodetype == "Feature",
+                    message = "Please select a gene/feature."
+      ))
+
+      cur_geneid <- annotation_obj$gene_id[match(cur_sel, annotation_obj$gene_name)]
+
+      # mycontent <- HTML(paste0(
+      #   cur_geneid, "<br>", "<b>", cur_sel, "</b>"
+      # ))
+
+      geneinfo_2_html(cur_sel)
     })
 
     output$net_geneplot <- renderPlot({
