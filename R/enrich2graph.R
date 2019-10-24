@@ -18,6 +18,7 @@
 #'
 #' @examples
 #' #TODO
+# TODO: maybe rename to ggs_network? I like it so!
 enrich2graph <- function(res_enrich,
                          res_de,
                          annotation_obj = NULL,
