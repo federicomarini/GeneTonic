@@ -232,6 +232,34 @@ GeneTonic <- function(dds,
     })
 
 
+    # panel Welcome -----------------------------------------------------------
+
+    output$overview_dds <- DT::renderDataTable({
+      DT::datatable(
+        counts(dds),
+        options = list(scrollX = TRUE,scrollY = "400px")
+      )
+    })
+    output$overview_res_de <- DT::renderDataTable({
+      DT::datatable(
+        as.data.frame(res_de),
+        options = list(scrollX = TRUE,scrollY = "400px")
+      )
+    })
+    output$overview_res_enrich <- DT::renderDataTable({
+      DT::datatable(
+        res_enrich,
+        options = list(scrollX = TRUE,scrollY = "400px")
+      )
+    })
+    output$overview_annotation <- DT::renderDataTable({
+      DT::datatable(
+        annotation_obj,
+        options = list(scrollX = TRUE,scrollY = "400px")
+      )
+    })
+
+
     # panel GeneSet-Gene ------------------------------------------------------
     values$mygraph <- reactive({
       g <- enrich2graph(res_enrich = res_enrich,
