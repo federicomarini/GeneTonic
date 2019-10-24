@@ -94,11 +94,11 @@ GeneTonic <- function(dds,
             }"
           )
         )
-         # .icon-done {
-         # color: green;
-         # }
+        # .icon-done {
+        # color: green;
+        # }
 
-         # #myAnchorBox{}
+        # #myAnchorBox{}
       ),
 
       ## main structure of the body for the dashboard
@@ -193,14 +193,14 @@ GeneTonic <- function(dds,
     # panel GeneSet-Gene ------------------------------------------------------
     values$mygraph <- reactive({
       g <- enrich2graph(res_enrich = res_enrich,
-                   res_de = res_de,
-                   n_gs = input$n_genesets,
-                   genes_colname = "genes",
-                   genesetname_colname = "Term",
-                   genesetid_colname = "GO.ID",
-                   prettify = TRUE,
-                   geneset_graph_color = "gold",
-                   annotation_obj = annotation_obj)
+                        res_de = res_de,
+                        annotation_obj = annotation_obj,
+                        n_gs = input$n_genesets,
+                        genes_colname = "genes",
+                        genesetname_colname = "Term",
+                        genesetid_colname = "GO.ID",
+                        prettify = TRUE,
+                        geneset_graph_color = "gold")
       rank_gs <- rank(V(g)$name[V(g)$nodetype == "GeneSet"])
       rank_feats <- rank(V(g)$name[V(g)$nodetype == "Feature"]) +
         length(rank_gs) # to keep the GeneSets first
@@ -244,11 +244,11 @@ GeneTonic <- function(dds,
       gs_heatmap(myvst,
                  res_de,
                  res_enrich,
+                 annotation_obj = annotation_obj,
                  geneset_id = cur_gsid, # TODOTODO check that I select a gene set
                  genes_colname = "genes",
                  genesetname_colname = "Term",
                  genesetid_colname = "GO.ID",
-                 annotation_obj = annotation_obj,
                  FDR = 0.05,
                  de_only = FALSE,
                  cluster_rows = TRUE, # TODOTODO: options for the heatmap go on left side, as could be common to more!
@@ -287,18 +287,22 @@ GeneTonic <- function(dds,
     # panel DEview ------------------------------------------------------------
     output$enriched_funcres <- renderPlot({
       enhance_table(res_enrich, res_de,
-                    n_gs = 50,
-                    annotation_obj = annotation_obj)
+                    annotation_obj = annotation_obj,
+                    n_gs = 50)
     })
 
     output$gs_volcano <- renderPlot({
-      gs_volcano(get_aggrscores(res_enrich,res_de,annotation_obj = annotation_obj))
+      gs_volcano(
+        get_aggrscores(res_enrich,
+                       res_de,
+                       annotation_obj = annotation_obj))
     })
 
     output$enriched_funcres_plotly <- renderPlotly({
-      ggplotly(enhance_table(res_enrich, res_de,
-                    n_gs = 50,
-                    annotation_obj = annotation_obj))
+      ggplotly(enhance_table(res_enrich,
+                             res_de,
+                             annotation_obj = annotation_obj,
+                             n_gs = 50))
     })
 
 
