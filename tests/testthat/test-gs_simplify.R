@@ -6,9 +6,9 @@ test_that("Dataset is simplified", {
   expect_is(res_simp, "data.frame")
   expect_true(nrow(res_simp) < nrow(topgoDE_macrophage_IFNg_vs_naive))
 
-  res_oversimp <- gs_simplify(topgoDE_macrophage_IFNg_vs_naive,
+  res_megasimp <- gs_simplify(topgoDE_macrophage_IFNg_vs_naive,
                              gs_overlap = 0)
-  expect_equal(nrow(res_oversimp), 0)
+  expect_equal(nrow(res_megasimp), 11)
 
   res_simp <- get_aggrscores(res_simp,
                              res_macrophage_IFNg_vs_naive,

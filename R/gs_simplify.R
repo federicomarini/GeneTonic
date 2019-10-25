@@ -8,6 +8,7 @@
 #' @param gs_overlap TODO
 #' @param genes_colname TODO
 #' @param genesetname_colname TODO
+#' @param genesetid_colname TODO
 #' @param genes_separator TODO
 #'
 #' @return TODO
@@ -19,8 +20,7 @@ gs_simplify <- function(res_enrich,
                         gs_overlap = 0.75,
                         genes_colname = "genes",
                         genesetname_colname = "Term",
-                        # ,
-                        # genesetid_colname = "GO.ID",
+                        genesetid_colname = "GO.ID",
                         genes_separator = ","
                         ) {
 

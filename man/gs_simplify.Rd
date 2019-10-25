@@ -5,7 +5,8 @@
 \title{Title TODO}
 \usage{
 gs_simplify(res_enrich, gs_overlap = 0.75, genes_colname = "genes",
-  genesetname_colname = "Term", genes_separator = ",")
+  genesetname_colname = "Term", genesetid_colname = "GO.ID",
+  genes_separator = ",")
 }
 \arguments{
 \item{res_enrich}{TODO}
@@ -15,6 +16,8 @@ gs_simplify(res_enrich, gs_overlap = 0.75, genes_colname = "genes",
 \item{genes_colname}{TODO}
 
 \item{genesetname_colname}{TODO}
+
+\item{genesetid_colname}{TODO}
 
 \item{genes_separator}{TODO}
 }
