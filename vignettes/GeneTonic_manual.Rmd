@@ -7,10 +7,6 @@ author:
   - &id1 Institute of Medical Biostatistics, Epidemiology and Informatics (IMBEI), Mainz
   - Center for Thrombosis and Hemostasis (CTH), Mainz
   email: marinif@uni-mainz.de
-- name: Simon Stahl
-  affiliation: 
-  - &id2 Institute of Medical Biostatistics, Epidemiology and Informatics (IMBEI), Mainz
-  email: simon.t.stahl@gmail.com
 date: "`r BiocStyle::doc_date()`"
 package: "`r BiocStyle::pkg_ver('GeneTonic')`"
 output: 
