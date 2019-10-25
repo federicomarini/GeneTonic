@@ -123,46 +123,46 @@ head(res_df)
 
 ```{r}
 enhance_table(topgoDE_macrophage_IFNg_vs_naive,
-                     res_macrophage_IFNg_vs_naive,
-                     n_gs = 50,
-                     genes_colname = "genes",
-                     genesetname_colname = "Term",
-                     genesetid_colname = "GO.ID",
-                     annotation_obj = anno_df,
-                     chars_limit = 60)
+              res_macrophage_IFNg_vs_naive,
+              n_gs = 50,
+              genes_colname = "genes",
+              genesetname_colname = "Term",
+              genesetid_colname = "GO.ID",
+              annotation_obj = anno_df,
+              chars_limit = 60)
 ```
 
 ```{r}
 library("visNetwork")
-g <- enrich2graph(res_enrich = topgoDE_macrophage_IFNg_vs_naive,
-                    res_de = res_macrophage_IFNg_vs_naive,
-                    n_gs = 20,
-                    annotation_obj = anno_df)
+g <- ggs_graph(res_enrich = topgoDE_macrophage_IFNg_vs_naive,
+               res_de = res_macrophage_IFNg_vs_naive,
+               n_gs = 20,
+               annotation_obj = anno_df)
 visNetwork::visIgraph(g) %>% visOptions(highlightNearest = list(enabled = TRUE, degree = 1, hover = TRUE), nodesIdSelection = TRUE)
 ```
 
 
 ```{r}
 g2 <- enrichment_map(res_enrich = topgoDE_macrophage_IFNg_vs_naive,
-                      res_de = res_macrophage_IFNg_vs_naive,
-                      n_gs = 50,
-                      annotation_obj = anno_df)
+                     res_de = res_macrophage_IFNg_vs_naive,
+                     n_gs = 50,
+                     annotation_obj = anno_df)
 visNetwork::visIgraph(g2) %>% visOptions(highlightNearest = list(enabled = TRUE, degree = 1, hover = TRUE), nodesIdSelection = TRUE)
 ```
 
 
 ```{r}
 gs_mds(res_enrich = topgoDE_macrophage_IFNg_vs_naive,
-              res_de = res_macrophage_IFNg_vs_naive,
-              annotation_obj = anno_df,
-              genes_colname = "genes",
-              genesetname_colname = "Term",
-              genesetid_colname = "GO.ID",
-              genes_separator = ",",
-              similarity_measure = "kappa_matrix",
-              mds_k = 2,
-              mds_labels = 10,
-              mds_colorby = "z_score")
+       res_de = res_macrophage_IFNg_vs_naive,
+       annotation_obj = anno_df,
+       genes_colname = "genes",
+       genesetname_colname = "Term",
+       genesetid_colname = "GO.ID",
+       genes_separator = ",",
+       similarity_measure = "kappa_matrix",
+       mds_k = 2,
+       mds_labels = 10,
+       mds_colorby = "z_score")
 ```
 
 

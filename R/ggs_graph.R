@@ -19,16 +19,16 @@
 #' @examples
 #' #TODO
 # TODO: maybe rename to ggs_network? I like it so!
-enrich2graph <- function(res_enrich,
-                         res_de,
-                         annotation_obj = NULL,
-                         n_gs = 15,
-                         genes_colname = "genes",
-                         genesetname_colname = "Term",
-                         genesetid_colname = "GO.ID",
-                         prettify = TRUE,
-                         geneset_graph_color = "gold",
-                         genes_graph_colpal) {
+ggs_graph <- function(res_enrich,
+                      res_de,
+                      annotation_obj = NULL,
+                      n_gs = 15,
+                      genes_colname = "genes",
+                      genesetname_colname = "Term",
+                      genesetid_colname = "GO.ID",
+                      prettify = TRUE,
+                      geneset_graph_color = "gold",
+                      genes_graph_colpal) {
 
   # res_enrich has to have a column called containing the genes annotated to the term
   # TODOTODO
@@ -100,10 +100,10 @@ enrich2graph <- function(res_enrich,
                                         "logFC = ", format(round(fcs_genes, 2), nsmall = 2))
 
 
-    } else {
+  } else {
 
-      V(g)$color[nodeIDs_genes] <- "#B3B3B3"
-      V(g)$color[nodeIDs_gs] <- "#E5C494"
+    V(g)$color[nodeIDs_genes] <- "#B3B3B3"
+    V(g)$color[nodeIDs_gs] <- "#E5C494"
   }
   return(g)
 }

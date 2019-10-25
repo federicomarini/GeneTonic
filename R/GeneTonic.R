@@ -274,15 +274,15 @@ GeneTonic <- function(dds,
 
     # panel GeneSet-Gene ------------------------------------------------------
     values$mygraph <- reactive({
-      g <- enrich2graph(res_enrich = res_enrich,
-                        res_de = res_de,
-                        annotation_obj = annotation_obj,
-                        n_gs = input$n_genesets,
-                        genes_colname = "genes",
-                        genesetname_colname = "Term",
-                        genesetid_colname = "GO.ID",
-                        prettify = TRUE,
-                        geneset_graph_color = "gold")
+      g <- ggs_graph(res_enrich = res_enrich,
+                     res_de = res_de,
+                     annotation_obj = annotation_obj,
+                     n_gs = input$n_genesets,
+                     genes_colname = "genes",
+                     genesetname_colname = "Term",
+                     genesetid_colname = "GO.ID",
+                     prettify = TRUE,
+                     geneset_graph_color = "gold")
       rank_gs <- rank(V(g)$name[V(g)$nodetype == "GeneSet"])
       rank_feats <- rank(V(g)$name[V(g)$nodetype == "Feature"]) +
         length(rank_gs) # to keep the GeneSets first
