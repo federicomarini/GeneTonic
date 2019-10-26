@@ -68,7 +68,7 @@ GeneTonic <- function(dds,
     # sidebar definition ------------------------------------------------------
     sidebar = bs4Dash::dashboardSidebar(
       title = HTML("<small>GeneTonic</small>"),
-      skin = "light",
+      skin = "dark",
       status = "primary",
       brandColor = NULL,
       url = "http://bioconductor.org/",
@@ -94,17 +94,17 @@ GeneTonic <- function(dds,
         bs4SidebarMenuItem(
           "Gene-Geneset",
           tabName = "tab_ggs",
-          icon = "home"
+          icon = "share-alt-square"
         ),
         bs4SidebarMenuItem(
           "Enrichment Map",
           tabName = "tab_emap",
-          icon = "home"
+          icon = "map"
         ),
         bs4SidebarMenuItem(
           "DEview",
           tabName = "tab_deview",
-          icon = "home"
+          icon = "eye"
         ),
         bs4SidebarMenuItem(
           "About",
