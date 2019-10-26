@@ -35,34 +35,35 @@ GeneTonic <- function(dds,
 
 
   # UI definition -----------------------------------------------------------
-  genetonic_ui <- shinydashboard::dashboardPage(
-    skin = "black",
+  genetonic_ui <- bs4Dash::bs4DashPage(
 
     # header definition -------------------------------------------------------
-    header = shinydashboard::dashboardHeader(
+    navbar = bs4Dash::bs4DashNavbar(
       title = "TODOtitle",
       titleWidth = 350,
-      shinydashboard::dropdownMenu(
+      bs4Dash::dropdownMenu(
         type = "tasks",
         icon = icon("question-circle fa-1g"),
         badgeStatus = NULL,
-        headerText = "Documentation",
-        shinydashboard::notificationItem(
-          text = actionButton(
-            "interface_overview", "Overview of the interface",
-            icon("hand-o-right"),
-            style = .actionbutton_biocstyle
-          ),
-          icon = icon(""), # tricking it to not have additional icon
-          status = "primary"
-        )
+        headerText = "Documentation"
+        # ,
+        # bs4Dash::notificationItem(
+        #   text = actionButton(
+        #     "interface_overview", "Overview of the interface",
+        #     icon("hand-o-right"),
+        #     style = .actionbutton_biocstyle
+        #   ),
+        #   icon = icon(""), # tricking it to not have additional icon
+        #   status = "primary"
+        # )
       )
     ),
 
     # sidebar definition ------------------------------------------------------
-    sidebar = shinydashboard::dashboardSidebar(
+    sidebar = bs4Dash::dashboardSidebar(
+      skin = "light",
       width = 250,
-      shinydashboard::menuItem(
+      bs4Dash::menuItem(
         text = "SomeSettings", icon = icon("cog"),
         startExpanded = TRUE,
         numericInput(inputId = "n_genesets",
@@ -73,7 +74,7 @@ GeneTonic <- function(dds,
     ),
 
     # body definition ---------------------------------------------------------
-    body = shinydashboard::dashboardBody(
+    body = bs4Dash::bs4DashBody(
       rintrojs::introjsUI(),
       ## Define output size and style of error messages
       ## plus, define the myscrollbox div to prevent y overflow when page fills up
@@ -104,37 +105,37 @@ GeneTonic <- function(dds,
       ## main structure of the body for the dashboard
       div(
         id = "myScrollBox", # trick to have the y direction scrollable
-        tabBox(
+        bs4Dash::bs4TabCard(id = "id",
           width=12,
           # ui panel welcome -----------------------------------------------------------
-          tabPanel(
-            title = "Welcome!",  icon = icon("home"), value="tab-welcome",
+          bs4Dash::tabPanel(
+            tabName = "Welcome!",  icon = icon("home"), value="tab-welcome",
             fluidRow(
-              column(
-                width = 12,
                 h2("Whatever goes in the home/welcome page"),
 
-                h3("Overview on the provided input objects"),
-                box(width = 6,
-                    title = "Expression Matrix",
-                    status = "danger",
-                    solidHeader = TRUE,
-                    collapsible = TRUE,
-                    collapsed = TRUE,
-                    DT::dataTableOutput("overview_dds")
+                h3("Overview on the provided input objects")),
+                fluidRow(
+                bs4Dash::bs4Card(width = 6,
+                                 title = "Expression Matrix",
+                                 status = "danger",
+                                 solidHeader = FALSE,
+                                 collapsible = TRUE,
+                                 collapsed = TRUE,
+                                 DT::dataTableOutput("overview_dds")
                 ),
-                box(width = 6,
+                bs4Dash::bs4Card(width = 6,
                     title = "DE results",
                     status = "warning",
-                    solidHeader = TRUE,
+                    solidHeader = FALSE,
                     collapsible = TRUE,
                     collapsed = TRUE,
+                    gradientColor = "warning",
+
                     DT::dataTableOutput("overview_res_de")
-                )
               ),
               column(
                 width = 12,
-                box(width = 6,
+                bs4Dash::bs4Card(width = 6,
                     title = "Functional analysis results",
                     status = "success",
                     solidHeader = TRUE,
@@ -142,7 +143,7 @@ GeneTonic <- function(dds,
                     collapsed = TRUE,
                     DT::dataTableOutput("overview_res_enrich")
                 ),
-                box(width = 6,
+                bs4Dash::bs4Card(width = 6,
                     title = "Annotation info",
                     status = "info",
                     solidHeader = TRUE,
@@ -157,8 +158,8 @@ GeneTonic <- function(dds,
 
 
           # ui panel geneset-gene ---------------------------------------------------
-          tabPanel(
-            title = "GeneSet-Gene",  icon = icon("home"), value="tab-gsg",
+          bs4Dash::tabPanel(
+            tabName = "GeneSet-Gene",  icon = icon("home"), value="tab-gsg",
 
             fluidRow(
               column(
@@ -169,55 +170,14 @@ GeneTonic <- function(dds,
               ),
               column(
                 width = 3,
-                h4("Genesetbox"),
-                verbatimTextOutput("netnode"),
-                plotOutput("net_sigheatplot"),
-                uiOutput("ui_net_geneplot"),
+                box(
+                  h4("Genesetbox"),
+                  verbatimTextOutput("netnode"),
+                  plotOutput("net_sigheatplot")
+                ),
+                uiOutput("ui_net_geneinfo")
+
                 # TODOTODO
-              )
-            )
-          ),
-
-          # ui panel enrichment map -------------------------------------------------
-          tabPanel(
-            title = "Enrichment map",  icon = icon("home"), value="tab-em",
-            ###
-            fluidRow(
-              column(
-                width = 8,
-                withSpinner(
-                  visNetworkOutput("emap_visnet", height = "700px", width = "100%")
-                )
-              ),
-              column(
-                width = 4,
-                uiOutput("ui_emap_sidecontent")
-              )
-            )
-
-          ),
-
-          # ui panel de view --------------------------------------------------------
-          tabPanel(
-            title = "DEview!",  icon = icon("home"), value="tab-deview",
-            ###
-            fluidRow(
-              plotOutput("gs_volcano"),
-              plotOutput("enriched_funcres"),
-              plotlyOutput("enriched_funcres_plotly")
-            )
-          ),
-
-          # ui panel about -----------------------------------------------------------
-          tabPanel(
-            title = "About", icon = icon("institution"), value="tab-about",
-
-            fluidRow(
-              column(
-                width = 8,
-                includeMarkdown(system.file("extdata", "about.md",package = "GeneTonic")),
-
-                verbatimTextOutput("sessioninfo")
               )
             )
           )
@@ -226,6 +186,200 @@ GeneTonic <- function(dds,
       # , footer()
     )
   )
+  # genetonic_ui <- shinydashboard::dashboardPage(
+  #   skin = "black",
+  #
+  #   # header definition -------------------------------------------------------
+  #   header = shinydashboard::dashboardHeader(
+  #     title = "TODOtitle",
+  #     titleWidth = 350,
+  #     shinydashboard::dropdownMenu(
+  #       type = "tasks",
+  #       icon = icon("question-circle fa-1g"),
+  #       badgeStatus = NULL,
+  #       headerText = "Documentation",
+  #       shinydashboard::notificationItem(
+  #         text = actionButton(
+  #           "interface_overview", "Overview of the interface",
+  #           icon("hand-o-right"),
+  #           style = .actionbutton_biocstyle
+  #         ),
+  #         icon = icon(""), # tricking it to not have additional icon
+  #         status = "primary"
+  #       )
+  #     )
+  #   ),
+  #
+  #   # sidebar definition ------------------------------------------------------
+  #   sidebar = shinydashboard::dashboardSidebar(
+  #     width = 250,
+  #     shinydashboard::menuItem(
+  #       text = "SomeSettings", icon = icon("cog"),
+  #       startExpanded = TRUE,
+  #       numericInput(inputId = "n_genesets",
+  #                    label = "number of genesets",
+  #                    value = 15, min = 1, max = 50),
+  #       uiOutput("ui_exp_condition")
+  #     )
+  #   ),
+  #
+  #   # body definition ---------------------------------------------------------
+  #   body = shinydashboard::dashboardBody(
+  #     rintrojs::introjsUI(),
+  #     ## Define output size and style of error messages
+  #     ## plus, define the myscrollbox div to prevent y overflow when page fills up
+  #     tags$head(
+  #       tags$style(
+  #         HTML(
+  #           ".shiny-output-error-validation {
+  #           font-size: 15px;
+  #           color: forestgreen;
+  #           text-align: center;
+  #           }
+  #
+  #           #myScrollBox{
+  #             overflow-y: scroll;
+  #             .dataTables_wrapper{
+  #               overflow-x: scroll;
+  #             }
+  #           }"
+  #         )
+  #       )
+  #       # .icon-done {
+  #       # color: green;
+  #       # }
+  #
+  #       # #myAnchorBox{}
+  #     ),
+  #
+  #     ## main structure of the body for the dashboard
+  #     div(
+  #       id = "myScrollBox", # trick to have the y direction scrollable
+  #       tabBox(
+  #         width=12,
+  #         # ui panel welcome -----------------------------------------------------------
+  #         tabPanel(
+  #           title = "Welcome!",  icon = icon("home"), value="tab-welcome",
+  #           fluidRow(
+  #             column(
+  #               width = 12,
+  #               h2("Whatever goes in the home/welcome page"),
+  #
+  #               h3("Overview on the provided input objects"),
+  #               bs4Dash::bs4Card(width = 6,
+  #                   title = "Expression Matrix",
+  #                   status = "danger",
+  #                   solidHeader = TRUE,
+  #                   collapsible = TRUE,
+  #                   collapsed = TRUE,
+  #                   DT::dataTableOutput("overview_dds")
+  #               ),
+  #               box(width = 6,
+  #                   title = "DE results",
+  #                   status = "warning",
+  #                   solidHeader = TRUE,
+  #                   collapsible = TRUE,
+  #                   collapsed = TRUE,
+  #                   DT::dataTableOutput("overview_res_de")
+  #               )
+  #             ),
+  #             column(
+  #               width = 12,
+  #               box(width = 6,
+  #                   title = "Functional analysis results",
+  #                   status = "success",
+  #                   solidHeader = TRUE,
+  #                   collapsible = TRUE,
+  #                   collapsed = TRUE,
+  #                   DT::dataTableOutput("overview_res_enrich")
+  #               ),
+  #               box(width = 6,
+  #                   title = "Annotation info",
+  #                   status = "info",
+  #                   solidHeader = TRUE,
+  #                   collapsible = TRUE,
+  #                   collapsed = TRUE,
+  #                   DT::dataTableOutput("overview_annotation")
+  #               )
+  #             )
+  #           ),
+  #
+  #         ),
+  #
+  #
+  #         # ui panel geneset-gene ---------------------------------------------------
+  #         tabPanel(
+  #           title = "GeneSet-Gene",  icon = icon("home"), value="tab-gsg",
+  #
+  #           fluidRow(
+  #             column(
+  #               width = 9,
+  #               withSpinner(
+  #                 visNetworkOutput("mynetwork", height = "700px", width = "100%")
+  #               )
+  #             ),
+  #             column(
+  #               width = 3,
+  #               box(
+  #                 h4("Genesetbox"),
+  #                 verbatimTextOutput("netnode"),
+  #                 plotOutput("net_sigheatplot")
+  #               ),
+  #               uiOutput("ui_net_geneinfo")
+  #
+  #               # TODOTODO
+  #             )
+  #           )
+  #         ),
+  #
+  #         # ui panel enrichment map -------------------------------------------------
+  #         tabPanel(
+  #           title = "Enrichment map",  icon = icon("home"), value="tab-em",
+  #           ###
+  #           fluidRow(
+  #             column(
+  #               width = 8,
+  #               withSpinner(
+  #                 visNetworkOutput("emap_visnet", height = "700px", width = "100%")
+  #               )
+  #             ),
+  #             column(
+  #               width = 4,
+  #               uiOutput("ui_emap_sidecontent")
+  #             )
+  #           )
+  #
+  #         ),
+  #
+  #         # ui panel de view --------------------------------------------------------
+  #         tabPanel(
+  #           title = "DEview!",  icon = icon("home"), value="tab-deview",
+  #           ###
+  #           fluidRow(
+  #             plotOutput("gs_volcano"),
+  #             plotOutput("enriched_funcres"),
+  #             plotlyOutput("enriched_funcres_plotly")
+  #           )
+  #         ),
+  #
+  #         # ui panel about -----------------------------------------------------------
+  #         tabPanel(
+  #           title = "About", icon = icon("institution"), value="tab-about",
+  #
+  #           fluidRow(
+  #             column(
+  #               width = 8,
+  #               includeMarkdown(system.file("extdata", "about.md",package = "GeneTonic")),
+  #
+  #               verbatimTextOutput("sessioninfo")
+  #             )
+  #           )
+  #         )
+  #       )
+  #     )
+  #     # , footer()
+  #   )
+  # )
 
   options(shiny.maxRequestSize = 15*1024^2)
 
@@ -343,7 +497,7 @@ GeneTonic <- function(dds,
       )
     })
 
-    output$ui_net_geneplot <- renderUI({
+    output$ui_net_geneinfo <- renderUI({
       tagList(
         uiOutput("ggs_gene_info"),
         plotOutput("net_geneplot")
