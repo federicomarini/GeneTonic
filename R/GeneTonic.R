@@ -35,23 +35,72 @@ GeneTonic <- function(dds,
 
 
   # UI definition -----------------------------------------------------------
+
+  # dashpage definition -----------------------------------------------------
   genetonic_ui <- bs4Dash::bs4DashPage(
     # enable_preloader = TRUE,
+    title = "GeneTonic",
     sidebar_collapsed = TRUE,
     controlbar_collapsed = TRUE,
 
-    controlbar = bs4DashControlbar(
-      numericInput(inputId = "n_genesets",
-                   label = "number of genesets",
-                   value = 15, min = 1, max = 50),
-      uiOutput("ui_exp_condition")
-    ),
-
-
     # navbar definition -------------------------------------------------------
     navbar = bs4Dash::bs4DashNavbar(
-      title = "TODOtitle",
-      titleWidth = 350
+      skin = "light",
+      controlbarIcon = "gears",
+      fixed = FALSE,
+      rightUi = tagList(
+        # actionButton(
+        #   inputId = "btn_help_navbar",
+        #   icon = icon("info-circle"),
+        #   label = "Help", style = .actionbutton_biocstyle
+        # )
+        shinyWidgets::dropdownButton(
+          circle = TRUE,
+          status = "info",
+          icon = icon("question-circle"),
+          width = "300px",
+          size = "xs",
+          right = TRUE,
+          tooltip = shinyWidgets::tooltipOptions(title = "Click to see inputs !"),
+          tags$h5("Documentation"),
+          actionButton(
+            inputId = "btn_docs_vignette",
+            icon = icon("info-circle"),
+            label = "Help", style = .actionbutton_biocstyle
+          ),
+          actionButton(
+            inputId = "btn_docs_link",
+            icon = icon("question-circle"),
+            label = "Help", style = .actionbutton_biocstyle
+          )
+
+        ),
+        shinyWidgets::dropdownButton(
+          circle = TRUE,
+          status = "info",
+          icon = icon("info"),
+          width = "300px",
+          size = "xs",
+          right = TRUE,
+          tooltip = shinyWidgets::tooltipOptions(title = "Click to see inputs !"),
+          tags$h5("Additional information"),
+          actionButton(
+            inputId = "btn_info_session",
+            icon = icon("info-circle"),
+            label = "About this session", style = .actionbutton_biocstyle
+          ),
+          actionButton(
+            inputId = "btn_info_gt",
+            icon = icon("heart"),
+            label = "About GeneTonic", style = .actionbutton_biocstyle
+          )
+
+        )
+      )
+
+
+      # title = "TODOtitle",
+      # titleWidth = 350
       # bs4Dash::dropdownMenu(
       #   type = "tasks",
       #   icon = icon("question-circle fa-1g"),
