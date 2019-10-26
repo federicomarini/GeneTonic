@@ -40,7 +40,12 @@ GeneTonic <- function(dds,
     sidebar_collapsed = TRUE,
     controlbar_collapsed = TRUE,
 
-    controlbar = bs4DashControlbar(),
+    controlbar = bs4DashControlbar(
+      numericInput(inputId = "n_genesets",
+                   label = "number of genesets",
+                   value = 15, min = 1, max = 50),
+      uiOutput("ui_exp_condition")
+    ),
 
 
     # navbar definition -------------------------------------------------------
@@ -191,10 +196,7 @@ GeneTonic <- function(dds,
 
         bs4TabItem(
           tabName = "tab_ggs",
-          numericInput(inputId = "n_genesets",
-                       label = "number of genesets",
-                       value = 15, min = 1, max = 50),
-          uiOutput("ui_exp_condition"),
+
           fluidRow(
             column(
               width = 9,
