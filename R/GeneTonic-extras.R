@@ -198,6 +198,7 @@ footer <- function() {
 # Some constant values ----------------------------------------------------
 
 .actionbutton_biocstyle <- "color: #ffffff; background-color: #0092AC; border-color: #2e6da4"
+.helpbutton_biocstyle <- "color: #0092AC; background-color: #FFFFFF; border-color: #FFFFFF"
 
 .biocgreen <- "#0092AC"
 
