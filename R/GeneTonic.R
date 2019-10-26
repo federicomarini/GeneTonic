@@ -630,6 +630,51 @@ GeneTonic <- function(dds,
       )
     })
 
+    output$ui_infoboxes <- renderUI({
+      tagList(
+        bs4ValueBoxOutput("infobox_dds"),
+        bs4ValueBoxOutput("infobox_resde"),
+        bs4ValueBoxOutput("infobox_resenrich"),
+        bs4ValueBoxOutput("infobox_annotation")
+      )
+    })
+
+    output$infobox_dds <- renderbs4ValueBox({
+      bs4ValueBox(
+        value = paste0(nrow(dds), " x ", ncol(dds)),
+        subtitle = "dds object",
+        icon = "table",
+        status = "danger"
+      )
+    })
+
+    output$infobox_resde <- renderbs4ValueBox({
+      bs4ValueBox(
+        value = nrow(deseqresult2df(res_de, FDR = 0.05)), # TODO: set via widget?
+        subtitle = "res object",
+        icon = "vial",
+        status = "warning"
+      )
+    })
+
+    output$infobox_resenrich <- renderbs4ValueBox({
+      bs4ValueBox(
+        value = nrow(res_enrich),
+        subtitle = "func enrich object",
+        icon = "share-alt",
+        status = "success"
+      )
+    })
+
+    output$infobox_annotation <- renderbs4ValueBox({
+      bs4ValueBox(
+        value = paste0(ncol(annotation_obj), " feature identifiers for ", nrow(dds)),
+        subtitle = "annotation object",
+        icon = "table",
+        status = "info"
+      )
+    })
+
 
     # panel GeneSet-Gene ------------------------------------------------------
     values$mygraph <- reactive({
