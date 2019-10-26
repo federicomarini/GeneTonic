@@ -306,6 +306,22 @@ GeneTonic <- function(dds,
         )
       )
 
+
+    ),
+    # controlbar definition ---------------------------------------------------
+    controlbar = bs4Dash::bs4DashControlbar(
+      numericInput(inputId = "n_genesets",
+                   label = "number of genesets",
+                   value = 15, min = 1, max = 50),
+      uiOutput("ui_exp_condition")
+    ),
+
+    footer = bs4DashFooter(
+      GeneTonic:::footer()
+    )
+
+  )
+
       # About section Panel
 
 
@@ -315,7 +331,6 @@ GeneTonic <- function(dds,
       #   id = "myScrollBox", # trick to have the y direction scrollable
       #   bs4Dash::bs4TabCard(id = "id",
       #     width=12,
-      #     # ui panel welcome -----------------------------------------------------------
       #     bs4Dash::tabPanel(
       #       tabName = "Welcome!",  icon = icon("home"), value="tab-welcome",
       #       fluidRow(
