@@ -198,12 +198,25 @@ GeneTonic <- function(dds,
       ),
 
       bs4TabItems(
-        # Network panel
+        # ui panel welcome -----------------------------------------------------------
         bs4TabItem(
           tabName = "tab_welcome",
           fluidRow(
+            column(
+              width = 11
+            ),
+            column(
+              width = 1,
+              actionButton(
+                "tour_firststeps",label = "",icon = icon("question-circle"),
+                style= .helpbutton_biocstyle
+              )
+            )
+          ),
+          fluidRow(
             h2("Whatever goes in the home/welcome page"),
-            h3("Overview on the provided input objects")),
+            h3("Overview on the provided input objects")
+          ),
           fluidRow(
             bs4Dash::bs4Card(width = 6,
                              title = "Expression Matrix",
@@ -211,6 +224,7 @@ GeneTonic <- function(dds,
                              solidHeader = FALSE,
                              collapsible = TRUE,
                              collapsed = TRUE,
+                             closable = FALSE,
                              DT::dataTableOutput("overview_dds")
             ),
             bs4Dash::bs4Card(width = 6,
@@ -219,33 +233,46 @@ GeneTonic <- function(dds,
                              solidHeader = FALSE,
                              collapsible = TRUE,
                              collapsed = TRUE,
-                             gradientColor = "warning",
-
+                             closable = FALSE,
                              DT::dataTableOutput("overview_res_de")
             ),
-
             bs4Dash::bs4Card(width = 6,
                              title = "Functional analysis results",
                              status = "success",
-                             solidHeader = TRUE,
+                             solidHeader = FALSE,
                              collapsible = TRUE,
                              collapsed = TRUE,
+                             closable = FALSE,
                              DT::dataTableOutput("overview_res_enrich")
             ),
             bs4Dash::bs4Card(width = 6,
                              title = "Annotation info",
                              status = "info",
-                             solidHeader = TRUE,
+                             solidHeader = FALSE,
                              collapsible = TRUE,
                              collapsed = TRUE,
+                             closable = FALSE,
                              DT::dataTableOutput("overview_annotation")
             )
-          )
+          ),
+          uiOutput("ui_infoboxes")
         ),
 
+        # ui panel geneset-gene ---------------------------------------------------
         bs4TabItem(
           tabName = "tab_ggs",
-
+          fluidRow(
+            column(
+              width = 11
+            ),
+            column(
+              width = 1,
+              actionButton(
+                "tour_ggs",label = "",icon = icon("question-circle"),
+                style= .helpbutton_biocstyle
+              )
+            )
+          ),
           fluidRow(
             column(
               width = 9,
@@ -267,8 +294,21 @@ GeneTonic <- function(dds,
           )
         ),
 
+        # ui panel enrichment map -------------------------------------------------
         bs4TabItem(
           tabName = "tab_emap",
+          fluidRow(
+            column(
+              width = 11
+            ),
+            column(
+              width = 1,
+              actionButton(
+                "tour_emap",label = "",icon = icon("question-circle"),
+                style= .helpbutton_biocstyle
+              )
+            )
+          ),
           fluidRow(
             column(
               width = 8,
@@ -283,8 +323,21 @@ GeneTonic <- function(dds,
           )
         ),
 
+        # ui panel de view --------------------------------------------------------
         bs4TabItem(
           tabName = "tab_deview",
+          fluidRow(
+            column(
+              width = 11
+            ),
+            column(
+              width = 1,
+              actionButton(
+                "tour_deview",label = "",icon = icon("question-circle"),
+                style= .helpbutton_biocstyle
+              )
+            )
+          ),
           fluidRow(
             plotOutput("gs_volcano"),
             plotOutput("enriched_funcres"),
@@ -292,6 +345,7 @@ GeneTonic <- function(dds,
           )
         ),
 
+        # ui panel about -----------------------------------------------------------
         bs4TabItem(
           tabName = "tab_about",
 
@@ -380,7 +434,7 @@ GeneTonic <- function(dds,
       #     ),
       #
       #
-      #     # ui panel geneset-gene ---------------------------------------------------
+      #
       #     bs4Dash::tabPanel(
       #       tabName = "GeneSet-Gene",  icon = icon("home"), value="tab-gsg",
       #
@@ -389,12 +443,10 @@ GeneTonic <- function(dds,
       #   )
       # )
       # , footer()
-    )
-  )
+
   # genetonic_ui <- shinydashboard::dashboardPage(
   #   skin = "black",
   #
-  #   # header definition -------------------------------------------------------
   #   header = shinydashboard::dashboardHeader(
   #     title = "TODOtitle",
   #     titleWidth = 350,
@@ -415,7 +467,6 @@ GeneTonic <- function(dds,
   #     )
   #   ),
   #
-  #   # sidebar definition ------------------------------------------------------
   #   sidebar = shinydashboard::dashboardSidebar(
   #     width = 250,
   #     shinydashboard::menuItem(
@@ -428,7 +479,6 @@ GeneTonic <- function(dds,
   #     )
   #   ),
   #
-  #   # body definition ---------------------------------------------------------
   #   body = shinydashboard::dashboardBody(
   #     rintrojs::introjsUI(),
   #     ## Define output size and style of error messages
@@ -462,7 +512,6 @@ GeneTonic <- function(dds,
   #       id = "myScrollBox", # trick to have the y direction scrollable
   #       tabBox(
   #         width=12,
-  #         # ui panel welcome -----------------------------------------------------------
   #         tabPanel(
   #           title = "Welcome!",  icon = icon("home"), value="tab-welcome",
   #           fluidRow(
@@ -512,7 +561,6 @@ GeneTonic <- function(dds,
   #         ),
   #
   #
-  #         # ui panel geneset-gene ---------------------------------------------------
   #         tabPanel(
   #           title = "GeneSet-Gene",  icon = icon("home"), value="tab-gsg",
   #
@@ -537,7 +585,7 @@ GeneTonic <- function(dds,
   #           )
   #         ),
   #
-  #         # ui panel enrichment map -------------------------------------------------
+  #
   #         tabPanel(
   #           title = "Enrichment map",  icon = icon("home"), value="tab-em",
   #           ###
@@ -556,7 +604,7 @@ GeneTonic <- function(dds,
   #
   #         ),
   #
-  #         # ui panel de view --------------------------------------------------------
+  #
   #         tabPanel(
   #           title = "DEview!",  icon = icon("home"), value="tab-deview",
   #           ###
@@ -567,7 +615,7 @@ GeneTonic <- function(dds,
   #           )
   #         ),
   #
-  #         # ui panel about -----------------------------------------------------------
+  #
   #         tabPanel(
   #           title = "About", icon = icon("institution"), value="tab-about",
   #
