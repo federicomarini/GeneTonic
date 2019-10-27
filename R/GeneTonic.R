@@ -166,6 +166,11 @@ GeneTonic <- function(dds,
           icon = "list-alt"
         ),
         bs4SidebarMenuItem(
+          "Bookmarks",
+          tabName = "tab_bookmarks",
+          icon = "bookmark"
+        ),
+        bs4SidebarMenuItem(
           "About",
           tabName = "tab_about",
           icon = "institution"
@@ -284,7 +289,8 @@ GeneTonic <- function(dds,
               withSpinner(
                 visNetworkOutput("mynetwork", height = "700px", width = "100%")
               ),
-              actionButton("bookmark_ggs", label = "Bookmark", icon = icon("heart"))
+              actionButton("bookmark_ggs", label = "Bookmark", icon = icon("heart"),
+                           style = "color: #ffffff; background-color: #ac0000; border-color: #ffffff")
             ),
             column(
               width = 3,
@@ -353,7 +359,7 @@ GeneTonic <- function(dds,
           )
         ),
 
-        # ui panel genesets view --------------------------------------------------------
+        # ui panel genesets view ------------------------------------------------------
         bs4TabItem(
           tabName = "tab_genesets",
           fluidRow(
@@ -373,6 +379,26 @@ GeneTonic <- function(dds,
             plotlyOutput("alluvial_genesets"),
             plotOutput("gs_summaryheat"),
             plotOutput("mds_genesets")
+          )
+        ),
+
+        # ui panel bookmark ------------------------------------------------------
+        bs4TabItem(
+          tabName = "tab_bookmarks",
+          fluidRow(
+            column(
+              width = 11
+            ),
+            column(
+              width = 1,
+              actionButton(
+                "tour_bookmarks",label = "",icon = icon("question-circle"),
+                style= .helpbutton_biocstyle
+              )
+            )
+          ),
+          fluidRow(
+            uiOutput("ui_bookmarks")
           )
         ),
 
@@ -1038,6 +1064,25 @@ GeneTonic <- function(dds,
     output$gs_summaryheat <- renderPlot({
       gs_summary_heat(res_enrich, res_de, annotation_obj,
                       n_gs = input$n_genesets)
+    })
+
+    # panel bookmarks ---------------------------------------------------------
+
+    output$ui_bookmarks <- renderUI({
+      tagList(
+        h5("Bookmarked genes"),
+        DT::dataTableOutput("bookmarks_genes"),
+        h5("Bookmarked genesets"),
+        DT::dataTableOutput("bookmarks_genesets")
+
+      )
+    })
+
+    output$bookmarks_genes <- DT::renderDataTable({
+      datatable(data.frame(mygenes = values$mygenes))
+    })
+    output$bookmarks_genesets <- DT::renderDataTable({
+      datatable(data.frame(mygenesets = values$mygenesets))
     })
 
     output$sessioninfo <- renderPrint({
