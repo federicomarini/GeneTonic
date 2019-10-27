@@ -161,6 +161,11 @@ GeneTonic <- function(dds,
           icon = "eye"
         ),
         bs4SidebarMenuItem(
+          "GeneSets",
+          tabName = "tab_genesets",
+          icon = "list-alt"
+        ),
+        bs4SidebarMenuItem(
           "About",
           tabName = "tab_about",
           icon = "institution"
@@ -340,8 +345,32 @@ GeneTonic <- function(dds,
           ),
           fluidRow(
             plotOutput("gs_volcano"),
+            plotOutput("gs_volcano_simplified"),
             plotOutput("enriched_funcres"),
             plotlyOutput("enriched_funcres_plotly")
+          )
+        ),
+
+        # ui panel genesets view --------------------------------------------------------
+        bs4TabItem(
+          tabName = "tab_genesets",
+          fluidRow(
+            column(
+              width = 11
+            ),
+            column(
+              width = 1,
+              actionButton(
+                "tour_genesetsview",label = "",icon = icon("question-circle"),
+                style= .helpbutton_biocstyle
+              )
+            )
+          ),
+          fluidRow(
+            plotOutput("gsscores_heatmap"),
+            plotlyOutput("alluvial_genesets"),
+            plotOutput("gs_summaryheat"),
+            plotOutput("mds_genesets")
           )
         ),
 
@@ -857,6 +886,13 @@ GeneTonic <- function(dds,
                        annotation_obj = annotation_obj))
     })
 
+    output$gs_volcano_simplified <- renderPlot({
+      gs_volcano(
+        get_aggrscores(gs_simplify(res_enrich,gs_overlap = 0.6),
+                       res_de,
+                       annotation_obj = annotation_obj))
+    })
+
     output$enriched_funcres_plotly <- renderPlotly({
       ggplotly(enhance_table(res_enrich,
                              res_de,
@@ -940,6 +976,36 @@ GeneTonic <- function(dds,
                  # TODOTODO: option to just return the underlying data?s
                  # TODOTODO: options to subset to specific samples?
       )
+    })
+
+
+    # panel genesets view -----------------------------------------------------
+
+    gss_mat <- reactive({
+      gs_scores(se = myvst,
+                res_de = res_de,
+                res_enrich = res_enrich,
+                annotation_obj = annotation_obj,
+                genes_colname = "genes",
+                genesetname_colname = "Term",
+                genesetid_colname = "GO.ID")
+    })
+    output$gsscores_heatmap <- renderPlot({
+      gs_ggheatmap(gss_mat())
+    })
+
+    output$alluvial_genesets <- renderPlotly({
+      gs_alluvial(res_enrich, res_de, annotation_obj, n_gs = input$n_genesets)
+    })
+
+    output$mds_genesets <- renderPlot({
+      gs_mds(res_enrich, res_de, annotation_obj,mds_colorby = "z_score",
+             mds_labels = input$n_genesets)
+    })
+
+    output$gs_summaryheat <- renderPlot({
+      gs_summary_heat(res_enrich, res_de, annotation_obj,
+                      n_gs = input$n_genesets)
     })
 
     output$sessioninfo <- renderPrint({
