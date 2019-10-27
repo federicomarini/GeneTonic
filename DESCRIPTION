@@ -31,7 +31,9 @@ Imports:
     pheatmap,
     pcaExplorer,
     methods,
-    shinycssloaders
+    shinycssloaders,
+    bs4Dash,
+    shinyWidgets
 Suggests:
     knitr,
     rmarkdown,
