@@ -283,12 +283,15 @@ GeneTonic <- function(dds,
               width = 9,
               withSpinner(
                 visNetworkOutput("mynetwork", height = "700px", width = "100%")
-              )
+              ),
+              actionButton("bookmark_ggs", label = "Bookmark", icon = icon("heart"))
             ),
             column(
               width = 3,
-
-              uiOutput("ui_ggs_genesetbox"),
+              bs4Card(
+                width = 12,
+                uiOutput("ui_ggs_genesetbox")
+              ),
               # box(),
               hr(),
               uiOutput("ui_ggs_genebox")
@@ -670,6 +673,9 @@ GeneTonic <- function(dds,
     # reactive objects and setup commands -------------------------------------
     values <- reactiveValues()
 
+    values$mygenes <- c()
+    values$mygenesets <- c()
+
     myvst <- vst(dds)
 
     output$ui_exp_condition <- renderUI({
@@ -796,7 +802,7 @@ GeneTonic <- function(dds,
 
     output$ui_ggs_genesetbox <- renderUI({
       tagList(
-        h4("Genesetbox"),
+        h5("Genesetbox"),
         verbatimTextOutput("netnode"),
         plotOutput("net_sigheatplot"),
         uiOutput("ggs_geneset_info")
@@ -851,6 +857,7 @@ GeneTonic <- function(dds,
 
     output$ui_ggs_genebox <- renderUI({
       tagList(
+        h5("Genebox"),
         uiOutput("ggs_gene_info"),
         plotOutput("ggs_geneplot")
       )
@@ -1048,6 +1055,27 @@ GeneTonic <- function(dds,
                          row.names = NULL, quote = "")
       rintrojs::introjs(session, options = list(steps = tour))
     })
+
+    observeEvent(input$bookmark_ggs, {
+      g <- values$mygraph()
+      cur_sel <- input$mynetwork_selected
+      cur_node <- match(cur_sel,V(g)$name)
+      cur_nodetype <- V(g)$nodetype[cur_node]
+
+      if(cur_nodetype == "Feature") {
+        values$mygenes <- c(values$mygenes, cur_sel)
+        message("there go your genes... ", values$mygenes)
+      } else if (cur_nodetype == "GeneSet"){
+        values$mygenesets <- c(values$mygenesets, cur_sel)
+        message("here are your genesets... ", values$mygenesets)
+      } else {
+        message("bleeee")
+      }
+
+
+    })
+
+
 
   }
   #nocov end
