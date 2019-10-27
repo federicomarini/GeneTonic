@@ -287,12 +287,11 @@ GeneTonic <- function(dds,
             ),
             column(
               width = 3,
-              box(
-                h4("Genesetbox"),
-                verbatimTextOutput("netnode"),
-                plotOutput("net_sigheatplot")
-              ),
-              uiOutput("ui_net_geneinfo")
+
+              uiOutput("ui_ggs_genesetbox"),
+              # box(),
+              hr(),
+              uiOutput("ui_ggs_genebox")
 
               # TODOTODO
             )
@@ -795,6 +794,17 @@ GeneTonic <- function(dds,
 
     })
 
+    output$ui_ggs_genesetbox <- renderUI({
+      tagList(
+        h4("Genesetbox"),
+        verbatimTextOutput("netnode"),
+        plotOutput("net_sigheatplot"),
+        uiOutput("ggs_geneset_info")
+      )
+
+
+    })
+
     output$net_sigheatplot <- renderPlot({
       g <- values$mygraph()
       cur_sel <- input$mynetwork_selected
@@ -824,10 +834,25 @@ GeneTonic <- function(dds,
       )
     })
 
-    output$ui_net_geneinfo <- renderUI({
+    output$ggs_geneset_info <- renderUI({
+      g <- values$mygraph()
+      cur_sel <- input$mynetwork_selected
+      cur_node <- match(cur_sel,V(g)$name)
+      cur_nodetype <- V(g)$nodetype[cur_node]
+      validate(need(cur_nodetype == "GeneSet",
+                    message = "Please select a gene set."
+      ))
+      cur_gsid <- res_enrich$GO.ID[match(input$mynetwork_selected,res_enrich$Term)]
+
+      # message(cur_gsid)
+      # GOTERM[[cur_gsid]]
+      go_2_html(cur_gsid)
+    })
+
+    output$ui_ggs_genebox <- renderUI({
       tagList(
         uiOutput("ggs_gene_info"),
-        plotOutput("net_geneplot")
+        plotOutput("ggs_geneplot")
       )
     })
 
@@ -849,7 +874,7 @@ GeneTonic <- function(dds,
       geneinfo_2_html(cur_sel)
     })
 
-    output$net_geneplot <- renderPlot({
+    output$ggs_geneplot <- renderPlot({
       g <- values$mygraph()
       cur_sel <- input$mynetwork_selected
       cur_node <- match(cur_sel,V(g)$name)
