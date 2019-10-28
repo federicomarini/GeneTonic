@@ -27,6 +27,51 @@ gs_summary_overview <- function(res_enrich,
   return(p)
 }
 
+gs_summary_overview_pair <- function(res_enrich,
+                                     res_enrich2,
+                                n_gs = 20,
+                                p_value_column = "p.value_elim",
+                                color_by = "z_score",
+                                alpha_set2 = 0.4
+                                ) {
+  if (!("z_score" %in% colnames(res_enrich))) {
+    warning("You need to add the z_score or the aggregated score")
+  } # TODO: same for aggr_score
+
+  # TODO: require that both res_enrich have the same terms in the table
+  # identical(re1$GO.ID,re2$GO.ID) # or so
+
+  re1 <- res_enrich
+
+  set.seed(42)
+  shuffled_ones <- sample(seq_len(nrow(re1)))
+  re2 <- res_enrich
+  re2$z_score <- re2$z_score[shuffled_ones]
+  re2$aggr_score <- re2$aggr_score[shuffled_ones]
+  re2$logp10 <- re2$logp10[shuffled_ones]
+
+  re_both <- mutate(re1,
+                    z_score_2 = re2$z_score,
+                    aggr_score_2 = re2$aggr_score,
+                    logp10_2 = re2$logp10)
+  re_both <- re_both[seq_len(n_gs), ]
+
+  re_both_sorted <- re_both %>%
+    arrange(logp10) %>%
+    mutate(Term=factor(Term, Term))
+
+  p <- ggplot(re_both_sorted, aes(x=Term, y=logp10)) +
+    geom_segment( aes(x=Term ,xend=Term, y=logp10_2, yend=logp10), color="grey") +
+    geom_point(aes(col=z_score), size=4 ) +
+    geom_point(aes(y = logp10_2, col = z_score_2), size = 4, alpha = alpha_set2) +
+    scale_color_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
+    coord_flip() +
+    theme_minimal()
+
+  return(p)
+
+}
+
 
 
 
