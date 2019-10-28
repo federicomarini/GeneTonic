@@ -1,3 +1,17 @@
+#' Title TODO
+#'
+#' TODO
+#'
+#' @param res_enrich1 TODO
+#' @param res_enrich2 TODO
+#' @param n_gs TODO
+#' @param p_value_column TODO
+#'
+#' @return TODO
+#' @export
+#'
+#' @examples
+#' # TODO
 gs_radar <- function(res_enrich1,
                      res_enrich2,
                      n_gs = 20,
