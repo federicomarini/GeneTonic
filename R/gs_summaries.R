@@ -1,3 +1,36 @@
+
+
+gs_summary_overview <- function(res_enrich,
+                                n_gs = 20,
+                                p_value_column = "p.value_elim",
+                                color_by = "z_score") {
+  if (!("z_score" %in% colnames(res_enrich))) {
+    warning("You need to add the z_score or the aggregated score")
+  } # TODO: same for aggr_score
+
+  re <- res_enrich
+  re$logp10 <- -log10(res_enrich[[p_value_column]])
+  re <- re[seq_len(n_gs), ]
+
+  # TODO: color_by to be selected
+
+  re_sorted <- re %>%
+    arrange(logp10) %>%
+    mutate(Term=factor(Term, Term))
+  p <- ggplot(re_sorted, ( aes(x=Term, y=logp10))) +
+    geom_segment( aes(x=Term ,xend=Term, y=0, yend=logp10), color="grey") +
+    geom_point(aes(col=z_score), size = 4 ) +
+    scale_color_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
+    coord_flip() +
+    theme_minimal()
+
+  return(p)
+}
+
+
+
+
+
 #' Title TODO
 #'
 #' TODO
