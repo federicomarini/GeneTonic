@@ -8,7 +8,6 @@ Authors@R:
 Description: What the package does (one paragraph).
 Imports:
     shiny,
-    shinydashboard,
     DT,
     rintrojs,
     igraph,
@@ -33,7 +32,10 @@ Imports:
     methods,
     shinycssloaders,
     bs4Dash,
-    shinyWidgets
+    shinyWidgets,
+    ggalluvial,
+    viridis,
+    grDevices
 Suggests:
     knitr,
     rmarkdown,

@@ -6,7 +6,6 @@
 #' @author Federico Marini \email{marinif@@uni-mainz.de}
 #'
 #' @rawNamespace import(shiny, except = c(renderDataTable, dataTableOutput))
-#' @import shinydashboard
 #' @importFrom DT dataTableOutput renderDataTable datatable
 #' @importFrom rintrojs introjs introjsUI
 #' @import igraph
@@ -20,8 +19,8 @@
 #' @importFrom ggrepel geom_label_repel
 #' @import GO.db
 #' @import DESeq2
-#' @importFrom AnnotationDbi Definition
-#' @importFrom plotly ggplotly plotlyOutput renderPlotly
+#' @importFrom AnnotationDbi Definition GOID Term Synonym Secondary
+#' @importFrom plotly ggplotly plotlyOutput renderPlotly plot_ly layout
 #' @importFrom tidyr separate_rows pivot_longer
 #' @importFrom stats var dist hclust
 #' @import pheatmap
@@ -32,6 +31,8 @@
 #' @import shinycssloaders
 #' @import bs4Dash
 #' @import shinyWidgets
+#' @import ggalluvial
+#' @import viridis
 #'
 #' @name GeneTonic-pkg
 #' @docType package
