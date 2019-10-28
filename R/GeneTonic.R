@@ -1092,7 +1092,6 @@ GeneTonic <- function(dds,
 
     # observers ---------------------------------------------------------------
 
-
     observeEvent(input$interface_overview, {
       tour <- read.delim(system.file("extdata", "interface_overview.txt",
                                      package = "GeneTonic"),
@@ -1101,22 +1100,30 @@ GeneTonic <- function(dds,
       rintrojs::introjs(session, options = list(steps = tour))
     })
 
+
     observeEvent(input$bookmark_ggs, {
       g <- values$mygraph()
       cur_sel <- input$mynetwork_selected
-      cur_node <- match(cur_sel,V(g)$name)
-      cur_nodetype <- V(g)$nodetype[cur_node]
-
-      if(cur_nodetype == "Feature") {
-        values$mygenes <- c(values$mygenes, cur_sel)
-        message("there go your genes... ", values$mygenes)
-      } else if (cur_nodetype == "GeneSet"){
-        values$mygenesets <- c(values$mygenesets, cur_sel)
-        message("here are your genesets... ", values$mygenesets)
+      if (cur_sel == "") {
+        showNotification("Select a node in the network to bookmark it", type = "warning")
       } else {
-        message("bleeee")
-      }
+        cur_node <- match(cur_sel,V(g)$name)
+        cur_nodetype <- V(g)$nodetype[cur_node]
 
+        if(cur_nodetype == "Feature") {
+          # TODO: match back to identifier and so
+          values$mygenes <- c(values$mygenes, cur_sel)
+          message("there go your genes... ", values$mygenes)
+          showNotification(sprintf("Added %s to the bookmarked genes. The list contains now %d elements", cur_sel, length(values$mygenes)), type = "message")
+        } else if (cur_nodetype == "GeneSet"){
+          # TODO: match back to identifier and so
+          values$mygenesets <- c(values$mygenesets, cur_sel)
+          message("here are your genesets... ", values$mygenesets)
+          showNotification(sprintf("Added %s to the bookmarked genesets. The list contains now %d elements", cur_sel, length(values$mygenesets)), type = "message")
+        } else {
+          message("bleeee")
+        }
+      }
 
     })
 
