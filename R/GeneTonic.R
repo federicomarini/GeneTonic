@@ -398,7 +398,10 @@ GeneTonic <- function(dds,
             )
           ),
           fluidRow(
-            uiOutput("ui_bookmarks")
+            column(
+              width = 12,
+              uiOutput("ui_bookmarks")
+            )
           )
         ),
 
@@ -1070,12 +1073,38 @@ GeneTonic <- function(dds,
 
     output$ui_bookmarks <- renderUI({
       tagList(
-        h5("Bookmarked genes"),
-        DT::dataTableOutput("bookmarks_genes"),
-        h5("Bookmarked genesets"),
-        DT::dataTableOutput("bookmarks_genesets")
+        fluidRow(
+          column(
+            width = 6,
+            bs4InfoBoxOutput("infobox_book_genes"),
+            h5("Bookmarked genes"),
+            DT::dataTableOutput("bookmarks_genes")
+          ),
+          column(
+            width = 6,
+            bs4InfoBoxOutput("infobox_book_genesets"),
+            h5("Bookmarked genesets"),
+            DT::dataTableOutput("bookmarks_genesets")
 
+          )
+        )
       )
+    })
+
+    output$infobox_book_genes <- renderbs4InfoBox({
+      bs4InfoBox(title = "Bookmarked genes",
+                 value = length(values$mygenes),
+                 icon = "bookmark",
+                 status = "info",
+                 width = 12)
+    })
+
+    output$infobox_book_genesets <- renderbs4InfoBox({
+      bs4InfoBox(title = "Bookmarked genesets",
+                 value = length(values$mygenesets),
+                 icon = "bookmark",
+                 status = "success",
+                 width = 12)
     })
 
     output$bookmarks_genes <- DT::renderDataTable({
