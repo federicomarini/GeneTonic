@@ -48,6 +48,7 @@ GeneTonic <- function(dds,
       skin = "light",
       controlbarIcon = "gears",
       fixed = FALSE,
+      leftUi = tags$code(tags$h3("GeneTonic")),
       rightUi = tagList(
         # actionButton(
         #   inputId = "btn_help_navbar",
