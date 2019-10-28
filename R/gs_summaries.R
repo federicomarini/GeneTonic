@@ -72,6 +72,7 @@ gs_summary_overview_pair <- function(res_enrich,
   # identical(re1$GO.ID,re2$GO.ID) # or so
 
   re1 <- res_enrich
+  re1$logp10 <- -log10(res_enrich[[p_value_column]])
 
   set.seed(42)
   shuffled_ones <- sample(seq_len(nrow(re1)))
@@ -101,6 +102,124 @@ gs_summary_overview_pair <- function(res_enrich,
   return(p)
 
 }
+
+# TODO: size of points somewhat related to geneset size?
+
+#' Title TODO
+#'
+#' TODO
+#'
+#' @param res_enrich TODO
+#' @param n_gs TODO
+#' @param p_value_column TODO
+#' @param color_by TODO
+#'
+#' @return TODO
+#' @export
+#'
+#' @examples
+#' # TODO
+gs_horizon <- function(res_enrich, # TODO: should be a list of res_enrich objects!
+                       n_gs = 20,
+                       p_value_column = "p.value_elim",
+                       color_by = "z_score") {
+  # again, must be enhanced with Zscore
+
+
+  res_enrich <- get_aggrscores(topgoDE_macrophage_IFNg_vs_naive,res_macrophage_IFNg_vs_naive, annotation_obj = anno_df)
+  res_enriched_1 <- res_enrich
+
+  res_enriched_1 <- res_enriched_1[seq_len(n_gs),]
+  res_enriched_1$logp10 <-  -log10(res_enriched_1[[p_value_column]])
+
+  res_enriched_2 <-
+    res_enriched_3 <-
+    res_enriched_4 <- res_enriched_1
+
+  set.seed(42)
+  shuffled_r2 <- sample(seq_len(nrow(res_enriched_1)))
+  shuffled_r3 <- sample(seq_len(nrow(res_enriched_1)))
+  shuffled_r4 <- sample(seq_len(nrow(res_enriched_1)))
+
+  res_enriched_2$z_score <- res_enriched_2$z_score[shuffled_r2]
+  res_enriched_2$aggr_score <- res_enriched_2$aggr_score[shuffled_r2]
+  res_enriched_2$logp10 <- res_enriched_2$logp10[shuffled_r2]
+  res_enriched_3$z_score <- res_enriched_3$z_score[shuffled_r3]
+  res_enriched_3$aggr_score <- res_enriched_3$aggr_score[shuffled_r3]
+  res_enriched_3$logp10 <- res_enriched_3$logp10[shuffled_r3]
+  res_enriched_4$z_score <- res_enriched_4$z_score[shuffled_r4]
+  res_enriched_4$aggr_score <- res_enriched_4$aggr_score[shuffled_r4]
+  res_enriched_4$logp10 <- res_enriched_4$logp10[shuffled_r4]
+
+  res_enriched_1$scenario <- "original"
+  res_enriched_2$scenario <- "shuffled_2"
+  res_enriched_3$scenario <- "shuffled_3"
+  res_enriched_4$scenario <- "shuffled_4"
+
+  # to preserve the order of the terms
+  res_enriched_1 <- res_enriched_1 %>%
+    arrange(logp10) %>%
+    mutate(Term=factor(Term, unique(Term)))
+
+  # to preserve the sorting of scenarios
+  merged_res_enh <- rbind(res_enriched_1,
+                          res_enriched_2,
+                          res_enriched_3,
+                          res_enriched_4)
+  merged_res_enh$scenario <- factor(merged_res_enh$scenario, unique(merged_res_enh$scenario))
+
+
+  # if only with one...
+  res_enriched_1 %>%
+    # arrange(logp10) %>%
+    # mutate(Term=factor(Term, unique(Term))) %>%
+    ggplot(aes(x = Term, y = logp10) ) +
+    geom_line(aes(group = scenario, col = scenario), size = 3, alpha = 0.7) +
+    geom_point(aes(fill=z_score), size=4, pch = 21 ) +
+    scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
+    ylim(c(0,NA)) +
+    coord_flip() +
+    theme_minimal()
+
+  # sorted by category in scenario1
+  merged_res_enh %>%
+    mutate(Term=factor(Term, unique(Term))) %>%
+    arrange(desc(logp10)) %>%
+    ggplot(aes(x = Term, y = logp10) ) +
+    geom_line(aes(group = scenario, col = scenario), size = 3, alpha = 0.7) +
+    geom_point(aes(fill=z_score), size=4, pch = 21 ) +
+    scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
+    ylim(c(0,NA)) +
+    coord_flip() +
+    theme_minimal()
+
+  # with a nicer sorting - "grouped" by scenario
+
+  nicerorder_terms <- merged_res_enh %>%
+    group_by(Term) %>%
+    mutate(main_category = scenario[which.max(logp10)],
+           max_value = max(logp10)) %>%
+    arrange(main_category, desc(max_value)) %>%
+    dplyr::pull(Term)
+
+
+
+  merged_res_enh %>%
+    # mutate(Term=factor(Term, unique(Term))) %>%
+    mutate(Term=factor(Term, rev(unique(nicerorder_terms)))) %>%
+    arrange(desc(logp10)) %>%
+    ggplot(aes(x = Term, y = logp10) ) +
+    geom_line(aes(group = scenario, col = scenario), size = 3, alpha = 0.7) +
+    geom_point(aes(fill=z_score), size=4, pch = 21 ) +
+    scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
+    ylim(c(0,NA)) +
+    coord_flip() +
+    theme_minimal()
+
+
+}
+
+
 
 
 
