@@ -34,3 +34,27 @@ test_that("results to data frame conversion works", {
   expect_is(res_df, "data.frame")
   expect_error(deseqresult2df(res_df))
 })
+
+
+test_that("Retrieving info on GO term", {
+  out <- go_2_html("GO:0032729")
+  expect_is(out, "character")
+  expect_is(out, "html")
+  expect_equal(go_2_html("GO:00"), HTML("GeneOntology term not found!"))
+})
+
+test_that("'Linking to AmiGO database", {
+  out <- .link2amigo("GO:0032729")
+  expect_is(out, "character")
+})
+
+test_that("'Linking to NCBI database", {
+  out <- .link2ncbi("Actb")
+  expect_is(out, "character")
+})
+
+test_that("'Linking to GeneCards database", {
+  out <- .link2genecards("Gapdh")
+  expect_is(out, "character")
+})
+
