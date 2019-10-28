@@ -1,17 +1,20 @@
-#' Title
+#' Title TODO
 #'
-#' @param res_enrich
-#' @param res_de
-#' @param annotation_obj
-#' @param n_gs
-#' @param genes_colname
-#' @param genesetname_colname
-#' @param genesetid_colname
+#' TODO
 #'
-#' @return
+#' @param res_enrich TODO
+#' @param res_de TODO
+#' @param annotation_obj TODO
+#' @param n_gs TODO
+#' @param genes_colname TODO
+#' @param genesetname_colname TODO
+#' @param genesetid_colname TODO
+#'
+#' @return TODO
 #' @export
 #'
 #' @examples
+#' # TODO
 gs_alluvial <- function(res_enrich,
                         res_de,
                         annotation_obj,
@@ -20,7 +23,7 @@ gs_alluvial <- function(res_enrich,
                         genesetname_colname = "Term",
                         genesetid_colname = "GO.ID") {
 
-  res_enhanced <- get_aggrscores(res_enrich, res_de, annotation_obj = annotation_obj)
+  # res_enhanced <- get_aggrscores(res_enrich, res_de, annotation_obj = annotation_obj)
 
   enriched_gsids <- res_enrich[[genesetid_colname]]
   enriched_gsnames <- res_enrich[[genesetname_colname]]
@@ -43,29 +46,28 @@ gs_alluvial <- function(res_enrich,
   })
   list2df <- do.call("rbind", list2df)
 
-  mygsdf <- list2df
-
-
-
-  mygsdf2 <- list2df
-  mygsdf2$value <- 1
-  colnames(mygsdf2) <- c("source", "target", "value")
-  mygsdf2$source <- as.character(mygsdf2$source)
-  mygsdf2$target <- as.character(mygsdf2$target)
-  mygsdf2$target <- paste(mygsdf2$target, " ", sep="")
+  list2df$value <- 1
+  colnames(list2df) <- c("source", "target", "value")
+  list2df$source <- as.character(list2df$source)
+  list2df$target <- as.character(list2df$target)
+  list2df$target <- paste(list2df$target, " ", sep="") # genes might need a space for better rendering...
 
   # From these flows we need to create a node data frame: it lists every entities involved in the flow
-  nodes <- data.frame(name=c(as.character(mygsdf2$source), as.character(mygsdf2$target)) %>% unique())
+  nodes <- data.frame(
+    name=c(as.character(list2df$source), as.character(list2df$target)) %>% unique()
+  )
 
-  # With networkD3, connection must be provided using id, not using real name like in the links dataframe.. So we need to reformat it.
-  mygsdf2$IDsource=match(mygsdf2$source, nodes$name)-1
-  mygsdf2$IDtarget=match(mygsdf2$target, nodes$name)-1
+  # connections must be provided using id, not using real name like in the links data.frame...
+  list2df$IDsource <- match(list2df$source, nodes$name)-1
+  list2df$IDtarget <- match(list2df$target, nodes$name)-1
 
-  mygsdf2 %>% head
+  # list2df %>% head
 
-  allnodes <- c(unique(mygsdf2$source), unique(mygsdf2$target))
-
-  library(plotly)
+  allnodes <- c(unique(list2df$source), unique(list2df$target))
+  allcols <- c(
+    viridis(length(unique(list2df$source))),           # for genesets
+    rep("steelblue",length(unique(list2df$target)))    # for genes
+  )
 
   p <- plot_ly(
     type = "sankey",
@@ -75,43 +77,52 @@ gs_alluvial <- function(res_enrich,
     ),
     orientation = "h",
     valueformat = ".0f",
-    valuesuffix = " genes in the set",
+    # valuesuffix = " genes in the set",  # TODO: should be done conditional on what the node is
 
     node = list(
       label = allnodes,
-      color = c(viridis(length(unique(mygsdf2$source))), rep("steelblue",length(unique(mygsdf2$target)))),
+      color = allcols,
       pad = 15,
       thickness = 20,
-      line = list(
-        color = "black",
-        width = 0.5
-      )
+      line = list(color = "black", width = 0.5)
     ),
 
     link = list(
-      source = mygsdf2$IDsource,
-      target = mygsdf2$IDtarget,
-      value =  mygsdf2$value
+      source = list2df$IDsource,
+      target = list2df$IDtarget,
+      value =  list2df$value
     )
   ) %>%
     plotly::layout(
-      title = "Geneset-Gene Sankey Diagram",
-      font = list(
-        size = 10
-      )
+      title = "Geneset-Gene Sankey Diagram", font = list(size = 10)
     )
   return(p)
-
-
 }
 
+#' Title TODO
+#'
+#' TODO
+#'
+#' @param res_enrich TODO
+#' @param res_de TODO
+#' @param annotation_obj TODO
+#' @param n_gs TODO
+#' @param genes_colname TODO
+#' @param genesetname_colname TODO
+#' @param genesetid_colname TODO
+#'
+#' @return TODO
+#' @export
+#'
+#' @examples
+#' # TODO
 gs_alluvial2 <- function(res_enrich,
-                        res_de,
-                        annotation_obj,
-                        n_gs = 5,
-                        genes_colname = "genes",
-                        genesetname_colname = "Term",
-                        genesetid_colname = "GO.ID") {
+                         res_de,
+                         annotation_obj,
+                         n_gs = 5,
+                         genes_colname = "genes",
+                         genesetname_colname = "Term",
+                         genesetid_colname = "GO.ID") {
 
   res_enhanced <- get_aggrscores(res_enrich, res_de, annotation_obj = annotation_obj)
 
@@ -136,19 +147,17 @@ gs_alluvial2 <- function(res_enrich,
   })
   list2df <- do.call("rbind", list2df)
 
-  mygsdf <- list2df
+  list2df$value <- 1
 
-  mygsdf$value <- 1
-
-  ggplot(as.data.frame(mygsdf),
-         aes(y = value, axis1 = gsid, axis2 = gene)) +
-    geom_alluvium(aes(fill = gsid), width = 1/12) +
+  p <- ggplot(as.data.frame(list2df),
+              aes_string(y = "value", axis1 = "gsid", axis2 = "gene")) +
+    geom_alluvium(aes_string(fill = "gsid"), width = 1/12) +
     geom_stratum(width = 1/12, fill = "grey", color = "black") +
     geom_label(stat = "stratum", label.strata = TRUE) +
     # geom_label_repel(stat = "stratum", label.strata = TRUE) +
     scale_x_discrete(limits = c("Gene set", "Gene"), expand = c(0.5, 0.2)) +
-    theme_void() -> p
-  return(p)
+    theme_void()
 
+  return(p)
 }
 
