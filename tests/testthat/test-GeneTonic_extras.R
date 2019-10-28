@@ -4,8 +4,8 @@ test_that("Overlap functions work", {
   set1 <- letters[1:10]
   set2 <- letters[1:15]
   set3 <- letters[5:20]
-  ol_1_2 <- overlap_coefficient(set1,set2)
-  ol_1_2_ji <- overlap_jaccard_index(set1,set2)
+  ol_1_2 <- overlap_coefficient(set1, set2)
+  ol_1_2_ji <- overlap_jaccard_index(set1, set2)
 
   expect_equal(ol_1_2, 1)
   expect_equal(ol_1_2_ji, 2/3)
@@ -24,7 +24,7 @@ test_that("map2color works", {
 })
 
 test_that("footer code is generated", {
-  expect_is(footer(),"shiny.tag")
+  expect_is(footer(), "shiny.tag")
 })
 
 test_that("results to data frame conversion works", {

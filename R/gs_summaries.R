@@ -15,15 +15,15 @@
 #'
 #' @examples
 #' # TODO
-gs_summary_heat <- function (res_enrich,
-                             res_de,
-                             annotation_obj,
-                             n_gs = 80,
-                             genes_colname = "genes",
-                             genesetname_colname = "Term",
-                             genesetid_colname = "GO.ID") {
+gs_summary_heat <- function(res_enrich,
+                            res_de,
+                            annotation_obj,
+                            n_gs = 80,
+                            genes_colname = "genes",
+                            genesetname_colname = "Term",
+                            genesetid_colname = "GO.ID") {
 
-  res_enrich2 <- res_enrich[seq_len(n_gs),]
+  res_enrich2 <- res_enrich[seq_len(n_gs), ]
 
   enriched_gsids <- res_enrich2[[genesetid_colname]]
   enriched_gsnames <- res_enrich2[[genesetname_colname]]

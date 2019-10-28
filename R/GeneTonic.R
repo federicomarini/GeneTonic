@@ -29,7 +29,7 @@ GeneTonic <- function(dds,
   # checks on the objects provided
 
   # clean up the result object, e.g. removing the NAs in the relevant columns
-  res_de <- res_de[!is.na(res_de$log2FoldChange),]
+  res_de <- res_de[!is.na(res_de$log2FoldChange), ]
   message("Removing ", sum(is.na(res_de$log2FoldChange)), " rows from the result object - logFC detected as NA")
 
 
@@ -218,8 +218,8 @@ GeneTonic <- function(dds,
             column(
               width = 1,
               actionButton(
-                "tour_firststeps",label = "",icon = icon("question-circle"),
-                style= .helpbutton_biocstyle
+                "tour_firststeps", label = "", icon = icon("question-circle"),
+                style = .helpbutton_biocstyle
               )
             )
           ),
@@ -278,8 +278,8 @@ GeneTonic <- function(dds,
             column(
               width = 1,
               actionButton(
-                "tour_ggs",label = "",icon = icon("question-circle"),
-                style= .helpbutton_biocstyle
+                "tour_ggs", label = "", icon = icon("question-circle"),
+                style = .helpbutton_biocstyle
               )
             )
           ),
@@ -317,8 +317,8 @@ GeneTonic <- function(dds,
             column(
               width = 1,
               actionButton(
-                "tour_emap",label = "",icon = icon("question-circle"),
-                style= .helpbutton_biocstyle
+                "tour_emap", label = "", icon = icon("question-circle"),
+                style = .helpbutton_biocstyle
               )
             )
           ),
@@ -346,8 +346,8 @@ GeneTonic <- function(dds,
             column(
               width = 1,
               actionButton(
-                "tour_deview",label = "",icon = icon("question-circle"),
-                style= .helpbutton_biocstyle
+                "tour_deview", label = "", icon = icon("question-circle"),
+                style = .helpbutton_biocstyle
               )
             )
           ),
@@ -369,8 +369,8 @@ GeneTonic <- function(dds,
             column(
               width = 1,
               actionButton(
-                "tour_genesetsview",label = "",icon = icon("question-circle"),
-                style= .helpbutton_biocstyle
+                "tour_genesetsview", label = "", icon = icon("question-circle"),
+                style = .helpbutton_biocstyle
               )
             )
           ),
@@ -392,8 +392,8 @@ GeneTonic <- function(dds,
             column(
               width = 1,
               actionButton(
-                "tour_bookmarks",label = "",icon = icon("question-circle"),
-                style= .helpbutton_biocstyle
+                "tour_bookmarks", label = "", icon = icon("question-circle"),
+                style = .helpbutton_biocstyle
               )
             )
           ),
@@ -409,7 +409,7 @@ GeneTonic <- function(dds,
           fluidRow(
             column(
               width = 8,
-              includeMarkdown(system.file("extdata", "about.md",package = "GeneTonic")),
+              includeMarkdown(system.file("extdata", "about.md", package = "GeneTonic")),
 
               verbatimTextOutput("sessioninfo")
             )
@@ -691,7 +691,7 @@ GeneTonic <- function(dds,
   #   )
   # )
 
-  options(shiny.maxRequestSize = 15*1024^2)
+  options(shiny.maxRequestSize = 15 * 1024^2)
 
   #nocov start
   genetonic_server <- function(input, output, session) {
@@ -707,7 +707,7 @@ GeneTonic <- function(dds,
     output$ui_exp_condition <- renderUI({
       poss_covars <- names(colData(dds))
       selectInput("exp_condition", label = "Group/color by: ",
-                  choices = c(NULL, poss_covars), selected = NULL,multiple = TRUE)
+                  choices = c(NULL, poss_covars), selected = NULL, multiple = TRUE)
     })
 
 
@@ -716,25 +716,25 @@ GeneTonic <- function(dds,
     output$overview_dds <- DT::renderDataTable({
       DT::datatable(
         counts(dds),
-        options = list(scrollX = TRUE,scrollY = "400px")
+        options = list(scrollX = TRUE, scrollY = "400px")
       )
     })
     output$overview_res_de <- DT::renderDataTable({
       DT::datatable(
         as.data.frame(res_de),
-        options = list(scrollX = TRUE,scrollY = "400px")
+        options = list(scrollX = TRUE, scrollY = "400px")
       )
     })
     output$overview_res_enrich <- DT::renderDataTable({
       DT::datatable(
         res_enrich,
-        options = list(scrollX = TRUE,scrollY = "400px")
+        options = list(scrollX = TRUE, scrollY = "400px")
       )
     })
     output$overview_annotation <- DT::renderDataTable({
       DT::datatable(
         annotation_obj,
-        options = list(scrollX = TRUE,scrollY = "400px")
+        options = list(scrollX = TRUE, scrollY = "400px")
       )
     })
 
@@ -817,12 +817,12 @@ GeneTonic <- function(dds,
     output$netnode <- renderPrint({
       g <- values$mygraph()
       cur_sel <- input$mynetwork_selected
-      cur_node <- match(cur_sel,V(g)$name)
+      cur_node <- match(cur_sel, V(g)$name)
       cur_nodetype <- V(g)$nodetype[cur_node]
 
-      cur_gsid <- res_enrich$GO.ID[match(cur_sel,res_enrich$Term)]
+      cur_gsid <- res_enrich$GO.ID[match(cur_sel, res_enrich$Term)]
 
-      paste0("I'm selecting ",input$mynetwork_selected, ", which has index ", cur_node, " and is of type ", cur_nodetype, "this is from set", cur_gsid)
+      paste0("I'm selecting ", input$mynetwork_selected, ", which has index ", cur_node, " and is of type ", cur_nodetype, "this is from set", cur_gsid)
 
     })
 
@@ -840,12 +840,12 @@ GeneTonic <- function(dds,
     output$net_sigheatplot <- renderPlot({
       g <- values$mygraph()
       cur_sel <- input$mynetwork_selected
-      cur_node <- match(cur_sel,V(g)$name)
+      cur_node <- match(cur_sel, V(g)$name)
       cur_nodetype <- V(g)$nodetype[cur_node]
       validate(need(cur_nodetype == "GeneSet",
                     message = "Please select a gene set."
       ))
-      cur_gsid <- res_enrich$GO.ID[match(input$mynetwork_selected,res_enrich$Term)]
+      cur_gsid <- res_enrich$GO.ID[match(input$mynetwork_selected, res_enrich$Term)]
       gs_heatmap(myvst,
                  res_de,
                  res_enrich,
@@ -869,12 +869,12 @@ GeneTonic <- function(dds,
     output$ggs_geneset_info <- renderUI({
       g <- values$mygraph()
       cur_sel <- input$mynetwork_selected
-      cur_node <- match(cur_sel,V(g)$name)
+      cur_node <- match(cur_sel, V(g)$name)
       cur_nodetype <- V(g)$nodetype[cur_node]
       validate(need(cur_nodetype == "GeneSet",
                     message = "Please select a gene set."
       ))
-      cur_gsid <- res_enrich$GO.ID[match(input$mynetwork_selected,res_enrich$Term)]
+      cur_gsid <- res_enrich$GO.ID[match(input$mynetwork_selected, res_enrich$Term)]
 
       # message(cur_gsid)
       # GOTERM[[cur_gsid]]
@@ -892,7 +892,7 @@ GeneTonic <- function(dds,
     output$ggs_gene_info <- renderUI({
       g <- values$mygraph()
       cur_sel <- input$mynetwork_selected
-      cur_node <- match(cur_sel,V(g)$name)
+      cur_node <- match(cur_sel, V(g)$name)
       cur_nodetype <- V(g)$nodetype[cur_node]
       validate(need(cur_nodetype == "Feature",
                     message = "Please select a gene/feature."
@@ -910,7 +910,7 @@ GeneTonic <- function(dds,
     output$ggs_geneplot <- renderPlot({
       g <- values$mygraph()
       cur_sel <- input$mynetwork_selected
-      cur_node <- match(cur_sel,V(g)$name)
+      cur_node <- match(cur_sel, V(g)$name)
       cur_nodetype <- V(g)$nodetype[cur_node]
       validate(need(cur_nodetype == "Feature",
                     message = "Please select a gene/feature."
@@ -946,7 +946,7 @@ GeneTonic <- function(dds,
 
     output$gs_volcano_simplified <- renderPlot({
       gs_volcano(
-        get_aggrscores(gs_simplify(res_enrich,gs_overlap = 0.6),
+        get_aggrscores(gs_simplify(res_enrich, gs_overlap = 0.6),
                        res_de,
                        annotation_obj = annotation_obj))
     })
@@ -994,7 +994,7 @@ GeneTonic <- function(dds,
     })
 
     output$emap_geneset_info <- renderUI({
-      cur_gsid <- res_enrich$GO.ID[match(input$emap_visnet_selected,res_enrich$Term)]
+      cur_gsid <- res_enrich$GO.ID[match(input$emap_visnet_selected, res_enrich$Term)]
       validate(need(!is.na(cur_gsid),
                     message = "Please select a gene set from the enrichment map."))
 
@@ -1011,7 +1011,7 @@ GeneTonic <- function(dds,
       # validate(need(cur_nodetype == "GeneSet",
       #               message = "Please select a gene set."
       # ))
-      cur_gsid <- res_enrich$GO.ID[match(input$emap_visnet_selected,res_enrich$Term)]
+      cur_gsid <- res_enrich$GO.ID[match(input$emap_visnet_selected, res_enrich$Term)]
       validate(need(!is.na(cur_gsid),
                     message = "Please select a gene set from the enrichment map."))
 
@@ -1057,7 +1057,7 @@ GeneTonic <- function(dds,
     })
 
     output$mds_genesets <- renderPlot({
-      gs_mds(res_enrich, res_de, annotation_obj,mds_colorby = "z_score",
+      gs_mds(res_enrich, res_de, annotation_obj, mds_colorby = "z_score",
              mds_labels = input$n_genesets)
     })
 
@@ -1107,15 +1107,15 @@ GeneTonic <- function(dds,
       if (cur_sel == "") {
         showNotification("Select a node in the network to bookmark it", type = "warning")
       } else {
-        cur_node <- match(cur_sel,V(g)$name)
+        cur_node <- match(cur_sel, V(g)$name)
         cur_nodetype <- V(g)$nodetype[cur_node]
 
-        if(cur_nodetype == "Feature") {
+        if (cur_nodetype == "Feature") {
           # TODO: match back to identifier and so
           values$mygenes <- c(values$mygenes, cur_sel)
           message("there go your genes... ", values$mygenes)
           showNotification(sprintf("Added %s to the bookmarked genes. The list contains now %d elements", cur_sel, length(values$mygenes)), type = "message")
-        } else if (cur_nodetype == "GeneSet"){
+        } else if (cur_nodetype == "GeneSet") {
           # TODO: match back to identifier and so
           values$mygenesets <- c(values$mygenesets, cur_sel)
           message("here are your genesets... ", values$mygenesets)

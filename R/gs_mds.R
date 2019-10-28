@@ -51,7 +51,7 @@ gs_mds <- function(res_enrich,
   mysets <- res_enrich[[genesetid_colname]]
   mysets_names <- res_enrich[[genesetname_colname]]
 
-  if(similarity_measure == "kappa_matrix") {
+  if (similarity_measure == "kappa_matrix") {
     my_simmat <- create_kappa_matrix(res_enrich,
                                      genes_colname = genes_colname,
                                      genesetname_colname = genesetname_colname,
@@ -64,8 +64,8 @@ gs_mds <- function(res_enrich,
 
   # TODOTODO: cbind it to the original data frame?
   mds_go_df <- data.frame(
-    dim1 = mds_go$points[,1],
-    dim2 = mds_go$points[,2], # handle 3rd dim?
+    dim1 = mds_go$points[, 1],
+    dim2 = mds_go$points[, 2], # handle 3rd dim?
     gs_id = mysets,
     gs_name = mysets_names,
     gs_DEcount = res_enrich$DE_count,

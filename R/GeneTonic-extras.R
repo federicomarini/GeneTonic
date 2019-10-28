@@ -11,13 +11,13 @@
 #' # TODO
 go_2_html <- function(go_id) {
   fullinfo <- GOTERM[[go_id]]
-  if(is.null(fullinfo)) {
+  if (is.null(fullinfo)) {
     return(HTML("GeneOntology term not found!"))
   }
 
   mycontent <- paste0(
     "<b>GO ID: </b>", .link2amigo(GOID(fullinfo)), "<br>",
-    "<b>Term: </b>", Term(fullinfo),"<br></b>",
+    "<b>Term: </b>", Term(fullinfo), "<br></b>",
     "<b>Ontology: </b>", Ontology(fullinfo), "<br><br>",
     "<b>Definition: </b>", Definition(fullinfo), "<br>",
 

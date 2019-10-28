@@ -92,9 +92,9 @@ enrichment_map <- function(res_enrich,
   V(g)$original_size <- gs_size
 
 
-  colVar <- res_enrich[idx, color_by]
-  if (all(colVar < 1)) # likely p-values...
-    colVar <- -log10(colVar)
+  col_var <- res_enrich[idx, color_by]
+  if (all(col_var < 1)) # likely p-values...
+    col_var <- -log10(col_var)
   # V(g)$color <- colVar
 
   mypal <- (scales::alpha(
@@ -105,9 +105,9 @@ enrichment_map <- function(res_enrich,
     colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 1))
 
   # V(g)$color <- map2color(colVar,mypal,limits = range(colVar))
-  V(g)$color.background <- map2color(colVar, mypal, limits = range(colVar))
-  V(g)$color.highlight <- map2color(colVar, mypal_select, limits = range(colVar))
-  V(g)$color.hover <- map2color(colVar, mypal_hover, limits = range(colVar))
+  V(g)$color.background <- map2color(col_var, mypal, limits = range(col_var))
+  V(g)$color.highlight <- map2color(col_var, mypal_select, limits = range(col_var))
+  V(g)$color.hover <- map2color(col_var, mypal_hover, limits = range(col_var))
 
   # TODOTODO: some kind of border prettifying?
   V(g)$color.border <- "black"

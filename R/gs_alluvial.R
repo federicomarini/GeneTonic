@@ -50,23 +50,23 @@ gs_alluvial <- function(res_enrich,
   colnames(list2df) <- c("source", "target", "value")
   list2df$source <- as.character(list2df$source)
   list2df$target <- as.character(list2df$target)
-  list2df$target <- paste(list2df$target, " ", sep="") # genes might need a space for better rendering...
+  list2df$target <- paste(list2df$target, " ", sep = "") # genes might need a space for better rendering...
 
   # From these flows we need to create a node data frame: it lists every entities involved in the flow
   nodes <- data.frame(
-    name=c(as.character(list2df$source), as.character(list2df$target)) %>% unique()
+    name = c(as.character(list2df$source), as.character(list2df$target)) %>% unique()
   )
 
   # connections must be provided using id, not using real name like in the links data.frame...
-  list2df$IDsource <- match(list2df$source, nodes$name)-1
-  list2df$IDtarget <- match(list2df$target, nodes$name)-1
+  list2df$IDsource <- match(list2df$source, nodes$name) - 1
+  list2df$IDtarget <- match(list2df$target, nodes$name) - 1
 
   # list2df %>% head
 
   allnodes <- c(unique(list2df$source), unique(list2df$target))
   allcols <- c(
     viridis(length(unique(list2df$source))),           # for genesets
-    rep("steelblue",length(unique(list2df$target)))    # for genes
+    rep("steelblue", length(unique(list2df$target)))    # for genes
   )
 
   p <- plot_ly(

@@ -58,8 +58,8 @@ gs_heatmap <- function(se,
 
   rownames(res_enrich) <- res_enrich[[genesetid_colname]]
   if (geneset_id %in% res_enrich[[genesetid_colname]]) {
-    thisset_name <- res_enrich[geneset_id,genesetname_colname]
-    thisset_members <- unlist(strsplit(res_enrich[geneset_id,genes_colname],","))
+    thisset_name <- res_enrich[geneset_id, genesetname_colname]
+    thisset_members <- unlist(strsplit(res_enrich[geneset_id, genes_colname], ","))
     thisset_members_ids <- annotation_obj$gene_id[match(thisset_members, annotation_obj$gene_name)]
   } else {
     # overridable via a list
@@ -69,26 +69,26 @@ gs_heatmap <- function(se,
   sig_to_keep <- (thisset_members_ids %in% rownames(se))#
   thisset_members_ids_available <- thisset_members_ids[sig_to_keep]
 
-  mydata_sig <- mydata[thisset_members_ids_available,]
+  mydata_sig <- mydata[thisset_members_ids_available, ]
 
   # to avoid problems later, remove the ones non-expressed and with variance = 0
   to_remove <- apply(mydata_sig, 1, var) == 0
-  mydata_sig <- mydata_sig[!to_remove,]
+  mydata_sig <- mydata_sig[!to_remove, ]
 
-  if(center_mean)
+  if (center_mean)
     mydata_sig <- mydata_sig - rowMeans(mydata_sig)
 
-  if(de_only) {
-    de_res <- deseqresult2df(res_de,FDR)
+  if (de_only) {
+    de_res <- deseqresult2df(res_de, FDR)
     de_genes <- de_res$id
     de_to_keep <- rownames(mydata_sig) %in% de_genes
-    mydata_sig <- mydata_sig[de_to_keep,]
+    mydata_sig <- mydata_sig[de_to_keep, ]
   }
 
   # dim(mydata_sig)
 
   title <- paste0("Signature heatmap - ", thisset_name)
-  sample_decoration <- as.data.frame(colData(se))[,"condition",drop = FALSE]
+  sample_decoration <- as.data.frame(colData(se))[, "condition", drop = FALSE]
 
   # if(returnData) {
   #
@@ -97,8 +97,8 @@ gs_heatmap <- function(se,
   pheatmap(mydata_sig,
            # annotation_col = anno_colData,
            cluster_rows = cluster_rows, cluster_cols = cluster_cols,
-           scale = ifelse(scale_row,"row","none"),main = title,
-           labels_row = annotation_obj[rownames(mydata_sig),]$gene_name,
+           scale = ifelse(scale_row, "row", "none"), main = title,
+           labels_row = annotation_obj[rownames(mydata_sig), ]$gene_name,
            annotation_col = sample_decoration)
 
 
@@ -148,16 +148,16 @@ gs_scores <- function(se,
     res_enrich[[genesetname_colname]])
   colnames(gss_mat) <- colnames(se)
 
-  for(i in seq_len(nrow(res_enrich))) {
+  for (i in seq_len(nrow(res_enrich))) {
 
-    thisset_members <- unlist(strsplit(res_enrich[i,genes_colname],","))
+    thisset_members <- unlist(strsplit(res_enrich[i, genes_colname], ","))
     thisset_members_ids <- annotation_obj$gene_id[match(thisset_members, annotation_obj$gene_name)]
 
     thisset_members_ids <- thisset_members_ids[thisset_members_ids %in% rownames(se)]
-    thisset_zs <- mydata_z[thisset_members_ids,]
+    thisset_zs <- mydata_z[thisset_members_ids, ]
     thisset_mean_zs <- colMeans(thisset_zs)
 
-    gss_mat[i,] <- thisset_mean_zs
+    gss_mat[i, ] <- thisset_mean_zs
   }
 
   return(gss_mat)
@@ -195,7 +195,7 @@ gs_ggheatmap <- function(mat,
     score_matrix <- score_matrix[row_tree$order, ]
 
   if(cluster_cols)
-    score_matrix <- score_matrix[ , col_tree$order]
+    score_matrix <- score_matrix[, col_tree$order]
 
   labels_rows <- factor(rownames(score_matrix),
                         levels = rev(rownames(score_matrix)))

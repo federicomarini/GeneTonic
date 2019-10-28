@@ -38,7 +38,7 @@ gs_simplify <- function(res_enrich,
     for (j in seq_len(N)) {
       genes_i <- genelists[[i]]
       genes_j <- genelists[[j]]
-      ol_mat[i, j] <- round(sum(genes_i %in% genes_j)/length(genes_i), digits = 3)
+      ol_mat[i, j] <- round(sum(genes_i %in% genes_j) / length(genes_i), digits = 3)
     }
   }
 
