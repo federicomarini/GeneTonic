@@ -43,6 +43,12 @@ test_that("Retrieving info on GO term", {
   expect_equal(go_2_html("GO:00"), HTML("GeneOntology term not found!"))
 })
 
+test_that("Retrieving info on GO term", {
+  out <- geneinfo_2_html("Xist")
+  expect_is(out, "character")
+  expect_is(out, "html")
+})
+
 test_that("'Linking to AmiGO database", {
   out <- .link2amigo("GO:0032729")
   expect_is(out, "character")

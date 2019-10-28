@@ -124,7 +124,7 @@ gs_alluvial2 <- function(res_enrich,
                          genesetname_colname = "Term",
                          genesetid_colname = "GO.ID") {
 
-  res_enhanced <- get_aggrscores(res_enrich, res_de, annotation_obj = annotation_obj)
+  # res_enhanced <- get_aggrscores(res_enrich, res_de, annotation_obj = annotation_obj)
 
   enriched_gsids <- res_enrich[[genesetid_colname]]
   enriched_gsnames <- res_enrich[[genesetname_colname]]
