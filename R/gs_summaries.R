@@ -1,5 +1,19 @@
 
 
+#' Title TODO
+#'
+#' TODO
+#'
+#' @param res_enrich  TODO
+#' @param n_gs  TODO
+#' @param p_value_column  TODO
+#' @param color_by  TODO
+#'
+#' @return TODO
+#' @export
+#'
+#' @examples
+#' # TODO
 gs_summary_overview <- function(res_enrich,
                                 n_gs = 20,
                                 p_value_column = "p.value_elim",
@@ -27,6 +41,22 @@ gs_summary_overview <- function(res_enrich,
   return(p)
 }
 
+#' Title  TODO
+#'
+#' TODO
+#'
+#' @param res_enrich  TODO
+#' @param res_enrich2  TODO
+#' @param n_gs  TODO
+#' @param p_value_column  TODO
+#' @param color_by  TODO
+#' @param alpha_set2  TODO
+#'
+#' @return TODO
+#' @export
+#'
+#' @examples
+#' # TODO
 gs_summary_overview_pair <- function(res_enrich,
                                      res_enrich2,
                                 n_gs = 20,
