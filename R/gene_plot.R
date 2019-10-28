@@ -12,6 +12,7 @@
 #' @param annotation_obj TODO
 #' @param transform TODO
 #' @param labels_repel TODO
+#' @param plot_type TODO
 #'
 #' @return TODO
 #' @export
@@ -24,8 +25,11 @@ gene_plot <- function(dds,
                       intgroup = "condition",
                       annotation_obj = NULL,
                       transform = TRUE,
-                      labels_repel = TRUE) {
+                      labels_repel = TRUE,
+                      plot_type = "auto") {
 
+  plot_type <- match.arg(plot_type,
+                         c("auto", "jitteronly", "boxplot", "violin", "sina"))
   # TODO: enable the possibility of using other assays?
 
   # TODO: use a more general func to extract the values?
@@ -51,23 +55,23 @@ gene_plot <- function(dds,
 
   # somewhat following the recommendations here
   # https://www.embopress.org/doi/full/10.15252/embj.201694659
-  if (min_by_groups <= 3) {
+  if (plot_type =="jitteronly" || (plot_type =="auto" & min_by_groups <= 3)) {
     p <- p +
       geom_jitter(aes_string(x = "plotby", y = "count"),
                      position = position_jitter(width = 0.2, height = 0))
     # do nothing - or add a line for the median?
-  } else if (min_by_groups > 3 & min_by_groups < 10) {
+  } else if (plot_type == "boxplot" || (plot_type =="auto" & (min_by_groups > 3 & min_by_groups < 10)) ) {
     p <- p +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(position = position_jitter(width = 0.2, height = 0))
 
-  } else if (min_by_groups >= 11 & min_by_groups < 40) {
+  } else if (plot_type == "violin" || (plot_type =="auto" & (min_by_groups >= 11 & min_by_groups < 40))) {
     p <- p +
       geom_violin() +
       geom_jitter(position = position_jitter(width = 0.2, height = 0)) +
       stat_summary(fun.y = median, fun.ymin = median, fun.ymax = median,
                    geom = "crossbar", width = 0.3)
-  } else {
+  } else if (plot_type == "sina" || (plot_type =="auto" & (min_by_groups >= 40))) {
     p <- p +
       ggforce::geom_sina() +
       stat_summary(fun.y = median, fun.ymin = median, fun.ymax = median,
