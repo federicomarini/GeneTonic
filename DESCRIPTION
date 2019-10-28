@@ -34,8 +34,7 @@ Imports:
     bs4Dash,
     shinyWidgets,
     ggalluvial,
-    viridis,
-    grDevices
+    viridis
 Suggests:
     knitr,
     rmarkdown,

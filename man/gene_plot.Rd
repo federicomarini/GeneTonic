@@ -5,7 +5,8 @@
 \title{Title TODO}
 \usage{
 gene_plot(dds, gene, assay = "counts", intgroup = "condition",
-  annotation_obj = NULL, transform = TRUE, labels_repel = TRUE)
+  annotation_obj = NULL, transform = TRUE, labels_repel = TRUE,
+  plot_type = "auto")
 }
 \arguments{
 \item{dds}{TODO}
@@ -21,6 +22,8 @@ gene_plot(dds, gene, assay = "counts", intgroup = "condition",
 \item{transform}{TODO}
 
 \item{labels_repel}{TODO}
+
+\item{plot_type}{TODO}
 }
 \value{
 TODO

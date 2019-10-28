@@ -11,7 +11,7 @@
 #' @import igraph
 #' @import visNetwork
 #' @importFrom utils read.delim sessionInfo
-#' @importFrom grDevices colorRampPalette
+#' @importFrom grDevices colorRampPalette rgb
 #' @importFrom RColorBrewer brewer.pal
 #' @importFrom scales alpha muted
 #' @importFrom S4Vectors mcols
