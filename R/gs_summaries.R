@@ -29,8 +29,8 @@ gs_summary_overview <- function(res_enrich,
   # TODO: color_by to be selected
 
   re_sorted <- re %>%
-    arrange(logp10) %>%
-    mutate(Term=factor(Term, Term))
+    arrange(.data$logp10) %>%
+    mutate(Term=factor(.data$Term, .data$Term))
   p <- ggplot(re_sorted, ( aes_string(x="Term", y="logp10"))) +
     geom_segment( aes_string(x="Term" ,xend="Term", y=0, yend="logp10"), color="grey") +
     geom_point(aes_string(col="z_score"), size = 4 ) +
@@ -77,6 +77,8 @@ gs_summary_overview_pair <- function(res_enrich,
   set.seed(42)
   shuffled_ones <- sample(seq_len(nrow(re1)))
   re2 <- res_enrich
+  re2$logp10 <- -log10(re2[[p_value_column]])
+
   re2$z_score <- re2$z_score[shuffled_ones]
   re2$aggr_score <- re2$aggr_score[shuffled_ones]
   re2$logp10 <- re1$logp10[shuffled_ones]
@@ -88,8 +90,8 @@ gs_summary_overview_pair <- function(res_enrich,
   re_both <- re_both[seq_len(n_gs), ]
 
   re_both_sorted <- re_both %>%
-    arrange(logp10) %>%
-    mutate(Term=factor(Term, Term))
+    arrange(.data$logp10) %>%
+    mutate(Term=factor(.data$Term, .data$Term))
 
   p <- ggplot(re_both_sorted, aes_string(x="Term", y="logp10")) +
     geom_segment( aes_string(x="Term" ,xend="Term", y="logp10_2", yend="logp10"), color="grey") +
@@ -158,8 +160,8 @@ gs_horizon <- function(res_enrich, # TODO: should be a list of res_enrich object
 
   # to preserve the order of the terms
   res_enriched_1 <- res_enriched_1 %>%
-    arrange(logp10) %>%
-    mutate(Term=factor(Term, unique(Term)))
+    arrange(.data$logp10) %>%
+    mutate(Term=factor(.data$Term, unique(.data$Term)))
 
   # to preserve the sorting of scenarios
   merged_res_enh <- rbind(res_enriched_1,

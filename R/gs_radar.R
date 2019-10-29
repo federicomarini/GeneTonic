@@ -25,7 +25,7 @@ gs_radar <- function(res_enrich1,
 
   # res_enrich has to contain the Z-score to be displayed
 
-  if (!("z_score" %in% colnames(res_enrich))) {
+  if (!("z_score" %in% colnames(res_enrich1))) {
     warning("You need to add the z_score or the aggregated score")
   } # TODO: same for aggr_score
 
