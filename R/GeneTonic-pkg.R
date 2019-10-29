@@ -20,7 +20,7 @@
 #' @import GO.db
 #' @import DESeq2
 #' @importFrom AnnotationDbi Definition GOID Term Synonym Secondary
-#' @importFrom plotly ggplotly plotlyOutput renderPlotly plot_ly layout
+#' @importFrom plotly ggplotly plotlyOutput renderPlotly plot_ly layout add_trace
 #' @importFrom tidyr separate_rows pivot_longer
 #' @importFrom stats var dist hclust
 #' @import pheatmap
@@ -33,6 +33,8 @@
 #' @import shinyWidgets
 #' @import ggalluvial
 #' @import viridis
+#' @importFrom dplyr arrange desc group_by mutate
+#' @importFrom ggforce geom_sina
 #'
 #' @name GeneTonic-pkg
 #' @docType package
