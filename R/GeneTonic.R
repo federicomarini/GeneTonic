@@ -1142,14 +1142,24 @@ GeneTonic <- function(dds,
 
         if (cur_nodetype == "Feature") {
           # TODO: match back to identifier and so
-          values$mygenes <- c(values$mygenes, cur_sel)
-          message("there go your genes... ", values$mygenes)
-          showNotification(sprintf("Added %s to the bookmarked genes. The list contains now %d elements", cur_sel, length(values$mygenes)), type = "message")
+          if(cur_sel %in% values$mygenes) {
+            showNotification(sprintf("The selected gene %s is already in the set of the bookmarked genes.", cur_sel), type = "default")
+          } else {
+            values$mygenes <- unique(c(values$mygenes, cur_sel))
+            message("there go your genes... ", values$mygenes)
+            showNotification(sprintf("Added %s to the bookmarked genes. The list contains now %d elements", cur_sel, length(values$mygenes)), type = "message")
+
+          }
         } else if (cur_nodetype == "GeneSet") {
+          if(cur_sel %in% values$mygenesets) {
+            showNotification(sprintf("The selected gene set %s is already in the set of the bookmarked genesets.", cur_sel), type = "default")
+          } else {
+            values$mygenesets <- unique(c(values$mygenesets, cur_sel))
+            message("here are your genesets... ", values$mygenesets)
+            showNotification(sprintf("Added %s to the bookmarked genesets. The list contains now %d elements", cur_sel, length(values$mygenesets)), type = "message")
+          }
           # TODO: match back to identifier and so
-          values$mygenesets <- c(values$mygenesets, cur_sel)
-          message("here are your genesets... ", values$mygenesets)
-          showNotification(sprintf("Added %s to the bookmarked genesets. The list contains now %d elements", cur_sel, length(values$mygenesets)), type = "message")
+
         } else {
           message("bleeee")
         }
