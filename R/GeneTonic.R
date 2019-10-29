@@ -208,6 +208,23 @@ GeneTonic <- function(dds,
         # #myAnchorBox{}
       ),
 
+      tags$script(HTML("$(function(){
+      $(document).keyup(function(e) {
+      if (e.which == 17) {
+        $('#bookmark_ggs').click()
+      }
+      });
+      })")),
+
+      # 27: esc, works
+      # 60, <, works NOT1
+      # 17, ctrl left, works
+
+      # see more here:
+      # https://stackoverflow.com/questions/41675059/keyboard-shortcuts-to-trigger-reactive-flows-in-r-shiny
+      # https://stackoverflow.com/questions/10655202/detect-multiple-keys-on-single-keypress-event-in-jquery
+      # http://keycode.info/
+
       bs4TabItems(
         # ui panel welcome -----------------------------------------------------------
         bs4TabItem(
