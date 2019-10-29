@@ -29,7 +29,11 @@
 #' @importFrom methods is
 #' @import pcaExplorer
 #' @import shinycssloaders
-#' @import bs4Dash
+#' @importFrom bs4Dash bs4Card bs4DashBody bs4DashControlbar
+#' bs4DashFooter bs4DashNavbar bs4DashPage bs4DashSidebar
+#' bs4InfoBox bs4InfoBoxOutput bs4SidebarMenu
+#' bs4SidebarMenuItem bs4TabItem bs4TabItems bs4ValueBox
+#' bs4ValueBoxOutput renderbs4InfoBox renderbs4ValueBox
 #' @import shinyWidgets
 #' @import ggalluvial
 #' @import viridis

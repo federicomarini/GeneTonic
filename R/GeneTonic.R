@@ -121,7 +121,7 @@ GeneTonic <- function(dds,
     ),
 
     # sidebar definition ------------------------------------------------------
-    sidebar = bs4Dash::dashboardSidebar(
+    sidebar = bs4Dash::bs4DashSidebar(
       title = HTML("<small>GeneTonic</small>"),
       skin = "dark",
       status = "primary",
