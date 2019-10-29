@@ -432,7 +432,7 @@ GeneTonic <- function(dds,
     ),
 
     footer = bs4DashFooter(
-      GeneTonic:::footer()
+      footer()
     )
 
   )
