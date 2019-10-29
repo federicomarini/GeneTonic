@@ -34,7 +34,10 @@ Imports:
     bs4Dash,
     shinyWidgets,
     ggalluvial,
-    viridis
+    viridis,
+    dplyr,
+    ggforce,
+    rlang
 Suggests:
     knitr,
     rmarkdown,

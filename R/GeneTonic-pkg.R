@@ -35,6 +35,7 @@
 #' @import viridis
 #' @importFrom dplyr arrange desc group_by mutate
 #' @importFrom ggforce geom_sina
+#' @importFrom rlang .data
 #'
 #' @name GeneTonic-pkg
 #' @docType package
