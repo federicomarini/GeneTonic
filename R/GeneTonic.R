@@ -141,6 +141,7 @@ GeneTonic <- function(dds,
       # )
 
       bs4SidebarMenu(
+        id = "gt_tabs",
         bs4SidebarMenuItem(
           "Welcome!",
           tabName = "tab_welcome",
@@ -1148,41 +1149,58 @@ GeneTonic <- function(dds,
     })
 
 
+    observe({
+      print(input$gt_tabs)
+    })
+
     observeEvent(input$bookmark_ggs, {
-      g <- values$mygraph()
-      cur_sel <- input$mynetwork_selected
-      if (cur_sel == "") {
-        showNotification("Select a node in the network to bookmark it", type = "warning")
-      } else {
-        cur_node <- match(cur_sel, V(g)$name)
-        cur_nodetype <- V(g)$nodetype[cur_node]
-
-        if (cur_nodetype == "Feature") {
-          # TODO: match back to identifier and so
-          if(cur_sel %in% values$mygenes) {
-            showNotification(sprintf("The selected gene %s is already in the set of the bookmarked genes.", cur_sel), type = "default")
-          } else {
-            values$mygenes <- unique(c(values$mygenes, cur_sel))
-            message("there go your genes... ", values$mygenes)
-            showNotification(sprintf("Added %s to the bookmarked genes. The list contains now %d elements", cur_sel, length(values$mygenes)), type = "message")
-
-          }
-        } else if (cur_nodetype == "GeneSet") {
-          if(cur_sel %in% values$mygenesets) {
-            showNotification(sprintf("The selected gene set %s is already in the set of the bookmarked genesets.", cur_sel), type = "default")
-          } else {
-            values$mygenesets <- unique(c(values$mygenesets, cur_sel))
-            message("here are your genesets... ", values$mygenesets)
-            showNotification(sprintf("Added %s to the bookmarked genesets. The list contains now %d elements", cur_sel, length(values$mygenesets)), type = "message")
-          }
-          # TODO: match back to identifier and so
-
-        } else {
-          message("bleeee")
-        }
-      }
+      if(input$gt_tabs == "tab_welcome")
+        showNotification("welcome on board!")
+      else if(input$gt_tabs == "tab_ggs")
+        showNotification("ggs baby")
+      else if(input$gt_tabs == "tab_emap")
+        showNotification("maaap maaap")
+      else if(input$gt_tabs == "tab_bookmarks")
+        showNotification("been waiting for you")
+      else if(input$gt_tabs == "tab_about")
+        showNotification("youwannaknowwhatitsallabout")
 
     })
+    # observeEvent(input$bookmark_ggs, {
+    #   g <- values$mygraph()
+    #   cur_sel <- input$mynetwork_selected
+    #   if (cur_sel == "") {
+    #     showNotification("Select a node in the network to bookmark it", type = "warning")
+    #   } else {
+    #     cur_node <- match(cur_sel, V(g)$name)
+    #     cur_nodetype <- V(g)$nodetype[cur_node]
+    #
+    #     if (cur_nodetype == "Feature") {
+    #       # TODO: match back to identifier and so
+    #       if(cur_sel %in% values$mygenes) {
+    #         showNotification(sprintf("The selected gene %s is already in the set of the bookmarked genes.", cur_sel), type = "default")
+    #       } else {
+    #         values$mygenes <- unique(c(values$mygenes, cur_sel))
+    #         message("there go your genes... ", values$mygenes)
+    #         showNotification(sprintf("Added %s to the bookmarked genes. The list contains now %d elements", cur_sel, length(values$mygenes)), type = "message")
+    #
+    #       }
+    #     } else if (cur_nodetype == "GeneSet") {
+    #       if(cur_sel %in% values$mygenesets) {
+    #         showNotification(sprintf("The selected gene set %s is already in the set of the bookmarked genesets.", cur_sel), type = "default")
+    #       } else {
+    #         values$mygenesets <- unique(c(values$mygenesets, cur_sel))
+    #         message("here are your genesets... ", values$mygenesets)
+    #         showNotification(sprintf("Added %s to the bookmarked genesets. The list contains now %d elements", cur_sel, length(values$mygenesets)), type = "message")
+    #       }
+    #       # TODO: match back to identifier and so
+    #
+    #     } else {
+    #       message("bleeee")
+    #     }
+    #   }
+    #
+    # })
 
 
 
