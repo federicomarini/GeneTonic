@@ -48,7 +48,11 @@ GeneTonic <- function(dds,
       skin = "light",
       controlbarIcon = "gears",
       fixed = FALSE,
-      leftUi = tags$code(tags$h3("GeneTonic")),
+      leftUi = tagList(
+        tags$code(tags$h3("GeneTonic")),
+        actionButton("bookmark_ggs", label = "Bookmark", icon = icon("heart"),
+                     style = "color: #ffffff; background-color: #ac0000; border-color: #ffffff", class="ml-5")
+      ),
       rightUi = tagList(
         # actionButton(
         #   inputId = "btn_help_navbar",
@@ -307,9 +311,7 @@ GeneTonic <- function(dds,
               width = 9,
               withSpinner(
                 visNetworkOutput("mynetwork", height = "700px", width = "100%")
-              ),
-              actionButton("bookmark_ggs", label = "Bookmark", icon = icon("heart"),
-                           style = "color: #ffffff; background-color: #ac0000; border-color: #ffffff")
+              )
             ),
             column(
               width = 3,
