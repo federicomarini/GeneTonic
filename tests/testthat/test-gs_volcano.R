@@ -2,7 +2,7 @@ context("Testing the GO volcano plot and related functionality")
 
 test_that("Plot is generated", {
   expect_error(
-    go_volcano(topgoDE_macrophage_IFNg_vs_naive,
+    gs_volcano(topgoDE_macrophage_IFNg_vs_naive,
                labels_to_use = "Term",
                pvals_to_use = "p.value_elim"))
 
