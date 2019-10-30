@@ -1,3 +1,12 @@
+# GeneTonic 0.4.0
+
+## New features
+
+* added functionality for bookmarking
+* bookmarking can work (PoP) by pressing a key (left control)!
+* `gene_plot` can enforce a plot type overriding the default based on the number of samples per condition
+* `GeneTonic` uses now `bs4Dash` and many of its nice features, replacing the previous implementation based on `shinydashboard`
+
 # GeneTonic 0.3.0
 
 ## Other notes
