@@ -50,7 +50,7 @@ GeneTonic <- function(dds,
       fixed = FALSE,
       leftUi = tagList(
         tags$code(tags$h3("GeneTonic")),
-        actionButton("bookmark_ggs", label = "Bookmark", icon = icon("heart"),
+        actionButton("bookmarker", label = "Bookmark", icon = icon("heart"),
                      style = "color: #ffffff; background-color: #ac0000; border-color: #ffffff", class="ml-5")
       ),
       rightUi = tagList(
@@ -216,7 +216,7 @@ GeneTonic <- function(dds,
       tags$script(HTML("$(function(){
       $(document).keyup(function(e) {
       if (e.which == 17) {
-        $('#bookmark_ggs').click()
+        $('#bookmarker').click()
       }
       });
       })")),
@@ -1157,7 +1157,7 @@ GeneTonic <- function(dds,
 
 
     # bookmarker --------------------------------------------------------------
-    observeEvent(input$bookmark_ggs, {
+    observeEvent(input$bookmarker, {
       if(input$gt_tabs == "tab_welcome")
         showNotification("welcome on board!")
       else if(input$gt_tabs == "tab_ggs") {
