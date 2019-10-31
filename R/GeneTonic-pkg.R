@@ -34,6 +34,7 @@
 #' bs4InfoBox bs4InfoBoxOutput bs4SidebarMenu
 #' bs4SidebarMenuItem bs4TabItem bs4TabItems bs4ValueBox
 #' bs4ValueBoxOutput renderbs4InfoBox renderbs4ValueBox
+#' bs4TabPanel bs4TabCard
 #' @import shinyWidgets
 #' @import ggalluvial
 #' @import viridis

@@ -322,7 +322,10 @@ GeneTonic <- function(dds,
               ),
               # box(),
               hr(),
-              uiOutput("ui_ggs_genebox")
+              bs4Card(
+                width = 12,
+                uiOutput("ui_ggs_genebox")
+              )
 
               # TODOTODO
             )
@@ -373,11 +376,39 @@ GeneTonic <- function(dds,
               )
             )
           ),
+
           fluidRow(
-            plotOutput("gs_volcano"),
-            plotOutput("gs_volcano_simplified"),
-            plotOutput("enriched_funcres"),
-            plotlyOutput("enriched_funcres_plotly")
+            bs4Dash::column(
+              width = 10,
+              offset = 1,
+              bs4Dash::bs4TabCard(
+                id = "tabcard_deview",
+                title = "Different views",
+                side = "right",
+                elevation = 2,
+                width = 12,
+                bs4TabPanel(
+                  tabName = "Tab 1",
+                  active = TRUE,
+                  plotOutput("gs_volcano")
+                ),
+                bs4TabPanel(
+                  tabName = "Tab 2",
+                  active = FALSE,
+                  plotOutput("gs_volcano_simplified")
+                ),
+                bs4TabPanel(
+                  tabName = "Tab 3",
+                  active = FALSE,
+                  plotOutput("enriched_funcres")
+                ),
+                bs4TabPanel(
+                  tabName = "Tab 4",
+                  active = FALSE,
+                  plotlyOutput("enriched_funcres_plotly")
+                )
+              )
+            )
           )
         ),
 
@@ -396,11 +427,60 @@ GeneTonic <- function(dds,
               )
             )
           ),
+
           fluidRow(
-            plotOutput("gsscores_heatmap"),
-            plotlyOutput("alluvial_genesets"),
-            plotOutput("gs_summaryheat"),
-            plotOutput("mds_genesets")
+            bs4Dash::column(
+              width = 10,
+              offset = 1,
+              bs4Dash::bs4TabCard(
+                id = "tabcard_genesets",
+                title = "Different views",
+                side = "right",
+                elevation = 2,
+                width = 12,
+                bs4TabPanel(
+                  tabName = "Tab 1",
+                  active = TRUE,
+                  plotOutput("gsscores_heatmap")
+
+                ),
+                bs4TabPanel(
+                  tabName = "Tab 2",
+                  active = FALSE,
+                  plotlyOutput("alluvial_genesets")
+                ),
+                bs4TabPanel(
+                  tabName = "Tab 3",
+                  active = FALSE,
+                  plotOutput("gs_summaryheat")
+                ),
+                bs4TabPanel(
+                  tabName = "Tab 4",
+                  active = FALSE,
+                  plotOutput("mds_genesets")
+                ),
+                bs4TabPanel(
+                  tabName = "Tab 5",
+                  active = FALSE,
+                  plotOutput("gs_summaryoverview")
+                ),
+                bs4TabPanel(
+                  tabName = "Tab 6",
+                  active = FALSE,
+                  plotOutput("gs_summary_overview_pair")
+                ),
+                bs4TabPanel(
+                  tabName = "Tab 7",
+                  active = FALSE,
+                  plotOutput("gs_summaryhorizon")
+                ),
+                bs4TabPanel(
+                  tabName = "Tab 8",
+                  active = FALSE,
+                  plotlyOutput("gs_summaryradar")
+                )
+              )
+            )
           )
         ),
 
@@ -728,6 +808,10 @@ GeneTonic <- function(dds,
     values$mygenesets <- c()
 
     myvst <- vst(dds)
+
+    res_enhanced <- get_aggrscores(res_enrich = res_enrich,
+                                   res_de = res_de,
+                                   annotation_obj = annotation_obj)
 
     output$ui_exp_condition <- renderUI({
       poss_covars <- names(colData(dds))
@@ -1089,6 +1173,26 @@ GeneTonic <- function(dds,
     output$gs_summaryheat <- renderPlot({
       gs_summary_heat(res_enrich, res_de, annotation_obj,
                       n_gs = input$n_genesets)
+    })
+
+    output$gs_summaryoverview <- renderPlot({
+      gs_summary_overview(res_enrich = res_enhanced,
+                          n_gs = input$n_genesets)
+    })
+
+    output$gs_summaryoverview_pair <- renderPlot({
+      gs_summary_overview_pair(res_enrich = res_enhanced,
+                               n_gs = input$n_genesets)
+    })
+
+    output$gs_summaryhorizon <- renderPlot({
+      gs_horizon(res_enrich = res_enhanced,
+                 n_gs = input$n_genesets)
+    })
+
+    output$gs_summaryradar <- renderPlotly({
+      gs_radar(res_enrich1 = res_enhanced,
+               n_gs = input$n_genesets)
     })
 
     # panel bookmarks ---------------------------------------------------------
