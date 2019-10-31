@@ -191,6 +191,15 @@ footer <- function() {
   )
 }
 
+
+# Shiny resource paths ----------------------------------------------------
+
+.onLoad <- function(libname, pkgname) {
+  # Create link to logo
+  shiny::addResourcePath("GeneTonic", system.file("www", package="GeneTonic"))
+}
+
+
 # TODOTODO
 # clusterProfiler to common expected format:
 
