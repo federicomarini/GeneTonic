@@ -1,1 +1,33 @@
  <!-- this is the file that gets used in rendering the many outputs via happyhour -->
+
+ideas:
+
+- differentiate the content based on batch running vs generated at runtime?
+- print out the values of input$... objects. So one can just repeat them ;)
+
+```{r}
+values$mygenesets
+```
+
+```{r}
+values$mygenes
+```
+
+```{r}
+myids <- annotation_obj$gene_id[match(values$mygenes ,annotation_obj$gene_name)]
+```
+
+
+```{r}
+lapply(myids, function(arg) {
+  GeneTonic::gene_plot(dds,gene = arg,intgroup = "condition", 
+                       annotation_obj = annotation_obj)})
+```
+
+
+# Session info {-}
+
+```{r}
+sessionInfo()
+```
+
