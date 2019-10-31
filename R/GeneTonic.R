@@ -512,7 +512,8 @@ GeneTonic <- function(dds,
               actionButton("start_happyhour",
                            label = "Start the happy hour!",
                            icon = icon("magic"),
-                           style = .actionbutton_biocstyle)
+                           style = .actionbutton_biocstyle),
+              downloadButton("saveRmd", "Generate & Save",class = "btn btn-success")
             )
           )
         ),
@@ -1249,6 +1250,26 @@ GeneTonic <- function(dds,
     output$bookmarks_genesets <- DT::renderDataTable({
       datatable(data.frame(mygenesets = values$mygenesets))
     })
+
+    output$saveRmd <- downloadHandler(
+      filename = paste0(
+        Sys.Date(),
+        "_",round(runif(1)*100), # for not having all w the same name
+        "_GeneTonicReport.html"), # TODO: maybe add Sys.time() to the filename to improve traceability?
+      content = function(file) {
+        # temporarily switch to the temp dir, in case you do not have write permission to the current working directory
+        owd <- setwd(tempdir())
+        on.exit(setwd(owd))
+        # cat(tmp_content,file="ideal_tempreport.Rmd",sep="\n")
+        withProgress(rmarkdown::render(
+          input = system.file("extdata", "cocktail_recipe.Rmd", package = "GeneTonic"),
+          output_file = file,
+          # fragment.only = TRUE,
+          quiet = TRUE),
+          message = "Generating the html report",
+          detail = "This can take some time")
+      }
+    )
 
     output$sessioninfo <- renderPrint({
       sessionInfo()
