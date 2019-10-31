@@ -504,6 +504,16 @@ GeneTonic <- function(dds,
               width = 12,
               uiOutput("ui_bookmarks")
             )
+          ),
+          fluidRow(
+            bs4Dash::column(
+              width = 8,
+              offset = 2,
+              actionButton("start_happyhour",
+                           label = "Start the happy hour!",
+                           icon = icon("magic"),
+                           style = .actionbutton_biocstyle)
+            )
           )
         ),
 
@@ -1323,6 +1333,11 @@ GeneTonic <- function(dds,
 
     })
 
+
+    observeEvent(input$start_happyhour, {
+      showNotification("The happy hour is officially on!",
+                       type = "message")
+    })
 
 
 
