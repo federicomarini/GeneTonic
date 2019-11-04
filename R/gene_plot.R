@@ -1,20 +1,30 @@
 # something on the line of plotCounts, ggplotCounts, but with more pimpedity :D
 ## maybe even plotly-fied already, or pimped in gg so that it is readily plugged into ggplotly
 
-#' Title TODO
+#' Plot expression values for a gene
 #'
-#' TODO
+#' Plot expression values (e.g. normalized counts) for a gene of interest, grouped
+#' by experimental group(s) of interest
 #'
-#' @param dds TODO
-#' @param gene TODO
+#' @param dds A `DESeqDataSet` object, normally obtained after running your data
+#' through the `DESeq2` framework.
+#' @param gene Character, specifies the identifier of the feature (gene) to be
+#' plotted
 #' @param assay TODO
-#' @param intgroup TODO
-#' @param annotation_obj TODO
-#' @param transform TODO
-#' @param labels_repel TODO
-#' @param plot_type TODO
+#' @param intgroup A character vector of names in `colData(dds)` to use for grouping.
+#' Note: the vector components should be categorical variables.
+#' @param annotation_obj A `data.frame` object with the feature annotation
+#' information, with at least two columns, `gene_id` and `gene_name`.
+#' @param transform Logical value, corresponding whether to have log scale y-axis
+#' or not. Defaults to TRUE.
+#' @param labels_repel Logical value. Whether to use `ggrepel`'s functions to
+#' place labels; defaults to TRUE
+#' @param plot_type Character, one of "auto", "jitteronly", "boxplot", "violin",
+#' or "sina". Defines the type of `geom_` to be used for plotting. Defaults to
+#' `auto`, which in turn chooses one of the layers according to the number of
+#' samples in the smallest group defined via `intgroup`
 #'
-#' @return TODO
+#' @return A `ggplot` object
 #' @export
 #'
 #' @examples
