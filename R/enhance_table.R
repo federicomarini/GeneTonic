@@ -1,18 +1,29 @@
 
-#' Title
+#' Visually enhances a functional enrichment result table
 #'
-#' TODO
+#' Creates a visual summary for the results of a functional enrichment analysis,
+#' by displaying also the components of each gene set and their expression change
+#' in the contrast of interest
 #'
-#' @param res_enrich TODO
-#' @param res_de TODO
-#' @param annotation_obj TODO
-#' @param n_gs TODO
-#' @param genes_colname TODO
-#' @param genesetname_colname TODO
-#' @param genesetid_colname TODO
-#' @param chars_limit TODO
+#' @param res_enrich A `data.frame` object, storing the result of the functional
+#' enrichment analysis. See more in the main function, `GeneTonic`, to see the
+#' formatting requirements.
+#' @param res_de  A `DESeqResults` object.
+#' @param annotation_obj A `data.frame` object with the feature annotation.
+#' information, with at least two columns, `gene_id` and `gene_name`.
+#' @param n_gs Integer value, corresponding to the maximal number of gene sets to
+#' be displayed.
+#' @param genes_colname Character, specifying which column of the `res_enrich`
+#' object contains the genes assigned to each gene set, detected as differentially
+#' expressed. Defaults to `genes`.
+#' @param genesetname_colname Character, specifies which column of the `res_enrich`
+#' object contains a description of the gene set. Defaults to `Term`.
+#' @param genesetid_colname Character, specifies which column of the `res_enrich`
+#' object contains a unique identifier of the gene set. Defaults to `GO.ID`.
+#' @param chars_limit Integer, number of characters to be displayed for each
+#' geneset name.
 #'
-#' @return TODO
+#' @return A `ggplot` object
 #' @export
 #'
 #' @examples
@@ -78,18 +89,33 @@ enhance_table <- function(res_enrich,
 }
 
 
-#' Title TODO
-#' TODO
-#' @param res_enrich TODO
-#' @param res_de TODO
-#' @param annotation_obj TODO
-#' @param n_gs TODO
-#' @param genes_colname TODO
-#' @param genesetname_colname TODO
-#' @param genesetid_colname TODO
-#' @param aggrfun TODO
+#' Compute aggregated scores for gene sets
 #'
-#' @return TODO
+#' Computes for each gene set in the `res_enrich` object a Z score and an aggregated
+#' score (using the log2FoldChange values, provided in the `res_de`)
+#'
+#' @param res_enrich A `data.frame` object, storing the result of the functional
+#' enrichment analysis. See more in the main function, `GeneTonic`, to see the
+#' formatting requirements.
+#' @param res_de A `DESeqResults` object.
+#' @param annotation_obj A `data.frame` object with the feature annotation
+#' information, with at least two columns, `gene_id` and `gene_name`.
+#' @param n_gs Integer value, corresponding to the maximal number of gene sets to
+#' be displayed
+#' @param genes_colname Character, specifying which column of the `res_enrich`
+#' object contains the genes assigned to each gene set, detected as differentially
+#' expressed. Defaults to `genes`.
+#' @param genesetname_colname Character, specifies which column of the `res_enrich`
+#' object contains a description of the gene set. Defaults to `Term`.
+#' @param genesetid_colname Character, specifies which column of the `res_enrich`
+#' object contains a unique identifier of the gene set. Defaults to `GO.ID`.
+#' @param aggrfun Specifies the function to use for aggregating the scores for
+#' each term. Common values could be `mean` or `median`.
+#'
+#' @return A `data.frame` with the same columns as provided in the input, with
+#' additional information on the `z_score` and the `aggr_score` for each gene set.
+#' This information is used by other functions such as `gs_volcano` or
+#' `enrichment_map`
 #' @export
 #'
 #' @examples
