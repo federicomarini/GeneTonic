@@ -1,10 +1,14 @@
-#' Title TODO
+#' Information on a GeneOntology identifier
 #'
-#' TODO
+#' Assembles information, in HTML format, regarding a Gene Ontology identifier
 #'
-#' @param go_id _TODO
+#' Also creates a link to the AmiGO database
 #'
-#' @return TODO
+#' @param go_id Character, specifying the GeneOntology identifier for which
+#' to retrieve information
+#'
+#' @return HTML content related to a GeneOntology identifier, to be displayed in
+#' web applications (or inserted in Rmd documents)
 #' @export
 #'
 #' @examples
@@ -46,13 +50,17 @@ go_2_html <- function(go_id) {
 }
 
 
-#' Title TODO
+#' Information on a gene
 #'
-#' TODO
+#' Assembles information, in HTML format, regarding a gene symbol identifier
 #'
-#' @param gene_id TODO
+#' Creates links to the NCBI and the GeneCards databases
 #'
-#' @return TODO
+#' @param gene_id Character specifying the gene identifier for which to retrieve
+#' information
+#'
+#' @return HTML content related to a gene identifier, to be displayed in
+#' web applications (or inserted in Rmd documents)
 #' @export
 #'
 #' @examples
@@ -86,14 +94,14 @@ geneinfo_2_html <- function(gene_id) {
           val)
 }
 
-#' Title
+#' Calculate overlap coefficient
 #'
-#' TODO
+#' Calculate simolarity coefficient between two sets, based on the overlap
 #'
-#' @param x TODO
-#' @param y TODO
+#' @param x Character vector, corresponding to set 1
+#' @param y Character vector, set 2
 #'
-#' @return TODO
+#' @return A numeric value between 0 and 1
 #' @export
 #'
 #' @seealso https://en.wikipedia.org/wiki/Overlap_coefficient
@@ -104,14 +112,14 @@ overlap_coefficient <- function(x, y) {
   length(intersect(x, y)) / min(length(x), length(y))
 }
 
-#' Title
+#' Calculate Jaccard Index between two sets
 #'
-#' TODO
+#' Calculate similarity coefficient with the Jaccard Index
 #'
-#' @param x TODO
-#' @param y TODO
+#' @param x Character vector, corresponding to set 1
+#' @param y Character vector, corresponding to set 2
 #'
-#' @return TODO
+#' @return A numeric value between 0 and 1
 #' @export
 #'
 #' @examples
@@ -123,15 +131,19 @@ overlap_jaccard_index <- function(x, y) {
 
 
 
-#' Title
+#' Maps numeric values to color values
 #'
-#' TODO
+#' Maps numeric continuous values to values in a color palette
 #'
-#' @param x TODO
-#' @param pal TODO
-#' @param limits TODO
+#' @param x A character vector of numeric values (e.g. log2FoldChange values) to
+#' be converted to a vector of colors
+#' @param pal A vector of characters specifying the definition of colors for the
+#' palette, e.g. obtained via `RColorBrewer::brewer.pal()`
+#' @param limits A vector containing the limits of the values to be mapped. If
+#' not specified, defaults to the range of values in the `x` vector.
 #'
-#' @return TODO
+#' @return A vector of colors, each corresponding to an element in the original
+#' vector
 #' @export
 #'
 #' @examples
@@ -146,22 +158,27 @@ map2color <- function(x, pal, limits = NULL) {
 }
 
 
-#' Title TODO
+#' Generate a table from the `DESeq2` results
 #'
-#' TODO
+#' Generate a tidy table with the results of `DESeq2`
 #'
-#' @param deseqresult TODO
-#' @param FDR TODO
+#' @param res_de A `DESeqResults` object.
+#' @param FDR Numeric value, specifying the significance level for thresholding
+#' adjusted p-values. Defaults to NULL, which would return the full set of results
+#' without performing any subsetting based on FDR.
 #'
-#' @return TODO
+#' @return A tidy `data.frame` with the results from differential expression,
+#' sorted by adjusted p-value. If FDR is specified, the table contains only genes
+#' with adjusted p-value smaller than the value.
+#'
 #' @export
 #'
 #' @examples
 #' # TODO
-deseqresult2df <- function(deseqresult, FDR = NULL) {
-  if (!is(deseqresult, "DESeqResults"))
+deseqresult2df <- function(res_de, FDR = NULL) {
+  if (!is(res_de, "DESeqResults"))
     stop("Not a DESeqResults object.")
-  res <- as.data.frame(deseqresult)
+  res <- as.data.frame(res_de)
   res <- cbind(rownames(res), res)
   names(res)[1] <- "id"
   res$id <- as.character(res$id)
