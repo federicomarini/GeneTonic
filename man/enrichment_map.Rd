@@ -11,7 +11,7 @@ enrichment_map(res_enrich, res_de, annotation_obj, n_gs = 50,
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
-enrichment analysis. See more in the main function, \code{GeneTonic}, to see the
+enrichment analysis. See more in the main function, \code{\link[=GeneTonic]{GeneTonic()}}, to see the
 formatting requirements}
 
 \item{res_de}{A \code{DESeqResults} object.}
@@ -45,12 +45,12 @@ object contains a unique identifier of the gene set. Defaults to \code{GO.ID}.
 TODOTODO: similarity measures, say, jaccard, or simple overlap}
 }
 \value{
-An \code{igraph} obejct to be further manipulated or processed/plotted
+An \code{igraph} object to be further manipulated or processed/plotted
 }
 \description{
 Generates a graph for the enrichment map, combining information from \code{res_enrich}
-and \code{res_de}. This object can be further plotted, e.g. statically via \code{igraph::plot()},
-or dynamically via \code{visNetwork::visIgraph()}
+and \code{res_de}. This object can be further plotted, e.g. statically via \code{\link[igraph:plot]{igraph::plot()}},
+or dynamically via \code{\link[visNetwork:visIgraph]{visNetwork::visIgraph()}}
 }
 \examples{
 # TODO

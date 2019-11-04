@@ -4,12 +4,12 @@
 #' are redundant to enhance interpretation of the results
 #'
 #' @param res_enrich A `data.frame` object, storing the result of the functional
-#' enrichment analysis. See more in the main function, `GeneTonic`, to see the
+#' enrichment analysis. See more in the main function, [GeneTonic()], to see the
 #' formatting requirements.
 #' @param gs_overlap Numeric value, which defines the threshold for removing
 #' terms that present an overlap greater than the specified value. Changing its
 #' value can control the granularity of how redundant terms are removed from the
-#' original `res_enrich` for the next steps, e.g. plotting this via `gs_volcano`
+#' original `res_enrich` for the next steps, e.g. plotting this via [gs_volcano()]
 #' @param genes_colname Character, specifying which column of the `res_enrich`
 #' object contains the genes assigned to each gene set, detected as differentially
 #' expressed. Defaults to `genes`.

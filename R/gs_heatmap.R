@@ -10,7 +10,7 @@
 #' to make the data more homoscedastic and thus a better fit for visualization.
 #' @param res_de A `DESeqResults` object.
 #' @param res_enrich A `data.frame` object, storing the result of the functional
-#' enrichment analysis. See more in the main function, `GeneTonic`, to see the
+#' enrichment analysis. See more in the main function, [GeneTonic()], to see the
 #' formatting requirements.
 #' @param geneset_id Character specifying the gene set identifier to be plotted
 #' @param genelist TODO
@@ -28,13 +28,13 @@
 #' @param de_only Logical, whether to include only differentially expressed genes
 #' in the plot
 #' @param cluster_rows Logical, determining if rows should be clustered, as
-#' specified by `pheatmap::pheatmap()`
+#' specified by [pheatmap::pheatmap()]
 #' @param cluster_cols Logical, determining if columns should be clustered, as
-#' specified by `pheatmap::pheatmap()`
+#' specified by [pheatmap::pheatmap()]
 #' @param center_mean Logical, whether to perform mean centering on the row-wise
 #' @param scale_row Logical, whether to standardize by row the expression values
 #'
-#' @return A plot returned by the `pheatmap` function
+#' @return A plot returned by the [pheatmap::pheatmap()] function
 #' @export
 #'
 #' @examples
@@ -134,7 +134,7 @@ gs_heatmap <- function(se,
 #' to make the data more homoscedastic and thus a better fit for visualization.
 #' @param res_de A `DESeqResults` object.
 #' @param res_enrich A `data.frame` object, storing the result of the functional
-#' enrichment analysis. See more in the main function, `GeneTonic`, to see the
+#' enrichment analysis. See more in the main function, [GeneTonic()], to see the
 #' formatting requirements.
 #' @param genes_colname Character, specifying which column of the `res_enrich`
 #' object contains the genes assigned to each gene set, detected as differentially
@@ -146,7 +146,7 @@ gs_heatmap <- function(se,
 #' @param annotation_obj A `data.frame` object with the feature annotation
 #' information, with at least two columns, `gene_id` and `gene_name`.
 #'
-#' @return A matrix with the geneset Z scores, e.g. to be plotted with `gs_ggheatmap`
+#' @return A matrix with the geneset Z scores, e.g. to be plotted with [gs_ggheatmap()]
 #' @export
 #'
 #' @examples
@@ -192,7 +192,7 @@ gs_scores <- function(se,
 #'
 #' Plots a matrix of geneset Z scores, across all samples
 #'
-#' @param mat A matrix, e.g. retured by the `gs_scores` function
+#' @param mat A matrix, e.g. retured by the [gs_scores()] function
 #' @param clustering_distance_rows Character, a distance measure used in
 #' clustering rows
 #' @param clustering_distance_cols Character, a distance measure used in

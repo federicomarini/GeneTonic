@@ -9,7 +9,7 @@ gs_ggheatmap(mat, clustering_distance_rows = "euclidean",
   cluster_cols = TRUE)
 }
 \arguments{
-\item{mat}{A matrix, e.g. retured by the \code{gs_scores} function}
+\item{mat}{A matrix, e.g. retured by the \code{\link[=gs_scores]{gs_scores()}} function}
 
 \item{clustering_distance_rows}{Character, a distance measure used in
 clustering rows}

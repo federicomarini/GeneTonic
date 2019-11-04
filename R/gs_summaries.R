@@ -3,7 +3,7 @@
 #' Plots a summary of enrichment results for one set
 #'
 #' @param res_enrich A `data.frame` object, storing the result of the functional
-#' enrichment analysis. See more in the main function, `GeneTonic`, to see the
+#' enrichment analysis. See more in the main function, [GeneTonic()], to see the
 #' formatting requirements.
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be displayed
@@ -48,7 +48,7 @@ gs_summary_overview <- function(res_enrich,
 #' Plots a summary of enrichment results - for two sets of results
 #'
 #' @param res_enrich A `data.frame` object, storing the result of the functional
-#' enrichment analysis. See more in the main function, `GeneTonic`, to see the
+#' enrichment analysis. See more in the main function, [GeneTonic()], to see the
 #' formatting requirements.
 #' @param res_enrich2 As `res_enrich`, the result of functional enrichment analysis,
 #' in a scenario/contrast different than the first set.
@@ -120,7 +120,7 @@ gs_summary_overview_pair <- function(res_enrich,
 #' sets of results
 #'
 #' @param res_enrich A `data.frame` object, storing the result of the functional
-#' enrichment analysis. See more in the main function, `GeneTonic`, to see the
+#' enrichment analysis. See more in the main function, [GeneTonic()], to see the
 #' formatting requirements.
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be displayed
@@ -245,7 +245,7 @@ gs_horizon <- function(res_enrich, # TODO: should be a list of res_enrich object
 #' genesets and an overview of them
 #'
 #' @param res_enrich A `data.frame` object, storing the result of the functional
-#' enrichment analysis. See more in the main function, `GeneTonic`, to see the
+#' enrichment analysis. See more in the main function, [GeneTonic()], to see the
 #' formatting requirements.
 #' @param res_de A `DESeqResults` object.
 #' @param annotation_obj A `data.frame` object with the feature annotation

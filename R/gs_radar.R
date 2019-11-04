@@ -5,7 +5,7 @@
 #' TODO: enforce the same set of genesets are available!
 #'
 #' @param res_enrich1 A `data.frame` object, storing the result of the functional
-#' enrichment analysis. See more in the main function, `GeneTonic`, to see the
+#' enrichment analysis. See more in the main function, [GeneTonic()], to see the
 #' formatting requirements.
 #' @param res_enrich2 TODO
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to

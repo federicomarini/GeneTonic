@@ -8,17 +8,17 @@
 #' also commonly used in the `DESeq2` framework.
 #' @param res_enrich A `data.frame` object, storing the result of the functional
 #' enrichment analysis. Required columns for enjoying the full functionality of
-#' `GeneTonic` include:
+#' [GeneTonic()] include:
 #' - a gene set identifier (e.g. GeneOntology id) and its term description
 #' - a numeric value for the significance of the enrichment
 #' - a column named `Genes` containing a comma separated vector of the gene names
 #' associated to the term, one for each term. TODO-generalize?
-#' This works out of the box for objects created with `pcaExplorer::topGOtable()`
+#' This works out of the box for objects created with [pcaExplorer::topGOtable()]
 #' @param annotation_obj A `data.frame` object, containing two columns, `gene_id`
 #' with a set of unambiguous identifiers (e.g. ENSEMBL ids) and `gene_name`,
 #' containing e.g. HGNC-based gene symbols. This object can be constructed via
 #' the `org.eg.XX.db` packages, e.g. with convenience functions such as
-#' `pcaExplorer::get_annotation_orgdb()`.
+#' [pcaExplorer::get_annotation_orgdb()].
 #'
 #' @return A Shiny app object is returned, for interactive data exploration
 #' @export

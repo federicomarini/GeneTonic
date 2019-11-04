@@ -4,9 +4,9 @@
 #' results
 #'
 #' @param res_enrich A `data.frame` object, storing the result of the functional
-#' enrichment analysis. See more in the main function, `GeneTonic`, to see the
+#' enrichment analysis. See more in the main function, [GeneTonic()], to see the
 #' formatting requirements. This object needs to be processed first by a function
-#' such as `get_aggr_scores` to compute the term-wise `z_score` or `aggr_score`,
+#' such as [get_aggr_scores()] to compute the term-wise `z_score` or `aggr_score`,
 #' which will be used for plotting
 #' @param genesetname_colname Character, specifies which column of the `res_enrich`
 #' object contains a description of the gene set. Defaults to `Term`.

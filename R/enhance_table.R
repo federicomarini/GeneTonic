@@ -6,7 +6,7 @@
 #' in the contrast of interest
 #'
 #' @param res_enrich A `data.frame` object, storing the result of the functional
-#' enrichment analysis. See more in the main function, `GeneTonic`, to see the
+#' enrichment analysis. See more in the main function, [GeneTonic()], to see the
 #' formatting requirements.
 #' @param res_de  A `DESeqResults` object.
 #' @param annotation_obj A `data.frame` object with the feature annotation.
@@ -95,7 +95,7 @@ enhance_table <- function(res_enrich,
 #' score (using the log2FoldChange values, provided in the `res_de`)
 #'
 #' @param res_enrich A `data.frame` object, storing the result of the functional
-#' enrichment analysis. See more in the main function, `GeneTonic`, to see the
+#' enrichment analysis. See more in the main function, [GeneTonic()], to see the
 #' formatting requirements.
 #' @param res_de A `DESeqResults` object.
 #' @param annotation_obj A `data.frame` object with the feature annotation
@@ -114,8 +114,8 @@ enhance_table <- function(res_enrich,
 #'
 #' @return A `data.frame` with the same columns as provided in the input, with
 #' additional information on the `z_score` and the `aggr_score` for each gene set.
-#' This information is used by other functions such as `gs_volcano` or
-#' `enrichment_map`
+#' This information is used by other functions such as [gs_volcano()] or
+#' [enrichment_map()]
 #' @export
 #'
 #' @examples

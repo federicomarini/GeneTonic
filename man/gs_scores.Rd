@@ -17,7 +17,7 @@ to make the data more homoscedastic and thus a better fit for visualization.}
 \item{res_de}{A \code{DESeqResults} object.}
 
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
-enrichment analysis. See more in the main function, \code{GeneTonic}, to see the
+enrichment analysis. See more in the main function, \code{\link[=GeneTonic]{GeneTonic()}}, to see the
 formatting requirements.}
 
 \item{annotation_obj}{A \code{data.frame} object with the feature annotation
@@ -34,7 +34,7 @@ object contains a description of the gene set. Defaults to \code{Term}.}
 object contains a unique identifier of the gene set. Defaults to \code{GO.ID}.}
 }
 \value{
-A matrix with the geneset Z scores, e.g. to be plotted with \code{gs_ggheatmap}
+A matrix with the geneset Z scores, e.g. to be plotted with \code{\link[=gs_ggheatmap]{gs_ggheatmap()}}
 }
 \description{
 Compute gene set scores for each sample, by tranforming the gene-wise change

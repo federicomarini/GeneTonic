@@ -4,7 +4,7 @@
 #' Jaccard Index between each pair of sets
 #'
 #' @param res_enrich A `data.frame` object, storing the result of the functional
-#' enrichment analysis. See more in the main function, `GeneTonic`, to see the
+#' enrichment analysis. See more in the main function, [GeneTonic()], to see the
 #' formatting requirements.
 #' @param genes_colname Character, specifying which column of the `res_enrich`
 #' object contains the genes assigned to each gene set, detected as differentially

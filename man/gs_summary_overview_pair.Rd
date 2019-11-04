@@ -10,7 +10,7 @@ gs_summary_overview_pair(res_enrich, res_enrich2, n_gs = 20,
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
-enrichment analysis. See more in the main function, \code{GeneTonic}, to see the
+enrichment analysis. See more in the main function, \code{\link[=GeneTonic]{GeneTonic()}}, to see the
 formatting requirements.}
 
 \item{res_enrich2}{As \code{res_enrich}, the result of functional enrichment analysis,

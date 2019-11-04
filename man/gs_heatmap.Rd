@@ -19,7 +19,7 @@ to make the data more homoscedastic and thus a better fit for visualization.}
 \item{res_de}{A \code{DESeqResults} object.}
 
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
-enrichment analysis. See more in the main function, \code{GeneTonic}, to see the
+enrichment analysis. See more in the main function, \code{\link[=GeneTonic]{GeneTonic()}}, to see the
 formatting requirements.}
 
 \item{annotation_obj}{A \code{data.frame} object with the feature annotation
@@ -46,17 +46,17 @@ adjusted p-values. Defaults to 0.05.}
 in the plot}
 
 \item{cluster_rows}{Logical, determining if rows should be clustered, as
-specified by \code{pheatmap::pheatmap()}}
+specified by \code{\link[pheatmap:pheatmap]{pheatmap::pheatmap()}}}
 
 \item{cluster_cols}{Logical, determining if columns should be clustered, as
-specified by \code{pheatmap::pheatmap()}}
+specified by \code{\link[pheatmap:pheatmap]{pheatmap::pheatmap()}}}
 
 \item{center_mean}{Logical, whether to perform mean centering on the row-wise}
 
 \item{scale_row}{Logical, whether to standardize by row the expression values}
 }
 \value{
-A plot returned by the \code{pheatmap} function
+A plot returned by the \code{\link[pheatmap:pheatmap]{pheatmap::pheatmap()}} function
 }
 \description{
 Plot a heatmap for the selected gene signature on the provided data, with the possibility to compactly display also DE only genes

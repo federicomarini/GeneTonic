@@ -1,11 +1,11 @@
 #' Creates an enrichment map for the results of functional enrichment
 #'
 #' Generates a graph for the enrichment map, combining information from `res_enrich`
-#' and `res_de`. This object can be further plotted, e.g. statically via `igraph::plot()`,
-#' or dynamically via `visNetwork::visIgraph()`
+#' and `res_de`. This object can be further plotted, e.g. statically via [igraph::plot()],
+#' or dynamically via [visNetwork::visIgraph()]
 #'
 #' @param res_enrich A `data.frame` object, storing the result of the functional
-#' enrichment analysis. See more in the main function, `GeneTonic`, to see the
+#' enrichment analysis. See more in the main function, [GeneTonic()], to see the
 #' formatting requirements
 #' @param res_de A `DESeqResults` object.
 #' @param annotation_obj A `data.frame` object with the feature annotation
@@ -28,7 +28,7 @@
 #'
 #' TODOTODO: similarity measures, say, jaccard, or simple overlap
 #'
-#' @return An `igraph` obejct to be further manipulated or processed/plotted
+#' @return An `igraph` object to be further manipulated or processed/plotted
 #' @export
 #'
 #' @examples

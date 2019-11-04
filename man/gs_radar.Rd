@@ -9,7 +9,7 @@ gs_radar(res_enrich1, res_enrich2, n_gs = 20,
 }
 \arguments{
 \item{res_enrich1}{A \code{data.frame} object, storing the result of the functional
-enrichment analysis. See more in the main function, \code{GeneTonic}, to see the
+enrichment analysis. See more in the main function, \code{\link[=GeneTonic]{GeneTonic()}}, to see the
 formatting requirements.}
 
 \item{res_enrich2}{TODO}

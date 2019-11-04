@@ -10,9 +10,9 @@ gs_volcano(res_enrich, genesetname_colname = "Term",
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
-enrichment analysis. See more in the main function, \code{GeneTonic}, to see the
+enrichment analysis. See more in the main function, \code{\link[=GeneTonic]{GeneTonic()}}, to see the
 formatting requirements. This object needs to be processed first by a function
-such as \code{get_aggr_scores} to compute the term-wise \code{z_score} or \code{aggr_score},
+such as \code{\link[=get_aggr_scores]{get_aggr_scores()}} to compute the term-wise \code{z_score} or \code{aggr_score},
 which will be used for plotting}
 
 \item{genesetname_colname}{Character, specifies which column of the \code{res_enrich}

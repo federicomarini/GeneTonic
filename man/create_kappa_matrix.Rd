@@ -10,7 +10,7 @@ create_kappa_matrix(res_enrich, genes_colname = "genes",
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
-enrichment analysis. See more in the main function, \code{GeneTonic}, to see the
+enrichment analysis. See more in the main function, \code{\link[=GeneTonic]{GeneTonic()}}, to see the
 formatting requirements.}
 
 \item{genes_colname}{Character, specifying which column of the \code{res_enrich}

@@ -10,13 +10,13 @@ gs_simplify(res_enrich, gs_overlap = 0.75, genes_colname = "genes",
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
-enrichment analysis. See more in the main function, \code{GeneTonic}, to see the
+enrichment analysis. See more in the main function, \code{\link[=GeneTonic]{GeneTonic()}}, to see the
 formatting requirements.}
 
 \item{gs_overlap}{Numeric value, which defines the threshold for removing
 terms that present an overlap greater than the specified value. Changing its
 value can control the granularity of how redundant terms are removed from the
-original \code{res_enrich} for the next steps, e.g. plotting this via \code{gs_volcano}}
+original \code{res_enrich} for the next steps, e.g. plotting this via \code{\link[=gs_volcano]{gs_volcano()}}}
 
 \item{genes_colname}{Character, specifying which column of the \code{res_enrich}
 object contains the genes assigned to each gene set, detected as differentially

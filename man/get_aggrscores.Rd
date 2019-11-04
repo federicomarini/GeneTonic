@@ -10,7 +10,7 @@ get_aggrscores(res_enrich, res_de, annotation_obj, n_gs = 50,
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
-enrichment analysis. See more in the main function, \code{GeneTonic}, to see the
+enrichment analysis. See more in the main function, \code{\link[=GeneTonic]{GeneTonic()}}, to see the
 formatting requirements.}
 
 \item{res_de}{A \code{DESeqResults} object.}
@@ -37,8 +37,8 @@ each term. Common values could be \code{mean} or \code{median}.}
 \value{
 A \code{data.frame} with the same columns as provided in the input, with
 additional information on the \code{z_score} and the \code{aggr_score} for each gene set.
-This information is used by other functions such as \code{gs_volcano} or
-\code{enrichment_map}
+This information is used by other functions such as \code{\link[=gs_volcano]{gs_volcano()}} or
+\code{\link[=enrichment_map]{enrichment_map()}}
 }
 \description{
 Computes for each gene set in the \code{res_enrich} object a Z score and an aggregated

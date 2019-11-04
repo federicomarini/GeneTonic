@@ -15,20 +15,20 @@ also commonly used in the \code{DESeq2} framework.}
 
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
 enrichment analysis. Required columns for enjoying the full functionality of
-\code{GeneTonic} include:
+\code{\link[=GeneTonic]{GeneTonic()}} include:
 \itemize{
 \item a gene set identifier (e.g. GeneOntology id) and its term description
 \item a numeric value for the significance of the enrichment
 \item a column named \code{Genes} containing a comma separated vector of the gene names
 associated to the term, one for each term. TODO-generalize?
-This works out of the box for objects created with \code{pcaExplorer::topGOtable()}
+This works out of the box for objects created with \code{\link[pcaExplorer:topGOtable]{pcaExplorer::topGOtable()}}
 }}
 
 \item{annotation_obj}{A \code{data.frame} object, containing two columns, \code{gene_id}
 with a set of unambiguous identifiers (e.g. ENSEMBL ids) and \code{gene_name},
 containing e.g. HGNC-based gene symbols. This object can be constructed via
 the \code{org.eg.XX.db} packages, e.g. with convenience functions such as
-\code{pcaExplorer::get_annotation_orgdb()}.}
+\code{\link[pcaExplorer:get_annotation_orgdb]{pcaExplorer::get_annotation_orgdb()}}.}
 }
 \value{
 A Shiny app object is returned, for interactive data exploration

@@ -9,7 +9,7 @@ gs_summary_overview(res_enrich, n_gs = 20,
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
-enrichment analysis. See more in the main function, \code{GeneTonic}, to see the
+enrichment analysis. See more in the main function, \code{\link[=GeneTonic]{GeneTonic()}}, to see the
 formatting requirements.}
 
 \item{n_gs}{Integer value, corresponding to the maximal number of gene sets to
