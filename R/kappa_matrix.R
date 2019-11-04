@@ -1,12 +1,21 @@
-#' Title TODO
+#' Compute the kappa matrix for enrichment results
 #'
-#' @param res_enrich TODO
-#' @param genes_colname TODO
-#' @param genesetname_colname TODO
-#' @param genesetid_colname TODO
+#' Compute the kappa matrix for enrichment results, based on the overlap or the
+#' Jaccard Index between each pair of sets
+#'
+#' @param res_enrich A `data.frame` object, storing the result of the functional
+#' enrichment analysis. See more in the main function, `GeneTonic`, to see the
+#' formatting requirements.
+#' @param genes_colname Character, specifying which column of the `res_enrich`
+#' object contains the genes assigned to each gene set, detected as differentially
+#' expressed. Defaults to `genes`.
+#' @param genesetname_colname Character, specifies which column of the `res_enrich`
+#' object contains a description of the gene set. Defaults to `Term`.
+#' @param genesetid_colname Character, specifies which column of the `res_enrich`
+#' object contains a unique identifier of the gene set. Defaults to `GO.ID`.
 #' @param genes_separator TODO
 #'
-#' @return TODO
+#' @return A matrix with the kappa scores between gene sets
 #' @export
 #'
 #' @examples
@@ -16,7 +25,7 @@ create_kappa_matrix <- function(res_enrich,
                                 genesetname_colname = "Term",
                                 genesetid_colname = "GO.ID",
                                 genes_separator = ","
-                                ) {
+) {
 
   # initial checks
   ## more than one row
@@ -43,7 +52,7 @@ create_kappa_matrix <- function(res_enrich,
 
   # creating Kappa Matrix
   kappa_matrix <- matrix(0, nrow = nrow(binary_mat), ncol = nrow(binary_mat),
-                      dimnames = list(rownames(binary_mat), rownames(binary_mat)))
+                         dimnames = list(rownames(binary_mat), rownames(binary_mat)))
   diag(kappa_matrix) <- 1
   N <- nrow(res_enrich)
 
@@ -59,16 +68,15 @@ create_kappa_matrix <- function(res_enrich,
 
       tot <- sum(set_none, set_only_i, set_only_j, set_both)
 
-      observed <- (set_both + set_none)/tot
-      chance <- (set_both + set_only_i)*(set_both + set_only_j) + (set_only_j + set_none)*(set_only_i + set_none)
-      chance <- chance/tot^2
-      kappa_matrix[j,i] <- kappa_matrix[i,j] <- (observed - chance)/(1 - chance)
+      observed <- (set_both + set_none) / tot
+      chance <- (set_both + set_only_i) * (set_both + set_only_j) + (set_only_j + set_none) * (set_only_i + set_none)
+      chance <- chance / tot^2
+      kappa_matrix[j,i] <- kappa_matrix[i,j] <- (observed - chance) / (1 - chance)
     }
   }
 
   return(kappa_matrix)
 }
 
-# TODOTODO:
-# think of having methods working on this km for hierarchical or fuzzy clustering, a la David
-# Still: if using topGO, a good portion of redundancy is taken care of ;)
+
+
