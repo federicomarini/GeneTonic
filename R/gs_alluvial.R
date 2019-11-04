@@ -1,16 +1,25 @@
-#' Title TODO
+#' Alluvial (sankey) plot for a set of genesets and the associated genes
 #'
-#' TODO
+#' Generate an interactive alluvial plot linking genesets to their associated
+#' genes
 #'
-#' @param res_enrich TODO
-#' @param res_de TODO
-#' @param annotation_obj TODO
-#' @param n_gs TODO
-#' @param genes_colname TODO
-#' @param genesetname_colname TODO
-#' @param genesetid_colname TODO
+#' @param res_enrich A `data.frame` object, storing the result of the functional
+#' enrichment analysis. See more in the main function, `GeneTonic`, to see the
+#' formatting requirements.
+#' @param res_de A `DESeqResults` object.
+#' @param annotation_obj A `data.frame` object with the feature annotation
+#' information, with at least two columns, `gene_id` and `gene_name`.
+#' @param n_gs Integer value, corresponding to the maximal number of gene sets to
+#' be displayed
+#' @param genes_colname Character, specifying which column of the `res_enrich`
+#' object contains the genes assigned to each gene set, detected as differentially
+#' expressed. Defaults to `genes`.
+#' @param genesetname_colname Character, specifies which column of the `res_enrich`
+#' object contains a description of the gene set. Defaults to `Term`.
+#' @param genesetid_colname Character, specifies which column of the `res_enrich`
+#' object contains a unique identifier of the gene set. Defaults to `GO.ID`.
 #'
-#' @return TODO
+#' @return A `plotly` object
 #' @export
 #'
 #' @examples
@@ -99,3 +108,4 @@ gs_alluvial <- function(res_enrich,
   return(p)
 }
 
+# TODO: alias to gs_sankey?
