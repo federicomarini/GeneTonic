@@ -1,13 +1,18 @@
-#' Title TODO
+#' Radar plot for gene sets
 #'
-#' TODO
+#' Radar plot for gene sets, either for one or more results from functional
+#' enrichment analysis.
+#' TODO: enforce the same set of genesets are available!
 #'
-#' @param res_enrich1 TODO
+#' @param res_enrich1 A `data.frame` object, storing the result of the functional
+#' enrichment analysis. See more in the main function, `GeneTonic`, to see the
+#' formatting requirements.
 #' @param res_enrich2 TODO
-#' @param n_gs TODO
+#' @param n_gs Integer value, corresponding to the maximal number of gene sets to
+#' be displayed
 #' @param p_value_column TODO
 #'
-#' @return TODO
+#' @return A `plotly` object
 #' @export
 #'
 #' @examples
@@ -79,4 +84,6 @@ gs_radar <- function(res_enrich1,
   return(p)
 }
 
+# TODO: do it like https://stackoverflow.com/questions/37670412/can-i-recreate-this-polar-coordinate-spider-chart-in-plotly/37778091#37778091   !!
 
+# TODO: alias to gs_spider?
