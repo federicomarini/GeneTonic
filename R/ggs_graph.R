@@ -1,19 +1,32 @@
-#' Title
+#' Construct a gene-geneset-graph
 #'
-#' TODO
+#' Construct a gene-geneset-graph from the results of a functional enrichment
+#' analysis
 #'
-#' @param res_enrich TODO
-#' @param res_de TODO
-#' @param annotation_obj TODO
-#' @param n_gs TODO
-#' @param genes_colname TODO
-#' @param genesetname_colname TODO
-#' @param genesetid_colname TODO
-#' @param prettify TODO
-#' @param geneset_graph_color TODO
+#' @param res_enrich A `data.frame` object, storing the result of the functional
+#' enrichment analysis. See more in the main function, `GeneTonic`, to see the
+#' formatting requirements.
+#' @param res_de A `DESeqResults` object.
+#' @param annotation_obj A `data.frame` object with the feature annotation
+#' information, with at least two columns, `gene_id` and `gene_name`.
+#' @param n_gs Integer value, corresponding to the maximal number of gene sets to
+#' be included
+#' @param genes_colname Character, specifying which column of the `res_enrich`
+#' object contains the genes assigned to each gene set, detected as differentially
+#' expressed. Defaults to `genes`.
+#' @param genesetname_colname Character, specifies which column of the `res_enrich`
+#' object contains a description of the gene set. Defaults to `Term`.
+#' @param genesetid_colname Character, specifies which column of the `res_enrich`
+#' object contains a unique identifier of the gene set. Defaults to `GO.ID`.
+#' @param prettify Logical, controlling the aspect of the returned graph object.
+#' If TRUE (default value), different shapes of the nodes are returned, based on
+#' the node type
+#' @param geneset_graph_color Character value, specifying which color should be
+#' used for the fill of the shapes related to the gene sets.
 #' @param genes_graph_colpal TODO
 #'
-#' @return TODO
+#' @return An `igraph` obejct to be further manipulated or processed/plotted (e.g.
+#' via `igraph::plot()` or `visNetwork::visIgraph()`)
 #' @export
 #'
 #' @examples
