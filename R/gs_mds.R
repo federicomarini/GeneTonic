@@ -1,20 +1,33 @@
-#' Title TODO
+#' Multi Dimensional Scaling plot for gene sets
 #'
-#' TODO
+#' Multi Dimensional Scaling plot for gene sets, extracted from a `res_enrich`
+#' object
 #'
-#' @param res_enrich  TODO
-#' @param res_de  TODO
-#' @param annotation_obj TODO
-#' @param genes_colname TODO
-#' @param genesetname_colname TODO
-#' @param genesetid_colname TODO
-#' @param genes_separator TODO
-#' @param similarity_measure TODO
-#' @param mds_k TODO
-#' @param mds_labels TODO
-#' @param mds_colorby TODO
+#' @param res_enrich A `data.frame` object, storing the result of the functional
+#' enrichment analysis. See more in the main function, `GeneTonic`, to see the
+#' formatting requirements.
+#' @param res_de A `DESeqResults` object.
+#' @param annotation_obj A `data.frame` object with the feature annotation
+#' information, with at least two columns, `gene_id` and `gene_name`.
+#' @param genes_colname Character, specifying which column of the `res_enrich`
+#' object contains the genes assigned to each gene set, detected as differentially
+#' expressed. Defaults to `genes`.
+#' @param genesetname_colname Character, specifies which column of the `res_enrich`
+#' object contains a description of the gene set. Defaults to `Term`.
+#' @param genesetid_colname Character, specifies which column of the `res_enrich`
+#' object contains a unique identifier of the gene set. Defaults to `GO.ID`.
+#' @param genes_separator Character, specifying which separator is used in the
+#' column defined by `genes_colname` to split the character of features.
+#' @param similarity_measure Character, currently defaults to `kappa_matrix`, to
+#' specify how to compute the similarity measure between gene sets
+#' @param mds_k Integer value, number of dimensions to compute in the multi
+#' dimensional scaling procedure
+#' @param mds_labels Integer, defines the number of labels to be plotted on top
+#' of the scatter plot for the provided gene sets.
+#' @param mds_colorby Character specifying the column of `res_enrich` to be used
+#' for coloring the plotted gene sets. Defaults sensibly to `z_score`.
 #'
-#' @return TODO
+#' @return A `ggplot` object
 #' @export
 #'
 #' @examples
@@ -76,7 +89,6 @@ gs_mds <- function(res_enrich,
   max_z <- max(abs(range(mds_go_df$gs_colby)))
   limit <- max_z * c(-1, 1)
 
-
   p <- ggplot(mds_go_df, aes_string(x = "dim1",
                                     y = "dim2",
                                     text = "text")) +
@@ -89,7 +101,8 @@ gs_mds <- function(res_enrich,
     theme_bw()
 
   if (!is.null(mds_labels)) {
-    p <- p + geom_label_repel(aes_string(label = "gs_name"), data = mds_go_df[1:mds_labels, ], size = 3)
+    p <- p + geom_label_repel(
+      aes_string(label = "gs_name"), data = mds_go_df[1:mds_labels, ], size = 3)
   }
 
   return(p)
