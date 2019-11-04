@@ -1,19 +1,29 @@
-#' Title TODO
+#' Volcano plot for gene sets
 #'
-#' @param res_enrich TODO
-#' @param labels_to_use TODO
+#' Volcano plot for gene sets, to summarize visually the functional enrichment
+#' results
+#'
+#' @param res_enrich A `data.frame` object, storing the result of the functional
+#' enrichment analysis. See more in the main function, `GeneTonic`, to see the
+#' formatting requirements. This object needs to be processed first by a function
+#' such as `get_aggr_scores` to compute the term-wise `z_score` or `aggr_score`,
+#' which will be used for plotting
+#' @param genesetname_colname Character, specifies which column of the `res_enrich`
+#' object contains a description of the gene set. Defaults to `Term`.
 #' @param pvals_to_use TODO
-#' @param p_threshold TODO
-#' @param max_nr_labels TODO
+#' @param p_threshold Numeric, defines the threshold to be used for filtering the
+#' gene sets to display. Defaults to 0.05
+#' @param max_nr_labels Integer, maximum number of labels for the gene sets to be
+#' plotted as labels on the volcano scatter plot.
 #' @param scale_circles TODO
 #'
-#' @return TODO
+#' @return A `ggplot` object
 #' @export
 #'
 #' @examples
 #' #  TODO
 gs_volcano <- function(res_enrich,
-                       labels_to_use = "Term",
+                       genesetname_colname = "Term",
                        pvals_to_use = "p.value_elim",
                        p_threshold = 0.05,
                        max_nr_labels = 10,
@@ -27,7 +37,7 @@ gs_volcano <- function(res_enrich,
 
   mydf <- res_enrich
   mydf$logpval <- -log10(mydf[[pvals_to_use]])
-  mydf$mylabels <- mydf[[labels_to_use]]
+  mydf$mylabels <- mydf[[genesetname_colname]]
   mydf$`set members` <- mydf$Significant
 
   mydf <- mydf[mydf[[pvals_to_use]] <= p_threshold, ]
@@ -44,7 +54,7 @@ gs_volcano <- function(res_enrich,
     scale_color_gradient2(limit = limit,
                           low = muted("deepskyblue"), high = muted("firebrick"), mid = "lightyellow")
 
-  if (!is.null(labels_to_use)) {
+  if (!is.null(genesetname_colname)) {
     p <- p + geom_label_repel(aes_string(label = "mylabels"), data = mydf[1:max_nr_labels, ], size = 4)
   }
 
