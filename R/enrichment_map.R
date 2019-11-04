@@ -1,22 +1,34 @@
-#' Title
+#' Creates an enrichment map for the results of functional enrichment
 #'
-#' TODO
+#' Generates a graph for the enrichment map, combining information from `res_enrich`
+#' and `res_de`. This object can be further plotted, e.g. statically via `igraph::plot()`,
+#' or dynamically via `visNetwork::visIgraph()`
 #'
-#' @param res_enrich TODO
-#' @param res_de TODO
-#' @param annotation_obj TODO
-#' @param n_gs TODO
-#' @param overlap_threshold TODO
+#' @param res_enrich A `data.frame` object, storing the result of the functional
+#' enrichment analysis. See more in the main function, `GeneTonic`, to see the
+#' formatting requirements
+#' @param res_de A `DESeqResults` object.
+#' @param annotation_obj A `data.frame` object with the feature annotation
+#' information, with at least two columns, `gene_id` and `gene_name`.
+#' @param n_gs Integer value, corresponding to the maximal number of gene sets to
+#' be displayed
+#' @param overlap_threshold Numeric value, between 0 and 1. Defines the threshold
+#' to be used for removing edges in the enrichment map - edges below this value
+#' will be excluded from the final graph. Defaults to 0.1.
 #' @param scale_edges_width TODO
 #' @param color_by TODO
 #' @param size_by TODO
-#' @param genes_colname TODO
-#' @param genesetname_colname TODO
-#' @param genesetid_colname TODO
+#' @param genes_colname Character, specifying which column of the `res_enrich`
+#' object contains the genes assigned to each gene set, detected as differentially
+#' expressed. Defaults to `genes`.
+#' @param genesetname_colname Character, specifies which column of the `res_enrich`
+#' object contains a description of the gene set. Defaults to `Term`.
+#' @param genesetid_colname Character, specifies which column of the `res_enrich`
+#' object contains a unique identifier of the gene set. Defaults to `GO.ID`.
 #'
 #' TODOTODO: similarity measures, say, jaccard, or simple overlap
 #'
-#' @return TODO
+#' @return An `igraph` obejct to be further manipulated or processed/plotted
 #' @export
 #'
 #' @examples
