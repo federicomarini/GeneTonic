@@ -16,7 +16,7 @@ test_that("Dataset is simplified", {
                              aggrfun = mean)
   expect_is(
     gs_volcano(res_simp,
-               labels_to_use = "Term",
+               genesetname_colname = "Term",
                pvals_to_use = "p.value_elim"),
     "gg")
 })
