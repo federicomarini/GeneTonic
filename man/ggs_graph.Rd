@@ -43,7 +43,7 @@ used for the fill of the shapes related to the gene sets.}
 }
 \value{
 An \code{igraph} obejct to be further manipulated or processed/plotted (e.g.
-via \code{igraph::plot()} or \code{visNetwork::visIgraph()})
+via \code{\link[igraph:plot.igraph]{igraph::plot.igraph()}} or \code{\link[visNetwork:visIgraph]{visNetwork::visIgraph()}})
 }
 \description{
 Construct a gene-geneset-graph from the results of a functional enrichment

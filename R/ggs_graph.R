@@ -26,7 +26,7 @@
 #' @param genes_graph_colpal TODO
 #'
 #' @return An `igraph` obejct to be further manipulated or processed/plotted (e.g.
-#' via `igraph::plot()` or `visNetwork::visIgraph()`)
+#' via [igraph::plot.igraph()] or [visNetwork::visIgraph()])
 #' @export
 #'
 #' @examples
