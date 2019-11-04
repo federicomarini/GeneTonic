@@ -49,8 +49,8 @@ An \code{igraph} object to be further manipulated or processed/plotted
 }
 \description{
 Generates a graph for the enrichment map, combining information from \code{res_enrich}
-and \code{res_de}. This object can be further plotted, e.g. statically via \code{\link[igraph:plot]{igraph::plot()}},
-or dynamically via \code{\link[visNetwork:visIgraph]{visNetwork::visIgraph()}}
+and \code{res_de}. This object can be further plotted, e.g. statically via
+\code{\link[igraph:plot.igraph]{igraph::plot.igraph()}}, or dynamically via \code{\link[visNetwork:visIgraph]{visNetwork::visIgraph()}}
 }
 \examples{
 # TODO

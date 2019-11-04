@@ -1,8 +1,8 @@
 #' Creates an enrichment map for the results of functional enrichment
 #'
 #' Generates a graph for the enrichment map, combining information from `res_enrich`
-#' and `res_de`. This object can be further plotted, e.g. statically via [igraph::plot()],
-#' or dynamically via [visNetwork::visIgraph()]
+#' and `res_de`. This object can be further plotted, e.g. statically via
+#' [igraph::plot.igraph()], or dynamically via [visNetwork::visIgraph()]
 #'
 #' @param res_enrich A `data.frame` object, storing the result of the functional
 #' enrichment analysis. See more in the main function, [GeneTonic()], to see the
