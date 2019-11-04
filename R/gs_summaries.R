@@ -1,15 +1,17 @@
-
-
-#' Title TODO
+#' Plots a summary of enrichment results
 #'
-#' TODO
+#' Plots a summary of enrichment results for one set
 #'
-#' @param res_enrich  TODO
-#' @param n_gs  TODO
+#' @param res_enrich A `data.frame` object, storing the result of the functional
+#' enrichment analysis. See more in the main function, `GeneTonic`, to see the
+#' formatting requirements.
+#' @param n_gs Integer value, corresponding to the maximal number of gene sets to
+#' be displayed
 #' @param p_value_column  TODO
-#' @param color_by  TODO
+#' @param color_by Character, specifying the column of `res_enrich` to be used
+#' for coloring the plotted gene sets. Defaults sensibly to `z_score`.
 #'
-#' @return TODO
+#' @return A `ggplot` object
 #' @export
 #'
 #' @examples
@@ -41,29 +43,34 @@ gs_summary_overview <- function(res_enrich,
   return(p)
 }
 
-#' Title  TODO
+#' Plots a summary of enrichment results
 #'
-#' TODO
+#' Plots a summary of enrichment results - for two sets of results
 #'
-#' @param res_enrich  TODO
-#' @param res_enrich2  TODO
-#' @param n_gs  TODO
+#' @param res_enrich A `data.frame` object, storing the result of the functional
+#' enrichment analysis. See more in the main function, `GeneTonic`, to see the
+#' formatting requirements.
+#' @param res_enrich2 As `res_enrich`, the result of functional enrichment analysis,
+#' in a scenario/contrast different than the first set.
+#' @param n_gs Integer value, corresponding to the maximal number of gene sets to
+#' be displayed
 #' @param p_value_column  TODO
-#' @param color_by  TODO
-#' @param alpha_set2  TODO
+#' @param color_by Character, specifying the column of `res_enrich` to be used
+#' for coloring the plotted gene sets. Defaults sensibly to `z_score`.
+#' @param alpha_set2 Numeric value, between 0 and 1, which specified the alpha
+#' transparency used for plotting the points for gene set 2.
 #'
-#' @return TODO
+#' @return A `ggplot` object
 #' @export
 #'
 #' @examples
 #' # TODO
 gs_summary_overview_pair <- function(res_enrich,
                                      res_enrich2,
-                                n_gs = 20,
-                                p_value_column = "p.value_elim",
-                                color_by = "z_score",
-                                alpha_set2 = 0.4
-                                ) {
+                                     n_gs = 20,
+                                     p_value_column = "p.value_elim",
+                                     color_by = "z_score",
+                                     alpha_set2 = 0.4) {
   if (!("z_score" %in% colnames(res_enrich))) {
     warning("You need to add the z_score or the aggregated score")
   } # TODO: same for aggr_score
@@ -107,14 +114,19 @@ gs_summary_overview_pair <- function(res_enrich,
 
 # TODO: size of points somewhat related to geneset size?
 
-#' Title TODO
+#' Plots a summary of enrichment results
 #'
-#' TODO
+#' Plots a summary of enrichment results - horizon plot to compare one or more
+#' sets of results
 #'
-#' @param res_enrich TODO
-#' @param n_gs TODO
+#' @param res_enrich A `data.frame` object, storing the result of the functional
+#' enrichment analysis. See more in the main function, `GeneTonic`, to see the
+#' formatting requirements.
+#' @param n_gs Integer value, corresponding to the maximal number of gene sets to
+#' be displayed
 #' @param p_value_column TODO
-#' @param color_by TODO
+#' @param color_by Character, specifying the column of `res_enrich` to be used
+#' for coloring the plotted gene sets. Defaults sensibly to `z_score`.
 #'
 #' @return TODO
 #' @export
@@ -227,19 +239,28 @@ gs_horizon <- function(res_enrich, # TODO: should be a list of res_enrich object
 
 
 
-#' Title TODO
+#' Plots a heatmap for genes and genesets
 #'
-#' TODO
+#' Plots a heatmap for genes and genesets, useful to spot out intersections across
+#' genesets and an overview of them
 #'
-#' @param res_enrich TODO
-#' @param res_de TODO
-#' @param annotation_obj TODO
-#' @param n_gs TODO
-#' @param genes_colname TODO
-#' @param genesetname_colname TODO
-#' @param genesetid_colname TODO
+#' @param res_enrich A `data.frame` object, storing the result of the functional
+#' enrichment analysis. See more in the main function, `GeneTonic`, to see the
+#' formatting requirements.
+#' @param res_de A `DESeqResults` object.
+#' @param annotation_obj A `data.frame` object with the feature annotation
+#' information, with at least two columns, `gene_id` and `gene_name`.
+#' @param n_gs Integer value, corresponding to the maximal number of gene sets to
+#' be displayed
+#' @param genes_colname Character, specifying which column of the `res_enrich`
+#' object contains the genes assigned to each gene set, detected as differentially
+#' expressed. Defaults to `genes`.
+#' @param genesetname_colname Character, specifies which column of the `res_enrich`
+#' object contains a description of the gene set. Defaults to `Term`.
+#' @param genesetid_colname Character, specifies which column of the `res_enrich`
+#' object contains a unique identifier of the gene set. Defaults to `GO.ID`.
 #'
-#' @return TODO
+#' @return A `ggplot` object
 #' @export
 #'
 #' @examples
