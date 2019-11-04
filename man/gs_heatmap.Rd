@@ -2,7 +2,7 @@
 % Please edit documentation in R/gs_heatmap.R
 \name{gs_heatmap}
 \alias{gs_heatmap}
-\title{Title}
+\title{Plot a heatmap of the gene signature on the data}
 \usage{
 gs_heatmap(se, res_de, res_enrich, annotation_obj = NULL, geneset_id,
   genelist, genes_colname = "genes", genesetname_colname = "Term",
@@ -11,41 +11,55 @@ gs_heatmap(se, res_de, res_enrich, annotation_obj = NULL, geneset_id,
   scale_row = FALSE)
 }
 \arguments{
-\item{se}{TODO}
+\item{se}{A \code{SummarizedExperiment} object, or an object derived from this class,
+such as a \code{DESeqTransform} object (variance stabilized transformed data, or
+regularized logarithm transformed), in where the transformation has been applied
+to make the data more homoscedastic and thus a better fit for visualization.}
 
-\item{res_de}{TODO}
+\item{res_de}{A \code{DESeqResults} object.}
 
-\item{res_enrich}{TODO}
+\item{res_enrich}{A \code{data.frame} object, storing the result of the functional
+enrichment analysis. See more in the main function, \code{GeneTonic}, to see the
+formatting requirements.}
 
-\item{annotation_obj}{TODO}
+\item{annotation_obj}{A \code{data.frame} object with the feature annotation
+information, with at least two columns, \code{gene_id} and \code{gene_name}.}
 
-\item{geneset_id}{TODO}
+\item{geneset_id}{Character specifying the gene set identifier to be plotted}
 
 \item{genelist}{TODO}
 
-\item{genes_colname}{TODO}
+\item{genes_colname}{Character, specifying which column of the \code{res_enrich}
+object contains the genes assigned to each gene set, detected as differentially
+expressed. Defaults to \code{genes}.}
 
-\item{genesetname_colname}{TODO}
+\item{genesetname_colname}{Character, specifies which column of the \code{res_enrich}
+object contains a description of the gene set. Defaults to \code{Term}.}
 
-\item{genesetid_colname}{TODO}
+\item{genesetid_colname}{Character, specifies which column of the \code{res_enrich}
+object contains a unique identifier of the gene set. Defaults to \code{GO.ID}.}
 
-\item{FDR}{TODO}
+\item{FDR}{Numeric value, specifying the significance level for thresholding
+adjusted p-values. Defaults to 0.05.}
 
-\item{de_only}{TODO}
+\item{de_only}{Logical, whether to include only differentially expressed genes
+in the plot}
 
-\item{cluster_rows}{TODO}
+\item{cluster_rows}{Logical, determining if rows should be clustered, as
+specified by \code{pheatmap::pheatmap()}}
 
-\item{cluster_cols}{TODO}
+\item{cluster_cols}{Logical, determining if columns should be clustered, as
+specified by \code{pheatmap::pheatmap()}}
 
-\item{center_mean}{TODO}
+\item{center_mean}{Logical, whether to perform mean centering on the row-wise}
 
-\item{scale_row}{TODO}
+\item{scale_row}{Logical, whether to standardize by row the expression values}
 }
 \value{
-TODO
+A plot returned by the \code{pheatmap} function
 }
 \description{
-TODO
+Plot a heatmap for the selected gene signature on the provided data, with the possibility to compactly display also DE only genes
 }
 \examples{
 # TODO

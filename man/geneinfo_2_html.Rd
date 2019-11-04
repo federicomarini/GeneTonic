@@ -2,18 +2,23 @@
 % Please edit documentation in R/GeneTonic-extras.R
 \name{geneinfo_2_html}
 \alias{geneinfo_2_html}
-\title{Title TODO}
+\title{Information on a gene}
 \usage{
 geneinfo_2_html(gene_id)
 }
 \arguments{
-\item{gene_id}{TODO}
+\item{gene_id}{Character specifying the gene identifier for which to retrieve
+information}
 }
 \value{
-TODO
+HTML content related to a gene identifier, to be displayed in
+web applications (or inserted in Rmd documents)
 }
 \description{
-TODO
+Assembles information, in HTML format, regarding a gene symbol identifier
+}
+\details{
+Creates links to the NCBI and the GeneCards databases
 }
 \examples{
 # TODO

@@ -2,7 +2,7 @@
 % Please edit documentation in R/enrichment_map.R
 \name{enrichment_map}
 \alias{enrichment_map}
-\title{Title}
+\title{Creates an enrichment map for the results of functional enrichment}
 \usage{
 enrichment_map(res_enrich, res_de, annotation_obj, n_gs = 50,
   overlap_threshold = 0.1, scale_edges_width = 200,
@@ -10,15 +10,21 @@ enrichment_map(res_enrich, res_de, annotation_obj, n_gs = 50,
   genesetname_colname = "Term", genesetid_colname = "GO.ID")
 }
 \arguments{
-\item{res_enrich}{TODO}
+\item{res_enrich}{A \code{data.frame} object, storing the result of the functional
+enrichment analysis. See more in the main function, \code{GeneTonic}, to see the
+formatting requirements}
 
-\item{res_de}{TODO}
+\item{res_de}{A \code{DESeqResults} object.}
 
-\item{annotation_obj}{TODO}
+\item{annotation_obj}{A \code{data.frame} object with the feature annotation
+information, with at least two columns, \code{gene_id} and \code{gene_name}.}
 
-\item{n_gs}{TODO}
+\item{n_gs}{Integer value, corresponding to the maximal number of gene sets to
+be displayed}
 
-\item{overlap_threshold}{TODO}
+\item{overlap_threshold}{Numeric value, between 0 and 1. Defines the threshold
+to be used for removing edges in the enrichment map - edges below this value
+will be excluded from the final graph. Defaults to 0.1.}
 
 \item{scale_edges_width}{TODO}
 
@@ -26,19 +32,25 @@ enrichment_map(res_enrich, res_de, annotation_obj, n_gs = 50,
 
 \item{size_by}{TODO}
 
-\item{genes_colname}{TODO}
+\item{genes_colname}{Character, specifying which column of the \code{res_enrich}
+object contains the genes assigned to each gene set, detected as differentially
+expressed. Defaults to \code{genes}.}
 
-\item{genesetname_colname}{TODO}
+\item{genesetname_colname}{Character, specifies which column of the \code{res_enrich}
+object contains a description of the gene set. Defaults to \code{Term}.}
 
-\item{genesetid_colname}{TODO
+\item{genesetid_colname}{Character, specifies which column of the \code{res_enrich}
+object contains a unique identifier of the gene set. Defaults to \code{GO.ID}.
 
 TODOTODO: similarity measures, say, jaccard, or simple overlap}
 }
 \value{
-TODO
+An \code{igraph} obejct to be further manipulated or processed/plotted
 }
 \description{
-TODO
+Generates a graph for the enrichment map, combining information from \code{res_enrich}
+and \code{res_de}. This object can be further plotted, e.g. statically via \code{igraph::plot()},
+or dynamically via \code{visNetwork::visIgraph()}
 }
 \examples{
 # TODO

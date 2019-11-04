@@ -2,20 +2,24 @@
 % Please edit documentation in R/GeneTonic-extras.R
 \name{deseqresult2df}
 \alias{deseqresult2df}
-\title{Title TODO}
+\title{Generate a table from the \code{DESeq2} results}
 \usage{
-deseqresult2df(deseqresult, FDR = NULL)
+deseqresult2df(res_de, FDR = NULL)
 }
 \arguments{
-\item{deseqresult}{TODO}
+\item{res_de}{A \code{DESeqResults} object.}
 
-\item{FDR}{TODO}
+\item{FDR}{Numeric value, specifying the significance level for thresholding
+adjusted p-values. Defaults to NULL, which would return the full set of results
+without performing any subsetting based on FDR.}
 }
 \value{
-TODO
+A tidy \code{data.frame} with the results from differential expression,
+sorted by adjusted p-value. If FDR is specified, the table contains only genes
+with adjusted p-value smaller than the value.
 }
 \description{
-TODO
+Generate a tidy table with the results of \code{DESeq2}
 }
 \examples{
 # TODO

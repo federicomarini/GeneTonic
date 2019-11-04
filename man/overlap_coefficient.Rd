@@ -2,20 +2,20 @@
 % Please edit documentation in R/GeneTonic-extras.R
 \name{overlap_coefficient}
 \alias{overlap_coefficient}
-\title{Title}
+\title{Calculate overlap coefficient}
 \usage{
 overlap_coefficient(x, y)
 }
 \arguments{
-\item{x}{TODO}
+\item{x}{Character vector, corresponding to set 1}
 
-\item{y}{TODO}
+\item{y}{Character vector, set 2}
 }
 \value{
-TODO
+A numeric value between 0 and 1
 }
 \description{
-TODO
+Calculate simolarity coefficient between two sets, based on the overlap
 }
 \examples{
 # TODO

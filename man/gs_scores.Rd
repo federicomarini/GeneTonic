@@ -2,32 +2,43 @@
 % Please edit documentation in R/gs_heatmap.R
 \name{gs_scores}
 \alias{gs_scores}
-\title{Title}
+\title{Compute gene set scores}
 \usage{
 gs_scores(se, res_de, res_enrich, annotation_obj = NULL,
   genes_colname = "genes", genesetname_colname = "Term",
   genesetid_colname = "GO.ID")
 }
 \arguments{
-\item{se}{TODO}
+\item{se}{A \code{SummarizedExperiment} object, or an object derived from this class,
+such as a \code{DESeqTransform} object (variance stabilized transformed data, or
+regularized logarithm transformed), in where the transformation has been applied
+to make the data more homoscedastic and thus a better fit for visualization.}
 
-\item{res_de}{TODO}
+\item{res_de}{A \code{DESeqResults} object.}
 
-\item{res_enrich}{TODO}
+\item{res_enrich}{A \code{data.frame} object, storing the result of the functional
+enrichment analysis. See more in the main function, \code{GeneTonic}, to see the
+formatting requirements.}
 
-\item{annotation_obj}{TODO}
+\item{annotation_obj}{A \code{data.frame} object with the feature annotation
+information, with at least two columns, \code{gene_id} and \code{gene_name}.}
 
-\item{genes_colname}{TODO}
+\item{genes_colname}{Character, specifying which column of the \code{res_enrich}
+object contains the genes assigned to each gene set, detected as differentially
+expressed. Defaults to \code{genes}.}
 
-\item{genesetname_colname}{TODO}
+\item{genesetname_colname}{Character, specifies which column of the \code{res_enrich}
+object contains a description of the gene set. Defaults to \code{Term}.}
 
-\item{genesetid_colname}{TODO}
+\item{genesetid_colname}{Character, specifies which column of the \code{res_enrich}
+object contains a unique identifier of the gene set. Defaults to \code{GO.ID}.}
 }
 \value{
-TODO
+A matrix with the geneset Z scores, e.g. to be plotted with \code{gs_ggheatmap}
 }
 \description{
-TODO
+Compute gene set scores for each sample, by tranforming the gene-wise change
+to a geneset-wise change
 }
 \examples{
 # TODO

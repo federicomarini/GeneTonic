@@ -2,25 +2,29 @@
 % Please edit documentation in R/gs_summaries.R
 \name{gs_summary_overview}
 \alias{gs_summary_overview}
-\title{Title TODO}
+\title{Plots a summary of enrichment results}
 \usage{
 gs_summary_overview(res_enrich, n_gs = 20,
   p_value_column = "p.value_elim", color_by = "z_score")
 }
 \arguments{
-\item{res_enrich}{TODO}
+\item{res_enrich}{A \code{data.frame} object, storing the result of the functional
+enrichment analysis. See more in the main function, \code{GeneTonic}, to see the
+formatting requirements.}
 
-\item{n_gs}{TODO}
+\item{n_gs}{Integer value, corresponding to the maximal number of gene sets to
+be displayed}
 
 \item{p_value_column}{TODO}
 
-\item{color_by}{TODO}
+\item{color_by}{Character, specifying the column of \code{res_enrich} to be used
+for coloring the plotted gene sets. Defaults sensibly to \code{z_score}.}
 }
 \value{
-TODO
+A \code{ggplot} object
 }
 \description{
-TODO
+Plots a summary of enrichment results for one set
 }
 \examples{
 # TODO

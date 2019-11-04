@@ -2,36 +2,47 @@
 % Please edit documentation in R/enhance_table.R
 \name{get_aggrscores}
 \alias{get_aggrscores}
-\title{Title TODO
-TODO}
+\title{Compute aggregated scores for gene sets}
 \usage{
 get_aggrscores(res_enrich, res_de, annotation_obj, n_gs = 50,
   genes_colname = "genes", genesetname_colname = "Term",
   genesetid_colname = "GO.ID", aggrfun = mean)
 }
 \arguments{
-\item{res_enrich}{TODO}
+\item{res_enrich}{A \code{data.frame} object, storing the result of the functional
+enrichment analysis. See more in the main function, \code{GeneTonic}, to see the
+formatting requirements.}
 
-\item{res_de}{TODO}
+\item{res_de}{A \code{DESeqResults} object.}
 
-\item{annotation_obj}{TODO}
+\item{annotation_obj}{A \code{data.frame} object with the feature annotation
+information, with at least two columns, \code{gene_id} and \code{gene_name}.}
 
-\item{n_gs}{TODO}
+\item{n_gs}{Integer value, corresponding to the maximal number of gene sets to
+be displayed}
 
-\item{genes_colname}{TODO}
+\item{genes_colname}{Character, specifying which column of the \code{res_enrich}
+object contains the genes assigned to each gene set, detected as differentially
+expressed. Defaults to \code{genes}.}
 
-\item{genesetname_colname}{TODO}
+\item{genesetname_colname}{Character, specifies which column of the \code{res_enrich}
+object contains a description of the gene set. Defaults to \code{Term}.}
 
-\item{genesetid_colname}{TODO}
+\item{genesetid_colname}{Character, specifies which column of the \code{res_enrich}
+object contains a unique identifier of the gene set. Defaults to \code{GO.ID}.}
 
-\item{aggrfun}{TODO}
+\item{aggrfun}{Specifies the function to use for aggregating the scores for
+each term. Common values could be \code{mean} or \code{median}.}
 }
 \value{
-TODO
+A \code{data.frame} with the same columns as provided in the input, with
+additional information on the \code{z_score} and the \code{aggr_score} for each gene set.
+This information is used by other functions such as \code{gs_volcano} or
+\code{enrichment_map}
 }
 \description{
-Title TODO
-TODO
+Computes for each gene set in the \code{res_enrich} object a Z score and an aggregated
+score (using the log2FoldChange values, provided in the \code{res_de})
 }
 \examples{
 # TODO

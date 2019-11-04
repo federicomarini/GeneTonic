@@ -2,34 +2,45 @@
 % Please edit documentation in R/enhance_table.R
 \name{enhance_table}
 \alias{enhance_table}
-\title{Title}
+\title{Visually enhances a functional enrichment result table}
 \usage{
 enhance_table(res_enrich, res_de, annotation_obj, n_gs = 50,
   genes_colname = "genes", genesetname_colname = "Term",
   genesetid_colname = "GO.ID", chars_limit = 60)
 }
 \arguments{
-\item{res_enrich}{TODO}
+\item{res_enrich}{A \code{data.frame} object, storing the result of the functional
+enrichment analysis. See more in the main function, \code{GeneTonic}, to see the
+formatting requirements.}
 
-\item{res_de}{TODO}
+\item{res_de}{A \code{DESeqResults} object.}
 
-\item{annotation_obj}{TODO}
+\item{annotation_obj}{A \code{data.frame} object with the feature annotation.
+information, with at least two columns, \code{gene_id} and \code{gene_name}.}
 
-\item{n_gs}{TODO}
+\item{n_gs}{Integer value, corresponding to the maximal number of gene sets to
+be displayed.}
 
-\item{genes_colname}{TODO}
+\item{genes_colname}{Character, specifying which column of the \code{res_enrich}
+object contains the genes assigned to each gene set, detected as differentially
+expressed. Defaults to \code{genes}.}
 
-\item{genesetname_colname}{TODO}
+\item{genesetname_colname}{Character, specifies which column of the \code{res_enrich}
+object contains a description of the gene set. Defaults to \code{Term}.}
 
-\item{genesetid_colname}{TODO}
+\item{genesetid_colname}{Character, specifies which column of the \code{res_enrich}
+object contains a unique identifier of the gene set. Defaults to \code{GO.ID}.}
 
-\item{chars_limit}{TODO}
+\item{chars_limit}{Integer, number of characters to be displayed for each
+geneset name.}
 }
 \value{
-TODO
+A \code{ggplot} object
 }
 \description{
-TODO
+Creates a visual summary for the results of a functional enrichment analysis,
+by displaying also the components of each gene set and their expression change
+in the contrast of interest
 }
 \examples{
 #TODO

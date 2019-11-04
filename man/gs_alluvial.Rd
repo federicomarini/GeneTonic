@@ -2,32 +2,41 @@
 % Please edit documentation in R/gs_alluvial.R
 \name{gs_alluvial}
 \alias{gs_alluvial}
-\title{Title TODO}
+\title{Alluvial (sankey) plot for a set of genesets and the associated genes}
 \usage{
 gs_alluvial(res_enrich, res_de, annotation_obj, n_gs = 5,
   genes_colname = "genes", genesetname_colname = "Term",
   genesetid_colname = "GO.ID")
 }
 \arguments{
-\item{res_enrich}{TODO}
+\item{res_enrich}{A \code{data.frame} object, storing the result of the functional
+enrichment analysis. See more in the main function, \code{GeneTonic}, to see the
+formatting requirements.}
 
-\item{res_de}{TODO}
+\item{res_de}{A \code{DESeqResults} object.}
 
-\item{annotation_obj}{TODO}
+\item{annotation_obj}{A \code{data.frame} object with the feature annotation
+information, with at least two columns, \code{gene_id} and \code{gene_name}.}
 
-\item{n_gs}{TODO}
+\item{n_gs}{Integer value, corresponding to the maximal number of gene sets to
+be displayed}
 
-\item{genes_colname}{TODO}
+\item{genes_colname}{Character, specifying which column of the \code{res_enrich}
+object contains the genes assigned to each gene set, detected as differentially
+expressed. Defaults to \code{genes}.}
 
-\item{genesetname_colname}{TODO}
+\item{genesetname_colname}{Character, specifies which column of the \code{res_enrich}
+object contains a description of the gene set. Defaults to \code{Term}.}
 
-\item{genesetid_colname}{TODO}
+\item{genesetid_colname}{Character, specifies which column of the \code{res_enrich}
+object contains a unique identifier of the gene set. Defaults to \code{GO.ID}.}
 }
 \value{
-TODO
+A \code{plotly} object
 }
 \description{
-TODO
+Generate an interactive alluvial plot linking genesets to their associated
+genes
 }
 \examples{
 # TODO

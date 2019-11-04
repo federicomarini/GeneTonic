@@ -2,20 +2,20 @@
 % Please edit documentation in R/GeneTonic-extras.R
 \name{overlap_jaccard_index}
 \alias{overlap_jaccard_index}
-\title{Title}
+\title{Calculate Jaccard Index between two sets}
 \usage{
 overlap_jaccard_index(x, y)
 }
 \arguments{
-\item{x}{TODO}
+\item{x}{Character vector, corresponding to set 1}
 
-\item{y}{TODO}
+\item{y}{Character vector, corresponding to set 2}
 }
 \value{
-TODO
+A numeric value between 0 and 1
 }
 \description{
-TODO
+Calculate similarity coefficient with the Jaccard Index
 }
 \examples{
 # TODO

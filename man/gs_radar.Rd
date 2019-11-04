@@ -2,25 +2,30 @@
 % Please edit documentation in R/gs_radar.R
 \name{gs_radar}
 \alias{gs_radar}
-\title{Title TODO}
+\title{Radar plot for gene sets}
 \usage{
 gs_radar(res_enrich1, res_enrich2, n_gs = 20,
   p_value_column = "p.value_elim")
 }
 \arguments{
-\item{res_enrich1}{TODO}
+\item{res_enrich1}{A \code{data.frame} object, storing the result of the functional
+enrichment analysis. See more in the main function, \code{GeneTonic}, to see the
+formatting requirements.}
 
 \item{res_enrich2}{TODO}
 
-\item{n_gs}{TODO}
+\item{n_gs}{Integer value, corresponding to the maximal number of gene sets to
+be displayed}
 
 \item{p_value_column}{TODO}
 }
 \value{
-TODO
+A \code{plotly} object
 }
 \description{
-TODO
+Radar plot for gene sets, either for one or more results from functional
+enrichment analysis.
+TODO: enforce the same set of genesets are available!
 }
 \examples{
 # TODO

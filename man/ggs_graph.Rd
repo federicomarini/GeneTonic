@@ -2,7 +2,7 @@
 % Please edit documentation in R/ggs_graph.R
 \name{ggs_graph}
 \alias{ggs_graph}
-\title{Title}
+\title{Construct a gene-geneset-graph}
 \usage{
 ggs_graph(res_enrich, res_de, annotation_obj = NULL, n_gs = 15,
   genes_colname = "genes", genesetname_colname = "Term",
@@ -10,31 +10,44 @@ ggs_graph(res_enrich, res_de, annotation_obj = NULL, n_gs = 15,
   geneset_graph_color = "gold", genes_graph_colpal)
 }
 \arguments{
-\item{res_enrich}{TODO}
+\item{res_enrich}{A \code{data.frame} object, storing the result of the functional
+enrichment analysis. See more in the main function, \code{GeneTonic}, to see the
+formatting requirements.}
 
-\item{res_de}{TODO}
+\item{res_de}{A \code{DESeqResults} object.}
 
-\item{annotation_obj}{TODO}
+\item{annotation_obj}{A \code{data.frame} object with the feature annotation
+information, with at least two columns, \code{gene_id} and \code{gene_name}.}
 
-\item{n_gs}{TODO}
+\item{n_gs}{Integer value, corresponding to the maximal number of gene sets to
+be included}
 
-\item{genes_colname}{TODO}
+\item{genes_colname}{Character, specifying which column of the \code{res_enrich}
+object contains the genes assigned to each gene set, detected as differentially
+expressed. Defaults to \code{genes}.}
 
-\item{genesetname_colname}{TODO}
+\item{genesetname_colname}{Character, specifies which column of the \code{res_enrich}
+object contains a description of the gene set. Defaults to \code{Term}.}
 
-\item{genesetid_colname}{TODO}
+\item{genesetid_colname}{Character, specifies which column of the \code{res_enrich}
+object contains a unique identifier of the gene set. Defaults to \code{GO.ID}.}
 
-\item{prettify}{TODO}
+\item{prettify}{Logical, controlling the aspect of the returned graph object.
+If TRUE (default value), different shapes of the nodes are returned, based on
+the node type}
 
-\item{geneset_graph_color}{TODO}
+\item{geneset_graph_color}{Character value, specifying which color should be
+used for the fill of the shapes related to the gene sets.}
 
 \item{genes_graph_colpal}{TODO}
 }
 \value{
-TODO
+An \code{igraph} obejct to be further manipulated or processed/plotted (e.g.
+via \code{igraph::plot()} or \code{visNetwork::visIgraph()})
 }
 \description{
-TODO
+Construct a gene-geneset-graph from the results of a functional enrichment
+analysis
 }
 \examples{
 #TODO

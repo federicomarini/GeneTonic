@@ -2,28 +2,30 @@
 % Please edit documentation in R/gs_heatmap.R
 \name{gs_ggheatmap}
 \alias{gs_ggheatmap}
-\title{Title}
+\title{Plots a matrix of geneset scores}
 \usage{
 gs_ggheatmap(mat, clustering_distance_rows = "euclidean",
   clustering_distance_cols = "euclidean", cluster_rows = TRUE,
   cluster_cols = TRUE)
 }
 \arguments{
-\item{mat}{TODO}
+\item{mat}{A matrix, e.g. retured by the \code{gs_scores} function}
 
-\item{clustering_distance_rows}{TODO}
+\item{clustering_distance_rows}{Character, a distance measure used in
+clustering rows}
 
-\item{clustering_distance_cols}{TODO}
+\item{clustering_distance_cols}{Character, a distance measure used in
+clustering columns}
 
-\item{cluster_rows}{TODO}
+\item{cluster_rows}{Logical, determining if rows should be clustered}
 
-\item{cluster_cols}{TODO}
+\item{cluster_cols}{Logical, determining if columns should be clustered}
 }
 \value{
-TODO
+A \code{ggplot} object
 }
 \description{
-TODO
+Plots a matrix of geneset Z scores, across all samples
 }
 \examples{
 # TODO

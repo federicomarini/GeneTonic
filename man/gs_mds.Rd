@@ -2,7 +2,7 @@
 % Please edit documentation in R/gs_mds.R
 \name{gs_mds}
 \alias{gs_mds}
-\title{Title TODO}
+\title{Multi Dimensional Scaling plot for gene sets}
 \usage{
 gs_mds(res_enrich, res_de, annotation_obj, genes_colname = "genes",
   genesetname_colname = "Term", genesetid_colname = "GO.ID",
@@ -10,33 +10,46 @@ gs_mds(res_enrich, res_de, annotation_obj, genes_colname = "genes",
   mds_k = 2, mds_labels = 10, mds_colorby = "z_score")
 }
 \arguments{
-\item{res_enrich}{TODO}
+\item{res_enrich}{A \code{data.frame} object, storing the result of the functional
+enrichment analysis. See more in the main function, \code{GeneTonic}, to see the
+formatting requirements.}
 
-\item{res_de}{TODO}
+\item{res_de}{A \code{DESeqResults} object.}
 
-\item{annotation_obj}{TODO}
+\item{annotation_obj}{A \code{data.frame} object with the feature annotation
+information, with at least two columns, \code{gene_id} and \code{gene_name}.}
 
-\item{genes_colname}{TODO}
+\item{genes_colname}{Character, specifying which column of the \code{res_enrich}
+object contains the genes assigned to each gene set, detected as differentially
+expressed. Defaults to \code{genes}.}
 
-\item{genesetname_colname}{TODO}
+\item{genesetname_colname}{Character, specifies which column of the \code{res_enrich}
+object contains a description of the gene set. Defaults to \code{Term}.}
 
-\item{genesetid_colname}{TODO}
+\item{genesetid_colname}{Character, specifies which column of the \code{res_enrich}
+object contains a unique identifier of the gene set. Defaults to \code{GO.ID}.}
 
-\item{genes_separator}{TODO}
+\item{genes_separator}{Character, specifying which separator is used in the
+column defined by \code{genes_colname} to split the character of features.}
 
-\item{similarity_measure}{TODO}
+\item{similarity_measure}{Character, currently defaults to \code{kappa_matrix}, to
+specify how to compute the similarity measure between gene sets}
 
-\item{mds_k}{TODO}
+\item{mds_k}{Integer value, number of dimensions to compute in the multi
+dimensional scaling procedure}
 
-\item{mds_labels}{TODO}
+\item{mds_labels}{Integer, defines the number of labels to be plotted on top
+of the scatter plot for the provided gene sets.}
 
-\item{mds_colorby}{TODO}
+\item{mds_colorby}{Character specifying the column of \code{res_enrich} to be used
+for coloring the plotted gene sets. Defaults sensibly to \code{z_score}.}
 }
 \value{
-TODO
+A \code{ggplot} object
 }
 \description{
-TODO
+Multi Dimensional Scaling plot for gene sets, extracted from a \code{res_enrich}
+object
 }
 \examples{
 # TODO

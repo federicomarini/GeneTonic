@@ -2,34 +2,44 @@
 % Please edit documentation in R/gene_plot.R
 \name{gene_plot}
 \alias{gene_plot}
-\title{Title TODO}
+\title{Plot expression values for a gene}
 \usage{
 gene_plot(dds, gene, assay = "counts", intgroup = "condition",
   annotation_obj = NULL, transform = TRUE, labels_repel = TRUE,
   plot_type = "auto")
 }
 \arguments{
-\item{dds}{TODO}
+\item{dds}{A \code{DESeqDataSet} object, normally obtained after running your data
+through the \code{DESeq2} framework.}
 
-\item{gene}{TODO}
+\item{gene}{Character, specifies the identifier of the feature (gene) to be
+plotted}
 
 \item{assay}{TODO}
 
-\item{intgroup}{TODO}
+\item{intgroup}{A character vector of names in \code{colData(dds)} to use for grouping.
+Note: the vector components should be categorical variables.}
 
-\item{annotation_obj}{TODO}
+\item{annotation_obj}{A \code{data.frame} object with the feature annotation
+information, with at least two columns, \code{gene_id} and \code{gene_name}.}
 
-\item{transform}{TODO}
+\item{transform}{Logical value, corresponding whether to have log scale y-axis
+or not. Defaults to TRUE.}
 
-\item{labels_repel}{TODO}
+\item{labels_repel}{Logical value. Whether to use \code{ggrepel}'s functions to
+place labels; defaults to TRUE}
 
-\item{plot_type}{TODO}
+\item{plot_type}{Character, one of "auto", "jitteronly", "boxplot", "violin",
+or "sina". Defines the type of \code{geom_} to be used for plotting. Defaults to
+\code{auto}, which in turn chooses one of the layers according to the number of
+samples in the smallest group defined via \code{intgroup}}
 }
 \value{
-TODO
+A \code{ggplot} object
 }
 \description{
-TODO
+Plot expression values (e.g. normalized counts) for a gene of interest, grouped
+by experimental group(s) of interest
 }
 \examples{
 # TODO

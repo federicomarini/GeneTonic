@@ -2,30 +2,38 @@
 % Please edit documentation in R/gs_volcano.R
 \name{gs_volcano}
 \alias{gs_volcano}
-\title{Title TODO}
+\title{Volcano plot for gene sets}
 \usage{
-gs_volcano(res_enrich, labels_to_use = "Term",
+gs_volcano(res_enrich, genesetname_colname = "Term",
   pvals_to_use = "p.value_elim", p_threshold = 0.05,
   max_nr_labels = 10, scale_circles = 1)
 }
 \arguments{
-\item{res_enrich}{TODO}
+\item{res_enrich}{A \code{data.frame} object, storing the result of the functional
+enrichment analysis. See more in the main function, \code{GeneTonic}, to see the
+formatting requirements. This object needs to be processed first by a function
+such as \code{get_aggr_scores} to compute the term-wise \code{z_score} or \code{aggr_score},
+which will be used for plotting}
 
-\item{labels_to_use}{TODO}
+\item{genesetname_colname}{Character, specifies which column of the \code{res_enrich}
+object contains a description of the gene set. Defaults to \code{Term}.}
 
 \item{pvals_to_use}{TODO}
 
-\item{p_threshold}{TODO}
+\item{p_threshold}{Numeric, defines the threshold to be used for filtering the
+gene sets to display. Defaults to 0.05}
 
-\item{max_nr_labels}{TODO}
+\item{max_nr_labels}{Integer, maximum number of labels for the gene sets to be
+plotted as labels on the volcano scatter plot.}
 
 \item{scale_circles}{TODO}
 }
 \value{
-TODO
+A \code{ggplot} object
 }
 \description{
-Title TODO
+Volcano plot for gene sets, to summarize visually the functional enrichment
+results
 }
 \examples{
 #  TODO

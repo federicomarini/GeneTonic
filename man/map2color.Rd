@@ -2,22 +2,26 @@
 % Please edit documentation in R/GeneTonic-extras.R
 \name{map2color}
 \alias{map2color}
-\title{Title}
+\title{Maps numeric values to color values}
 \usage{
 map2color(x, pal, limits = NULL)
 }
 \arguments{
-\item{x}{TODO}
+\item{x}{A character vector of numeric values (e.g. log2FoldChange values) to
+be converted to a vector of colors}
 
-\item{pal}{TODO}
+\item{pal}{A vector of characters specifying the definition of colors for the
+palette, e.g. obtained via \code{RColorBrewer::brewer.pal()}}
 
-\item{limits}{TODO}
+\item{limits}{A vector containing the limits of the values to be mapped. If
+not specified, defaults to the range of values in the \code{x} vector.}
 }
 \value{
-TODO
+A vector of colors, each corresponding to an element in the original
+vector
 }
 \description{
-TODO
+Maps numeric continuous values to values in a color palette
 }
 \examples{
 # TODO

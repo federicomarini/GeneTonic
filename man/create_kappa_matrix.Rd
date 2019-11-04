@@ -2,28 +2,35 @@
 % Please edit documentation in R/kappa_matrix.R
 \name{create_kappa_matrix}
 \alias{create_kappa_matrix}
-\title{Title TODO}
+\title{Compute the kappa matrix for enrichment results}
 \usage{
 create_kappa_matrix(res_enrich, genes_colname = "genes",
   genesetname_colname = "Term", genesetid_colname = "GO.ID",
   genes_separator = ",")
 }
 \arguments{
-\item{res_enrich}{TODO}
+\item{res_enrich}{A \code{data.frame} object, storing the result of the functional
+enrichment analysis. See more in the main function, \code{GeneTonic}, to see the
+formatting requirements.}
 
-\item{genes_colname}{TODO}
+\item{genes_colname}{Character, specifying which column of the \code{res_enrich}
+object contains the genes assigned to each gene set, detected as differentially
+expressed. Defaults to \code{genes}.}
 
-\item{genesetname_colname}{TODO}
+\item{genesetname_colname}{Character, specifies which column of the \code{res_enrich}
+object contains a description of the gene set. Defaults to \code{Term}.}
 
-\item{genesetid_colname}{TODO}
+\item{genesetid_colname}{Character, specifies which column of the \code{res_enrich}
+object contains a unique identifier of the gene set. Defaults to \code{GO.ID}.}
 
 \item{genes_separator}{TODO}
 }
 \value{
-TODO
+A matrix with the kappa scores between gene sets
 }
 \description{
-Title TODO
+Compute the kappa matrix for enrichment results, based on the overlap or the
+Jaccard Index between each pair of sets
 }
 \examples{
 # TODO

@@ -2,30 +2,36 @@
 % Please edit documentation in R/gs_summaries.R
 \name{gs_summary_overview_pair}
 \alias{gs_summary_overview_pair}
-\title{Title  TODO}
+\title{Plots a summary of enrichment results}
 \usage{
 gs_summary_overview_pair(res_enrich, res_enrich2, n_gs = 20,
   p_value_column = "p.value_elim", color_by = "z_score",
   alpha_set2 = 0.4)
 }
 \arguments{
-\item{res_enrich}{TODO}
+\item{res_enrich}{A \code{data.frame} object, storing the result of the functional
+enrichment analysis. See more in the main function, \code{GeneTonic}, to see the
+formatting requirements.}
 
-\item{res_enrich2}{TODO}
+\item{res_enrich2}{As \code{res_enrich}, the result of functional enrichment analysis,
+in a scenario/contrast different than the first set.}
 
-\item{n_gs}{TODO}
+\item{n_gs}{Integer value, corresponding to the maximal number of gene sets to
+be displayed}
 
 \item{p_value_column}{TODO}
 
-\item{color_by}{TODO}
+\item{color_by}{Character, specifying the column of \code{res_enrich} to be used
+for coloring the plotted gene sets. Defaults sensibly to \code{z_score}.}
 
-\item{alpha_set2}{TODO}
+\item{alpha_set2}{Numeric value, between 0 and 1, which specified the alpha
+transparency used for plotting the points for gene set 2.}
 }
 \value{
-TODO
+A \code{ggplot} object
 }
 \description{
-TODO
+Plots a summary of enrichment results - for two sets of results
 }
 \examples{
 # TODO

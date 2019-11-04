@@ -2,18 +2,23 @@
 % Please edit documentation in R/GeneTonic-extras.R
 \name{go_2_html}
 \alias{go_2_html}
-\title{Title TODO}
+\title{Information on a GeneOntology identifier}
 \usage{
 go_2_html(go_id)
 }
 \arguments{
-\item{go_id}{_TODO}
+\item{go_id}{Character, specifying the GeneOntology identifier for which
+to retrieve information}
 }
 \value{
-TODO
+HTML content related to a GeneOntology identifier, to be displayed in
+web applications (or inserted in Rmd documents)
 }
 \description{
-TODO
+Assembles information, in HTML format, regarding a Gene Ontology identifier
+}
+\details{
+Also creates a link to the AmiGO database
 }
 \examples{
 # TODO
