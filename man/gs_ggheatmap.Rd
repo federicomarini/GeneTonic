@@ -30,3 +30,6 @@ Plots a matrix of geneset Z scores, across all samples
 \examples{
 # TODO
 }
+\seealso{
+\code{\link[=gs_scores]{gs_scores()}} computes the scores plotted by this function
+}

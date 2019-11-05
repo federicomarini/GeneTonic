@@ -38,3 +38,7 @@ results
 \examples{
 #  TODO
 }
+\seealso{
+\code{\link[=gs_simplify]{gs_simplify()}} can be applied in advance to \code{res_enrich} to reduce
+the redundancy of the displayed gene sets
+}

@@ -29,3 +29,6 @@ Plots a summary of enrichment results for one set
 \examples{
 # TODO
 }
+\seealso{
+\code{\link[=gs_summary_overview_pair]{gs_summary_overview_pair()}}, \code{\link[=gs_horizon]{gs_horizon()}}
+}

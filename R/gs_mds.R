@@ -28,6 +28,10 @@
 #' for coloring the plotted gene sets. Defaults sensibly to `z_score`.
 #'
 #' @return A `ggplot` object
+#'
+#' @seealso [create_kappa_matrix()] is used to calculate the similarity between
+#' gene sets
+#'
 #' @export
 #'
 #' @examples

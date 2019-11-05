@@ -12,6 +12,8 @@
 #' for coloring the plotted gene sets. Defaults sensibly to `z_score`.
 #'
 #' @return A `ggplot` object
+#'
+#' @seealso [gs_summary_overview_pair()], [gs_horizon()]
 #' @export
 #'
 #' @examples
@@ -61,6 +63,9 @@ gs_summary_overview <- function(res_enrich,
 #' transparency used for plotting the points for gene set 2.
 #'
 #' @return A `ggplot` object
+#'
+#' @seealso [gs_summary_overview()], [gs_horizon()]
+#'
 #' @export
 #'
 #' @examples
@@ -128,7 +133,10 @@ gs_summary_overview_pair <- function(res_enrich,
 #' @param color_by Character, specifying the column of `res_enrich` to be used
 #' for coloring the plotted gene sets. Defaults sensibly to `z_score`.
 #'
-#' @return TODO
+#' @return A `ggplot` object
+#'
+#' @seealso [gs_summary_overview()], [gs_summary_overview_pair()]
+#'
 #' @export
 #'
 #' @examples

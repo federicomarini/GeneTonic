@@ -1,5 +1,3 @@
-
-
 #' Plot a heatmap of the gene signature on the data
 #'
 #' Plot a heatmap for the selected gene signature on the provided data, with the possibility to compactly display also DE only genes
@@ -114,12 +112,7 @@ gs_heatmap <- function(se,
            scale = ifelse(scale_row, "row", "none"), main = title,
            labels_row = annotation_obj[rownames(mydata_sig), ]$gene_name,
            annotation_col = sample_decoration)
-
-
 }
-
-
-
 
 
 
@@ -147,6 +140,9 @@ gs_heatmap <- function(se,
 #' information, with at least two columns, `gene_id` and `gene_name`.
 #'
 #' @return A matrix with the geneset Z scores, e.g. to be plotted with [gs_ggheatmap()]
+#'
+#' @seealso [gs_ggheatmap()] plots these scores
+#'
 #' @export
 #'
 #' @examples
@@ -201,6 +197,9 @@ gs_scores <- function(se,
 #' @param cluster_cols Logical, determining if columns should be clustered
 #'
 #' @return A `ggplot` object
+#'
+#' @seealso [gs_scores()] computes the scores plotted by this function
+#'
 #' @export
 #'
 #' @examples

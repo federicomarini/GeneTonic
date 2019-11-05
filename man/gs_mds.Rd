@@ -54,3 +54,7 @@ object
 \examples{
 # TODO
 }
+\seealso{
+\code{\link[=create_kappa_matrix]{create_kappa_matrix()}} is used to calculate the similarity between
+gene sets
+}

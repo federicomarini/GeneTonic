@@ -116,6 +116,10 @@ enhance_table <- function(res_enrich,
 #' additional information on the `z_score` and the `aggr_score` for each gene set.
 #' This information is used by other functions such as [gs_volcano()] or
 #' [enrichment_map()]
+#'
+#' @seealso [gs_volcano()] and [enrichment_map()] make efficient use of the computed
+#' aggregated scores
+#'
 #' @export
 #'
 #' @examples

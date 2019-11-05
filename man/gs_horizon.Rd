@@ -21,7 +21,7 @@ be displayed}
 for coloring the plotted gene sets. Defaults sensibly to \code{z_score}.}
 }
 \value{
-TODO
+A \code{ggplot} object
 }
 \description{
 Plots a summary of enrichment results - horizon plot to compare one or more
@@ -29,4 +29,7 @@ sets of results
 }
 \examples{
 # TODO
+}
+\seealso{
+\code{\link[=gs_summary_overview]{gs_summary_overview()}}, \code{\link[=gs_summary_overview_pair]{gs_summary_overview_pair()}}
 }

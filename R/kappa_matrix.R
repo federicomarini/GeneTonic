@@ -16,6 +16,9 @@
 #' @param genes_separator TODO
 #'
 #' @return A matrix with the kappa scores between gene sets
+#'
+#' @seealso [gs_mds()]
+#'
 #' @export
 #'
 #' @examples

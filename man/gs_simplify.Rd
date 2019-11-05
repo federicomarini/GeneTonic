@@ -41,3 +41,7 @@ are redundant to enhance interpretation of the results
 \examples{
 # TODO
 }
+\seealso{
+\code{\link[=gs_volcano]{gs_volcano()}} and \code{\link[=ggs_graph]{ggs_graph()}} can e.g. show an overview on the
+simplified table of gene sets
+}

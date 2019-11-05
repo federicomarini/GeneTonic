@@ -55,3 +55,6 @@ and \code{res_de}. This object can be further plotted, e.g. statically via
 \examples{
 # TODO
 }
+\seealso{
+\code{\link[=GeneTonic]{GeneTonic()}} embeds an interactive visualization for the enrichment map
+}

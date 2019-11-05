@@ -29,6 +29,9 @@
 #' TODOTODO: similarity measures, say, jaccard, or simple overlap
 #'
 #' @return An `igraph` object to be further manipulated or processed/plotted
+#'
+#' @seealso [GeneTonic()] embeds an interactive visualization for the enrichment map
+#'
 #' @export
 #'
 #' @examples

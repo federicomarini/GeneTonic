@@ -35,3 +35,6 @@ Jaccard Index between each pair of sets
 \examples{
 # TODO
 }
+\seealso{
+\code{\link[=gs_mds]{gs_mds()}}
+}

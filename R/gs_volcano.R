@@ -18,6 +18,10 @@
 #' @param scale_circles TODO
 #'
 #' @return A `ggplot` object
+#'
+#' @seealso [gs_simplify()] can be applied in advance to `res_enrich` to reduce
+#' the redundancy of the displayed gene sets
+#'
 #' @export
 #'
 #' @examples

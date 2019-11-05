@@ -43,3 +43,6 @@ to a geneset-wise change
 \examples{
 # TODO
 }
+\seealso{
+\code{\link[=gs_ggheatmap]{gs_ggheatmap()}} plots these scores
+}

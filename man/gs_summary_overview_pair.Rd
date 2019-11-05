@@ -36,3 +36,6 @@ Plots a summary of enrichment results - for two sets of results
 \examples{
 # TODO
 }
+\seealso{
+\code{\link[=gs_summary_overview]{gs_summary_overview()}}, \code{\link[=gs_horizon]{gs_horizon()}}
+}

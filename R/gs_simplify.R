@@ -21,6 +21,10 @@
 #' column defined by `genes_colname` to split the character of features.
 #'
 #' @return A `data.frame` with a subset of the original gene sets
+#'
+#' @seealso [gs_volcano()] and [ggs_graph()] can e.g. show an overview on the
+#' simplified table of gene sets
+#'
 #' @export
 #'
 #' @examples
