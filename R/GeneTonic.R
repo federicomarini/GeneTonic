@@ -1011,7 +1011,7 @@ GeneTonic <- function(dds,
 
       # message(cur_gsid)
       # GOTERM[[cur_gsid]]
-      go_2_html(cur_gsid)
+      go_2_html(cur_gsid, res_enrich)
     })
 
     output$ui_ggs_genebox <- renderUI({
@@ -1133,7 +1133,7 @@ GeneTonic <- function(dds,
 
       # message(cur_gsid)
       # GOTERM[[cur_gsid]]
-      go_2_html(cur_gsid)
+      go_2_html(cur_gsid, res_enrich)
     })
 
     output$emap_sigheatplot <- renderPlot({
