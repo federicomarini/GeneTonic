@@ -4,11 +4,15 @@
 \alias{go_2_html}
 \title{Information on a GeneOntology identifier}
 \usage{
-go_2_html(go_id)
+go_2_html(go_id, res_enrich = NULL)
 }
 \arguments{
 \item{go_id}{Character, specifying the GeneOntology identifier for which
 to retrieve information}
+
+\item{res_enrich}{A \code{data.frame} object, storing the result of the functional
+enrichment analysis. If not provided, the experiment-related information is not
+shown, and only some generic info on the identifier is displayed}
 }
 \value{
 HTML content related to a GeneOntology identifier, to be displayed in
@@ -21,5 +25,6 @@ Assembles information, in HTML format, regarding a Gene Ontology identifier
 Also creates a link to the AmiGO database
 }
 \examples{
-# TODO
+go_2_html("GO:0002250")
+go_2_html("GO:0043368")
 }

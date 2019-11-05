@@ -6,14 +6,18 @@
 #'
 #' @param go_id Character, specifying the GeneOntology identifier for which
 #' to retrieve information
+#' @param res_enrich A `data.frame` object, storing the result of the functional
+#' enrichment analysis. If not provided, the experiment-related information is not
+#' shown, and only some generic info on the identifier is displayed
 #'
 #' @return HTML content related to a GeneOntology identifier, to be displayed in
 #' web applications (or inserted in Rmd documents)
 #' @export
 #'
 #' @examples
-#' # TODO
-go_2_html <- function(go_id) {
+#' go_2_html("GO:0002250")
+#' go_2_html("GO:0043368")
+go_2_html <- function(go_id, res_enrich = NULL) {
   fullinfo <- GOTERM[[go_id]]
   if (is.null(fullinfo)) {
     return(HTML("GeneOntology term not found!"))
@@ -22,9 +26,14 @@ go_2_html <- function(go_id) {
   mycontent <- paste0(
     "<b>GO ID: </b>", .link2amigo(GOID(fullinfo)), "<br>",
     "<b>Term: </b>", Term(fullinfo), "<br></b>",
+    ifelse(!is.null(res_enrich),
+           paste0("<b>p-value: </b>", res_enrich[(res_enrich$GO.ID == go_id), "p.value_elim"],"</br>",
+                  "<b>Z-score: </b>", format(round(res_enrich[(res_enrich$GO.ID == go_id), "z_score"], 2), nsmall = 2),"</br>",
+                  "<b>Aggregated score: </b>", format(round(res_enrich[(res_enrich$GO.ID == go_id), "aggr_score"], 2), nsmall = 2),"</br>",
+                  collapse = ""),
+           ""),
     "<b>Ontology: </b>", Ontology(fullinfo), "<br><br>",
     "<b>Definition: </b>", Definition(fullinfo), "<br>",
-
     ## TODO: extra info from the res_enrich?
     paste0(
       unlist(
