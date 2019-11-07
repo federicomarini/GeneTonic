@@ -51,6 +51,12 @@ go_2_html <- function(go_id, res_enrich = NULL) {
 
 }
 
+#' Link to the AmiGO database
+#'
+#' @param val A string, with the GO identifier
+#'
+#' @return HTML for an action button
+#' @noRd
 .link2amigo <- function(val) {
   sprintf('<a href = "http://amigo.geneontology.org/amigo/term/%s" target = "_blank" class = "btn btn-primary" style = "%s">%s</a>',
           val,
@@ -89,6 +95,12 @@ geneinfo_2_html <- function(gene_id) {
   return(HTML(mycontent))
 }
 
+#' Link to NCBI database
+#'
+#' @param val Character, the gene symbol
+#'
+#' @return HTML for an action button
+#' @noRd
 .link2ncbi <- function(val) {
   sprintf('<a href = "http://www.ncbi.nlm.nih.gov/gene/?term=%s[sym]" target = "_blank" class = "btn btn-primary" style = "%s">%s</a>',
           val,
@@ -96,6 +108,12 @@ geneinfo_2_html <- function(gene_id) {
           val)
 }
 
+#' Link to the GeneCards database
+#'
+#' @param val Character, the gene symbol of interest
+#'
+#' @return HTML for an action button
+#' @noRd
 .link2genecards <- function(val) {
   sprintf('<a href = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=%s" target = "_blank" class = "btn btn-primary" style = "%s">%s</a>',
           val,
