@@ -4,9 +4,7 @@
 \alias{gs_simplify}
 \title{Simplify results from functional enrichment analysis}
 \usage{
-gs_simplify(res_enrich, gs_overlap = 0.75, genes_colname = "genes",
-  genesetname_colname = "Term", genesetid_colname = "GO.ID",
-  genes_separator = ",")
+gs_simplify(res_enrich, gs_overlap = 0.75)
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
@@ -17,19 +15,6 @@ formatting requirements.}
 terms that present an overlap greater than the specified value. Changing its
 value can control the granularity of how redundant terms are removed from the
 original \code{res_enrich} for the next steps, e.g. plotting this via \code{\link[=gs_volcano]{gs_volcano()}}}
-
-\item{genes_colname}{Character, specifying which column of the \code{res_enrich}
-object contains the genes assigned to each gene set, detected as differentially
-expressed. Defaults to \code{genes}.}
-
-\item{genesetname_colname}{Character, specifies which column of the \code{res_enrich}
-object contains a description of the gene set. Defaults to \code{Term}.}
-
-\item{genesetid_colname}{Character, specifies which column of the \code{res_enrich}
-object contains a unique identifier of the gene set. Defaults to \code{GO.ID}.}
-
-\item{genes_separator}{Character, specifying which separator is used in the
-column defined by \code{genes_colname} to split the character of features.}
 }
 \value{
 A \code{data.frame} with a subset of the original gene sets

@@ -5,8 +5,7 @@
 \title{Visually enhances a functional enrichment result table}
 \usage{
 enhance_table(res_enrich, res_de, annotation_obj, n_gs = 50,
-  genes_colname = "genes", genesetname_colname = "Term",
-  genesetid_colname = "GO.ID", chars_limit = 60)
+  chars_limit = 60)
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
@@ -20,16 +19,6 @@ information, with at least two columns, \code{gene_id} and \code{gene_name}.}
 
 \item{n_gs}{Integer value, corresponding to the maximal number of gene sets to
 be displayed.}
-
-\item{genes_colname}{Character, specifying which column of the \code{res_enrich}
-object contains the genes assigned to each gene set, detected as differentially
-expressed. Defaults to \code{genes}.}
-
-\item{genesetname_colname}{Character, specifies which column of the \code{res_enrich}
-object contains a description of the gene set. Defaults to \code{Term}.}
-
-\item{genesetid_colname}{Character, specifies which column of the \code{res_enrich}
-object contains a unique identifier of the gene set. Defaults to \code{GO.ID}.}
 
 \item{chars_limit}{Integer, number of characters to be displayed for each
 geneset name.}

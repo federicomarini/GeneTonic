@@ -4,9 +4,7 @@
 \alias{gs_scores}
 \title{Compute gene set scores}
 \usage{
-gs_scores(se, res_de, res_enrich, annotation_obj = NULL,
-  genes_colname = "genes", genesetname_colname = "Term",
-  genesetid_colname = "GO.ID")
+gs_scores(se, res_de, res_enrich, annotation_obj = NULL)
 }
 \arguments{
 \item{se}{A \code{SummarizedExperiment} object, or an object derived from this class,
@@ -22,16 +20,6 @@ formatting requirements.}
 
 \item{annotation_obj}{A \code{data.frame} object with the feature annotation
 information, with at least two columns, \code{gene_id} and \code{gene_name}.}
-
-\item{genes_colname}{Character, specifying which column of the \code{res_enrich}
-object contains the genes assigned to each gene set, detected as differentially
-expressed. Defaults to \code{genes}.}
-
-\item{genesetname_colname}{Character, specifies which column of the \code{res_enrich}
-object contains a description of the gene set. Defaults to \code{Term}.}
-
-\item{genesetid_colname}{Character, specifies which column of the \code{res_enrich}
-object contains a unique identifier of the gene set. Defaults to \code{GO.ID}.}
 }
 \value{
 A matrix with the geneset Z scores, e.g. to be plotted with \code{\link[=gs_ggheatmap]{gs_ggheatmap()}}

@@ -4,7 +4,7 @@
 \alias{gs_horizon}
 \title{Plots a summary of enrichment results}
 \usage{
-gs_horizon(res_enrich, n_gs = 20, p_value_column = "p.value_elim",
+gs_horizon(res_enrich, n_gs = 20, p_value_column = "gs_pvalue",
   color_by = "z_score")
 }
 \arguments{

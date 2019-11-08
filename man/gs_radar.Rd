@@ -5,7 +5,7 @@
 \title{Radar plot for gene sets}
 \usage{
 gs_radar(res_enrich1, res_enrich2, n_gs = 20,
-  p_value_column = "p.value_elim")
+  p_value_column = "gs_pvalue")
 }
 \arguments{
 \item{res_enrich1}{A \code{data.frame} object, storing the result of the functional

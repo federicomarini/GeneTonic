@@ -5,9 +5,7 @@
 \title{Construct a gene-geneset-graph}
 \usage{
 ggs_graph(res_enrich, res_de, annotation_obj = NULL, n_gs = 15,
-  genes_colname = "genes", genesetname_colname = "Term",
-  genesetid_colname = "GO.ID", prettify = TRUE,
-  geneset_graph_color = "gold", genes_graph_colpal)
+  prettify = TRUE, geneset_graph_color = "gold", genes_graph_colpal)
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
@@ -21,16 +19,6 @@ information, with at least two columns, \code{gene_id} and \code{gene_name}.}
 
 \item{n_gs}{Integer value, corresponding to the maximal number of gene sets to
 be included}
-
-\item{genes_colname}{Character, specifying which column of the \code{res_enrich}
-object contains the genes assigned to each gene set, detected as differentially
-expressed. Defaults to \code{genes}.}
-
-\item{genesetname_colname}{Character, specifies which column of the \code{res_enrich}
-object contains a description of the gene set. Defaults to \code{Term}.}
-
-\item{genesetid_colname}{Character, specifies which column of the \code{res_enrich}
-object contains a unique identifier of the gene set. Defaults to \code{GO.ID}.}
 
 \item{prettify}{Logical, controlling the aspect of the returned graph object.
 If TRUE (default value), different shapes of the nodes are returned, based on

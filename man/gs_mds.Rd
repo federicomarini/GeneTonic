@@ -4,10 +4,9 @@
 \alias{gs_mds}
 \title{Multi Dimensional Scaling plot for gene sets}
 \usage{
-gs_mds(res_enrich, res_de, annotation_obj, genes_colname = "genes",
-  genesetname_colname = "Term", genesetid_colname = "GO.ID",
-  genes_separator = ",", similarity_measure = "kappa_matrix",
-  mds_k = 2, mds_labels = 10, mds_colorby = "z_score")
+gs_mds(res_enrich, res_de, annotation_obj,
+  similarity_measure = "kappa_matrix", mds_k = 2, mds_labels = 10,
+  mds_colorby = "z_score")
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
@@ -18,19 +17,6 @@ formatting requirements.}
 
 \item{annotation_obj}{A \code{data.frame} object with the feature annotation
 information, with at least two columns, \code{gene_id} and \code{gene_name}.}
-
-\item{genes_colname}{Character, specifying which column of the \code{res_enrich}
-object contains the genes assigned to each gene set, detected as differentially
-expressed. Defaults to \code{genes}.}
-
-\item{genesetname_colname}{Character, specifies which column of the \code{res_enrich}
-object contains a description of the gene set. Defaults to \code{Term}.}
-
-\item{genesetid_colname}{Character, specifies which column of the \code{res_enrich}
-object contains a unique identifier of the gene set. Defaults to \code{GO.ID}.}
-
-\item{genes_separator}{Character, specifying which separator is used in the
-column defined by \code{genes_colname} to split the character of features.}
 
 \item{similarity_measure}{Character, currently defaults to \code{kappa_matrix}, to
 specify how to compute the similarity measure between gene sets}
