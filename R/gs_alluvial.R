@@ -31,7 +31,6 @@ gs_alluvial <- function(res_enrich,
                              character(1))
 
   enrich2list <- lapply(seq_len(n_gs), function(gs) {
-    # goterm <- res_enrich$Term[gs]
     go_genes <- res_enrich$gs_genes[gs]
     go_genes <- strsplit(go_genes, ",") %>% unlist
     return(go_genes)
