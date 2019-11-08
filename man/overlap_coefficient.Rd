@@ -15,7 +15,7 @@ overlap_coefficient(x, y)
 A numeric value between 0 and 1
 }
 \description{
-Calculate simolarity coefficient between two sets, based on the overlap
+Calculate similarity coefficient between two sets, based on the overlap
 }
 \examples{
 # TODO

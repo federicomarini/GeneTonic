@@ -108,7 +108,7 @@ gs_heatmap <- function(se,
 
 #' Compute gene set scores
 #'
-#' Compute gene set scores for each sample, by tranforming the gene-wise change
+#' Compute gene set scores for each sample, by transforming the gene-wise change
 #' to a geneset-wise change
 #'
 #' @param se A `SummarizedExperiment` object, or an object derived from this class,
@@ -168,7 +168,7 @@ gs_scores <- function(se,
 #'
 #' Plots a matrix of geneset Z scores, across all samples
 #'
-#' @param mat A matrix, e.g. retured by the [gs_scores()] function
+#' @param mat A matrix, e.g. returned by the [gs_scores()] function
 #' @param clustering_distance_rows Character, a distance measure used in
 #' clustering rows
 #' @param clustering_distance_cols Character, a distance measure used in

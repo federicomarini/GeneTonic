@@ -123,7 +123,7 @@ geneinfo_2_html <- function(gene_id) {
 
 #' Calculate overlap coefficient
 #'
-#' Calculate simolarity coefficient between two sets, based on the overlap
+#' Calculate similarity coefficient between two sets, based on the overlap
 #'
 #' @param x Character vector, corresponding to set 1
 #' @param y Character vector, set 2

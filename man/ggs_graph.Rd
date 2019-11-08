@@ -30,7 +30,7 @@ used for the fill of the shapes related to the gene sets.}
 \item{genes_graph_colpal}{TODO}
 }
 \value{
-An \code{igraph} obejct to be further manipulated or processed/plotted (e.g.
+An \code{igraph} object to be further manipulated or processed/plotted (e.g.
 via \code{\link[igraph:plot.igraph]{igraph::plot.igraph()}} or \code{\link[visNetwork:visIgraph]{visNetwork::visIgraph()}})
 }
 \description{

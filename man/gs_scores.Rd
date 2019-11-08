@@ -25,7 +25,7 @@ information, with at least two columns, \code{gene_id} and \code{gene_name}.}
 A matrix with the geneset Z scores, e.g. to be plotted with \code{\link[=gs_ggheatmap]{gs_ggheatmap()}}
 }
 \description{
-Compute gene set scores for each sample, by tranforming the gene-wise change
+Compute gene set scores for each sample, by transforming the gene-wise change
 to a geneset-wise change
 }
 \examples{

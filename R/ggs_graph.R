@@ -18,7 +18,7 @@
 #' used for the fill of the shapes related to the gene sets.
 #' @param genes_graph_colpal TODO
 #'
-#' @return An `igraph` obejct to be further manipulated or processed/plotted (e.g.
+#' @return An `igraph` object to be further manipulated or processed/plotted (e.g.
 #' via [igraph::plot.igraph()] or [visNetwork::visIgraph()])
 #' @export
 #'
