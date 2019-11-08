@@ -215,7 +215,7 @@ gss_mat <- gs_scores(vst_macrophage,
                        genesetname_colname = "Term",
                        genesetid_colname = "GO.ID",
                        annotation_obj = anno_df)
-gs_ggheatmap(gss_mat)
+gs_scoresheat(gss_mat)
 ```
 
 

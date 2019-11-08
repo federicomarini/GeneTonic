@@ -122,9 +122,9 @@ gs_heatmap <- function(se,
 #' @param annotation_obj A `data.frame` object with the feature annotation
 #' information, with at least two columns, `gene_id` and `gene_name`.
 #'
-#' @return A matrix with the geneset Z scores, e.g. to be plotted with [gs_ggheatmap()]
+#' @return A matrix with the geneset Z scores, e.g. to be plotted with [gs_scoresheat()]
 #'
-#' @seealso [gs_ggheatmap()] plots these scores
+#' @seealso [gs_scoresheat()] plots these scores
 #'
 #' @export
 #'
@@ -184,7 +184,7 @@ gs_scores <- function(se,
 #'
 #' @examples
 #' # TODO
-gs_ggheatmap <- function(mat,
+gs_scoresheat <- function(mat,
                          clustering_distance_rows = "euclidean",
                          clustering_distance_cols = "euclidean",
                          cluster_rows = TRUE,

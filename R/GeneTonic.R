@@ -1167,7 +1167,7 @@ GeneTonic <- function(dds,
                 annotation_obj = annotation_obj)
     })
     output$gsscores_heatmap <- renderPlot({
-      gs_ggheatmap(gss_mat())
+      gs_scoresheat(gss_mat())
     })
 
     output$alluvial_genesets <- renderPlotly({

@@ -22,7 +22,7 @@ formatting requirements.}
 information, with at least two columns, \code{gene_id} and \code{gene_name}.}
 }
 \value{
-A matrix with the geneset Z scores, e.g. to be plotted with \code{\link[=gs_ggheatmap]{gs_ggheatmap()}}
+A matrix with the geneset Z scores, e.g. to be plotted with \code{\link[=gs_scoresheat]{gs_scoresheat()}}
 }
 \description{
 Compute gene set scores for each sample, by transforming the gene-wise change
@@ -32,5 +32,5 @@ to a geneset-wise change
 # TODO
 }
 \seealso{
-\code{\link[=gs_ggheatmap]{gs_ggheatmap()}} plots these scores
+\code{\link[=gs_scoresheat]{gs_scoresheat()}} plots these scores
 }
