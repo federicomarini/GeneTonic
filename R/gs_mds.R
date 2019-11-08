@@ -9,15 +9,6 @@
 #' @param res_de A `DESeqResults` object.
 #' @param annotation_obj A `data.frame` object with the feature annotation
 #' information, with at least two columns, `gene_id` and `gene_name`.
-#' @param genes_colname Character, specifying which column of the `res_enrich`
-#' object contains the genes assigned to each gene set, detected as differentially
-#' expressed. Defaults to `genes`.
-#' @param genesetname_colname Character, specifies which column of the `res_enrich`
-#' object contains a description of the gene set. Defaults to `Term`.
-#' @param genesetid_colname Character, specifies which column of the `res_enrich`
-#' object contains a unique identifier of the gene set. Defaults to `GO.ID`.
-#' @param genes_separator Character, specifying which separator is used in the
-#' column defined by `genes_colname` to split the character of features.
 #' @param similarity_measure Character, currently defaults to `kappa_matrix`, to
 #' specify how to compute the similarity measure between gene sets
 #' @param mds_k Integer value, number of dimensions to compute in the multi
@@ -39,41 +30,30 @@
 gs_mds <- function(res_enrich,
                    res_de,
                    annotation_obj,
-                   genes_colname = "genes",
-                   genesetname_colname = "Term",
-                   genesetid_colname = "GO.ID",
-                   genes_separator = ",",
                    similarity_measure = "kappa_matrix",
                    mds_k = 2,
                    mds_labels = 10,
                    mds_colorby = "z_score") { # or aggr_score
 
   # require res_enrich to have aggregated scores and so
-  if (!("Z_score" %in% colnames(res_enrich))) {
+  if (!("z_score" %in% colnames(res_enrich))) {
     res_enrich <- get_aggrscores(res_enrich,
                                  res_de,
                                  n_gs = nrow(res_enrich),
-                                 genes_colname = genes_colname,
-                                 genesetname_colname = genesetname_colname,
-                                 genesetid_colname = genesetid_colname,
                                  annotation_obj = annotation_obj)
   }
 
   # alternative: use semantic similarity
   # library(GOSemSim)
   # mmGO <- godata('org.Mm.eg.db', ont="BP")
-  # mysims <- mgoSim(res_enrich[[genesetid_colname]], res_enrich[[genesetid_colname]],
+  # mysims <- mgoSim(res_enrich[["gs_id"]], res_enrich[["gs_id"]],
   # semData=mmGO, measure="Wang", combine=NULL)
 
-  mysets <- res_enrich[[genesetid_colname]]
-  mysets_names <- res_enrich[[genesetname_colname]]
+  mysets <- res_enrich[["gs_id"]]
+  mysets_names <- res_enrich[["gs_description"]]
 
   if (similarity_measure == "kappa_matrix") {
-    my_simmat <- create_kappa_matrix(res_enrich,
-                                     genes_colname = genes_colname,
-                                     genesetname_colname = genesetname_colname,
-                                     genesetid_colname = genesetid_colname,
-                                     genes_separator = genes_separator)
+    my_simmat <- create_kappa_matrix(res_enrich)
 
   } # else ... TODO
 
