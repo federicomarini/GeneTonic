@@ -70,7 +70,7 @@ gs_radar <- function(res_enrich1,
     ) %>%
     plotly::layout(
       polar = list(radialaxis = list(visible = TRUE,
-                                     range = c(0,log_smallest_p))
+                                     range = c(0, log_smallest_p))
                    )
       # ,
       # title = "Geneset Radar Chart", font = list(size = 10)

@@ -197,10 +197,10 @@ gs_ggheatmap <- function(mat,
   col_tree <- hclust(d_cols)
   score_matrix <- mat
 
-  if(cluster_rows)
+  if (cluster_rows)
     score_matrix <- score_matrix[row_tree$order, ]
 
-  if(cluster_cols)
+  if (cluster_cols)
     score_matrix <- score_matrix[, col_tree$order]
 
   labels_rows <- factor(rownames(score_matrix),

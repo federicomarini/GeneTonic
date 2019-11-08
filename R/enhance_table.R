@@ -53,7 +53,7 @@ enhance_table <- function(res_enrich,
   this_contrast <- (sub(".*p-value: (.*)", "\\1", mcols(res_de, use.names = TRUE)["pvalue", "description"]))
 
   # to have first rows viewed on top
-  gs_fulllist <- gs_fulllist[nrow(gs_fulllist):1, ]
+  gs_fulllist <- gs_fulllist[rev(seq_len(nrow(gs_fulllist))), ]
   gs_fulllist$goterm <- factor(gs_fulllist$goterm, levels = rev(levels(gs_fulllist$goterm)))
   max_lfc <- max(abs(range(gs_fulllist$log2FoldChange)))
 
@@ -121,7 +121,7 @@ get_aggrscores <- function(res_enrich,
 
   gs_aggregated <- lapply(seq_len(nrow(res_enrich)), function(i) {
     this_gsid <- res_enrich$gs_id[i]
-    this_genesetname <- res_enrich$gs_description[i]
+    # this_genesetname <- res_enrich$gs_description[i]
     this_subset <- gs_expanded[gs_expanded$gs_id == this_gsid, ]
 
     upgenes <- sum(this_subset$log2FoldChange > 0)

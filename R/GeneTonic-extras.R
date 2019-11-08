@@ -27,9 +27,9 @@ go_2_html <- function(go_id, res_enrich = NULL) {
     "<b>GO ID: </b>", .link2amigo(GOID(fullinfo)), "<br>",
     "<b>Term: </b>", Term(fullinfo), "<br></b>",
     ifelse(!is.null(res_enrich),
-           paste0("<b>p-value: </b>", res_enrich[(res_enrich$gs_id == go_id), "gs_pvalue"],"</br>",
-                  "<b>Z-score: </b>", format(round(res_enrich[(res_enrich$gs_id == go_id), "z_score"], 2), nsmall = 2),"</br>",
-                  "<b>Aggregated score: </b>", format(round(res_enrich[(res_enrich$gs_id == go_id), "aggr_score"], 2), nsmall = 2),"</br>",
+           paste0("<b>p-value: </b>", res_enrich[(res_enrich$gs_id == go_id), "gs_pvalue"], "</br>",
+                  "<b>Z-score: </b>", format(round(res_enrich[(res_enrich$gs_id == go_id), "z_score"], 2), nsmall = 2), "</br>",
+                  "<b>Aggregated score: </b>", format(round(res_enrich[(res_enrich$gs_id == go_id), "aggr_score"], 2), nsmall = 2), "</br>",
                   collapse = ""),
            ""),
     "<b>Ontology: </b>", Ontology(fullinfo), "<br><br>",
@@ -240,7 +240,7 @@ footer <- function() {
 
 .onLoad <- function(libname, pkgname) {
   # Create link to logo
-  shiny::addResourcePath("GeneTonic", system.file("www", package="GeneTonic"))
+  shiny::addResourcePath("GeneTonic", system.file("www", package = "GeneTonic"))
 }
 
 
@@ -254,5 +254,3 @@ footer <- function() {
 .helpbutton_biocstyle <- "color: #0092AC; background-color: #FFFFFF; border-color: #FFFFFF"
 
 .biocgreen <- "#0092AC"
-
-

@@ -55,5 +55,3 @@ gs_simplify <- function(res_enrich,
 
   return(res_enrich_mod)
 }
-
-

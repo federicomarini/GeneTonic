@@ -34,10 +34,10 @@ gs_summary_overview <- function(res_enrich,
 
   re_sorted <- re %>%
     arrange(.data$logp10) %>%
-    mutate(gs_description=factor(.data$gs_description, .data$gs_description))
-  p <- ggplot(re_sorted, ( aes_string(x="gs_description", y="logp10"))) +
-    geom_segment( aes_string(x="gs_description" ,xend="gs_description", y=0, yend="logp10"), color="grey") +
-    geom_point(aes_string(col="z_score"), size = 4 ) +
+    mutate(gs_description = factor(.data$gs_description, .data$gs_description))
+  p <- ggplot(re_sorted, (aes_string(x = "gs_description", y = "logp10"))) +
+    geom_segment(aes_string(x = "gs_description" , xend = "gs_description", y = 0, yend = "logp10"), color = "grey") +
+    geom_point(aes_string(col = "z_score"), size = 4) +
     scale_color_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
     coord_flip() +
     theme_minimal()
@@ -103,11 +103,11 @@ gs_summary_overview_pair <- function(res_enrich,
 
   re_both_sorted <- re_both %>%
     arrange(.data$logp10) %>%
-    mutate(gs_description=factor(.data$gs_description, .data$gs_description))
+    mutate(gs_description = factor(.data$gs_description, .data$gs_description))
 
-  p <- ggplot(re_both_sorted, aes_string(x="gs_description", y="logp10")) +
-    geom_segment( aes_string(x="gs_description" ,xend="gs_description", y="logp10_2", yend="logp10"), color="grey") +
-    geom_point(aes_string(col="z_score"), size=4 ) +
+  p <- ggplot(re_both_sorted, aes_string(x = "gs_description", y = "logp10")) +
+    geom_segment(aes_string(x = "gs_description", xend = "gs_description", y = "logp10_2", yend = "logp10"), color = "grey") +
+    geom_point(aes_string(col = "z_score"), size = 4 ) +
     geom_point(aes_string(y = "logp10_2", col = "z_score_2"), size = 4, alpha = alpha_set2) +
     scale_color_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
     coord_flip() +
@@ -151,7 +151,7 @@ gs_horizon <- function(res_enrich, # TODO: should be a list of res_enrich object
   # res_enrich <- get_aggrscores(topgoDE_macrophage_IFNg_vs_naive,res_macrophage_IFNg_vs_naive, annotation_obj = anno_df)
   res_enriched_1 <- res_enrich
 
-  res_enriched_1 <- res_enriched_1[seq_len(n_gs),]
+  res_enriched_1 <- res_enriched_1[seq_len(n_gs), ]
   res_enriched_1$logp10 <-  -log10(res_enriched_1[[p_value_column]])
 
   res_enriched_2 <-
@@ -181,7 +181,7 @@ gs_horizon <- function(res_enrich, # TODO: should be a list of res_enrich object
   # to preserve the order of the terms
   res_enriched_1 <- res_enriched_1 %>%
     arrange(.data$logp10) %>%
-    mutate(gs_description=factor(.data$gs_description, unique(.data$gs_description)))
+    mutate(gs_description = factor(.data$gs_description, unique(.data$gs_description)))
 
   # to preserve the sorting of scenarios
   merged_res_enh <- rbind(res_enriched_1,
@@ -195,23 +195,23 @@ gs_horizon <- function(res_enrich, # TODO: should be a list of res_enrich object
   res_enriched_1 %>%
     # arrange(logp10) %>%
     # mutate(gs_description=factor(gs_description, unique(gs_description))) %>%
-    ggplot(aes_string(x = "gs_description", y = "logp10") ) +
+    ggplot(aes_string(x = "gs_description", y = "logp10")) +
     geom_line(aes_string(group = "scenario", col = "scenario"), size = 3, alpha = 0.7) +
-    geom_point(aes_string(fill="z_score"), size=4, pch = 21 ) +
+    geom_point(aes_string(fill = "z_score"), size = 4, pch = 21 ) +
     scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
-    ylim(c(0,NA)) +
+    ylim(c(0, NA)) +
     coord_flip() +
     theme_minimal()
 
   # sorted by category in scenario1
   merged_res_enh %>%
-    mutate(gs_description=factor(.data$gs_description, unique(.data$gs_description))) %>%
+    mutate(gs_description = factor(.data$gs_description, unique(.data$gs_description))) %>%
     arrange(desc(.data$logp10)) %>%
-    ggplot(aes_string(x = "gs_description", y = "logp10") ) +
+    ggplot(aes_string(x = "gs_description", y = "logp10")) +
     geom_line(aes_string(group = "scenario", col = "scenario"), size = 3, alpha = 0.7) +
-    geom_point(aes_string(fill = "z_score"), size=4, pch = 21 ) +
+    geom_point(aes_string(fill = "z_score"), size = 4, pch = 21 ) +
     scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
-    ylim(c(0,NA)) +
+    ylim(c(0, NA)) +
     coord_flip() +
     theme_minimal()
 
@@ -228,11 +228,11 @@ gs_horizon <- function(res_enrich, # TODO: should be a list of res_enrich object
 
   merged_res_enh %>%
     # mutate(gs_description=factor(gs_description, unique(gs_description))) %>%
-    mutate(gs_description=factor(.data$gs_description, rev(unique(nicerorder_terms)))) %>%
+    mutate(gs_description = factor(.data$gs_description, rev(unique(nicerorder_terms)))) %>%
     arrange(desc(.data$logp10)) %>%
-    ggplot(aes_string(x = "gs_description", y = "logp10") ) +
+    ggplot(aes_string(x = "gs_description", y = "logp10")) +
     geom_line(aes_string(group = "scenario", col = "scenario"), size = 3, alpha = 0.7) +
-    geom_point(aes_string(fill="z_score"), size=4, pch = 21 ) +
+    geom_point(aes_string(fill="z_score"), size = 4, pch = 21) +
     scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
     ylim(c(0,NA)) +
     coord_flip() +
@@ -274,8 +274,8 @@ gs_summary_heat <- function(res_enrich,
   res_enrich2 <- res_enrich[seq_len(n_gs), ]
 
   enriched_gsids <- res_enrich2[["gs_id"]]
-  enriched_gsnames <- res_enrich2[["gs_description"]]
-  enriched_gsdescs <- vapply(enriched_gsids, function(arg) Definition(GOTERM[[arg]]), character(1))
+  # enriched_gsnames <- res_enrich2[["gs_description"]]
+  # enriched_gsdescs <- vapply(enriched_gsids, function(arg) Definition(GOTERM[[arg]]), character(1))
 
   # rownames(res_enrich) <- enriched_gsids
 

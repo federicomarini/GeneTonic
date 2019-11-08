@@ -64,7 +64,7 @@ GeneTonic <- function(dds,
       leftUi = tagList(
         tags$code(tags$h3("GeneTonic")),
         actionButton("bookmarker", label = "Bookmark", icon = icon("heart"),
-                     style = "color: #ffffff; background-color: #ac0000; border-color: #ffffff", class="ml-5")
+                     style = "color: #ffffff; background-color: #ac0000; border-color: #ffffff", class = "ml-5")
       ),
       rightUi = tagList(
         # actionButton(
@@ -526,7 +526,7 @@ GeneTonic <- function(dds,
                            label = "Start the happy hour!",
                            icon = icon("magic"),
                            style = .actionbutton_biocstyle),
-              downloadButton("saveRmd", "Generate & Save",class = "btn btn-success")
+              downloadButton("saveRmd", "Generate & Save", class = "btn btn-success")
             )
           )
         ),
@@ -1252,7 +1252,7 @@ GeneTonic <- function(dds,
     output$saveRmd <- downloadHandler(
       filename = paste0(
         Sys.Date(),
-        "_",round(runif(1)*100), # for not having all w the same name
+        "_", round(runif(1) * 100), # for not having all w the same name
         "_GeneTonicReport.html"), # TODO: maybe add Sys.time() to the filename to improve traceability?
       content = function(file) {
         # temporarily switch to the temp dir, in case you do not have write permission to the current working directory
@@ -1292,9 +1292,9 @@ GeneTonic <- function(dds,
 
     # bookmarker --------------------------------------------------------------
     observeEvent(input$bookmarker, {
-      if(input$gt_tabs == "tab_welcome")
+      if (input$gt_tabs == "tab_welcome")
         showNotification("welcome on board!")
-      else if(input$gt_tabs == "tab_ggs") {
+      else if (input$gt_tabs == "tab_ggs") {
         showNotification("ggs baby")
         g <- values$mygraph()
         cur_sel <- input$mynetwork_selected
@@ -1306,7 +1306,7 @@ GeneTonic <- function(dds,
 
           if (cur_nodetype == "Feature") {
             # TODO: match back to identifier and so
-            if(cur_sel %in% values$mygenes) {
+            if (cur_sel %in% values$mygenes) {
               showNotification(sprintf("The selected gene %s is already in the set of the bookmarked genes.", cur_sel), type = "default")
             } else {
               values$mygenes <- unique(c(values$mygenes, cur_sel))
@@ -1315,7 +1315,7 @@ GeneTonic <- function(dds,
 
             }
           } else if (cur_nodetype == "GeneSet") {
-            if(cur_sel %in% values$mygenesets) {
+            if (cur_sel %in% values$mygenesets) {
               showNotification(sprintf("The selected gene set %s is already in the set of the bookmarked genesets.", cur_sel), type = "default")
             } else {
               values$mygenesets <- unique(c(values$mygenesets, cur_sel))
@@ -1329,14 +1329,14 @@ GeneTonic <- function(dds,
           }
         }
       }
-      else if(input$gt_tabs == "tab_emap") {
+      else if (input$gt_tabs == "tab_emap") {
         showNotification("maaap maaap")
         g <- values$mygraph()
         cur_sel <- input$emap_visnet_selected
         if (cur_sel == "") {
           showNotification("Select a node in the network to bookmark it", type = "warning")
         } else {
-          if(cur_sel %in% values$mygenesets) {
+          if (cur_sel %in% values$mygenesets) {
             showNotification(sprintf("The selected gene set %s is already in the set of the bookmarked genesets.", cur_sel), type = "default")
           } else {
             values$mygenesets <- unique(c(values$mygenesets, cur_sel))
@@ -1345,9 +1345,9 @@ GeneTonic <- function(dds,
           }
         }
       }
-      else if(input$gt_tabs == "tab_bookmarks")
+      else if (input$gt_tabs == "tab_bookmarks")
         showNotification("catching up and wrapping up...")
-      else if(input$gt_tabs == "tab_about")
+      else if (input$gt_tabs == "tab_about")
         showNotification("youwannaknowwhatitsallabout")
 
     })

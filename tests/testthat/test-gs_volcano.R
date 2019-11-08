@@ -8,5 +8,5 @@ test_that("Plot is generated", {
                                           res_macrophage_IFNg_vs_naive,
                                           annotation_obj = anno_df,
                                           aggrfun = mean)
-  expect_is(gs_volcano(res_enrich_withscores),"gg")
+  expect_is(gs_volcano(res_enrich_withscores), "gg")
 })

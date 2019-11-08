@@ -57,8 +57,8 @@ gs_alluvial <- function(res_enrich,
   )
 
   # connections must be provided using id, not using real name like in the links data.frame...
-  list2df$IDsource <- match(list2df$source, nodes$name) - 1
-  list2df$IDtarget <- match(list2df$target, nodes$name) - 1
+  list2df$id_source <- match(list2df$source, nodes$name) - 1
+  list2df$id_target <- match(list2df$target, nodes$name) - 1
 
   # list2df %>% head
 
@@ -87,8 +87,8 @@ gs_alluvial <- function(res_enrich,
     ),
 
     link = list(
-      source = list2df$IDsource,
-      target = list2df$IDtarget,
+      source = list2df$id_source,
+      target = list2df$id_target,
       value =  list2df$value
     )
   ) %>%
