@@ -11,13 +11,6 @@
 #' information, with at least two columns, `gene_id` and `gene_name`.
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be displayed
-#' @param genes_colname Character, specifying which column of the `res_enrich`
-#' object contains the genes assigned to each gene set, detected as differentially
-#' expressed. Defaults to `genes`.
-#' @param genesetname_colname Character, specifies which column of the `res_enrich`
-#' object contains a description of the gene set. Defaults to `Term`.
-#' @param genesetid_colname Character, specifies which column of the `res_enrich`
-#' object contains a unique identifier of the gene set. Defaults to `GO.ID`.
 #'
 #' @return A `plotly` object
 #' @export
@@ -27,22 +20,19 @@
 gs_alluvial <- function(res_enrich,
                         res_de,
                         annotation_obj,
-                        n_gs = 5,
-                        genes_colname = "genes",
-                        genesetname_colname = "Term",
-                        genesetid_colname = "GO.ID") {
+                        n_gs = 5) {
 
   # res_enhanced <- get_aggrscores(res_enrich, res_de, annotation_obj = annotation_obj)
 
-  enriched_gsids <- res_enrich[[genesetid_colname]]
-  enriched_gsnames <- res_enrich[[genesetname_colname]]
+  enriched_gsids <- res_enrich[["gs_id"]]
+  enriched_gsnames <- res_enrich[["gs_description"]]
   enriched_gsdescs <- vapply(enriched_gsids,
                              function(arg) Definition(GOTERM[[arg]]),
                              character(1))
 
   enrich2list <- lapply(seq_len(n_gs), function(gs) {
     # goterm <- res_enrich$Term[gs]
-    go_genes <- res_enrich$genes[gs]
+    go_genes <- res_enrich$gs_genes[gs]
     go_genes <- strsplit(go_genes, ",") %>% unlist
     return(go_genes)
   })
