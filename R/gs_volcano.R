@@ -8,9 +8,6 @@
 #' formatting requirements. This object needs to be processed first by a function
 #' such as [get_aggrscores()] to compute the term-wise `z_score` or `aggr_score`,
 #' which will be used for plotting
-#' @param genesetname_colname Character, specifies which column of the `res_enrich`
-#' object contains a description of the gene set. Defaults to `Term`.
-#' @param pvals_to_use TODO
 #' @param p_threshold Numeric, defines the threshold to be used for filtering the
 #' gene sets to display. Defaults to 0.05
 #' @param max_nr_labels Integer, maximum number of labels for the gene sets to be
@@ -27,8 +24,6 @@
 #' @examples
 #' #  TODO
 gs_volcano <- function(res_enrich,
-                       genesetname_colname = "Term",
-                       pvals_to_use = "p.value_elim",
                        p_threshold = 0.05,
                        max_nr_labels = 10,
                        scale_circles = 1 # TODOTODO: see how to control point size
@@ -40,11 +35,11 @@ gs_volcano <- function(res_enrich,
   # TODO: or call in advance the get_aggr_scores function?
 
   mydf <- res_enrich
-  mydf$logpval <- -log10(mydf[[pvals_to_use]])
-  mydf$mylabels <- mydf[[genesetname_colname]]
-  mydf$`set members` <- mydf$Significant
+  mydf$logpval <- -log10(mydf[["gs_pvalue"]])
+  mydf$mylabels <- mydf[["gs_description"]]
+  mydf$`set members` <- mydf[["gs_de_count"]]
 
-  mydf <- mydf[mydf[[pvals_to_use]] <= p_threshold, ]
+  mydf <- mydf[mydf[["gs_pvalue"]] <= p_threshold, ]
   max_z <- max(abs(range(mydf$z_score)))
   limit <- max_z * c(-1, 1)
 
@@ -58,9 +53,8 @@ gs_volcano <- function(res_enrich,
     scale_color_gradient2(limit = limit,
                           low = muted("deepskyblue"), high = muted("firebrick"), mid = "lightyellow")
 
-  if (!is.null(genesetname_colname)) {
-    p <- p + geom_label_repel(aes_string(label = "mylabels"), data = mydf[1:max_nr_labels, ], size = 4)
-  }
+  # TODO: condition this?
+  p <- p + geom_label_repel(aes_string(label = "mylabels"), data = mydf[1:max_nr_labels, ], size = 4)
 
   # handling the title
   p <- p + ggtitle("TODOTODO some title related to the provided info")
