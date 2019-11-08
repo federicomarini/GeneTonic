@@ -102,6 +102,7 @@ enrichment_map <- function(res_enrich,
     col_var <- -log10(col_var)
   # V(g)$color <- colVar
 
+  # TODO: palette changes if it is z_score VS pvalue
   mypal <- (scales::alpha(
     colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.8))
   mypal_hover <- (scales::alpha(
