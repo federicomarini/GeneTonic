@@ -1,9 +1,16 @@
+# GeneTonic 0.5.0
+
+## New features
+
+* `GeneTonic` now enforces a format for `res_enrich`, and provides some conversion functions, `shake_*()`. Requirements are specified in the documentation, if an appropriate converter does not (yet) exist.
+* The reporting feature is active to some extent on the bookmarked content.
+
 # GeneTonic 0.4.0
 
 ## New features
 
-* added functionality for bookmarking
-* bookmarking can work (PoP) by pressing a key (left control)!
+* Added functionality for bookmarking
+* Bookmarking can work (PoP) by pressing a key (left control)!
 * `gene_plot` can enforce a plot type overriding the default based on the number of samples per condition
 * `GeneTonic` uses now `bs4Dash` and many of its nice features, replacing the previous implementation based on `shinydashboard`
 
