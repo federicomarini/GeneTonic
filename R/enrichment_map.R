@@ -18,13 +18,6 @@
 #' @param scale_edges_width TODO
 #' @param color_by TODO
 #' @param size_by TODO
-#' @param genes_colname Character, specifying which column of the `res_enrich`
-#' object contains the genes assigned to each gene set, detected as differentially
-#' expressed. Defaults to `genes`.
-#' @param genesetname_colname Character, specifies which column of the `res_enrich`
-#' object contains a description of the gene set. Defaults to `Term`.
-#' @param genesetid_colname Character, specifies which column of the `res_enrich`
-#' object contains a unique identifier of the gene set. Defaults to `GO.ID`.
 #'
 #' TODOTODO: similarity measures, say, jaccard, or simple overlap
 #'
@@ -42,24 +35,21 @@ enrichment_map <- function(res_enrich,
                            n_gs = 50,
                            overlap_threshold = 0.1,
                            scale_edges_width = 200,
-                           color_by = "p.value_elim",
-                           size_by,
-                           genes_colname = "genes",
-                           genesetname_colname = "Term",
-                           genesetid_colname = "GO.ID") {
+                           color_by = "gs_pvalue",
+                           size_by) {
 
   # if we want to allow for other feats to be colored by, check that some aggregated scores are there
   # TODOTODO, if... otherwise, compute aggr scores
 
-  enriched_gsids <- res_enrich[[genesetid_colname]]
-  enriched_gsnames <- res_enrich[[genesetname_colname]]
+  enriched_gsids <- res_enrich$gs_id
+  enriched_gsnames <- res_enrich$gs_description
   enriched_gsdescs <- vapply(enriched_gsids, function(arg) Definition(GOTERM[[arg]]), character(1))
 
   rownames(res_enrich) <- enriched_gsids
 
   enrich2list <- lapply(seq_len(n_gs), function(gs) {
     # goterm <- res_enrich$Term[gs]
-    go_genes <- res_enrich$genes[gs]
+    go_genes <- res_enrich$gs_genes[gs]
     go_genes <- strsplit(go_genes, ",") %>% unlist
     return(go_genes)
   })
@@ -99,7 +89,7 @@ enrichment_map <- function(res_enrich,
   E(g)$width <- sqrt(omm$value * scale_edges_width)
   g <- delete.edges(g, E(g)[omm$value < overlap_threshold])
 
-  idx <- match(V(g)$name, res_enrich$Term)
+  idx <- match(V(g)$name, res_enrich$gs_description)
 
   gs_size <- vapply(enrich2list[idx], length, numeric(1))
 
