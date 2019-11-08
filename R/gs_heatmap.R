@@ -12,13 +12,6 @@
 #' formatting requirements.
 #' @param geneset_id Character specifying the gene set identifier to be plotted
 #' @param genelist TODO
-#' @param genes_colname Character, specifying which column of the `res_enrich`
-#' object contains the genes assigned to each gene set, detected as differentially
-#' expressed. Defaults to `genes`.
-#' @param genesetname_colname Character, specifies which column of the `res_enrich`
-#' object contains a description of the gene set. Defaults to `Term`.
-#' @param genesetid_colname Character, specifies which column of the `res_enrich`
-#' object contains a unique identifier of the gene set. Defaults to `GO.ID`.
 #' @param annotation_obj A `data.frame` object with the feature annotation
 #' information, with at least two columns, `gene_id` and `gene_name`.
 #' @param FDR Numeric value, specifying the significance level for thresholding
@@ -43,9 +36,6 @@ gs_heatmap <- function(se,
                        annotation_obj = NULL,
                        geneset_id,
                        genelist,
-                       genes_colname = "genes",
-                       genesetname_colname = "Term",
-                       genesetid_colname = "GO.ID",
                        FDR = 0.05,
                        de_only = FALSE,
                        cluster_rows = TRUE, # TODOTODO: options for the heatmap go on left side, as could be common to more!
@@ -68,10 +58,10 @@ gs_heatmap <- function(se,
   # idea: multiselect with gene names - but in the UI
   # internal matching to the IDs (in this function we use the ids already)
 
-  rownames(res_enrich) <- res_enrich[[genesetid_colname]]
-  if (geneset_id %in% res_enrich[[genesetid_colname]]) {
-    thisset_name <- res_enrich[geneset_id, genesetname_colname]
-    thisset_members <- unlist(strsplit(res_enrich[geneset_id, genes_colname], ","))
+  # rownames(res_enrich) <- res_enrich[["gs_id"]]
+  if (geneset_id %in% res_enrich[["gs_id"]]) {
+    thisset_name <- res_enrich[geneset_id, "gs_description"]
+    thisset_members <- unlist(strsplit(res_enrich[geneset_id, "gs_genes"], ","))
     thisset_members_ids <- annotation_obj$gene_id[match(thisset_members, annotation_obj$gene_name)]
   } else {
     # overridable via a list
@@ -129,13 +119,6 @@ gs_heatmap <- function(se,
 #' @param res_enrich A `data.frame` object, storing the result of the functional
 #' enrichment analysis. See more in the main function, [GeneTonic()], to see the
 #' formatting requirements.
-#' @param genes_colname Character, specifying which column of the `res_enrich`
-#' object contains the genes assigned to each gene set, detected as differentially
-#' expressed. Defaults to `genes`.
-#' @param genesetname_colname Character, specifies which column of the `res_enrich`
-#' object contains a description of the gene set. Defaults to `Term`.
-#' @param genesetid_colname Character, specifies which column of the `res_enrich`
-#' object contains a unique identifier of the gene set. Defaults to `GO.ID`.
 #' @param annotation_obj A `data.frame` object with the feature annotation
 #' information, with at least two columns, `gene_id` and `gene_name`.
 #'
@@ -150,14 +133,11 @@ gs_heatmap <- function(se,
 gs_scores <- function(se,
                       res_de, # maybe won't be needed?
                       res_enrich,
-                      annotation_obj = NULL,
-                      genes_colname = "genes",
-                      genesetname_colname = "Term",
-                      genesetid_colname = "GO.ID") {
+                      annotation_obj = NULL) {
 
   mydata <- assay(se)
   # returns a matrix, rows = genesets, cols = samples
-  rownames(res_enrich) <- res_enrich[[genesetid_colname]]
+  # rownames(res_enrich) <- res_enrich[["gs_id"]]
 
   rowsd_se <- matrixStats::rowSds(mydata)
   rowavg_se <- rowMeans(mydata)
@@ -165,13 +145,13 @@ gs_scores <- function(se,
 
   gss_mat <- matrix(NA, nrow = nrow(res_enrich), ncol = ncol(se))
   rownames(gss_mat) <- paste0(
-    res_enrich[[genesetid_colname]], "|",
-    res_enrich[[genesetname_colname]])
+    res_enrich[["gs_id"]], "|",
+    res_enrich[["gs_description"]])
   colnames(gss_mat) <- colnames(se)
 
   for (i in seq_len(nrow(res_enrich))) {
 
-    thisset_members <- unlist(strsplit(res_enrich[i, genes_colname], ","))
+    thisset_members <- unlist(strsplit(res_enrich[i, "gs_genes"], ","))
     thisset_members_ids <- annotation_obj$gene_id[match(thisset_members, annotation_obj$gene_name)]
 
     thisset_members_ids <- thisset_members_ids[thisset_members_ids %in% rownames(se)]
