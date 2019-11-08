@@ -14,9 +14,5 @@ test_that("Dataset is simplified", {
                              res_macrophage_IFNg_vs_naive,
                              annotation_obj = anno_df,
                              aggrfun = mean)
-  expect_is(
-    gs_volcano(res_simp,
-               genesetname_colname = "Term",
-               pvals_to_use = "p.value_elim"),
-    "gg")
+  expect_is(gs_volcano(res_simp), "gg")
 })
