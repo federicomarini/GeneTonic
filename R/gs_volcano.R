@@ -4,10 +4,10 @@
 #' results
 #'
 #' @param res_enrich A `data.frame` object, storing the result of the functional
-#' enrichment analysis. See more in the main function, [GeneTonic()], to see the
-#' formatting requirements. This object needs to be processed first by a function
-#' such as [get_aggrscores()] to compute the term-wise `z_score` or `aggr_score`,
-#' which will be used for plotting
+#' enrichment analysis. See more in the main function, [GeneTonic()], to check the
+#' formatting requirements (a minimal set of columns should be present).
+#' This object needs to be processed first by a function such as [get_aggrscores()]
+#' to compute the term-wise `z_score` or `aggr_score`, which will be used for plotting
 #' @param p_threshold Numeric, defines the threshold to be used for filtering the
 #' gene sets to display. Defaults to 0.05
 #' @param max_nr_labels Integer, maximum number of labels for the gene sets to be

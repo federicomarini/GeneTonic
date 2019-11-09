@@ -12,7 +12,9 @@ to retrieve information}
 
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
 enrichment analysis. If not provided, the experiment-related information is not
-shown, and only some generic info on the identifier is displayed}
+shown, and only some generic info on the identifier is displayed.
+See more in the main function, \code{\link[=GeneTonic]{GeneTonic()}}, to check the
+formatting requirements (a minimal set of columns should be present).}
 }
 \value{
 HTML content related to a GeneOntology identifier, to be displayed in

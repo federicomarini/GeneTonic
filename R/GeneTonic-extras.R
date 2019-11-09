@@ -8,7 +8,9 @@
 #' to retrieve information
 #' @param res_enrich A `data.frame` object, storing the result of the functional
 #' enrichment analysis. If not provided, the experiment-related information is not
-#' shown, and only some generic info on the identifier is displayed
+#' shown, and only some generic info on the identifier is displayed.
+#' See more in the main function, [GeneTonic()], to check the
+#' formatting requirements (a minimal set of columns should be present).
 #'
 #' @return HTML content related to a GeneOntology identifier, to be displayed in
 #' web applications (or inserted in Rmd documents)
@@ -242,10 +244,6 @@ footer <- function() {
   # Create link to logo
   shiny::addResourcePath("GeneTonic", system.file("www", package = "GeneTonic"))
 }
-
-
-# TODOTODO
-# clusterProfiler to common expected format:
 
 
 # Some constant values ----------------------------------------------------

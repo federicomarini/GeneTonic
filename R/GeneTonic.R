@@ -9,11 +9,15 @@
 #' @param res_enrich A `data.frame` object, storing the result of the functional
 #' enrichment analysis. Required columns for enjoying the full functionality of
 #' [GeneTonic()] include:
-#' - a gene set identifier (e.g. GeneOntology id) and its term description
-#' - a numeric value for the significance of the enrichment
-#' - a column named `Genes` containing a comma separated vector of the gene names
-#' associated to the term, one for each term. TODO-generalize?
-#' This works out of the box for objects created with [pcaExplorer::topGOtable()]
+#' - a gene set identifier (e.g. GeneOntology id, `gs_id`) and its term description
+#' (`gs_description`)
+#' - a numeric value for the significance of the enrichment (`gs_pvalue`)
+#' - a column named `gs_genes` containing a comma separated vector of the gene names
+#' associated to the term, one for each term
+#' - the number of genes in the geneset of interest detected as differentially
+#' expressed (`gs_de_count`), or in the background set of genes (`gs_bg_count`)
+#' See [shake_topGOtable()] or [shake_enrichResult()] for examples of such
+#' formatting helpers
 #' @param annotation_obj A `data.frame` object, containing two columns, `gene_id`
 #' with a set of unambiguous identifiers (e.g. ENSEMBL ids) and `gene_name`,
 #' containing e.g. HGNC-based gene symbols. This object can be constructed via
@@ -40,6 +44,10 @@ GeneTonic <- function(dds,
 
 
   # checks on the objects provided
+  checkup_GeneTonic(dds,
+                    res_de,
+                    res_enrich,
+                    annotation_obj)
 
   # clean up the result object, e.g. removing the NAs in the relevant columns
   res_de <- res_de[!is.na(res_de$log2FoldChange), ]

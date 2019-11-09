@@ -17,11 +17,15 @@ also commonly used in the \code{DESeq2} framework.}
 enrichment analysis. Required columns for enjoying the full functionality of
 \code{\link[=GeneTonic]{GeneTonic()}} include:
 \itemize{
-\item a gene set identifier (e.g. GeneOntology id) and its term description
-\item a numeric value for the significance of the enrichment
-\item a column named \code{Genes} containing a comma separated vector of the gene names
-associated to the term, one for each term. TODO-generalize?
-This works out of the box for objects created with \code{\link[pcaExplorer:topGOtable]{pcaExplorer::topGOtable()}}
+\item a gene set identifier (e.g. GeneOntology id, \code{gs_id}) and its term description
+(\code{gs_description})
+\item a numeric value for the significance of the enrichment (\code{gs_pvalue})
+\item a column named \code{gs_genes} containing a comma separated vector of the gene names
+associated to the term, one for each term
+\item the number of genes in the geneset of interest detected as differentially
+expressed (\code{gs_de_count}), or in the background set of genes (\code{gs_bg_count})
+See \code{\link[=shake_topGOtable]{shake_topGOtable()}} or \code{\link[=shake_enrichResult]{shake_enrichResult()}} for examples of such
+formatting helpers
 }}
 
 \item{annotation_obj}{A \code{data.frame} object, containing two columns, \code{gene_id}

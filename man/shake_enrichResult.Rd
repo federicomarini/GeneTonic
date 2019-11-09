@@ -18,3 +18,7 @@ Convert an enrichResult object for straightforward use in \code{\link[=GeneTonic
 \examples{
 # TODO
 }
+\seealso{
+Other shakers: \code{\link{shake_topGOtableResult}}
+}
+\concept{shakers}

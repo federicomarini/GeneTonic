@@ -8,8 +8,8 @@ gs_alluvial(res_enrich, res_de, annotation_obj, n_gs = 5)
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
-enrichment analysis. See more in the main function, \code{\link[=GeneTonic]{GeneTonic()}}, to see the
-formatting requirements.}
+enrichment analysis. See more in the main function, \code{\link[=GeneTonic]{GeneTonic()}}, to check the
+formatting requirements (a minimal set of columns should be present).}
 
 \item{res_de}{A \code{DESeqResults} object.}
 

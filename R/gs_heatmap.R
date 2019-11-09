@@ -8,8 +8,8 @@
 #' to make the data more homoscedastic and thus a better fit for visualization.
 #' @param res_de A `DESeqResults` object.
 #' @param res_enrich A `data.frame` object, storing the result of the functional
-#' enrichment analysis. See more in the main function, [GeneTonic()], to see the
-#' formatting requirements.
+#' enrichment analysis. See more in the main function, [GeneTonic()], to check the
+#' formatting requirements (a minimal set of columns should be present).
 #' @param geneset_id Character specifying the gene set identifier to be plotted
 #' @param genelist TODO
 #' @param annotation_obj A `data.frame` object with the feature annotation
@@ -117,8 +117,8 @@ gs_heatmap <- function(se,
 #' to make the data more homoscedastic and thus a better fit for visualization.
 #' @param res_de A `DESeqResults` object.
 #' @param res_enrich A `data.frame` object, storing the result of the functional
-#' enrichment analysis. See more in the main function, [GeneTonic()], to see the
-#' formatting requirements.
+#' enrichment analysis. See more in the main function, [GeneTonic()], to check the
+#' formatting requirements (a minimal set of columns should be present).
 #' @param annotation_obj A `data.frame` object with the feature annotation
 #' information, with at least two columns, `gene_id` and `gene_name`.
 #'

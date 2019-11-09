@@ -4,8 +4,8 @@
 #' are redundant to enhance interpretation of the results
 #'
 #' @param res_enrich A `data.frame` object, storing the result of the functional
-#' enrichment analysis. See more in the main function, [GeneTonic()], to see the
-#' formatting requirements.
+#' enrichment analysis. See more in the main function, [GeneTonic()], to check the
+#' formatting requirements (a minimal set of columns should be present).
 #' @param gs_overlap Numeric value, which defines the threshold for removing
 #' terms that present an overlap greater than the specified value. Changing its
 #' value can control the granularity of how redundant terms are removed from the
