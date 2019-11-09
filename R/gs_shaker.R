@@ -19,6 +19,8 @@
 #' @return A `data.frame` compatible for use in [GeneTonic()] as `res_enrich`
 #' @export
 #'
+#' @family shakers
+#'
 #' @examples
 #' # TODO
 shake_enrichResult <- function(obj) {
@@ -67,6 +69,8 @@ shake_enrichResult <- function(obj) {
 #'
 #' @return A `data.frame` compatible for use in [GeneTonic()] as `res_enrich`
 #' @export
+#'
+#' @family shakers
 #'
 #' @examples
 #' # TODO
