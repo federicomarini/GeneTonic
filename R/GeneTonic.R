@@ -16,7 +16,7 @@
 #' associated to the term, one for each term
 #' - the number of genes in the geneset of interest detected as differentially
 #' expressed (`gs_de_count`), or in the background set of genes (`gs_bg_count`)
-#' See [shake_topGOtable()] or [shake_enrichResult()] for examples of such
+#' See [shake_topGOtableResult()] or [shake_enrichResult()] for examples of such
 #' formatting helpers
 #' @param annotation_obj A `data.frame` object, containing two columns, `gene_id`
 #' with a set of unambiguous identifiers (e.g. ENSEMBL ids) and `gene_name`,

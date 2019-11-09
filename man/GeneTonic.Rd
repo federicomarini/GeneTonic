@@ -24,7 +24,7 @@ enrichment analysis. Required columns for enjoying the full functionality of
 associated to the term, one for each term
 \item the number of genes in the geneset of interest detected as differentially
 expressed (\code{gs_de_count}), or in the background set of genes (\code{gs_bg_count})
-See \code{\link[=shake_topGOtable]{shake_topGOtable()}} or \code{\link[=shake_enrichResult]{shake_enrichResult()}} for examples of such
+See \code{\link[=shake_topGOtableResult]{shake_topGOtableResult()}} or \code{\link[=shake_enrichResult]{shake_enrichResult()}} for examples of such
 formatting helpers
 }}
 
