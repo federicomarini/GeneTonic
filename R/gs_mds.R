@@ -17,6 +17,8 @@
 #' of the scatter plot for the provided gene sets.
 #' @param mds_colorby Character specifying the column of `res_enrich` to be used
 #' for coloring the plotted gene sets. Defaults sensibly to `z_score`.
+#' @param gs_labels Character vector, containing a subset of `gs_id` as they are
+#' available in `res_enrich`. Lists the gene sets to be labelled.
 #'
 #' @return A `ggplot` object
 #'
@@ -32,8 +34,9 @@ gs_mds <- function(res_enrich,
                    annotation_obj,
                    similarity_measure = "kappa_matrix",
                    mds_k = 2,
-                   mds_labels = 10,
-                   mds_colorby = "z_score") { # or aggr_score
+                   mds_labels = 0,
+                   mds_colorby = "z_score",
+                   gs_labels = NULL) { # or aggr_score
 
   # require res_enrich to have aggregated scores and so
   if (!("z_score" %in% colnames(res_enrich))) {
@@ -84,10 +87,22 @@ gs_mds <- function(res_enrich,
                           high = muted("firebrick")) +
     theme_bw()
 
-  if (!is.null(mds_labels)) {
+  if (mds_labels > 0) {
     p <- p + geom_label_repel(
       aes_string(label = "gs_name"), data = mds_go_df[1:mds_labels, ], size = 3)
   }
+
+  if (!is.null(gs_labels)) {
+    if (!all(gs_labels %in% res_enrich$gs_id)) {
+      warning("Not all specified geneset ids were found in the `res_enrich` object")
+    }
+    df_gs_labels <- mds_go_df[mds_go_df$gs_id %in% gs_labels,]
+
+    p <- p + geom_label_repel(
+      aes_string(label = "gs_name"), data = df_gs_labels, size = 3)
+  }
+
+
 
   return(p)
   ## also something to obtain clusters of terms? - well, the colors do it somehow already

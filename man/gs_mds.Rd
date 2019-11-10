@@ -5,8 +5,8 @@
 \title{Multi Dimensional Scaling plot for gene sets}
 \usage{
 gs_mds(res_enrich, res_de, annotation_obj,
-  similarity_measure = "kappa_matrix", mds_k = 2, mds_labels = 10,
-  mds_colorby = "z_score")
+  similarity_measure = "kappa_matrix", mds_k = 2, mds_labels = 0,
+  mds_colorby = "z_score", gs_labels = NULL)
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
@@ -29,6 +29,9 @@ of the scatter plot for the provided gene sets.}
 
 \item{mds_colorby}{Character specifying the column of \code{res_enrich} to be used
 for coloring the plotted gene sets. Defaults sensibly to \code{z_score}.}
+
+\item{gs_labels}{Character vector, containing a subset of \code{gs_id} as they are
+available in \code{res_enrich}. Lists the gene sets to be labelled.}
 }
 \value{
 A \code{ggplot} object
