@@ -24,6 +24,16 @@ lapply(myids, function(arg) {
                        annotation_obj = annotation_obj)})
 ```
 
+# Something for the selected genesets
+
+```{r}
+corresponding_gs_ids <- res_enrich$gs_id[res_enrich$gs_description %in% gs_descs]
+gs_mds(res_enrich, res_de, annotation_obj, gs_labels = corresponding_gs_ids)
+
+gs_volcano(res_enrich, volcano_labels = 0, gs_labels = corresponding_gs_ids)
+```
+
+
 
 # Session info {-}
 
