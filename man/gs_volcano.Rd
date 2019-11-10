@@ -4,8 +4,8 @@
 \alias{gs_volcano}
 \title{Volcano plot for gene sets}
 \usage{
-gs_volcano(res_enrich, p_threshold = 0.05, max_nr_labels = 10,
-  scale_circles = 1)
+gs_volcano(res_enrich, p_threshold = 0.05, volcano_labels = 10,
+  scale_circles = 1, gs_labels = NULL)
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
@@ -17,10 +17,13 @@ to compute the term-wise \code{z_score} or \code{aggr_score}, which will be used
 \item{p_threshold}{Numeric, defines the threshold to be used for filtering the
 gene sets to display. Defaults to 0.05}
 
-\item{max_nr_labels}{Integer, maximum number of labels for the gene sets to be
+\item{volcano_labels}{Integer, maximum number of labels for the gene sets to be
 plotted as labels on the volcano scatter plot.}
 
 \item{scale_circles}{TODO}
+
+\item{gs_labels}{Character vector, containing a subset of \code{gs_id} as they are
+available in \code{res_enrich}. Lists the gene sets to be labelled.}
 }
 \value{
 A \code{ggplot} object
