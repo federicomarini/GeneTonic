@@ -44,6 +44,7 @@ Suggests:
     BiocStyle,
     macrophage,
     topGO,
+    clusterProfiler,
     org.Hs.eg.db,
     tximeta,
     magrittr,
