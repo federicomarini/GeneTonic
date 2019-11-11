@@ -6,6 +6,8 @@ Authors@R:
     c(
     person("Federico", "Marini", role=c("aut","cre"), email="marinif@uni-mainz.de", comment = c(ORCID = '0000-0003-3252-7758')))
 Description: What the package does (one paragraph).
+Depends:
+    R (>= 3.5.0)
 Imports:
     shiny,
     DT,

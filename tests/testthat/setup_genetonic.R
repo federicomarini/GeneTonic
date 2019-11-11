@@ -60,7 +60,7 @@ topgoDE_macrophage_IFNg_vs_naive <-
                           ontology = "BP",
                           mapping = "org.Hs.eg.db",
                           geneID = "symbol",
-                          topTablerows = 500)
+                          topTablerows = 200)
 
 library(clusterProfiler)
 
