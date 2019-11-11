@@ -8,7 +8,9 @@
 #' to retrieve information
 #' @param res_enrich A `data.frame` object, storing the result of the functional
 #' enrichment analysis. If not provided, the experiment-related information is not
-#' shown, and only some generic info on the identifier is displayed
+#' shown, and only some generic info on the identifier is displayed.
+#' See more in the main function, [GeneTonic()], to check the
+#' formatting requirements (a minimal set of columns should be present).
 #'
 #' @return HTML content related to a GeneOntology identifier, to be displayed in
 #' web applications (or inserted in Rmd documents)
@@ -27,9 +29,9 @@ go_2_html <- function(go_id, res_enrich = NULL) {
     "<b>GO ID: </b>", .link2amigo(GOID(fullinfo)), "<br>",
     "<b>Term: </b>", Term(fullinfo), "<br></b>",
     ifelse(!is.null(res_enrich),
-           paste0("<b>p-value: </b>", res_enrich[(res_enrich$GO.ID == go_id), "p.value_elim"],"</br>",
-                  "<b>Z-score: </b>", format(round(res_enrich[(res_enrich$GO.ID == go_id), "z_score"], 2), nsmall = 2),"</br>",
-                  "<b>Aggregated score: </b>", format(round(res_enrich[(res_enrich$GO.ID == go_id), "aggr_score"], 2), nsmall = 2),"</br>",
+           paste0("<b>p-value: </b>", res_enrich[(res_enrich$gs_id == go_id), "gs_pvalue"], "</br>",
+                  "<b>Z-score: </b>", format(round(res_enrich[(res_enrich$gs_id == go_id), "z_score"], 2), nsmall = 2), "</br>",
+                  "<b>Aggregated score: </b>", format(round(res_enrich[(res_enrich$gs_id == go_id), "aggr_score"], 2), nsmall = 2), "</br>",
                   collapse = ""),
            ""),
     "<b>Ontology: </b>", Ontology(fullinfo), "<br><br>",
@@ -123,7 +125,7 @@ geneinfo_2_html <- function(gene_id) {
 
 #' Calculate overlap coefficient
 #'
-#' Calculate simolarity coefficient between two sets, based on the overlap
+#' Calculate similarity coefficient between two sets, based on the overlap
 #'
 #' @param x Character vector, corresponding to set 1
 #' @param y Character vector, set 2
@@ -240,12 +242,8 @@ footer <- function() {
 
 .onLoad <- function(libname, pkgname) {
   # Create link to logo
-  shiny::addResourcePath("GeneTonic", system.file("www", package="GeneTonic"))
+  shiny::addResourcePath("GeneTonic", system.file("www", package = "GeneTonic"))
 }
-
-
-# TODOTODO
-# clusterProfiler to common expected format:
 
 
 # Some constant values ----------------------------------------------------
@@ -254,5 +252,3 @@ footer <- function() {
 .helpbutton_biocstyle <- "color: #0092AC; background-color: #FFFFFF; border-color: #FFFFFF"
 
 .biocgreen <- "#0092AC"
-
-

@@ -5,13 +5,13 @@
 \title{Plots a summary of enrichment results}
 \usage{
 gs_summary_overview_pair(res_enrich, res_enrich2, n_gs = 20,
-  p_value_column = "p.value_elim", color_by = "z_score",
+  p_value_column = "gs_pvalue", color_by = "z_score",
   alpha_set2 = 0.4)
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
-enrichment analysis. See more in the main function, \code{\link[=GeneTonic]{GeneTonic()}}, to see the
-formatting requirements.}
+enrichment analysis. See more in the main function, \code{\link[=GeneTonic]{GeneTonic()}}, to check the
+formatting requirements (a minimal set of columns should be present).}
 
 \item{res_enrich2}{As \code{res_enrich}, the result of functional enrichment analysis,
 in a scenario/contrast different than the first set.}

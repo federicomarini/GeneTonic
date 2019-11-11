@@ -3,8 +3,8 @@
 #' Plots a summary of enrichment results for one set
 #'
 #' @param res_enrich A `data.frame` object, storing the result of the functional
-#' enrichment analysis. See more in the main function, [GeneTonic()], to see the
-#' formatting requirements.
+#' enrichment analysis. See more in the main function, [GeneTonic()], to check the
+#' formatting requirements (a minimal set of columns should be present).
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be displayed
 #' @param p_value_column  TODO
@@ -20,7 +20,7 @@
 #' # TODO
 gs_summary_overview <- function(res_enrich,
                                 n_gs = 20,
-                                p_value_column = "p.value_elim",
+                                p_value_column = "gs_pvalue",
                                 color_by = "z_score") {
   if (!("z_score" %in% colnames(res_enrich))) {
     warning("You need to add the z_score or the aggregated score")
@@ -34,10 +34,10 @@ gs_summary_overview <- function(res_enrich,
 
   re_sorted <- re %>%
     arrange(.data$logp10) %>%
-    mutate(Term=factor(.data$Term, .data$Term))
-  p <- ggplot(re_sorted, ( aes_string(x="Term", y="logp10"))) +
-    geom_segment( aes_string(x="Term" ,xend="Term", y=0, yend="logp10"), color="grey") +
-    geom_point(aes_string(col="z_score"), size = 4 ) +
+    mutate(gs_description = factor(.data$gs_description, .data$gs_description))
+  p <- ggplot(re_sorted, (aes_string(x = "gs_description", y = "logp10"))) +
+    geom_segment(aes_string(x = "gs_description" , xend = "gs_description", y = 0, yend = "logp10"), color = "grey") +
+    geom_point(aes_string(col = "z_score"), size = 4) +
     scale_color_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
     coord_flip() +
     theme_minimal()
@@ -50,8 +50,8 @@ gs_summary_overview <- function(res_enrich,
 #' Plots a summary of enrichment results - for two sets of results
 #'
 #' @param res_enrich A `data.frame` object, storing the result of the functional
-#' enrichment analysis. See more in the main function, [GeneTonic()], to see the
-#' formatting requirements.
+#' enrichment analysis. See more in the main function, [GeneTonic()], to check the
+#' formatting requirements (a minimal set of columns should be present).
 #' @param res_enrich2 As `res_enrich`, the result of functional enrichment analysis,
 #' in a scenario/contrast different than the first set.
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
@@ -73,7 +73,7 @@ gs_summary_overview <- function(res_enrich,
 gs_summary_overview_pair <- function(res_enrich,
                                      res_enrich2,
                                      n_gs = 20,
-                                     p_value_column = "p.value_elim",
+                                     p_value_column = "gs_pvalue",
                                      color_by = "z_score",
                                      alpha_set2 = 0.4) {
   if (!("z_score" %in% colnames(res_enrich))) {
@@ -103,11 +103,11 @@ gs_summary_overview_pair <- function(res_enrich,
 
   re_both_sorted <- re_both %>%
     arrange(.data$logp10) %>%
-    mutate(Term=factor(.data$Term, .data$Term))
+    mutate(gs_description = factor(.data$gs_description, .data$gs_description))
 
-  p <- ggplot(re_both_sorted, aes_string(x="Term", y="logp10")) +
-    geom_segment( aes_string(x="Term" ,xend="Term", y="logp10_2", yend="logp10"), color="grey") +
-    geom_point(aes_string(col="z_score"), size=4 ) +
+  p <- ggplot(re_both_sorted, aes_string(x = "gs_description", y = "logp10")) +
+    geom_segment(aes_string(x = "gs_description", xend = "gs_description", y = "logp10_2", yend = "logp10"), color = "grey") +
+    geom_point(aes_string(col = "z_score"), size = 4 ) +
     geom_point(aes_string(y = "logp10_2", col = "z_score_2"), size = 4, alpha = alpha_set2) +
     scale_color_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
     coord_flip() +
@@ -125,8 +125,8 @@ gs_summary_overview_pair <- function(res_enrich,
 #' sets of results
 #'
 #' @param res_enrich A `data.frame` object, storing the result of the functional
-#' enrichment analysis. See more in the main function, [GeneTonic()], to see the
-#' formatting requirements.
+#' enrichment analysis. See more in the main function, [GeneTonic()], to check the
+#' formatting requirements (a minimal set of columns should be present).
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be displayed
 #' @param p_value_column TODO
@@ -143,7 +143,7 @@ gs_summary_overview_pair <- function(res_enrich,
 #' # TODO
 gs_horizon <- function(res_enrich, # TODO: should be a list of res_enrich objects!
                        n_gs = 20,
-                       p_value_column = "p.value_elim",
+                       p_value_column = "gs_pvalue",
                        color_by = "z_score") {
   # again, must be enhanced with Zscore
 
@@ -151,7 +151,7 @@ gs_horizon <- function(res_enrich, # TODO: should be a list of res_enrich object
   # res_enrich <- get_aggrscores(topgoDE_macrophage_IFNg_vs_naive,res_macrophage_IFNg_vs_naive, annotation_obj = anno_df)
   res_enriched_1 <- res_enrich
 
-  res_enriched_1 <- res_enriched_1[seq_len(n_gs),]
+  res_enriched_1 <- res_enriched_1[seq_len(n_gs), ]
   res_enriched_1$logp10 <-  -log10(res_enriched_1[[p_value_column]])
 
   res_enriched_2 <-
@@ -181,7 +181,7 @@ gs_horizon <- function(res_enrich, # TODO: should be a list of res_enrich object
   # to preserve the order of the terms
   res_enriched_1 <- res_enriched_1 %>%
     arrange(.data$logp10) %>%
-    mutate(Term=factor(.data$Term, unique(.data$Term)))
+    mutate(gs_description = factor(.data$gs_description, unique(.data$gs_description)))
 
   # to preserve the sorting of scenarios
   merged_res_enh <- rbind(res_enriched_1,
@@ -194,45 +194,45 @@ gs_horizon <- function(res_enrich, # TODO: should be a list of res_enrich object
   # if only with one...
   res_enriched_1 %>%
     # arrange(logp10) %>%
-    # mutate(Term=factor(Term, unique(Term))) %>%
-    ggplot(aes_string(x = "Term", y = "logp10") ) +
+    # mutate(gs_description=factor(gs_description, unique(gs_description))) %>%
+    ggplot(aes_string(x = "gs_description", y = "logp10")) +
     geom_line(aes_string(group = "scenario", col = "scenario"), size = 3, alpha = 0.7) +
-    geom_point(aes_string(fill="z_score"), size=4, pch = 21 ) +
+    geom_point(aes_string(fill = "z_score"), size = 4, pch = 21 ) +
     scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
-    ylim(c(0,NA)) +
+    ylim(c(0, NA)) +
     coord_flip() +
     theme_minimal()
 
   # sorted by category in scenario1
   merged_res_enh %>%
-    mutate(Term=factor(.data$Term, unique(.data$Term))) %>%
+    mutate(gs_description = factor(.data$gs_description, unique(.data$gs_description))) %>%
     arrange(desc(.data$logp10)) %>%
-    ggplot(aes_string(x = "Term", y = "logp10") ) +
+    ggplot(aes_string(x = "gs_description", y = "logp10")) +
     geom_line(aes_string(group = "scenario", col = "scenario"), size = 3, alpha = 0.7) +
-    geom_point(aes_string(fill = "z_score"), size=4, pch = 21 ) +
+    geom_point(aes_string(fill = "z_score"), size = 4, pch = 21 ) +
     scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
-    ylim(c(0,NA)) +
+    ylim(c(0, NA)) +
     coord_flip() +
     theme_minimal()
 
   # with a nicer sorting - "grouped" by scenario
 
   nicerorder_terms <- merged_res_enh %>%
-    group_by(.data$Term) %>%
+    group_by(.data$gs_description) %>%
     mutate(main_category = .data$scenario[which.max(.data$logp10)],
            max_value = max(.data$logp10)) %>%
     arrange(.data$main_category, desc(.data$max_value)) %>%
-    dplyr::pull(.data$Term)
+    dplyr::pull(.data$gs_description)
 
 
 
   merged_res_enh %>%
-    # mutate(Term=factor(Term, unique(Term))) %>%
-    mutate(Term=factor(.data$Term, rev(unique(nicerorder_terms)))) %>%
+    # mutate(gs_description=factor(gs_description, unique(gs_description))) %>%
+    mutate(gs_description = factor(.data$gs_description, rev(unique(nicerorder_terms)))) %>%
     arrange(desc(.data$logp10)) %>%
-    ggplot(aes_string(x = "Term", y = "logp10") ) +
+    ggplot(aes_string(x = "gs_description", y = "logp10")) +
     geom_line(aes_string(group = "scenario", col = "scenario"), size = 3, alpha = 0.7) +
-    geom_point(aes_string(fill="z_score"), size=4, pch = 21 ) +
+    geom_point(aes_string(fill="z_score"), size = 4, pch = 21) +
     scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
     ylim(c(0,NA)) +
     coord_flip() +
@@ -253,20 +253,13 @@ gs_horizon <- function(res_enrich, # TODO: should be a list of res_enrich object
 #' genesets and an overview of them
 #'
 #' @param res_enrich A `data.frame` object, storing the result of the functional
-#' enrichment analysis. See more in the main function, [GeneTonic()], to see the
-#' formatting requirements.
+#' enrichment analysis. See more in the main function, [GeneTonic()], to check the
+#' formatting requirements (a minimal set of columns should be present).
 #' @param res_de A `DESeqResults` object.
 #' @param annotation_obj A `data.frame` object with the feature annotation
 #' information, with at least two columns, `gene_id` and `gene_name`.
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be displayed
-#' @param genes_colname Character, specifying which column of the `res_enrich`
-#' object contains the genes assigned to each gene set, detected as differentially
-#' expressed. Defaults to `genes`.
-#' @param genesetname_colname Character, specifies which column of the `res_enrich`
-#' object contains a description of the gene set. Defaults to `Term`.
-#' @param genesetid_colname Character, specifies which column of the `res_enrich`
-#' object contains a unique identifier of the gene set. Defaults to `GO.ID`.
 #'
 #' @return A `ggplot` object
 #' @export
@@ -276,30 +269,27 @@ gs_horizon <- function(res_enrich, # TODO: should be a list of res_enrich object
 gs_summary_heat <- function(res_enrich,
                             res_de,
                             annotation_obj,
-                            n_gs = 80,
-                            genes_colname = "genes",
-                            genesetname_colname = "Term",
-                            genesetid_colname = "GO.ID") {
+                            n_gs = 80) {
 
   res_enrich2 <- res_enrich[seq_len(n_gs), ]
 
-  enriched_gsids <- res_enrich2[[genesetid_colname]]
-  enriched_gsnames <- res_enrich2[[genesetname_colname]]
-  enriched_gsdescs <- vapply(enriched_gsids, function(arg) Definition(GOTERM[[arg]]), character(1))
+  enriched_gsids <- res_enrich2[["gs_id"]]
+  # enriched_gsnames <- res_enrich2[["gs_description"]]
+  # enriched_gsdescs <- vapply(enriched_gsids, function(arg) Definition(GOTERM[[arg]]), character(1))
 
   # rownames(res_enrich) <- enriched_gsids
 
-  gs_expanded <- tidyr::separate_rows(res_enrich2, {{genes_colname}}, sep = ",")
+  gs_expanded <- tidyr::separate_rows(res_enrich2, "gs_genes", sep = ",")
   gs_expanded$log2FoldChange <-
-    res_de[annotation_obj$gene_id[match(gs_expanded$genes, annotation_obj$gene_name)], ]$log2FoldChange
+    res_de[annotation_obj$gene_id[match(gs_expanded$gs_genes, annotation_obj$gene_name)], ]$log2FoldChange
 
   # keep them as factor to prevent rearrangement!
-  gs_expanded[[genesetid_colname]] <- factor(gs_expanded[[genesetid_colname]], levels = res_enrich2[[genesetid_colname]])
-  gs_expanded[[genesetname_colname]] <- factor(gs_expanded[[genesetname_colname]], levels = res_enrich2[[genesetname_colname]])
-  gs_expanded[[genes_colname]] <- factor(gs_expanded[[genes_colname]], levels = unique(gs_expanded[[genes_colname]]))
+  gs_expanded[["gs_id"]] <- factor(gs_expanded[["gs_id"]], levels = res_enrich2[["gs_id"]])
+  gs_expanded[["gs_description"]] <- factor(gs_expanded[["gs_description"]], levels = res_enrich2[["gs_description"]])
+  gs_expanded[["gs_genes"]] <- factor(gs_expanded[["gs_genes"]], levels = unique(gs_expanded[["gs_genes"]]))
 
   p <- ggplot(gs_expanded,
-              aes_string(genes_colname, genesetname_colname)) +
+              aes_string(x = "gs_genes", y = "gs_description")) +
     geom_tile(aes_string(fill = "log2FoldChange"),
               color = "white") +
     scale_fill_gradient2(low = muted("deepskyblue"),

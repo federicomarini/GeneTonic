@@ -5,8 +5,8 @@
 #' [igraph::plot.igraph()], or dynamically via [visNetwork::visIgraph()]
 #'
 #' @param res_enrich A `data.frame` object, storing the result of the functional
-#' enrichment analysis. See more in the main function, [GeneTonic()], to see the
-#' formatting requirements
+#' enrichment analysis. See more in the main function, [GeneTonic()], to check the
+#' formatting requirements (a minimal set of columns should be present).
 #' @param res_de A `DESeqResults` object.
 #' @param annotation_obj A `data.frame` object with the feature annotation
 #' information, with at least two columns, `gene_id` and `gene_name`.
@@ -18,13 +18,6 @@
 #' @param scale_edges_width TODO
 #' @param color_by TODO
 #' @param size_by TODO
-#' @param genes_colname Character, specifying which column of the `res_enrich`
-#' object contains the genes assigned to each gene set, detected as differentially
-#' expressed. Defaults to `genes`.
-#' @param genesetname_colname Character, specifies which column of the `res_enrich`
-#' object contains a description of the gene set. Defaults to `Term`.
-#' @param genesetid_colname Character, specifies which column of the `res_enrich`
-#' object contains a unique identifier of the gene set. Defaults to `GO.ID`.
 #'
 #' TODOTODO: similarity measures, say, jaccard, or simple overlap
 #'
@@ -42,24 +35,20 @@ enrichment_map <- function(res_enrich,
                            n_gs = 50,
                            overlap_threshold = 0.1,
                            scale_edges_width = 200,
-                           color_by = "p.value_elim",
-                           size_by,
-                           genes_colname = "genes",
-                           genesetname_colname = "Term",
-                           genesetid_colname = "GO.ID") {
+                           color_by = "gs_pvalue",
+                           size_by) {
 
   # if we want to allow for other feats to be colored by, check that some aggregated scores are there
   # TODOTODO, if... otherwise, compute aggr scores
 
-  enriched_gsids <- res_enrich[[genesetid_colname]]
-  enriched_gsnames <- res_enrich[[genesetname_colname]]
+  enriched_gsids <- res_enrich$gs_id
+  enriched_gsnames <- res_enrich$gs_description
   enriched_gsdescs <- vapply(enriched_gsids, function(arg) Definition(GOTERM[[arg]]), character(1))
 
   rownames(res_enrich) <- enriched_gsids
 
   enrich2list <- lapply(seq_len(n_gs), function(gs) {
-    # goterm <- res_enrich$Term[gs]
-    go_genes <- res_enrich$genes[gs]
+    go_genes <- res_enrich$gs_genes[gs]
     go_genes <- strsplit(go_genes, ",") %>% unlist
     return(go_genes)
   })
@@ -99,7 +88,7 @@ enrichment_map <- function(res_enrich,
   E(g)$width <- sqrt(omm$value * scale_edges_width)
   g <- delete.edges(g, E(g)[omm$value < overlap_threshold])
 
-  idx <- match(V(g)$name, res_enrich$Term)
+  idx <- match(V(g)$name, res_enrich$gs_description)
 
   gs_size <- vapply(enrich2list[idx], length, numeric(1))
 
@@ -112,6 +101,7 @@ enrichment_map <- function(res_enrich,
     col_var <- -log10(col_var)
   # V(g)$color <- colVar
 
+  # TODO: palette changes if it is z_score VS pvalue
   mypal <- (scales::alpha(
     colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.8))
   mypal_hover <- (scales::alpha(

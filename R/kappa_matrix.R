@@ -6,14 +6,6 @@
 #' @param res_enrich A `data.frame` object, storing the result of the functional
 #' enrichment analysis. See more in the main function, [GeneTonic()], to see the
 #' formatting requirements.
-#' @param genes_colname Character, specifying which column of the `res_enrich`
-#' object contains the genes assigned to each gene set, detected as differentially
-#' expressed. Defaults to `genes`.
-#' @param genesetname_colname Character, specifies which column of the `res_enrich`
-#' object contains a description of the gene set. Defaults to `Term`.
-#' @param genesetid_colname Character, specifies which column of the `res_enrich`
-#' object contains a unique identifier of the gene set. Defaults to `GO.ID`.
-#' @param genes_separator TODO
 #'
 #' @return A matrix with the kappa scores between gene sets
 #'
@@ -23,30 +15,25 @@
 #'
 #' @examples
 #' # TODO
-create_kappa_matrix <- function(res_enrich,
-                                genes_colname = "genes",
-                                genesetname_colname = "Term",
-                                genesetid_colname = "GO.ID",
-                                genes_separator = ","
-) {
+create_kappa_matrix <- function(res_enrich) {
 
   # initial checks
   ## more than one row
   ## genes column is present
 
   genelists <- lapply(seq_len(nrow(res_enrich)), function(gs) {
-    cur_set <- res_enrich[[genes_colname]][gs]
-    gene_vec <- unlist(strsplit(cur_set, genes_separator))
+    cur_set <- res_enrich[["gs_genes"]][gs]
+    gene_vec <- unlist(strsplit(cur_set, ","))
   })
 
-  names(genelists) <- res_enrich[[genesetid_colname]]
+  names(genelists) <- res_enrich[["gs_id"]]
 
   # creating binary matrix with gs-gene occurrency
   all_genes <- unique(unlist(genelists))
   binary_mat <- matrix(0,
                        nrow = nrow(res_enrich),
                        ncol = length(all_genes),
-                       dimnames = list(res_enrich[[genesetid_colname]], all_genes))
+                       dimnames = list(res_enrich[["gs_id"]], all_genes))
   # fill in the occurrency per gene set
   for (i in seq_len(nrow(res_enrich))) {
     current_genes <- genelists[[i]]

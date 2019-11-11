@@ -45,7 +45,7 @@ gene_plot <- function(dds,
   # TODO: use a more general func to extract the values?
   df <- plotCounts(dds, gene, intgroup, returnData = TRUE)
 
-  df$sampleID <- rownames(df)
+  df$sample_id <- rownames(df)
   if (!is.null(annotation_obj)) {
     genesymbol <- annotation_obj$gene_name[match(gene, annotation_obj$gene_id)]
   } else {
@@ -70,7 +70,7 @@ gene_plot <- function(dds,
       geom_jitter(aes_string(x = "plotby", y = "count"),
                      position = position_jitter(width = 0.2, height = 0))
     # do nothing - or add a line for the median?
-  } else if (plot_type == "boxplot" || (plot_type == "auto" & (min_by_groups > 3 & min_by_groups < 10)) ) {
+  } else if (plot_type == "boxplot" || (plot_type == "auto" & (min_by_groups > 3 & min_by_groups < 10))) {
     p <- p +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(position = position_jitter(width = 0.2, height = 0))
@@ -90,10 +90,10 @@ gene_plot <- function(dds,
 
   # handling the labels
   if (labels_repel) {
-    p <- p + ggrepel::geom_text_repel(aes_string(label = "sampleID"))
+    p <- p + ggrepel::geom_text_repel(aes_string(label = "sample_id"))
   }
   else {
-    p <- p + geom_text(aes_string(label = "sampleID"), hjust = -0.1, vjust = 0.1)
+    p <- p + geom_text(aes_string(label = "sample_id"), hjust = -0.1, vjust = 0.1)
   }
 
   # handling y axis transformation

@@ -5,10 +5,8 @@
 \title{Plot a heatmap of the gene signature on the data}
 \usage{
 gs_heatmap(se, res_de, res_enrich, annotation_obj = NULL, geneset_id,
-  genelist, genes_colname = "genes", genesetname_colname = "Term",
-  genesetid_colname = "GO.ID", FDR = 0.05, de_only = FALSE,
-  cluster_rows = TRUE, cluster_cols = FALSE, center_mean = TRUE,
-  scale_row = FALSE)
+  genelist, FDR = 0.05, de_only = FALSE, cluster_rows = TRUE,
+  cluster_cols = FALSE, center_mean = TRUE, scale_row = FALSE)
 }
 \arguments{
 \item{se}{A \code{SummarizedExperiment} object, or an object derived from this class,
@@ -19,8 +17,8 @@ to make the data more homoscedastic and thus a better fit for visualization.}
 \item{res_de}{A \code{DESeqResults} object.}
 
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
-enrichment analysis. See more in the main function, \code{\link[=GeneTonic]{GeneTonic()}}, to see the
-formatting requirements.}
+enrichment analysis. See more in the main function, \code{\link[=GeneTonic]{GeneTonic()}}, to check the
+formatting requirements (a minimal set of columns should be present).}
 
 \item{annotation_obj}{A \code{data.frame} object with the feature annotation
 information, with at least two columns, \code{gene_id} and \code{gene_name}.}
@@ -28,16 +26,6 @@ information, with at least two columns, \code{gene_id} and \code{gene_name}.}
 \item{geneset_id}{Character specifying the gene set identifier to be plotted}
 
 \item{genelist}{TODO}
-
-\item{genes_colname}{Character, specifying which column of the \code{res_enrich}
-object contains the genes assigned to each gene set, detected as differentially
-expressed. Defaults to \code{genes}.}
-
-\item{genesetname_colname}{Character, specifies which column of the \code{res_enrich}
-object contains a description of the gene set. Defaults to \code{Term}.}
-
-\item{genesetid_colname}{Character, specifies which column of the \code{res_enrich}
-object contains a unique identifier of the gene set. Defaults to \code{GO.ID}.}
 
 \item{FDR}{Numeric value, specifying the significance level for thresholding
 adjusted p-values. Defaults to 0.05.}

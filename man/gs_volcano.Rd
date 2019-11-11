@@ -4,29 +4,26 @@
 \alias{gs_volcano}
 \title{Volcano plot for gene sets}
 \usage{
-gs_volcano(res_enrich, genesetname_colname = "Term",
-  pvals_to_use = "p.value_elim", p_threshold = 0.05,
-  max_nr_labels = 10, scale_circles = 1)
+gs_volcano(res_enrich, p_threshold = 0.05, volcano_labels = 10,
+  scale_circles = 1, gs_labels = NULL)
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
-enrichment analysis. See more in the main function, \code{\link[=GeneTonic]{GeneTonic()}}, to see the
-formatting requirements. This object needs to be processed first by a function
-such as \code{\link[=get_aggrscores]{get_aggrscores()}} to compute the term-wise \code{z_score} or \code{aggr_score},
-which will be used for plotting}
-
-\item{genesetname_colname}{Character, specifies which column of the \code{res_enrich}
-object contains a description of the gene set. Defaults to \code{Term}.}
-
-\item{pvals_to_use}{TODO}
+enrichment analysis. See more in the main function, \code{\link[=GeneTonic]{GeneTonic()}}, to check the
+formatting requirements (a minimal set of columns should be present).
+This object needs to be processed first by a function such as \code{\link[=get_aggrscores]{get_aggrscores()}}
+to compute the term-wise \code{z_score} or \code{aggr_score}, which will be used for plotting}
 
 \item{p_threshold}{Numeric, defines the threshold to be used for filtering the
 gene sets to display. Defaults to 0.05}
 
-\item{max_nr_labels}{Integer, maximum number of labels for the gene sets to be
+\item{volcano_labels}{Integer, maximum number of labels for the gene sets to be
 plotted as labels on the volcano scatter plot.}
 
 \item{scale_circles}{TODO}
+
+\item{gs_labels}{Character vector, containing a subset of \code{gs_id} as they are
+available in \code{res_enrich}. Lists the gene sets to be labelled.}
 }
 \value{
 A \code{ggplot} object

@@ -5,8 +5,8 @@
 #' TODO: enforce the same set of genesets are available!
 #'
 #' @param res_enrich1 A `data.frame` object, storing the result of the functional
-#' enrichment analysis. See more in the main function, [GeneTonic()], to see the
-#' formatting requirements.
+#' enrichment analysis. See more in the main function, [GeneTonic()], to check the
+#' formatting requirements (a minimal set of columns should be present).
 #' @param res_enrich2 TODO
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be displayed
@@ -20,7 +20,7 @@
 gs_radar <- function(res_enrich1,
                      res_enrich2,
                      n_gs = 20,
-                     p_value_column = "p.value_elim") {
+                     p_value_column = "gs_pvalue") {
   # TODO: option to have more and compare them on the same plot!
 
   # TODO: option to have a list
@@ -60,17 +60,17 @@ gs_radar <- function(res_enrich1,
   ) %>%
     add_trace(
       r = c(res_enrich1$logp10, res_enrich1$logp10[1]), # recycling the first element
-      theta = c(res_enrich1$Term, res_enrich1$Term[1]),
+      theta = c(res_enrich1[["gs_description"]], res_enrich1[["gs_description"]][1]),
       name = "scenario 1"
     ) %>%
     add_trace(
       r = c(res_enrich2$logp10, res_enrich2$logp10[1]),
-      theta = c(res_enrich2$Term, res_enrich2$Term[1]),
+      theta = c(res_enrich2[["gs_description"]], res_enrich2[["gs_description"]][1]),
       name = "scenario 2"
     ) %>%
     plotly::layout(
       polar = list(radialaxis = list(visible = TRUE,
-                                     range = c(0,log_smallest_p))
+                                     range = c(0, log_smallest_p))
                    )
       # ,
       # title = "Geneset Radar Chart", font = list(size = 10)

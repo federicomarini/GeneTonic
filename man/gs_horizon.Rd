@@ -4,13 +4,13 @@
 \alias{gs_horizon}
 \title{Plots a summary of enrichment results}
 \usage{
-gs_horizon(res_enrich, n_gs = 20, p_value_column = "p.value_elim",
+gs_horizon(res_enrich, n_gs = 20, p_value_column = "gs_pvalue",
   color_by = "z_score")
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
-enrichment analysis. See more in the main function, \code{\link[=GeneTonic]{GeneTonic()}}, to see the
-formatting requirements.}
+enrichment analysis. See more in the main function, \code{\link[=GeneTonic]{GeneTonic()}}, to check the
+formatting requirements (a minimal set of columns should be present).}
 
 \item{n_gs}{Integer value, corresponding to the maximal number of gene sets to
 be displayed}

@@ -4,18 +4,17 @@
 #' results
 #'
 #' @param res_enrich A `data.frame` object, storing the result of the functional
-#' enrichment analysis. See more in the main function, [GeneTonic()], to see the
-#' formatting requirements. This object needs to be processed first by a function
-#' such as [get_aggrscores()] to compute the term-wise `z_score` or `aggr_score`,
-#' which will be used for plotting
-#' @param genesetname_colname Character, specifies which column of the `res_enrich`
-#' object contains a description of the gene set. Defaults to `Term`.
-#' @param pvals_to_use TODO
+#' enrichment analysis. See more in the main function, [GeneTonic()], to check the
+#' formatting requirements (a minimal set of columns should be present).
+#' This object needs to be processed first by a function such as [get_aggrscores()]
+#' to compute the term-wise `z_score` or `aggr_score`, which will be used for plotting
 #' @param p_threshold Numeric, defines the threshold to be used for filtering the
 #' gene sets to display. Defaults to 0.05
-#' @param max_nr_labels Integer, maximum number of labels for the gene sets to be
+#' @param volcano_labels Integer, maximum number of labels for the gene sets to be
 #' plotted as labels on the volcano scatter plot.
 #' @param scale_circles TODO
+#' @param gs_labels Character vector, containing a subset of `gs_id` as they are
+#' available in `res_enrich`. Lists the gene sets to be labelled.
 #'
 #' @return A `ggplot` object
 #'
@@ -27,30 +26,29 @@
 #' @examples
 #' #  TODO
 gs_volcano <- function(res_enrich,
-                       genesetname_colname = "Term",
-                       pvals_to_use = "p.value_elim",
                        p_threshold = 0.05,
-                       max_nr_labels = 10,
-                       scale_circles = 1 # TODOTODO: see how to control point size
-# TODO option to collapse similar terms?
-                       ) {
+                       volcano_labels = 10,
+                       scale_circles = 1, # TODOTODO: see how to control point size
+                       # TODO option to collapse similar terms?
+                       gs_labels = NULL
+) {
   # res_enrich has to contain the aggregated scores
   if (!all(c("z_score", "aggr_score") %in% colnames(res_enrich)))
     stop("You might need to compute the aggregated scores first")
   # TODO: or call in advance the get_aggr_scores function?
 
-  mydf <- res_enrich
-  mydf$logpval <- -log10(mydf[[pvals_to_use]])
-  mydf$mylabels <- mydf[[genesetname_colname]]
-  mydf$`set members` <- mydf$Significant
+  volcano_df <- res_enrich
+  volcano_df$logpval <- -log10(volcano_df[["gs_pvalue"]])
+  volcano_df$gs_name <- volcano_df[["gs_description"]]
+  volcano_df$`set members` <- volcano_df[["gs_de_count"]]
 
-  mydf <- mydf[mydf[[pvals_to_use]] <= p_threshold, ]
-  max_z <- max(abs(range(mydf$z_score)))
+  volcano_df <- volcano_df[volcano_df[["gs_pvalue"]] <= p_threshold, ]
+  max_z <- max(abs(range(volcano_df$z_score)))
   limit <- max_z * c(-1, 1)
 
   p <- ggplot(
-    mydf,
-    aes_string(x = "z_score", y = "logpval", size = "`set members`",  text = "mylabels")) +
+    volcano_df,
+    aes_string(x = "z_score", y = "logpval", size = "`set members`",  text = "gs_name")) +
     # geom_point(aes(col = aggr_score),shape = 20, alpha = 1) +
     geom_point(aes_string(col = "aggr_score"), shape = 20, alpha = 1) +
     scale_x_continuous(limits = limit) +
@@ -58,8 +56,19 @@ gs_volcano <- function(res_enrich,
     scale_color_gradient2(limit = limit,
                           low = muted("deepskyblue"), high = muted("firebrick"), mid = "lightyellow")
 
-  if (!is.null(genesetname_colname)) {
-    p <- p + geom_label_repel(aes_string(label = "mylabels"), data = mydf[1:max_nr_labels, ], size = 4)
+  if (volcano_labels > 0) {
+    p <- p + geom_label_repel(
+      aes_string(label = "gs_name"), data = volcano_df[1:volcano_labels, ], size = 4)
+  }
+
+  if (!is.null(gs_labels)) {
+    if (!all(gs_labels %in% res_enrich$gs_id)) {
+      warning("Not all specified geneset ids were found in the `res_enrich` object")
+    }
+    df_gs_labels <- volcano_df[volcano_df$gs_id %in% gs_labels,]
+
+    p <- p + geom_label_repel(
+      aes_string(label = "gs_name"), data = df_gs_labels, size = 4)
   }
 
   # handling the title

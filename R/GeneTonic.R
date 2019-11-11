@@ -9,11 +9,15 @@
 #' @param res_enrich A `data.frame` object, storing the result of the functional
 #' enrichment analysis. Required columns for enjoying the full functionality of
 #' [GeneTonic()] include:
-#' - a gene set identifier (e.g. GeneOntology id) and its term description
-#' - a numeric value for the significance of the enrichment
-#' - a column named `Genes` containing a comma separated vector of the gene names
-#' associated to the term, one for each term. TODO-generalize?
-#' This works out of the box for objects created with [pcaExplorer::topGOtable()]
+#' - a gene set identifier (e.g. GeneOntology id, `gs_id`) and its term description
+#' (`gs_description`)
+#' - a numeric value for the significance of the enrichment (`gs_pvalue`)
+#' - a column named `gs_genes` containing a comma separated vector of the gene names
+#' associated to the term, one for each term
+#' - the number of genes in the geneset of interest detected as differentially
+#' expressed (`gs_de_count`), or in the background set of genes (`gs_bg_count`)
+#' See [shake_topGOtableResult()] or [shake_enrichResult()] for examples of such
+#' formatting helpers
 #' @param annotation_obj A `data.frame` object, containing two columns, `gene_id`
 #' with a set of unambiguous identifiers (e.g. ENSEMBL ids) and `gene_name`,
 #' containing e.g. HGNC-based gene symbols. This object can be constructed via
@@ -40,6 +44,10 @@ GeneTonic <- function(dds,
 
 
   # checks on the objects provided
+  checkup_GeneTonic(dds,
+                    res_de,
+                    res_enrich,
+                    annotation_obj)
 
   # clean up the result object, e.g. removing the NAs in the relevant columns
   res_de <- res_de[!is.na(res_de$log2FoldChange), ]
@@ -64,7 +72,7 @@ GeneTonic <- function(dds,
       leftUi = tagList(
         tags$code(tags$h3("GeneTonic")),
         actionButton("bookmarker", label = "Bookmark", icon = icon("heart"),
-                     style = "color: #ffffff; background-color: #ac0000; border-color: #ffffff", class="ml-5")
+                     style = "color: #ffffff; background-color: #ac0000; border-color: #ffffff", class = "ml-5")
       ),
       rightUi = tagList(
         # actionButton(
@@ -526,7 +534,7 @@ GeneTonic <- function(dds,
                            label = "Start the happy hour!",
                            icon = icon("magic"),
                            style = .actionbutton_biocstyle),
-              downloadButton("saveRmd", "Generate & Save",class = "btn btn-success")
+              downloadButton("saveRmd", "Generate & Save", class = "btn btn-success")
             )
           )
         ),
@@ -923,9 +931,6 @@ GeneTonic <- function(dds,
                      res_de = res_de,
                      annotation_obj = annotation_obj,
                      n_gs = input$n_genesets,
-                     genes_colname = "genes",
-                     genesetname_colname = "Term",
-                     genesetid_colname = "GO.ID",
                      prettify = TRUE,
                      geneset_graph_color = "gold")
       rank_gs <- rank(V(g)$name[V(g)$nodetype == "GeneSet"])
@@ -953,7 +958,7 @@ GeneTonic <- function(dds,
       cur_node <- match(cur_sel, V(g)$name)
       cur_nodetype <- V(g)$nodetype[cur_node]
 
-      cur_gsid <- res_enrich$GO.ID[match(cur_sel, res_enrich$Term)]
+      cur_gsid <- res_enrich$gs_id[match(cur_sel, res_enrich$gs_description)]
 
       paste0("I'm selecting ", input$mynetwork_selected, ", which has index ", cur_node, " and is of type ", cur_nodetype, "this is from set", cur_gsid)
 
@@ -978,15 +983,12 @@ GeneTonic <- function(dds,
       validate(need(cur_nodetype == "GeneSet",
                     message = "Please select a gene set."
       ))
-      cur_gsid <- res_enrich$GO.ID[match(input$mynetwork_selected, res_enrich$Term)]
+      cur_gsid <- res_enrich$gs_id[match(input$mynetwork_selected, res_enrich$gs_description)]
       gs_heatmap(myvst,
                  res_de,
                  res_enrich,
                  annotation_obj = annotation_obj,
                  geneset_id = cur_gsid, # TODOTODO check that I select a gene set
-                 genes_colname = "genes",
-                 genesetname_colname = "Term",
-                 genesetid_colname = "GO.ID",
                  FDR = 0.05,
                  de_only = FALSE,
                  cluster_rows = TRUE, # TODOTODO: options for the heatmap go on left side, as could be common to more!
@@ -1007,7 +1009,7 @@ GeneTonic <- function(dds,
       validate(need(cur_nodetype == "GeneSet",
                     message = "Please select a gene set."
       ))
-      cur_gsid <- res_enrich$GO.ID[match(input$mynetwork_selected, res_enrich$Term)]
+      cur_gsid <- res_enrich$gs_id[match(input$mynetwork_selected, res_enrich$gs_description)]
 
       # message(cur_gsid)
       # GOTERM[[cur_gsid]]
@@ -1100,10 +1102,7 @@ GeneTonic <- function(dds,
                             n_gs = input$n_genesets,
                             overlap_threshold = 0.1,
                             scale_edges_width = 200,
-                            color_by = "p.value_elim",
-                            genes_colname = "genes",
-                            genesetname_colname = "Term",
-                            genesetid_colname = "GO.ID")
+                            color_by = "gs_pvalue")
       rank_gs <- rank(V(emg)$name)
       emg <- permute.vertices(emg, rank_gs)
       return(emg)
@@ -1127,7 +1126,7 @@ GeneTonic <- function(dds,
     })
 
     output$emap_geneset_info <- renderUI({
-      cur_gsid <- res_enrich$GO.ID[match(input$emap_visnet_selected, res_enrich$Term)]
+      cur_gsid <- res_enrich$gs_id[match(input$emap_visnet_selected, res_enrich$gs_description)]
       validate(need(!is.na(cur_gsid),
                     message = "Please select a gene set from the enrichment map."))
 
@@ -1144,7 +1143,7 @@ GeneTonic <- function(dds,
       # validate(need(cur_nodetype == "GeneSet",
       #               message = "Please select a gene set."
       # ))
-      cur_gsid <- res_enrich$GO.ID[match(input$emap_visnet_selected, res_enrich$Term)]
+      cur_gsid <- res_enrich$gs_id[match(input$emap_visnet_selected, res_enrich$gs_description)]
       validate(need(!is.na(cur_gsid),
                     message = "Please select a gene set from the enrichment map."))
 
@@ -1154,9 +1153,6 @@ GeneTonic <- function(dds,
                  res_enrich,
                  annotation_obj = annotation_obj,
                  geneset_id = cur_gsid, # TODOTODO check that I select a gene set
-                 genes_colname = "genes",
-                 genesetname_colname = "Term",
-                 genesetid_colname = "GO.ID",
                  FDR = 0.05,
                  de_only = FALSE,
                  cluster_rows = TRUE, # TODOTODO: options for the heatmap go on left side, as could be common to more!
@@ -1176,13 +1172,10 @@ GeneTonic <- function(dds,
       gs_scores(se = myvst,
                 res_de = res_de,
                 res_enrich = res_enrich,
-                annotation_obj = annotation_obj,
-                genes_colname = "genes",
-                genesetname_colname = "Term",
-                genesetid_colname = "GO.ID")
+                annotation_obj = annotation_obj)
     })
     output$gsscores_heatmap <- renderPlot({
-      gs_ggheatmap(gss_mat())
+      gs_scoresheat(gss_mat())
     })
 
     output$alluvial_genesets <- renderPlotly({
@@ -1267,7 +1260,7 @@ GeneTonic <- function(dds,
     output$saveRmd <- downloadHandler(
       filename = paste0(
         Sys.Date(),
-        "_",round(runif(1)*100), # for not having all w the same name
+        "_", round(runif(1) * 100), # for not having all w the same name
         "_GeneTonicReport.html"), # TODO: maybe add Sys.time() to the filename to improve traceability?
       content = function(file) {
         # temporarily switch to the temp dir, in case you do not have write permission to the current working directory
@@ -1307,9 +1300,9 @@ GeneTonic <- function(dds,
 
     # bookmarker --------------------------------------------------------------
     observeEvent(input$bookmarker, {
-      if(input$gt_tabs == "tab_welcome")
+      if (input$gt_tabs == "tab_welcome")
         showNotification("welcome on board!")
-      else if(input$gt_tabs == "tab_ggs") {
+      else if (input$gt_tabs == "tab_ggs") {
         showNotification("ggs baby")
         g <- values$mygraph()
         cur_sel <- input$mynetwork_selected
@@ -1321,7 +1314,7 @@ GeneTonic <- function(dds,
 
           if (cur_nodetype == "Feature") {
             # TODO: match back to identifier and so
-            if(cur_sel %in% values$mygenes) {
+            if (cur_sel %in% values$mygenes) {
               showNotification(sprintf("The selected gene %s is already in the set of the bookmarked genes.", cur_sel), type = "default")
             } else {
               values$mygenes <- unique(c(values$mygenes, cur_sel))
@@ -1330,7 +1323,7 @@ GeneTonic <- function(dds,
 
             }
           } else if (cur_nodetype == "GeneSet") {
-            if(cur_sel %in% values$mygenesets) {
+            if (cur_sel %in% values$mygenesets) {
               showNotification(sprintf("The selected gene set %s is already in the set of the bookmarked genesets.", cur_sel), type = "default")
             } else {
               values$mygenesets <- unique(c(values$mygenesets, cur_sel))
@@ -1344,14 +1337,14 @@ GeneTonic <- function(dds,
           }
         }
       }
-      else if(input$gt_tabs == "tab_emap") {
+      else if (input$gt_tabs == "tab_emap") {
         showNotification("maaap maaap")
         g <- values$mygraph()
         cur_sel <- input$emap_visnet_selected
         if (cur_sel == "") {
           showNotification("Select a node in the network to bookmark it", type = "warning")
         } else {
-          if(cur_sel %in% values$mygenesets) {
+          if (cur_sel %in% values$mygenesets) {
             showNotification(sprintf("The selected gene set %s is already in the set of the bookmarked genesets.", cur_sel), type = "default")
           } else {
             values$mygenesets <- unique(c(values$mygenesets, cur_sel))
@@ -1360,9 +1353,9 @@ GeneTonic <- function(dds,
           }
         }
       }
-      else if(input$gt_tabs == "tab_bookmarks")
+      else if (input$gt_tabs == "tab_bookmarks")
         showNotification("catching up and wrapping up...")
-      else if(input$gt_tabs == "tab_about")
+      else if (input$gt_tabs == "tab_about")
         showNotification("youwannaknowwhatitsallabout")
 
     })

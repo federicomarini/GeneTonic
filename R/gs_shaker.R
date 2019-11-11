@@ -19,6 +19,8 @@
 #' @return A `data.frame` compatible for use in [GeneTonic()] as `res_enrich`
 #' @export
 #'
+#' @family shakers
+#'
 #' @examples
 #' # TODO
 shake_enrichResult <- function(obj) {
@@ -36,9 +38,9 @@ shake_enrichResult <- function(obj) {
     gs_id = fullresults$ID,
     gs_description = fullresults$Description,
     gs_pvalue = fullresults$pvalue,
-    gs_genes = gsub("/",",",fullresults$geneID),
+    gs_genes = gsub("/", ",", fullresults$geneID),
     gs_de_count = fullresults$Count,
-    gs_bg_count = unlist(lapply(strsplit(fullresults$BgRatio,"/"), function(arg) arg[[1]])),
+    gs_bg_count = unlist(lapply(strsplit(fullresults$BgRatio, "/"), function(arg) arg[[1]])),
     gs_ontology = obj@ontology,
     GeneRatio = fullresults$GeneRatio,
     BgRatio = fullresults$BgRatio,
@@ -67,6 +69,8 @@ shake_enrichResult <- function(obj) {
 #'
 #' @return A `data.frame` compatible for use in [GeneTonic()] as `res_enrich`
 #' @export
+#'
+#' @family shakers
 #'
 #' @examples
 #' # TODO
