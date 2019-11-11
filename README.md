@@ -12,6 +12,9 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![Travis build
 status](https://travis-ci.org/federicomarini/GeneTonic.svg?branch=master)](https://travis-ci.org/federicomarini/GeneTonic)
+[![Codecov.io coverage
+status](https://codecov.io/github/federicomarini/GeneTonic/coverage.svg?branch=master)](https://codecov.io/github/federicomarini/GeneTonic)
+
 <!-- badges: end -->
 
 The goal of GeneTonic is to …
