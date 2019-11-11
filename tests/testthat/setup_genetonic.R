@@ -60,4 +60,22 @@ topgoDE_macrophage_IFNg_vs_naive <-
                           ontology = "BP",
                           mapping = "org.Hs.eg.db",
                           geneID = "symbol",
-                          topTablerows = 200)
+                          topTablerows = 500)
+
+library(clusterProfiler)
+
+ego_IFNg_vs_naive <- enrichGO(gene = de_symbols_IFNg_vs_naive,
+                              universe      = bg_ids,
+                              keyType = "SYMBOL",
+                              OrgDb         = org.Hs.eg.db,
+                              ont           = "BP",
+                              pAdjustMethod = "BH",
+                              pvalueCutoff  = 0.01,
+                              qvalueCutoff  = 0.05,
+                              readable      = FALSE)
+
+# save(dds_macrophage, res_macrophage_IFNg_vs_naive, vst_macrophage, topgoDE_macrophage_IFNg_vs_naive, anno_df, ego_IFNg_vs_naive, file ="quick_startup.RData")
+
+# load("/Users/fede/Development/GeneTonic/quick_startup.RData")
+
+res_enrich_IFNg_vs_naive <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
