@@ -11,6 +11,8 @@
 #' information, with at least two columns, `gene_id` and `gene_name`.
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be displayed
+#' @param gs_ids Character vector, containing a subset of `gs_id` as they are
+#' available in `res_enrich`. Lists the gene sets to be displayed.
 #'
 #' @return A `plotly` object
 #' @export

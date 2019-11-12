@@ -4,7 +4,8 @@
 \alias{gs_alluvial}
 \title{Alluvial (sankey) plot for a set of genesets and the associated genes}
 \usage{
-gs_alluvial(res_enrich, res_de, annotation_obj, n_gs = 5)
+gs_alluvial(res_enrich, res_de, annotation_obj, n_gs = 5,
+  gs_ids = NULL)
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
@@ -18,6 +19,9 @@ information, with at least two columns, \code{gene_id} and \code{gene_name}.}
 
 \item{n_gs}{Integer value, corresponding to the maximal number of gene sets to
 be displayed}
+
+\item{gs_ids}{Character vector, containing a subset of \code{gs_id} as they are
+available in \code{res_enrich}. Lists the gene sets to be displayed.}
 }
 \value{
 A \code{plotly} object
