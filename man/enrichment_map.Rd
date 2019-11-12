@@ -19,8 +19,9 @@ formatting requirements (a minimal set of columns should be present).}
 information, with at least two columns, \code{gene_id} and \code{gene_name}.}
 
 \item{n_gs}{Integer value, corresponding to the maximal number of gene sets to
-be displayed
-#' @param gs_ids Character vector, containing a subset of \code{gs_id} as they are
+be displayed}
+
+\item{gs_ids}{Character vector, containing a subset of \code{gs_id} as they are
 available in \code{res_enrich}. Lists the gene sets to be displayed.}
 
 \item{overlap_threshold}{Numeric value, between 0 and 1. Defines the threshold
