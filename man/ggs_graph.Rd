@@ -5,7 +5,8 @@
 \title{Construct a gene-geneset-graph}
 \usage{
 ggs_graph(res_enrich, res_de, annotation_obj = NULL, n_gs = 15,
-  prettify = TRUE, geneset_graph_color = "gold", genes_graph_colpal)
+  gs_ids = NULL, prettify = TRUE, geneset_graph_color = "gold",
+  genes_graph_colpal)
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
@@ -19,6 +20,9 @@ information, with at least two columns, \code{gene_id} and \code{gene_name}.}
 
 \item{n_gs}{Integer value, corresponding to the maximal number of gene sets to
 be included}
+
+\item{gs_ids}{Character vector, containing a subset of \code{gs_id} as they are
+available in \code{res_enrich}. Lists the gene sets to be displayed.}
 
 \item{prettify}{Logical, controlling the aspect of the returned graph object.
 If TRUE (default value), different shapes of the nodes are returned, based on

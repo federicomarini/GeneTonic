@@ -11,6 +11,8 @@
 #' information, with at least two columns, `gene_id` and `gene_name`.
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be included
+#' @param gs_ids Character vector, containing a subset of `gs_id` as they are
+#' available in `res_enrich`. Lists the gene sets to be displayed.
 #' @param prettify Logical, controlling the aspect of the returned graph object.
 #' If TRUE (default value), different shapes of the nodes are returned, based on
 #' the node type
@@ -24,17 +26,14 @@
 #'
 #' @examples
 #' #TODO
-# TODO: maybe rename to ggs_network? I like it so!
 ggs_graph <- function(res_enrich,
                       res_de,
                       annotation_obj = NULL,
                       n_gs = 15,
+                      gs_ids = NULL,
                       prettify = TRUE,
                       geneset_graph_color = "gold",
                       genes_graph_colpal) {
-
-  # res_enrich has to have a column called containing the genes annotated to the term
-  # TODOTODO
 
   # verify the genesets are sorted in a meaningful way?
   #TODOTODO
@@ -45,12 +44,19 @@ ggs_graph <- function(res_enrich,
                              function(arg) Definition(GOTERM[[arg]]),
                              character(1))
 
-  enrich2list <- lapply(seq_len(n_gs), function(gs) {
-    go_genes <- res_enrich$gs_genes[gs]
-    go_genes <- strsplit(go_genes, ",") %>% unlist
+  gs_to_use <- unique(
+    c(
+      res_enrich$gs_id[seq_len(n_gs)],  # the ones from the top
+      gs_ids[gs_ids %in% res_enrich$gs_id]  # the ones specified from the custom list
+    )
+  )
+
+  enrich2list <- lapply(gs_to_use, function(gs) {
+    go_genes <- res_enrich[gs, "gs_genes"]
+    go_genes <- unlist(strsplit(go_genes, ","))
     return(go_genes)
   })
-  names(enrich2list) <- enriched_gsnames[seq_len(n_gs)]
+  names(enrich2list) <- res_enrich[gs_to_use, "gs_description"]
 
   list2df <- lapply(seq_len(length(enrich2list)), function(gs) {
     data.frame(
