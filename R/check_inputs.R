@@ -1,5 +1,3 @@
-# checks for the input objects provided
-
 #' Checking the input objects for GeneTonic
 #'
 #' Checking the input objects for GeneTonic, whether these are all set for running
