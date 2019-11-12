@@ -12,6 +12,8 @@
 #' information, with at least two columns, `gene_id` and `gene_name`.
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be displayed
+#' #' @param gs_ids Character vector, containing a subset of `gs_id` as they are
+#' available in `res_enrich`. Lists the gene sets to be displayed.
 #' @param overlap_threshold Numeric value, between 0 and 1. Defines the threshold
 #' to be used for removing edges in the enrichment map - edges below this value
 #' will be excluded from the final graph. Defaults to 0.1.
@@ -33,6 +35,7 @@ enrichment_map <- function(res_enrich,
                            res_de,
                            annotation_obj,
                            n_gs = 50,
+                           gs_ids = NULL,
                            overlap_threshold = 0.1,
                            scale_edges_width = 200,
                            color_by = "gs_pvalue",
@@ -45,25 +48,31 @@ enrichment_map <- function(res_enrich,
   enriched_gsnames <- res_enrich$gs_description
   enriched_gsdescs <- vapply(enriched_gsids, function(arg) Definition(GOTERM[[arg]]), character(1))
 
-  rownames(res_enrich) <- enriched_gsids
+  gs_to_use <- unique(
+    c(
+      res_enrich$gs_id[seq_len(n_gs)],  # the ones from the top
+      gs_ids[gs_ids %in% res_enrich$gs_id]  # the ones specified from the custom list
+    )
+  )
 
-  enrich2list <- lapply(seq_len(n_gs), function(gs) {
-    go_genes <- res_enrich$gs_genes[gs]
-    go_genes <- strsplit(go_genes, ",") %>% unlist
+  enrich2list <- lapply(gs_to_use, function(gs) {
+    go_genes <- res_enrich[gs, "gs_genes"]
+    go_genes <- unlist(strsplit(go_genes, ","))
     return(go_genes)
   })
-  names(enrich2list) <- enriched_gsids[seq_len(n_gs)]
+  names(enrich2list) <- res_enrich[gs_to_use, "gs_id"]
+
 
   n <- length(enrich2list)
   overlap_matrix <- matrix(NA, nrow = n, ncol = n)
-  rownames(overlap_matrix) <- colnames(overlap_matrix) <- enriched_gsnames[seq_len(n_gs)]
+  rownames(overlap_matrix) <- colnames(overlap_matrix) <- res_enrich[gs_to_use, "gs_description"]
 
   for (i in 1:n) {
     # no need to work on full mat, it is simmetric
     for (j in i:n) {
       overlap_matrix[i, j] <-
-        overlap_jaccard_index(unlist(enrich2list[enriched_gsids[i]]),
-                              unlist(enrich2list[enriched_gsids[j]]))
+        overlap_jaccard_index(unlist(enrich2list[gs_to_use[i]]),
+                              unlist(enrich2list[gs_to_use[j]]))
     }
   }
 
@@ -71,7 +80,7 @@ enrichment_map <- function(res_enrich,
   om_df <- as.data.frame(overlap_matrix)
   om_df$id <- rownames(om_df)
 
-  omm <- pivot_longer(om_df, seq_len(n_gs))
+  omm <- pivot_longer(om_df, seq_len(length(gs_to_use)))
   colnames(omm) <- c("gs_1", "gs_2", "value")
   # eliminate rows of diagonal...
   omm <- omm[omm$gs_1 != omm$gs_2, ]
@@ -90,7 +99,7 @@ enrichment_map <- function(res_enrich,
 
   idx <- match(V(g)$name, res_enrich$gs_description)
 
-  gs_size <- vapply(enrich2list[idx], length, numeric(1))
+  gs_size <- res_enrich$gs_de_count[idx]
 
   V(g)$size <- 5 * sqrt(gs_size)
   V(g)$original_size <- gs_size

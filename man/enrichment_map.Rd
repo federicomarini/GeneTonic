@@ -5,7 +5,7 @@
 \title{Creates an enrichment map for the results of functional enrichment}
 \usage{
 enrichment_map(res_enrich, res_de, annotation_obj, n_gs = 50,
-  overlap_threshold = 0.1, scale_edges_width = 200,
+  gs_ids = NULL, overlap_threshold = 0.1, scale_edges_width = 200,
   color_by = "gs_pvalue", size_by)
 }
 \arguments{
@@ -19,7 +19,9 @@ formatting requirements (a minimal set of columns should be present).}
 information, with at least two columns, \code{gene_id} and \code{gene_name}.}
 
 \item{n_gs}{Integer value, corresponding to the maximal number of gene sets to
-be displayed}
+be displayed
+#' @param gs_ids Character vector, containing a subset of \code{gs_id} as they are
+available in \code{res_enrich}. Lists the gene sets to be displayed.}
 
 \item{overlap_threshold}{Numeric value, between 0 and 1. Defines the threshold
 to be used for removing edges in the enrichment map - edges below this value
