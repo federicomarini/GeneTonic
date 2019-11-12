@@ -37,6 +37,7 @@ ggs_graph <- function(res_enrich,
 
   # verify the genesets are sorted in a meaningful way?
   #TODOTODO
+  n_gs <- min(n_gs, nrow(res_enrich))
 
   enriched_gsids <- res_enrich[["gs_id"]]
   enriched_gsnames <- res_enrich[["gs_description"]]

@@ -37,6 +37,8 @@ gs_volcano <- function(res_enrich,
     stop("You might need to compute the aggregated scores first")
   # TODO: or call in advance the get_aggr_scores function?
 
+  volcano_labels <- min(volcano_labels, nrow(res_enrich))
+
   volcano_df <- res_enrich
   volcano_df$logpval <- -log10(volcano_df[["gs_pvalue"]])
   volcano_df$gs_name <- volcano_df[["gs_description"]]

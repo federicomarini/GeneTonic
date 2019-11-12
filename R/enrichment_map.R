@@ -48,6 +48,8 @@ enrichment_map <- function(res_enrich,
   enriched_gsnames <- res_enrich$gs_description
   enriched_gsdescs <- vapply(enriched_gsids, function(arg) Definition(GOTERM[[arg]]), character(1))
 
+  n_gs <- min(n_gs, nrow(res_enrich))
+
   gs_to_use <- unique(
     c(
       res_enrich$gs_id[seq_len(n_gs)],  # the ones from the top

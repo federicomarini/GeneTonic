@@ -51,6 +51,8 @@ gs_mds <- function(res_enrich,
   # mmGO <- godata('org.Mm.eg.db', ont="BP")
   # mysims <- mgoSim(res_enrich[["gs_id"]], res_enrich[["gs_id"]],
   # semData=mmGO, measure="Wang", combine=NULL)
+  mds_labels <- min(mds_labels, nrow(res_enrich))
+
 
   mysets <- res_enrich[["gs_id"]]
   mysets_names <- res_enrich[["gs_description"]]

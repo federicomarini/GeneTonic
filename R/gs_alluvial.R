@@ -26,6 +26,7 @@ gs_alluvial <- function(res_enrich,
                         gs_ids = NULL) {
 
   # res_enhanced <- get_aggrscores(res_enrich, res_de, annotation_obj = annotation_obj)
+  n_gs <- min(n_gs, nrow(res_enrich))
 
   gs_to_use <- unique(
     c(
