@@ -5,7 +5,7 @@
 \title{Visually enhances a functional enrichment result table}
 \usage{
 enhance_table(res_enrich, res_de, annotation_obj, n_gs = 50,
-  chars_limit = 60)
+  gs_ids = NULL, chars_limit = 60)
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
@@ -19,6 +19,9 @@ information, with at least two columns, \code{gene_id} and \code{gene_name}.}
 
 \item{n_gs}{Integer value, corresponding to the maximal number of gene sets to
 be displayed.}
+
+\item{gs_ids}{Character vector, containing a subset of \code{gs_id} as they are
+available in \code{res_enrich}. Lists the gene sets to be displayed.}
 
 \item{chars_limit}{Integer, number of characters to be displayed for each
 geneset name.}

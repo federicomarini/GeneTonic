@@ -13,6 +13,8 @@
 #' information, with at least two columns, `gene_id` and `gene_name`.
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be displayed.
+#' @param gs_ids Character vector, containing a subset of `gs_id` as they are
+#' available in `res_enrich`. Lists the gene sets to be displayed.
 #' @param chars_limit Integer, number of characters to be displayed for each
 #' geneset name.
 #'
@@ -25,6 +27,7 @@ enhance_table <- function(res_enrich,
                           res_de,
                           annotation_obj,
                           n_gs = 50,
+                          gs_ids = NULL,
                           chars_limit = 60) {
 
   # res_enrich has to have a column called containing the genes annotated to the term
@@ -35,17 +38,24 @@ enhance_table <- function(res_enrich,
 
   n_gs <- min(n_gs, nrow(res_enrich))
 
-  gs_fulllist <- lapply(seq_len(n_gs), function(go) {
-    genes_thisset <- res_enrich$gs_genes[go]
+  gs_to_use <- unique(
+    c(
+      res_enrich$gs_id[seq_len(n_gs)],  # the ones from the top
+      gs_ids[gs_ids %in% res_enrich$gs_id]  # the ones specified from the custom list
+    )
+  )
+
+  gs_fulllist <- lapply(gs_to_use, function(gs) {
+    genes_thisset <- res_enrich[gs, "gs_genes"]
     genes_thisset <- unlist(strsplit(genes_thisset, ","))
 
     genesid_thisset <- annotation_obj$gene_id[match(genes_thisset, annotation_obj$gene_name)]
 
     res_thissubset <- res_de[genesid_thisset, ]
     res_thissubset$gene_name <- genes_thisset
-    res_thissubset$goterm <- as.factor(res_enrich$gs_description[go])
-    res_thissubset$gotermshort <- substr(res_enrich$gs_description[go], 1, 50)
-    res_thissubset$goid <- res_enrich$gs_id[go]
+    res_thissubset$goterm <- as.factor(res_enrich[gs, "gs_description"])
+    res_thissubset$gotermshort <- substr(res_enrich[gs, "gs_description"], 1, 50)
+    res_thissubset$goid <- res_enrich[gs, "gs_id"]
     return(as.data.frame(res_thissubset))
   })
   gs_fulllist <- do.call(rbind, gs_fulllist)
