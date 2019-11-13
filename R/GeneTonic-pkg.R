@@ -23,7 +23,7 @@
 #' @importFrom plotly ggplotly plotlyOutput renderPlotly plot_ly layout add_trace
 #' @importFrom tidyr separate_rows pivot_longer
 #' @importFrom stats var dist hclust
-#' @import pheatmap
+#' @importFrom ComplexHeatmap Heatmap HeatmapAnnotation
 #' @importFrom matrixStats rowSds
 #' @import SummarizedExperiment
 #' @importFrom methods is

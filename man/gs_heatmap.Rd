@@ -6,7 +6,8 @@
 \usage{
 gs_heatmap(se, res_de, res_enrich, annotation_obj = NULL, geneset_id,
   genelist, FDR = 0.05, de_only = FALSE, cluster_rows = TRUE,
-  cluster_cols = FALSE, center_mean = TRUE, scale_row = FALSE)
+  cluster_columns = FALSE, center_mean = TRUE, scale_row = FALSE,
+  anno_col_info = NULL)
 }
 \arguments{
 \item{se}{A \code{SummarizedExperiment} object, or an object derived from this class,
@@ -34,17 +35,20 @@ adjusted p-values. Defaults to 0.05.}
 in the plot}
 
 \item{cluster_rows}{Logical, determining if rows should be clustered, as
-specified by \code{\link[pheatmap:pheatmap]{pheatmap::pheatmap()}}}
+specified by \code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Heatmap()}}}
 
-\item{cluster_cols}{Logical, determining if columns should be clustered, as
-specified by \code{\link[pheatmap:pheatmap]{pheatmap::pheatmap()}}}
+\item{cluster_columns}{Logical, determining if columns should be clustered, as
+specified by \code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Heatmap()}}}
 
 \item{center_mean}{Logical, whether to perform mean centering on the row-wise}
 
 \item{scale_row}{Logical, whether to standardize by row the expression values}
+
+\item{anno_col_info}{A character vector of names in \code{colData(dds)} to use for
+decorating the heatmap as annotation.}
 }
 \value{
-A plot returned by the \code{\link[pheatmap:pheatmap]{pheatmap::pheatmap()}} function
+A plot returned by the \code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Heatmap()}} function
 }
 \description{
 Plot a heatmap for the selected gene signature on the provided data, with the possibility to compactly display also DE only genes

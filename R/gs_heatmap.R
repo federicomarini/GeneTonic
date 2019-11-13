@@ -19,14 +19,15 @@
 #' @param de_only Logical, whether to include only differentially expressed genes
 #' in the plot
 #' @param cluster_rows Logical, determining if rows should be clustered, as
-#' specified by [pheatmap::pheatmap()]
+#' specified by [ComplexHeatmap::Heatmap()]
 #' @param cluster_columns Logical, determining if columns should be clustered, as
-#' specified by [pheatmap::pheatmap()]
+#' specified by [ComplexHeatmap::Heatmap()]
 #' @param center_mean Logical, whether to perform mean centering on the row-wise
 #' @param scale_row Logical, whether to standardize by row the expression values
-#' @param anno_col_info
+#' @param anno_col_info A character vector of names in `colData(dds)` to use for
+#' decorating the heatmap as annotation.
 #'
-#' @return A plot returned by the [pheatmap::pheatmap()] function
+#' @return A plot returned by the [ComplexHeatmap::Heatmap()] function
 #' @export
 #'
 #' @examples
