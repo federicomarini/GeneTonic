@@ -18,7 +18,7 @@ test_that("Geneset heatmap is created", {
                   # TODOTODO: option to just return the underlying data?s
                   # TODOTODO: options to subset to specific samples?
   )
-  expect_is(p, "pheatmap")
+  expect_is(p, "HeatmapList")
   p2 <- gs_heatmap(se = myvst,
                    res_de = res_macrophage_IFNg_vs_naive,
                    res_enrich = res_enrich_IFNg_vs_naive,
@@ -34,5 +34,5 @@ test_that("Geneset heatmap is created", {
                    # TODOTODO: option to just return the underlying data?s
                    # TODOTODO: options to subset to specific samples?
   )
-  expect_is(p2, "pheatmap")
+  expect_is(p2, "HeatmapList")
 })
