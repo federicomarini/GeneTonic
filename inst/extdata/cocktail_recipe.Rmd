@@ -1,9 +1,43 @@
+---
+title: >
+  Your report from `GeneTonic`
+author:
+- name: Your Name
+
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: show
+    code_download: true
+    number_sections: true
+    theme: lumen
+---
+
+# Intro
+
  <!-- this is the file that gets used in rendering the many outputs via happyhour -->
 
 ideas:
 
 - differentiate the content based on batch running vs generated at runtime?
 - print out the values of input$... objects. So one can just repeat them ;)
+
+These are the provided objects
+
+```{r echo = TRUE}
+library(GeneTonic)
+```
+
+
+```{r echo = TRUE}
+dds
+res_de
+head(res_enrich)
+head(annotation_obj)
+res_enrich <- get_aggrscores(res_enrich, res_de, annotation_obj)
+```
+
 
 ```{r}
 values$mygenesets
