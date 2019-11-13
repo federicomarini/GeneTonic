@@ -984,21 +984,42 @@ GeneTonic <- function(dds,
                     message = "Please select a gene set."
       ))
       cur_gsid <- res_enrich$gs_id[match(input$mynetwork_selected, res_enrich$gs_description)]
-      gs_heatmap(myvst,
-                 res_de,
-                 res_enrich,
-                 annotation_obj = annotation_obj,
-                 geneset_id = cur_gsid, # TODOTODO check that I select a gene set
-                 FDR = 0.05,
-                 de_only = FALSE,
-                 cluster_rows = TRUE, # TODOTODO: options for the heatmap go on left side, as could be common to more!
-                 cluster_cols = TRUE,
-                 center_mean = TRUE,
-                 scale_row = TRUE
-                 # TODOTODO: use ellipsis for passing params to pheatmap?
-                 # TODOTODO: option to just return the underlying data?s
-                 # TODOTODO: options to subset to specific samples?
-      )
+
+      if (!is.null(input$exp_condition)) {
+        gs_heatmap(myvst,
+                   res_de,
+                   res_enrich,
+                   annotation_obj = annotation_obj,
+                   geneset_id = cur_gsid, # TODOTODO check that I select a gene set
+                   FDR = 0.05,
+                   de_only = FALSE,
+                   cluster_rows = TRUE, # TODOTODO: options for the heatmap go on left side, as could be common to more!
+                   cluster_columns = TRUE,
+                   center_mean = TRUE,
+                   scale_row = TRUE,
+                   anno_col_info = input$exp_condition # TODO
+                   # TODOTODO: use ellipsis for passing params to pheatmap?
+                   # TODOTODO: option to just return the underlying data?s
+                   # TODOTODO: options to subset to specific samples?
+        )
+      } else {
+        gs_heatmap(myvst,
+                   res_de,
+                   res_enrich,
+                   annotation_obj = annotation_obj,
+                   geneset_id = cur_gsid, # TODOTODO check that I select a gene set
+                   FDR = 0.05,
+                   de_only = FALSE,
+                   cluster_rows = TRUE, # TODOTODO: options for the heatmap go on left side, as could be common to more!
+                   cluster_columns = TRUE,
+                   center_mean = TRUE,
+                   scale_row = TRUE
+                   # TODOTODO: use ellipsis for passing params to pheatmap?
+                   # TODOTODO: option to just return the underlying data?s
+                   # TODOTODO: options to subset to specific samples?
+        )
+      }
+
     })
 
     output$ggs_geneset_info <- renderUI({
@@ -1147,22 +1168,42 @@ GeneTonic <- function(dds,
       validate(need(!is.na(cur_gsid),
                     message = "Please select a gene set from the enrichment map."))
 
-      # message(cur_gsid)
-      gs_heatmap(myvst,
-                 res_de,
-                 res_enrich,
-                 annotation_obj = annotation_obj,
-                 geneset_id = cur_gsid, # TODOTODO check that I select a gene set
-                 FDR = 0.05,
-                 de_only = FALSE,
-                 cluster_rows = TRUE, # TODOTODO: options for the heatmap go on left side, as could be common to more!
-                 cluster_cols = TRUE,
-                 center_mean = TRUE,
-                 scale_row = TRUE
-                 # TODOTODO: use ellipsis for passing params to pheatmap?
-                 # TODOTODO: option to just return the underlying data?s
-                 # TODOTODO: options to subset to specific samples?
-      )
+
+      if (!is.null(input$exp_condition)) {
+        # message(cur_gsid)
+        gs_heatmap(myvst,
+                   res_de,
+                   res_enrich,
+                   annotation_obj = annotation_obj,
+                   geneset_id = cur_gsid, # TODOTODO check that I select a gene set
+                   FDR = 0.05,
+                   de_only = FALSE,
+                   cluster_rows = TRUE,
+                   cluster_columns = TRUE,
+                   center_mean = TRUE,
+                   scale_row = TRUE,
+                   anno_col_info = input$exp_condition
+                   # TODOTODO: use ellipsis for passing params to pheatmap?
+                   # TODOTODO: option to just return the underlying data?s
+                   # TODOTODO: options to subset to specific samples?
+        )
+      } else {
+        gs_heatmap(myvst,
+                   res_de,
+                   res_enrich,
+                   annotation_obj = annotation_obj,
+                   geneset_id = cur_gsid, # TODOTODO check that I select a gene set
+                   FDR = 0.05,
+                   de_only = FALSE,
+                   cluster_rows = TRUE,
+                   cluster_columns = TRUE,
+                   center_mean = TRUE,
+                   scale_row = TRUE
+                   # TODOTODO: use ellipsis for passing params to pheatmap?
+                   # TODOTODO: option to just return the underlying data?s
+                   # TODOTODO: options to subset to specific samples?
+        )
+      }
     })
 
 
