@@ -101,7 +101,7 @@ gs_heatmap <- function(se,
 
   # dim(mydata_sig)
 
-  title <- paste0("Signature heatmap - ", thisset_name)
+  title <- paste0("Signature heatmap - ", thisset_name, " - ", geneset_id)
 
   ### anno_col_info <- anno_col_info[anno_col_info %in% colnames(colData(se))]
   ### sample_decoration <- as.data.frame(colData(se))[, anno_col_info, drop = FALSE]
@@ -137,11 +137,13 @@ gs_heatmap <- function(se,
   if(is.null(anno_col_info)) {
     ch <- ComplexHeatmap::Heatmap(
       matrix = mydata_sig,
+      column_title = title,
       name = hm_name,
       col = colorRampPalette(rev(brewer.pal(n = 7, name = "RdYlBu")))(100),
       rect_gp = gpar(col = "white", lwd = 0.5),
       cluster_rows = cluster_rows,
-      cluster_columns = cluster_columns
+      cluster_columns = cluster_columns,
+      row_labels = annotation_obj[rownames(mydata_sig), ]$gene_name
     )
   } else {
     anno_col_info <- anno_col_info[anno_col_info %in% colnames(colData(se))]
@@ -150,11 +152,13 @@ gs_heatmap <- function(se,
     deco_ha <- HeatmapAnnotation(df = sample_decoration)
     ch <- ComplexHeatmap::Heatmap(
       matrix = mydata_sig,
+      column_title = title,
       name = hm_name,
       col = colorRampPalette(rev(brewer.pal(n = 7, name = "RdYlBu")))(100),
       rect_gp = gpar(col = "white", lwd = 0.5),
       cluster_rows = cluster_rows,
       cluster_columns = cluster_columns,
+      row_labels = annotation_obj[rownames(mydata_sig), ]$gene_name,
       top_annotation = deco_ha
     )
   }
