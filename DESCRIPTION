@@ -30,6 +30,7 @@ Imports:
     matrixStats,
     DESeq2,
     ComplexHeatmap,
+    grid,
     pcaExplorer,
     methods,
     shinycssloaders,

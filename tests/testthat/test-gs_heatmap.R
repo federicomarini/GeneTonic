@@ -11,7 +11,7 @@ test_that("Geneset heatmap is created", {
                   FDR = 0.05,
                   de_only = FALSE,
                   cluster_rows = TRUE, # TODOTODO: options for the heatmap go on left side, as could be common to more!
-                  cluster_cols = TRUE,
+                  cluster_columns = TRUE,
                   center_mean = TRUE,
                   scale_row = TRUE
                   # TODOTODO: use ellipsis for passing params to pheatmap?
@@ -27,7 +27,7 @@ test_that("Geneset heatmap is created", {
                    FDR = 0.05,
                    de_only = TRUE,
                    cluster_rows = TRUE, # TODOTODO: options for the heatmap go on left side, as could be common to more!
-                   cluster_cols = TRUE,
+                   cluster_columns = TRUE,
                    center_mean = TRUE,
                    scale_row = TRUE
                    # TODOTODO: use ellipsis for passing params to pheatmap?
