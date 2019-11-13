@@ -20,10 +20,11 @@
 #' in the plot
 #' @param cluster_rows Logical, determining if rows should be clustered, as
 #' specified by [pheatmap::pheatmap()]
-#' @param cluster_cols Logical, determining if columns should be clustered, as
+#' @param cluster_columns Logical, determining if columns should be clustered, as
 #' specified by [pheatmap::pheatmap()]
 #' @param center_mean Logical, whether to perform mean centering on the row-wise
 #' @param scale_row Logical, whether to standardize by row the expression values
+#' @param anno_col_info
 #'
 #' @return A plot returned by the [pheatmap::pheatmap()] function
 #' @export
@@ -39,9 +40,10 @@ gs_heatmap <- function(se,
                        FDR = 0.05,
                        de_only = FALSE,
                        cluster_rows = TRUE, # TODOTODO: options for the heatmap go on left side, as could be common to more!
-                       cluster_cols = FALSE,
+                       cluster_columns = FALSE,
                        center_mean = TRUE,
-                       scale_row = FALSE
+                       scale_row = FALSE,
+                       anno_col_info = NULL
                        # TODOTODO: use ellipsis for passing params to pheatmap?
                        # TODOTODO: option to just return the underlying data?s
                        # TODOTODO: options to subset to specific samples?
@@ -77,8 +79,17 @@ gs_heatmap <- function(se,
   to_remove <- apply(mydata_sig, 1, var) == 0
   mydata_sig <- mydata_sig[!to_remove, ]
 
-  if (center_mean)
+  hm_name <- "Expression \nvalues"
+
+  if (center_mean) {
     mydata_sig <- mydata_sig - rowMeans(mydata_sig)
+    hm_name <- "Expression \nvalues"
+  }
+
+  if (scale_row) {
+    mydata_sig <- t(scale(t(mydata_sig)))
+    hm_name <- "Z-scores \nExpression \nvalues"
+  }
 
   if (de_only) {
     de_res <- deseqresult2df(res_de, FDR)
@@ -90,18 +101,63 @@ gs_heatmap <- function(se,
   # dim(mydata_sig)
 
   title <- paste0("Signature heatmap - ", thisset_name)
-  sample_decoration <- as.data.frame(colData(se))[, "condition", drop = FALSE]
 
+  ### anno_col_info <- anno_col_info[anno_col_info %in% colnames(colData(se))]
+  ### sample_decoration <- as.data.frame(colData(se))[, anno_col_info, drop = FALSE]
+
+  # TODO: is there a way to make this programmatically & clever?
+
+  ## if only one column: SO
+  # anno_col_vals <- colData(se)[,anno_col_info,drop = TRUE]
+  #
+  # ha_cols <- list(
+  #   Annotation = structure(
+  #     brewer.pal(length(unique(anno_col_vals)), "Set1"),
+  #     names = unique(as.character(anno_col_vals))
+  #   )
+  # )
+  # deco_ha <- HeatmapAnnotation(
+  #   name = "eheh",
+  #   Annotation = anno_col_vals,
+  #   col = ha_cols
+  # )
+  ### deco_ha <- HeatmapAnnotation(df = sample_decoration)
   # if(returnData) {
   #
   # }
 
-  pheatmap(mydata_sig,
-           # annotation_col = anno_colData,
-           cluster_rows = cluster_rows, cluster_cols = cluster_cols,
-           scale = ifelse(scale_row, "row", "none"), main = title,
-           labels_row = annotation_obj[rownames(mydata_sig), ]$gene_name,
-           annotation_col = sample_decoration)
+  # pheatmap(mydata_sig,
+  #          # annotation_col = anno_colData,
+  #          cluster_rows = cluster_rows, cluster_cols = cluster_cols,
+  #          scale = ifelse(scale_row, "row", "none"), main = title,
+  #          labels_row = annotation_obj[rownames(mydata_sig), ]$gene_name,
+  #          annotation_col = sample_decoration)
+
+  if(is.null(anno_col_info)) {
+    ch <- ComplexHeatmap::Heatmap(
+      matrix = mydata_sig,
+      name = hm_name,
+      col = colorRampPalette(rev(brewer.pal(n = 7, name = "RdYlBu")))(100),
+      rect_gp = gpar(col = "white", lwd = 0.5),
+      cluster_rows = cluster_rows,
+      cluster_columns = cluster_columns
+    )
+  } else {
+    anno_col_info <- anno_col_info[anno_col_info %in% colnames(colData(se))]
+    sample_decoration <- as.data.frame(colData(se))[, anno_col_info, drop = FALSE]
+
+    deco_ha <- HeatmapAnnotation(df = sample_decoration)
+    ch <- ComplexHeatmap::Heatmap(
+      matrix = mydata_sig,
+      name = hm_name,
+      col = colorRampPalette(rev(brewer.pal(n = 7, name = "RdYlBu")))(100),
+      rect_gp = gpar(col = "white", lwd = 0.5),
+      cluster_rows = cluster_rows,
+      cluster_columns = cluster_columns,
+      top_annotation = deco_ha
+    )
+  }
+  draw(ch, merge_legend = TRUE)
 }
 
 
