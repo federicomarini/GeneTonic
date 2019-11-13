@@ -61,12 +61,46 @@ lapply(myids, function(arg) {
 # Something for the selected genesets
 
 ```{r}
-corresponding_gs_ids <- res_enrich$gs_id[res_enrich$gs_description %in% gs_descs]
+corresponding_gs_ids <- res_enrich$gs_id[res_enrich$gs_description %in% values$mygenesets]
 gs_mds(res_enrich, res_de, annotation_obj, gs_labels = corresponding_gs_ids)
 
 gs_volcano(res_enrich, volcano_labels = 0, gs_labels = corresponding_gs_ids)
 ```
 
+# Geneset content, tabbed! {.tabset .tabset-fade}
+
+Here is a heatmap for each bookmarked set
+
+```{r echo = TRUE, results="asis"}
+corresponding_gs_ids <- res_enrich$gs_id[res_enrich$gs_description %in% values$mygenesets]
+vst_macrophage <- DESeq2::vst(dds)
+
+for (gs in values$mygenesets) {
+  cat("## ", gs, "{-}\n")
+  corresponding_gs_id <- res_enrich$gs_id[res_enrich$gs_description %in% gs]
+  
+  print(
+    gs_heatmap(vst_macrophage, 
+             res_de, 
+             res_enrich, 
+             annotation_obj, 
+             geneset_id = corresponding_gs_id, 
+             cluster_cols = TRUE)
+  )
+  
+  cat(go_2_html(corresponding_gs_id, res_enrich))
+  cat("\n\n")
+}
+```
+
+# Something after that
+
+lorem ipsum
+
+```{r}
+# enrichment map, interactive?
+# ggs_graph?
+```
 
 
 # Session info {-}
