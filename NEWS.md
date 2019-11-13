@@ -1,3 +1,15 @@
+# GeneTonic 0.6.0
+
+## New features
+
+* `gs_heatmap` now relies on `ComplexHeatmap`, to avoid the issues with Shiny of not displaying the outputs in the app, and enabling a comfortable heatmap annotation
+* Many functions gain the possibility to pass a set of custom geneset identifiers to be added to the top N sets (default): among these, `gs_mds`, `gs_volcano` (parameter: `gs_labels`), `gs_alluvial`, `ggs_network`, `enrichment_map`, and `enhance_table` (using `gs_ids`)
+
+## Other notes
+
+* `gs_ggheatmap` got renamed to `gs_scoresheat`
+* The report generated from the bookmarked content is expanded in its default content
+
 # GeneTonic 0.5.0
 
 ## New features
