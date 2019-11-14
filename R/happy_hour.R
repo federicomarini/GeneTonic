@@ -136,7 +136,7 @@ happy_hour <- function(dds,
          "use either 'html_document' or 'pdf_document'.", call. = FALSE)
   }
 
-  ## Raise an error if the output format and file name extension don't match
+  # Raise an error if the output format and file name extension don't match
   if (output_format != paste0(tools::file_ext(output_file), "_document")) {
     stop(paste0("File name extension of output_file (.",
                 tools::file_ext(output_file),
@@ -145,21 +145,21 @@ happy_hour <- function(dds,
                 gsub("_document$", "", output_format)), call. = FALSE)
   }
 
-  ## Check that all required input files are available and correctly formatted
+  # Check that all required input files are available and correctly formatted
   checkup_GeneTonic(dds,
                     res_de,
                     res_enrich, #  or directly get_aggrscores(res_enrich, res_de, annotation_obj)
                     annotation_obj)
 
 
-  ## ------------------------- output files ------------------------------- ##
+  # output files
   output_report <- file.path(output_dir, basename(output_file)) # TODO: normalizePath?
   output_rmd <- file.path(
     output_dir,
     paste0(tools::file_path_sans_ext(basename(output_file)), ".Rmd")
   )
 
-  ## Report
+  # report
   if (file.exists(output_report)) {
     if (!force_overwrite) {
       stop("The file ", output_report,
@@ -171,22 +171,21 @@ happy_hour <- function(dds,
               " already exists and will be overwritten, since ",
               "force_overwrite = TRUE.", immediate. = TRUE,
               call. = FALSE)
-
     }
   }
 
-  ## ------------------------- Rmd template ------------------------------- ##
-  ## Path to the template file
-  templateFile <- "~/Development/GeneTonic/inst/extdata/cocktail_recipe.Rmd"
-  # templateFile <- system.file("extdata",
-  # "cocktail_recipe.Rmd",
-  # package = "GeneTonic")
+  # Rmd template
+  # templateFile <- "~/Development/GeneTonic/inst/extdata/cocktail_recipe.Rmd"
+  templateFile <- system.file("extdata",
+                              "cocktail_recipe.Rmd",
+                              package = "GeneTonic")
   if (file.exists(templateFile)) {
     if (file.exists(output_rmd)) {
       stop("There is already an .Rmd file ", output_rmd,
            ". Please remove or rename this file, or choose another ",
            "output_file name.", call. = FALSE)
     } else {
+      # TODO: another possible thought: work in a tempdir, that is probably even more elegant
       file.copy(from = templateFile, to = output_rmd, overwrite = FALSE)
     }
   } else {
@@ -194,7 +193,7 @@ happy_hour <- function(dds,
          call. = FALSE)
   }
 
-  ## ----------------------- Process the arguments ------------------------ ##
+  # Process the arguments
 
   args <- list(...)
   args$input <- output_rmd
@@ -202,14 +201,14 @@ happy_hour <- function(dds,
   args$output_file <- output_file
   args$quiet <- !knitr_show_progress
 
-  ## ------------------------ Render the report --------------------------- ##
+  # Render the report
 
   output_file <- do.call("render", args = args)
 
-  ## --------------------- Remove temporary file -------------------------- ##
-
+  # Remove temporary file
   file.remove(output_rmd)
 
+  # Open up in a browser
   if (open_after_creating)
     browseURL(output_file)
 
