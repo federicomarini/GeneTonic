@@ -24,5 +24,5 @@ test_that("Early fails are triggered", {
   expect_error(GeneTonic(dds_macrophage,
                          res_macrophage_IFNg_vs_naive,
                          res_enrich_IFNg_vs_naive,
-                         annotation_obj = anno_df[,-1]))
+                         annotation_obj = anno_df[, -1]))
 })

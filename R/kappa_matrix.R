@@ -67,6 +67,3 @@ create_kappa_matrix <- function(res_enrich) {
 
   return(kappa_matrix)
 }
-
-
-

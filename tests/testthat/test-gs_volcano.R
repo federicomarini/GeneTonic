@@ -12,7 +12,7 @@ test_that("Plot is generated", {
 })
 
 test_that("mds plot with custom genesets", {
-  mygenesets <- res_enrich_IFNg_vs_naive$gs_id[c(1,10,20)]
+  mygenesets <- res_enrich_IFNg_vs_naive$gs_id[c(1, 10, 20)]
   res_enrich_withscores <- get_aggrscores(res_enrich_IFNg_vs_naive,
                                           res_macrophage_IFNg_vs_naive,
                                           annotation_obj = anno_df,

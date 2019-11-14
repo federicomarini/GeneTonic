@@ -63,4 +63,3 @@ test_that("'Linking to GeneCards database", {
   out <- .link2genecards("Gapdh")
   expect_is(out, "character")
 })
-

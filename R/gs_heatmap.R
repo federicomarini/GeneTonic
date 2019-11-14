@@ -134,7 +134,7 @@ gs_heatmap <- function(se,
   #          labels_row = annotation_obj[rownames(mydata_sig), ]$gene_name,
   #          annotation_col = sample_decoration)
 
-  if(is.null(anno_col_info)) {
+  if (is.null(anno_col_info)) {
     ch <- ComplexHeatmap::Heatmap(
       matrix = mydata_sig,
       column_title = title,

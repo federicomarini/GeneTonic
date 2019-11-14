@@ -8,4 +8,3 @@ test_that("Alluvial plot (interactive) is generated", {
   expect_is(p, "plotly")
   # TODOTODO, expect I get htmlwidgets...
 })
-

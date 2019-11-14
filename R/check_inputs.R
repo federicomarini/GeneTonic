@@ -43,7 +43,7 @@ checkup_GeneTonic <- function(dds,
                            "gs_genes",
                            "gs_de_count",
                            "gs_bg_count") # gs_ontology? more?
-  if(!all(colnames_res_enrich %in% colnames(res_enrich)))
+  if (!all(colnames_res_enrich %in% colnames(res_enrich)))
     stop("The provided `res_enrich` object does not respect the format required to use in GeneTonic\n",
          "e.g. all required column names have to be present.\n",
          "You might want to use one of the `shaker_*` functions to convert it.\n",
@@ -52,7 +52,7 @@ checkup_GeneTonic <- function(dds,
   # checking annotation_obj
   colnames_annotation_obj <- c("gene_id",
                                "gene_name")
-  if(!all(colnames_annotation_obj %in% colnames(annotation_obj)))
+  if (!all(colnames_annotation_obj %in% colnames(annotation_obj)))
     stop("The provided `annotation_obj` object does not respect the format required to use in GeneTonic\n",
          "e.g. all required column names have to be present.\n",
          "You can use e.g. `pcaExplorer::get_annotation_orgdb()` for this purpose.\n",

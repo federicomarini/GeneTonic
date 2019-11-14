@@ -330,13 +330,13 @@ GeneTonic <- function(dds,
           ),
           fluidRow(
             column(
-              width = 9,
+              width = 8,
               withSpinner(
                 visNetworkOutput("mynetwork", height = "700px", width = "100%")
               )
             ),
             column(
-              width = 3,
+              width = 4,
               bs4Card(
                 width = 12,
                 uiOutput("ui_ggs_genesetbox")
