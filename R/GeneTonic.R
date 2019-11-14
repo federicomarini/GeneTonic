@@ -123,26 +123,6 @@ GeneTonic <- function(dds,
 
         )
       )
-
-
-      # title = "TODOtitle",
-      # titleWidth = 350
-      # bs4Dash::dropdownMenu(
-      #   type = "tasks",
-      #   icon = icon("question-circle fa-1g"),
-      #   badgeStatus = NULL,
-      #   headerText = "Documentation"
-      #   # ,
-      #   # bs4Dash::notificationItem(
-      #   #   text = actionButton(
-      #   #     "interface_overview", "Overview of the interface",
-      #   #     icon("hand-o-right"),
-      #   #     style = .actionbutton_biocstyle
-      #   #   ),
-      #   #   icon = icon(""), # tricking it to not have additional icon
-      #   #   status = "primary"
-      #   # )
-      # )
     ),
 
     # sidebar definition ------------------------------------------------------
