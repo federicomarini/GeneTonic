@@ -59,5 +59,5 @@ checkup_GeneTonic <- function(dds,
          "Required columns: ", paste(colnames_annotation_obj, collapse = ", "))
 
   message("All set to enjoy GeneTonic!")
-  return()
+  invisible(NULL)
 }
