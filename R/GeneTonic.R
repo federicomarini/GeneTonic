@@ -55,6 +55,7 @@ GeneTonic <- function(dds,
 
 
 
+
   # UI definition -----------------------------------------------------------
 
   # dashpage definition -----------------------------------------------------
@@ -312,7 +313,7 @@ GeneTonic <- function(dds,
             column(
               width = 8,
               withSpinner(
-                visNetworkOutput("mynetwork", height = "700px", width = "100%")
+                visNetworkOutput("ggsnetwork", height = "700px", width = "100%")
               )
             ),
             column(
@@ -921,7 +922,7 @@ GeneTonic <- function(dds,
     })
 
 
-    output$mynetwork <- renderVisNetwork({
+    output$ggsnetwork <- renderVisNetwork({
       # minimal example
 
       visNetwork::visIgraph(values$mygraph()) %>%
@@ -934,13 +935,13 @@ GeneTonic <- function(dds,
 
     output$netnode <- renderPrint({
       g <- values$mygraph()
-      cur_sel <- input$mynetwork_selected
+      cur_sel <- input$ggsnetwork_selected
       cur_node <- match(cur_sel, V(g)$name)
       cur_nodetype <- V(g)$nodetype[cur_node]
 
       cur_gsid <- res_enrich$gs_id[match(cur_sel, res_enrich$gs_description)]
 
-      paste0("I'm selecting ", input$mynetwork_selected, ", which has index ", cur_node, " and is of type ", cur_nodetype, "this is from set", cur_gsid)
+      paste0("I'm selecting ", input$ggsnetwork_selected, ", which has index ", cur_node, " and is of type ", cur_nodetype, "this is from set", cur_gsid)
 
     })
 
@@ -957,13 +958,13 @@ GeneTonic <- function(dds,
 
     output$net_sigheatplot <- renderPlot({
       g <- values$mygraph()
-      cur_sel <- input$mynetwork_selected
+      cur_sel <- input$ggsnetwork_selected
       cur_node <- match(cur_sel, V(g)$name)
       cur_nodetype <- V(g)$nodetype[cur_node]
       validate(need(cur_nodetype == "GeneSet",
                     message = "Please select a gene set."
       ))
-      cur_gsid <- res_enrich$gs_id[match(input$mynetwork_selected, res_enrich$gs_description)]
+      cur_gsid <- res_enrich$gs_id[match(input$ggsnetwork_selected, res_enrich$gs_description)]
 
       if (!is.null(input$exp_condition)) {
         gs_heatmap(myvst,
@@ -1004,13 +1005,13 @@ GeneTonic <- function(dds,
 
     output$ggs_geneset_info <- renderUI({
       g <- values$mygraph()
-      cur_sel <- input$mynetwork_selected
+      cur_sel <- input$ggsnetwork_selected
       cur_node <- match(cur_sel, V(g)$name)
       cur_nodetype <- V(g)$nodetype[cur_node]
       validate(need(cur_nodetype == "GeneSet",
                     message = "Please select a gene set."
       ))
-      cur_gsid <- res_enrich$gs_id[match(input$mynetwork_selected, res_enrich$gs_description)]
+      cur_gsid <- res_enrich$gs_id[match(input$ggsnetwork_selected, res_enrich$gs_description)]
 
       # message(cur_gsid)
       # GOTERM[[cur_gsid]]
@@ -1027,7 +1028,7 @@ GeneTonic <- function(dds,
 
     output$ggs_gene_info <- renderUI({
       g <- values$mygraph()
-      cur_sel <- input$mynetwork_selected
+      cur_sel <- input$ggsnetwork_selected
       cur_node <- match(cur_sel, V(g)$name)
       cur_nodetype <- V(g)$nodetype[cur_node]
       validate(need(cur_nodetype == "Feature",
@@ -1045,7 +1046,7 @@ GeneTonic <- function(dds,
 
     output$ggs_geneplot <- renderPlot({
       g <- values$mygraph()
-      cur_sel <- input$mynetwork_selected
+      cur_sel <- input$ggsnetwork_selected
       cur_node <- match(cur_sel, V(g)$name)
       cur_nodetype <- V(g)$nodetype[cur_node]
       validate(need(cur_nodetype == "Feature",
@@ -1326,7 +1327,7 @@ GeneTonic <- function(dds,
       else if (input$gt_tabs == "tab_ggs") {
         showNotification("ggs baby")
         g <- values$mygraph()
-        cur_sel <- input$mynetwork_selected
+        cur_sel <- input$ggsnetwork_selected
         if (cur_sel == "") {
           showNotification("Select a node in the network to bookmark it", type = "warning")
         } else {
