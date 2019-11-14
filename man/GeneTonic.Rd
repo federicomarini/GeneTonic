@@ -4,7 +4,7 @@
 \alias{GeneTonic}
 \title{GeneTonic}
 \usage{
-GeneTonic(dds, res_de, res_enrich, annotation_obj)
+GeneTonic(dds, res_de, res_enrich, annotation_obj, project_id = "")
 }
 \arguments{
 \item{dds}{A \code{DESeqDataSet} object, normally obtained after running your data
@@ -33,6 +33,10 @@ with a set of unambiguous identifiers (e.g. ENSEMBL ids) and \code{gene_name},
 containing e.g. HGNC-based gene symbols. This object can be constructed via
 the \code{org.eg.XX.db} packages, e.g. with convenience functions such as
 \code{\link[pcaExplorer:get_annotation_orgdb]{pcaExplorer::get_annotation_orgdb()}}.}
+
+\item{project_id}{A character string, which can be considered as an identifier
+for the set/session, and will be e.g. used in the title of the report created
+via \code{\link[=happy_hour]{happy_hour()}}}
 }
 \value{
 A Shiny app object is returned, for interactive data exploration
