@@ -23,6 +23,9 @@
 #' containing e.g. HGNC-based gene symbols. This object can be constructed via
 #' the `org.eg.XX.db` packages, e.g. with convenience functions such as
 #' [pcaExplorer::get_annotation_orgdb()].
+#' @param project_id  A character string, which can be considered as an identifier
+#' for the set/session, and will be e.g. used in the title of the report created
+#' via [happy_hour()]
 #'
 #' @return A Shiny app object is returned, for interactive data exploration
 #' @export
@@ -35,12 +38,15 @@
 GeneTonic <- function(dds,
                       res_de,
                       res_enrich,
-                      annotation_obj) {
+                      annotation_obj,
+                      project_id = "") {
 
   options(spinner.type = 6)
   # https://projects.lukehaas.me/css-loaders/
   # or even think of https://cran.r-project.org/web/packages/shinycustomloader/README.html
   options(spinner.color = .biocgreen)
+
+  usage_mode <- "shiny_mode"
 
 
   # checks on the objects provided
@@ -558,10 +564,10 @@ GeneTonic <- function(dds,
   genetonic_server <- function(input, output, session) {
 
     # reactive objects and setup commands -------------------------------------
-    values <- reactiveValues()
+    reactive_values <- reactiveValues()
 
-    values$mygenes <- c()
-    values$mygenesets <- c()
+    reactive_values$mygenes <- c()
+    reactive_values$mygenesets <- c()
 
     myvst <- vst(dds)
 
@@ -649,7 +655,7 @@ GeneTonic <- function(dds,
 
 
     # panel GeneSet-Gene ------------------------------------------------------
-    values$mygraph <- reactive({
+    reactive_values$mygraph <- reactive({
       g <- ggs_graph(res_enrich = res_enrich,
                      res_de = res_de,
                      annotation_obj = annotation_obj,
@@ -667,7 +673,7 @@ GeneTonic <- function(dds,
     output$ggsnetwork <- renderVisNetwork({
       # minimal example
 
-      visNetwork::visIgraph(values$mygraph()) %>%
+      visNetwork::visIgraph(reactive_values$mygraph()) %>%
         visOptions(highlightNearest = list(enabled = TRUE,
                                            degree = 1,
                                            hover = TRUE),
@@ -676,7 +682,7 @@ GeneTonic <- function(dds,
     })
 
     output$netnode <- renderPrint({
-      g <- values$mygraph()
+      g <- reactive_values$mygraph()
       cur_sel <- input$ggsnetwork_selected
       cur_node <- match(cur_sel, V(g)$name)
       cur_nodetype <- V(g)$nodetype[cur_node]
@@ -699,7 +705,7 @@ GeneTonic <- function(dds,
     })
 
     output$net_sigheatplot <- renderPlot({
-      g <- values$mygraph()
+      g <- reactive_values$mygraph()
       cur_sel <- input$ggsnetwork_selected
       cur_node <- match(cur_sel, V(g)$name)
       cur_nodetype <- V(g)$nodetype[cur_node]
@@ -746,7 +752,7 @@ GeneTonic <- function(dds,
     })
 
     output$ggs_geneset_info <- renderUI({
-      g <- values$mygraph()
+      g <- reactive_values$mygraph()
       cur_sel <- input$ggsnetwork_selected
       cur_node <- match(cur_sel, V(g)$name)
       cur_nodetype <- V(g)$nodetype[cur_node]
@@ -769,7 +775,7 @@ GeneTonic <- function(dds,
     })
 
     output$ggs_gene_info <- renderUI({
-      g <- values$mygraph()
+      g <- reactive_values$mygraph()
       cur_sel <- input$ggsnetwork_selected
       cur_node <- match(cur_sel, V(g)$name)
       cur_nodetype <- V(g)$nodetype[cur_node]
@@ -787,7 +793,7 @@ GeneTonic <- function(dds,
     })
 
     output$ggs_geneplot <- renderPlot({
-      g <- values$mygraph()
+      g <- reactive_values$mygraph()
       cur_sel <- input$ggsnetwork_selected
       cur_node <- match(cur_sel, V(g)$name)
       cur_nodetype <- V(g)$nodetype[cur_node]
@@ -880,7 +886,7 @@ GeneTonic <- function(dds,
     })
 
     output$emap_sigheatplot <- renderPlot({
-      # g <- values$emap_graph()
+      # g <- reactive_values$emap_graph()
       # cur_sel <- input$emap_visnet_selected
       # cur_node <- match(cur_sel,V(g)$name)
       # cur_nodetype <- V(g)$nodetype[cur_node]
@@ -1000,7 +1006,7 @@ GeneTonic <- function(dds,
 
     output$infobox_book_genes <- renderbs4InfoBox({
       bs4InfoBox(title = "Bookmarked genes",
-                 value = length(values$mygenes),
+                 value = length(reactive_values$mygenes),
                  icon = "bookmark",
                  status = "info",
                  width = 12)
@@ -1008,17 +1014,17 @@ GeneTonic <- function(dds,
 
     output$infobox_book_genesets <- renderbs4InfoBox({
       bs4InfoBox(title = "Bookmarked genesets",
-                 value = length(values$mygenesets),
+                 value = length(reactive_values$mygenesets),
                  icon = "bookmark",
                  status = "success",
                  width = 12)
     })
 
     output$bookmarks_genes <- DT::renderDataTable({
-      datatable(data.frame(mygenes = values$mygenes))
+      datatable(data.frame(mygenes = reactive_values$mygenes))
     })
     output$bookmarks_genesets <- DT::renderDataTable({
-      datatable(data.frame(mygenesets = values$mygenesets))
+      datatable(data.frame(mygenesets = reactive_values$mygenesets))
     })
 
     output$saveRmd <- downloadHandler(
@@ -1092,7 +1098,7 @@ GeneTonic <- function(dds,
         showNotification("welcome on board!")
       else if (input$gt_tabs == "tab_ggs") {
         showNotification("ggs baby")
-        g <- values$mygraph()
+        g <- reactive_values$mygraph()
         cur_sel <- input$ggsnetwork_selected
         if (cur_sel == "") {
           showNotification("Select a node in the network to bookmark it", type = "warning")
@@ -1102,21 +1108,21 @@ GeneTonic <- function(dds,
 
           if (cur_nodetype == "Feature") {
             # TODO: match back to identifier and so
-            if (cur_sel %in% values$mygenes) {
+            if (cur_sel %in% reactive_values$mygenes) {
               showNotification(sprintf("The selected gene %s is already in the set of the bookmarked genes.", cur_sel), type = "default")
             } else {
-              values$mygenes <- unique(c(values$mygenes, cur_sel))
-              message("there go your genes... ", values$mygenes)
-              showNotification(sprintf("Added %s to the bookmarked genes. The list contains now %d elements", cur_sel, length(values$mygenes)), type = "message")
+              reactive_values$mygenes <- unique(c(reactive_values$mygenes, cur_sel))
+              message("there go your genes... ", reactive_values$mygenes)
+              showNotification(sprintf("Added %s to the bookmarked genes. The list contains now %d elements", cur_sel, length(reactive_values$mygenes)), type = "message")
 
             }
           } else if (cur_nodetype == "GeneSet") {
-            if (cur_sel %in% values$mygenesets) {
+            if (cur_sel %in% reactive_values$mygenesets) {
               showNotification(sprintf("The selected gene set %s is already in the set of the bookmarked genesets.", cur_sel), type = "default")
             } else {
-              values$mygenesets <- unique(c(values$mygenesets, cur_sel))
-              message("here are your genesets... ", values$mygenesets)
-              showNotification(sprintf("Added %s to the bookmarked genesets. The list contains now %d elements", cur_sel, length(values$mygenesets)), type = "message")
+              reactive_values$mygenesets <- unique(c(reactive_values$mygenesets, cur_sel))
+              message("here are your genesets... ", reactive_values$mygenesets)
+              showNotification(sprintf("Added %s to the bookmarked genesets. The list contains now %d elements", cur_sel, length(reactive_values$mygenesets)), type = "message")
             }
             # TODO: match back to identifier and so
 
@@ -1127,17 +1133,17 @@ GeneTonic <- function(dds,
       }
       else if (input$gt_tabs == "tab_emap") {
         showNotification("maaap maaap")
-        g <- values$mygraph()
+        g <- reactive_values$mygraph()
         cur_sel <- input$emap_visnet_selected
         if (cur_sel == "") {
           showNotification("Select a node in the network to bookmark it", type = "warning")
         } else {
-          if (cur_sel %in% values$mygenesets) {
+          if (cur_sel %in% reactive_values$mygenesets) {
             showNotification(sprintf("The selected gene set %s is already in the set of the bookmarked genesets.", cur_sel), type = "default")
           } else {
-            values$mygenesets <- unique(c(values$mygenesets, cur_sel))
-            message("here are your genesets... ", values$mygenesets)
-            showNotification(sprintf("Added %s to the bookmarked genesets. The list contains now %d elements", cur_sel, length(values$mygenesets)), type = "message")
+            reactive_values$mygenesets <- unique(c(reactive_values$mygenesets, cur_sel))
+            message("here are your genesets... ", reactive_values$mygenesets)
+            showNotification(sprintf("Added %s to the bookmarked genesets. The list contains now %d elements", cur_sel, length(reactive_values$mygenesets)), type = "message")
           }
         }
       }
