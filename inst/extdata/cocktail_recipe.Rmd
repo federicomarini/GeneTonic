@@ -1,8 +1,7 @@
 ---
-title: >
-  Your report from `GeneTonic`
-author:
-- name: Your Name
+title: "`r paste0('Your report from GeneTonic - ', project_id)`"
+author: "`r paste0('GeneTonic happy_hour (v', utils::packageVersion('GeneTonic'), ')')`"
+date: "`r Sys.Date()`"
 
 output: 
   html_document:
@@ -11,8 +10,24 @@ output:
     code_folding: show
     code_download: true
     number_sections: true
+    df_print: kable
     theme: lumen
+always_allow_html: yes
 ---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  warning = FALSE, 
+  message = FALSE,
+  error = TRUE
+)
+# knitr::opts_knit$set(
+#   progress = FALSE, 
+#   verbose = FALSE
+# )
+```
+
 
 # Intro
 
@@ -40,15 +55,36 @@ res_enrich <- get_aggrscores(res_enrich, res_de, annotation_obj)
 
 
 ```{r}
-values$mygenesets
+# if (exists("reactive_values$mygenesets")) {
+#   selected_genesets <- reactive_values$mygenesets
+# } else {
+#   selected_genesets <- mygenesets
+# }
+# 
+# if (exists("reactive_values$mygenes")) {
+#   selected_genes <- reactive_values$mygenes
+# } else {
+#   selected_genes <- mygenes
+# }
+
+if (usage_mode == "shiny_mode") {
+  selected_genesets <- reactive_values$mygenesets
+  selected_genes <- reactive_values$mygenes
+} else if (usage_mode == "batch_mode"){
+  selected_genesets <- mygenesets
+  selected_genes <- mygenes
+}
+
+selected_genesets
+selected_genes
+
+# TODO: clean up to see if they are present
+
 ```
 
-```{r}
-values$mygenes
-```
 
 ```{r}
-myids <- annotation_obj$gene_id[match(values$mygenes ,annotation_obj$gene_name)]
+myids <- annotation_obj$gene_id[match(selected_genes ,annotation_obj$gene_name)]
 ```
 
 
@@ -61,7 +97,7 @@ lapply(myids, function(arg) {
 # Something for the selected genesets
 
 ```{r}
-corresponding_gs_ids <- res_enrich$gs_id[res_enrich$gs_description %in% values$mygenesets]
+corresponding_gs_ids <- res_enrich$gs_id[res_enrich$gs_description %in% selected_genesets]
 gs_mds(res_enrich, res_de, annotation_obj, gs_labels = corresponding_gs_ids)
 
 gs_volcano(res_enrich, volcano_labels = 0, gs_labels = corresponding_gs_ids)
@@ -72,21 +108,19 @@ gs_volcano(res_enrich, volcano_labels = 0, gs_labels = corresponding_gs_ids)
 Here is a heatmap for each bookmarked set
 
 ```{r echo = TRUE, results="asis"}
-corresponding_gs_ids <- res_enrich$gs_id[res_enrich$gs_description %in% values$mygenesets]
-vst_macrophage <- DESeq2::vst(dds)
+corresponding_gs_ids <- res_enrich$gs_id[res_enrich$gs_description %in% selected_genesets]
+vst_data <- DESeq2::vst(dds) # TODO: maybe have it passed as param
 
-for (gs in values$mygenesets) {
+for (gs in selected_genesets) {
   cat("## ", gs, "{-}\n")
   corresponding_gs_id <- res_enrich$gs_id[res_enrich$gs_description %in% gs]
   
-  print(
-    gs_heatmap(vst_macrophage, 
+  gs_heatmap(vst_data, 
              res_de, 
              res_enrich, 
              annotation_obj, 
              geneset_id = corresponding_gs_id, 
-             cluster_cols = TRUE)
-  )
+             cluster_columns = TRUE)
   
   cat(go_2_html(corresponding_gs_id, res_enrich))
   cat("\n\n")
