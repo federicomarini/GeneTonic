@@ -4,9 +4,9 @@
 \alias{gene_plot}
 \title{Plot expression values for a gene}
 \usage{
-gene_plot(dds, gene, assay = "counts", intgroup = "condition",
-  annotation_obj = NULL, transform = TRUE, labels_repel = TRUE,
-  plot_type = "auto")
+gene_plot(dds, gene, intgroup = "condition", assay = "counts",
+  annotation_obj = NULL, normalized = TRUE, transform = TRUE,
+  labels_repel = TRUE, plot_type = "auto", return_data = FALSE)
 }
 \arguments{
 \item{dds}{A \code{DESeqDataSet} object, normally obtained after running your data
@@ -15,13 +15,18 @@ through the \code{DESeq2} framework.}
 \item{gene}{Character, specifies the identifier of the feature (gene) to be
 plotted}
 
-\item{assay}{TODO}
-
 \item{intgroup}{A character vector of names in \code{colData(dds)} to use for grouping.
 Note: the vector components should be categorical variables.}
 
+\item{assay}{Character, specifies with assay of the \code{dds} object to use for
+reading out the expression values. Defaults to "counts".}
+
 \item{annotation_obj}{A \code{data.frame} object with the feature annotation
 information, with at least two columns, \code{gene_id} and \code{gene_name}.}
+
+\item{normalized}{Logical value, whether the expression values should be
+normalized by their size factor. Defaults to TRUE, applies when \code{assay} is
+"counts"}
 
 \item{transform}{Logical value, corresponding whether to have log scale y-axis
 or not. Defaults to TRUE.}
@@ -33,6 +38,10 @@ place labels; defaults to TRUE}
 or "sina". Defines the type of \code{geom_} to be used for plotting. Defaults to
 \code{auto}, which in turn chooses one of the layers according to the number of
 samples in the smallest group defined via \code{intgroup}}
+
+\item{return_data}{Logical, whether the function should just return the
+data.frame of expression values and covariates for custom plotting. Defaults
+to FALSE.}
 }
 \value{
 A \code{ggplot} object
@@ -40,6 +49,10 @@ A \code{ggplot} object
 \description{
 Plot expression values (e.g. normalized counts) for a gene of interest, grouped
 by experimental group(s) of interest
+}
+\details{
+The result of this function can be fed directly to \code{\link[plotly:ggplotly]{plotly::ggplotly()}}
+for interactive visualization, instead of the static \code{ggplot} viz.
 }
 \examples{
 # TODO

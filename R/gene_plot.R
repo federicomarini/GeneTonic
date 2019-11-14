@@ -6,15 +6,22 @@
 #' Plot expression values (e.g. normalized counts) for a gene of interest, grouped
 #' by experimental group(s) of interest
 #'
+#' @details The result of this function can be fed directly to [plotly::ggplotly()]
+#' for interactive visualization, instead of the static `ggplot` viz.
+#'
 #' @param dds A `DESeqDataSet` object, normally obtained after running your data
 #' through the `DESeq2` framework.
 #' @param gene Character, specifies the identifier of the feature (gene) to be
 #' plotted
-#' @param assay TODO
 #' @param intgroup A character vector of names in `colData(dds)` to use for grouping.
 #' Note: the vector components should be categorical variables.
+#' @param assay Character, specifies with assay of the `dds` object to use for
+#' reading out the expression values. Defaults to "counts".
 #' @param annotation_obj A `data.frame` object with the feature annotation
 #' information, with at least two columns, `gene_id` and `gene_name`.
+#' @param normalized Logical value, whether the expression values should be
+#' normalized by their size factor. Defaults to TRUE, applies when `assay` is
+#' "counts"
 #' @param transform Logical value, corresponding whether to have log scale y-axis
 #' or not. Defaults to TRUE.
 #' @param labels_repel Logical value. Whether to use `ggrepel`'s functions to
@@ -23,6 +30,9 @@
 #' or "sina". Defines the type of `geom_` to be used for plotting. Defaults to
 #' `auto`, which in turn chooses one of the layers according to the number of
 #' samples in the smallest group defined via `intgroup`
+#' @param return_data Logical, whether the function should just return the
+#' data.frame of expression values and covariates for custom plotting. Defaults
+#' to FALSE.
 #'
 #' @return A `ggplot` object
 #' @export
@@ -31,19 +41,25 @@
 #' # TODO
 gene_plot <- function(dds,
                       gene,
-                      assay = "counts",
                       intgroup = "condition",
+                      assay = "counts",
                       annotation_obj = NULL,
+                      normalized = TRUE,
                       transform = TRUE,
                       labels_repel = TRUE,
-                      plot_type = "auto") {
+                      plot_type = "auto",
+                      return_data = FALSE) {
 
   plot_type <- match.arg(plot_type,
                          c("auto", "jitteronly", "boxplot", "violin", "sina"))
   # TODO: enable the possibility of using other assays?
 
   # TODO: use a more general func to extract the values?
-  df <- plotCounts(dds, gene, intgroup, returnData = TRUE)
+  df <- get_expression_values(dds = dds,
+                              gene = gene,
+                              intgroup = intgroup,
+                              assay = assay,
+                              normalized = normalized)
 
   df$sample_id <- rownames(df)
   if (!is.null(annotation_obj)) {
@@ -58,7 +74,10 @@ gene_plot <- function(dds,
   min_by_groups <- min(table(df$plotby))
   # depending on this, use boxplots/nothing/violins/sina
 
-  p <- ggplot(df, aes_string(x = "plotby", y = "count", col = "plotby")) +
+  if(return_data)
+    return(df)
+
+  p <- ggplot(df, aes_string(x = "plotby", y = "exp_value", col = "plotby")) +
     scale_x_discrete(name = "") +
     scale_color_discrete(name = "Experimental\ngroup") +
     theme_bw()
@@ -67,7 +86,7 @@ gene_plot <- function(dds,
   # https://www.embopress.org/doi/full/10.15252/embj.201694659
   if (plot_type == "jitteronly" || (plot_type == "auto" & min_by_groups <= 3)) {
     p <- p +
-      geom_jitter(aes_string(x = "plotby", y = "count"),
+      geom_jitter(aes_string(x = "plotby", y = "exp_value"),
                      position = position_jitter(width = 0.2, height = 0))
     # do nothing - or add a line for the median?
   } else if (plot_type == "boxplot" || (plot_type == "auto" & (min_by_groups > 3 & min_by_groups < 10))) {
@@ -96,19 +115,79 @@ gene_plot <- function(dds,
     p <- p + geom_text(aes_string(label = "sample_id"), hjust = -0.1, vjust = 0.1)
   }
 
+  y_label <- if (assay == "counts" & normalized) {
+    "Normalized counts"
+  } else if (assay == "counts" & !normalized) {
+    "Counts"
+  } else if (assay == "abundance") {
+    "TPM - Transcripts Per Million"
+  } else {
+    assay
+  }
+
   # handling y axis transformation
   if (transform) {
-    p <- p + scale_y_log10(name = "Normalized counts (log10 scale)")
+    p <- p + scale_y_log10(name = paste0(y_label, " (log10 scale)"))
   } else {
-    p <- p + scale_y_continuous(name = "Normalized counts")
+    p <- p + scale_y_continuous(name = y_label)
   }
 
   # handling the displayed names and ids
   if (!is.null(annotation_obj)) {
-    p <- p + labs(title = paste0("Normalized counts for ", genesymbol, " - ", gene))
+    p <- p + labs(title = paste0(genesymbol, " - ", gene))
   } else {
-    p <- p + labs(title = paste0("Normalized counts for ", gene))
+    p <- p + labs(title = paste0(gene))
   }
 
   return(p)
+}
+
+#' Get expression values
+#'
+#' Extract expression values, with the possibility to select other assay slots
+#'
+#' @param dds A `DESeqDataSet` object, normally obtained after running your data
+#' through the `DESeq2` framework.
+#' @param gene Character, specifies the identifier of the feature (gene) to be
+#' extracted
+#' @param intgroup A character vector of names in `colData(dds)` to use for grouping.
+#' @param assay Character, specifies with assay of the `dds` object to use for
+#' reading out the expression values. Defaults to "counts".
+#' @param normalized Logical value, whether the expression values should be
+#' normalized by their size factor. Defaults to TRUE, applies when `assay` is
+#' "counts"
+#'
+#' @return A tidy data.frame with the expression values and covariates for further
+#' processing
+#' @export
+#'
+#' @examples
+#' # TODO
+get_expression_values <- function(dds,
+                                  gene,
+                                  intgroup,
+                                  assay = "counts",
+                                  normalized = TRUE
+                                  ) {
+  if(!(assay %in% names(assays(dds))))
+    stop("Please specify a name of one of the existing assays: \n",
+         paste(names(assays(dds)), collapse = ", "))
+
+  # checking the normalization factors are in
+  if (is.null(sizeFactors(dds)) & is.null(normalizationFactors(dds))) {
+    dds <- estimateSizeFactors(dds)
+  }
+
+  if(assay == "counts") {
+    exp_vec <- counts(dds, normalized = normalized)[gene, ]
+  } else {
+    exp_vec <- assays(dds)[[assay]][gene, ]
+  }
+
+  exp_df <- data.frame(
+    exp_value = exp_vec,
+    colData(dds)[intgroup]
+  )
+
+  return(exp_df)
 }
