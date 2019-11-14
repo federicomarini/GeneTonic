@@ -117,7 +117,7 @@ GeneTonic <- function(dds,
             label = "About this session", style = .actionbutton_biocstyle
           ),
           actionButton(
-            inputId = "btn_info_gt",
+            inputId = "btn_info_genetonic",
             icon = icon("heart"),
             label = "About GeneTonic", style = .actionbutton_biocstyle
           )
@@ -1059,6 +1059,30 @@ GeneTonic <- function(dds,
 
     observe({
       print(input$gt_tabs)
+    })
+
+    observeEvent(input$btn_info_session, {
+      showModal(modalDialog(
+        title="Session information", size="l",fade=TRUE,
+        footer=NULL, easyClose=TRUE,
+        tagList(renderPrint({
+          sessionInfo()
+        }))
+      ))
+    })
+
+    observeEvent(input$btn_info_genetonic, {
+      showModal(modalDialog(
+        title="About GeneTonic", size="l", fade=TRUE,
+        footer=NULL, easyClose=TRUE,
+        tagList(
+          "GeneTonic_info", br(), br(),
+          HTML("If you use this package, please use the following citation information:"),
+          renderPrint({
+            citation("GeneTonic")
+          })
+        )
+      ))
     })
 
 
