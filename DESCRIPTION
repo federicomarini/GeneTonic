@@ -40,10 +40,10 @@ Imports:
     viridis,
     dplyr,
     ggforce,
-    rlang
+    rlang,
+    rmarkdown
 Suggests:
     knitr,
-    rmarkdown,
     BiocStyle,
     macrophage,
     topGO,
