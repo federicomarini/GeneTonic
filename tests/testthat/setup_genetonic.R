@@ -37,6 +37,7 @@ anno_df <- pcaExplorer::get_annotation_orgdb(dds_macrophage, "org.Hs.eg.db", "EN
 ## using counts and average transcript lengths from tximeta
 keep <- rowSums(counts(dds_macrophage) >= 10) >= 6
 dds_macrophage <- dds_macrophage[keep, ]
+dds_unnormalized <- dds_macrophage
 
 library("org.Hs.eg.db")
 dds_macrophage <- addIds(dds_macrophage, "SYMBOL")

@@ -14,9 +14,6 @@ test_that("Geneset heatmap is created", {
                   cluster_columns = TRUE,
                   center_mean = TRUE,
                   scale_row = TRUE
-                  # TODOTODO: use ellipsis for passing params to pheatmap?
-                  # TODOTODO: option to just return the underlying data?s
-                  # TODOTODO: options to subset to specific samples?
   )
   expect_is(p, "HeatmapList")
   p2 <- gs_heatmap(se = myvst,
@@ -30,9 +27,20 @@ test_that("Geneset heatmap is created", {
                    cluster_columns = TRUE,
                    center_mean = TRUE,
                    scale_row = TRUE
-                   # TODOTODO: use ellipsis for passing params to pheatmap?
-                   # TODOTODO: option to just return the underlying data?s
-                   # TODOTODO: options to subset to specific samples?
   )
   expect_is(p2, "HeatmapList")
+  p3 <- gs_heatmap(se = myvst,
+                   res_de = res_macrophage_IFNg_vs_naive,
+                   res_enrich = res_enrich_IFNg_vs_naive,
+                   annotation_obj = anno_df,
+                   geneset_id = cur_gsid,
+                   FDR = 0.05,
+                   de_only = TRUE,
+                   cluster_rows = TRUE, # TODOTODO: options for the heatmap go on left side, as could be common to more!
+                   cluster_columns = TRUE,
+                   center_mean = TRUE,
+                   scale_row = TRUE,
+                   anno_col_info = "condition"
+  )
+  expect_is(p3, "HeatmapList")
 })

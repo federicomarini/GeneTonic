@@ -5,7 +5,7 @@
 \title{Happy hour!}
 \usage{
 happy_hour(dds, res_de, res_enrich, annotation_obj, project_id, mygenesets,
-  mygenes, usage_mode = "batch_mode",
+  mygenes, usage_mode = "batch_mode", input_rmd = NULL,
   output_file = "my_first_GeneTonic_happyhour.html", output_dir = "./",
   output_format = NULL, force_overwrite = FALSE,
   knitr_show_progress = FALSE, ignore_pandoc = FALSE,
@@ -36,6 +36,10 @@ via \code{\link[=happy_hour]{happy_hour()}}}
 \item{usage_mode}{A character string, which controls the behavior of the Rmd
 document, based on whether the rendering is triggered while using the app
 ("shiny_mode"), or offline, in batch mode. Defaults to "batch_mode".}
+
+\item{input_rmd}{Character string with the path to the RMarkdown (.Rmd) file
+that will be used as the template for generating the report. Defaults to NULL,
+which will then use the one provided with the \code{GeneTonic} package.}
 
 \item{output_file}{Character string, specifying the file name of the output
 report. The file name extension must be either \code{.html} or \code{.pdf}, and consistent
