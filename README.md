@@ -38,6 +38,18 @@ library(GeneTonic)
 ## basic example code
 ```
 
+## Usage overview
+
+You can find the rendered version of the documentation of `GeneTonic` at
+the project website <https://federicomarini.github.io/GeneTonic>,
+created with `pkgdown`.
+
+## Development
+
+If you encounter a bug, have usage questions, or want to share ideas and
+functionality to make this package better, feel free to file an
+[issue](https://github.com/federicomarini/GeneTonic/issues).
+
 ## Code of Conduct
 
 Please note that the `GeneTonic` project is released with a [Contributor
