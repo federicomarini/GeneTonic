@@ -73,6 +73,9 @@
 #' @param usage_mode A character string, which controls the behavior of the Rmd
 #' document, based on whether the rendering is triggered while using the app
 #' ("shiny_mode"), or offline, in batch mode. Defaults to "batch_mode".
+#' @param input_rmd Character string with the path to the RMarkdown (.Rmd) file
+#' that will be used as the template for generating the report. Defaults to NULL,
+#' which will then use the one provided with the `GeneTonic` package.
 #' @param output_file Character string, specifying the file name of the output
 #' report. The file name extension must be either `.html` or `.pdf`, and consistent
 #' with the value of `output_format`.
@@ -107,6 +110,7 @@ happy_hour <- function(dds,
                        mygenesets, # TODO: I should switch to gs_ids
                        mygenes,
                        usage_mode = "batch_mode",
+                       input_rmd = NULL,
                        output_file = "my_first_GeneTonic_happyhour.html",
                        output_dir = "./",
                        output_format = NULL,
@@ -175,26 +179,30 @@ happy_hour <- function(dds,
   }
 
   # Rmd template
-  # templateFile <- "~/Development/GeneTonic/inst/extdata/cocktail_recipe.Rmd"
-  templateFile <- system.file("extdata",
-                              "cocktail_recipe.Rmd",
-                              package = "GeneTonic")
-  if (file.exists(templateFile)) {
+  # template_rmd <- "~/Development/GeneTonic/inst/extdata/cocktail_recipe.Rmd"
+  if (is.null(input_rmd)) {
+    template_rmd <- system.file("extdata",
+                                "cocktail_recipe.Rmd",
+                                package = "GeneTonic")
+  } else {
+    template_rmd <- input_rmd
+  }
+
+  if (file.exists(template_rmd)) {
     if (file.exists(output_rmd)) {
       stop("There is already an .Rmd file ", output_rmd,
            ". Please remove or rename this file, or choose another ",
            "output_file name.", call. = FALSE)
     } else {
       # TODO: another possible thought: work in a tempdir, that is probably even more elegant
-      file.copy(from = templateFile, to = output_rmd, overwrite = FALSE)
+      file.copy(from = template_rmd, to = output_rmd, overwrite = FALSE)
     }
   } else {
-    stop("The Rmd template file ", templateFile, " does not exist.",
+    stop("The Rmd template file ", template_rmd, " does not exist.",
          call. = FALSE)
   }
 
   # Process the arguments
-
   args <- list(...)
   args$input <- output_rmd
   args$output_format <- output_format
