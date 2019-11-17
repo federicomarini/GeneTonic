@@ -10,6 +10,7 @@
 #' either warning or error messages are triggered.
 #'
 .check_pandoc <- function(ignore_pandoc) {
+  #nocov start
   if (Sys.which("pandoc") == "") {
     if (ignore_pandoc) {
       ## If ignore_pandoc is TRUE, just give a warning
@@ -30,6 +31,7 @@
       stop("pandoc-citeproc is not available!")
     }
   }
+  #nocov end
 }
 
 

@@ -43,4 +43,5 @@ test_that("Geneset heatmap is created", {
                    anno_col_info = "condition"
   )
   expect_is(p3, "HeatmapList")
+  file.remove("Rplots.pdf")
 })
