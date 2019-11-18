@@ -94,17 +94,17 @@ enrichment_map <- function(res_enrich,
   # omm <- omm[!is.na(omm$value), ]
 
   # use this to construct the graph
-  g <- graph.data.frame(omm[, c(1,2)], directed = FALSE)
+  emg <- graph.data.frame(omm[, c(1,2)], directed = FALSE)
 
-  E(g)$width <- sqrt(omm$value * scale_edges_width)
-  g <- delete.edges(g, E(g)[omm$value < overlap_threshold])
+  E(emg)$width <- sqrt(omm$value * scale_edges_width)
+  emg <- delete.edges(emg, E(emg)[omm$value < overlap_threshold])
 
-  idx <- match(V(g)$name, res_enrich$gs_description)
+  idx <- match(V(emg)$name, res_enrich$gs_description)
 
   gs_size <- res_enrich$gs_de_count[idx]
 
-  V(g)$size <- 5 * sqrt(gs_size)
-  V(g)$original_size <- gs_size
+  V(emg)$size <- 5 * sqrt(gs_size)
+  V(emg)$original_size <- gs_size
 
 
   col_var <- res_enrich[idx, color_by]
@@ -121,20 +121,21 @@ enrichment_map <- function(res_enrich,
     colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 1))
 
   # V(g)$color <- map2color(colVar,mypal,limits = range(colVar))
-  V(g)$color.background <- map2color(col_var, mypal, limits = range(col_var))
-  V(g)$color.highlight <- map2color(col_var, mypal_select, limits = range(col_var))
-  V(g)$color.hover <- map2color(col_var, mypal_hover, limits = range(col_var))
+  V(emg)$color.background <- map2color(col_var, mypal, limits = range(col_var))
+  V(emg)$color.highlight <- map2color(col_var, mypal_select, limits = range(col_var))
+  V(emg)$color.hover <- map2color(col_var, mypal_hover, limits = range(col_var))
 
   # TODOTODO: some kind of border prettifying?
-  V(g)$color.border <- "black"
+  V(emg)$color.border <- "black"
 
   # additional specification of edge colors
-  E(g)$color <- "lightgrey"
+  E(emg)$color <- "lightgrey"
 
-  # TODOTODO: think of sorting nodes alphabetically? ..
-  # g <- permute.vertices(g,Matrix::invPerm(order(V(g)$name)))
-  ## TODO: or simply rank() :)
-  return(g)
+  # re-sorting the vertices alphabetically
+  rank_gs <- rank(V(emg)$name)
+  emg <- permute.vertices(emg, rank_gs)
+
+  return(emg)
 }
 
 # g %>% visIgraph() %>% visOptions(highlightNearest = list(enabled = TRUE, degree = 1, hover = TRUE), nodesIdSelection = TRUE)
