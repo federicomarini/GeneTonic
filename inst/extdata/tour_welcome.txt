@@ -1,0 +1,18 @@
+element;intro
+#Welcome;Welcome!
+#mymenu;
+#shiny-tab-tab_welcome;
+#card_em;
+#card_de;
+#card_enrich;
+#card_anno;
+#infobox_dds;
+#infobox_resde;
+#infobox_resenrich;
+#infobox_annotation;
+#bookmarker;
+#controlbar-toggle;
+#ddbtn_docs;
+#ddbtn_info;
+#n_genesets;
+#exp_condition + .selectize-control;
