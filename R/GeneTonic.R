@@ -653,9 +653,8 @@ GeneTonic <- function(dds,
       )
     })
 
-
     # panel GeneSet-Gene ------------------------------------------------------
-    reactive_values$mygraph <- reactive({
+    reactive_values$ggs_graph <- reactive({
       g <- ggs_graph(res_enrich = res_enrich,
                      res_de = res_de,
                      annotation_obj = annotation_obj,
@@ -669,11 +668,10 @@ GeneTonic <- function(dds,
       return(g)
     })
 
-
     output$ggsnetwork <- renderVisNetwork({
       # minimal example
 
-      visNetwork::visIgraph(reactive_values$mygraph()) %>%
+      visNetwork::visIgraph(reactive_values$ggs_graph()) %>%
         visOptions(highlightNearest = list(enabled = TRUE,
                                            degree = 1,
                                            hover = TRUE),
@@ -682,7 +680,7 @@ GeneTonic <- function(dds,
     })
 
     output$netnode <- renderPrint({
-      g <- reactive_values$mygraph()
+      g <- reactive_values$ggs_graph()
       cur_sel <- input$ggsnetwork_selected
       cur_node <- match(cur_sel, V(g)$name)
       cur_nodetype <- V(g)$nodetype[cur_node]
@@ -705,7 +703,7 @@ GeneTonic <- function(dds,
     })
 
     output$net_sigheatplot <- renderPlot({
-      g <- reactive_values$mygraph()
+      g <- reactive_values$ggs_graph()
       cur_sel <- input$ggsnetwork_selected
       cur_node <- match(cur_sel, V(g)$name)
       cur_nodetype <- V(g)$nodetype[cur_node]
@@ -752,7 +750,7 @@ GeneTonic <- function(dds,
     })
 
     output$ggs_geneset_info <- renderUI({
-      g <- reactive_values$mygraph()
+      g <- reactive_values$ggs_graph()
       cur_sel <- input$ggsnetwork_selected
       cur_node <- match(cur_sel, V(g)$name)
       cur_nodetype <- V(g)$nodetype[cur_node]
@@ -775,7 +773,7 @@ GeneTonic <- function(dds,
     })
 
     output$ggs_gene_info <- renderUI({
-      g <- reactive_values$mygraph()
+      g <- reactive_values$ggs_graph()
       cur_sel <- input$ggsnetwork_selected
       cur_node <- match(cur_sel, V(g)$name)
       cur_nodetype <- V(g)$nodetype[cur_node]
@@ -793,7 +791,7 @@ GeneTonic <- function(dds,
     })
 
     output$ggs_geneplot <- renderPlot({
-      g <- reactive_values$mygraph()
+      g <- reactive_values$ggs_graph()
       cur_sel <- input$ggsnetwork_selected
       cur_node <- match(cur_sel, V(g)$name)
       cur_nodetype <- V(g)$nodetype[cur_node]
@@ -803,7 +801,6 @@ GeneTonic <- function(dds,
       validate(need(input$exp_condition != "",
                     message = "Please select a group for the experimental condition."
       ))
-
 
       cur_geneid <- annotation_obj$gene_id[match(cur_sel, annotation_obj$gene_name)]
       gene_plot(dds,
@@ -912,9 +909,6 @@ GeneTonic <- function(dds,
                    center_mean = TRUE,
                    scale_row = TRUE,
                    anno_col_info = input$exp_condition
-                   # TODOTODO: use ellipsis for passing params to pheatmap?
-                   # TODOTODO: option to just return the underlying data?s
-                   # TODOTODO: options to subset to specific samples?
         )
       } else {
         gs_heatmap(myvst,
@@ -928,9 +922,6 @@ GeneTonic <- function(dds,
                    cluster_columns = TRUE,
                    center_mean = TRUE,
                    scale_row = TRUE
-                   # TODOTODO: use ellipsis for passing params to pheatmap?
-                   # TODOTODO: option to just return the underlying data?s
-                   # TODOTODO: options to subset to specific samples?
         )
       }
     })
@@ -1098,7 +1089,7 @@ GeneTonic <- function(dds,
         showNotification("welcome on board!")
       else if (input$gt_tabs == "tab_ggs") {
         showNotification("ggs baby")
-        g <- reactive_values$mygraph()
+        g <- reactive_values$ggs_graph()
         cur_sel <- input$ggsnetwork_selected
         if (cur_sel == "") {
           showNotification("Select a node in the network to bookmark it", type = "warning")
@@ -1133,7 +1124,7 @@ GeneTonic <- function(dds,
       }
       else if (input$gt_tabs == "tab_emap") {
         showNotification("maaap maaap")
-        g <- reactive_values$mygraph()
+        g <- reactive_values$ggs_graph()
         cur_sel <- input$emap_visnet_selected
         if (cur_sel == "") {
           showNotification("Select a node in the network to bookmark it", type = "warning")
