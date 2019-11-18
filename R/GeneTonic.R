@@ -60,8 +60,6 @@ GeneTonic <- function(dds,
   message("Removing ", sum(is.na(res_de$log2FoldChange)), " rows from the result object - logFC detected as NA")
 
 
-
-
   # UI definition -----------------------------------------------------------
 
   # dashpage definition -----------------------------------------------------
@@ -88,6 +86,7 @@ GeneTonic <- function(dds,
         #   label = "Help", style = .actionbutton_biocstyle
         # )
         shinyWidgets::dropdownButton(
+          inputId = "ddbtn_docs",
           circle = TRUE,
           status = "info",
           icon = icon("question-circle"),
@@ -109,6 +108,7 @@ GeneTonic <- function(dds,
 
         ),
         shinyWidgets::dropdownButton(
+          inputId = "ddbtn_info",
           circle = TRUE,
           status = "info",
           icon = icon("info"),
@@ -143,15 +143,6 @@ GeneTonic <- function(dds,
       # src = "logos/online-learning.png",
       elevation = 1,
       opacity = 0.8,
-      # width = 250,
-      # bs4Dash::menuItem(
-      #   text = "SomeSettings", icon = icon("cog"),
-      #   startExpanded = TRUE,
-      #   numericInput(inputId = "n_genesets",
-      #                label = "number of genesets",
-      #                value = 15, min = 1, max = 50),
-      #   uiOutput("ui_exp_condition")
-      # )
 
       bs4SidebarMenu(
         id = "gt_tabs",
@@ -212,13 +203,13 @@ GeneTonic <- function(dds,
               .dataTables_wrapper{
                 overflow-x: scroll;
               }
-            }"
+            }
+            "
+            # .icon-gears {
+            # color: white;
+            # }
           )
         )
-        # .icon-done {
-        # color: green;
-        # }
-
         # #myAnchorBox{}
       ),
 
@@ -261,6 +252,7 @@ GeneTonic <- function(dds,
           ),
           fluidRow(
             bs4Dash::bs4Card(width = 6,
+                             inputId = "card_em",
                              title = "Expression Matrix",
                              status = "danger",
                              solidHeader = FALSE,
@@ -270,6 +262,7 @@ GeneTonic <- function(dds,
                              DT::dataTableOutput("overview_dds")
             ),
             bs4Dash::bs4Card(width = 6,
+                             inputId = "card_de",
                              title = "DE results",
                              status = "warning",
                              solidHeader = FALSE,
@@ -279,6 +272,7 @@ GeneTonic <- function(dds,
                              DT::dataTableOutput("overview_res_de")
             ),
             bs4Dash::bs4Card(width = 6,
+                             inputId = "card_enrich",
                              title = "Functional analysis results",
                              status = "success",
                              solidHeader = FALSE,
@@ -288,6 +282,7 @@ GeneTonic <- function(dds,
                              DT::dataTableOutput("overview_res_enrich")
             ),
             bs4Dash::bs4Card(width = 6,
+                             inputId = "card_anno",
                              title = "Annotation info",
                              status = "info",
                              solidHeader = FALSE,
@@ -552,6 +547,7 @@ GeneTonic <- function(dds,
                   choices = c(NULL, names(colData(dds))), selected = NULL, multiple = TRUE)
     ),
 
+    # footer definition -------------------------------------------------------
     footer = bs4DashFooter(
       footer()
     )
@@ -1048,6 +1044,30 @@ GeneTonic <- function(dds,
     observeEvent(input$interface_overview, {
       tour <- read.delim(system.file("extdata", "interface_overview.txt",
                                      package = "GeneTonic"),
+                         sep = ";", stringsAsFactors = FALSE,
+                         row.names = NULL, quote = "")
+      rintrojs::introjs(session, options = list(steps = tour))
+    })
+
+    observeEvent(input$tour_firststeps, {
+      tour <- read.delim("/Users/fede/Development/GeneTonic/inst/extdata/tour_welcome.txt",
+                         # tour <- read.delim(system.file("extdata", "tour_welcome.txt", package = "GeneTonic"),
+                         sep = ";", stringsAsFactors = FALSE,
+                         row.names = NULL, quote = "")
+      rintrojs::introjs(session, options = list(steps = tour))
+    })
+
+    observeEvent(input$tour_ggs, {
+      tour <- read.delim("/Users/fede/Development/GeneTonic/inst/extdata/tour_ggs.txt",
+                         # tour <- read.delim(system.file("extdata", "tour_ggs.txt", package = "GeneTonic"),
+                         sep = ";", stringsAsFactors = FALSE,
+                         row.names = NULL, quote = "")
+      rintrojs::introjs(session, options = list(steps = tour))
+    })
+
+    observeEvent(input$tour_emap, {
+      tour <- read.delim("/Users/fede/Development/GeneTonic/inst/extdata/tour_emap.txt",
+                         # tour <- read.delim(system.file("extdata", "tour_emap.txt", package = "GeneTonic"),
                          sep = ";", stringsAsFactors = FALSE,
                          row.names = NULL, quote = "")
       rintrojs::introjs(session, options = list(steps = tour))
