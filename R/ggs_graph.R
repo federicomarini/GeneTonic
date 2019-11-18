@@ -71,13 +71,12 @@ ggs_graph <- function(res_enrich,
   nodeIDs_gs <- which(names(V(g)) %in% enriched_gsnames)
   nodeIDs_genes <- which(!(names(V(g)) %in% enriched_gsnames))
 
+  V(g)$nodetype <- NA
+  V(g)$nodetype[nodeIDs_gs] <- "GeneSet"
+  V(g)$nodetype[nodeIDs_genes] <- "Feature"
 
   if (prettify) {
     # different shapes based on the node type
-
-    V(g)$nodetype <- NA
-    V(g)$nodetype[nodeIDs_gs] <- "GeneSet"
-    V(g)$nodetype[nodeIDs_genes] <- "Feature"
 
     # TODOTODO: this does not work with visNetwork?
     # V(g)$value <- 15 # size? size2? or does this not work with the shapes I selected?
@@ -114,5 +113,12 @@ ggs_graph <- function(res_enrich,
     V(g)$color[nodeIDs_genes] <- "#B3B3B3"
     V(g)$color[nodeIDs_gs] <- "#E5C494"
   }
+
+  # re-sorting the vertices alphabetically
+  rank_gs <- rank(V(g)$name[V(g)$nodetype == "GeneSet"])
+  rank_feats <- rank(V(g)$name[V(g)$nodetype == "Feature"]) +
+    length(rank_gs) # to keep the GeneSets first
+  g <- permute.vertices(g, c(rank_gs, rank_feats))
+
   return(g)
 }

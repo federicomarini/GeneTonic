@@ -657,11 +657,11 @@ GeneTonic <- function(dds,
                      n_gs = input$n_genesets,
                      prettify = TRUE,
                      geneset_graph_color = "gold")
-      rank_gs <- rank(V(g)$name[V(g)$nodetype == "GeneSet"])
-      rank_feats <- rank(V(g)$name[V(g)$nodetype == "Feature"]) +
-        length(rank_gs) # to keep the GeneSets first
-      g <- permute.vertices(g, c(rank_gs, rank_feats))
-      return(g)
+      # rank_gs <- rank(V(g)$name[V(g)$nodetype == "GeneSet"])
+      # rank_feats <- rank(V(g)$name[V(g)$nodetype == "Feature"]) +
+      #   length(rank_gs) # to keep the GeneSets first
+      # g <- permute.vertices(g, c(rank_gs, rank_feats))
+      # return(g)
     })
 
     output$ggsnetwork <- renderVisNetwork({
@@ -846,8 +846,8 @@ GeneTonic <- function(dds,
                             overlap_threshold = 0.1,
                             scale_edges_width = 200,
                             color_by = "gs_pvalue")
-      rank_gs <- rank(V(emg)$name)
-      emg <- permute.vertices(emg, rank_gs)
+      # rank_gs <- rank(V(emg)$name)
+      # emg <- permute.vertices(emg, rank_gs)
       return(emg)
     })
 
