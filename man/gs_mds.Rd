@@ -4,9 +4,16 @@
 \alias{gs_mds}
 \title{Multi Dimensional Scaling plot for gene sets}
 \usage{
-gs_mds(res_enrich, res_de, annotation_obj,
-  similarity_measure = "kappa_matrix", mds_k = 2, mds_labels = 0,
-  mds_colorby = "z_score", gs_labels = NULL)
+gs_mds(
+  res_enrich,
+  res_de,
+  annotation_obj,
+  similarity_measure = "kappa_matrix",
+  mds_k = 2,
+  mds_labels = 0,
+  mds_colorby = "z_score",
+  gs_labels = NULL
+)
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional

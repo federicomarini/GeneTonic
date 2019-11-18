@@ -3,7 +3,6 @@
 \docType{package}
 \name{GeneTonic-pkg}
 \alias{GeneTonic-pkg}
-\alias{GeneTonic-pkg-package}
 \title{GeneTonic}
 \description{
 \code{GeneTonic} is a Bioconductor package that provides an interactive Shiny-based

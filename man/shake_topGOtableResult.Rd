@@ -22,6 +22,7 @@ Convert a topGOtableResult object for straightforward use in \code{\link[=GeneTo
 # TODO
 }
 \seealso{
-Other shakers: \code{\link{shake_enrichResult}}
+Other shakers: 
+\code{\link{shake_enrichResult}()}
 }
 \concept{shakers}

@@ -4,9 +4,17 @@
 \alias{enrichment_map}
 \title{Creates an enrichment map for the results of functional enrichment}
 \usage{
-enrichment_map(res_enrich, res_de, annotation_obj, n_gs = 50,
-  gs_ids = NULL, overlap_threshold = 0.1, scale_edges_width = 200,
-  color_by = "gs_pvalue", size_by)
+enrichment_map(
+  res_enrich,
+  res_de,
+  annotation_obj,
+  n_gs = 50,
+  gs_ids = NULL,
+  overlap_threshold = 0.1,
+  scale_edges_width = 200,
+  color_by = "gs_pvalue",
+  size_by
+)
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional

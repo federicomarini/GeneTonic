@@ -4,8 +4,7 @@
 \alias{get_aggrscores}
 \title{Compute aggregated scores for gene sets}
 \usage{
-get_aggrscores(res_enrich, res_de, annotation_obj, n_gs = 50,
-  aggrfun = mean)
+get_aggrscores(res_enrich, res_de, annotation_obj, n_gs = 50, aggrfun = mean)
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional

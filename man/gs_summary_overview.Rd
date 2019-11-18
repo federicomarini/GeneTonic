@@ -4,8 +4,12 @@
 \alias{gs_summary_overview}
 \title{Plots a summary of enrichment results}
 \usage{
-gs_summary_overview(res_enrich, n_gs = 20,
-  p_value_column = "gs_pvalue", color_by = "z_score")
+gs_summary_overview(
+  res_enrich,
+  n_gs = 20,
+  p_value_column = "gs_pvalue",
+  color_by = "z_score"
+)
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional

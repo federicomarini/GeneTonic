@@ -4,8 +4,14 @@
 \alias{enhance_table}
 \title{Visually enhances a functional enrichment result table}
 \usage{
-enhance_table(res_enrich, res_de, annotation_obj, n_gs = 50,
-  gs_ids = NULL, chars_limit = 60)
+enhance_table(
+  res_enrich,
+  res_de,
+  annotation_obj,
+  n_gs = 50,
+  gs_ids = NULL,
+  chars_limit = 60
+)
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional

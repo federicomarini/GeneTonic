@@ -4,9 +4,18 @@
 \alias{gene_plot}
 \title{Plot expression values for a gene}
 \usage{
-gene_plot(dds, gene, intgroup = "condition", assay = "counts",
-  annotation_obj = NULL, normalized = TRUE, transform = TRUE,
-  labels_repel = TRUE, plot_type = "auto", return_data = FALSE)
+gene_plot(
+  dds,
+  gene,
+  intgroup = "condition",
+  assay = "counts",
+  annotation_obj = NULL,
+  normalized = TRUE,
+  transform = TRUE,
+  labels_repel = TRUE,
+  plot_type = "auto",
+  return_data = FALSE
+)
 }
 \arguments{
 \item{dds}{A \code{DESeqDataSet} object, normally obtained after running your data

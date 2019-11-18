@@ -4,10 +4,21 @@
 \alias{gs_heatmap}
 \title{Plot a heatmap of the gene signature on the data}
 \usage{
-gs_heatmap(se, res_de, res_enrich, annotation_obj = NULL, geneset_id,
-  genelist, FDR = 0.05, de_only = FALSE, cluster_rows = TRUE,
-  cluster_columns = FALSE, center_mean = TRUE, scale_row = FALSE,
-  anno_col_info = NULL)
+gs_heatmap(
+  se,
+  res_de,
+  res_enrich,
+  annotation_obj = NULL,
+  geneset_id,
+  genelist,
+  FDR = 0.05,
+  de_only = FALSE,
+  cluster_rows = TRUE,
+  cluster_columns = FALSE,
+  center_mean = TRUE,
+  scale_row = FALSE,
+  anno_col_info = NULL
+)
 }
 \arguments{
 \item{se}{A \code{SummarizedExperiment} object, or an object derived from this class,

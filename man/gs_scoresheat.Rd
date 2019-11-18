@@ -4,9 +4,13 @@
 \alias{gs_scoresheat}
 \title{Plots a matrix of geneset scores}
 \usage{
-gs_scoresheat(mat, clustering_distance_rows = "euclidean",
-  clustering_distance_cols = "euclidean", cluster_rows = TRUE,
-  cluster_cols = TRUE)
+gs_scoresheat(
+  mat,
+  clustering_distance_rows = "euclidean",
+  clustering_distance_cols = "euclidean",
+  cluster_rows = TRUE,
+  cluster_cols = TRUE
+)
 }
 \arguments{
 \item{mat}{A matrix, e.g. returned by the \code{\link[=gs_scores]{gs_scores()}} function}

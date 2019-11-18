@@ -4,8 +4,13 @@
 \alias{gs_volcano}
 \title{Volcano plot for gene sets}
 \usage{
-gs_volcano(res_enrich, p_threshold = 0.05, volcano_labels = 10,
-  scale_circles = 1, gs_labels = NULL)
+gs_volcano(
+  res_enrich,
+  p_threshold = 0.05,
+  volcano_labels = 10,
+  scale_circles = 1,
+  gs_labels = NULL
+)
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional

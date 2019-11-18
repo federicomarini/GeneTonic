@@ -4,12 +4,25 @@
 \alias{happy_hour}
 \title{Happy hour!}
 \usage{
-happy_hour(dds, res_de, res_enrich, annotation_obj, project_id, mygenesets,
-  mygenes, usage_mode = "batch_mode", input_rmd = NULL,
-  output_file = "my_first_GeneTonic_happyhour.html", output_dir = "./",
-  output_format = NULL, force_overwrite = FALSE,
-  knitr_show_progress = FALSE, ignore_pandoc = FALSE,
-  open_after_creating = TRUE, ...)
+happy_hour(
+  dds,
+  res_de,
+  res_enrich,
+  annotation_obj,
+  project_id,
+  mygenesets,
+  mygenes,
+  usage_mode = "batch_mode",
+  input_rmd = NULL,
+  output_file = "my_first_GeneTonic_happyhour.html",
+  output_dir = "./",
+  output_format = NULL,
+  force_overwrite = FALSE,
+  knitr_show_progress = FALSE,
+  ignore_pandoc = FALSE,
+  open_after_creating = TRUE,
+  ...
+)
 }
 \arguments{
 \item{dds}{A \code{DESeqDataSet} object, normally obtained after running your data
@@ -46,7 +59,7 @@ report. The file name extension must be either \code{.html} or \code{.pdf}, and 
 with the value of \code{output_format}.}
 
 \item{output_dir}{Character, defininf the path to the output directory where
-the report will be generated. Defaults to the current directory (\code{./}).}
+the report will be generated. Defaults to the current directory (\verb{./}).}
 
 \item{output_format}{The format of the output report. Either \code{html_document}
 or \code{pdf_document}. The file name extension of \code{output_file} must be consistent

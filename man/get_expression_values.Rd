@@ -4,8 +4,7 @@
 \alias{get_expression_values}
 \title{Get expression values}
 \usage{
-get_expression_values(dds, gene, intgroup, assay = "counts",
-  normalized = TRUE)
+get_expression_values(dds, gene, intgroup, assay = "counts", normalized = TRUE)
 }
 \arguments{
 \item{dds}{A \code{DESeqDataSet} object, normally obtained after running your data

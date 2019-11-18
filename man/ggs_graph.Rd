@@ -4,9 +4,16 @@
 \alias{ggs_graph}
 \title{Construct a gene-geneset-graph}
 \usage{
-ggs_graph(res_enrich, res_de, annotation_obj = NULL, n_gs = 15,
-  gs_ids = NULL, prettify = TRUE, geneset_graph_color = "gold",
-  genes_graph_colpal)
+ggs_graph(
+  res_enrich,
+  res_de,
+  annotation_obj = NULL,
+  n_gs = 15,
+  gs_ids = NULL,
+  prettify = TRUE,
+  geneset_graph_color = "gold",
+  genes_graph_colpal
+)
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
