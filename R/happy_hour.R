@@ -192,7 +192,7 @@ happy_hour <- function(dds,
 
   if (file.exists(template_rmd)) {
     if (file.exists(output_rmd)) {
-      stop("There is already an .Rmd file ", output_rmd,
+      stop("There is already an .Rmd file called ", output_rmd,
            ". Please remove or rename this file, or choose another ",
            "output_file name.", call. = FALSE)
     } else {
