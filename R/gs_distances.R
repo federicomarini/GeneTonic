@@ -1,7 +1,6 @@
 #' Compute the kappa matrix for enrichment results
 #'
-#' Compute the kappa matrix for enrichment results, based on the overlap or the
-#' Jaccard Index between each pair of sets
+#' Compute the kappa matrix for enrichment results, as a measure of overlap
 #'
 #' @param res_enrich A `data.frame` object, storing the result of the functional
 #' enrichment analysis. See more in the main function, [GeneTonic()], to see the
@@ -87,10 +86,10 @@ create_kappa_matrix <- function(res_enrich,
 
 
 
-#' Compute the kappa matrix for enrichment results
+#' Compute the overlap matrix for enrichment results
 #'
-#' Compute the kappa matrix for enrichment results, based on the overlap or the
-#' Jaccard Index between each pair of sets
+#' Compute the overlap matrix for enrichment results, based on the Jaccard Index
+#' between each pair of sets
 #'
 #' @param res_enrich A `data.frame` object, storing the result of the functional
 #' enrichment analysis. See more in the main function, [GeneTonic()], to see the
