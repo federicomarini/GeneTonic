@@ -53,7 +53,7 @@ gs_dendro <- function(res_enrich,
   }
 
   if (is.null(color_branches_by)) {
-    my.clusters <- unname(dynamicTreeCut::cutreeDynamic(my_dend,
+    my.clusters <- unname(dynamicTreeCut::cutreeDynamic(my_hclust,
                                                         distM = as.matrix(dmat),
                                                         minClusterSize = 4,
                                                         verbose = 0))
@@ -63,17 +63,9 @@ gs_dendro <- function(res_enrich,
 
     my_dend <-  branches_attr_by_clusters(my_dend, my.clusters[dend_idx], values = clust_pal)
   }
-  # TODO: split up and add if clauses?
-  my_dend <- my_dend %>%
 
-
-
-
-    set("leaves_col", leaves_col) %>%
-    # set("labels_colors", leaves_col) %>%
-    plot(horiz = TRUE)
-    # as.ggdend() %>% ggplot() %>% plotly::ggplotly()
 
   return(my_dend)
   # to be plotted with plot(my_dend, horiz = TRUE)
+  # as.ggdend() %>% ggplot() %>% plotly::ggplotly()
 }
