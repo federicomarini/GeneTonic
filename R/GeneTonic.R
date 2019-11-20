@@ -213,6 +213,12 @@ GeneTonic <- function(dds,
         # #myAnchorBox{}
       ),
 
+      tags$head(
+        tags$style(
+          ".biocdlbutton{background-color:#0092AC;} .biocdlbutton{color: #ffffff;}"
+        )
+      ),
+
       tags$script(HTML("$(function(){
       $(document).keyup(function(e) {
       if (e.which == 17) {
@@ -978,13 +984,17 @@ GeneTonic <- function(dds,
             width = 6,
             bs4InfoBoxOutput("infobox_book_genes"),
             h5("Bookmarked genes"),
-            DT::dataTableOutput("bookmarks_genes")
+            DT::dataTableOutput("bookmarks_genes"),
+            downloadButton("btn_export_genes", label = "", class = "biocdlbutton")
+            # ideally completed by a function/param to upload them
+
           ),
           column(
             width = 6,
             bs4InfoBoxOutput("infobox_book_genesets"),
             h5("Bookmarked genesets"),
-            DT::dataTableOutput("bookmarks_genesets")
+            DT::dataTableOutput("bookmarks_genesets"),
+            downloadButton("btn_export_genesets", label = "", class = "biocdlbutton")
 
           )
         )
@@ -1013,6 +1023,24 @@ GeneTonic <- function(dds,
     output$bookmarks_genesets <- DT::renderDataTable({
       datatable(data.frame(mygenesets = reactive_values$mygenesets))
     })
+
+    output$btn_export_genes <- downloadHandler(
+      filename = function() {
+        paste0("GeneTonicBookmarks_genes_", project_id, "_",gsub(" ","_",gsub("-","",gsub(":","-",as.character(Sys.time())))),".txt")
+      }, content = function(file) {
+        writeLines(text = reactive_values$mygenes,
+                   con = file)
+      }
+    )
+
+    output$btn_export_genesets <- downloadHandler(
+      filename = function() {
+        paste0("GeneTonicBookmarks_genesets_", project_id, "_",gsub(" ","_",gsub("-","",gsub(":","-",as.character(Sys.time())))),".txt")
+      }, content = function(file) {
+        writeLines(text = reactive_values$mygenesets,
+                   con = file)
+      }
+    )
 
     output$saveRmd <- downloadHandler(
       filename = paste0(
