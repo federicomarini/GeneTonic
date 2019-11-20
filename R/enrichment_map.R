@@ -57,26 +57,12 @@ enrichment_map <- function(res_enrich,
     )
   )
 
-  enrich2list <- lapply(gs_to_use, function(gs) {
-    go_genes <- res_enrich[gs, "gs_genes"]
-    go_genes <- unlist(strsplit(go_genes, ","))
-    return(go_genes)
-  })
-  names(enrich2list) <- res_enrich[gs_to_use, "gs_id"]
+  overlap_matrix <- create_jaccard_matrix(res_enrich,
+                                          n_gs = n_gs,
+                                          gs_ids = gs_ids,
+                                          return_sym = FALSE)
 
-
-  n <- length(enrich2list)
-  overlap_matrix <- matrix(NA, nrow = n, ncol = n)
-  rownames(overlap_matrix) <- colnames(overlap_matrix) <- res_enrich[gs_to_use, "gs_description"]
-
-  for (i in 1:n) {
-    # no need to work on full mat, it is simmetric
-    for (j in i:n) {
-      overlap_matrix[i, j] <-
-        overlap_jaccard_index(unlist(enrich2list[gs_to_use[i]]),
-                              unlist(enrich2list[gs_to_use[j]]))
-    }
-  }
+  rownames(overlap_matrix) <- colnames(overlap_matrix) <- res_enrich[rownames(overlap_matrix), "gs_description"]
 
   # oooooor TODOTODO: go directly from this adjacency matrix? use overlap as weights
   om_df <- as.data.frame(overlap_matrix)
