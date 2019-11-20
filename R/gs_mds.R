@@ -32,11 +32,15 @@
 gs_mds <- function(res_enrich,
                    res_de,
                    annotation_obj,
+                   n_gs = nrow(res_enrich),
+                   gs_ids = NULL,
                    similarity_measure = "kappa_matrix",
                    mds_k = 2,
                    mds_labels = 0,
                    mds_colorby = "z_score",
                    gs_labels = NULL) { # or aggr_score
+
+  # TODO: match.arg on similarity matrix?
 
   # require res_enrich to have aggregated scores and so
   if (!("z_score" %in% colnames(res_enrich))) {
@@ -46,21 +50,39 @@ gs_mds <- function(res_enrich,
                                  annotation_obj = annotation_obj)
   }
 
+  n_gs <- min(n_gs, nrow(res_enrich))
+
+  gs_to_use <- unique(
+    c(
+      res_enrich$gs_id[seq_len(n_gs)],  # the ones from the top
+      gs_ids[gs_ids %in% res_enrich$gs_id]  # the ones specified from the custom list
+    )
+  )
+
+
   # alternative: use semantic similarity
   # library(GOSemSim)
   # mmGO <- godata('org.Mm.eg.db', ont="BP")
   # mysims <- mgoSim(res_enrich[["gs_id"]], res_enrich[["gs_id"]],
   # semData=mmGO, measure="Wang", combine=NULL)
-  mds_labels <- min(mds_labels, nrow(res_enrich))
 
+  if (similarity_measure == "kappa_matrix") {
+    my_simmat <- create_kappa_matrix(res_enrich, n_gs = n_gs, gs_ids = gs_ids)
+
+  } else if (similarity_measure == "overlap_matrix") {
+    my_simmat <- create_jaccard_matrix(res_enrich, n_gs = n_gs, gs_ids = gs_ids, return_sym = TRUE)
+  }
+
+  # else ... TODO
+
+
+  # subset here, internally
+  res_enrich <- res_enrich[gs_to_use, ]
+  mds_labels <- min(mds_labels, nrow(res_enrich))
 
   mysets <- res_enrich[["gs_id"]]
   mysets_names <- res_enrich[["gs_description"]]
 
-  if (similarity_measure == "kappa_matrix") {
-    my_simmat <- create_kappa_matrix(res_enrich)
-
-  } # else ... TODO
 
   mds_go <- cmdscale((1 - my_simmat), eig = TRUE, k = mds_k)
 

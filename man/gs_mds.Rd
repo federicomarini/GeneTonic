@@ -8,6 +8,8 @@ gs_mds(
   res_enrich,
   res_de,
   annotation_obj,
+  n_gs = nrow(res_enrich),
+  gs_ids = NULL,
   similarity_measure = "kappa_matrix",
   mds_k = 2,
   mds_labels = 0,
