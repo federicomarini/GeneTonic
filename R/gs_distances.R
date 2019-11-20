@@ -156,3 +156,33 @@ create_jaccard_matrix <- function(res_enrich,
 # TODO: create_semsim_matrix
 # needs knowledge of species, ontology type, ...
 # takes longer
+
+create_semsim_matrix <- function(res_enrich,
+                                 semsim_data, #   semsim_data <- godata('org.Hs.eg.db', ont="BP")
+                                 n_gs = nrow(res_enrich),
+                                 gs_ids = NULL) {
+
+
+  n_gs <- min(n_gs, nrow(res_enrich))
+
+  gs_to_use <- unique(
+    c(
+      res_enrich$gs_id[seq_len(n_gs)],  # the ones from the top
+      gs_ids[gs_ids %in% res_enrich$gs_id]  # the ones specified from the custom list
+    )
+  )
+
+  go_to_use <- res_enrich[gs_to_use, "gs_id"]
+
+  # check that the gs_ids are in the semsim_data object
+  if (mean(go_to_use %in% names(semsim_data@IC)) < 0.8)
+    stop("More than 20% of your gene sets has not been found in the semantic ",
+         "similarity object.")
+
+  goss_mat <- mgoSim(go_to_use, go_to_use,
+                     semData=semsim_data,
+                     measure="Wang",
+                     combine=NULL)
+  # row.names(goss_mat) <- colnames(goss_mat) <- res_enrich$gs_description[1:50]
+  return(goss_mat)
+}
