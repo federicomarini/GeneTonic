@@ -2,6 +2,7 @@
 
 export(GeneTonic)
 export(checkup_GeneTonic)
+export(create_jaccard_matrix)
 export(create_kappa_matrix)
 export(deseqresult2df)
 export(enhance_table)

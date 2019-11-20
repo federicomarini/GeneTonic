@@ -151,3 +151,8 @@ create_jaccard_matrix <- function(res_enrich,
   }
   return(overlap_matrix)
 }
+
+
+# TODO: create_semsim_matrix
+# needs knowledge of species, ontology type, ...
+# takes longer

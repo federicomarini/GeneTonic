@@ -17,6 +17,7 @@ test_that("mds plot with specified sets works", {
   p <- gs_mds(res_enrich = res_enrich_IFNg_vs_naive,
               res_de = res_macrophage_IFNg_vs_naive,
               annotation_obj = anno_df,
+              similarity_measure = "overlap_matrix",
               gs_labels = mygenesets,
               mds_colorby = "z_score")
   expect_is(p, "gg")

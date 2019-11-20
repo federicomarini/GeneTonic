@@ -9,6 +9,12 @@
 #' @param res_de A `DESeqResults` object.
 #' @param annotation_obj A `data.frame` object with the feature annotation
 #' information, with at least two columns, `gene_id` and `gene_name`.
+#' @param n_gs Integer value, corresponding to the maximal number of gene sets to
+#' be included (from the top ranked ones). Defaults to the number of rows of
+#' `res_enrich`
+#' @param gs_ids Character vector, containing a subset of `gs_id` as they are
+#' available in `res_enrich`. Lists the gene sets to be included, additionally to
+#' the ones specified via `n_gs`. Defaults to NULL.
 #' @param similarity_measure Character, currently defaults to `kappa_matrix`, to
 #' specify how to compute the similarity measure between gene sets
 #' @param mds_k Integer value, number of dimensions to compute in the multi

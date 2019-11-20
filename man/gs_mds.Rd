@@ -27,6 +27,14 @@ formatting requirements (a minimal set of columns should be present).}
 \item{annotation_obj}{A \code{data.frame} object with the feature annotation
 information, with at least two columns, \code{gene_id} and \code{gene_name}.}
 
+\item{n_gs}{Integer value, corresponding to the maximal number of gene sets to
+be included (from the top ranked ones). Defaults to the number of rows of
+\code{res_enrich}}
+
+\item{gs_ids}{Character vector, containing a subset of \code{gs_id} as they are
+available in \code{res_enrich}. Lists the gene sets to be included, additionally to
+the ones specified via \code{n_gs}. Defaults to NULL.}
+
 \item{similarity_measure}{Character, currently defaults to \code{kappa_matrix}, to
 specify how to compute the similarity measure between gene sets}
 
