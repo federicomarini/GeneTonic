@@ -1,3 +1,11 @@
+# GeneTonic 0.7.0
+
+## New features
+
+* Introduced a uniform interface for calculating different similarity/distance matrices. This enables the usage in the different functions that might need such matrices for further downstream processing (e.g. `enrichment_map()`, `gs_mds()`)
+* First appearance of `gs_dendro()` to display distance matrices with some visualization sugar, as an alternative to other methods
+* The `n_gs` and `gs_ids` are exposed to more functions to enable custom subsets of the enrichment results to be inspected
+
 # GeneTonic 0.6.0
 
 ## New features

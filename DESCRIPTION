@@ -1,7 +1,7 @@
 Package: GeneTonic
 Title: What the Package Does (One Line, Title Case)
-Version: 0.6.0
-Date: 2019-11-13
+Version: 0.7.0
+Date: 2019-11-21
 Authors@R: 
     c(
     person("Federico", "Marini", role=c("aut","cre"), email="marinif@uni-mainz.de", comment = c(ORCID = '0000-0003-3252-7758')))
