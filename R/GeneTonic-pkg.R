@@ -5,44 +5,47 @@
 #'
 #' @author Federico Marini \email{marinif@@uni-mainz.de}
 #'
-#' @rawNamespace import(shiny, except = c(renderDataTable, dataTableOutput))
-#' @importFrom DT dataTableOutput renderDataTable datatable
-#' @importFrom rintrojs introjs introjsUI
-#' @import igraph
-#' @import visNetwork
-#' @importFrom utils read.delim sessionInfo
-#' @importFrom grDevices colorRampPalette rgb
-#' @importFrom RColorBrewer brewer.pal
-#' @importFrom scales alpha muted
-#' @importFrom S4Vectors mcols
-#' @import ggplot2
-#' @importFrom ggrepel geom_label_repel
-#' @import GO.db
-#' @import DESeq2
-#' @importFrom AnnotationDbi Definition GOID Term Synonym Secondary
-#' @importFrom plotly ggplotly plotlyOutput renderPlotly plot_ly layout add_trace
-#' @importFrom tidyr separate_rows pivot_longer
-#' @importFrom stats var dist hclust
-#' @importFrom ComplexHeatmap Heatmap HeatmapAnnotation draw
-#' @importFrom grid gpar
-#' @importFrom matrixStats rowSds
-#' @import SummarizedExperiment
-#' @importFrom methods is
-#' @import pcaExplorer
-#' @import shinycssloaders
+#' @importFrom AnnotationDbi Definition GOID Ontology Secondary Synonym Term
 #' @importFrom bs4Dash bs4Card bs4DashBody bs4DashControlbar
 #' bs4DashFooter bs4DashNavbar bs4DashPage bs4DashSidebar
 #' bs4InfoBox bs4InfoBoxOutput bs4SidebarMenu
 #' bs4SidebarMenuItem bs4TabItem bs4TabItems bs4ValueBox
 #' bs4ValueBoxOutput renderbs4InfoBox renderbs4ValueBox
 #' bs4TabPanel bs4TabCard
-#' @import shinyWidgets
-#' @import ggalluvial
-#' @import viridis
-#' @importFrom dplyr arrange desc group_by mutate
+#' @importFrom ComplexHeatmap Heatmap HeatmapAnnotation draw
+#' @importFrom dendextend branches_attr_by_clusters set
+#' @importFrom DESeq2 vst counts estimateSizeFactors normalizationFactors sizeFactors
+#' @importFrom dplyr arrange desc group_by mutate pull "%>%"
+#' @importFrom DT datatable dataTableOutput renderDataTable
+#' @importFrom dynamicTreeCut cutreeDynamic
 #' @importFrom ggforce geom_sina
+#' @import ggplot2
+#' @importFrom ggrepel geom_label_repel geom_text_repel
+#' @import GO.db
+#' @importFrom graphics par plot
+#' @importFrom grDevices colorRampPalette rgb
+#' @importFrom grid gpar
+#' @importFrom igraph delete.edges E "E<-" graph.data.frame
+#' permute.vertices V "V<-"
+#' @importFrom matrixStats rowSds
+#' @importFrom methods is
+#' @importFrom plotly ggplotly plotlyOutput renderPlotly plot_ly layout add_trace
+#' @importFrom RColorBrewer brewer.pal
+#' @importFrom rintrojs introjs introjsUI
 #' @importFrom rlang .data
 #' @importFrom rmarkdown render
+#' @importFrom S4Vectors mcols
+#' @importFrom scales alpha muted
+#' @importFrom stats var dist hclust as.dendrogram as.dist cmdscale median
+#' order.dendrogram runif
+#' @rawNamespace import(shiny, except = c(renderDataTable, dataTableOutput))
+#' @importFrom shinycssloaders withSpinner
+#' @importFrom shinyWidgets dropdownButton tooltipOptions
+#' @import SummarizedExperiment
+#' @importFrom tidyr separate_rows pivot_longer
+#' @importFrom utils read.delim sessionInfo browseURL citation
+#' @importFrom visNetwork renderVisNetwork visIgraph visNetworkOutput visOptions
+#' @importFrom viridis viridis
 #'
 #' @name GeneTonic-pkg
 #' @docType package

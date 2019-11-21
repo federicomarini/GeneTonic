@@ -17,6 +17,7 @@ Imports:
     scales,
     RColorBrewer,
     grDevices,
+    graphics,
     S4Vectors,
     ggplot2,
     ggrepel,
@@ -31,17 +32,17 @@ Imports:
     DESeq2,
     ComplexHeatmap,
     grid,
-    pcaExplorer,
     methods,
     shinycssloaders,
     bs4Dash,
     shinyWidgets,
-    ggalluvial,
     viridis,
     dplyr,
     ggforce,
     rlang,
-    rmarkdown
+    rmarkdown,
+    dendextend,
+    dynamicTreeCut
 Suggests:
     knitr,
     BiocStyle,
