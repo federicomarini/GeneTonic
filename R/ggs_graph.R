@@ -103,7 +103,7 @@ ggs_graph <- function(res_enrich,
     V(g)$title[nodeIDs_gs] <- paste0("<h4>",
                                      sprintf('<a href="http://amigo.geneontology.org/amigo/term/%s" target="_blank">%s</a>', enriched_gsids[nodeIDs_gs], enriched_gsids[nodeIDs_gs]), "</h4><br>",
                                      V(g)$name[nodeIDs_gs], "<br><br>",
-                                     enriched_gsdescs[nodeIDs_gs])
+                                     paste0(strwrap(enriched_gsdescs[nodeIDs_gs], 50), collapse = "<br>"))
     V(g)$title[nodeIDs_genes] <- paste0("<h4>", V(g)$name[nodeIDs_genes], "</h4><br>",
                                         "logFC = ", format(round(fcs_genes, 2), nsmall = 2))
 
