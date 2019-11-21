@@ -1,11 +1,46 @@
+#' Dendrogram of the gene set enrichment results
+#'
+#' Calculate (and plot) the dendrogram of the gene set enrichment results
+#'
+#' @param res_enrich A `data.frame` object, storing the result of the functional
+#' enrichment analysis. See more in the main function, [GeneTonic()], to see the
+#' formatting requirements.
+#' @param n_gs Integer value, corresponding to the maximal number of gene sets to
+#' be included (from the top ranked ones). Defaults to the number of rows of
+#' `res_enrich`
+#' @param gs_ids Character vector, containing a subset of `gs_id` as they are
+#' available in `res_enrich`. Lists the gene sets to be included, additionally to
+#' the ones specified via `n_gs`. Defaults to NULL.
+#' @param gs_dist_type Character string, specifying which type of similarity (and
+#' therefore distance measure) will be used. Defaults to `kappa`, which uses
+#' [create_kappa_matrix()]
+#' @param clust_method Character string defining the agglomeration method to be
+#' used for the hierarchical clustering. See [stats::hclust()] for details, defaults
+#' to `ward.D2`
+#' @param color_leaves_by Character string, which columns of `res_enrich` will
+#' define the color of the leaves. Defaults to `z_score`
+#' @param size_leaves_by Character string, which columns of `res_enrich` will
+#' define the size of the leaves. Defaults to the `gs_pvalue`
+#' @param color_branches_by Character string, which columns of `res_enrich` will
+#' define the color of the branches. Defaults to `clusters`, which calls
+#' [dynamicTreeCut::cutreeDynamic()] to define the clusters
+#' @param create_plot Logical, whether to create the plot as well.
+#'
+#' @return A dendrogram object is returned invisibly, and a plot can be generated
+#' as well on that object.
+#' @export
+#'
+#' @examples
+#' # TODO
 gs_dendro <- function(res_enrich,
                       n_gs = nrow(res_enrich),
                       gs_ids = NULL,
                       gs_dist_type = "kappa", # alternatives
                       clust_method = "ward.D2",
-                      color_leaves_by = "z_score",
+                      color_leaves_by = "z_score",      # TODO: define the complete behavior correctly here!
                       size_leaves_by = "gs_pvalue",
-                      color_branches_by = "clusters") {
+                      color_branches_by = "clusters",
+                      create_plot = TRUE) {
   n_gs <- min(n_gs, nrow(res_enrich))
   gs_to_use <- unique(
     c(
@@ -18,8 +53,8 @@ gs_dendro <- function(res_enrich,
     dmat <- create_kappa_matrix(res_enrich, n_gs, gs_ids)
   } else if (gs_dist_type == "jaccard") {
     dmat <- create_jaccard_matrix(res_enrich, n_gs, gs_ids,return_sym = TRUE)
-  } else {
-    dmat <- GeneTonic:::create_semsim_matrix(res_enrich, semsim_data = semsim_data, n_gs, gs_ids)
+  } else if (gs_dist_type == "semsim"){
+    dmat <- create_semsim_matrix(res_enrich, semsim_data = semsim_data, n_gs, gs_ids)
   }
   rownames(dmat) <- colnames(dmat) <- res_enrich[gs_to_use, "gs_description"]
 
@@ -52,7 +87,7 @@ gs_dendro <- function(res_enrich,
     my_dend <- set(my_dend, "leaves_cex", leaves_size)     # or to use gs_size?
   }
 
-  if (is.null(color_branches_by)) {
+  if (!is.null(color_branches_by)) {
     my.clusters <- unname(dynamicTreeCut::cutreeDynamic(my_hclust,
                                                         distM = as.matrix(dmat),
                                                         minClusterSize = 4,
@@ -64,8 +99,12 @@ gs_dendro <- function(res_enrich,
     my_dend <-  branches_attr_by_clusters(my_dend, my.clusters[dend_idx], values = clust_pal)
   }
 
+  if (create_plot) {
+    par(mar = c(0, 0, 1, 25))
+    plot(my_dend, horiz = TRUE)
+  }
 
-  return(my_dend)
+  return(invisible(my_dend))
   # to be plotted with plot(my_dend, horiz = TRUE)
   # as.ggdend() %>% ggplot() %>% plotly::ggplotly()
 }
