@@ -74,7 +74,7 @@ gene_plot <- function(dds,
   min_by_groups <- min(table(df$plotby))
   # depending on this, use boxplots/nothing/violins/sina
 
-  if(return_data)
+  if (return_data)
     return(df)
 
   p <- ggplot(df, aes_string(x = "plotby", y = "exp_value", col = "plotby")) +
@@ -169,7 +169,7 @@ get_expression_values <- function(dds,
                                   assay = "counts",
                                   normalized = TRUE
                                   ) {
-  if(!(assay %in% names(assays(dds))))
+  if (!(assay %in% names(assays(dds))))
     stop("Please specify a name of one of the existing assays: \n",
          paste(names(assays(dds)), collapse = ", "))
 
@@ -178,7 +178,7 @@ get_expression_values <- function(dds,
     dds <- estimateSizeFactors(dds)
   }
 
-  if(assay == "counts") {
+  if (assay == "counts") {
     exp_vec <- counts(dds, normalized = normalized)[gene, ]
   } else {
     exp_vec <- assays(dds)[[assay]][gene, ]

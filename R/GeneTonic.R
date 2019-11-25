@@ -1026,7 +1026,7 @@ GeneTonic <- function(dds,
 
     output$btn_export_genes <- downloadHandler(
       filename = function() {
-        paste0("GeneTonicBookmarks_genes_", project_id, "_",gsub(" ","_",gsub("-","",gsub(":","-",as.character(Sys.time())))),".txt")
+        paste0("GeneTonicBookmarks_genes_", project_id, "_", gsub(" ", "_", gsub("-", "", gsub(":", "-", as.character(Sys.time())))), ".txt")
       }, content = function(file) {
         writeLines(text = reactive_values$mygenes,
                    con = file)
@@ -1035,7 +1035,7 @@ GeneTonic <- function(dds,
 
     output$btn_export_genesets <- downloadHandler(
       filename = function() {
-        paste0("GeneTonicBookmarks_genesets_", project_id, "_",gsub(" ","_",gsub("-","",gsub(":","-",as.character(Sys.time())))),".txt")
+        paste0("GeneTonicBookmarks_genesets_", project_id, "_", gsub(" ", "_", gsub("-", "", gsub(":", "-", as.character(Sys.time())))), ".txt")
       }, content = function(file) {
         writeLines(text = reactive_values$mygenesets,
                    con = file)
@@ -1108,8 +1108,8 @@ GeneTonic <- function(dds,
 
     observeEvent(input$btn_info_session, {
       showModal(modalDialog(
-        title="Session information", size="l",fade=TRUE,
-        footer=NULL, easyClose=TRUE,
+        title = "Session information", size = "l", fade = TRUE,
+        footer = NULL, easyClose = TRUE,
         tagList(renderPrint({
           sessionInfo()
         }))
@@ -1118,8 +1118,8 @@ GeneTonic <- function(dds,
 
     observeEvent(input$btn_info_genetonic, {
       showModal(modalDialog(
-        title="About GeneTonic", size="l", fade=TRUE,
-        footer=NULL, easyClose=TRUE,
+        title = "About GeneTonic", size = "l", fade = TRUE,
+        footer = NULL, easyClose = TRUE,
         tagList(
           "GeneTonic_info", br(), br(),
           HTML("If you use this package, please use the following citation information:"),

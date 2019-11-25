@@ -224,4 +224,3 @@ happy_hour <- function(dds,
 
   invisible(output_file)
 }
-

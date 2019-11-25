@@ -126,7 +126,7 @@ gs_mds <- function(res_enrich,
     if (!all(gs_labels %in% res_enrich$gs_id)) {
       warning("Not all specified geneset ids were found in the `res_enrich` object")
     }
-    df_gs_labels <- mds_go_df[mds_go_df$gs_id %in% gs_labels,]
+    df_gs_labels <- mds_go_df[mds_go_df$gs_id %in% gs_labels, ]
 
     p <- p + geom_label_repel(
       aes_string(label = "gs_name"), data = df_gs_labels, size = 3)

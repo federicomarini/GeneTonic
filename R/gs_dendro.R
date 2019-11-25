@@ -52,8 +52,8 @@ gs_dendro <- function(res_enrich,
   if (gs_dist_type == "kappa") {
     dmat <- create_kappa_matrix(res_enrich, n_gs, gs_ids)
   } else if (gs_dist_type == "jaccard") {
-    dmat <- create_jaccard_matrix(res_enrich, n_gs, gs_ids,return_sym = TRUE)
-  } else if (gs_dist_type == "semsim"){
+    dmat <- create_jaccard_matrix(res_enrich, n_gs, gs_ids, return_sym = TRUE)
+  } else if (gs_dist_type == "semsim") {
     dmat <- create_semsim_matrix(res_enrich, semsim_data = semsim_data, n_gs, gs_ids)
   }
   rownames(dmat) <- colnames(dmat) <- res_enrich[gs_to_use, "gs_description"]
@@ -93,7 +93,7 @@ gs_dendro <- function(res_enrich,
                                                         minClusterSize = 4,
                                                         verbose = 0))
     # or use rainbow_hcl from colorspace
-    clust_pal <- RColorBrewer::brewer.pal(max(my.clusters),"Set1")
+    clust_pal <- RColorBrewer::brewer.pal(max(my.clusters), "Set1")
     clust_cols <- (clust_pal[my.clusters])[dend_idx]
 
     my_dend <-  branches_attr_by_clusters(my_dend, my.clusters[dend_idx], values = clust_pal)

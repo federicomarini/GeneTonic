@@ -145,9 +145,9 @@ create_jaccard_matrix <- function(res_enrich,
     }
   }
 
-  if(return_sym) {
+  if (return_sym) {
     # symmetryze :)
-    overlap_matrix[lower.tri(overlap_matrix)] = t(overlap_matrix)[lower.tri(overlap_matrix)]
+    overlap_matrix[lower.tri(overlap_matrix)] <- t(overlap_matrix)[lower.tri(overlap_matrix)]
   }
   return(overlap_matrix)
 }
@@ -180,9 +180,9 @@ create_semsim_matrix <- function(res_enrich,
          "similarity object.")
 
   goss_mat <- mgoSim(go_to_use, go_to_use,
-                     semData=semsim_data,
-                     measure="Wang",
-                     combine=NULL)
+                     semData = semsim_data,
+                     measure = "Wang",
+                     combine = NULL)
   # row.names(goss_mat) <- colnames(goss_mat) <- res_enrich$gs_description[1:50]
   return(goss_mat)
 }
