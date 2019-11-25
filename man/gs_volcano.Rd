@@ -28,7 +28,7 @@ plotted as labels on the volcano scatter plot.}
 \item{scale_circles}{TODO}
 
 \item{gs_labels}{Character vector, containing a subset of \code{gs_id} as they are
-available in \code{res_enrich}. Lists the gene sets to be labelled.}
+available in \code{res_enrich}. Lists the gene sets to be labeled.}
 }
 \value{
 A \code{ggplot} object

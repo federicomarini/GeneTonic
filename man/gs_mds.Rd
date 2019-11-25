@@ -48,7 +48,7 @@ of the scatter plot for the provided gene sets.}
 for coloring the plotted gene sets. Defaults sensibly to \code{z_score}.}
 
 \item{gs_labels}{Character vector, containing a subset of \code{gs_id} as they are
-available in \code{res_enrich}. Lists the gene sets to be labelled.}
+available in \code{res_enrich}. Lists the gene sets to be labeled.}
 }
 \value{
 A \code{ggplot} object

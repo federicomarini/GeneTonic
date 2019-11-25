@@ -14,7 +14,7 @@
 #' plotted as labels on the volcano scatter plot.
 #' @param scale_circles TODO
 #' @param gs_labels Character vector, containing a subset of `gs_id` as they are
-#' available in `res_enrich`. Lists the gene sets to be labelled.
+#' available in `res_enrich`. Lists the gene sets to be labeled.
 #'
 #' @return A `ggplot` object
 #'

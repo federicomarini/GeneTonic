@@ -81,7 +81,7 @@
 #' @param output_file Character string, specifying the file name of the output
 #' report. The file name extension must be either `.html` or `.pdf`, and consistent
 #' with the value of `output_format`.
-#' @param output_dir Character, defininf the path to the output directory where
+#' @param output_dir Character, defining the path to the output directory where
 #' the report will be generated. Defaults to the current directory (`./`).
 #' @param output_format The format of the output report. Either `html_document`
 #' or `pdf_document`. The file name extension of `output_file` must be consistent

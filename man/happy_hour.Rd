@@ -58,7 +58,7 @@ which will then use the one provided with the \code{GeneTonic} package.}
 report. The file name extension must be either \code{.html} or \code{.pdf}, and consistent
 with the value of \code{output_format}.}
 
-\item{output_dir}{Character, defininf the path to the output directory where
+\item{output_dir}{Character, defining the path to the output directory where
 the report will be generated. Defaults to the current directory (\verb{./}).}
 
 \item{output_format}{The format of the output report. Either \code{html_document}

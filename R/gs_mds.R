@@ -24,7 +24,7 @@
 #' @param mds_colorby Character specifying the column of `res_enrich` to be used
 #' for coloring the plotted gene sets. Defaults sensibly to `z_score`.
 #' @param gs_labels Character vector, containing a subset of `gs_id` as they are
-#' available in `res_enrich`. Lists the gene sets to be labelled.
+#' available in `res_enrich`. Lists the gene sets to be labeled.
 #'
 #' @return A `ggplot` object
 #'
