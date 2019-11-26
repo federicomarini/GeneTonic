@@ -1018,7 +1018,7 @@ GeneTonic <- function(dds,
     })
 
     output$bookmarks_genes <- DT::renderDataTable({
-      book_df_genes <- annotation_obj[reactive_values$mygenes, ]
+      book_df_genes <- annotation_obj[reactive_values$mygenes, ]
       datatable(book_df_genes, rownames = FALSE)
     })
     output$bookmarks_genesets <- DT::renderDataTable({
