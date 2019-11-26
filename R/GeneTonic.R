@@ -71,9 +71,9 @@ GeneTonic <- function(dds,
 
     # navbar definition -------------------------------------------------------
     navbar = bs4Dash::bs4DashNavbar(
-      skin = "light",
+      skin = "dark",
       controlbarIcon = "gears",
-      fixed = FALSE,
+      fixed = TRUE,
       leftUi = tagList(
         tags$code(tags$h3("GeneTonic")),
         actionButton("bookmarker", label = "Bookmark", icon = icon("heart"),
