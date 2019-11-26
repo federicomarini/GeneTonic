@@ -84,7 +84,8 @@ selected_genes
 
 
 ```{r}
-myids <- annotation_obj$gene_id[match(selected_genes ,annotation_obj$gene_name)]
+# myids <- annotation_obj$gene_id[match(selected_genes ,annotation_obj$gene_name)]
+myids <- selected_genes
 ```
 
 
@@ -97,7 +98,9 @@ lapply(myids, function(arg) {
 # Something for the selected genesets
 
 ```{r}
-corresponding_gs_ids <- res_enrich$gs_id[res_enrich$gs_description %in% selected_genesets]
+# corresponding_gs_ids <- res_enrich$gs_id[res_enrich$gs_description %in% selected_genesets]
+corresponding_gs_ids <- selected_genesets
+
 gs_mds(res_enrich, res_de, annotation_obj, gs_labels = corresponding_gs_ids)
 
 gs_volcano(res_enrich, volcano_labels = 0, gs_labels = corresponding_gs_ids)
@@ -108,21 +111,20 @@ gs_volcano(res_enrich, volcano_labels = 0, gs_labels = corresponding_gs_ids)
 Here is a heatmap for each bookmarked set
 
 ```{r echo = TRUE, results="asis"}
-corresponding_gs_ids <- res_enrich$gs_id[res_enrich$gs_description %in% selected_genesets]
 vst_data <- DESeq2::vst(dds) # TODO: maybe have it passed as param
 
 for (gs in selected_genesets) {
-  cat("## ", gs, "{-}\n")
-  corresponding_gs_id <- res_enrich$gs_id[res_enrich$gs_description %in% gs]
+  corresponding_gs_desc <- res_enrich[gs, "gs_description"]
+  cat("## ", corresponding_gs_desc, " {-}\n")
   
   gs_heatmap(vst_data, 
              res_de, 
              res_enrich, 
              annotation_obj, 
-             geneset_id = corresponding_gs_id, 
+             geneset_id = gs, 
              cluster_columns = TRUE)
   
-  cat(go_2_html(corresponding_gs_id, res_enrich))
+  cat(go_2_html(gs, res_enrich))
   cat("\n\n")
 }
 ```

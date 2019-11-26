@@ -1018,10 +1018,12 @@ GeneTonic <- function(dds,
     })
 
     output$bookmarks_genes <- DT::renderDataTable({
-      datatable(data.frame(mygenes = reactive_values$mygenes))
+      book_df_genes <- annotation_obj[reactive_values$mygenes, ]
+      datatable(book_df_genes, rownames = FALSE)
     })
     output$bookmarks_genesets <- DT::renderDataTable({
-      datatable(data.frame(mygenesets = reactive_values$mygenesets))
+      book_df_genesets <- res_enrich[reactive_values$mygenesets, 1:2]
+      datatable(book_df_genesets, rownames = FALSE)
     })
 
     output$btn_export_genes <- downloadHandler(
@@ -1146,24 +1148,24 @@ GeneTonic <- function(dds,
           cur_nodetype <- V(g)$nodetype[cur_node]
 
           if (cur_nodetype == "Feature") {
-            # TODO: match back to identifier and so
-            if (cur_sel %in% reactive_values$mygenes) {
-              showNotification(sprintf("The selected gene %s is already in the set of the bookmarked genes.", cur_sel), type = "default")
+            cur_sel_id <- annotation_obj$gene_id[match(cur_sel, annotation_obj$gene_name)]
+            if (cur_sel_id %in% reactive_values$mygenes) {
+              showNotification(sprintf("The selected gene %s (%s) is already in the set of the bookmarked genes.", cur_sel, cur_sel_id), type = "default")
             } else {
-              reactive_values$mygenes <- unique(c(reactive_values$mygenes, cur_sel))
+              reactive_values$mygenes <- unique(c(reactive_values$mygenes, cur_sel_id))
               message("there go your genes... ", reactive_values$mygenes)
-              showNotification(sprintf("Added %s to the bookmarked genes. The list contains now %d elements", cur_sel, length(reactive_values$mygenes)), type = "message")
+              showNotification(sprintf("Added %s (%s) to the bookmarked genes. The list contains now %d elements", cur_sel, cur_sel_id, length(reactive_values$mygenes)), type = "message")
 
             }
           } else if (cur_nodetype == "GeneSet") {
-            if (cur_sel %in% reactive_values$mygenesets) {
-              showNotification(sprintf("The selected gene set %s is already in the set of the bookmarked genesets.", cur_sel), type = "default")
+            cur_sel_id <- res_enrich$gs_id[match(cur_sel, res_enrich$gs_description)]
+            if (cur_sel_id %in% reactive_values$mygenesets) {
+              showNotification(sprintf("The selected gene set %s (%s) is already in the set of the bookmarked genesets.", cur_sel, cur_sel_id), type = "default")
             } else {
-              reactive_values$mygenesets <- unique(c(reactive_values$mygenesets, cur_sel))
+              reactive_values$mygenesets <- unique(c(reactive_values$mygenesets, cur_sel_id))
               message("here are your genesets... ", reactive_values$mygenesets)
-              showNotification(sprintf("Added %s to the bookmarked genesets. The list contains now %d elements", cur_sel, length(reactive_values$mygenesets)), type = "message")
+              showNotification(sprintf("Added %s (%s) to the bookmarked genesets. The list contains now %d elements", cur_sel, cur_sel_id, length(reactive_values$mygenesets)), type = "message")
             }
-            # TODO: match back to identifier and so
 
           } else {
             message("bleeee")
@@ -1174,15 +1176,17 @@ GeneTonic <- function(dds,
         showNotification("maaap maaap")
         g <- reactive_values$ggs_graph()
         cur_sel <- input$emap_visnet_selected
+        cur_sel_id <- res_enrich$gs_id[match(cur_sel, res_enrich$gs_description)]
+
         if (cur_sel == "") {
           showNotification("Select a node in the network to bookmark it", type = "warning")
         } else {
-          if (cur_sel %in% reactive_values$mygenesets) {
-            showNotification(sprintf("The selected gene set %s is already in the set of the bookmarked genesets.", cur_sel), type = "default")
+          if (cur_sel_id %in% reactive_values$mygenesets) {
+            showNotification(sprintf("The selected gene set %s (%s) is already in the set of the bookmarked genesets.", cur_sel, cur_sel_id), type = "default")
           } else {
-            reactive_values$mygenesets <- unique(c(reactive_values$mygenesets, cur_sel))
+            reactive_values$mygenesets <- unique(c(reactive_values$mygenesets, cur_sel_id))
             message("here are your genesets... ", reactive_values$mygenesets)
-            showNotification(sprintf("Added %s to the bookmarked genesets. The list contains now %d elements", cur_sel, length(reactive_values$mygenesets)), type = "message")
+            showNotification(sprintf("Added %s (%s) to the bookmarked genesets. The list contains now %d elements", cur_sel, cur_sel_id, length(reactive_values$mygenesets)), type = "message")
           }
         }
       }
