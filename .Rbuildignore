@@ -1,0 +1,15 @@
+^GeneTonic\.Rproj$
+^\.Rproj\.user$
+^LICENSE\.md$
+codestubs/*
+almadata/*
+vignettes/functionality_and_more.Rmd
+TODO.md
+^README\.Rmd$
+^\.travis\.yml$
+^\.github/workflows$
+pltdata/*
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^CODE_OF_CONDUCT\.md$
