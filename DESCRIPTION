@@ -47,6 +47,7 @@ Suggests:
     knitr,
     BiocStyle,
     macrophage,
+    pcaExplorer,
     clusterProfiler,
     org.Hs.eg.db,
     tximeta,
