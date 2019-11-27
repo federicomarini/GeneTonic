@@ -54,14 +54,20 @@ library("AnnotationDbi")
 de_symbols_IFNg_vs_naive <- res_macrophage_IFNg_vs_naive[(!(is.na(res_macrophage_IFNg_vs_naive$padj))) & (res_macrophage_IFNg_vs_naive$padj <= 0.05), "SYMBOL"]
 bg_ids <- rowData(dds_macrophage)$SYMBOL[rowSums(counts(dds_macrophage)) > 0]
 
-library("topGO")
+# library("topGO")
+# topgoDE_macrophage_IFNg_vs_naive <-
+#   pcaExplorer::topGOtable(de_symbols_IFNg_vs_naive,
+#                           bg_ids,
+#                           ontology = "BP",
+#                           mapping = "org.Hs.eg.db",
+#                           geneID = "symbol",
+#                           topTablerows = 200)
+# write.table(topgoDE_macrophage_IFNg_vs_naive,
+#             "inst/extdata/topgotable_res_IFNg_vs_naive.txt",
+#             sep = "\t")
 topgoDE_macrophage_IFNg_vs_naive <-
-  pcaExplorer::topGOtable(de_symbols_IFNg_vs_naive,
-                          bg_ids,
-                          ontology = "BP",
-                          mapping = "org.Hs.eg.db",
-                          geneID = "symbol",
-                          topTablerows = 200)
+  read.table(system.file("extdata", "topgotable_res_IFNg_vs_naive.txt", package = "GeneTonic"),
+             stringsAsFactors = FALSE)
 
 library(clusterProfiler)
 
@@ -78,5 +84,6 @@ ego_IFNg_vs_naive <- enrichGO(gene = de_symbols_IFNg_vs_naive,
 # save(dds_macrophage, res_macrophage_IFNg_vs_naive, vst_macrophage, topgoDE_macrophage_IFNg_vs_naive, anno_df, ego_IFNg_vs_naive, file ="quick_startup.RData")
 
 # load("/Users/fede/Development/GeneTonic/quick_startup.RData")
-
-res_enrich_IFNg_vs_naive <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
+dds_unnormalized <- dds_macrophage
+assays(dds_unnormalized)[["normalizationFactors"]] <- NULL
+res_enrich_IFNg_vs_naive <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)[1:200, ]
