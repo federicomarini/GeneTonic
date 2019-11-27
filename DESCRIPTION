@@ -47,12 +47,13 @@ Suggests:
     knitr,
     BiocStyle,
     macrophage,
-    topGO,
     clusterProfiler,
     org.Hs.eg.db,
     tximeta,
     magrittr,
     testthat (>= 2.1.0)
+Remotes:
+    federicomarini/topGO
 License: MIT + file LICENSE
 Encoding: UTF-8
 VignetteBuilder: knitr
