@@ -33,7 +33,17 @@ library(DESeq2)
 dds_macrophage <- DESeqDataSet(gse_macrophage, design = ~line + condition)
 rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 
-anno_df <- pcaExplorer::get_annotation_orgdb(dds_macrophage, "org.Hs.eg.db", "ENSEMBL")
+library("org.Hs.eg.db")
+anno_df <- data.frame(
+  gene_id = rownames(dds_macrophage),
+  gene_name = mapIds(org.Hs.eg.db, keys = rownames(dds), column = "SYMBOL", keytype = "ENSEMBL"),
+  stringsAsFactors = FALSE,
+  row.names = rownames(dds_macrophage)
+)
+# alternatively, one could use the wrapper in ...
+# anno_df <- pcaExplorer::get_annotation_orgdb(dds_macrophage, "org.Hs.eg.db", "ENSEMBL")
+
+
 ## using counts and average transcript lengths from tximeta
 keep <- rowSums(counts(dds_macrophage) >= 10) >= 6
 dds_macrophage <- dds_macrophage[keep, ]
