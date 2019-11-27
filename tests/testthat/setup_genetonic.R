@@ -36,7 +36,7 @@ rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 library("org.Hs.eg.db")
 anno_df <- data.frame(
   gene_id = rownames(dds_macrophage),
-  gene_name = mapIds(org.Hs.eg.db, keys = rownames(dds), column = "SYMBOL", keytype = "ENSEMBL"),
+  gene_name = mapIds(org.Hs.eg.db, keys = rownames(dds_macrophage), column = "SYMBOL", keytype = "ENSEMBL"),
   stringsAsFactors = FALSE,
   row.names = rownames(dds_macrophage)
 )
