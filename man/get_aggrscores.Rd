@@ -34,8 +34,6 @@ score (using the log2FoldChange values, provided in the \code{res_de})
 }
 \examples{
 # TODO
-
-# TODOTODO: add some standardized column names, say "count"
 }
 \seealso{
 \code{\link[=gs_volcano]{gs_volcano()}} and \code{\link[=enrichment_map]{enrichment_map()}} make efficient use of the computed

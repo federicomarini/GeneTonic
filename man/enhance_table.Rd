@@ -10,7 +10,8 @@ enhance_table(
   annotation_obj,
   n_gs = 50,
   gs_ids = NULL,
-  chars_limit = 60
+  chars_limit = 70,
+  plot_title = NULL
 )
 }
 \arguments{
@@ -31,6 +32,9 @@ available in \code{res_enrich}. Lists the gene sets to be displayed.}
 
 \item{chars_limit}{Integer, number of characters to be displayed for each
 geneset name.}
+
+\item{plot_title}{Character string, used as title for the plot. If left \code{NULL},
+it defaults to a general description of the plot and of the DE contrast}
 }
 \value{
 A \code{ggplot} object

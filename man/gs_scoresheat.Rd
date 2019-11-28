@@ -6,6 +6,8 @@
 \usage{
 gs_scoresheat(
   mat,
+  n_gs = nrow(mat),
+  gs_ids = NULL,
   clustering_distance_rows = "euclidean",
   clustering_distance_cols = "euclidean",
   cluster_rows = TRUE,
@@ -14,6 +16,12 @@ gs_scoresheat(
 }
 \arguments{
 \item{mat}{A matrix, e.g. returned by the \code{\link[=gs_scores]{gs_scores()}} function}
+
+\item{n_gs}{Integer value, corresponding to the maximal number of gene sets to
+be displayed.}
+
+\item{gs_ids}{Character vector, containing a subset of \code{gs_id} as they are
+available in \code{res_enrich}. Lists the gene sets to be displayed.}
 
 \item{clustering_distance_rows}{Character, a distance measure used in
 clustering rows}

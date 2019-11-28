@@ -17,6 +17,9 @@
 #' available in `res_enrich`. Lists the gene sets to be displayed.
 #' @param chars_limit Integer, number of characters to be displayed for each
 #' geneset name.
+#' @param plot_title Character string, used as title for the plot. If left `NULL`,
+#' it defaults to a general description of the plot and of the DE contrast
+#'
 #'
 #' @return A `ggplot` object
 #' @export
@@ -28,7 +31,8 @@ enhance_table <- function(res_enrich,
                           annotation_obj,
                           n_gs = 50,
                           gs_ids = NULL,
-                          chars_limit = 70) {
+                          chars_limit = 70,
+                          plot_title = NULL) {
 
   # res_enrich has to have a column called containing the genes annotated to the term
   # TODOTODO
@@ -76,7 +80,7 @@ enhance_table <- function(res_enrich,
       fill = "gs_id",
       text = "gene_name"
     )) +
-    ggtitle(paste0("Enrichment overview - ", this_contrast)) +
+
     scale_x_continuous(limits = c(-max_lfc, max_lfc)) +
     geom_point(alpha = 0.7, shape = 21, size = 2)  +
     theme_minimal() +
@@ -88,6 +92,12 @@ enhance_table <- function(res_enrich,
                        " | ", unique(gs_fulllist$gs_id)
                        )
     )
+
+  if (is.null(plot_title)) {
+    p <- p + ggtitle(paste0("Enrichment overview - ", this_contrast))
+  } else {
+    p <- p + ggtitle(plot_title)
+  }
 
   return(p)
 }

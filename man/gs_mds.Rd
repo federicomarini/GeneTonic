@@ -14,7 +14,8 @@ gs_mds(
   mds_k = 2,
   mds_labels = 0,
   mds_colorby = "z_score",
-  gs_labels = NULL
+  gs_labels = NULL,
+  plot_title = NULL
 )
 }
 \arguments{
@@ -49,6 +50,9 @@ for coloring the plotted gene sets. Defaults sensibly to \code{z_score}.}
 
 \item{gs_labels}{Character vector, containing a subset of \code{gs_id} as they are
 available in \code{res_enrich}. Lists the gene sets to be labeled.}
+
+\item{plot_title}{Character string, used as title for the plot. If left \code{NULL},
+it defaults to a general description of the plot and of the DE contrast}
 }
 \value{
 A \code{ggplot} object

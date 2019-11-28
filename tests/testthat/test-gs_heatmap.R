@@ -2,8 +2,7 @@ context("Testing gene set heatmap and related functionality")
 
 test_that("Geneset heatmap is created", {
   cur_gsid <- res_enrich_IFNg_vs_naive$gs_id[1]
-  myvst <- vst(dds_macrophage)
-  p <- gs_heatmap(se = myvst,
+  p <- gs_heatmap(se = vst_macrophage,
                   res_de = res_macrophage_IFNg_vs_naive,
                   res_enrich = res_enrich_IFNg_vs_naive,
                   annotation_obj = anno_df,
@@ -16,7 +15,7 @@ test_that("Geneset heatmap is created", {
                   scale_row = TRUE
   )
   expect_is(p, "HeatmapList")
-  p2 <- gs_heatmap(se = myvst,
+  p2 <- gs_heatmap(se = vst_macrophage,
                    res_de = res_macrophage_IFNg_vs_naive,
                    res_enrich = res_enrich_IFNg_vs_naive,
                    annotation_obj = anno_df,
@@ -29,7 +28,7 @@ test_that("Geneset heatmap is created", {
                    scale_row = TRUE
   )
   expect_is(p2, "HeatmapList")
-  p3 <- gs_heatmap(se = myvst,
+  p3 <- gs_heatmap(se = vst_macrophage,
                    res_de = res_macrophage_IFNg_vs_naive,
                    res_enrich = res_enrich_IFNg_vs_naive,
                    annotation_obj = anno_df,

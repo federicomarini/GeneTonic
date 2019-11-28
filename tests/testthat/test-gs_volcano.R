@@ -19,8 +19,6 @@ test_that("mds plot with custom genesets", {
                                           aggrfun = mean)
   expect_is(
     gs_volcano(res_enrich_withscores,
-               gs_labels = mygenesets),
+               gs_ids = mygenesets),
     "gg")
-  expect_warning(gs_volcano(res_enrich_withscores,
-                            gs_labels = "just_a_set"))
 })

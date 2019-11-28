@@ -9,7 +9,8 @@ gs_volcano(
   p_threshold = 0.05,
   volcano_labels = 10,
   scale_circles = 1,
-  gs_labels = NULL
+  gs_ids = NULL,
+  plot_title = NULL
 )
 }
 \arguments{
@@ -27,8 +28,11 @@ plotted as labels on the volcano scatter plot.}
 
 \item{scale_circles}{TODO}
 
-\item{gs_labels}{Character vector, containing a subset of \code{gs_id} as they are
+\item{gs_ids}{Character vector, containing a subset of \code{gs_id} as they are
 available in \code{res_enrich}. Lists the gene sets to be labeled.}
+
+\item{plot_title}{Character string, used as title for the plot. If left \code{NULL},
+it defaults to a general description of the plot and of the DE contrast}
 }
 \value{
 A \code{ggplot} object
