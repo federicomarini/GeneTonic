@@ -1,33 +1,35 @@
 library(GeneTonic)
 
 library(macrophage)
-library(magrittr)
-dir <- system.file("extdata", package = "macrophage")
-coldata_macrophage <- read.csv(file.path(system.file("extdata", package = "macrophage"), "coldata.csv"))
-coldata_macrophage$files <- file.path(system.file("extdata", package = "macrophage"), "quants", coldata_macrophage$names, "quant.sf.gz")
+data(gse)
+gse_macrophage <- gse
 
-coldata_macrophage$condition <- coldata_macrophage$condition_name
-coldata_macrophage$line <- coldata_macrophage$line_id
-coldata_macrophage$condition <- relevel(coldata_macrophage$condition, "naive")
-
-head(coldata_macrophage)
-
-library(SummarizedExperiment)
-library(tximeta)
-se_macrophage <- tximeta(coldata_macrophage, dropInfReps = TRUE)
-se_macrophage
-
-# saveRDS(se_macrophage,file="WIP/se_macrophage.rds")
-# dir.create("WIP")
-# se_macrophage <- readRDS(file = "WIP/se_macrophage.rds")
-gse_macrophage <- summarizeToGene(se_macrophage)
-
-assayNames(se_macrophage)
-gse_macrophage <- summarizeToGene(se_macrophage)
-gse_macrophage
-# adding gene names to facilitate readout later
-library(org.Hs.eg.db)
-gse_macrophage <- addIds(gse_macrophage, "SYMBOL")
+#
+# library(magrittr)
+# dir <- system.file("extdata", package = "macrophage")
+# coldata_macrophage <- read.csv(file.path(system.file("extdata", package = "macrophage"), "coldata.csv"))
+# coldata_macrophage$files <- file.path(system.file("extdata", package = "macrophage"), "quants", coldata_macrophage$names, "quant.sf.gz")
+#
+# coldata_macrophage$condition <- coldata_macrophage$condition_name
+# coldata_macrophage$line <- coldata_macrophage$line_id
+# coldata_macrophage$condition <- relevel(coldata_macrophage$condition, "naive")
+#
+# head(coldata_macrophage)
+#
+# library(SummarizedExperiment)
+# library(tximeta)
+# se_macrophage <- tximeta(coldata_macrophage, dropInfReps = TRUE)
+# se_macrophage
+#
+# # se_macrophage <- readRDS(file = "WIP/se_macrophage.rds")
+# gse_macrophage <- summarizeToGene(se_macrophage)
+#
+# assayNames(se_macrophage)
+# gse_macrophage <- summarizeToGene(se_macrophage)
+# gse_macrophage
+# # adding gene names to facilitate readout later
+# library(org.Hs.eg.db)
+# gse_macrophage <- addIds(gse_macrophage, "SYMBOL")
 
 library(DESeq2)
 dds_macrophage <- DESeqDataSet(gse_macrophage, design = ~line + condition)
@@ -50,7 +52,7 @@ dds_macrophage <- dds_macrophage[keep, ]
 dds_unnormalized <- dds_macrophage
 
 library("org.Hs.eg.db")
-dds_macrophage <- addIds(dds_macrophage, "SYMBOL")
+# dds_macrophage <- addIds(dds_macrophage, "SYMBOL")
 dds_macrophage <- DESeq(dds_macrophage)
 vst_macrophage <- vst(dds_macrophage)
 res_macrophage_IFNg_vs_naive <- results(dds_macrophage,
