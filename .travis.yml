@@ -23,8 +23,6 @@ before_install:
   - mkdir -p ~/.R
   - echo -e 'MAKEFLAGS = -j4' > ~/.R/Makevars
   - echo 'options(Ncpus = 4)' > ~/.Rprofile
-  - Rscript -e 'install.packages("devtools")'
-  - Rscript -e 'devtools::install(dependencies=TRUE)'
 
 r_build_args: "--no-manual --no-resave-data"
 r_check_args: "--no-build-vignettes --no-manual --timings --no-tests"
