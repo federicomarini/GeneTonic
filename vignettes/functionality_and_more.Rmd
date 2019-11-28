@@ -38,11 +38,12 @@ knitr::opts_chunk$set(
     message = FALSE,
     eval = FALSE
 )
+options(width = 100)
 ```
   
 ---
 
-```{r}
+```{r eval=FALSE}
 library(GeneTonic)
 ```
 
@@ -54,9 +55,25 @@ First of all we setup the required packages - this operation needs to be done on
 
 ```{r eval = FALSE}
 install.packages("BiocManager")
-BiocManager::install(c("DESeq2","macrophage","igraph","dplyr","tximeta","ideal", "pcaExplorer", "org.Hs.eg.db",
-                       "visNetwork","ggraph", "clusterProfiler","plotly","knitr","rmarkdown"))
+BiocManager::install(c("DESeq2",
+                       "macrophage",
+                       "igraph",
+                       "dplyr",
+                       "tximeta",
+                       "ideal", "pcaExplorer", 
+                       "org.Hs.eg.db",
+                       "visNetwork",
+                       "ggraph", 
+                       "clusterProfiler",
+                       "plotly",
+                       "knitr",
+                       "rmarkdown"))
 ```
+
+```{r eval=TRUE}
+library(GeneTonic)
+```
+
 
 Other software/software packages include of course the latest version of R (and RStudio, for having a nice IDE for development).
 Rtools might be required on Windows to guarantee all the package building process goes smooth, but this should matter at a later time point.
@@ -74,8 +91,9 @@ This dataset is described in the publication of [@Alasoo2018].
 
 We process the quantifications in the chunks that follow
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 library(macrophage)
+
 library(magrittr)
 dir <- system.file("extdata", package="macrophage")
 coldata_macrophage <- read.csv(file.path(system.file("extdata", package="macrophage"), "coldata.csv"))
@@ -87,11 +105,9 @@ coldata_macrophage$line <- coldata_macrophage$line_id
 coldata_macrophage$condition <- relevel(coldata_macrophage$condition, "naive")
 
 head(coldata_macrophage)
-```
 
-Creating an object at the transcript level...
+# Creating an object at the transcript level...
 
-```{r, eval = FALSE}
 library(SummarizedExperiment)
 library(tximeta)
 se_macrophage <- tximeta(coldata_macrophage, dropInfReps=TRUE)
@@ -101,11 +117,8 @@ se_macrophage
 # dir.create("WIP")
 # se_macrophage <- readRDS(file = "WIP/se_macrophage.rds")
 gse_macrophage <- summarizeToGene(se_macrophage)
-```
 
-... and here summarized at the gene level.
-
-```{r, eval = FALSE}
+# ... and here summarized at the gene level.
 assayNames(se_macrophage)
 gse_macrophage <- summarizeToGene(se_macrophage)
 gse_macrophage
@@ -114,15 +127,36 @@ library(org.Hs.eg.db)
 gse_macrophage <- addIds(gse_macrophage,"SYMBOL")
 ```
 
+```{r loaddata, eval = TRUE}
+library(macrophage)
+data(gse)
+gse_macrophage <- gse
+gse_macrophage
+```
+
+
 It is easy with DESeq2 to run the complete differential expression analysis [@Love2014]. 
 The design indicates that we want to control for the donor (`line`) and test for the effect on the `condition` (since it is specified as last in the formula of the `design` parameter). 
 
-```{r}
+```{r deseq, eval=TRUE}
 library(DESeq2)
 dds_macrophage <- DESeqDataSet(gse_macrophage, design = ~line + condition)
 rownames(dds_macrophage) <- substr(rownames(dds_macrophage),1,15)
+dds_macrophage
+```
 
-anno_df <- pcaExplorer::get_annotation_orgdb(dds_macrophage,"org.Hs.eg.db","ENSEMBL")
+
+```{r annofilter, eval=TRUE}
+library("org.Hs.eg.db")
+anno_df <- data.frame(
+  gene_id = rownames(dds_macrophage),
+  gene_name = mapIds(org.Hs.eg.db, keys = rownames(dds_macrophage),
+                     column = "SYMBOL", keytype = "ENSEMBL"),
+  stringsAsFactors = FALSE,
+  row.names = rownames(dds_macrophage)
+)
+## alternatively, one could use the wrapper in ...
+# anno_df <- pcaExplorer::get_annotation_orgdb(dds_macrophage, "org.Hs.eg.db", "ENSEMBL")
 
 ## using counts and average transcript lengths from tximeta
 keep <- rowSums(counts(dds_macrophage) >= 10) >= 6
@@ -131,15 +165,16 @@ dds_macrophage <- dds_macrophage[keep,]
 
 Before running the complete pipeline, we perform some basic exploratory analysis steps, looking at the PCA for the samples - this gives us an idea of how (dis)similar are the samples, e.g. whether they do cluster by condition, or cell line, or to spot out any obvious outlier.
 
-```{r}
-rld_macrophage <- rlog(dds_macrophage)
+```{r pcaplots, eval=TRUE}
 vst_macrophage <- vst(dds_macrophage)
+# rld_macrophage <- rlog(dds_macrophage)
 
-pcaExplorer::pcaplot(vst_macrophage, intgroup = "condition", ellipse = FALSE)
-pcaExplorer::pcaplot(vst_macrophage, intgroup = "line", ellipse = FALSE)
+plotPCA(vst_macrophage, intgroup = "condition") 
+plotPCA(vst_macrophage, intgroup = "line") 
 
-library("org.Hs.eg.db")
-dds_macrophage <- addIds(dds_macrophage,"SYMBOL")
+## For finer control on the aspect and labeling of the samples:
+# pcaExplorer::pcaplot(vst_macrophage, intgroup = "condition", ellipse = FALSE)
+# pcaExplorer::pcaplot(vst_macrophage, intgroup = "line", ellipse = FALSE)
 ```
 
 Seems all good to go.
