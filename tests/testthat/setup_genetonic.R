@@ -71,7 +71,7 @@ bg_ids <- rowData(dds_macrophage)$SYMBOL[rowSums(counts(dds_macrophage)) > 0]
 #                           ontology = "BP",
 #                           mapping = "org.Hs.eg.db",
 #                           geneID = "symbol",
-#                           topTablerows = 200)
+#                           topTablerows = 500)
 # write.table(topgoDE_macrophage_IFNg_vs_naive,
 #             "inst/extdata/topgotable_res_IFNg_vs_naive.txt",
 #             sep = "\t")

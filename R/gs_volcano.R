@@ -13,8 +13,10 @@
 #' @param volcano_labels Integer, maximum number of labels for the gene sets to be
 #' plotted as labels on the volcano scatter plot.
 #' @param scale_circles TODO
-#' @param gs_labels Character vector, containing a subset of `gs_id` as they are
+#' @param gs_ids Character vector, containing a subset of `gs_id` as they are
 #' available in `res_enrich`. Lists the gene sets to be labeled.
+#' @param plot_title Character string, used as title for the plot. If left `NULL`,
+#' it defaults to a general description of the plot and of the DE contrast
 #'
 #' @return A `ggplot` object
 #'
@@ -30,14 +32,26 @@ gs_volcano <- function(res_enrich,
                        volcano_labels = 10,
                        scale_circles = 1, # TODOTODO: see how to control point size
                        # TODO option to collapse similar terms?
-                       gs_labels = NULL
+                       gs_ids = NULL,
+                       plot_title = NULL
 ) {
   # res_enrich has to contain the aggregated scores
   if (!all(c("z_score", "aggr_score") %in% colnames(res_enrich)))
     stop("You might need to compute the aggregated scores first")
   # TODO: or call in advance the get_aggr_scores function?
 
+
+  # TODO: catch labels the same way as other funcs
+
   volcano_labels <- min(volcano_labels, nrow(res_enrich))
+
+  gs_to_use <- unique(
+    c(
+      res_enrich$gs_id[seq_len(volcano_labels)],  # the ones from the top
+      gs_ids[gs_ids %in% res_enrich$gs_id]  # the ones specified from the custom list
+    )
+  )
+
 
   volcano_df <- res_enrich
   volcano_df$logpval <- -log10(volcano_df[["gs_pvalue"]])
@@ -52,31 +66,30 @@ gs_volcano <- function(res_enrich,
     volcano_df,
     aes_string(x = "z_score", y = "logpval", size = "`set members`",  text = "gs_name")) +
     # geom_point(aes(col = aggr_score),shape = 20, alpha = 1) +
+    # TODO: col_by also to select?
     geom_point(aes_string(col = "aggr_score"), shape = 20, alpha = 1) +
+    labs(x = "geneset Z score",
+         y= "log10 p-value",
+         size = "Gene set\nmembers",
+         col = "Aggregated\nscore") +
     scale_x_continuous(limits = limit) +
     theme_bw() +
     scale_color_gradient2(limit = limit,
                           low = muted("deepskyblue"), high = muted("firebrick"), mid = "lightyellow")
 
-  if (volcano_labels > 0) {
-    p <- p + geom_label_repel(
-      aes_string(label = "gs_name"), data = volcano_df[1:volcano_labels, ], size = 4)
-  }
-
-  if (!is.null(gs_labels)) {
-    if (!all(gs_labels %in% res_enrich$gs_id)) {
-      warning("Not all specified geneset ids were found in the `res_enrich` object")
-    }
-    df_gs_labels <- volcano_df[volcano_df$gs_id %in% gs_labels, ]
+  if (length(gs_to_use > 0)) {
+    df_gs_labels <- volcano_df[volcano_df$gs_id %in% gs_to_use, ]
 
     p <- p + geom_label_repel(
       aes_string(label = "gs_name"), data = df_gs_labels, size = 4)
   }
 
   # handling the title
-  p <- p + ggtitle("TODOTODO some title related to the provided info")
-  # and maybe a caption as well
-
+  if (is.null(plot_title)) {
+    p <- p + ggtitle(paste0("Geneset volcano"))
+  } else {
+    p <- p + ggtitle(plot_title)
+  }
   # beautify all I have in the plot...
 
   # something TODOTODO to prepare the labels for plotly, if I am using it
