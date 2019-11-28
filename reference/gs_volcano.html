@@ -141,7 +141,8 @@ results</p>
   <span class='kw'>p_threshold</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
   <span class='kw'>volcano_labels</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>scale_circles</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>gs_labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+  <span class='kw'>gs_ids</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>plot_title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -170,9 +171,14 @@ plotted as labels on the volcano scatter plot.</p></td>
       <td><p>TODO</p></td>
     </tr>
     <tr>
-      <th>gs_labels</th>
+      <th>gs_ids</th>
       <td><p>Character vector, containing a subset of <code>gs_id</code> as they are
 available in <code>res_enrich</code>. Lists the gene sets to be labeled.</p></td>
+    </tr>
+    <tr>
+      <th>plot_title</th>
+      <td><p>Character string, used as title for the plot. If left <code>NULL</code>,
+it defaults to a general description of the plot and of the DE contrast</p></td>
     </tr>
     </table>
 

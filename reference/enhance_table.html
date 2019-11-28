@@ -144,7 +144,8 @@ in the contrast of interest</p>
   <span class='no'>annotation_obj</span>,
   <span class='kw'>n_gs</span> <span class='kw'>=</span> <span class='fl'>50</span>,
   <span class='kw'>gs_ids</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>chars_limit</span> <span class='kw'>=</span> <span class='fl'>60</span>
+  <span class='kw'>chars_limit</span> <span class='kw'>=</span> <span class='fl'>70</span>,
+  <span class='kw'>plot_title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -179,6 +180,11 @@ available in <code>res_enrich</code>. Lists the gene sets to be displayed.</p></
       <th>chars_limit</th>
       <td><p>Integer, number of characters to be displayed for each
 geneset name.</p></td>
+    </tr>
+    <tr>
+      <th>plot_title</th>
+      <td><p>Character string, used as title for the plot. If left <code>NULL</code>,
+it defaults to a general description of the plot and of the DE contrast</p></td>
     </tr>
     </table>
 

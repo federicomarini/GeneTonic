@@ -136,6 +136,8 @@
 
     <pre class="usage"><span class='fu'>gs_scoresheat</span>(
   <span class='no'>mat</span>,
+  <span class='kw'>n_gs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>mat</span>),
+  <span class='kw'>gs_ids</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>clustering_distance_rows</span> <span class='kw'>=</span> <span class='st'>"euclidean"</span>,
   <span class='kw'>clustering_distance_cols</span> <span class='kw'>=</span> <span class='st'>"euclidean"</span>,
   <span class='kw'>cluster_rows</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
@@ -148,6 +150,16 @@
     <tr>
       <th>mat</th>
       <td><p>A matrix, e.g. returned by the <code><a href='gs_scores.html'>gs_scores()</a></code> function</p></td>
+    </tr>
+    <tr>
+      <th>n_gs</th>
+      <td><p>Integer value, corresponding to the maximal number of gene sets to
+be displayed.</p></td>
+    </tr>
+    <tr>
+      <th>gs_ids</th>
+      <td><p>Character vector, containing a subset of <code>gs_id</code> as they are
+available in <code>res_enrich</code>. Lists the gene sets to be displayed.</p></td>
     </tr>
     <tr>
       <th>clustering_distance_rows</th>

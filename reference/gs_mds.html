@@ -146,7 +146,8 @@ object</p>
   <span class='kw'>mds_k</span> <span class='kw'>=</span> <span class='fl'>2</span>,
   <span class='kw'>mds_labels</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>mds_colorby</span> <span class='kw'>=</span> <span class='st'>"z_score"</span>,
-  <span class='kw'>gs_labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+  <span class='kw'>gs_labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>plot_title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -203,6 +204,11 @@ for coloring the plotted gene sets. Defaults sensibly to <code>z_score</code>.</
       <th>gs_labels</th>
       <td><p>Character vector, containing a subset of <code>gs_id</code> as they are
 available in <code>res_enrich</code>. Lists the gene sets to be labeled.</p></td>
+    </tr>
+    <tr>
+      <th>plot_title</th>
+      <td><p>Character string, used as title for the plot. If left <code>NULL</code>,
+it defaults to a general description of the plot and of the DE contrast</p></td>
     </tr>
     </table>
 
