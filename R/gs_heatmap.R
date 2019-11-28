@@ -206,8 +206,9 @@ gs_scores <- function(se,
 
   gss_mat <- matrix(NA, nrow = nrow(res_enrich), ncol = ncol(se))
   rownames(gss_mat) <- paste0(
-    res_enrich[["gs_id"]], "|",
-    res_enrich[["gs_description"]])
+    res_enrich[["gs_description"]], "|",
+    res_enrich[["gs_id"]])
+  # rownames(gss_mat) <- res_enrich[["gs_id"]]
   colnames(gss_mat) <- colnames(se)
 
   for (i in seq_len(nrow(res_enrich))) {
@@ -230,6 +231,10 @@ gs_scores <- function(se,
 #' Plots a matrix of geneset Z scores, across all samples
 #'
 #' @param mat A matrix, e.g. returned by the [gs_scores()] function
+#' @param n_gs Integer value, corresponding to the maximal number of gene sets to
+#' be displayed.
+#' @param gs_ids Character vector, containing a subset of `gs_id` as they are
+#' available in `res_enrich`. Lists the gene sets to be displayed.
 #' @param clustering_distance_rows Character, a distance measure used in
 #' clustering rows
 #' @param clustering_distance_cols Character, a distance measure used in
@@ -246,11 +251,29 @@ gs_scores <- function(se,
 #' @examples
 #' # TODO
 gs_scoresheat <- function(mat,
-                         clustering_distance_rows = "euclidean",
-                         clustering_distance_cols = "euclidean",
-                         cluster_rows = TRUE,
-                         cluster_cols = TRUE
+                          n_gs = nrow(mat),
+                          gs_ids = NULL,
+                          clustering_distance_rows = "euclidean",
+                          clustering_distance_cols = "euclidean",
+                          cluster_rows = TRUE,
+                          cluster_cols = TRUE
 ) {
+
+  n_gs <- min(n_gs, nrow(mat))
+  current_ids <- unlist(lapply(
+    strsplit(rownames(mat), split = "|", fixed = TRUE), function(arg) arg[[2]]
+  ))
+
+  gs_to_use <- unique(
+    c(
+      current_ids[seq_len(n_gs)],  # the ones from the top
+      gs_ids[gs_ids %in% current_ids]  # the ones specified from the custom list
+    )
+  )
+
+  gs_to_use <- match(gs_to_use, current_ids)
+  mat <- mat[gs_to_use, ]
+
   d_rows <- dist(mat, method = clustering_distance_rows)
   d_cols <- dist(t(mat), method = clustering_distance_cols)
 
@@ -291,6 +314,9 @@ gs_scoresheat <- function(mat,
       ),
       legend.title = element_text(size = 9),
       legend.text = element_text(size = 11)
-  )
+  ) +
+    labs(
+      fill = "Geneset \nZ value"
+    )
   return(p)
 }
