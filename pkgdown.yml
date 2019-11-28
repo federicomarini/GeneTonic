@@ -1,0 +1,7 @@
+pandoc: '2.2'
+pkgdown: 1.4.1
+pkgdown_sha: ~
+articles:
+  GeneTonic_manual: GeneTonic_manual.html
+  functionality_and_more: functionality_and_more.html
+
