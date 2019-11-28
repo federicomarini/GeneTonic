@@ -31,6 +31,8 @@ r_packages:
   - covr
   - BiocManager
 
+r_github_packages: mikelove/macrophage
+
 after_success:
   - Rscript -e 'library(covr); codecov()'
 

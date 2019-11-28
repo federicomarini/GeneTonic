@@ -47,6 +47,7 @@ Suggests:
     knitr,
     BiocStyle,
     clusterProfiler,
+    macrophage,
     org.Hs.eg.db,
     magrittr,
     testthat (>= 2.1.0)
