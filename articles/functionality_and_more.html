@@ -192,42 +192,19 @@
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(SummarizedExperiment)</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tximeta)</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3">se_macrophage &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/tximeta/man/tximeta.html">tximeta</a></span>(coldata_macrophage, <span class="dt">dropInfReps=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; Error in function (type, msg, asError = TRUE)  : </span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt;   Failed to connect to ftp.ncbi.nlm.nih.gov port 21: Connection timed out</span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6">se_macrophage</a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; class: RangedSummarizedExperiment </span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; dim: 205870 24 </span></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; metadata(6): tximetaInfo quantInfo ... txomeInfo txdbInfo</span></a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; assays(3): counts abundance length</span></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; rownames(205870): ENST00000456328.2 ENST00000450305.2 ...</span></a>
-<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt;   ENST00000387460.2 ENST00000387461.2</span></a>
-<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt; rowData names(3): tx_id gene_id tx_name</span></a>
-<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt; colnames(24): SAMEA103885102 SAMEA103885347 ... SAMEA103885308</span></a>
-<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt;   SAMEA103884949</span></a>
-<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; colData names(15): names sample_id ... condition line</span></a>
-<a class="sourceLine" id="cb4-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co"># saveRDS(se_macrophage,file="WIP/se_macrophage.rds")</span></a>
-<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co"># dir.create("WIP")</span></a>
-<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co"># se_macrophage &lt;- readRDS(file = "WIP/se_macrophage.rds")</span></a>
-<a class="sourceLine" id="cb4-21" data-line-number="21">gse_macrophage &lt;-<span class="st"> </span><span class="kw">summarizeToGene</span>(se_macrophage)</a></code></pre></div>
+<a class="sourceLine" id="cb4-4" data-line-number="4">se_macrophage</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co"># saveRDS(se_macrophage,file="WIP/se_macrophage.rds")</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co"># dir.create("WIP")</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co"># se_macrophage &lt;- readRDS(file = "WIP/se_macrophage.rds")</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9">gse_macrophage &lt;-<span class="st"> </span><span class="kw">summarizeToGene</span>(se_macrophage)</a></code></pre></div>
 <p>… and here summarized at the gene level.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">assayNames</a></span>(se_macrophage)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; [1] "counts"    "abundance" "length"</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">gse_macrophage &lt;-<span class="st"> </span><span class="kw">summarizeToGene</span>(se_macrophage)</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">gse_macrophage</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; class: RangedSummarizedExperiment </span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; dim: 58294 24 </span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; metadata(6): tximetaInfo quantInfo ... txomeInfo txdbInfo</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; assays(3): counts abundance length</span></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; rownames(58294): ENSG00000000003.14 ENSG00000000005.5 ...</span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt;   ENSG00000285993.1 ENSG00000285994.1</span></a>
-<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; rowData names(1): gene_id</span></a>
-<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; colnames(24): SAMEA103885102 SAMEA103885347 ... SAMEA103885308</span></a>
-<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt;   SAMEA103884949</span></a>
-<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; colData names(15): names sample_id ... condition line</span></a>
-<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co"># adding gene names to facilitate readout later</span></a>
-<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(org.Hs.eg.db)</a>
-<a class="sourceLine" id="cb5-17" data-line-number="17">gse_macrophage &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/tximeta/man/addIds.html">addIds</a></span>(gse_macrophage,<span class="st">"SYMBOL"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb5-2" data-line-number="2">gse_macrophage &lt;-<span class="st"> </span><span class="kw">summarizeToGene</span>(se_macrophage)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">gse_macrophage</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co"># adding gene names to facilitate readout later</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(org.Hs.eg.db)</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">gse_macrophage &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/tximeta/man/addIds.html">addIds</a></span>(gse_macrophage,<span class="st">"SYMBOL"</span>)</a></code></pre></div>
 <p>It is easy with DESeq2 to run the complete differential expression analysis <span class="citation">(Love, Huber, and Anders 2014)</span>. The design indicates that we want to control for the donor (<code>line</code>) and test for the effect on the <code>condition</code> (since it is specified as last in the formula of the <code>design</code> parameter).</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(DESeq2)</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2">dds_macrophage &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html">DESeqDataSet</a></span>(gse_macrophage, <span class="dt">design =</span> <span class="op">~</span>line <span class="op">+</span><span class="st"> </span>condition)</a>
