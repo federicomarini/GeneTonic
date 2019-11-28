@@ -28,7 +28,7 @@ enhance_table <- function(res_enrich,
                           annotation_obj,
                           n_gs = 50,
                           gs_ids = NULL,
-                          chars_limit = 60) {
+                          chars_limit = 70) {
 
   # res_enrich has to have a column called containing the genes annotated to the term
   # TODOTODO
@@ -53,9 +53,9 @@ enhance_table <- function(res_enrich,
 
     res_thissubset <- res_de[genesid_thisset, ]
     res_thissubset$gene_name <- genes_thisset
-    res_thissubset$goterm <- as.factor(res_enrich[gs, "gs_description"])
-    res_thissubset$gotermshort <- substr(res_enrich[gs, "gs_description"], 1, 50)
-    res_thissubset$goid <- res_enrich[gs, "gs_id"]
+    res_thissubset$gs_desc <- as.factor(res_enrich[gs, "gs_description"])
+    # res_thissubset$gotermshort <- substr(res_enrich[gs, "gs_description"], 1, chars_limit)
+    res_thissubset$gs_id <- res_enrich[gs, "gs_id"]
     return(as.data.frame(res_thissubset))
   })
   gs_fulllist <- do.call(rbind, gs_fulllist)
@@ -64,7 +64,7 @@ enhance_table <- function(res_enrich,
 
   # to have first rows viewed on top
   gs_fulllist <- gs_fulllist[rev(seq_len(nrow(gs_fulllist))), ]
-  gs_fulllist$goterm <- factor(gs_fulllist$goterm, levels = rev(levels(gs_fulllist$goterm)))
+  gs_fulllist$gs_desc <- factor(gs_fulllist$gs_desc, levels = rev(levels(gs_fulllist$gs_desc)))
   max_lfc <- max(abs(range(gs_fulllist$log2FoldChange)))
 
   # z score, and evtl. option to sort by that? TODOTODO
@@ -72,18 +72,22 @@ enhance_table <- function(res_enrich,
   p <- ggplot(
     gs_fulllist, aes_string(
       x = "log2FoldChange",
-      y = "goterm",
-      fill = "goid",
+      y = "gs_desc",
+      fill = "gs_id",
       text = "gene_name"
     )) +
-    ggtitle(paste0(this_contrast, " - TODOTODO")) +
+    ggtitle(paste0("Enrichment overview - ", this_contrast)) +
     scale_x_continuous(limits = c(-max_lfc, max_lfc)) +
-    geom_point(alpha = 0.7, shape = 21, size = 3)  +
+    geom_point(alpha = 0.7, shape = 21, size = 2)  +
     theme_minimal() +
     geom_vline(aes(xintercept = 0), col = "steelblue", alpha = 0.4) +
     theme(legend.position = "none") +
     scale_y_discrete(name = "",
-                     labels = substr(as.character(unique(gs_fulllist$goterm)), 1, chars_limit))
+                     labels = paste0(
+                       substr(as.character(unique(gs_fulllist$gs_desc)), 1, chars_limit),
+                       " | ", unique(gs_fulllist$gs_id)
+                       )
+    )
 
   return(p)
 }
@@ -117,8 +121,6 @@ enhance_table <- function(res_enrich,
 #'
 #' @examples
 #' # TODO
-#'
-#' # TODOTODO: add some standardized column names, say "count"
 get_aggrscores <- function(res_enrich,
                            res_de,
                            annotation_obj,
