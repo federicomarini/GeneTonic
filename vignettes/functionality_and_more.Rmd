@@ -91,7 +91,7 @@ head(coldata_macrophage)
 
 Creating an object at the transcript level...
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 library(SummarizedExperiment)
 library(tximeta)
 se_macrophage <- tximeta(coldata_macrophage, dropInfReps=TRUE)
@@ -105,7 +105,7 @@ gse_macrophage <- summarizeToGene(se_macrophage)
 
 ... and here summarized at the gene level.
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 assayNames(se_macrophage)
 gse_macrophage <- summarizeToGene(se_macrophage)
 gse_macrophage
@@ -186,7 +186,7 @@ bg_ids <- rowData(dds_macrophage)$SYMBOL[rowSums(counts(dds_macrophage)) > 0]
 ```
 
 
-```{r}
+```{r, eval = FALSE}
 library(topGO)
 topgoDE_macrophage_IFNg_vs_naive <- pcaExplorer::topGOtable(de_symbols_IFNg_vs_naive, 
                                                             bg_ids,
@@ -215,7 +215,7 @@ DT::datatable(topgoDE_macrophage_SL1344_vs_naive)
 
 Using other alternative procedures to similarly derive enriched functions/processes...
 
-```{r}
+```{r, eval = FALSE}
 library(clusterProfiler)
 
 ego_IFNg_vs_naive <- enrichGO(gene = de_symbols_IFNg_vs_naive,
