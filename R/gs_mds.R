@@ -25,6 +25,8 @@
 #' for coloring the plotted gene sets. Defaults sensibly to `z_score`.
 #' @param gs_labels Character vector, containing a subset of `gs_id` as they are
 #' available in `res_enrich`. Lists the gene sets to be labeled.
+#' @param plot_title Character string, used as title for the plot. If left `NULL`,
+#' it defaults to a general description of the plot and of the DE contrast
 #'
 #' @return A `ggplot` object
 #'
@@ -44,7 +46,8 @@ gs_mds <- function(res_enrich,
                    mds_k = 2,
                    mds_labels = 0,
                    mds_colorby = "z_score",
-                   gs_labels = NULL) { # or aggr_score
+                   gs_labels = NULL,
+                   plot_title = NULL) { # or aggr_score
 
   # TODO: match.arg on similarity matrix?
 
@@ -106,6 +109,8 @@ gs_mds <- function(res_enrich,
   max_z <- max(abs(range(mds_go_df$gs_colby)))
   limit <- max_z * c(-1, 1)
 
+  this_contrast <- (sub(".*p-value: (.*)", "\\1", mcols(res_de, use.names = TRUE)["pvalue", "description"]))
+
   p <- ggplot(mds_go_df, aes_string(x = "dim1",
                                     y = "dim2",
                                     text = "text")) +
@@ -115,6 +120,11 @@ gs_mds <- function(res_enrich,
                           low = muted("deepskyblue"),
                           mid = "lightyellow",
                           high = muted("firebrick")) +
+    labs(x = "Dimension 1",
+         y = "Dimension 2",
+         col = mds_colorby,
+         size = "Geneset \nmembers"
+    ) +
     theme_bw()
 
   if (mds_labels > 0) {
@@ -132,7 +142,12 @@ gs_mds <- function(res_enrich,
       aes_string(label = "gs_name"), data = df_gs_labels, size = 3)
   }
 
-
+  # handling the title
+  if (is.null(plot_title)) {
+    p <- p + ggtitle(paste0("Geneset MDS plot - ", this_contrast))
+  } else {
+    p <- p + ggtitle(plot_title)
+  }
 
   return(p)
   ## also something to obtain clusters of terms? - well, the colors do it somehow already
