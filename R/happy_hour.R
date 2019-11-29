@@ -109,7 +109,7 @@ happy_hour <- function(dds,
                        res_enrich,
                        annotation_obj,
                        project_id, # TODO: use some funny random names?
-                       mygenesets, # TODO: I should switch to gs_ids
+                       mygenesets,
                        mygenes,
                        usage_mode = "batch_mode",
                        input_rmd = NULL,
@@ -135,7 +135,6 @@ happy_hour <- function(dds,
     }
   }
 
-  # TODO: use match.arg?
   # Raise an error if output_format is not one of the allowed
   if (!(output_format %in% c("pdf_document", "html_document"))) {
     stop("The provided output_format is currently not supported. Please ",

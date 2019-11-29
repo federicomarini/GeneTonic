@@ -29,6 +29,7 @@
 #' #  TODO
 gs_volcano <- function(res_enrich,
                        p_threshold = 0.05,
+                       color_by = "aggr_score",
                        volcano_labels = 10,
                        scale_circles = 1, # TODOTODO: see how to control point size
                        # TODO option to collapse similar terms?
@@ -39,9 +40,6 @@ gs_volcano <- function(res_enrich,
   if (!all(c("z_score", "aggr_score") %in% colnames(res_enrich)))
     stop("You might need to compute the aggregated scores first")
   # TODO: or call in advance the get_aggr_scores function?
-
-
-  # TODO: catch labels the same way as other funcs
 
   volcano_labels <- min(volcano_labels, nrow(res_enrich))
 
@@ -59,15 +57,13 @@ gs_volcano <- function(res_enrich,
   volcano_df$`set members` <- volcano_df[["gs_de_count"]]
 
   volcano_df <- volcano_df[volcano_df[["gs_pvalue"]] <= p_threshold, ]
-  max_z <- max(abs(range(volcano_df$z_score)))
+  max_z <- max(abs(range(volcano_df[[color_by]])))
   limit <- max_z * c(-1, 1)
 
   p <- ggplot(
     volcano_df,
     aes_string(x = "z_score", y = "logpval", size = "`set members`",  text = "gs_name")) +
-    # geom_point(aes(col = aggr_score),shape = 20, alpha = 1) +
-    # TODO: col_by also to select?
-    geom_point(aes_string(col = "aggr_score"), shape = 20, alpha = 1) +
+    geom_point(aes_string(col = color_by), shape = 20, alpha = 1) +
     labs(x = "geneset Z score",
          y= "log10 p-value",
          size = "Gene set\nmembers",

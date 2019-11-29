@@ -7,6 +7,7 @@
 gs_volcano(
   res_enrich,
   p_threshold = 0.05,
+  color_by = "aggr_score",
   volcano_labels = 10,
   scale_circles = 1,
   gs_ids = NULL,
