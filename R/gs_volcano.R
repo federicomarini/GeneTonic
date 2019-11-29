@@ -10,6 +10,8 @@
 #' to compute the term-wise `z_score` or `aggr_score`, which will be used for plotting
 #' @param p_threshold Numeric, defines the threshold to be used for filtering the
 #' gene sets to display. Defaults to 0.05
+#' @param color_by Character specifying the column of `res_enrich` to be used
+#' for coloring the plotted gene sets. Defaults to `aggr_score`.
 #' @param volcano_labels Integer, maximum number of labels for the gene sets to be
 #' plotted as labels on the volcano scatter plot.
 #' @param scale_circles TODO

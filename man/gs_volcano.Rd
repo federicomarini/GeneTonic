@@ -24,6 +24,9 @@ to compute the term-wise \code{z_score} or \code{aggr_score}, which will be used
 \item{p_threshold}{Numeric, defines the threshold to be used for filtering the
 gene sets to display. Defaults to 0.05}
 
+\item{color_by}{Character specifying the column of \code{res_enrich} to be used
+for coloring the plotted gene sets. Defaults to \code{aggr_score}.}
+
 \item{volcano_labels}{Integer, maximum number of labels for the gene sets to be
 plotted as labels on the volcano scatter plot.}
 
