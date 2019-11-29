@@ -139,6 +139,7 @@ results</p>
     <pre class="usage"><span class='fu'>gs_volcano</span>(
   <span class='no'>res_enrich</span>,
   <span class='kw'>p_threshold</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
+  <span class='kw'>color_by</span> <span class='kw'>=</span> <span class='st'>"aggr_score"</span>,
   <span class='kw'>volcano_labels</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>scale_circles</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>gs_ids</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -160,6 +161,11 @@ to compute the term-wise <code>z_score</code> or <code>aggr_score</code>, which 
       <th>p_threshold</th>
       <td><p>Numeric, defines the threshold to be used for filtering the
 gene sets to display. Defaults to 0.05</p></td>
+    </tr>
+    <tr>
+      <th>color_by</th>
+      <td><p>Character specifying the column of <code>res_enrich</code> to be used
+for coloring the plotted gene sets. Defaults to <code>aggr_score</code>.</p></td>
     </tr>
     <tr>
       <th>volcano_labels</th>
