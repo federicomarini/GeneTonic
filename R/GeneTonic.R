@@ -335,8 +335,6 @@ GeneTonic <- function(dds,
                 width = 12,
                 uiOutput("ui_ggs_genebox")
               )
-
-              # TODOTODO
             )
           )
         ),
@@ -1048,7 +1046,7 @@ GeneTonic <- function(dds,
       filename = paste0(
         Sys.Date(),
         "_", round(runif(1) * 100), # for not having all w the same name
-        "_GeneTonicReport.html"), # TODO: maybe add Sys.time() to the filename to improve traceability?
+        "_GeneTonicReport.html"),
       content = function(file) {
         # temporarily switch to the temp dir, in case you do not have write permission to the current working directory
         owd <- setwd(tempdir())

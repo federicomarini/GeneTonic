@@ -50,6 +50,8 @@ gs_mds <- function(res_enrich,
                    plot_title = NULL) { # or aggr_score
 
   # TODO: match.arg on similarity matrix?
+  similarity_measure <- match.arg(similarity_measure,
+                                  c("kappa_matrix", "overlap_matrix"))
 
   # require res_enrich to have aggregated scores and so
   if (!("z_score" %in% colnames(res_enrich))) {

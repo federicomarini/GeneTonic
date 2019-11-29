@@ -52,9 +52,6 @@ gene_plot <- function(dds,
 
   plot_type <- match.arg(plot_type,
                          c("auto", "jitteronly", "boxplot", "violin", "sina"))
-  # TODO: enable the possibility of using other assays?
-
-  # TODO: use a more general func to extract the values?
   df <- get_expression_values(dds = dds,
                               gene = gene,
                               intgroup = intgroup,

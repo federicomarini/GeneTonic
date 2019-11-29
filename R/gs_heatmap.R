@@ -40,7 +40,7 @@ gs_heatmap <- function(se,
                        genelist,
                        FDR = 0.05,
                        de_only = FALSE,
-                       cluster_rows = TRUE, # TODOTODO: options for the heatmap go on left side, as could be common to more!
+                       cluster_rows = TRUE,
                        cluster_columns = FALSE,
                        center_mean = TRUE,
                        scale_row = FALSE,

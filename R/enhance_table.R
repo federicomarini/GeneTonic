@@ -33,10 +33,6 @@ enhance_table <- function(res_enrich,
                           gs_ids = NULL,
                           chars_limit = 70,
                           plot_title = NULL) {
-
-  # res_enrich has to have a column called containing the genes annotated to the term
-  # TODOTODO
-
   # verify the genesets are sorted in a meaningful way?
   #TODOTODO
 

@@ -2,9 +2,10 @@ library(GeneTonic)
 
 library(macrophage)
 data(gse)
-gse_macrophage <- gse
+library(DESeq2)
+dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 
-#
 # library(magrittr)
 # dir <- system.file("extdata", package = "macrophage")
 # coldata_macrophage <- read.csv(file.path(system.file("extdata", package = "macrophage"), "coldata.csv"))
@@ -30,10 +31,6 @@ gse_macrophage <- gse
 # # adding gene names to facilitate readout later
 # library(org.Hs.eg.db)
 # gse_macrophage <- addIds(gse_macrophage, "SYMBOL")
-
-library(DESeq2)
-dds_macrophage <- DESeqDataSet(gse_macrophage, design = ~line + condition)
-rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 
 library("org.Hs.eg.db")
 anno_df <- data.frame(
