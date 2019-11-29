@@ -52,12 +52,11 @@ dds_macrophage <- dds_macrophage[keep, ]
 dds_unnormalized <- dds_macrophage
 
 library("org.Hs.eg.db")
-# dds_macrophage <- addIds(dds_macrophage, "SYMBOL")
 dds_macrophage <- DESeq(dds_macrophage)
 vst_macrophage <- vst(dds_macrophage)
 res_macrophage_IFNg_vs_naive <- results(dds_macrophage,
                                         contrast = c("condition", "IFNg", "naive"),
-                                        lfcThreshold = 1, alpha = 0.01)
+                                        lfcThreshold = 1, alpha = 0.05)
 summary(res_macrophage_IFNg_vs_naive)
 res_macrophage_IFNg_vs_naive$SYMBOL <- rowData(dds_macrophage)$SYMBOL
 

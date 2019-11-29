@@ -43,7 +43,7 @@
 #' @importFrom shinyWidgets dropdownButton tooltipOptions
 #' @import SummarizedExperiment
 #' @importFrom tidyr separate_rows pivot_longer
-#' @importFrom utils read.delim sessionInfo browseURL citation
+#' @importFrom utils read.delim sessionInfo browseURL citation data
 #' @importFrom visNetwork renderVisNetwork visIgraph visNetworkOutput visOptions
 #' @importFrom viridis viridis
 #'
