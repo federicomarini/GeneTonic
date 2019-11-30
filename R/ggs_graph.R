@@ -62,6 +62,8 @@
 #'                  anno_df
 #'                 )
 #'
+#' ggs
+#'
 #' #' # could be viewed interactively with
 #' # library(visNetwork)
 #' # library(magrittr)

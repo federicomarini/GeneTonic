@@ -67,6 +67,8 @@
 #'                      n_gs = 20
 #' )
 #'
+#' em
+#'
 #' # could be viewed interactively with
 #' # library(visNetwork)
 #' # library(magrittr)

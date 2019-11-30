@@ -86,6 +86,8 @@ ggs <- ggs_graph(res_enrich,
                  anno_df
                 )
 
+ggs
+
 #' # could be viewed interactively with
 # library(visNetwork)
 # library(magrittr)

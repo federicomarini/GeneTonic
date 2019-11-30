@@ -142,6 +142,7 @@ happy_hour(dds = dds_macrophage,
            res_de = res_de,
            res_enrich = res_enrich,
            annotation_obj = anno_df,
+           project_id = "examplerun",
            mygenesets = res_enrich$gs_id[c(1:5,11,31)])
            mygenes = c("ENSG00000125347",
                        "ENSG00000172399",
