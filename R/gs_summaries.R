@@ -17,7 +17,41 @@
 #' @export
 #'
 #' @examples
-#' # TODO
+#'
+#' library("macrophage")
+#' library("DESeq2")
+#' library("org.Hs.eg.db")
+#' library("AnnotationDbi")
+#'
+#' # dds object
+#' data("gse", package = "macrophage")
+#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
+#' dds_macrophage <- estimateSizeFactors(dds_macrophage)
+#'
+#' # annotation object
+#' anno_df <- data.frame(
+#'   gene_id = rownames(dds_macrophage),
+#'   gene_name = mapIds(org.Hs.eg.db,
+#'                      keys = rownames(dds_macrophage),
+#'                      column = "SYMBOL",
+#'                      keytype = "ENSEMBL"),
+#'   stringsAsFactors = FALSE,
+#'   row.names = rownames(dds_macrophage)
+#' )
+#'
+#' # res object
+#' data(res_de_macrophage, package = "GeneTonic")
+#' res_de <- res_macrophage_IFNg_vs_naive
+#'
+#'
+#' # res_enrich object
+#' data(res_enrich_macrophage, package = "GeneTonic")
+#' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
+#' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
+#'
+#' gs_summary_overview(res_enrich)
+#'
 gs_summary_overview <- function(res_enrich,
                                 n_gs = 20,
                                 p_value_column = "gs_pvalue",
@@ -69,7 +103,40 @@ gs_summary_overview <- function(res_enrich,
 #' @export
 #'
 #' @examples
-#' # TODO
+#'
+#' library("macrophage")
+#' library("DESeq2")
+#' library("org.Hs.eg.db")
+#' library("AnnotationDbi")
+#'
+#' # dds object
+#' data("gse", package = "macrophage")
+#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
+#' dds_macrophage <- estimateSizeFactors(dds_macrophage)
+#'
+#' # annotation object
+#' anno_df <- data.frame(
+#'   gene_id = rownames(dds_macrophage),
+#'   gene_name = mapIds(org.Hs.eg.db,
+#'                      keys = rownames(dds_macrophage),
+#'                      column = "SYMBOL",
+#'                      keytype = "ENSEMBL"),
+#'   stringsAsFactors = FALSE,
+#'   row.names = rownames(dds_macrophage)
+#' )
+#'
+#' # res object
+#' data(res_de_macrophage, package = "GeneTonic")
+#' res_de <- res_macrophage_IFNg_vs_naive
+#'
+#' # res_enrich object
+#' data(res_enrich_macrophage, package = "GeneTonic")
+#' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
+#' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
+#'
+#' gs_summary_overview_pair(res_enrich = res_enrich)
+#'
 gs_summary_overview_pair <- function(res_enrich,
                                      res_enrich2,
                                      n_gs = 20,
@@ -140,7 +207,41 @@ gs_summary_overview_pair <- function(res_enrich,
 #' @export
 #'
 #' @examples
-#' # TODO
+#'
+#' library("macrophage")
+#' library("DESeq2")
+#' library("org.Hs.eg.db")
+#' library("AnnotationDbi")
+#'
+#' # dds object
+#' data("gse", package = "macrophage")
+#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
+#' dds_macrophage <- estimateSizeFactors(dds_macrophage)
+#'
+#' # annotation object
+#' anno_df <- data.frame(
+#'   gene_id = rownames(dds_macrophage),
+#'   gene_name = mapIds(org.Hs.eg.db,
+#'                      keys = rownames(dds_macrophage),
+#'                      column = "SYMBOL",
+#'                      keytype = "ENSEMBL"),
+#'   stringsAsFactors = FALSE,
+#'   row.names = rownames(dds_macrophage)
+#' )
+#'
+#' # res object
+#' data(res_de_macrophage, package = "GeneTonic")
+#' res_de <- res_macrophage_IFNg_vs_naive
+#'
+#' # res_enrich object
+#' data(res_enrich_macrophage, package = "GeneTonic")
+#' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
+#' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
+#'
+#' gs_horizon(res_enrich,
+#'            n_gs = 15)
+#'
 gs_horizon <- function(res_enrich, # TODO: should be a list of res_enrich objects!
                        n_gs = 20,
                        p_value_column = "gs_pvalue",
@@ -244,9 +345,6 @@ gs_horizon <- function(res_enrich, # TODO: should be a list of res_enrich object
 
 
 
-
-
-
 #' Plots a heatmap for genes and genesets
 #'
 #' Plots a heatmap for genes and genesets, useful to spot out intersections across
@@ -265,7 +363,43 @@ gs_horizon <- function(res_enrich, # TODO: should be a list of res_enrich object
 #' @export
 #'
 #' @examples
-#' # TODO
+#'
+#' library("macrophage")
+#' library("DESeq2")
+#' library("org.Hs.eg.db")
+#' library("AnnotationDbi")
+#'
+#' # dds object
+#' data("gse", package = "macrophage")
+#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
+#' dds_macrophage <- estimateSizeFactors(dds_macrophage)
+#'
+#' # annotation object
+#' anno_df <- data.frame(
+#'   gene_id = rownames(dds_macrophage),
+#'   gene_name = mapIds(org.Hs.eg.db,
+#'                      keys = rownames(dds_macrophage),
+#'                      column = "SYMBOL",
+#'                      keytype = "ENSEMBL"),
+#'   stringsAsFactors = FALSE,
+#'   row.names = rownames(dds_macrophage)
+#' )
+#'
+#' # res object
+#' data(res_de_macrophage, package = "GeneTonic")
+#' res_de <- res_macrophage_IFNg_vs_naive
+#'
+#' # res_enrich object
+#' data(res_enrich_macrophage, package = "GeneTonic")
+#' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
+#' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
+#'
+#' gs_summary_heat(res_enrich = res_enrich,
+#'                 res_de = res_de,
+#'                 annotation_obj = anno_df,
+#'                 n_gs = 20)
+
 gs_summary_heat <- function(res_enrich,
                             res_de,
                             annotation_obj,
