@@ -1,54 +1,34 @@
-library(GeneTonic)
+library("GeneTonic")
 
-library(macrophage)
+library("macrophage")
+library("DESeq2")
+library("org.Hs.eg.db")
+library("AnnotationDbi")
+
+# dds --------------------------------------------------------------------------
 data(gse)
-library(DESeq2)
 dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
 rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 
-# library(magrittr)
-# dir <- system.file("extdata", package = "macrophage")
-# coldata_macrophage <- read.csv(file.path(system.file("extdata", package = "macrophage"), "coldata.csv"))
-# coldata_macrophage$files <- file.path(system.file("extdata", package = "macrophage"), "quants", coldata_macrophage$names, "quant.sf.gz")
-#
-# coldata_macrophage$condition <- coldata_macrophage$condition_name
-# coldata_macrophage$line <- coldata_macrophage$line_id
-# coldata_macrophage$condition <- relevel(coldata_macrophage$condition, "naive")
-#
-# head(coldata_macrophage)
-#
-# library(SummarizedExperiment)
-# library(tximeta)
-# se_macrophage <- tximeta(coldata_macrophage, dropInfReps = TRUE)
-# se_macrophage
-#
-# # se_macrophage <- readRDS(file = "WIP/se_macrophage.rds")
-# gse_macrophage <- summarizeToGene(se_macrophage)
-#
-# assayNames(se_macrophage)
-# gse_macrophage <- summarizeToGene(se_macrophage)
-# gse_macrophage
-# # adding gene names to facilitate readout later
-# library(org.Hs.eg.db)
-# gse_macrophage <- addIds(gse_macrophage, "SYMBOL")
-
-library("org.Hs.eg.db")
+# annotation -------------------------------------------------------------------
 anno_df <- data.frame(
   gene_id = rownames(dds_macrophage),
-  gene_name = mapIds(org.Hs.eg.db, keys = rownames(dds_macrophage), column = "SYMBOL", keytype = "ENSEMBL"),
+  gene_name = mapIds(org.Hs.eg.db,
+                     keys = rownames(dds_macrophage),
+                     column = "SYMBOL",
+                     keytype = "ENSEMBL"),
   stringsAsFactors = FALSE,
   row.names = rownames(dds_macrophage)
 )
 # alternatively, one could use the wrapper in ...
 # anno_df <- pcaExplorer::get_annotation_orgdb(dds_macrophage, "org.Hs.eg.db", "ENSEMBL")
 
-
+# res_de -----------------------------------------------------------------------
 ## using counts and average transcript lengths from tximeta
 keep <- rowSums(counts(dds_macrophage) >= 10) >= 6
 dds_macrophage <- dds_macrophage[keep, ]
 dds_unnormalized <- dds_macrophage
 
-library("org.Hs.eg.db")
 dds_macrophage <- DESeq(dds_macrophage)
 vst_macrophage <- vst(dds_macrophage)
 res_macrophage_IFNg_vs_naive <- results(dds_macrophage,
@@ -57,8 +37,7 @@ res_macrophage_IFNg_vs_naive <- results(dds_macrophage,
 summary(res_macrophage_IFNg_vs_naive)
 res_macrophage_IFNg_vs_naive$SYMBOL <- rowData(dds_macrophage)$SYMBOL
 
-library("AnnotationDbi")
-
+# res_enrich -------------------------------------------------------------------
 de_symbols_IFNg_vs_naive <- res_macrophage_IFNg_vs_naive[(!(is.na(res_macrophage_IFNg_vs_naive$padj))) & (res_macrophage_IFNg_vs_naive$padj <= 0.05), "SYMBOL"]
 bg_ids <- rowData(dds_macrophage)$SYMBOL[rowSums(counts(dds_macrophage)) > 0]
 

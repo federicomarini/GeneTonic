@@ -26,7 +26,13 @@ A matrix with the kappa scores between gene sets
 Compute the kappa matrix for enrichment results, as a measure of overlap
 }
 \examples{
-# TODO
+
+# res_enrich object
+data(res_enrich_macrophage, package = "GeneTonic")
+res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
+
+kmat <- create_kappa_matrix(res_enrich[1:200,])
+dim(kmat)
 }
 \seealso{
 \code{\link[=gs_mds]{gs_mds()}}

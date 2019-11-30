@@ -8,6 +8,15 @@ dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
 rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 # no need to save this one, can be readily generated
 
+# annotation object ------------------------------------------------------------
+library("org.Hs.eg.db")
+anno_df <- data.frame(
+  gene_id = rownames(dds_macrophage),
+  gene_name = mapIds(org.Hs.eg.db, keys = rownames(dds_macrophage), column = "SYMBOL", keytype = "ENSEMBL"),
+  stringsAsFactors = FALSE,
+  row.names = rownames(dds_macrophage)
+)
+
 # res object -------------------------------------------------------------------
 keep <- rowSums(counts(dds_macrophage) >= 10) >= 6
 dds_macrophage <- dds_macrophage[keep, ]
@@ -41,11 +50,3 @@ topgoDE_macrophage_IFNg_vs_naive <-
   read.table(system.file("extdata", "topgotable_res_IFNg_vs_naive.txt", package = "GeneTonic"),
              stringsAsFactors = FALSE)
 
-# annotation object ------------------------------------------------------------
-library("org.Hs.eg.db")
-anno_df <- data.frame(
-  gene_id = rownames(dds_macrophage),
-  gene_name = mapIds(org.Hs.eg.db, keys = rownames(dds_macrophage), column = "SYMBOL", keytype = "ENSEMBL"),
-  stringsAsFactors = FALSE,
-  row.names = rownames(dds_macrophage)
-)

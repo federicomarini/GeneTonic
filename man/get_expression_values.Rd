@@ -30,5 +30,19 @@ processing
 Extract expression values, with the possibility to select other assay slots
 }
 \examples{
-# TODO
+library("macrophage")
+library("DESeq2")
+library("org.Hs.eg.db")
+library("AnnotationDbi")
+
+# dds object
+data("gse", package = "macrophage")
+dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
+dds_macrophage <- estimateSizeFactors(dds_macrophage)
+
+df_exp <- get_expression_values(dds_macrophage,
+                                gene = "ENSG00000125347",
+                                intgroup = "condition")
+head(df_exp)
 }
