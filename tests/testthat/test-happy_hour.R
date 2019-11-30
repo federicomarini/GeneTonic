@@ -1,35 +1,35 @@
 context("The happy hour is running!")
 
-test_that("The happy hour starts", {
-  my_html_report <- happy_hour(
-    dds = dds_macrophage,
-    res_de = res_macrophage_IFNg_vs_naive,
-    res_enrich = res_enrich_IFNg_vs_naive,
-    annotation_obj = anno_df,
-    project_id = "testsuite",
-    mygenesets = res_enrich_IFNg_vs_naive$gs_id[2:3],
-    mygenes = deseqresult2df(res_de)$id[1:5],
-    output_file = "test.html",
-    force_overwrite = FALSE,
-    open_after_creating = FALSE
-  )
-  expect_is(my_html_report, "character")
-  file.remove("test.html")
-  # my_pdf_report <- happy_hour(
-  #   dds = dds_macrophage,
-  #   res_de = res_macrophage_IFNg_vs_naive,
-  #   res_enrich = res_enrich_IFNg_vs_naive,
-  #   annotation_obj = anno_df,
-  #   project_id = "testsuite",
-  #   mygenesets = res_enrich_IFNg_vs_naive$gs_id[1:2],
-  #   mygenes = deseqresult2df(res_de)$id[1:5],
-  #   output_file = "test.pdf",
-  #   force_overwrite = FALSE,
-  #   open_after_creating = FALSE
-  # )
-  # expect_is(my_pdf_report, "character")
-  # file.remove("test.pdf")
-})
+# test_that("The happy hour starts", {
+#   my_html_report <- happy_hour(
+#     dds = dds_macrophage,
+#     res_de = res_macrophage_IFNg_vs_naive,
+#     res_enrich = res_enrich_IFNg_vs_naive,
+#     annotation_obj = anno_df,
+#     project_id = "testsuite",
+#     mygenesets = res_enrich_IFNg_vs_naive$gs_id[2:3],
+#     mygenes = deseqresult2df(res_de)$id[1:5],
+#     output_file = "test.html",
+#     force_overwrite = FALSE,
+#     open_after_creating = FALSE
+#   )
+#   expect_is(my_html_report, "character")
+#   file.remove("test.html")
+#   # my_pdf_report <- happy_hour(
+#   #   dds = dds_macrophage,
+#   #   res_de = res_macrophage_IFNg_vs_naive,
+#   #   res_enrich = res_enrich_IFNg_vs_naive,
+#   #   annotation_obj = anno_df,
+#   #   project_id = "testsuite",
+#   #   mygenesets = res_enrich_IFNg_vs_naive$gs_id[1:2],
+#   #   mygenes = deseqresult2df(res_de)$id[1:5],
+#   #   output_file = "test.pdf",
+#   #   force_overwrite = FALSE,
+#   #   open_after_creating = FALSE
+#   # )
+#   # expect_is(my_pdf_report, "character")
+#   # file.remove("test.pdf")
+# })
 
 # test_that("Errors and warnings are thrown", {
 #   expect_error(
