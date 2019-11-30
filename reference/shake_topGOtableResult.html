@@ -159,7 +159,11 @@ enrichment has to be used. Example values are "p.value_elim" or "p.value_classic
 <code><a href='shake_enrichResult.html'>shake_enrichResult</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'># TODO
+    <pre class="examples"><div class='input'>
+<span class='co'># res_enrich object</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>res_enrich_macrophage</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"GeneTonic"</span>)
+
+<span class='no'>res_enrich</span> <span class='kw'>&lt;-</span> <span class='fu'>shake_topGOtableResult</span>(<span class='no'>topgoDE_macrophage_IFNg_vs_naive</span>)</div><div class='output co'>#&gt; <span class='message'>Found 500 gene sets in `topGOtableResult` object.</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

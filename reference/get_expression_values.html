@@ -172,8 +172,25 @@ normalized by their size factor. Defaults to TRUE, applies when <code>assay</cod
 processing</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'># TODO
-</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"macrophage"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"DESeq2"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"org.Hs.eg.db"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"AnnotationDbi"</span>)
+
+<span class='co'># dds object</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"gse"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"macrophage"</span>)
+<span class='no'>dds_macrophage</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html'>DESeqDataSet</a></span>(<span class='no'>gse</span>, <span class='kw'>design</span> <span class='kw'>=</span> ~<span class='no'>line</span> + <span class='no'>condition</span>)</div><div class='output co'>#&gt; <span class='message'>using counts and average transcript lengths from tximeta</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>dds_macrophage</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/substr.html'>substr</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>dds_macrophage</span>), <span class='fl'>1</span>, <span class='fl'>15</span>)
+<span class='no'>dds_macrophage</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/estimateSizeFactors.html'>estimateSizeFactors</a></span>(<span class='no'>dds_macrophage</span>)</div><div class='output co'>#&gt; <span class='message'>using 'avgTxLength' from assays(dds), correcting for library size</span></div><div class='input'>
+<span class='no'>df_exp</span> <span class='kw'>&lt;-</span> <span class='fu'>get_expression_values</span>(<span class='no'>dds_macrophage</span>,
+                                <span class='kw'>gene</span> <span class='kw'>=</span> <span class='st'>"ENSG00000125347"</span>,
+                                <span class='kw'>intgroup</span> <span class='kw'>=</span> <span class='st'>"condition"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>df_exp</span>)</div><div class='output co'>#&gt;                 exp_value   condition
+#&gt; SAMEA103885102   819.6422       naive
+#&gt; SAMEA103885347 31852.1503        IFNg
+#&gt; SAMEA103885043 17874.4499      SL1344
+#&gt; SAMEA103885392 71361.7711 IFNg_SL1344
+#&gt; SAMEA103885182  1239.2723       naive
+#&gt; SAMEA103885136 41985.4038        IFNg</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

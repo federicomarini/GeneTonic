@@ -167,8 +167,12 @@ the ones specified via <code>n_gs</code>. Defaults to NULL.</p></td>
     <div class='dont-index'><p><code><a href='gs_mds.html'>gs_mds()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'># TODO
-</div></pre>
+    <pre class="examples"><div class='input'>
+<span class='co'># res_enrich object</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>res_enrich_macrophage</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"GeneTonic"</span>)
+<span class='no'>res_enrich</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='shake_topGOtableResult.html'>shake_topGOtableResult</a></span>(<span class='no'>topgoDE_macrophage_IFNg_vs_naive</span>)</div><div class='output co'>#&gt; <span class='message'>Found 500 gene sets in `topGOtableResult` object.</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div><div class='input'>
+<span class='no'>kmat</span> <span class='kw'>&lt;-</span> <span class='fu'>create_kappa_matrix</span>(<span class='no'>res_enrich</span>[<span class='fl'>1</span>:<span class='fl'>200</span>,])
+<span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span>(<span class='no'>kmat</span>)</div><div class='output co'>#&gt; [1] 200 200</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
