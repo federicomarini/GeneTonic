@@ -73,7 +73,12 @@ shake_enrichResult <- function(obj) {
 #' @family shakers
 #'
 #' @examples
-#' # TODO
+#'
+#' # res_enrich object
+#' data(res_enrich_macrophage, package = "GeneTonic")
+#'
+#' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
+#'
 shake_topGOtableResult <- function(obj,
                                    p_value_column = "p.value_elim") {
   # if (!is(obj, "topGOtableResult"))

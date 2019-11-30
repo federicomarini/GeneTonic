@@ -19,7 +19,13 @@
 #' @export
 #'
 #' @examples
-#' # TODO
+#'
+#' # res_enrich object
+#' data(res_enrich_macrophage, package = "GeneTonic")
+#' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
+#'
+#' kmat <- create_kappa_matrix(res_enrich[1:200,])
+#' dim(kmat)
 create_kappa_matrix <- function(res_enrich,
                                 n_gs = nrow(res_enrich),
                                 gs_ids = NULL
@@ -110,7 +116,13 @@ create_kappa_matrix <- function(res_enrich,
 #' @export
 #'
 #' @examples
-#' # TODO
+#'
+#' # res_enrich object
+#' data(res_enrich_macrophage, package = "GeneTonic")
+#' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
+#'
+#' jmat <- create_jaccard_matrix(res_enrich[1:200,])
+#' dim(jmat)
 create_jaccard_matrix <- function(res_enrich,
                                   n_gs = nrow(res_enrich),
                                   gs_ids = NULL,
