@@ -36,7 +36,6 @@ go_2_html <- function(go_id, res_enrich = NULL) {
            ""),
     "<b>Ontology: </b>", Ontology(fullinfo), "<br><br>",
     "<b>Definition: </b>", Definition(fullinfo), "<br>",
-    ## TODO: extra info from the res_enrich?
     paste0(
       unlist(
         lapply(Synonym(fullinfo), function(arg) {

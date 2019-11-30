@@ -36,7 +36,43 @@
 #' @export
 #'
 #' @examples
-#' # TODO
+#'
+#' library("macrophage")
+#' library("DESeq2")
+#' library("org.Hs.eg.db")
+#' library("AnnotationDbi")
+#'
+#' # dds object
+#' data("gse", package = "macrophage")
+#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
+#' dds_macrophage <- estimateSizeFactors(dds_macrophage)
+#'
+#' # annotation object
+#' anno_df <- data.frame(
+#'   gene_id = rownames(dds_macrophage),
+#'   gene_name = mapIds(org.Hs.eg.db,
+#'                      keys = rownames(dds_macrophage),
+#'                      column = "SYMBOL",
+#'                      keytype = "ENSEMBL"),
+#'   stringsAsFactors = FALSE,
+#'   row.names = rownames(dds_macrophage)
+#' )
+#'
+#' # res object
+#' data(res_de_macrophage, package = "GeneTonic")
+#' res_de <- res_macrophage_IFNg_vs_naive
+#'
+#' # res_enrich object
+#' data(res_enrich_macrophage, package = "GeneTonic")
+#' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
+#' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
+#'
+#' gs_mds(res_enrich,
+#'        res_de,
+#'        anno_df,
+#'        n_gs = 200,
+#'        mds_labels = 10)
 gs_mds <- function(res_enrich,
                    res_de,
                    annotation_obj,
@@ -105,7 +141,8 @@ gs_mds <- function(res_enrich,
     gs_name = mysets_names,
     gs_DEcount = res_enrich$DE_count,
     gs_colby = res_enrich[[mds_colorby]],
-    text = paste0(mysets, ": ", mysets_names) # TODOTODO: is there a way to avoid the warning from gg?
+    text = paste0(mysets, ": ", mysets_names),# TODOTODO: is there a way to avoid the warning from gg?
+    stringsAsFactors = FALSE
   )
 
   max_z <- max(abs(range(mds_go_df$gs_colby)))
@@ -130,19 +167,24 @@ gs_mds <- function(res_enrich,
     theme_bw()
 
   if (mds_labels > 0) {
-    p <- p + geom_label_repel(
-      aes_string(label = "gs_name"), data = mds_go_df[1:mds_labels, ], size = 3)
+    label_these <- mds_go_df$gs_id[1:mds_labels]
+  } else {
+    label_these <- NULL
   }
 
   if (!is.null(gs_labels)) {
     if (!all(gs_labels %in% res_enrich$gs_id)) {
       warning("Not all specified geneset ids were found in the `res_enrich` object")
     }
-    df_gs_labels <- mds_go_df[mds_go_df$gs_id %in% gs_labels, ]
-
-    p <- p + geom_label_repel(
-      aes_string(label = "gs_name"), data = df_gs_labels, size = 3)
+    label_those <- mds_go_df[mds_go_df$gs_id %in% gs_labels, "gs_id"]
+  } else {
+    label_those <- NULL
   }
+
+  df_gs_labels <- mds_go_df[mds_go_df$gs_id %in% unique(c(label_these, label_those)), ]
+
+  p <- p + geom_label_repel(
+    aes_string(label = "gs_name"), data = df_gs_labels, size = 3)
 
   # handling the title
   if (is.null(plot_title)) {

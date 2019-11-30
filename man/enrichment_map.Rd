@@ -53,7 +53,54 @@ and \code{res_de}. This object can be further plotted, e.g. statically via
 \code{\link[igraph:plot.igraph]{igraph::plot.igraph()}}, or dynamically via \code{\link[visNetwork:visIgraph]{visNetwork::visIgraph()}}
 }
 \examples{
-# TODO
+library("macrophage")
+library("DESeq2")
+library("org.Hs.eg.db")
+library("AnnotationDbi")
+
+# dds object
+data("gse", package = "macrophage")
+dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
+dds_macrophage <- estimateSizeFactors(dds_macrophage)
+
+# annotation object
+anno_df <- data.frame(
+  gene_id = rownames(dds_macrophage),
+  gene_name = mapIds(org.Hs.eg.db,
+                     keys = rownames(dds_macrophage),
+                     column = "SYMBOL",
+                     keytype = "ENSEMBL"),
+  stringsAsFactors = FALSE,
+  row.names = rownames(dds_macrophage)
+)
+
+# res object
+data(res_de_macrophage, package = "GeneTonic")
+res_de <- res_macrophage_IFNg_vs_naive
+
+# res_enrich object
+data(res_enrich_macrophage, package = "GeneTonic")
+res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
+res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
+
+em <- enrichment_map(res_enrich,
+                     res_de,
+                     anno_df,
+                     n_gs = 20
+)
+
+em
+
+# could be viewed interactively with
+# library(visNetwork)
+# library(magrittr)
+# em \%>\%
+#   visIgraph() \%>\%
+#   visOptions(highlightNearest = list(enabled = TRUE,
+#                                      degree = 1,
+#                                      hover = TRUE),
+#             nodesIdSelection = TRUE)
 }
 \seealso{
 \code{\link[=GeneTonic]{GeneTonic()}} embeds an interactive visualization for the enrichment map
