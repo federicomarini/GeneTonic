@@ -25,28 +25,240 @@ bibliography: GeneTonic.bib
 
 **Compiled date**: `r Sys.Date()`
 
-**Last edited**: 2019-06-24
+**Last edited**: 2019-11-30
 
 **License**: `r packageDescription("GeneTonic")[["License"]]`
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
     collapse = TRUE,
-    comment = "#>",
-    error = FALSE,
-    warning = FALSE,
-    eval = FALSE, # TODO: temporarily speeding up building and checking
-    message = FALSE
+    comment  = "#>",
+    error    = FALSE,
+    warning  = FALSE,
+    eval     = FALSE, # TODO: temporarily speeding up building and checking
+    message  = FALSE
 )
+options(width = 100)
 ```
   
 ---
 
-```{r}
-library(GeneTonic)
+# Introduction
+
+This vignette describes how to use the `r BiocStyle::Biocpkg("GeneTonic")` package for analyzing and integrating the results from Differential Expression analysis and functional enrichment analysis.
+This package aims to combine at different levels the existing pieces of the transcriptome data and results, in a way that makes it easier to generate insightful observations and hypothesis - combining the benefits of interactivity and reproducibility, e.g. by capturing the features and gene sets of interest highlighted during the live session, and creating an HTML report as an artifact where text, code, and output coexist.
+
+In order to use `r BiocStyle::Biocpkg("GeneTonic")` in your workflow, the following inputs are required: 
+
+- 
+- 
+- 
+- 
+
+This workflow has mainly been tested with expression matrices with Ensembl identifiers, which are consistent and unambiguous across different releases, and results from functional enrichment analysis originating from ORA (OverRepresentation Analysis) methods, on the Gene Ontology signature database.
+It may need to be slightly adjusted to work with other formats and sources, but the core functionality will remain available.
+
+In the remainder of this vignette, we will illustrate the main features of `r BiocStyle::Biocpkg("GeneTonic")` on a publicly available dataset from Alasoo, et al. "Shared genetic effects on chromatin and gene expression indicate a role for enhancer priming in immune response", published in Nature Genetics, January 2018 [@Alasoo2018]
+[doi:10.1038/s41588-018-0046-7](https://doi.org/10.1038/s41588-018-0046-7).
+
+The data is made available via the `r BiocStyle::Biocpkg("macrophage")` Bioconductor package, which contains the files output from the Salmon quantification (version 0.12.0, with Gencode v29 reference), as well as the values summarized at the gene level, which we will use to exemplify.
+
+In the `macrophage` experimental setting, the samples are available from 6 different donors, in 4 different conditions (naive, treated with Interferon gamma, with SL1344, or with a combination of Interferon gamma and SL1344).
+We will restrict our attention on the comparison between Interferon gamma treated samples vs naive samples.
+
+# Getting started
+
+To install this package, start R and enter:
+
+```{r install, eval=FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("GeneTonic")
 ```
 
-# Walking through the `GeneTonic` package
+Once installed, the package can be loaded and attached to your current workspace as follows:
+
+```{r loadlib, eval = TRUE}
+library("GeneTonic")
+```
+
+If you have all four input elements ready, you can launch the `GeneTonic()` app by running:
+
+```{r launchapp, eval=FALSE}
+GeneTonic(dds = dds_object,
+          res_de = res_de_object,
+          res_enrich = res_enrich_object,
+          annotation_obj = annotation_object,
+          project_id = "myFirstGeneTonic")
+```
+
+In this vignette, we showcase the functionality of `r BiocStyle::Biocpkg("GeneTonic")` using the gene-level summarized version of the `macrophage` dataset.
+If you want to dive in and start playing with the app immediately, you can simply run:
+
+```{r examplerun, eval=FALSE}
+example("GeneTonic", ask = FALSE)
+```
+
+Otherwise, you can follow the next chunks of code to generate the required input objects, step by step.
+In case some formatting requirements are expected, these will be specified in the text/comments, and they will be checked internally upon launching the `GeneTonic` app.
+
+For running `GeneTonic`, you will need the four components mentioned above as parameters.
+
+1. `dds`: First you will need a `DESeqDataSet`, which is the main component in the `DESeq2` framework and extends the widely adopted `SummarizedExperiment` class.
+This object will store the information related to the expression matrix.
+
+```{r create_dds, eval=TRUE}
+library("macrophage")
+library("DESeq2")
+
+data("gse", package = "macrophage")
+
+dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+# changing the ids to Ensembl instead of the Gencode used in the object
+rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
+dds_macrophage
+```
+
+2. `res_de`: Next you are going to need the results of Differential Expression analysis, computed on the `dds_macrophage` object you just obtained.
+
+   The expected format is a `DESeqResults` object.
+  Here we are going to contrast two different conditions, `IFNg` and `naive`, while controlling for the cell line of origin (which has 6 levels, namely `r knitr::combine_words(levels(dds_macrophage$condition))`).
+  
+   We start by filtering lowly expressed features (at least 10 counts in at least 6 samples - 6 being the size of the smallest group).
+Then, we test against a null hypothesis of a log2FoldChange of 1 (instead of the default value of 0), in order to specify that we want to call DE genes with a consistent *and* robust expression change. 
+   Finally, we add the gene symbol to the output `DataFrame`.
+
+```{r create_resde, eval = FALSE}
+keep <- rowSums(counts(dds_macrophage) >= 10) >= 6
+dds_macrophage <- dds_macrophage[keep, ]
+library("org.Hs.eg.db")
+dds_macrophage <- DESeq(dds_macrophage)
+# vst_macrophage <- vst(dds_macrophage)
+res_macrophage_IFNg_vs_naive <- results(dds_macrophage,
+                                        contrast = c("condition", "IFNg", "naive"),
+                                        lfcThreshold = 1, alpha = 0.05)
+res_macrophage_IFNg_vs_naive$SYMBOL <- rowData(dds_macrophage)$SYMBOL
+```
+
+```{r load_resde, eval=TRUE}
+## To speed up the operations in the vignette, we can also load this object directly
+data("res_de_macrophage")
+head(res_macrophage_IFNg_vs_naive)
+```
+
+3. `res_enrich`: With the DE results of the previous step, we are going to extract the vector of DE genes (via `deseqresult2df`), as well as the list of genes to be used as background, and feed these two objects into a function that computes the functional enrichment of the DE genes.
+
+   We are going to use the ORA method implemented in `r BiocStyle::Biocpkg("topGO")`, wrapped in the function `topGOtable` available in the `r BiocStyle::Biocpkg("pcaExplorer")` package, which by default uses the `BP` ontology and the `elim` method to decorrelate the GO graph structure and deliver less redundant functional categories.
+   You can also use as an alternative the `enrichGO` function from `r BiocStyle::Biocpkg("clusterProfiler")`.
+
+```{r create_resenrich, eval=FALSE}
+library("AnnotationDbi")
+de_symbols_IFNg_vs_naive <- deseqresult2df(res_macrophage_IFNg_vs_naive, FDR = 0.05)$SYMBOL
+bg_ids <- rowData(dds_macrophage)$SYMBOL[rowSums(counts(dds_macrophage)) > 0]
+library("topGO")
+topgoDE_macrophage_IFNg_vs_naive <-
+  pcaExplorer::topGOtable(de_symbols_IFNg_vs_naive,
+                          bg_ids,
+                          ontology = "BP",
+                          mapping = "org.Hs.eg.db",
+                          geneID = "symbol",
+                          topTablerows = 500)
+```
+
+```{r load_resenrich, eval=TRUE}
+## To speed up the operations in the vignette, we also load this object directly
+data("res_enrich_macrophage")
+head(topgoDE_macrophage_IFNg_vs_naive, 2)
+```
+
+   Since in this step the object can be created from different methods, but the `GeneTonic` main functions require some specific columns to be present, we have created some functions to convert the output of the upstream tools into a format compatible with `GeneTonic`.
+   The functions `shake_enrichResult()` and `shake_topGOtableResult()` serve this purpose - if your favorite tool might be different, you can write your own conversion function and contribute it to `GeneTonic`.
+   
+```{r convert_resenrich, eval=TRUE}
+res_enrich_macrophage <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
+colnames(res_enrich_macrophage)
+```
+   
+4. `annotation_obj`: Last object required is the annotation data frame, i.e. a simple data frame composed at least of two columns, `gene_id`, with a set of unambiguous identifiers (e.g. ENSEMBL ids) corresponding to the row names of the `dds` object, and `gene_name`, containing e.g. HGNC-based gene symbols. 
+   This object can be constructed via the `org.eg.XX.db` packages, e.g. with convenience functions such as `pcaExplorer::get_annotation_orgdb()`.
+   Here we display the general way of obtaining this object.
+   
+```{r create_anno, eval=TRUE}
+library("org.Hs.eg.db")
+anno_df <- data.frame(
+  gene_id = rownames(dds_macrophage),
+  gene_name = mapIds(org.Hs.eg.db, keys = rownames(dds_macrophage), column = "SYMBOL", keytype = "ENSEMBL"),
+  stringsAsFactors = FALSE,
+  row.names = rownames(dds_macrophage)
+)
+## alternatively:
+# anno_df <- pcaExplorer::get_annotation_orgdb(dds_macrophage, "org.Hs.eg.db", "ENSEMBL")
+```
+
+
+For some operations in the main app and in the single functions, sometimes it is required to have aggregated scores for the `res_enrich` data frame.
+
+We can do so by calling `get_aggrscores()` on the combination of objects we just generated.
+This adds two columns to the provided `res_enrich` object, `z_score` and `aggr_score`, which summarize at the gene set level the effect (log2FoldChange) of the differentially expressed genes which are its members.
+In particular, the z score attempts to determine the "direction" of change, computed as $z = \frac{(upgenes - downgenes)}{\sqrt{(upgenes + downgenes)}}$, regardless of the effect size of the single members of the gene set.
+
+```{r aggr_enrich, eval=TRUE}
+res_enrich_macrophage <- get_aggrscores(res_enrich = res_enrich_macrophage,
+                                        res_de = res_macrophage_IFNg_vs_naive,
+                                        annotation_obj = anno_df,
+                                        aggrfun = mean)
+```
+
+## All set!
+
+Once you have the four objects specified above, you can set the `project_id` to be a character string at wish, and you can just launch the `GeneTonic` app:
+
+```{r}
+GeneTonic(dds = dds_macrophage,
+          res_de = res_macrophage_IFNg_vs_naive,
+          res_enrich = res_enrich_macrophage,
+          annotation_obj = anno_df,
+          project_id = "GT1")
+```
+
+
+
+
+# Description of the `GeneTonic` user interface
+
+The `GeneTonic` app is built with `r BiocStyle::CRANpkg("shiny")`, and its layout is built around the components of `r BiocStyle::CRANpkg("bs4Dash")`, a modern looking dashboard based on Bootstrap 4.
+
+## Header (navbar)
+
+elements
+
+## Sidebar
+
+elements
+
+## Controlbar
+
+elements
+
+## Body
+
+
+# The `GeneTonic` functionality
+
+What the app tabs do
+
+# Using `GeneTonic` functions
+
+
+
+
+# FAQ
+
+
+# Additional Information
+
+
 
 Full setup as for the testing
 

@@ -60,7 +60,7 @@ library(clusterProfiler)
 
 ego_IFNg_vs_naive <- enrichGO(gene = de_symbols_IFNg_vs_naive,
                               universe      = bg_ids,
-                              keyType = "SYMBOL",
+                              keyType       = "SYMBOL",
                               OrgDb         = org.Hs.eg.db,
                               ont           = "BP",
                               pAdjustMethod = "BH",
