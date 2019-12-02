@@ -225,7 +225,7 @@ the redundancy of the displayed gene sets</p></div>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>res_enrich_macrophage</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"GeneTonic"</span>)
 <span class='no'>res_enrich</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='shake_topGOtableResult.html'>shake_topGOtableResult</a></span>(<span class='no'>topgoDE_macrophage_IFNg_vs_naive</span>)</div><div class='output co'>#&gt; <span class='message'>Found 500 gene sets in `topGOtableResult` object.</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div><div class='input'><span class='no'>res_enrich</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_aggrscores.html'>get_aggrscores</a></span>(<span class='no'>res_enrich</span>, <span class='no'>res_de</span>, <span class='no'>anno_df</span>)
 
-<span class='fu'>gs_volcano</span>(<span class='no'>res_enrich</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 11 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 4 rows containing missing values (geom_label_repel).</span></div><div class='img'><img src='gs_volcano-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>gs_volcano</span>(<span class='no'>res_enrich</span>)</div><div class='img'><img src='gs_volcano-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
