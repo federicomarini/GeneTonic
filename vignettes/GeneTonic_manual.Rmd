@@ -40,11 +40,13 @@ knitr::opts_chunk$set(
     fig.width = 10
 )
 options(width = 100)
+stopifnot(requireNamespace("htmltools"))
+htmltools::tagList(rmarkdown::html_dependency_font_awesome())
 ```
   
 ---
 
-# Introduction
+# Introduction {#introduction}
 
 This vignette describes how to use the `r BiocStyle::Biocpkg("GeneTonic")` package for analyzing and integrating the results from Differential Expression analysis and functional enrichment analysis.
 
@@ -68,7 +70,7 @@ The data is made available via the `r BiocStyle::Biocpkg("macrophage")` Biocondu
 In the `macrophage` experimental setting, the samples are available from 6 different donors, in 4 different conditions (naive, treated with Interferon gamma, with SL1344, or with a combination of Interferon gamma and SL1344).
 We will restrict our attention on the comparison between Interferon gamma treated samples vs naive samples.
 
-# Getting started
+# Getting started {#gettingstarted}
 
 To install this package, start R and enter:
 
@@ -227,34 +229,67 @@ GeneTonic(dds = dds_macrophage,
 
 
 
-# Description of the `GeneTonic` user interface
+# Description of the `GeneTonic` user interface {#userinterface}
 
 The `GeneTonic` app is built with `r BiocStyle::CRANpkg("shiny")`, and its layout is built around the components of `r BiocStyle::CRANpkg("bs4Dash")`, a modern looking dashboard based on Bootstrap 4.
 
 ## Header (navbar)
 
-elements
+The dashboard navbar (as it is called in `bs4Dash`) contains two dropdown menus, which can be expanded by clicking on the respective icons (<i class="fa fa-question-circle"></i> and <i class="fa fa-info"></i>).
+These provide additional buttons to inspect... TODO
+
+Additionally, one fundamental button is present in the navbar, and serves the purpose of bookmarking genes and gene sets of interest while exploring your data in an interactive session.
+This functionality will be exploited in the <i class="fa fa-bookmark"></i> section of the app, where a complete HTML report can be generated as a reproducible artifact.
 
 ## Sidebar
 
-elements
+On the left side of the app, by clicking on the <i class="fa fa-bars"></i> icon (or if the app is viewed in full screen, by simply moving the mouse over to the left side), the sidebar menu is triggered.
+This constitutes the main way to access the different tabs of `GeneTonic()`, which will be explained in more detail in the next section (\@ref(functionality)).
 
 ## Controlbar
 
-elements
+The controlbar is triggered by clicking on the cogs <i class="fa fa-cogs"></i> icon on the upper right part of the navbar. 
+There you can find widgets that control the appearance of output (plots, tables, graphs) in multiple tabs of the main application, such as for example the number of gene sets to focus your attention on.
 
 ## Body
 
+The main body of the `GeneTonic` application is structured in tabs that are activated by clikcing on the respective icons or text in the sidebar.
 
-# The `GeneTonic` functionality
+While the Welcome tab might be self-explanatory, the functionality of each tab can go in depth, and new users can benefit of the 
+<button id="tour_" type="button" class="btn btn-default action-button" style=color: #0092AC; background-color: #FFFFFF; border-color: #FFFFFF>
+  <i class="fa fa-question-circle"></i>
+</button>
+button to trigger an interactive tour of `GeneTonic`, which allows users to learn the basic usage mechanisms by doing.
+During a tour, the highlighted elements respond to the user's actions, while the rest of the UI is kept shaded.
+Tours can be interrupted anytime by clicking outside of the focused window, and arrows (left, right) can be used as well to navigate between steps.
+The tour functionality is provided by the beautiful `r BiocStyle::CRANpkg("rintrojs")` package.
+
+# The `GeneTonic` functionality {#functionality}
 
 What the app tabs do
 
-# Using the `GeneTonic` functions
+
+
+
+
+
+
+
+
+
+
+
+
+
+TODO
+
+# Using the `GeneTonic` functions {#functions}
 
 The `r BiocStyle::Biocpkg("GeneTonic")` package provides, apart from the main app where to perform the analysis in an interactive way, a number of functions which can be used also as standalone components for a workflow.
 
 ## Overview functions: genes and gene sets
+
+Summarize the top genesets by displaying the logFC of each set's components - and transform the `ggplot` output into a `plotly` visualization, where tooltips can deliver additional information:
 
 ```{r}
 p <- enhance_table(res_enrich_macrophage,
@@ -267,12 +302,16 @@ library("plotly")
 ggplotly(p)
 ```
 
+Display the relationship between genesets and genes that belong to them (useful e.g. to see overlap between terms):
+
 ```{r}
 gs_alluvial(res_enrich = res_enrich_macrophage,
             res_de = res_macrophage_IFNg_vs_naive,
             annotation_obj = anno_df,
             n_gs = 4)
 ```
+
+Display a bipartite graph where genesets and genes are included, and make it interactive:
 
 ```{r}
 ggs <- ggs_graph(res_enrich_macrophage,
@@ -295,9 +334,12 @@ ggs %>%
 
 ## Summary representations
 
+Plot an enrichment map of the enrichment results, where you can choose with `n_gs` the number of top genesets to be displayed, and specify in `gs_ids` the gene set identifiers - these will be merged together for each function's context:
+
 ```{r}
 em <- enrichment_map(res_enrich_macrophage,
                      res_macrophage_IFNg_vs_naive,
+                     n_gs = 30,
                      anno_df)
 library("visNetwork")
 library("magrittr")
@@ -309,6 +351,8 @@ em %>%
              nodesIdSelection = TRUE)
   
 ```
+
+Display a volcano plot for genesets, plotting significance (y-axis) versus Z score (x-axis), with color and size encoding some geneset features:
 
 ```{r}
 gs_volcano(res_enrich_macrophage,
@@ -325,6 +369,8 @@ gs_volcano(res_enrich_simplified,
            color_by = "aggr_score")
 ```
 
+Plot a dendrogram of the enrichment results (or a subset thereof), using node color, node size, and branch color to encode relevant geneset features (and their groups):
+
 ```{r}
 gs_dendro(res_enrich_macrophage,
           n_gs = 50,
@@ -335,6 +381,8 @@ gs_dendro(res_enrich_macrophage,
           color_branches_by = "clusters",
           create_plot = TRUE)
 ```
+
+Produce a MultiDimensional Scaling plot of the genesets in the enrichment results:
 
 ```{r}
 gs_mds(res_enrich_macrophage,
@@ -350,6 +398,8 @@ gs_mds(res_enrich_macrophage,
        plot_title = NULL) 
 ```
 
+Obtain a simple overview of enrichment results, showing e.g. significance and direction of change (`z_score`)
+
 ```{r}
 gs_summary_overview(res_enrich_macrophage,
                     n_gs = 30,
@@ -357,12 +407,16 @@ gs_summary_overview(res_enrich_macrophage,
                     color_by = "z_score")
 ```
 
+Plot a summary heatmap of genes vs genesets, encoding the logFC of genes and representing the overlap among genesets:
+
 ```{r}
 gs_summary_heat(res_enrich_macrophage,
                 res_macrophage_IFNg_vs_naive,
                 anno_df,
                 n_gs = 20)
 ```
+
+Plot a heatmap on the geneset scores, computed sample-wise via `gs_scores` so that the geneset members compose a Z score that gets summarized: 
 
 ```{r}
 vst_macrophage <- vst(dds_macrophage)
@@ -375,25 +429,51 @@ gs_scoresheat(scores_mat,
               n_gs = 30)
 ```
 
-<!-- create_kappa_matrix -->
-<!-- create_jaccard_matrix -->
-
 ## Reporting
 
-```{r}
+Enjoy a fully fledged `happy_hour` by running offline the analysis contained in the report, included in the `r BiocStyle::Biocpkg("GeneTonic")` package.
 
+```{r eval=FALSE}
+happy_hour(dds = dds_macrophage,
+           res_de = res_de,
+           res_enrich = res_enrich,
+           annotation_obj = anno_df,
+           project_id = "examplerun",
+           mygenesets = res_enrich$gs_id[c(1:5,11,31)],
+           mygenes = c("ENSG00000125347",
+                       "ENSG00000172399",
+                       "ENSG00000137496")
+)
 ```
 
-happy_hour
+The functionality is also the same activated in the Bookmarks section of the interactive app.
+Here you can choose a number of genesets (`mygenesets`) and genes (`mygenes`), specifying their identifiers, and obtain in batch a number of summary representations focused on these elements.
+
+Advanced users can also provide a custom RMarkdown file, and to guarantee it works in the context of `happy_hour`, we recommend to inspect the template available here:
+
+```{r}
+template_rmd <- system.file("extdata",
+                            "cocktail_recipe.Rmd",
+                            package = "GeneTonic")
+template_rmd
+```
 
 ## Comparison between sets
 
-gs_summary_overview_pair
-gs_radar
-gs_horizon
+While `GeneTonic` works currently with a single `res_enrich` object, there are some functions that allow a visual comparison between two different enrichment results (the functions are displaying a shuffled instance of the single `res_enrich`):
 
+```{r}
+gs_summary_overview_pair(res_enrich = res_enrich_macrophage)
+gs_radar(res_enrich1 = res_enrich_macrophage)
+gs_horizon(res_enrich = res_enrich_macrophage, n_gs = 25)
+```
 
-## Misc
+In particular, the `gs_horizon` function tries to group the different genesets based on their relative enrichment across conditions, similar to a representation of [@Dutertre2019] (e.g. Fig. 5G).
+Thanks to Charlotte Soneson for providing a compact working implementation of this!
+
+## Miscellaneous functions
+
+Extract results and sort them (filtering by FDR) with `deseqresult2df`, select one top-ranking gene, extract its expression values and plot them, and display some buttons to link to external databases:
 
 ```{r}
 head(deseqresult2df(res_macrophage_IFNg_vs_naive))
@@ -412,8 +492,9 @@ gene_plot(dds_macrophage,
           plot_type = "auto")
 
 geneinfo_2_html("IRF1")
-
 ```
+
+Plot a signature heatmap for a gene set, where a matrix of genes times samples for the set members is extracted, plus generate some HTML code to summarize the information of a Gene Ontology term:
 
 ```{r}
 gs_heatmap(se = vst_macrophage,
@@ -429,18 +510,57 @@ go_2_html("GO:0060337",
           res_enrich = res_enrich_macrophage)
 ```
 
-"shake_enrichResult"       "shake_topGOtableResult" 
-checkup_GeneTonic
+Some functions are just to ensure that the input objects are conform with the format expected by `GeneTonic`:
+
+```{r eval=FALSE}
+res_enrich <- shake_enrichResult(enrichment_results_from_clusterProfiler)
+res_enrich <- shake_topGOtableResult(enrichment_results_from_topGOtable)
+```
+
+As an internal check, one can see if all required arguments are fine for running `GeneTonic` by running `checkup_GeneTonic`:
+
+```{r}
+checkup_GeneTonic(dds = dds_macrophage,
+                  res_de = res_macrophage_IFNg_vs_naive,
+                  res_enrich = res_enrich_macrophage,
+                  annotation_obj = anno_df)
+# if all is fine, it should return an invisible NULL and a simple message
+```
 
 
-# Additional Information
+# Additional Information {#additionalinfo}
 
-# FAQs
+Bug reports can be posted on the Bioconductor support site (https://support.bioconductor.org/) or raised as issues in the `GeneTonic` GitHub repository (https://github.com/federicomarini/GeneTonic/issues). 
+The GitHub repository also contains the development version of the package, where new functionality is added over time - careful, you might be running bleeding edge versions!
 
-**Q: Why is this package called GeneTonic?**
+The authors appreciate well-considered suggestions for improvements or new features, or even better, pull requests.
+
+If you use `GeneTonic` for your analysis, please cite it as shown below:
+
+```{r}
+citation("GeneTonic")
+```
+
+
+# FAQs {#faqs}
+
+**Q: Why is this package called `GeneTonic`?**
 
 A: For obvious reasons :) Like a cocktail, ingredients (expression matrix, results from DE, and results from functional enrichment analysis) do taste better together.
-Plus, we like puns. And cocktails.
+Plus, I like puns with words. And cocktails. Sometimes simultaneously.
+
+**Q: My configuration on two machines is somewhat different, so I am having difficulty in finding out what packages are different. Is there something tio help on this?**
+
+A: Yes, you can check out `r BiocStyle::Githubpkg("federicomarini/sessionDiffo")`, a small utility to compare the outputs of two different `sessionInfo` outputs.
+This can help you pinpoint what packages might be causing the issue.
+
+**Q: I am using a different service/software for generating the results of functional enrichment analysis. How do I plug this into `GeneTonic`?**
+
+A: You can set up a small conversion function, on the line of `shake_topGOtableResult` and `shake_enrichResult` (*use the source, Luke* to see how you can build your own), or request such a function - make sure to specify the formatting specifications of your tool of choice (e.g. David, g:Profiler, or commercial solutions such as Ingenuity Pathway Analysis).
+
+**Q: I'd like to try `GeneTonic` but I could not install it/I just want a quick peek into it. What can I do for this?**
+
+A: We set up an instance of `GeneTonic` running on the `macrophage` dataset at this address: http://shiny.imbei.uni-mainz.de:3838/GeneTonic. TODOTODO
 
 # Session Info {-}
 
