@@ -46,6 +46,7 @@ Imports:
 Suggests:
     knitr,
     BiocStyle,
+    htmltools,
     clusterProfiler,
     macrophage,
     org.Hs.eg.db,
