@@ -35,8 +35,9 @@ knitr::opts_chunk$set(
     comment  = "#>",
     error    = FALSE,
     warning  = FALSE,
-    eval     = FALSE, # TODO: temporarily speeding up building and checking
-    message  = FALSE
+    eval     = TRUE, # TODO: temporarily speeding up building and checking
+    message  = FALSE,
+    fig.width = 10
 )
 options(width = 100)
 ```
@@ -46,14 +47,15 @@ options(width = 100)
 # Introduction
 
 This vignette describes how to use the `r BiocStyle::Biocpkg("GeneTonic")` package for analyzing and integrating the results from Differential Expression analysis and functional enrichment analysis.
-This package aims to combine at different levels the existing pieces of the transcriptome data and results, in a way that makes it easier to generate insightful observations and hypothesis - combining the benefits of interactivity and reproducibility, e.g. by capturing the features and gene sets of interest highlighted during the live session, and creating an HTML report as an artifact where text, code, and output coexist.
+
+This package provides a Shiny application that aims to combine at different levels the existing pieces of the transcriptome data and results, in a way that makes it easier to generate insightful observations and hypothesis - combining the benefits of interactivity and reproducibility, e.g. by capturing the features and gene sets of interest highlighted during the live session, and creating an HTML report as an artifact where text, code, and output coexist.
 
 In order to use `r BiocStyle::Biocpkg("GeneTonic")` in your workflow, the following inputs are required: 
 
-- 
-- 
-- 
-- 
+- `dds`, a `DESeqDataSet` containing the expression matrix;
+- `res_de`, a `DESeqResults`, i.e. a `DataFrame` storing the results of the differentially expression analysis;
+- `res_enrich`, a `data.frame` with the results of functional enrichment analysis;
+- `annotation_obj`, a `data.frame` with the correspondence between identifiers for the features under inspection in the `dds` object.
 
 This workflow has mainly been tested with expression matrices with Ensembl identifiers, which are consistent and unambiguous across different releases, and results from functional enrichment analysis originating from ORA (OverRepresentation Analysis) methods, on the Gene Ontology signature database.
 It may need to be slightly adjusted to work with other formats and sources, but the core functionality will remain available.
@@ -214,7 +216,7 @@ res_enrich_macrophage <- get_aggrscores(res_enrich = res_enrich_macrophage,
 
 Once you have the four objects specified above, you can set the `project_id` to be a character string at wish, and you can just launch the `GeneTonic` app:
 
-```{r}
+```{r eval=FALSE}
 GeneTonic(dds = dds_macrophage,
           res_de = res_macrophage_IFNg_vs_naive,
           res_enrich = res_enrich_macrophage,
@@ -248,200 +250,190 @@ elements
 
 What the app tabs do
 
-# Using `GeneTonic` functions
+# Using the `GeneTonic` functions
+
+The `r BiocStyle::Biocpkg("GeneTonic")` package provides, apart from the main app where to perform the analysis in an interactive way, a number of functions which can be used also as standalone components for a workflow.
+
+## Overview functions: genes and gene sets
+
+```{r}
+p <- enhance_table(res_enrich_macrophage,
+                   res_macrophage_IFNg_vs_naive,
+                   n_gs = 30,
+                   annotation_obj = anno_df,
+                   chars_limit = 60)
+p
+library("plotly")
+ggplotly(p)
+```
+
+```{r}
+gs_alluvial(res_enrich = res_enrich_macrophage,
+            res_de = res_macrophage_IFNg_vs_naive,
+            annotation_obj = anno_df,
+            n_gs = 4)
+```
+
+```{r}
+ggs <- ggs_graph(res_enrich_macrophage,
+                 res_de = res_macrophage_IFNg_vs_naive,
+                 anno_df,
+                 n_gs = 20)
+ggs
+
+# could be viewed interactively with
+library(visNetwork)
+library(magrittr)
+ggs %>%
+  visIgraph() %>%
+  visOptions(highlightNearest = list(enabled = TRUE,
+                                     degree = 1,
+                                     hover = TRUE),
+             nodesIdSelection = TRUE)
+```
 
 
+## Summary representations
+
+```{r}
+em <- enrichment_map(res_enrich_macrophage,
+                     res_macrophage_IFNg_vs_naive,
+                     anno_df)
+library("visNetwork")
+library("magrittr")
+em %>% 
+  visIgraph() %>% 
+  visOptions(highlightNearest = list(enabled = TRUE,
+                                     degree = 1,
+                                     hover = TRUE),
+             nodesIdSelection = TRUE)
+  
+```
+
+```{r}
+gs_volcano(res_enrich_macrophage,
+           p_threshold = 0.05,
+           color_by = "aggr_score",
+           volcano_labels = 10,
+           gs_ids = NULL,
+           plot_title = "my volcano")
+res_enrich_simplified <- gs_simplify(res_enrich_macrophage,
+                                     gs_overlap = 0.7)
+dim(res_enrich_macrophage)
+dim(res_enrich_simplified)
+gs_volcano(res_enrich_simplified,
+           color_by = "aggr_score")
+```
+
+```{r}
+gs_dendro(res_enrich_macrophage,
+          n_gs = 50,
+          gs_dist_type = "kappa", 
+          clust_method = "ward.D2",
+          color_leaves_by = "z_score",      # TODO: define the complete behavior correctly here!
+          size_leaves_by = "gs_pvalue",
+          color_branches_by = "clusters",
+          create_plot = TRUE)
+```
+
+```{r}
+gs_mds(res_enrich_macrophage,
+       res_macrophage_IFNg_vs_naive,
+       anno_df,
+       n_gs = 200,
+       gs_ids = NULL,
+       similarity_measure = "kappa_matrix",
+       mds_k = 2,
+       mds_labels = 5,
+       mds_colorby = "z_score",
+       gs_labels = NULL,
+       plot_title = NULL) 
+```
+
+```{r}
+gs_summary_overview(res_enrich_macrophage,
+                    n_gs = 30,
+                    p_value_column = "gs_pvalue",
+                    color_by = "z_score")
+```
+
+```{r}
+gs_summary_heat(res_enrich_macrophage,
+                res_macrophage_IFNg_vs_naive,
+                anno_df,
+                n_gs = 20)
+```
+
+```{r}
+vst_macrophage <- vst(dds_macrophage)
+scores_mat <- gs_scores(vst_macrophage,
+                        res_de = res_macrophage_IFNg_vs_naive,
+                        res_enrich = res_enrich_macrophage,
+                        annotation_obj = anno_df
+                       )
+gs_scoresheat(scores_mat,
+              n_gs = 30)
+```
+
+<!-- create_kappa_matrix -->
+<!-- create_jaccard_matrix -->
+
+## Reporting
+
+```{r}
+
+```
+
+happy_hour
+
+## Comparison between sets
+
+gs_summary_overview_pair
+gs_radar
+gs_horizon
 
 
-# FAQ
+## Misc
+
+```{r}
+head(deseqresult2df(res_macrophage_IFNg_vs_naive))
+# to make sure normalized values are available...
+dds_macrophage <- estimateSizeFactors(dds_macrophage)   
+gene_plot(dds_macrophage,
+          gene = "ENSG00000125347",
+          intgroup = "condition",
+          annotation_obj = anno_df,
+          plot_type = "auto")
+gene_plot(dds_macrophage,
+          gene = "ENSG00000174944",
+          intgroup = "condition",
+          assay = "abundance",
+          annotation_obj = anno_df,
+          plot_type = "auto")
+
+geneinfo_2_html("IRF1")
+
+```
+
+```{r}
+gs_heatmap(se = vst_macrophage,
+           res_de = res_macrophage_IFNg_vs_naive,
+           res_enrich = res_enrich_macrophage,
+           annotation_obj = anno_df,
+           geneset_id = "GO:0060337"  ,
+           cluster_columns = TRUE,
+           anno_col_info = "condition"
+)
+
+go_2_html("GO:0060337",
+          res_enrich = res_enrich_macrophage)
+```
+
+"shake_enrichResult"       "shake_topGOtableResult" 
+checkup_GeneTonic
 
 
 # Additional Information
-
-
-
-Full setup as for the testing
-
-```{r}
-library(GeneTonic)
-
-library(macrophage)
-library(magrittr)
-dir <- system.file("extdata", package = "macrophage")
-coldata_macrophage <- read.csv(file.path(system.file("extdata", package = "macrophage"), "coldata.csv"))
-coldata_macrophage$files <- file.path(system.file("extdata", package = "macrophage"), "quants", coldata_macrophage$names, "quant.sf.gz")
-
-coldata_macrophage$condition <- coldata_macrophage$condition_name
-coldata_macrophage$line <- coldata_macrophage$line_id
-coldata_macrophage$condition <- relevel(coldata_macrophage$condition, "naive")
-
-head(coldata_macrophage)
-
-library(SummarizedExperiment)
-library(tximeta)
-se_macrophage <- tximeta(coldata_macrophage, dropInfReps = TRUE)
-se_macrophage
-
-# saveRDS(se_macrophage,file="WIP/se_macrophage.rds")
-# dir.create("WIP")
-# se_macrophage <- readRDS(file = "WIP/se_macrophage.rds")
-gse_macrophage <- summarizeToGene(se_macrophage)
-
-assayNames(se_macrophage)
-gse_macrophage <- summarizeToGene(se_macrophage)
-gse_macrophage
-# adding gene names to facilitate readout later
-library(org.Hs.eg.db)
-gse_macrophage <- addIds(gse_macrophage, "SYMBOL")
-
-library(DESeq2)
-dds_macrophage <- DESeqDataSet(gse_macrophage, design = ~line + condition)
-rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
-
-anno_df <- pcaExplorer::get_annotation_orgdb(dds_macrophage, "org.Hs.eg.db", "ENSEMBL")
-## using counts and average transcript lengths from tximeta
-keep <- rowSums(counts(dds_macrophage) >= 10) >= 6
-dds_macrophage <- dds_macrophage[keep, ]
-
-library("org.Hs.eg.db")
-dds_macrophage <- addIds(dds_macrophage, "SYMBOL")
-dds_macrophage <- DESeq(dds_macrophage)
-vst_macrophage <- vst(dds_macrophage)
-res_macrophage_IFNg_vs_naive <- results(dds_macrophage,
-                                        contrast = c("condition", "IFNg", "naive"),
-                                        lfcThreshold = 1, alpha = 0.01)
-summary(res_macrophage_IFNg_vs_naive)
-res_macrophage_IFNg_vs_naive$SYMBOL <- rowData(dds_macrophage)$SYMBOL
-
-library("AnnotationDbi")
-
-de_symbols_IFNg_vs_naive <- res_macrophage_IFNg_vs_naive[ (!(is.na(res_macrophage_IFNg_vs_naive$padj))) & (res_macrophage_IFNg_vs_naive$padj <= 0.05), "SYMBOL"]
-bg_ids <- rowData(dds_macrophage)$SYMBOL[rowSums(counts(dds_macrophage)) > 0]
-
-library("topGO")
-topgoDE_macrophage_IFNg_vs_naive <- pcaExplorer::topGOtable(de_symbols_IFNg_vs_naive,
-                                                            bg_ids,
-                                                            ontology = "BP",
-                                                            mapping = "org.Hs.eg.db",
-                                                            geneID = "symbol")
-
-```
-
-```{r}
-res_df <- deseqresult2df(res_macrophage_IFNg_vs_naive, FDR = 1)
-res_macrophage_IFNg_vs_naive
-head(res_df)
-```
-
-```{r}
-enhance_table(topgoDE_macrophage_IFNg_vs_naive,
-              res_macrophage_IFNg_vs_naive,
-              n_gs = 50,
-              genes_colname = "genes",
-              genesetname_colname = "Term",
-              genesetid_colname = "GO.ID",
-              annotation_obj = anno_df,
-              chars_limit = 60)
-```
-
-```{r}
-library("visNetwork")
-g <- ggs_graph(res_enrich = topgoDE_macrophage_IFNg_vs_naive,
-               res_de = res_macrophage_IFNg_vs_naive,
-               n_gs = 20,
-               annotation_obj = anno_df)
-visNetwork::visIgraph(g) %>% visOptions(highlightNearest = list(enabled = TRUE, degree = 1, hover = TRUE), nodesIdSelection = TRUE)
-```
-
-
-```{r}
-g2 <- enrichment_map(res_enrich = topgoDE_macrophage_IFNg_vs_naive,
-                     res_de = res_macrophage_IFNg_vs_naive,
-                     n_gs = 50,
-                     annotation_obj = anno_df)
-visNetwork::visIgraph(g2) %>% visOptions(highlightNearest = list(enabled = TRUE, degree = 1, hover = TRUE), nodesIdSelection = TRUE)
-```
-
-
-```{r}
-gs_mds(res_enrich = topgoDE_macrophage_IFNg_vs_naive,
-       res_de = res_macrophage_IFNg_vs_naive,
-       annotation_obj = anno_df,
-       genes_colname = "genes",
-       genesetname_colname = "Term",
-       genesetid_colname = "GO.ID",
-       genes_separator = ",",
-       similarity_measure = "kappa_matrix",
-       mds_k = 2,
-       mds_labels = 10,
-       mds_colorby = "z_score")
-```
-
-
-```{r}
-gs_summary_heat(res_enrich = topgoDE_macrophage_IFNg_vs_naive,
-                       res_de = res_macrophage_IFNg_vs_naive,
-                       annotation_obj = anno_df,
-                       n_gs = 30)
-```
-
-
-```{r}
-res_enrich_withscores <- get_aggrscores(topgoDE_macrophage_IFNg_vs_naive,
-                                          res_macrophage_IFNg_vs_naive,
-                                          annotation_obj = anno_df,
-                                          aggrfun = mean)
-gs_volcano(res_enrich_withscores,
-               labels_to_use = "Term",
-               pvals_to_use = "p.value_elim")
-```
-
-```{r}
-cur_gsid <- topgoDE_macrophage_IFNg_vs_naive$GO.ID[1]
-myvst <- vst(dds_macrophage)
-gs_heatmap(myvst,
-                  res_macrophage_IFNg_vs_naive,
-                  topgoDE_macrophage_IFNg_vs_naive,
-                  geneset_id = cur_gsid,
-                  genes_colname = "genes",
-                  genesetname_colname = "Term",
-                  genesetid_colname = "GO.ID",
-                  annotation_obj = anno_df,
-                  FDR = 0.05,
-                  de_only = FALSE,
-                  cluster_rows = TRUE, # TODOTODO: options for the heatmap go on left side, as could be common to more!
-                  cluster_cols = TRUE,
-                  center_mean = TRUE,
-                  scale_row = TRUE
-                  # TODOTODO: use ellipsis for passing params to pheatmap?
-                  # TODOTODO: option to just return the underlying data?s
-                  # TODOTODO: options to subset to specific samples?
-  )
-```
-
-```{r}
-gss_mat <- gs_scores(vst_macrophage,
-                       res_macrophage_IFNg_vs_naive,
-                       topgoDE_macrophage_IFNg_vs_naive,
-                       genes_colname = "genes",
-                       genesetname_colname = "Term",
-                       genesetid_colname = "GO.ID",
-                       annotation_obj = anno_df)
-gs_scoresheat(gss_mat)
-```
-
-
-```{r}
-gene_plot(dds_macrophage,
-          gene = "ENSG00000162645",
-          intgroup = "condition",
-          annotation_obj = anno_df)
-```
-
-```{r eval=FALSE}
-GeneTonic(dds_macrophage, res_macrophage_IFNg_vs_naive, topgoDE_macrophage_IFNg_vs_naive, annotation_obj = anno_df)
-```
-
 
 # FAQs
 
