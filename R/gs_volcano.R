@@ -92,8 +92,10 @@ gs_volcano <- function(res_enrich,
   volcano_df$`set members` <- volcano_df[["gs_de_count"]]
 
   volcano_df <- volcano_df[volcano_df[["gs_pvalue"]] <= p_threshold, ]
+  max_x <- max(abs(range(volcano_df[["z_score"]])))
   max_z <- max(abs(range(volcano_df[[color_by]])))
-  limit <- max_z * c(-1, 1)
+  limit_x <- max_x * c(-1, 1)
+  limit_z <- max_z * c(-1, 1)
 
   p <- ggplot(
     volcano_df,
@@ -103,9 +105,9 @@ gs_volcano <- function(res_enrich,
          y= "log10 p-value",
          size = "Gene set\nmembers",
          col = "Aggregated\nscore") +
-    scale_x_continuous(limits = limit) +
+    scale_x_continuous(limits = limit_x) +
     theme_bw() +
-    scale_color_gradient2(limit = limit,
+    scale_color_gradient2(limit = limit_z,
                           low = muted("deepskyblue"), high = muted("firebrick"), mid = "lightyellow")
 
   if (length(gs_to_use > 0)) {
