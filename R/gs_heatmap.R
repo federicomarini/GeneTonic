@@ -188,8 +188,8 @@ gs_heatmap <- function(se,
   } else {
     anno_col_info <- anno_col_info[anno_col_info %in% colnames(colData(se))]
     sample_decoration <- as.data.frame(colData(se))[, anno_col_info, drop = FALSE]
-
     deco_ha <- HeatmapAnnotation(df = sample_decoration)
+
     ch <- ComplexHeatmap::Heatmap(
       matrix = mydata_sig,
       column_title = title,

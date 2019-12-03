@@ -135,7 +135,14 @@ GeneTonic <- function(dds,
           actionButton(
             inputId = "btn_docs_vignette",
             icon = icon("info-circle"),
-            label = "Help", style = .actionbutton_biocstyle
+            label = "Open GeneTonic Vignette", style = .actionbutton_biocstyle,
+            onclick = ifelse(system.file("doc", "GeneTonic_manual.html", package="GeneTonic") != "",
+                             "",
+                             "window.open('https://federicomarini.github.io/GeneTonic/articles/GeneTonic_manual.html', '_blank')")
+                             # sprintf("window.open('http://bioconductor.org/packages/%s/bioc/vignettes/GeneTonic/inst/doc/GeneTonic_manual.html', '_blank')",
+                             #         ifelse(unlist(packageVersion("GeneTonic"))[2] %% 2L==0L, "release", "devel")
+                             # )
+            # )
           ),
           actionButton(
             inputId = "btn_docs_link",
@@ -1142,6 +1149,16 @@ GeneTonic <- function(dds,
     observe({
       print(input$gt_tabs)
     })
+
+    observeEvent(input$btn_docs_vignette, {
+      path <- system.file("doc", "GeneTonic_manual.html", package="GeneTonic")
+      if (path=="") {
+        showNotification("This vignette has not been built on this system - Opening the online documentation. Please note that the versions might not be coincident!", type="warning")
+      } else {
+        browseURL(path)
+      }
+    })
+
 
     observeEvent(input$btn_info_session, {
       showModal(modalDialog(
