@@ -1,18 +1,21 @@
 element;intro
-#Welcome;Welcome!
-#mymenu;
-#shiny-tab-tab_welcome;
-#card_em;
-#card_de;
-#card_enrich;
-#card_anno;
-#infobox_dds;
-#infobox_resde;
-#infobox_resenrich;
-#infobox_annotation;
-#bookmarker;
-#controlbar-toggle;
-#ddbtn_docs;
-#ddbtn_info;
-#n_genesets;
-#exp_condition + .selectize-control;
+#Welcome;Welcome to the interactive tour for <code>GeneTonic</code>!<br><br>You will get to know the different components of the <code>GeneTonic</code> user interface, and learn the basic usage mechanisms by doing.<br><br><code>GeneTonic</code> can help you combining together the many pieces of information that compose the results of a differential expression analysis.<br><br>This introductory tour is best viewed if the app is full-screen. Click on the <code>'Next'</code> button to proceed with the interactive tour of the <b>Welcome</b> panel - If you click outside of the highlighted area, you will interrupt the tour, but you can resume it anytime by re-clicking on the tour button.
+#mymenu;On the left side of the app you'll see the sidebar, where you can access the different tabs of <code>GeneTonic</code>, each with its dedicated functionality.
+#shiny-tab-tab_welcome;In the Welcome panel, you can get summary information on the different objects you provided as input to <code>GeneTonic</code>. Four input parameters are essential for this, and you can see them more in detail in the next steps.
+#card_em;First, the expression matrix. This contains the genes times samples table, where each cell corresponds to the expression value, commonly measured as counts (either computed directly after alignment, or estimated from the transcript level quantifications). This is what you provide as <code>DESeqDataSet</code> object.<br><br>Click on the plus sign of the box to expand its content in an interactive DataTable.
+#card_de;Then, you'll see the results from your Differential Expression (DE) analysis. These are stored in a <code>DESeqResults</code> object, which extends the <code>DataFrame</code> class. The standard columns for such an object are required for accessing the different values (log2FoldChange, p-value, raw and adjusted, and the gene identifiers). This object contains normally a subset of the identifiers included in the Expression Matrix.<br><br>Just like for the Expression Matrix, you can see an interactive DataTable on the results by expanding the box.
+#card_enrich;From the DE results it is possible to calculate the functional enrichment, e.g. based on the GeneOntology database. You'll need to provide this object with some specific formatting requirements, which can be taken care of by the <code>shaker_*</code> functions in the <code>GeneTonic</code> package. See how each gene set has an id, a description, a value for its significance, and a list of the members associated to it that have been detected as DE.
+#card_anno;Lastly, you need an annotation object. This is a simple data frame, where the ids used in the Expression Matrix are here displayed with their matching Gene Symbol - this will be useful for conversion between unambiguous identifiers and more human readable names.
+#infobox_dds;Below the collapsible boxes, you will see some value boxes, which give a quick overview on the number of features and samples in the Expression Matrix...
+#infobox_resde;... or the number of genes called DE in the results.
+#infobox_resenrich;Here you can see how many functional categories are reported in the <code>res_enrich</code> object...
+#infobox_annotation;... and here you can read how many identifiers are available, for the number of displayed features.
+.main-header.navbar.navbar-expand.navbar;Next, you are going to learn what the components of the navbar are. The navbar is the header of the application, and has on the left side the sidebar menu, while on the right side there is a controlbar.
+#bookmarker;In the middle of the navbar you can see the Bookmark button, which you can use during your live session to store the identifiers for genes and genesets that you might find interesting - these can be combined at the end of your exploration into an HTML report. More on this functionality will be explained in the <b>Bookmark</b> section of the app
+#ddbtn_docs;A dropdown button for the Documentation is displayed here, and you can click on that to show its components. You can for example find a link to the vignette for the <code>GeneTonic</code> package, in case you want to consult it while running the app.
+#ddbtn_info;The same is possible with the dropdown button for more Info on <code>GeneTonic</code>.These buttons report the session information from which you are running <code>GeneTonic</code> (which you should report in case of issues or bugs), the appropriate citation if you use <code>GeneTonic</code> in your work, as well as information on how to contact the <code>GeneTonic</code> development team.
+#controlbar-toggle;On the rightmost of the navbar, you will see the button to trigger the controlbar open. Please click on it to display the related widgets
+#n_genesets;Here you can control the number of gene sets to be displayed in the different components of the other tabs. You will learn more on this in the tours for the other sections.
+#exp_condition + .selectize-control;This is the widget that contains the column names of the <code>colData</code> slot for the provided <code>dds</code> object you provided - you can use this to control the aspect of some output widgets, e.g. in the <b>Genes-Geneset Network</b>.
+#tour_firststeps;This is how you started the tour you are taking now. If you want to get shown around again through the main components of <code>GeneTonic</code>, you can click here.<br><br>All other tabs of <code>GeneTonic</code> have a similar button in the same position of the page, with a dedicated tour for each section.
+#Thanks;Thank you for taking the first tour of <code>GeneTonic</code>!

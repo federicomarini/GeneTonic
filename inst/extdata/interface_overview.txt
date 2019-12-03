@@ -1,2 +1,0 @@
-element;intro
-#Welcome;Welcome!

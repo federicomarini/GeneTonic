@@ -1113,14 +1113,6 @@ GeneTonic <- function(dds,
 
     # observers ---------------------------------------------------------------
 
-    observeEvent(input$interface_overview, {
-      tour <- read.delim(system.file("extdata", "interface_overview.txt",
-                                     package = "GeneTonic"),
-                         sep = ";", stringsAsFactors = FALSE,
-                         row.names = NULL, quote = "")
-      rintrojs::introjs(session, options = list(steps = tour))
-    })
-
     observeEvent(input$tour_firststeps, {
       tour <- read.delim("/Users/fede/Development/GeneTonic/inst/extdata/tour_welcome.txt",
                          # tour <- read.delim(system.file("extdata", "tour_welcome.txt", package = "GeneTonic"),
