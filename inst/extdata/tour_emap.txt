@@ -1,2 +1,19 @@
 element;intro
 #Welcome;Welcome!
+#mymenu;
+#shiny-tab-tab_emap;
+#emap_visnet;
+#nodeSelectemap_visnet;
+#emap_visnet;
+#ui_emap_sidecontent;
+#emap_sigheatplot;
+#emap_geneset_info;
+#emap_visnet;
+#controlbar-toggle;
+#n_genesets;
+#exp_condition + .selectize-control;
+#controlbar-toggle;
+#emap_visnet;
+#bookmarker;
+#shiny-tab-tab_emap;
+#thanks;
