@@ -1,3 +1,17 @@
+# GeneTonic 0.8.0
+
+## New features
+
+* `GeneTonic` now delivers bundled example objects to make examples and tests slim
+* `gs_volcano` can now plot points by different colors according to the columns of interest
+* `GeneTonic` has a fully fledged manual describing its functionality and user interface
+
+## Other notes
+
+* Now using ids for genes and genesets for exchanging information in the app
+* Added examples for all functions
+* Most tabs have working tours - anchor and text elements
+
 # GeneTonic 0.7.0
 
 ## New features
