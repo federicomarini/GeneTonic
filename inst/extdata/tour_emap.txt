@@ -1,19 +1,18 @@
 element;intro
-#Welcome;Welcome!
-#mymenu;
-#shiny-tab-tab_emap;
-#emap_visnet;
-#nodeSelectemap_visnet;
-#emap_visnet;
-#ui_emap_sidecontent;
-#emap_sigheatplot;
-#emap_geneset_info;
-#emap_visnet;
-#controlbar-toggle;
-#n_genesets;
-#exp_condition + .selectize-control;
-#controlbar-toggle;
-#emap_visnet;
-#bookmarker;
-#shiny-tab-tab_emap;
-#thanks;
+#Welcome;Welcome to the interactive tour for <code>GeneTonic</code>!<br><br>Here you will get to know the functionality included in the Enrichment Map panel.
+#mymenu;Here is where you can move around the different tabs of <code>GeneTonic</code>.
+#shiny-tab-tab_emap;This is the main content of the Genes-Geneset Graph tab. In this tab, an interactive enrichment map is displayed, with extra info boxes on the selected genesets.
+#emap_visnet;This is where the main interactive graph will be displayed. As for the Genes-Geneset graph, the number of nodes displayed depends mainly on the number of gene sets that you will decide to include.
+#controlbar-toggle;You can control this by clicking on the controlbar toggle...
+#n_genesets;... and changing the number of genesets.
+#controlbar-toggle;Close back the controlbar.
+#emap_visnet;You can interact with the network visualization, either by clicking on a desired node (you can zoom in with the mouse wheel of with the trackpad)...
+#nodeSelectemap_visnet;... or by selecting one here (the genesets are displayed in alphabetical order). Now select a gene set of interest.
+#ui_emap_sidecontent;Whenever you select something, some additional content gets displayed in the boxes on the right side. You should see some summary information on the geneset, referred to the inputs you provided...
+#emap_sigheatplot;... below a signature haetmap including all the genes annotated to the gene set.
+#emap_geneset_info;Here's the focus on the info about the selected geneset.
+#emap_visnet;You can be interested in a number of genes and gene sets. <code>GeneTonic</code> supports functions for bookmarking all these entities and combine them together in an HTML report. Select any node now...
+#bookmarker;... and click on the Bookmark button in the navbar. You can repeat this action as many times as desired.
+#emap_visnet;To simplify the action of bookmarking many genesets which might be close to each other, the bookmarking can be triggered also by pressing the <code>left Ctrl</code> key on your keyboard. Try doing so, and keep track of the app notifying you the node has been added to the lists of genesets of interest.
+#shiny-tab-tab_emap;Again, you can edit the number of displayed genesets to change the granularity and detail level of the graph, and keep on bookmarking nodes of interest.
+#thanks;Thank you for taking the Enrichment Map panel tour of <code>GeneTonic</code>!
