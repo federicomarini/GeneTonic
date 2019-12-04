@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
       </span>
     </div>
 
@@ -220,7 +220,7 @@ clustering columns</p></td>
 
 <span class='no'>scores_mat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gs_scores.html'>gs_scores</a></span>(<span class='no'>vst_macrophage</span>,
                         <span class='no'>res_de</span>,
-                        <span class='no'>res_enrich</span>,
+                        <span class='no'>res_enrich</span>[<span class='fl'>1</span>:<span class='fl'>30</span>,],
                         <span class='no'>anno_df</span>)
 <span class='fu'>gs_scoresheat</span>(<span class='no'>scores_mat</span>,
               <span class='kw'>n_gs</span> <span class='kw'>=</span> <span class='fl'>30</span>)</div><div class='img'><img src='gs_scoresheat-1.png' alt='' width='700' height='433' /></div><div class='input'>
