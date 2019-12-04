@@ -9,7 +9,7 @@
 
 [![](https://img.shields.io/github/last-commit/federicomarini/GeneTonic.svg)](https://github.com/federicomarini/GeneTonic/commits/master)
 [![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![Travis build
 status](https://travis-ci.org/federicomarini/GeneTonic.svg?branch=master)](https://travis-ci.org/federicomarini/GeneTonic)
 [![Codecov.io coverage
@@ -17,11 +17,20 @@ status](https://codecov.io/github/federicomarini/GeneTonic/coverage.svg?branch=m
 
 <!-- badges: end -->
 
-The goal of GeneTonic is to …
+The goal of GeneTonic is to analyze and integrate the results from
+Differential Expression analysis and functional enrichment analysis.
+
+This package provides a Shiny application that aims to combine at
+different levels the existing pieces of the transcriptome data and
+results, in a way that makes it easier to generate insightful
+observations and hypothesis - combining the benefits of interactivity
+and reproducibility, e.g. by capturing the features and gene sets of
+interest highlighted during the live session, and creating an HTML
+report as an artifact where text, code, and output coexist.
 
 ## Installation
 
-You can install the released version of GeneTonic from … with:
+You can install the development version of GeneTonic from GitHub with:
 
 ``` r
 library("remotes")
@@ -31,11 +40,49 @@ remotes::install_github("federicomarini/GeneTonic",
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example which shows you how to use `GeneTonic` on a demo
+dataset (the one included in the `macrophage` package).
 
 ``` r
-library(GeneTonic)
-## basic example code
+library("GeneTonic")
+example("GeneTonic")
+
+# which will in the end run
+library("macrophage")
+library("DESeq2")
+library("org.Hs.eg.db")
+library("AnnotationDbi")
+
+# dds object
+data("gse", package = "macrophage")
+dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
+dds_macrophage <- estimateSizeFactors(dds_macrophage)
+
+# annotation object
+anno_df <- data.frame(
+  gene_id = rownames(dds_macrophage),
+  gene_name = mapIds(org.Hs.eg.db,
+                     keys = rownames(dds_macrophage),
+                     column = "SYMBOL",
+                     keytype = "ENSEMBL"),
+  stringsAsFactors = FALSE,
+  row.names = rownames(dds_macrophage)
+)
+
+# res object
+data(res_de_macrophage, package = "GeneTonic")
+res_de <- res_macrophage_IFNg_vs_naive
+
+# res_enrich object
+data(res_enrich_macrophage, package = "GeneTonic")
+res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
+
+GeneTonic(dds = dds_macrophage,
+          res_de = res_de,
+          res_enrich = res_enrich,
+          annotation_obj = anno_df,
+          project_id = "my_first_genetonic")
 ```
 
 ## Usage overview
