@@ -265,7 +265,7 @@ gs_heatmap <- function(se,
 #'
 #' scores_mat <- gs_scores(vst_macrophage,
 #'                         res_de,
-#'                         res_enrich,
+#'                         res_enrich[1:50,],
 #'                         anno_df)
 #'
 gs_scores <- function(se,
@@ -361,7 +361,7 @@ gs_scores <- function(se,
 #'
 #' scores_mat <- gs_scores(vst_macrophage,
 #'                         res_de,
-#'                         res_enrich,
+#'                         res_enrich[1:30,],
 #'                         anno_df)
 #' gs_scoresheat(scores_mat,
 #'               n_gs = 30)

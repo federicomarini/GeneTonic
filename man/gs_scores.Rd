@@ -64,7 +64,7 @@ res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 
 scores_mat <- gs_scores(vst_macrophage,
                         res_de,
-                        res_enrich,
+                        res_enrich[1:50,],
                         anno_df)
 
 }
