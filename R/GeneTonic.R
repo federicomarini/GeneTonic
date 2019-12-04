@@ -124,17 +124,17 @@ GeneTonic <- function(dds,
         # )
         shinyWidgets::dropdownButton(
           inputId = "ddbtn_docs",
-          circle = TRUE,
+          circle = FALSE,
           status = "info",
-          icon = icon("question-circle"),
+          icon = icon("book"),
           width = "300px",
           size = "xs",
           right = TRUE,
-          tooltip = shinyWidgets::tooltipOptions(title = "Click to see inputs !"),
+          tooltip = shinyWidgets::tooltipOptions(title = "More documentation"),
           tags$h5("Documentation"),
           actionButton(
             inputId = "btn_docs_vignette",
-            icon = icon("info-circle"),
+            icon = icon("book-open"),
             label = "Open GeneTonic Vignette", style = .actionbutton_biocstyle,
             onclick = ifelse(system.file("doc", "GeneTonic_manual.html", package="GeneTonic") != "",
                              "",
@@ -153,13 +153,13 @@ GeneTonic <- function(dds,
         ),
         shinyWidgets::dropdownButton(
           inputId = "ddbtn_info",
-          circle = TRUE,
+          circle = FALSE,
           status = "info",
           icon = icon("info"),
           width = "300px",
           size = "xs",
           right = TRUE,
-          tooltip = shinyWidgets::tooltipOptions(title = "Click to see inputs !"),
+          tooltip = shinyWidgets::tooltipOptions(title = "More info!"),
           tags$h5("Additional information"),
           actionButton(
             inputId = "btn_info_session",
@@ -297,8 +297,7 @@ GeneTonic <- function(dds,
             )
           ),
           fluidRow(
-            h2("Whatever goes in the home/welcome page"),
-            h3("Overview on the provided input objects")
+            h2("Overview on the provided input objects")
           ),
           fluidRow(
             bs4Dash::bs4Card(width = 6,
@@ -441,22 +440,22 @@ GeneTonic <- function(dds,
                 bs4TabPanel(
                   tabName = "Tab 1",
                   active = TRUE,
-                  plotOutput("gs_volcano")
+                  withSpinner(plotOutput("gs_volcano"))
                 ),
                 bs4TabPanel(
                   tabName = "Tab 2",
                   active = FALSE,
-                  plotOutput("gs_volcano_simplified")
+                  withSpinner(plotOutput("gs_volcano_simplified"))
                 ),
                 bs4TabPanel(
                   tabName = "Tab 3",
                   active = FALSE,
-                  plotOutput("enriched_funcres")
+                  withSpinner(plotOutput("enriched_funcres"))
                 ),
                 bs4TabPanel(
                   tabName = "Tab 4",
                   active = FALSE,
-                  plotlyOutput("enriched_funcres_plotly")
+                  withSpinner(plotlyOutput("enriched_funcres_plotly"))
                 )
               )
             )
@@ -492,28 +491,28 @@ GeneTonic <- function(dds,
                 bs4TabPanel(
                   tabName = "Tab 1",
                   active = TRUE,
-                  plotOutput("gsscores_heatmap")
+                  withSpinner(plotOutput("gsscores_heatmap"))
 
                 ),
                 bs4TabPanel(
                   tabName = "Tab 2",
                   active = FALSE,
-                  plotlyOutput("alluvial_genesets")
+                  withSpinner(plotlyOutput("alluvial_genesets"))
                 ),
                 bs4TabPanel(
                   tabName = "Tab 3",
                   active = FALSE,
-                  plotOutput("gs_summaryheat")
+                  withSpinner(plotOutput("gs_summaryheat"))
                 ),
                 bs4TabPanel(
                   tabName = "Tab 4",
                   active = FALSE,
-                  plotOutput("mds_genesets")
+                  withSpinner(plotOutput("mds_genesets"))
                 ),
                 bs4TabPanel(
                   tabName = "Tab 5",
                   active = FALSE,
-                  plotOutput("gs_summaryoverview")
+                  withSpinner(plotOutput("gs_summaryoverview"))
                 ),
                 bs4TabPanel(
                   tabName = "Tab 6",
@@ -523,12 +522,12 @@ GeneTonic <- function(dds,
                 bs4TabPanel(
                   tabName = "Tab 7",
                   active = FALSE,
-                  plotOutput("gs_summaryhorizon")
+                  withSpinner(plotOutput("gs_summaryhorizon"))
                 ),
                 bs4TabPanel(
                   tabName = "Tab 8",
                   active = FALSE,
-                  plotlyOutput("gs_summaryradar")
+                  withSpinner(plotlyOutput("gs_summaryradar"))
                 )
               )
             )
@@ -560,11 +559,11 @@ GeneTonic <- function(dds,
             bs4Dash::column(
               width = 8,
               offset = 2,
-              actionButton("start_happyhour",
-                           label = "Start the happy hour!",
-                           icon = icon("magic"),
-                           style = .actionbutton_biocstyle),
-              downloadButton("save_rmd", "Generate & Save", class = "btn btn-success")
+              # actionButton("start_happyhour",
+              #              label = "Start the happy hour!",
+              #              icon = icon("magic"),
+              #              style = .actionbutton_biocstyle),
+              gt_downloadButton("start_happyhour", "Generate & Save", class = "biocdlbutton", icon = "magic")
             )
           )
         ),
@@ -732,13 +731,12 @@ GeneTonic <- function(dds,
       cur_gsid <- res_enrich$gs_id[match(cur_sel, res_enrich$gs_description)]
 
       paste0("I'm selecting ", input$ggsnetwork_selected, ", which has index ", cur_node, " and is of type ", cur_nodetype, "this is from set", cur_gsid)
-
     })
 
     output$ui_ggs_genesetbox <- renderUI({
       tagList(
         h5("Genesetbox"),
-        verbatimTextOutput("netnode"),
+        # verbatimTextOutput("netnode"),
         plotOutput("net_sigheatplot"),
         uiOutput("ggs_geneset_info")
       )
@@ -799,7 +797,7 @@ GeneTonic <- function(dds,
       cur_node <- match(cur_sel, V(g)$name)
       cur_nodetype <- V(g)$nodetype[cur_node]
       validate(need(cur_nodetype == "GeneSet",
-                    message = "Please select a gene set."
+                    message = "" # "Please select a gene set."
       ))
       cur_gsid <- res_enrich$gs_id[match(input$ggsnetwork_selected, res_enrich$gs_description)]
 
@@ -840,7 +838,7 @@ GeneTonic <- function(dds,
       cur_node <- match(cur_sel, V(g)$name)
       cur_nodetype <- V(g)$nodetype[cur_node]
       validate(need(cur_nodetype == "Feature",
-                    message = "Please select a gene/feature."
+                    message = "" # "Please select a gene/feature."
       ))
       validate(need(input$exp_condition != "",
                     message = "Please select a group for the experimental condition."
@@ -936,7 +934,8 @@ GeneTonic <- function(dds,
       # ))
       cur_gsid <- res_enrich$gs_id[match(input$emap_visnet_selected, res_enrich$gs_description)]
       validate(need(!is.na(cur_gsid),
-                    message = "Please select a gene set from the enrichment map."))
+                    message = "" # "Please select a gene set from the enrichment map."
+                    ))
 
 
       if (!is.null(input$exp_condition)) {
@@ -1086,7 +1085,7 @@ GeneTonic <- function(dds,
       }
     )
 
-    output$saveRmd <- downloadHandler(
+    output$start_happyhour <- downloadHandler(
       filename = paste0(
         Sys.Date(),
         "_", round(runif(1) * 100), # for not having all w the same name
@@ -1250,10 +1249,10 @@ GeneTonic <- function(dds,
     })
 
 
-    observeEvent(input$start_happyhour, {
-      showNotification("The happy hour is officially on!",
-                       type = "message")
-    })
+    # observeEvent(input$start_happyhour, {
+    #   showNotification("The happy hour is officially on!",
+    #                    type = "message")
+    # })
 
 
 

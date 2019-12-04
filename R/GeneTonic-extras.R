@@ -247,7 +247,18 @@ footer <- function() {
 
 # Some constant values ----------------------------------------------------
 
-.actionbutton_biocstyle <- "color: #ffffff; background-color: #0092AC; border-color: #2e6da4"
+.actionbutton_biocstyle <- "color: #ffffff; background-color: #0092AC"
 .helpbutton_biocstyle <- "color: #0092AC; background-color: #FFFFFF; border-color: #FFFFFF"
+
+gt_downloadButton <- function(outputId, label = "Download", icon = "magic", class = NULL, ...) {
+  aTag <- tags$a(id = outputId,
+                 class = paste("btn btn-default shiny-download-link", class),
+                 href = "",
+                 target = "_blank",
+                 download = NA,
+                 icon(icon),
+                 label)
+}
+
 
 .biocgreen <- "#0092AC"
