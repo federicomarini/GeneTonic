@@ -29,9 +29,6 @@ navbar:
       - text: |
           The `GeneTonic` User's Guide
         href: articles/GeneTonic_manual.html
-      - text: |
-          The `GeneTonic` Functionality, as it comes along
-        href: articles/functionality_and_more.html
     news:
       text: Changelog
       href: news/index.html
