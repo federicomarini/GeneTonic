@@ -1,2 +1,20 @@
 element;intro
 #Welcome;Welcome!
+#mymenu;
+#shiny-tab-tab_ggs;
+#ggsnetwork;
+#nodeSelectggsnetwork;
+#ggsnetwork;
+#ui_ggs_genesetbox;
+#ggsnetwork;
+#ui_ggs_genebox;
+#controlbar-toggle;
+#n_genesets;
+#exp_condition + .selectize-control;
+#controlbar-toggle;
+#ui_ggs_genebox;
+#ggsnetwork;
+#ggsnetwork;
+#bookmarker;
+#shiny-tab-tab_ggs;
+#thanks;
