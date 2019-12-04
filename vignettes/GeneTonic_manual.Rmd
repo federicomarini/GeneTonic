@@ -235,7 +235,7 @@ The `GeneTonic` app is built with `r BiocStyle::CRANpkg("shiny")`, and its layou
 
 ## Header (navbar)
 
-The dashboard navbar (as it is called in `bs4Dash`) contains two dropdown menus, which can be expanded by clicking on the respective icons (<i class="fa fa-question-circle"></i> and <i class="fa fa-info"></i>).
+The dashboard navbar (as it is called in `bs4Dash`) contains two dropdown menus, which can be expanded by clicking on the respective icons (<i class="fa fa-book"></i> and <i class="fa fa-info"></i>).
 These provide additional buttons to inspect... TODO
 
 Additionally, one fundamental button is present in the navbar, and serves the purpose of bookmarking genes and gene sets of interest while exploring your data in an interactive session.
