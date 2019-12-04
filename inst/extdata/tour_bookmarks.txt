@@ -1,0 +1,14 @@
+element;intro
+#Welcome;Welcome!
+#mymenu;
+#shiny-tab-tab_bookmarks;
+#bookmarks_genes;
+#bookmarker;
+#bookmarks_genesets;
+#btn_export_genes;
+#btn_export_genesets;
+#mymenu;Feel free to revisit the content of any other tab, so that you can bookmark more genes or genesets.
+#start_happyhour;
+#save_rmd;
+#shiny-tab-tab_bookmarks;
+#thanks;

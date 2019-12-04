@@ -564,7 +564,7 @@ GeneTonic <- function(dds,
                            label = "Start the happy hour!",
                            icon = icon("magic"),
                            style = .actionbutton_biocstyle),
-              downloadButton("saveRmd", "Generate & Save", class = "btn btn-success")
+              downloadButton("save_rmd", "Generate & Save", class = "btn btn-success")
             )
           )
         ),
@@ -1115,7 +1115,7 @@ GeneTonic <- function(dds,
 
     observeEvent(input$tour_firststeps, {
       tour <- read.delim("/Users/fede/Development/GeneTonic/inst/extdata/tour_welcome.txt",
-                         # tour <- read.delim(system.file("extdata", "tour_welcome.txt", package = "GeneTonic"),
+      # tour <- read.delim(system.file("extdata", "tour_welcome.txt", package = "GeneTonic"),
                          sep = ";", stringsAsFactors = FALSE,
                          row.names = NULL, quote = "")
       rintrojs::introjs(session, options = list(steps = tour))
@@ -1123,7 +1123,7 @@ GeneTonic <- function(dds,
 
     observeEvent(input$tour_ggs, {
       tour <- read.delim("/Users/fede/Development/GeneTonic/inst/extdata/tour_ggs.txt",
-                         # tour <- read.delim(system.file("extdata", "tour_ggs.txt", package = "GeneTonic"),
+      # tour <- read.delim(system.file("extdata", "tour_ggs.txt", package = "GeneTonic"),
                          sep = ";", stringsAsFactors = FALSE,
                          row.names = NULL, quote = "")
       rintrojs::introjs(session, options = list(steps = tour))
@@ -1137,10 +1137,18 @@ GeneTonic <- function(dds,
       rintrojs::introjs(session, options = list(steps = tour))
     })
 
-
-    observe({
-      print(input$gt_tabs)
+    observeEvent(input$tour_bookmarks, {
+      tour <- read.delim("/Users/fede/Development/GeneTonic/inst/extdata/tour_bookmarks.txt",
+                         # tour <- read.delim(system.file("extdata", "tour_bookmarks.txt", package = "GeneTonic"),
+                         sep = ";", stringsAsFactors = FALSE,
+                         row.names = NULL, quote = "")
+      rintrojs::introjs(session, options = list(steps = tour))
     })
+
+
+    # observe({
+    #   print(input$gt_tabs)
+    # })
 
     observeEvent(input$btn_docs_vignette, {
       path <- system.file("doc", "GeneTonic_manual.html", package="GeneTonic")
@@ -1197,7 +1205,7 @@ GeneTonic <- function(dds,
               showNotification(sprintf("The selected gene %s (%s) is already in the set of the bookmarked genes.", cur_sel, cur_sel_id), type = "default")
             } else {
               reactive_values$mygenes <- unique(c(reactive_values$mygenes, cur_sel_id))
-              message("there go your genes... ", reactive_values$mygenes)
+              # message("there go your genes... ", reactive_values$mygenes)
               showNotification(sprintf("Added %s (%s) to the bookmarked genes. The list contains now %d elements", cur_sel, cur_sel_id, length(reactive_values$mygenes)), type = "message")
 
             }
@@ -1207,7 +1215,7 @@ GeneTonic <- function(dds,
               showNotification(sprintf("The selected gene set %s (%s) is already in the set of the bookmarked genesets.", cur_sel, cur_sel_id), type = "default")
             } else {
               reactive_values$mygenesets <- unique(c(reactive_values$mygenesets, cur_sel_id))
-              message("here are your genesets... ", reactive_values$mygenesets)
+              # message("here are your genesets... ", reactive_values$mygenesets)
               showNotification(sprintf("Added %s (%s) to the bookmarked genesets. The list contains now %d elements", cur_sel, cur_sel_id, length(reactive_values$mygenesets)), type = "message")
             }
 
