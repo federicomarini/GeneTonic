@@ -1,20 +1,22 @@
 element;intro
-#Welcome;Welcome!
-#mymenu;
-#shiny-tab-tab_ggs;
-#ggsnetwork;
-#nodeSelectggsnetwork;
-#ggsnetwork;
-#ui_ggs_genesetbox;
-#ggsnetwork;
-#ui_ggs_genebox;
-#controlbar-toggle;
-#n_genesets;
-#exp_condition + .selectize-control;
-#controlbar-toggle;
-#ui_ggs_genebox;
-#ggsnetwork;
-#ggsnetwork;
-#bookmarker;
-#shiny-tab-tab_ggs;
-#thanks;
+#Welcome;Welcome to the interactive tour for <code>GeneTonic</code>!<br><br>Here you will get to know the functionality included in the Gene-Geneset Graph panel.
+#mymenu;Here is where you can move around the different tabs of <code>GeneTonic</code>.
+#shiny-tab-tab_ggs;This is the main content of the Genes-Geneset Graph tab. This tab mainly displays a bipartite graph of genes and genesets, with the aim of making the exploration of their relationships easier, and allowing also the in-depth exploration of the single network nodes.
+#ggsnetwork;This is where the main network will be displayed. The number of nodes displayed depends mainly on the number of gene sets that you will decide to include.
+#controlbar-toggle;You can control this by clicking on the controlbar toggle...
+#n_genesets;... and changing the number of genesets.
+#controlbar-toggle;Close back the controlbar.
+#ggsnetwork;You can interact with the network visualization, either by clicking on a desired node (you can zoom in with the mouse wheel of with the trackpad)...
+#nodeSelectggsnetwork;... or by selecting one here - first the gene sets are displayed, then the genes. Now select a gene set of interest.
+#ui_ggs_genesetbox;Whenever you select something, some additional content gets displayed in the boxes on the right side. If you selected a gene set, you should see some summary information on the geneset, referred to the inputs you provided, below a signature haetmap including all the genes annotated to the gene set.
+#ggsnetwork;You can go back to the main network view, and select a gene now.
+#ui_ggs_genebox;See how some links to the selected gene get automatically generated as action buttons - to the NCBI and the GeneCards databases.
+#controlbar-toggle;Toggle again the control bar...
+#exp_condition + .selectize-control;... and select for example 'condition' from the dropdown select input.
+#controlbar-toggle;Close back the control bar.
+#ui_ggs_genebox;You can see how the gene infobox also added a plot on the selected gene, split by the factor you specified in the select widget.
+#ggsnetwork;You can be interested in a number of genes and gene sets. <code>GeneTonic</code> supports functions for bookmarking all these entities and combine them together in an HTML report. Select any node now...
+#bookmarker;... and click on the Bookmark button in the navbar. You can repeat this action as many times as desired.
+#ggsnetwork;To simplify the action of bookmarking many entities which might be close to each other, the bookmarking can be triggered also by pressing the <code>left Ctrl</code> key on your keyboard. Try doing so, and keep track of the app notifying you the node has been added to the lists of genes and genesets of interest.
+#shiny-tab-tab_ggs;You can edit the number of displayed genesets to change the granularity and detail level of the graph, and again bookmark nodes of interest.
+#thanks;Thank you for taking the Genes-Geneset panel tour of <code>GeneTonic</code>!

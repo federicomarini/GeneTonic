@@ -1114,32 +1114,32 @@ GeneTonic <- function(dds,
     # observers ---------------------------------------------------------------
 
     observeEvent(input$tour_firststeps, {
-      tour <- read.delim("/Users/fede/Development/GeneTonic/inst/extdata/tour_welcome.txt",
-      # tour <- read.delim(system.file("extdata", "tour_welcome.txt", package = "GeneTonic"),
+      # tour <- read.delim("/Users/fede/Development/GeneTonic/inst/extdata/tour_welcome.txt",
+      tour <- read.delim(system.file("extdata", "tour_welcome.txt", package = "GeneTonic"),
                          sep = ";", stringsAsFactors = FALSE,
                          row.names = NULL, quote = "")
       rintrojs::introjs(session, options = list(steps = tour))
     })
 
     observeEvent(input$tour_ggs, {
-      tour <- read.delim("/Users/fede/Development/GeneTonic/inst/extdata/tour_ggs.txt",
-      # tour <- read.delim(system.file("extdata", "tour_ggs.txt", package = "GeneTonic"),
+      # tour <- read.delim("/Users/fede/Development/GeneTonic/inst/extdata/tour_ggs.txt",
+      tour <- read.delim(system.file("extdata", "tour_ggs.txt", package = "GeneTonic"),
                          sep = ";", stringsAsFactors = FALSE,
                          row.names = NULL, quote = "")
       rintrojs::introjs(session, options = list(steps = tour))
     })
 
     observeEvent(input$tour_emap, {
-      tour <- read.delim("/Users/fede/Development/GeneTonic/inst/extdata/tour_emap.txt",
-                         # tour <- read.delim(system.file("extdata", "tour_emap.txt", package = "GeneTonic"),
+      # tour <- read.delim("/Users/fede/Development/GeneTonic/inst/extdata/tour_emap.txt",
+      tour <- read.delim(system.file("extdata", "tour_emap.txt", package = "GeneTonic"),
                          sep = ";", stringsAsFactors = FALSE,
                          row.names = NULL, quote = "")
       rintrojs::introjs(session, options = list(steps = tour))
     })
 
     observeEvent(input$tour_bookmarks, {
-      tour <- read.delim("/Users/fede/Development/GeneTonic/inst/extdata/tour_bookmarks.txt",
-                         # tour <- read.delim(system.file("extdata", "tour_bookmarks.txt", package = "GeneTonic"),
+      # tour <- read.delim("/Users/fede/Development/GeneTonic/inst/extdata/tour_bookmarks.txt",
+      tour <- read.delim(system.file("extdata", "tour_bookmarks.txt", package = "GeneTonic"),
                          sep = ";", stringsAsFactors = FALSE,
                          row.names = NULL, quote = "")
       rintrojs::introjs(session, options = list(steps = tour))
