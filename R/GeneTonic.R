@@ -688,7 +688,7 @@ GeneTonic <- function(dds,
 
     output$infobox_annotation <- renderbs4ValueBox({
       bs4ValueBox(
-        value = paste0(ncol(annotation_obj), " feature identifiers for ", nrow(dds)),
+        value = paste0(ncol(annotation_obj), " feature identifiers for ", nrow(dds), "features"),
         subtitle = "annotation object",
         icon = "table",
         status = "info"
