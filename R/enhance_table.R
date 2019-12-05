@@ -88,7 +88,6 @@ enhance_table <- function(res_enrich,
     res_thissubset <- res_de[genesid_thisset, ]
     res_thissubset$gene_name <- genes_thisset
     res_thissubset$gs_desc <- as.factor(res_enrich[gs, "gs_description"])
-    # res_thissubset$gotermshort <- substr(res_enrich[gs, "gs_description"], 1, chars_limit)
     res_thissubset$gs_id <- res_enrich[gs, "gs_id"]
     return(as.data.frame(res_thissubset))
   })
@@ -206,7 +205,6 @@ get_aggrscores <- function(res_enrich,
 
   gs_aggregated <- lapply(seq_len(nrow(res_enrich)), function(i) {
     this_gsid <- res_enrich$gs_id[i]
-    # this_genesetname <- res_enrich$gs_description[i]
     this_subset <- gs_expanded[gs_expanded$gs_id == this_gsid, ]
 
     upgenes <- sum(this_subset$log2FoldChange > 0)

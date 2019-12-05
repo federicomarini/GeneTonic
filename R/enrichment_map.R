@@ -91,10 +91,6 @@ enrichment_map <- function(res_enrich,
   # if we want to allow for other feats to be colored by, check that some aggregated scores are there
   # TODOTODO, if... otherwise, compute aggr scores
 
-  # enriched_gsids <- res_enrich$gs_id
-  # enriched_gsnames <- res_enrich$gs_description
-  # enriched_gsdescs <- vapply(enriched_gsids, function(arg) Definition(GOTERM[[arg]]), character(1))
-
   n_gs <- min(n_gs, nrow(res_enrich))
 
   gs_to_use <- unique(
@@ -170,5 +166,3 @@ enrichment_map <- function(res_enrich,
 
   return(emg)
 }
-
-# g %>% visIgraph() %>% visOptions(highlightNearest = list(enabled = TRUE, degree = 1, hover = TRUE), nodesIdSelection = TRUE)

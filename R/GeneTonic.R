@@ -136,7 +136,7 @@ GeneTonic <- function(dds,
             inputId = "btn_docs_vignette",
             icon = icon("book-open"),
             label = "Open GeneTonic Vignette", style = .actionbutton_biocstyle,
-            onclick = ifelse(system.file("doc", "GeneTonic_manual.html", package="GeneTonic") != "",
+            onclick = ifelse(system.file("doc", "GeneTonic_manual.html", package = "GeneTonic") != "",
                              "",
                              "window.open('https://federicomarini.github.io/GeneTonic/articles/GeneTonic_manual.html', '_blank')")
                              # sprintf("window.open('http://bioconductor.org/packages/%s/bioc/vignettes/GeneTonic/inst/doc/GeneTonic_manual.html', '_blank')",
@@ -297,7 +297,7 @@ GeneTonic <- function(dds,
             )
           ),
           fluidRow(
-            h2("Overview on the provided input objects")
+            h2("Overview on the provided input")
           ),
           fluidRow(
             bs4Dash::bs4Card(width = 6,
@@ -801,8 +801,6 @@ GeneTonic <- function(dds,
       ))
       cur_gsid <- res_enrich$gs_id[match(input$ggsnetwork_selected, res_enrich$gs_description)]
 
-      # message(cur_gsid)
-      # GOTERM[[cur_gsid]]
       go_2_html(cur_gsid, res_enrich)
     })
 
@@ -1150,9 +1148,9 @@ GeneTonic <- function(dds,
     # })
 
     observeEvent(input$btn_docs_vignette, {
-      path <- system.file("doc", "GeneTonic_manual.html", package="GeneTonic")
-      if (path=="") {
-        showNotification("This vignette has not been built on this system - Opening the online documentation. Please note that the versions might not be coincident!", type="warning")
+      path <- system.file("doc", "GeneTonic_manual.html", package = "GeneTonic")
+      if (path == "") {
+        showNotification("This vignette has not been built on this system - Opening the online documentation. Please note that the versions might not be coincident!", type = "warning")
       } else {
         browseURL(path)
       }

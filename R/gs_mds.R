@@ -141,7 +141,7 @@ gs_mds <- function(res_enrich,
     gs_name = mysets_names,
     gs_DEcount = res_enrich$DE_count,
     gs_colby = res_enrich[[mds_colorby]],
-    text = paste0(mysets, ": ", mysets_names),# TODOTODO: is there a way to avoid the warning from gg?
+    text = paste0(mysets, ": ", mysets_names),  # TODOTODO: is there a way to avoid the warning from gg?
     stringsAsFactors = FALSE
   )
 

@@ -222,7 +222,6 @@ happy_hour <- function(dds,
   }
 
   # Rmd template
-  # template_rmd <- "~/Development/GeneTonic/inst/extdata/cocktail_recipe.Rmd"
   if (is.null(input_rmd)) {
     template_rmd <- system.file("extdata",
                                 "cocktail_recipe.Rmd",

@@ -49,4 +49,3 @@ save(topgoDE_macrophage_IFNg_vs_naive, file = "data/res_enrich_macrophage.RData"
 topgoDE_macrophage_IFNg_vs_naive <-
   read.table(system.file("extdata", "topgotable_res_IFNg_vs_naive.txt", package = "GeneTonic"),
              stringsAsFactors = FALSE)
-
