@@ -9,7 +9,7 @@ Thanks to its interactive/reactive design, combined with its support for reprodu
 
 ## Developers
 
-<a href="mailto:mailto:marinif@uni-mainz.de?subject=[ideal_feedback]" class="btn btn-primary">Federico Marini</a>
+<a href="mailto:mailto:marinif@uni-mainz.de?subject=[GeneTonic_feedback]" class="btn btn-primary"><i class="fa fa-mail"></i>Federico Marini</a>
 
 ## Code
 

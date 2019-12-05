@@ -1106,7 +1106,7 @@ GeneTonic <- function(dds,
         # temporarily switch to the temp dir, in case you do not have write permission to the current working directory
         owd <- setwd(tempdir())
         on.exit(setwd(owd))
-        # cat(tmp_content,file="ideal_tempreport.Rmd",sep="\n")
+        # cat(tmp_content,file="GeneTonic_tempreport.Rmd",sep="\n")
         withProgress(rmarkdown::render(
           input = system.file("extdata", "cocktail_recipe.Rmd", package = "GeneTonic"),
           output_file = file,
