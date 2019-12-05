@@ -117,11 +117,6 @@ GeneTonic <- function(dds,
                      style = "color: #ffffff; background-color: #ac0000; border-color: #ffffff", class = "ml-5")
       ),
       rightUi = tagList(
-        # actionButton(
-        #   inputId = "btn_help_navbar",
-        #   icon = icon("info-circle"),
-        #   label = "Help", style = .actionbutton_biocstyle
-        # )
         shinyWidgets::dropdownButton(
           inputId = "ddbtn_docs",
           circle = FALSE,
@@ -171,7 +166,6 @@ GeneTonic <- function(dds,
             icon = icon("heart"),
             label = "About GeneTonic", style = .actionbutton_biocstyle
           )
-
         )
       )
     ),
@@ -249,12 +243,8 @@ GeneTonic <- function(dds,
               }
             }
             "
-            # .icon-gears {
-            # color: white;
-            # }
           )
         )
-        # #myAnchorBox{}
       ),
 
       tags$head(
@@ -300,45 +290,50 @@ GeneTonic <- function(dds,
             h2("Overview on the provided input")
           ),
           fluidRow(
-            bs4Dash::bs4Card(width = 6,
-                             inputId = "card_em",
-                             title = "Expression Matrix",
-                             status = "danger",
-                             solidHeader = FALSE,
-                             collapsible = TRUE,
-                             collapsed = TRUE,
-                             closable = FALSE,
-                             DT::dataTableOutput("overview_dds")
+            bs4Dash::bs4Card(
+              width = 6,
+              inputId = "card_em",
+              title = "Expression Matrix",
+              status = "danger",
+              solidHeader = FALSE,
+              collapsible = TRUE,
+              collapsed = TRUE,
+              closable = FALSE,
+              DT::dataTableOutput("overview_dds"
+              )
             ),
-            bs4Dash::bs4Card(width = 6,
-                             inputId = "card_de",
-                             title = "DE results",
-                             status = "warning",
-                             solidHeader = FALSE,
-                             collapsible = TRUE,
-                             collapsed = TRUE,
-                             closable = FALSE,
-                             DT::dataTableOutput("overview_res_de")
+            bs4Dash::bs4Card(
+              width = 6,
+              inputId = "card_de",
+              title = "DE results",
+              status = "warning",
+              solidHeader = FALSE,
+              collapsible = TRUE,
+              collapsed = TRUE,
+              closable = FALSE,
+              DT::dataTableOutput("overview_res_de")
             ),
-            bs4Dash::bs4Card(width = 6,
-                             inputId = "card_enrich",
-                             title = "Functional analysis results",
-                             status = "success",
-                             solidHeader = FALSE,
-                             collapsible = TRUE,
-                             collapsed = TRUE,
-                             closable = FALSE,
-                             DT::dataTableOutput("overview_res_enrich")
+            bs4Dash::bs4Card(
+              width = 6,
+              inputId = "card_enrich",
+              title = "Functional analysis results",
+              status = "success",
+              solidHeader = FALSE,
+              collapsible = TRUE,
+              collapsed = TRUE,
+              closable = FALSE,
+              DT::dataTableOutput("overview_res_enrich")
             ),
-            bs4Dash::bs4Card(width = 6,
-                             inputId = "card_anno",
-                             title = "Annotation info",
-                             status = "info",
-                             solidHeader = FALSE,
-                             collapsible = TRUE,
-                             collapsed = TRUE,
-                             closable = FALSE,
-                             DT::dataTableOutput("overview_annotation")
+            bs4Dash::bs4Card(
+              width = 6,
+              inputId = "card_anno",
+              title = "Annotation info",
+              status = "info",
+              solidHeader = FALSE,
+              collapsible = TRUE,
+              collapsed = TRUE,
+              closable = FALSE,
+              DT::dataTableOutput("overview_annotation")
             )
           ),
           uiOutput("ui_infoboxes")
@@ -559,11 +554,11 @@ GeneTonic <- function(dds,
             bs4Dash::column(
               width = 8,
               offset = 2,
-              # actionButton("start_happyhour",
-              #              label = "Start the happy hour!",
-              #              icon = icon("magic"),
-              #              style = .actionbutton_biocstyle),
-              gt_downloadButton("start_happyhour", "Generate & Save", class = "biocdlbutton", icon = "magic")
+              gt_downloadButton(
+                "start_happyhour",
+                "Generate & Save",
+                class = "biocdlbutton",
+                icon = "magic")
             )
           )
         ),
@@ -582,8 +577,6 @@ GeneTonic <- function(dds,
           )
         )
       )
-
-
     ),
     # controlbar definition ---------------------------------------------------
     controlbar = bs4Dash::bs4DashControlbar(
@@ -671,7 +664,10 @@ GeneTonic <- function(dds,
 
     output$infobox_resde <- renderbs4ValueBox({
       bs4ValueBox(
-        value = nrow(deseqresult2df(res_de, FDR = 0.05)), # TODO: set via widget?
+        value = paste0(
+          nrow(deseqresult2df(res_de, FDR = 0.05)), # TODO: set via widget?
+          " DE genes"
+        ),
         subtitle = "res object",
         icon = "vial",
         status = "warning"
@@ -680,7 +676,10 @@ GeneTonic <- function(dds,
 
     output$infobox_resenrich <- renderbs4ValueBox({
       bs4ValueBox(
-        value = nrow(res_enrich),
+        value = paste0(
+          nrow(res_enrich),
+          " functional categories"
+        ),
         subtitle = "func enrich object",
         icon = "share-alt",
         status = "success"
@@ -698,12 +697,14 @@ GeneTonic <- function(dds,
 
     # panel GeneSet-Gene ------------------------------------------------------
     reactive_values$ggs_graph <- reactive({
-      g <- ggs_graph(res_enrich = res_enrich,
-                     res_de = res_de,
-                     annotation_obj = annotation_obj,
-                     n_gs = input$n_genesets,
-                     prettify = TRUE,
-                     geneset_graph_color = "gold")
+      g <- ggs_graph(
+        res_enrich = res_enrich,
+        res_de = res_de,
+        annotation_obj = annotation_obj,
+        n_gs = input$n_genesets,
+        prettify = TRUE,
+        geneset_graph_color = "gold"
+      )
       # rank_gs <- rank(V(g)$name[V(g)$nodetype == "GeneSet"])
       # rank_feats <- rank(V(g)$name[V(g)$nodetype == "Feature"]) +
       #   length(rank_gs) # to keep the GeneSets first
@@ -740,8 +741,6 @@ GeneTonic <- function(dds,
         plotOutput("net_sigheatplot"),
         uiOutput("ggs_geneset_info")
       )
-
-
     })
 
     output$net_sigheatplot <- renderPlot({
@@ -755,40 +754,45 @@ GeneTonic <- function(dds,
       cur_gsid <- res_enrich$gs_id[match(input$ggsnetwork_selected, res_enrich$gs_description)]
 
       if (!is.null(input$exp_condition)) {
-        gs_heatmap(myvst,
-                   res_de,
-                   res_enrich,
-                   annotation_obj = annotation_obj,
-                   geneset_id = cur_gsid, # TODOTODO check that I select a gene set
-                   FDR = 0.05,
-                   de_only = FALSE,
-                   cluster_rows = TRUE, # TODOTODO: options for the heatmap go on left side, as could be common to more!
-                   cluster_columns = TRUE,
-                   center_mean = TRUE,
-                   scale_row = TRUE,
-                   anno_col_info = input$exp_condition # TODO
-                   # TODOTODO: use ellipsis for passing params to pheatmap?
-                   # TODOTODO: option to just return the underlying data?s
-                   # TODOTODO: options to subset to specific samples?
+        gs_heatmap(
+          myvst,
+          res_de,
+          res_enrich,
+          annotation_obj = annotation_obj,
+          geneset_id = cur_gsid,
+          # TODOTODO check that I select a gene set
+          FDR = 0.05,
+          de_only = FALSE,
+          cluster_rows = TRUE,
+          # TODOTODO: options for the heatmap go on left side, as could be common to more!
+          cluster_columns = TRUE,
+          center_mean = TRUE,
+          scale_row = TRUE,
+          anno_col_info = input$exp_condition # TODO
+          # TODOTODO: use ellipsis for passing params to pheatmap?
+          # TODOTODO: option to just return the underlying data?s
+          # TODOTODO: options to subset to specific samples?
         )
       } else {
-        gs_heatmap(myvst,
-                   res_de,
-                   res_enrich,
-                   annotation_obj = annotation_obj,
-                   geneset_id = cur_gsid, # TODOTODO check that I select a gene set
-                   FDR = 0.05,
-                   de_only = FALSE,
-                   cluster_rows = TRUE, # TODOTODO: options for the heatmap go on left side, as could be common to more!
-                   cluster_columns = TRUE,
-                   center_mean = TRUE,
-                   scale_row = TRUE
-                   # TODOTODO: use ellipsis for passing params to pheatmap?
-                   # TODOTODO: option to just return the underlying data?s
-                   # TODOTODO: options to subset to specific samples?
+        gs_heatmap(
+          myvst,
+          res_de,
+          res_enrich,
+          annotation_obj = annotation_obj,
+          geneset_id = cur_gsid,
+          # TODOTODO check that I select a gene set
+          FDR = 0.05,
+          de_only = FALSE,
+          cluster_rows = TRUE,
+          # TODOTODO: options for the heatmap go on left side, as could be common to more!
+          cluster_columns = TRUE,
+          center_mean = TRUE,
+          scale_row = TRUE
+          # TODOTODO: use ellipsis for passing params to pheatmap?
+          # TODOTODO: option to just return the underlying data?s
+          # TODOTODO: options to subset to specific samples?
         )
       }
-
     })
 
     output$ggs_geneset_info <- renderUI({
@@ -852,44 +856,17 @@ GeneTonic <- function(dds,
 
 
 
-    # panel DEview ------------------------------------------------------------
-    output$enriched_funcres <- renderPlot({
-      enhance_table(res_enrich, res_de,
-                    annotation_obj = annotation_obj,
-                    n_gs = 50)
-    })
-
-    output$gs_volcano <- renderPlot({
-      gs_volcano(
-        get_aggrscores(res_enrich,
-                       res_de,
-                       annotation_obj = annotation_obj))
-    })
-
-    output$gs_volcano_simplified <- renderPlot({
-      gs_volcano(
-        get_aggrscores(gs_simplify(res_enrich, gs_overlap = 0.6),
-                       res_de,
-                       annotation_obj = annotation_obj))
-    })
-
-    output$enriched_funcres_plotly <- renderPlotly({
-      ggplotly(enhance_table(res_enrich,
-                             res_de,
-                             annotation_obj = annotation_obj,
-                             n_gs = 50))
-    })
-
-
     # panel EnrichmentMap -----------------------------------------------------
     emap_graph <- reactive({
-      emg <- enrichment_map(res_enrich = res_enrich,
-                            res_de = res_de,
-                            annotation_obj = annotation_obj,
-                            n_gs = input$n_genesets,
-                            overlap_threshold = 0.1,
-                            scale_edges_width = 200,
-                            color_by = "gs_pvalue")
+      emg <- enrichment_map(
+        res_enrich = res_enrich,
+        res_de = res_de,
+        annotation_obj = annotation_obj,
+        n_gs = input$n_genesets,
+        overlap_threshold = 0.1,
+        scale_edges_width = 200,
+        color_by = "gs_pvalue"
+      )
       # rank_gs <- rank(V(emg)$name)
       # emg <- permute.vertices(emg, rank_gs)
       return(emg)
@@ -938,33 +915,66 @@ GeneTonic <- function(dds,
 
       if (!is.null(input$exp_condition)) {
         # message(cur_gsid)
-        gs_heatmap(myvst,
-                   res_de,
-                   res_enrich,
-                   annotation_obj = annotation_obj,
-                   geneset_id = cur_gsid, # TODOTODO check that I select a gene set
-                   FDR = 0.05,
-                   de_only = FALSE,
-                   cluster_rows = TRUE,
-                   cluster_columns = TRUE,
-                   center_mean = TRUE,
-                   scale_row = TRUE,
-                   anno_col_info = input$exp_condition
+        gs_heatmap(
+          myvst,
+          res_de,
+          res_enrich,
+          annotation_obj = annotation_obj,
+          geneset_id = cur_gsid,
+          # TODOTODO check that I select a gene set
+          FDR = 0.05,
+          de_only = FALSE,
+          cluster_rows = TRUE,
+          cluster_columns = TRUE,
+          center_mean = TRUE,
+          scale_row = TRUE,
+          anno_col_info = input$exp_condition
         )
       } else {
-        gs_heatmap(myvst,
-                   res_de,
-                   res_enrich,
-                   annotation_obj = annotation_obj,
-                   geneset_id = cur_gsid, # TODOTODO check that I select a gene set
-                   FDR = 0.05,
-                   de_only = FALSE,
-                   cluster_rows = TRUE,
-                   cluster_columns = TRUE,
-                   center_mean = TRUE,
-                   scale_row = TRUE
+        gs_heatmap(
+          myvst,
+          res_de,
+          res_enrich,
+          annotation_obj = annotation_obj,
+          geneset_id = cur_gsid,
+          # TODOTODO check that I select a gene set
+          FDR = 0.05,
+          de_only = FALSE,
+          cluster_rows = TRUE,
+          cluster_columns = TRUE,
+          center_mean = TRUE,
+          scale_row = TRUE
         )
       }
+    })
+
+    # panel DEview ------------------------------------------------------------
+
+    output$enriched_funcres <- renderPlot({
+      enhance_table(res_enrich, res_de,
+                    annotation_obj = annotation_obj,
+                    n_gs = 50)
+    })
+
+    output$gs_volcano <- renderPlot({
+      gs_volcano(
+        get_aggrscores(res_enrich,
+                       res_de,
+                       annotation_obj = annotation_obj))
+    })
+
+    output$gs_volcano_simplified <- renderPlot({
+      gs_volcano(
+        get_aggrscores(gs_simplify(res_enrich, gs_overlap = 0.6),
+                       res_de,
+                       annotation_obj = annotation_obj))
+    })
+
+    output$enriched_funcres_plotly <- renderPlotly({
+      ggplotly(enhance_table(res_enrich,
+                             res_de,
+                             annotation_obj = annotation_obj,
+                             n_gs = 50))
     })
 
 
@@ -1041,19 +1051,23 @@ GeneTonic <- function(dds,
     })
 
     output$infobox_book_genes <- renderbs4InfoBox({
-      bs4InfoBox(title = "Bookmarked genes",
-                 value = length(reactive_values$mygenes),
-                 icon = "bookmark",
-                 status = "info",
-                 width = 12)
+      bs4InfoBox(
+        title = "Bookmarked genes",
+        value = length(reactive_values$mygenes),
+        icon = "bookmark",
+        status = "info",
+        width = 12
+      )
     })
 
     output$infobox_book_genesets <- renderbs4InfoBox({
-      bs4InfoBox(title = "Bookmarked genesets",
-                 value = length(reactive_values$mygenesets),
-                 icon = "bookmark",
-                 status = "success",
-                 width = 12)
+      bs4InfoBox(
+        title = "Bookmarked genesets",
+        value = length(reactive_values$mygenesets),
+        icon = "bookmark",
+        status = "success",
+        width = 12
+      )
     })
 
     output$bookmarks_genes <- DT::renderDataTable({
