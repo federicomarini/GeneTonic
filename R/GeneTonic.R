@@ -556,7 +556,7 @@ GeneTonic <- function(dds,
               offset = 2,
               gt_downloadButton(
                 "start_happyhour",
-                "Generate & Save",
+                "Start the happy hour!",
                 class = "biocdlbutton",
                 icon = "magic")
             )
