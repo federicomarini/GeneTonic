@@ -91,6 +91,11 @@ You can find the rendered version of the documentation of `GeneTonic` at
 the project website <https://federicomarini.github.io/GeneTonic>,
 created with `pkgdown`.
 
+## Sneak peek?
+
+Please visit <http://shiny.imbei.uni-mainz.de:3838/GeneTonic/> to see a
+small demo instance running, on the `macrophage` dataset.
+
 ## Development
 
 If you encounter a bug, have usage questions, or want to share ideas and
