@@ -70,7 +70,7 @@ Encoding: UTF-8
 VignetteBuilder: knitr
 URL: https://github.com/federicomarini/GeneTonic
 BugReports: https://github.com/federicomarini/GeneTonic/issues
-RoxygenNote: 7.0.1
+RoxygenNote: 7.0.2
 Roxygen: list(markdown = TRUE)
 biocViews:
     GUI, GeneExpression, Software, Transcription, Transcriptomics, Visualization,

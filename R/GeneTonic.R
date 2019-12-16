@@ -628,9 +628,27 @@ GeneTonic <- function(dds,
     output$overview_res_de <- DT::renderDataTable({
       DT::datatable(
         as.data.frame(res_de),
-        options = list(scrollX = TRUE, scrollY = "400px")
-      )
+        options = list(
+          scrollX = TRUE,
+          scrollY = "400px",
+          pageLength = 25,
+          columnDefs = list(
+            list(className = "dt-center", targets = "_all")
+          )
+        )
+      ) %>%
+        formatRound(columns = c("log2FoldChange"), digits = 3) %>%
+        formatStyle(
+          "log2FoldChange",
+          background = styleColorBar_divergent(myde$log2FoldChange,
+                                               scales::alpha("navyblue", 0.4),
+                                               scales::alpha("darkred", 0.4)),
+          backgroundSize = "100% 90%",
+          backgroundRepeat = "no-repeat",
+          backgroundPosition = "center"
+        )
     })
+
     output$overview_res_enrich <- DT::renderDataTable({
       DT::datatable(
         res_enrich,
