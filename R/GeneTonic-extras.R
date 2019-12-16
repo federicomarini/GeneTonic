@@ -206,7 +206,7 @@ overlap_jaccard_index <- function(x, y) {
 #'   formatRound(columns = c("log2FoldChange"), digits = 3) %>%
 #'   formatStyle(
 #'     "log2FoldChange",
-#'     background = styleColorBar_divergent(myde$log2FoldChange,
+#'     background = styleColorBar_divergent(res_df$log2FoldChange,
 #'                                          scales::alpha("navyblue", 0.4),
 #'                                          scales::alpha("darkred", 0.4)),
 #'     backgroundSize = "100% 90%",
