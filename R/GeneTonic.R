@@ -640,7 +640,7 @@ GeneTonic <- function(dds,
         formatRound(columns = c("log2FoldChange"), digits = 3) %>%
         formatStyle(
           "log2FoldChange",
-          background = styleColorBar_divergent(myde$log2FoldChange,
+          background = styleColorBar_divergent(as.data.frame(res_de)$log2FoldChange,
                                                scales::alpha("navyblue", 0.4),
                                                scales::alpha("darkred", 0.4)),
           backgroundSize = "100% 90%",

@@ -16,7 +16,8 @@
 #' @importFrom dendextend branches_attr_by_clusters set
 #' @importFrom DESeq2 vst counts estimateSizeFactors normalizationFactors sizeFactors
 #' @importFrom dplyr arrange desc group_by mutate pull "%>%"
-#' @importFrom DT datatable dataTableOutput renderDataTable
+#' @importFrom DT datatable dataTableOutput renderDataTable formatRound
+#' formatStyle JS
 #' @importFrom dynamicTreeCut cutreeDynamic
 #' @importFrom ggforce geom_sina
 #' @import ggplot2
