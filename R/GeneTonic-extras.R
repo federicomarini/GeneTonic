@@ -159,6 +159,92 @@ overlap_jaccard_index <- function(x, y) {
 
 
 
+
+
+
+#' Style DT color bars
+#'
+#' Style DT color bars for values that diverge from 0.
+#'
+#' @details This function draws background color bars behind table cells in a column,
+#' width the width of bars being proportional to the column values *and* the color
+#' dependent on the sign of the value.
+#'
+#' A typical usage is for values such as `log2FoldChange` for tables resulting from
+#' differential expression analysis.
+#' Still, the functionality of this can be quickly generalized to other cases -
+#' see in the examples.
+#'
+#' The code of this function is heavily inspired from styleColorBar, and borrows
+#' at full hands from an excellent post on StackOverflow -
+#' https://stackoverflow.com/questions/33521828/stylecolorbar-center-and-shift-left-right-dependent-on-sign/33524422#33524422
+#'
+#' @param data The numeric vector whose range will be used for scaling the table
+#' data from 0-100 before being represented as color bars. A vector of length 2
+#' is acceptable here for specifying a range possibly wider or narrower than the
+#' range of the table data itself.
+#' @param color_pos The color of the bars for the positive values
+#' @param color_neg The color of the bars for the negative values
+#'
+#' @return This function generates JavaScript and CSS code from the values
+#' specified in R, to be used in DT tables formatting.
+#'
+#' @export
+#'
+#' @examples
+#'
+#' data(res_de_macrophage, package = "GeneTonic")
+#' res_df <- deseqresult2df(res_macrophage_IFNg_vs_naive)
+#' DT::datatable(res_df [1:50, ],
+#'               options = list(
+#'                 pageLength = 25,
+#'                 columnDefs = list(
+#'                   list(className = "dt-center", targets = "_all")
+#'                 )
+#'               )
+#' ) %>%
+#'   formatRound(columns = c("log2FoldChange"), digits = 3) %>%
+#'   formatStyle(
+#'     "log2FoldChange",
+#'     background = styleColorBar_divergent(myde$log2FoldChange,
+#'                                          scales::alpha("navyblue", 0.4),
+#'                                          scales::alpha("darkred", 0.4)),
+#'     backgroundSize = "100% 90%",
+#'     backgroundRepeat = "no-repeat",
+#'     backgroundPosition = "center"
+#'   )
+#'
+#'
+#' simplest_df <- data.frame(
+#'   a = c(rep("a",9)),
+#'   value = c(-4, -3, -2, -1, 0, 1, 2, 3, 4)
+#' )
+#'
+#' # or with a very simple data frame
+#' DT::datatable(simplest_df) %>%
+#'   formatStyle(
+#'     'value',
+#'     background = styleColorBar_divergent(simplest_df$value,
+#'                                          scales::alpha("forestgreen", 0.4),
+#'                                          scales::alpha("gold", 0.4)),
+#'     backgroundSize = "100% 90%",
+#'     backgroundRepeat = "no-repeat",
+#'     backgroundPosition = "center"
+#'   )
+styleColorBar_divergent <- function(data,
+                                    color_pos,
+                                    color_neg) {
+
+  max_val <- max(abs(data))
+  JS(
+    sprintf(
+      "isNaN(parseFloat(value)) || value < 0 ? 'linear-gradient(90deg, transparent, transparent ' + (50 + value/%s * 50) + '%%, %s ' + (50 + value/%s * 50) + '%%,%s  50%%,transparent 50%%)': 'linear-gradient(90deg, transparent, transparent 50%%, %s 50%%, %s ' + (50 + value/%s * 50) + '%%, transparent ' + (50 + value/%s * 50) + '%%)'",
+      max_val, color_pos, max_val, color_pos, color_neg, color_neg, max_val, max_val))
+}
+
+
+
+
 #' Maps numeric values to color values
 #'
 #' Maps numeric continuous values to values in a color palette
