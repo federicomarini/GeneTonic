@@ -304,26 +304,27 @@ deseqresult2df <- function(res_de, FDR = NULL) {
   res
 }
 
-footer <- function() {
-  tags$div(
-    class = "panel-footer",
-    style = "text-align:center",
-    tags$div(
-      class = "foot-inner",
-      list(
-        # hr(),
-        "GeneTonic is a project developed by Federico Marini in the Bioinformatics division of the ",
-        tags$a(href = "http://www.unimedizin-mainz.de/imbei", "IMBEI"),
-        "- Institute for Medical Biostatistics, Epidemiology and Informatics", br(),
-        "License: ", tags$a(href = "https://opensource.org/licenses/MIT", "MIT"), br(),
-
-        "Development of the GeneTonic package is on ",
-        tags$a(href = "https://github.com/federicomarini/GeneTonic", "GitHub")
-      )
+GeneTonic_footer <- fluidRow(
+  column(
+    width = 1,
+    align = "right",
+    a(
+      href = "https://github.com/federicomarini/GeneTonic",
+      target = "_blank",
+      img(src = "GeneTonic/GeneTonic.png", height = "50px")
     )
+  ),
+  column(
+    width = 11,
+    align = "center",
+    "GeneTonic is a project developed by Federico Marini in the Bioinformatics division of the ",
+    tags$a(href = "http://www.unimedizin-mainz.de/imbei", "IMBEI"),
+    "- Institute for Medical Biostatistics, Epidemiology and Informatics", br(),
+    "License: ", tags$a(href = "https://opensource.org/licenses/MIT", "MIT"),
+    "- The GeneTonic package is developed and available on ",
+    tags$a(href = "https://github.com/federicomarini/GeneTonic", "GitHub")
   )
-}
-
+)
 
 # Shiny resource paths ----------------------------------------------------
 
