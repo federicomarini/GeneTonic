@@ -19,7 +19,8 @@ test_that("mds plot with specified sets works", {
               annotation_obj = anno_df,
               similarity_measure = "overlap_matrix",
               gs_labels = mygenesets,
-              mds_colorby = "z_score")
+              mds_colorby = "z_score",
+              plot_title = "mytitle-mds")
   expect_is(p, "gg")
   expect_warning(gs_mds(res_enrich = res_enrich_IFNg_vs_naive,
                         res_de = res_macrophage_IFNg_vs_naive,

@@ -11,6 +11,21 @@ test_that("Overlap functions work", {
   expect_equal(ol_1_2_ji, 2/3)
 })
 
+test_that("JS code for DT is generated", {
+  simplest_df <- data.frame(
+    a = c(rep("a",9)),
+    value = c(-4, -3, -2, -1, 0, 1, 2, 3, 4)
+  )
+
+  bg_jscode <- styleColorBar_divergent(
+    simplest_df$value,
+    scales::alpha("forestgreen", 0.4),
+    scales::alpha("gold", 0.4)
+  )
+
+  expect_is(bg_jscode, "JS_EVAL")
+})
+
 test_that("map2color works", {
   mypal <- rev(scales::alpha(
     colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.4))
