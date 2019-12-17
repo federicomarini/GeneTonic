@@ -1,4 +1,6 @@
 
+<img src="inst/www/GeneTonic.png" align="right" alt="" width="120" />
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # GeneTonic
