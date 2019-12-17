@@ -568,3 +568,4 @@ A: We set up an instance of `GeneTonic` running on the `macrophage` dataset at t
 sessionInfo()
 ```
 
+# References {-}
