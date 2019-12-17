@@ -65,6 +65,8 @@ Suggests:
     org.Hs.eg.db,
     magrittr,
     testthat (>= 2.1.0)
+Remotes:
+    mikelove/macrophage
 License: MIT + file LICENSE
 Encoding: UTF-8
 VignetteBuilder: knitr

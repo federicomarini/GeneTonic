@@ -41,6 +41,8 @@ https://stackoverflow.com/questions/33521828/stylecolorbar-center-and-shift-left
 
 data(res_de_macrophage, package = "GeneTonic")
 res_df <- deseqresult2df(res_macrophage_IFNg_vs_naive)
+library("magrittr")
+library("DT")
 DT::datatable(res_df [1:50, ],
               options = list(
                 pageLength = 25,
