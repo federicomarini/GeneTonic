@@ -173,7 +173,7 @@ GeneTonic <- function(dds,
     # sidebar definition ------------------------------------------------------
     sidebar = bs4Dash::bs4DashSidebar(
       title = HTML("<small>GeneTonic</small>"),
-      src = "GeneTonic/genetonic_hex_concept.png",
+      src = "GeneTonic/GeneTonic.png",
       skin = "dark",
       status = "primary",
       brandColor = NULL,
@@ -589,7 +589,8 @@ GeneTonic <- function(dds,
 
     # footer definition -------------------------------------------------------
     footer = bs4DashFooter(
-      footer()
+      GeneTonic_footer,
+      right_text = NULL
     )
 
   )
@@ -664,10 +665,20 @@ GeneTonic <- function(dds,
 
     output$ui_infoboxes <- renderUI({
       tagList(
-        bs4ValueBoxOutput("infobox_dds"),
-        bs4ValueBoxOutput("infobox_resde"),
-        bs4ValueBoxOutput("infobox_resenrich"),
-        bs4ValueBoxOutput("infobox_annotation")
+        fluidRow(
+          column(
+            width = 12,
+            bs4ValueBoxOutput("infobox_dds"),
+            bs4ValueBoxOutput("infobox_resde"),
+            bs4ValueBoxOutput("infobox_resenrich"),
+            bs4ValueBoxOutput("infobox_annotation")
+          )
+          # ,
+          # column(
+          #   width = 6,
+          #   img(src = "GeneTonic/GeneTonic.png", height = "350px")
+          # )
+        )
       )
     })
 
@@ -676,7 +687,8 @@ GeneTonic <- function(dds,
         value = paste0(nrow(dds), " genes x ", ncol(dds), " samples"),
         subtitle = "dds object",
         icon = "table",
-        status = "danger"
+        status = "danger",
+        width = NULL
       )
     })
 
@@ -688,7 +700,8 @@ GeneTonic <- function(dds,
         ),
         subtitle = "res object",
         icon = "vial",
-        status = "warning"
+        status = "warning",
+        width = NULL
       )
     })
 
@@ -700,7 +713,8 @@ GeneTonic <- function(dds,
         ),
         subtitle = "func enrich object",
         icon = "share-alt",
-        status = "success"
+        status = "success",
+        width = NULL
       )
     })
 
@@ -709,7 +723,8 @@ GeneTonic <- function(dds,
         value = paste0(ncol(annotation_obj), " feature identifiers for ", nrow(dds), " features"),
         subtitle = "annotation object",
         icon = "table",
-        status = "info"
+        status = "info",
+        width = NULL
       )
     })
 
