@@ -18,5 +18,7 @@ A numeric value between 0 and 1
 Calculate similarity coefficient with the Jaccard Index
 }
 \examples{
-# TODO
+a <- seq(1, 21, 2)
+b <- seq(1, 11, 2)
+overlap_jaccard_index(a,b)
 }

@@ -22,5 +22,8 @@ with adjusted p-value smaller than the value.
 Generate a tidy table with the results of \code{DESeq2}
 }
 \examples{
-# TODO
+data(res_de_macrophage, package = "GeneTonic")
+head(res_macrophage_IFNg_vs_naive)
+res_df <- deseqresult2df(res_macrophage_IFNg_vs_naive)
+head(res_df)
 }

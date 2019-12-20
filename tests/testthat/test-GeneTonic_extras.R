@@ -38,10 +38,6 @@ test_that("map2color works", {
   expect_length(m2c_nolimits, 20)
 })
 
-test_that("footer code is generated", {
-  expect_is(footer(), "shiny.tag")
-})
-
 test_that("results to data frame conversion works", {
   res_df <- deseqresult2df(res_macrophage_IFNg_vs_naive, FDR = 1)
   res_df2 <- deseqresult2df(res_macrophage_IFNg_vs_naive, FDR = 0.05)
@@ -49,7 +45,6 @@ test_that("results to data frame conversion works", {
   expect_is(res_df, "data.frame")
   expect_error(deseqresult2df(res_df))
 })
-
 
 test_that("Retrieving info on GO term", {
   out <- go_2_html("GO:0032729")

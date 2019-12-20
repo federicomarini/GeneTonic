@@ -21,5 +21,6 @@ Assembles information, in HTML format, regarding a gene symbol identifier
 Creates links to the NCBI and the GeneCards databases
 }
 \examples{
-# TODO
+geneinfo_2_html("ACTB")
+geneinfo_2_html("Pf4")
 }
