@@ -11,7 +11,8 @@
 #' enrichment analysis. See more in the main function, [GeneTonic()], to check the
 #' formatting requirements (a minimal set of columns should be present).
 #' @param geneset_id Character specifying the gene set identifier to be plotted
-#' @param genelist TODO
+#' @param genelist A vector of character strings, specifying the identifiers
+#' contained in the row names of the `se` input object.
 #' @param annotation_obj A `data.frame` object with the feature annotation
 #' information, with at least two columns, `gene_id` and `gene_name`.
 #' @param FDR Numeric value, specifying the significance level for thresholding
@@ -76,8 +77,8 @@ gs_heatmap <- function(se,
                        res_de,
                        res_enrich,
                        annotation_obj = NULL,
-                       geneset_id,
-                       genelist,
+                       geneset_id = NULL,
+                       genelist = NULL,
                        FDR = 0.05,
                        de_only = FALSE,
                        cluster_rows = TRUE,
@@ -85,9 +86,6 @@ gs_heatmap <- function(se,
                        center_mean = TRUE,
                        scale_row = FALSE,
                        anno_col_info = NULL
-                       # TODOTODO: use ellipsis for passing params to pheatmap?
-                       # TODOTODO: option to just return the underlying data?s
-                       # TODOTODO: options to subset to specific samples?
                        ) {
 
   # check that the data would ideally be a DST, so that it is not the counts/normalized?
@@ -102,12 +100,19 @@ gs_heatmap <- function(se,
   # internal matching to the IDs (in this function we use the ids already)
 
   # rownames(res_enrich) <- res_enrich[["gs_id"]]
-  if (geneset_id %in% res_enrich[["gs_id"]]) {
-    thisset_name <- res_enrich[geneset_id, "gs_description"]
-    thisset_members <- unlist(strsplit(res_enrich[geneset_id, "gs_genes"], ","))
-    thisset_members_ids <- annotation_obj$gene_id[match(thisset_members, annotation_obj$gene_name)]
+  if (!is.null(geneset_id)) {
+    if (geneset_id %in% res_enrich[["gs_id"]]) {
+      thisset_name <- res_enrich[geneset_id, "gs_description"]
+      thisset_members <- unlist(strsplit(res_enrich[geneset_id, "gs_genes"], ","))
+      thisset_members_ids <- annotation_obj$gene_id[match(thisset_members, annotation_obj$gene_name)]
+    }
   } else {
     # overridable via a list
+    if (!all(genelist %in% rownames(se)))
+      warning("Some of the provided gene ids were not found in the SummarizedExperiment")
+
+    thisset_members_ids <- intersect(rownames(se), genelist)
+    thisset_name <- "Custom list"
   }
 
   thisset_members_ids
