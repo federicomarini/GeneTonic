@@ -67,10 +67,22 @@ checkup_GeneTonic <- function(dds,
   if (!is(dds, "DESeqDataSet"))
     stop("The provided `dds` is not a DESeqDataSet object, please check your input parameters")
   # TODO: check normalization factors/size factors are in?
+  if (is.null(sizeFactors(dds)) & is.null(normalizationFactors(dds))) {
+    message("Calculating size factors for the provided `dds` object...")
+    dds <- estimateSizeFactors(dds)
+  }
+
 
   # checking res_de
   if (!is(res_de, "DESeqResults"))
     stop("The provided `res_de` is not a DESeqResults object, please check your input parameters")
+
+  # checking that results and dds are related
+  ## at least a subset of dds should be in res
+  if (!all(rownames(res_de) %in% rownames(dds)))
+    warning("It is likely that the provided `dds` and `res_de` objects are not related ",
+            "to the same dataset (the row names of the results are not all in the dds). ",
+            "Are you sure you want to proceed?")
 
   # checking res_enrich
   colnames_res_enrich <- c("gs_id",
