@@ -135,8 +135,8 @@
   <span class='no'>res_de</span>,
   <span class='no'>res_enrich</span>,
   <span class='kw'>annotation_obj</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>geneset_id</span>,
-  <span class='no'>genelist</span>,
+  <span class='kw'>geneset_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>genelist</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>FDR</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
   <span class='kw'>de_only</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>cluster_rows</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
@@ -177,7 +177,8 @@ information, with at least two columns, <code>gene_id</code> and <code>gene_name
     </tr>
     <tr>
       <th>genelist</th>
-      <td><p>TODO</p></td>
+      <td><p>A vector of character strings, specifying the identifiers
+contained in the row names of the <code>se</code> input object.</p></td>
     </tr>
     <tr>
       <th>FDR</th>
