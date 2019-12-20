@@ -80,7 +80,8 @@ go_2_html <- function(go_id, res_enrich = NULL) {
 #' @export
 #'
 #' @examples
-#' # TODO
+#' geneinfo_2_html("ACTB")
+#' geneinfo_2_html("Pf4")
 geneinfo_2_html <- function(gene_id) {
   # entrez info
   # genecards?
@@ -135,7 +136,9 @@ geneinfo_2_html <- function(gene_id) {
 #' @seealso https://en.wikipedia.org/wiki/Overlap_coefficient
 #'
 #' @examples
-#' # TODO
+#' a <- seq(1, 21, 2)
+#' b <- seq(1, 11, 2)
+#' overlap_coefficient(a,b)
 overlap_coefficient <- function(x, y) {
   length(intersect(x, y)) / min(length(x), length(y))
 }
@@ -151,7 +154,9 @@ overlap_coefficient <- function(x, y) {
 #' @export
 #'
 #' @examples
-#' # TODO
+#' a <- seq(1, 21, 2)
+#' b <- seq(1, 11, 2)
+#' overlap_jaccard_index(a,b)
 overlap_jaccard_index <- function(x, y) {
   length(intersect(x, y)) / length(unique(c(x, y)))
   # about 2x faster than using union()
@@ -263,7 +268,15 @@ styleColorBar_divergent <- function(data,
 #' @export
 #'
 #' @examples
-#' # TODO
+#' a <- 1:9
+#' pal <- RColorBrewer::brewer.pal(9,"Set1")
+#' map2color(a, pal)
+#' plot(a, col = map2color(a, pal), pch = 20, cex = 4)
+#'
+#' b <- 1:50
+#' pal2 <- grDevices::colorRampPalette(
+#'   RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50)
+#' plot(b, col = map2color(b, pal2), pch = 20, cex = 3)
 map2color <- function(x, pal, limits = NULL) {
   if (is.null(limits))
     limits <- range(x)
@@ -290,7 +303,10 @@ map2color <- function(x, pal, limits = NULL) {
 #' @export
 #'
 #' @examples
-#' # TODO
+#' data(res_de_macrophage, package = "GeneTonic")
+#' head(res_macrophage_IFNg_vs_naive)
+#' res_df <- deseqresult2df(res_macrophage_IFNg_vs_naive)
+#' head(res_df)
 deseqresult2df <- function(res_de, FDR = NULL) {
   if (!is(res_de, "DESeqResults"))
     stop("Not a DESeqResults object.")
