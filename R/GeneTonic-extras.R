@@ -333,7 +333,9 @@ GeneTonic_footer <- fluidRow(
   column(
     width = 11,
     align = "center",
-    "GeneTonic is a project developed by Federico Marini in the Bioinformatics division of the ",
+    "GeneTonic is a project developed by ",
+    tags$a(href = "https://federicomarini.github.io", "Federico Marini"),
+    " in the Bioinformatics division of the ",
     tags$a(href = "http://www.unimedizin-mainz.de/imbei", "IMBEI"),
     "- Institute for Medical Biostatistics, Epidemiology and Informatics", br(),
     "License: ", tags$a(href = "https://opensource.org/licenses/MIT", "MIT"),
