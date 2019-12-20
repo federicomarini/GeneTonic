@@ -581,7 +581,7 @@ GeneTonic <- function(dds,
     # controlbar definition ---------------------------------------------------
     controlbar = bs4Dash::bs4DashControlbar(
       numericInput(inputId = "n_genesets",
-                   label = "number of genesets",
+                   label = "Number of genesets",
                    value = 15, min = 1, max = 50),
       selectInput("exp_condition", label = "Group/color by: ",
                   choices = c(NULL, names(colData(dds))), selected = NULL, multiple = TRUE)
@@ -793,7 +793,6 @@ GeneTonic <- function(dds,
           res_enrich,
           annotation_obj = annotation_obj,
           geneset_id = cur_gsid,
-          # TODOTODO check that I select a gene set
           FDR = 0.05,
           de_only = FALSE,
           cluster_rows = TRUE,
@@ -802,9 +801,6 @@ GeneTonic <- function(dds,
           center_mean = TRUE,
           scale_row = TRUE,
           anno_col_info = input$exp_condition # TODO
-          # TODOTODO: use ellipsis for passing params to pheatmap?
-          # TODOTODO: option to just return the underlying data?s
-          # TODOTODO: options to subset to specific samples?
         )
       } else {
         gs_heatmap(
@@ -813,7 +809,6 @@ GeneTonic <- function(dds,
           res_enrich,
           annotation_obj = annotation_obj,
           geneset_id = cur_gsid,
-          # TODOTODO check that I select a gene set
           FDR = 0.05,
           de_only = FALSE,
           cluster_rows = TRUE,
@@ -821,9 +816,6 @@ GeneTonic <- function(dds,
           cluster_columns = TRUE,
           center_mean = TRUE,
           scale_row = TRUE
-          # TODOTODO: use ellipsis for passing params to pheatmap?
-          # TODOTODO: option to just return the underlying data?s
-          # TODOTODO: options to subset to specific samples?
         )
       }
     })
@@ -954,7 +946,6 @@ GeneTonic <- function(dds,
           res_enrich,
           annotation_obj = annotation_obj,
           geneset_id = cur_gsid,
-          # TODOTODO check that I select a gene set
           FDR = 0.05,
           de_only = FALSE,
           cluster_rows = TRUE,
@@ -970,7 +961,6 @@ GeneTonic <- function(dds,
           res_enrich,
           annotation_obj = annotation_obj,
           geneset_id = cur_gsid,
-          # TODOTODO check that I select a gene set
           FDR = 0.05,
           de_only = FALSE,
           cluster_rows = TRUE,
