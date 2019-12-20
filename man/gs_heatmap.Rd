@@ -9,8 +9,8 @@ gs_heatmap(
   res_de,
   res_enrich,
   annotation_obj = NULL,
-  geneset_id,
-  genelist,
+  geneset_id = NULL,
+  genelist = NULL,
   FDR = 0.05,
   de_only = FALSE,
   cluster_rows = TRUE,
@@ -37,7 +37,8 @@ information, with at least two columns, \code{gene_id} and \code{gene_name}.}
 
 \item{geneset_id}{Character specifying the gene set identifier to be plotted}
 
-\item{genelist}{TODO}
+\item{genelist}{A vector of character strings, specifying the identifiers
+contained in the row names of the \code{se} input object.}
 
 \item{FDR}{Numeric value, specifying the significance level for thresholding
 adjusted p-values. Defaults to 0.05.}
