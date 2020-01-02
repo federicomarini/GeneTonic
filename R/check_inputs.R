@@ -66,12 +66,14 @@ checkup_GeneTonic <- function(dds,
   # checking dds
   if (!is(dds, "DESeqDataSet"))
     stop("The provided `dds` is not a DESeqDataSet object, please check your input parameters")
-  # TODO: check normalization factors/size factors are in?
-  if (is.null(sizeFactors(dds)) & is.null(normalizationFactors(dds))) {
-    message("Calculating size factors for the provided `dds` object...")
-    dds <- estimateSizeFactors(dds)
-  }
 
+  # check normalization factors/size factors are in
+  if (is.null(sizeFactors(dds)) & is.null(normalizationFactors(dds))) {
+    warning("Could not find size factors for the provided `dds` object...",
+            "\nPlease compute them first by calling\n",
+            "'dds <- estimateSizeFactors(dds)'")
+    # dds <- estimateSizeFactors(dds)
+  }
 
   # checking res_de
   if (!is(res_de, "DESeqResults"))
