@@ -12,7 +12,7 @@ ggs_graph(
   gs_ids = NULL,
   prettify = TRUE,
   geneset_graph_color = "gold",
-  genes_graph_colpal
+  genes_graph_colpal = NULL
 )
 }
 \arguments{
@@ -38,7 +38,9 @@ the node type}
 \item{geneset_graph_color}{Character value, specifying which color should be
 used for the fill of the shapes related to the gene sets.}
 
-\item{genes_graph_colpal}{TODO}
+\item{genes_graph_colpal}{A vector of colors, also provided with their hex
+string, to be used as a palette for coloring the gene nodes. If unspecified,
+defaults to a color ramp palette interpolating from blue through yellow to red.}
 }
 \value{
 An \code{igraph} object to be further manipulated or processed/plotted (e.g.

@@ -19,7 +19,10 @@ formatting requirements (a minimal set of columns should be present).}
 \item{n_gs}{Integer value, corresponding to the maximal number of gene sets to
 be displayed}
 
-\item{p_value_column}{TODO}
+\item{p_value_column}{Character string, specifying the column of \code{res_enrich}
+where the p-value to be represented is specified. Defaults to \code{gs_pvalue}
+(it could have other values, in case more than one p-value - or an adjusted
+p-value - have been specified).}
 
 \item{color_by}{Character, specifying the column of \code{res_enrich} to be used
 for coloring the plotted gene sets. Defaults sensibly to \code{z_score}.}

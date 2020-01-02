@@ -15,7 +15,8 @@ gs_mds(
   mds_labels = 0,
   mds_colorby = "z_score",
   gs_labels = NULL,
-  plot_title = NULL
+  plot_title = NULL,
+  return_data = FALSE
 )
 }
 \arguments{
@@ -53,6 +54,10 @@ available in \code{res_enrich}. Lists the gene sets to be labeled.}
 
 \item{plot_title}{Character string, used as title for the plot. If left \code{NULL},
 it defaults to a general description of the plot and of the DE contrast}
+
+\item{return_data}{Logical, whether the function should just return the
+data.frame of the MDS coordinates, related to the original \code{res_enrich}
+object. Defaults to FALSE.}
 }
 \value{
 A \code{ggplot} object

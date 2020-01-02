@@ -12,6 +12,7 @@ enrichment_map(
   gs_ids = NULL,
   overlap_threshold = 0.1,
   scale_edges_width = 200,
+  scale_nodes_size = 5,
   color_by = "gs_pvalue",
   size_by
 )
@@ -36,9 +37,15 @@ available in \code{res_enrich}. Lists the gene sets to be displayed.}
 to be used for removing edges in the enrichment map - edges below this value
 will be excluded from the final graph. Defaults to 0.1.}
 
-\item{scale_edges_width}{TODO}
+\item{scale_edges_width}{A numeric value, to define the scaling factor for the
+edges between nodes. Defaults to 200 (works well chained to \code{visNetwork}
+functions).}
 
-\item{color_by}{TODO}
+\item{scale_nodes_size}{A numeric value, to define the scaling factor for the
+node sizes. Defaults to 5 - works well chained to \code{visNetwork} functions.}
+
+\item{color_by}{Character, specifying the column of \code{res_enrich} to be used
+for coloring the plotted gene sets. Defaults to \code{gs_pvalue}.}
 
 \item{size_by}{TODO
 
