@@ -7,7 +7,10 @@
 #' formatting requirements (a minimal set of columns should be present).
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be displayed
-#' @param p_value_column  TODO
+#' @param p_value_column Character string, specifying the column of `res_enrich`
+#' where the p-value to be represented is specified. Defaults to `gs_pvalue`
+#' (it could have other values, in case more than one p-value - or an adjusted
+#' p-value - have been specified).
 #' @param color_by Character, specifying the column of `res_enrich` to be used
 #' for coloring the plotted gene sets. Defaults sensibly to `z_score`.
 #'
@@ -90,7 +93,10 @@ gs_summary_overview <- function(res_enrich,
 #' in a scenario/contrast different than the first set.
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be displayed
-#' @param p_value_column  TODO
+#' @param p_value_column Character string, specifying the column of `res_enrich`
+#' where the p-value to be represented is specified. Defaults to `gs_pvalue`
+#' (it could have other values, in case more than one p-value - or an adjusted
+#' p-value - have been specified).
 #' @param color_by Character, specifying the column of `res_enrich` to be used
 #' for coloring the plotted gene sets. Defaults sensibly to `z_score`.
 #' @param alpha_set2 Numeric value, between 0 and 1, which specified the alpha
@@ -196,7 +202,10 @@ gs_summary_overview_pair <- function(res_enrich,
 #' formatting requirements (a minimal set of columns should be present).
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be displayed
-#' @param p_value_column TODO
+#' @param p_value_column Character string, specifying the column of `res_enrich`
+#' where the p-value to be represented is specified. Defaults to `gs_pvalue`
+#' (it could have other values, in case more than one p-value - or an adjusted
+#' p-value - have been specified).
 #' @param color_by Character, specifying the column of `res_enrich` to be used
 #' for coloring the plotted gene sets. Defaults sensibly to `z_score`.
 #'
@@ -341,8 +350,6 @@ gs_horizon <- function(res_enrich, # TODO: should be a list of res_enrich object
 
 
 }
-
-
 
 
 #' Plots a heatmap for genes and genesets

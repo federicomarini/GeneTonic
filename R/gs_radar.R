@@ -10,7 +10,10 @@
 #' @param res_enrich2 TODO
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be displayed
-#' @param p_value_column TODO
+#' @param p_value_column Character string, specifying the column of `res_enrich`
+#' where the p-value to be represented is specified. Defaults to `gs_pvalue`
+#' (it could have other values, in case more than one p-value - or an adjusted
+#' p-value - have been specified).
 #'
 #' @return A `plotly` object
 #' @export
