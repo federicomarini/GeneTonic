@@ -14,7 +14,8 @@
 #' for coloring the plotted gene sets. Defaults to `aggr_score`.
 #' @param volcano_labels Integer, maximum number of labels for the gene sets to be
 #' plotted as labels on the volcano scatter plot.
-#' @param scale_circles TODO
+#' @param scale_circles A numeric value, to define the scaling factor for the
+#' circle sizes. Defaults to 1.
 #' @param gs_ids Character vector, containing a subset of `gs_id` as they are
 #' available in `res_enrich`. Lists the gene sets to be labeled.
 #' @param plot_title Character string, used as title for the plot. If left `NULL`,
@@ -66,7 +67,7 @@ gs_volcano <- function(res_enrich,
                        p_threshold = 0.05,
                        color_by = "aggr_score",
                        volcano_labels = 10,
-                       scale_circles = 1, # TODOTODO: see how to control point size
+                       scale_circles = 1,
                        # TODO option to collapse similar terms?
                        gs_ids = NULL,
                        plot_title = NULL
@@ -85,11 +86,10 @@ gs_volcano <- function(res_enrich,
     )
   )
 
-
   volcano_df <- res_enrich
   volcano_df$logpval <- -log10(volcano_df[["gs_pvalue"]])
   volcano_df$gs_name <- volcano_df[["gs_description"]]
-  volcano_df$`set members` <- volcano_df[["gs_de_count"]]
+  volcano_df$`set members` <- volcano_df[["gs_de_count"]] * scale_circles
 
   volcano_df <- volcano_df[volcano_df[["gs_pvalue"]] <= p_threshold, ]
   max_x <- max(abs(range(volcano_df[["z_score"]])))

@@ -30,7 +30,8 @@ for coloring the plotted gene sets. Defaults to \code{aggr_score}.}
 \item{volcano_labels}{Integer, maximum number of labels for the gene sets to be
 plotted as labels on the volcano scatter plot.}
 
-\item{scale_circles}{TODO}
+\item{scale_circles}{A numeric value, to define the scaling factor for the
+circle sizes. Defaults to 1.}
 
 \item{gs_ids}{Character vector, containing a subset of \code{gs_id} as they are
 available in \code{res_enrich}. Lists the gene sets to be labeled.}
