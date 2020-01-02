@@ -18,7 +18,9 @@
 #' the node type
 #' @param geneset_graph_color Character value, specifying which color should be
 #' used for the fill of the shapes related to the gene sets.
-#' @param genes_graph_colpal TODO
+#' @param genes_graph_colpal A vector of colors, also provided with their hex
+#' string, to be used as a palette for coloring the gene nodes. If unspecified,
+#' defaults to a color ramp palette interpolating from blue through yellow to red.
 #'
 #' @return An `igraph` object to be further manipulated or processed/plotted (e.g.
 #' via [igraph::plot.igraph()] or [visNetwork::visIgraph()])
@@ -80,7 +82,7 @@ ggs_graph <- function(res_enrich,
                       gs_ids = NULL,
                       prettify = TRUE,
                       geneset_graph_color = "gold",
-                      genes_graph_colpal) {
+                      genes_graph_colpal = NULL) {
 
   # verify the genesets are sorted in a meaningful way?
   #TODOTODO
@@ -129,19 +131,20 @@ ggs_graph <- function(res_enrich,
     # V(g)$value <- 15 # size? size2? or does this not work with the shapes I selected?
     # V(g)$value[nodeIDs_gs] <- 45
 
-    # V(g)$goid <- NA
-    # V(g)$goid[1:n] <- goids
-
     # this one is handled correctly by visNetwork
     V(g)$shape <- c("box", "ellipse")[factor(V(g)$nodetype, levels = c("GeneSet", "Feature"))]
 
 
-    # different colors for the gene nodes f logFC
+    # different colors for the gene nodes in function of their logFC
     fcs_genes <- res_de[annotation_obj$gene_id[match((V(g)$name[nodeIDs_genes]), annotation_obj$gene_name)], ]$log2FoldChange
 
+    if (!is.null(genes_graph_colpal)) {
+      mypal <- genes_graph_colpal # TODO: check something on the pal
+    } else {
+      mypal <- rev(scales::alpha(
+        colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.4))
+    }
 
-    mypal <- rev(scales::alpha(
-      colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.4))
     V(g)$color[nodeIDs_genes] <- map2color(fcs_genes, mypal, limits = c(-4, 4))
     V(g)$color[nodeIDs_gs] <- geneset_graph_color
 
