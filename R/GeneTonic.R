@@ -800,7 +800,7 @@ GeneTonic <- function(dds,
           cluster_columns = TRUE,
           center_mean = TRUE,
           scale_row = TRUE,
-          anno_col_info = input$exp_condition # TODO
+          anno_col_info = input$exp_condition
         )
       } else {
         gs_heatmap(
