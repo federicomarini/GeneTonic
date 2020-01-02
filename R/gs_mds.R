@@ -27,6 +27,9 @@
 #' available in `res_enrich`. Lists the gene sets to be labeled.
 #' @param plot_title Character string, used as title for the plot. If left `NULL`,
 #' it defaults to a general description of the plot and of the DE contrast
+#' @param return_data Logical, whether the function should just return the
+#' data.frame of the MDS coordinates, related to the original `res_enrich`
+#' object. Defaults to FALSE.
 #'
 #' @return A `ggplot` object
 #'
@@ -83,7 +86,8 @@ gs_mds <- function(res_enrich,
                    mds_labels = 0,
                    mds_colorby = "z_score",
                    gs_labels = NULL,
-                   plot_title = NULL) { # or aggr_score
+                   plot_title = NULL,
+                   return_data = FALSE) { # or aggr_score
 
   # TODO: match.arg on similarity matrix?
   similarity_measure <- match.arg(similarity_measure,
@@ -131,28 +135,33 @@ gs_mds <- function(res_enrich,
   mysets_names <- res_enrich[["gs_description"]]
 
 
-  mds_go <- cmdscale((1 - my_simmat), eig = TRUE, k = mds_k)
+  mds_gs <- cmdscale((1 - my_simmat), eig = TRUE, k = mds_k)
 
   # TODOTODO: cbind it to the original data frame?
-  mds_go_df <- data.frame(
-    dim1 = mds_go$points[, 1],
-    dim2 = mds_go$points[, 2], # handle 3rd dim?
+  mds_gs_df <- data.frame(
+    dim1 = mds_gs$points[, 1],
+    dim2 = mds_gs$points[, 2], # TODO: handle 3rd dim?
     gs_id = mysets,
     gs_name = mysets_names,
     gs_DEcount = res_enrich$DE_count,
     gs_colby = res_enrich[[mds_colorby]],
-    text = paste0(mysets, ": ", mysets_names),  # TODOTODO: is there a way to avoid the warning from gg?
+    gs_text = paste0(mysets, ": ", mysets_names),  # TODOTODO: is there a way to avoid the warning from gg?
     stringsAsFactors = FALSE
   )
 
-  max_z <- max(abs(range(mds_go_df$gs_colby)))
+  if (return_data) {
+    # TODO: maybe
+    return(mds_gs_df)
+  }
+
+  max_z <- max(abs(range(mds_gs_df$gs_colby)))
   limit <- max_z * c(-1, 1)
 
   this_contrast <- (sub(".*p-value: (.*)", "\\1", mcols(res_de, use.names = TRUE)["pvalue", "description"]))
 
-  p <- ggplot(mds_go_df, aes_string(x = "dim1",
+  p <- ggplot(mds_gs_df, aes_string(x = "dim1",
                                     y = "dim2",
-                                    text = "text")) +
+                                    text = "gs_text")) +
     geom_point(aes_string(color = "gs_colby",
                           size = "gs_DEcount")) +
     scale_color_gradient2(limit = limit,
@@ -167,7 +176,7 @@ gs_mds <- function(res_enrich,
     theme_bw()
 
   if (mds_labels > 0) {
-    label_these <- mds_go_df$gs_id[1:mds_labels]
+    label_these <- mds_gs_df$gs_id[1:mds_labels]
   } else {
     label_these <- NULL
   }
@@ -176,12 +185,12 @@ gs_mds <- function(res_enrich,
     if (!all(gs_labels %in% res_enrich$gs_id)) {
       warning("Not all specified geneset ids were found in the `res_enrich` object")
     }
-    label_those <- mds_go_df[mds_go_df$gs_id %in% gs_labels, "gs_id"]
+    label_those <- mds_gs_df[mds_gs_df$gs_id %in% gs_labels, "gs_id"]
   } else {
     label_those <- NULL
   }
 
-  df_gs_labels <- mds_go_df[mds_go_df$gs_id %in% unique(c(label_these, label_those)), ]
+  df_gs_labels <- mds_gs_df[mds_gs_df$gs_id %in% unique(c(label_these, label_those)), ]
 
   p <- p + geom_label_repel(
     aes_string(label = "gs_name"), data = df_gs_labels, size = 3)
@@ -196,5 +205,3 @@ gs_mds <- function(res_enrich,
   return(p)
   ## also something to obtain clusters of terms? - well, the colors do it somehow already
 }
-
-# then ggplotly(p)
