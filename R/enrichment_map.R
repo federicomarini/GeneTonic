@@ -17,8 +17,13 @@
 #' @param overlap_threshold Numeric value, between 0 and 1. Defines the threshold
 #' to be used for removing edges in the enrichment map - edges below this value
 #' will be excluded from the final graph. Defaults to 0.1.
-#' @param scale_edges_width TODO
-#' @param color_by TODO
+#' @param scale_edges_width A numeric value, to define the scaling factor for the
+#' edges between nodes. Defaults to 200 (works well chained to `visNetwork`
+#' functions).
+#' @param scale_nodes_size A numeric value, to define the scaling factor for the
+#' node sizes. Defaults to 5 - works well chained to `visNetwork` functions.
+#' @param color_by Character, specifying the column of `res_enrich` to be used
+#' for coloring the plotted gene sets. Defaults to `gs_pvalue`.
 #' @param size_by TODO
 #'
 #' TODOTODO: similarity measures, say, jaccard, or simple overlap
@@ -85,6 +90,7 @@ enrichment_map <- function(res_enrich,
                            gs_ids = NULL,
                            overlap_threshold = 0.1,
                            scale_edges_width = 200,
+                           scale_nodes_size = 5,
                            color_by = "gs_pvalue",
                            size_by) {
 
@@ -132,22 +138,41 @@ enrichment_map <- function(res_enrich,
 
   gs_size <- res_enrich$gs_de_count[idx]
 
-  V(emg)$size <- 5 * sqrt(gs_size)
+  V(emg)$size <- scale_nodes_size * sqrt(gs_size)
   V(emg)$original_size <- gs_size
 
-
   col_var <- res_enrich[idx, color_by]
-  if (all(col_var < 1)) # likely p-values...
+  if (all(col_var <= 1)) { # likely p-values...
     col_var <- -log10(col_var)
-  # V(g)$color <- colVar
+    # V(g)$color <- colVar
 
-  # TODO: palette changes if it is z_score VS pvalue
-  mypal <- (scales::alpha(
-    colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.8))
-  mypal_hover <- (scales::alpha(
-    colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.5))
-  mypal_select <- (scales::alpha(
-    colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 1))
+    # TODO: palette changes if it is z_score VS pvalue
+    mypal <- (scales::alpha(
+      colorRampPalette(RColorBrewer::brewer.pal(name = "YlOrRd", 9))(50), 0.8))
+    mypal_hover <- (scales::alpha(
+      colorRampPalette(RColorBrewer::brewer.pal(name = "YlOrRd", 9))(50), 0.5))
+    mypal_select <- (scales::alpha(
+      colorRampPalette(RColorBrewer::brewer.pal(name = "YlOrRd", 9))(50), 1))
+  } else {
+    # e.g. using z_score or aggregated value
+    if (prod(range(col_var)) >= 0) {
+      # gradient palette
+      mypal <- (scales::alpha(
+        colorRampPalette(RColorBrewer::brewer.pal(name = "Oranges", 9))(50), 0.8))
+      mypal_hover <- (scales::alpha(
+        colorRampPalette(RColorBrewer::brewer.pal(name = "Oranges", 9))(50), 0.5))
+      mypal_select <- (scales::alpha(
+        colorRampPalette(RColorBrewer::brewer.pal(name = "Oranges", 9))(50), 1))
+    } else {
+      # divergent palette to be used
+      mypal <- rev(scales::alpha(
+        colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.8))
+      mypal_hover <- rev(scales::alpha(
+        colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.5))
+      mypal_select <- rev(scales::alpha(
+        colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 1))
+    }
+  }
 
   # V(g)$color <- map2color(colVar,mypal,limits = range(colVar))
   V(emg)$color.background <- map2color(col_var, mypal, limits = range(col_var))
