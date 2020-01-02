@@ -142,6 +142,7 @@ and <code>res_de</code>. This object can be further plotted, e.g. statically via
   <span class='kw'>gs_ids</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>overlap_threshold</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
   <span class='kw'>scale_edges_width</span> <span class='kw'>=</span> <span class='fl'>200</span>,
+  <span class='kw'>scale_nodes_size</span> <span class='kw'>=</span> <span class='fl'>5</span>,
   <span class='kw'>color_by</span> <span class='kw'>=</span> <span class='st'>"gs_pvalue"</span>,
   <span class='no'>size_by</span>
 )</pre>
@@ -182,11 +183,19 @@ will be excluded from the final graph. Defaults to 0.1.</p></td>
     </tr>
     <tr>
       <th>scale_edges_width</th>
-      <td><p>TODO</p></td>
+      <td><p>A numeric value, to define the scaling factor for the
+edges between nodes. Defaults to 200 (works well chained to <code>visNetwork</code>
+functions).</p></td>
+    </tr>
+    <tr>
+      <th>scale_nodes_size</th>
+      <td><p>A numeric value, to define the scaling factor for the
+node sizes. Defaults to 5 - works well chained to <code>visNetwork</code> functions.</p></td>
     </tr>
     <tr>
       <th>color_by</th>
-      <td><p>TODO</p></td>
+      <td><p>Character, specifying the column of <code>res_enrich</code> to be used
+for coloring the plotted gene sets. Defaults to <code>gs_pvalue</code>.</p></td>
     </tr>
     <tr>
       <th>size_by</th>
@@ -236,11 +245,11 @@ will be excluded from the final graph. Defaults to 0.1.</p></td>
                      <span class='kw'>n_gs</span> <span class='kw'>=</span> <span class='fl'>20</span>
 )
 
-<span class='no'>em</span></div><div class='output co'>#&gt; IGRAPH b12d052 UN-- 20 54 -- 
+<span class='no'>em</span></div><div class='output co'>#&gt; IGRAPH 34147d6 UN-- 20 54 -- 
 #&gt; + attr: name (v/c), size (v/n), original_size (v/n), color.background
 #&gt; | (v/c), color.highlight (v/c), color.hover (v/c), color.border (v/c),
 #&gt; | width (e/n), color (e/c)
-#&gt; + edges from b12d052 (vertex names):
+#&gt; + edges from 34147d6 (vertex names):
 #&gt; [1] adaptive immune response--interferon-gamma-mediated signaling pathway                                      
 #&gt; [2] adaptive immune response--antigen processing and presentation of endogenous peptide antigen via MHC class I
 #&gt; [3] adaptive immune response--positive regulation of T cell mediated cytotoxicity                              
