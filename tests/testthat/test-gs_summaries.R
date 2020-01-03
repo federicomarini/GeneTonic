@@ -9,8 +9,8 @@ test_that("summary_heat plot is generated", {
 })
 
 test_that("summary plots are generated", {
-  expect_warning(gs_summary_overview(res_enrich_IFNg_vs_naive))
-  expect_warning(gs_summary_overview_pair(res_enrich_IFNg_vs_naive))
+  expect_error(gs_summary_overview(res_enrich_IFNg_vs_naive))
+  expect_error(gs_summary_overview_pair(res_enrich_IFNg_vs_naive))
   res_enrich_withscores <- get_aggrscores(res_enrich_IFNg_vs_naive,
                                           res_macrophage_IFNg_vs_naive,
                                           annotation_obj = anno_df,
