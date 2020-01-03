@@ -156,9 +156,12 @@ gs_summary_overview_pair <- function(res_enrich,
                                      p_value_column = "gs_pvalue",
                                      color_by = "z_score",
                                      alpha_set2 = 0.4) {
-  if (!("z_score" %in% colnames(res_enrich))) {
-    warning("You need to add the z_score or the aggregated score")
-  } # TODO: same for aggr_score
+  if (!(color_by %in% colnames(res_enrich))) {
+    stop("Your res_enrich object does not contain the ",
+         color_by,
+         " column.\n",
+         "Compute this first or select another column to use for the color.")
+  }
 
   # TODO: require that both res_enrich have the same terms in the table
   # identical(re1$GO.ID,re2$GO.ID) # or so
@@ -168,6 +171,7 @@ gs_summary_overview_pair <- function(res_enrich,
 
   set.seed(42)
   shuffled_ones <- sample(seq_len(nrow(re1)))
+  # re2 <- res_enrich2
   re2 <- res_enrich
   re2$logp10 <- -log10(re2[[p_value_column]])
 
@@ -187,17 +191,19 @@ gs_summary_overview_pair <- function(res_enrich,
 
   p <- ggplot(re_both_sorted, aes_string(x = "gs_description", y = "logp10")) +
     geom_segment(aes_string(x = "gs_description", xend = "gs_description", y = "logp10_2", yend = "logp10"), color = "grey") +
-    geom_point(aes_string(col = "z_score"), size = 4) +
-    geom_point(aes_string(y = "logp10_2", col = "z_score_2"), size = 4, alpha = alpha_set2) +
+    geom_point(aes(col = .data[[color_by]]), size = 4) +
+    geom_point(aes_string(y = "logp10_2", col = paste0(color_by,"_2")),
+               size = 4, alpha = alpha_set2) +
     scale_color_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
     coord_flip() +
+    labs(x = "Gene set description",
+         y = "log10 p-value",
+         col = color_by) +
     theme_minimal()
 
   return(p)
-
 }
 
-# TODO: size of points somewhat related to geneset size?
 
 #' Plots a summary of enrichment results
 #'
