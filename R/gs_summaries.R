@@ -62,10 +62,10 @@ gs_summary_overview <- function(res_enrich,
                                 # , size_by = "gs_de_count"
                                 ) {
   if (!(color_by %in% colnames(res_enrich))) {
-    warning("Your res_enrich object does not contain the ",
-            color_by,
-            " column.\n",
-            "Compute this first or select another column to use for the color.")
+    stop("Your res_enrich object does not contain the ",
+         color_by,
+         " column.\n",
+         "Compute this first or select another column to use for the color.")
   }
 
   re <- res_enrich
