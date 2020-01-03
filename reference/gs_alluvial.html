@@ -132,7 +132,9 @@ genes" />
 genes</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gs_alluvial</span>(<span class='no'>res_enrich</span>, <span class='no'>res_de</span>, <span class='no'>annotation_obj</span>, <span class='kw'>n_gs</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>gs_ids</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>gs_alluvial</span>(<span class='no'>res_enrich</span>, <span class='no'>res_de</span>, <span class='no'>annotation_obj</span>, <span class='kw'>n_gs</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>gs_ids</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='fu'>gs_sankey</span>(<span class='no'>res_enrich</span>, <span class='no'>res_de</span>, <span class='no'>annotation_obj</span>, <span class='kw'>n_gs</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>gs_ids</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -200,7 +202,12 @@ available in <code>res_enrich</code>. Lists the gene sets to be displayed.</p></
 <span class='fu'>gs_alluvial</span>(<span class='kw'>res_enrich</span> <span class='kw'>=</span> <span class='no'>res_enrich</span>,
             <span class='kw'>res_de</span> <span class='kw'>=</span> <span class='no'>res_de</span>,
             <span class='kw'>annotation_obj</span> <span class='kw'>=</span> <span class='no'>anno_df</span>,
-            <span class='kw'>n_gs</span> <span class='kw'>=</span> <span class='fl'>4</span>)</div></pre>
+            <span class='kw'>n_gs</span> <span class='kw'>=</span> <span class='fl'>4</span>)
+<span class='co'># or using the alias...</span>
+<span class='fu'>gs_sankey</span>(<span class='kw'>res_enrich</span> <span class='kw'>=</span> <span class='no'>res_enrich</span>,
+          <span class='kw'>res_de</span> <span class='kw'>=</span> <span class='no'>res_de</span>,
+          <span class='kw'>annotation_obj</span> <span class='kw'>=</span> <span class='no'>anno_df</span>,
+          <span class='kw'>n_gs</span> <span class='kw'>=</span> <span class='fl'>4</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

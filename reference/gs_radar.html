@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Radar plot for gene sets — gs_radar • GeneTonic</title>
+<title>Radar (spider) plot for gene sets — gs_radar • GeneTonic</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Radar plot for gene sets — gs_radar" />
-<meta property="og:description" content="Radar plot for gene sets, either for one or more results from functional
+<meta property="og:title" content="Radar (spider) plot for gene sets — gs_radar" />
+<meta property="og:description" content="Radar (spider) plot for gene sets, either for one or more results from functional
 enrichment analysis.
 TODO: enforce the same set of genesets are available!" />
 <meta name="twitter:card" content="summary" />
@@ -123,18 +123,20 @@ TODO: enforce the same set of genesets are available!" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Radar plot for gene sets</h1>
+    <h1>Radar (spider) plot for gene sets</h1>
     <small class="dont-index">Source: <a href='https://github.com/federicomarini/GeneTonic/blob/master/R/gs_radar.R'><code>R/gs_radar.R</code></a></small>
     <div class="hidden name"><code>gs_radar.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Radar plot for gene sets, either for one or more results from functional
+    <p>Radar (spider) plot for gene sets, either for one or more results from functional
 enrichment analysis.
 TODO: enforce the same set of genesets are available!</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gs_radar</span>(<span class='no'>res_enrich1</span>, <span class='no'>res_enrich2</span>, <span class='kw'>n_gs</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>p_value_column</span> <span class='kw'>=</span> <span class='st'>"gs_pvalue"</span>)</pre>
+    <pre class="usage"><span class='fu'>gs_radar</span>(<span class='no'>res_enrich1</span>, <span class='no'>res_enrich2</span>, <span class='kw'>n_gs</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>p_value_column</span> <span class='kw'>=</span> <span class='st'>"gs_pvalue"</span>)
+
+<span class='fu'>gs_spider</span>(<span class='no'>res_enrich1</span>, <span class='no'>res_enrich2</span>, <span class='kw'>n_gs</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>p_value_column</span> <span class='kw'>=</span> <span class='st'>"gs_pvalue"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -195,7 +197,9 @@ p-value - have been specified).</p></td>
 <span class='co'># res_enrich object</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>res_enrich_macrophage</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"GeneTonic"</span>)
 <span class='no'>res_enrich</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='shake_topGOtableResult.html'>shake_topGOtableResult</a></span>(<span class='no'>topgoDE_macrophage_IFNg_vs_naive</span>)</div><div class='output co'>#&gt; <span class='message'>Found 500 gene sets in `topGOtableResult` object.</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div><div class='input'><span class='no'>res_enrich</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_aggrscores.html'>get_aggrscores</a></span>(<span class='no'>res_enrich</span>, <span class='no'>res_de</span>, <span class='no'>anno_df</span>)
-<span class='fu'>gs_radar</span>(<span class='kw'>res_enrich1</span> <span class='kw'>=</span> <span class='no'>res_enrich</span>)</div></pre>
+<span class='fu'>gs_radar</span>(<span class='kw'>res_enrich1</span> <span class='kw'>=</span> <span class='no'>res_enrich</span>)
+<span class='co'># or using the alias...</span>
+<span class='fu'>gs_spider</span>(<span class='kw'>res_enrich1</span> <span class='kw'>=</span> <span class='no'>res_enrich</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
