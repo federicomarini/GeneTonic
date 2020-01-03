@@ -58,25 +58,32 @@
 gs_summary_overview <- function(res_enrich,
                                 n_gs = 20,
                                 p_value_column = "gs_pvalue",
-                                color_by = "z_score") {
-  if (!("z_score" %in% colnames(res_enrich))) {
-    warning("You need to add the z_score or the aggregated score")
-  } # TODO: same for aggr_score
+                                color_by = "z_score"
+                                # , size_by = "gs_de_count"
+                                ) {
+  if (!(color_by %in% colnames(res_enrich))) {
+    warning("Your res_enrich object does not contain the ",
+            color_by,
+            " column.\n",
+            "Compute this first or select another column to use for the color.")
+  }
 
   re <- res_enrich
   re$logp10 <- -log10(res_enrich[[p_value_column]])
   re <- re[seq_len(n_gs), ]
-
-  # TODO: color_by to be selected
 
   re_sorted <- re %>%
     arrange(.data$logp10) %>%
     mutate(gs_description = factor(.data$gs_description, .data$gs_description))
   p <- ggplot(re_sorted, (aes_string(x = "gs_description", y = "logp10"))) +
     geom_segment(aes_string(x = "gs_description", xend = "gs_description", y = 0, yend = "logp10"), color = "grey") +
-    geom_point(aes_string(col = "z_score"), size = 4) +
+    geom_point(aes(col = .data[[color_by]]), size = 4) +
+    # geom_point(aes(col = .data[[color_by]], size = .data[[size_by]])) +
     scale_color_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
     coord_flip() +
+    labs(x = "Gene set description",
+         y = "log10 p-value",
+         col = color_by) +
     theme_minimal()
 
   return(p)
