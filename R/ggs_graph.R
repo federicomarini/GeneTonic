@@ -127,7 +127,7 @@ ggs_graph <- function(res_enrich,
   if (prettify) {
     # different shapes based on the node type
 
-    # TODOTODO: this does not work with visNetwork?
+    # this does not work with visNetwork?
     # V(g)$value <- 15 # size? size2? or does this not work with the shapes I selected?
     # V(g)$value[nodeIDs_gs] <- 45
 
