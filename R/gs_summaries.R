@@ -268,8 +268,12 @@ gs_horizon <- function(res_enrich, # TODO: should be a list of res_enrich object
                        n_gs = 20,
                        p_value_column = "gs_pvalue",
                        color_by = "z_score") {
-  # again, must be enhanced with Zscore
-
+  if (!(color_by %in% colnames(res_enrich))) {
+    stop("Your res_enrich object does not contain the ",
+         color_by,
+         " column.\n",
+         "Compute this first or select another column to use for the color.")
+  }
 
   # res_enrich <- get_aggrscores(topgoDE_macrophage_IFNg_vs_naive,res_macrophage_IFNg_vs_naive, annotation_obj = anno_df)
   res_enriched_1 <- res_enrich
