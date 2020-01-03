@@ -54,6 +54,11 @@
 #'             res_de = res_de,
 #'             annotation_obj = anno_df,
 #'             n_gs = 4)
+#' # or using the alias...
+#' gs_sankey(res_enrich = res_enrich,
+#'           res_de = res_de,
+#'           annotation_obj = anno_df,
+#'           n_gs = 4)
 gs_alluvial <- function(res_enrich,
                         res_de,
                         annotation_obj,
@@ -137,4 +142,6 @@ gs_alluvial <- function(res_enrich,
   return(p)
 }
 
-# TODO: alias to gs_sankey?
+#' @rdname gs_alluvial
+#' @export
+gs_sankey <- gs_alluvial

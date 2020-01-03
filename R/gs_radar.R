@@ -1,6 +1,6 @@
-#' Radar plot for gene sets
+#' Radar (spider) plot for gene sets
 #'
-#' Radar plot for gene sets, either for one or more results from functional
+#' Radar (spider) plot for gene sets, either for one or more results from functional
 #' enrichment analysis.
 #' TODO: enforce the same set of genesets are available!
 #'
@@ -51,7 +51,8 @@
 #' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 #' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 #' gs_radar(res_enrich1 = res_enrich)
-#'
+#' # or using the alias...
+#' gs_spider(res_enrich1 = res_enrich)
 gs_radar <- function(res_enrich1,
                      res_enrich2,
                      n_gs = 20,
@@ -68,7 +69,6 @@ gs_radar <- function(res_enrich1,
   if (!("z_score" %in% colnames(res_enrich1))) {
     warning("You need to add the z_score or the aggregated score")
   } # TODO: same for aggr_score
-
 
   # TODO: will remove
   set.seed(42)
@@ -121,4 +121,6 @@ gs_radar <- function(res_enrich1,
 
 # TODO: do it like https://stackoverflow.com/questions/37670412/can-i-recreate-this-polar-coordinate-spider-chart-in-plotly/37778091#37778091   !!
 
-# TODO: alias to gs_spider?
+#' @rdname gs_radar
+#' @export
+gs_spider <- gs_radar

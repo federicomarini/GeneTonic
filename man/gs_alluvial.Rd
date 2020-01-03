@@ -2,9 +2,12 @@
 % Please edit documentation in R/gs_alluvial.R
 \name{gs_alluvial}
 \alias{gs_alluvial}
+\alias{gs_sankey}
 \title{Alluvial (sankey) plot for a set of genesets and the associated genes}
 \usage{
 gs_alluvial(res_enrich, res_de, annotation_obj, n_gs = 5, gs_ids = NULL)
+
+gs_sankey(res_enrich, res_de, annotation_obj, n_gs = 5, gs_ids = NULL)
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
@@ -66,4 +69,9 @@ gs_alluvial(res_enrich = res_enrich,
             res_de = res_de,
             annotation_obj = anno_df,
             n_gs = 4)
+# or using the alias...
+gs_sankey(res_enrich = res_enrich,
+          res_de = res_de,
+          annotation_obj = anno_df,
+          n_gs = 4)
 }

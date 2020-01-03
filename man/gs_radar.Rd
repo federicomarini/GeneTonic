@@ -2,9 +2,12 @@
 % Please edit documentation in R/gs_radar.R
 \name{gs_radar}
 \alias{gs_radar}
-\title{Radar plot for gene sets}
+\alias{gs_spider}
+\title{Radar (spider) plot for gene sets}
 \usage{
 gs_radar(res_enrich1, res_enrich2, n_gs = 20, p_value_column = "gs_pvalue")
+
+gs_spider(res_enrich1, res_enrich2, n_gs = 20, p_value_column = "gs_pvalue")
 }
 \arguments{
 \item{res_enrich1}{A \code{data.frame} object, storing the result of the functional
@@ -25,7 +28,7 @@ p-value - have been specified).}
 A \code{plotly} object
 }
 \description{
-Radar plot for gene sets, either for one or more results from functional
+Radar (spider) plot for gene sets, either for one or more results from functional
 enrichment analysis.
 TODO: enforce the same set of genesets are available!
 }
@@ -62,5 +65,6 @@ data(res_enrich_macrophage, package = "GeneTonic")
 res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 gs_radar(res_enrich1 = res_enrich)
-
+# or using the alias...
+gs_spider(res_enrich1 = res_enrich)
 }
