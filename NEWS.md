@@ -1,3 +1,23 @@
+# GeneTonic 0.9.0
+
+## New features
+
+* `GeneTonic` sports a blazing new hex sticker - say bye to the original draft!
+* The overview DT `datatable`s has some styling with color bars - e.g. for DE results - to enhance the visual perception of numeric values (e.g. log2FoldChange)
+* `gs_heatmap` can now take a custom list of gene identifiers (when no geneset is passed)
+* The color palettes in enrichment maps now respect the values and the range specified of the numeric values to be used for mapping to colors
+* `gs_mds` is now optionally returning a data.frame, to be further used for custom plotting or downstream processing
+* `gs_summary_overview` now has coloring enabled by the variable of choice
+
+## Other notes
+
+* The UI has received some restyling (e.g. in the choice of the icons for the dropdown menus, or the name of some buttons)
+* Added tour contents for most of the functionality
+* Added link to the demo instance
+* Added examples for overlap functions, gene info buttons, map2color, and deseqresult2df
+* Extended documentation of some parameters
+* Some functions have gained an alias for calling them: `gs_spider` is equivalent to `gs_radar`, and `gs_sankey` is equivalent to `gs_alliuvial`
+
 # GeneTonic 0.8.0
 
 ## New features
