@@ -120,7 +120,7 @@ gs_alluvial <- function(res_enrich,
     ),
     orientation = "h",
     valueformat = ".0f",
-    # valuesuffix = " genes in the set",  # TODO: should be done conditional on what the node is
+    # valuesuffix = " genes in the set",
 
     node = list(
       label = allnodes,

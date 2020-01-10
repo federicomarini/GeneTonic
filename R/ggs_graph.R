@@ -139,7 +139,7 @@ ggs_graph <- function(res_enrich,
     fcs_genes <- res_de[annotation_obj$gene_id[match((V(g)$name[nodeIDs_genes]), annotation_obj$gene_name)], ]$log2FoldChange
 
     if (!is.null(genes_graph_colpal)) {
-      mypal <- genes_graph_colpal # TODO: check something on the pal
+      mypal <- genes_graph_colpal
     } else {
       mypal <- rev(scales::alpha(
         colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.4))

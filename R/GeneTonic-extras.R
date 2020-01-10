@@ -47,9 +47,7 @@ go_2_html <- function(go_id, res_enrich = NULL) {
            paste0("<b>Secondary: </b>", Secondary(fullinfo), collapse = ""),
            "")
   )
-  # ALT IDEA TODO: return as a table?!
   return(HTML(mycontent))
-
 }
 
 #' Link to the AmiGO database

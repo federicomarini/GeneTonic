@@ -89,7 +89,6 @@ gs_mds <- function(res_enrich,
                    plot_title = NULL,
                    return_data = FALSE) { # or aggr_score
 
-  # TODO: match.arg on similarity matrix?
   similarity_measure <- match.arg(similarity_measure,
                                   c("kappa_matrix", "overlap_matrix"))
 
@@ -122,10 +121,7 @@ gs_mds <- function(res_enrich,
 
   } else if (similarity_measure == "overlap_matrix") {
     my_simmat <- create_jaccard_matrix(res_enrich, n_gs = n_gs, gs_ids = gs_ids, return_sym = TRUE)
-  }
-
-  # else ... TODO
-
+  } # else ...
 
   # subset here, internally
   res_enrich <- res_enrich[gs_to_use, ]
@@ -203,5 +199,4 @@ gs_mds <- function(res_enrich,
   }
 
   return(p)
-  ## also something to obtain clusters of terms? - well, the colors do it somehow already
 }

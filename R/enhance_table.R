@@ -67,9 +67,6 @@ enhance_table <- function(res_enrich,
                           gs_ids = NULL,
                           chars_limit = 70,
                           plot_title = NULL) {
-  # verify the genesets are sorted in a meaningful way?
-  #TODOTODO
-
   n_gs <- min(n_gs, nrow(res_enrich))
 
   gs_to_use <- unique(
@@ -99,8 +96,6 @@ enhance_table <- function(res_enrich,
   gs_fulllist <- gs_fulllist[rev(seq_len(nrow(gs_fulllist))), ]
   gs_fulllist$gs_desc <- factor(gs_fulllist$gs_desc, levels = rev(levels(gs_fulllist$gs_desc)))
   max_lfc <- max(abs(range(gs_fulllist$log2FoldChange)))
-
-  # z score, and evtl. option to sort by that? TODOTODO
 
   p <- ggplot(
     gs_fulllist, aes_string(
