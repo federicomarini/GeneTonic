@@ -88,11 +88,13 @@ enrichment_map <- function(res_enrich,
                            overlap_threshold = 0.1,
                            scale_edges_width = 200,
                            scale_nodes_size = 5,
-                           color_by = "gs_pvalue",
-                           size_by) {
+                           color_by = "gs_pvalue") {
 
-  # if we want to allow for other feats to be colored by, check that some aggregated scores are there
-  # TODOTODO, if... otherwise, compute aggr scores
+  if (!color_by %in% colnames(res_enrich))
+    stop("Your res_enrich object does not contain the ",
+         color_by,
+         " column.\n",
+         "Compute this first or select another column to use for the color.")
 
   n_gs <- min(n_gs, nrow(res_enrich))
 

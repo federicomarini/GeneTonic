@@ -133,20 +133,18 @@ gs_mds <- function(res_enrich,
 
   mds_gs <- cmdscale((1 - my_simmat), eig = TRUE, k = mds_k)
 
-  # TODOTODO: cbind it to the original data frame?
   mds_gs_df <- data.frame(
     dim1 = mds_gs$points[, 1],
-    dim2 = mds_gs$points[, 2], # TODO: handle 3rd dim?
+    dim2 = mds_gs$points[, 2],
     gs_id = mysets,
     gs_name = mysets_names,
     gs_DEcount = res_enrich$DE_count,
     gs_colby = res_enrich[[mds_colorby]],
-    gs_text = paste0(mysets, ": ", mysets_names),  # TODOTODO: is there a way to avoid the warning from gg?
+    gs_text = paste0(mysets, ": ", mysets_names),
     stringsAsFactors = FALSE
   )
 
   if (return_data) {
-    # TODO: maybe
     return(mds_gs_df)
   }
 

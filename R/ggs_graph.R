@@ -84,8 +84,14 @@ ggs_graph <- function(res_enrich,
                       geneset_graph_color = "gold",
                       genes_graph_colpal = NULL) {
 
-  # verify the genesets are sorted in a meaningful way?
-  #TODOTODO
+  if (!is.null(genes_graph_colpal)) {
+
+    if (!is(genes_graph_colpal, "character"))
+      stop("Please check that you are correctly providing the color palette, ",
+           "it should be encoded as a vector of colors specified as characters ",
+           "(textual or hex codes)")
+  }
+
   n_gs <- min(n_gs, nrow(res_enrich))
 
   enriched_gsids <- res_enrich[["gs_id"]]

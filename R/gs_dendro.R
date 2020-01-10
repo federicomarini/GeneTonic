@@ -70,10 +70,26 @@ gs_dendro <- function(res_enrich,
                       gs_ids = NULL,
                       gs_dist_type = "kappa", # alternatives
                       clust_method = "ward.D2",
-                      color_leaves_by = "z_score",      # TODO: define the complete behavior correctly here!
+                      color_leaves_by = "z_score",
                       size_leaves_by = "gs_pvalue",
                       color_branches_by = "clusters",
                       create_plot = TRUE) {
+
+  if (!is.null(color_leaves_by)) {
+    if (!color_leaves_by %in% colnames(res_enrich))
+      stop("Your res_enrich object does not contain the ",
+           color_leaves_by,
+           " column.\n",
+           "Compute this first or select another column to use for the leaves color.")
+  }
+  if (!is.null(size_leaves_by)) {
+    if (!size_leaves_by %in% colnames(res_enrich))
+      stop("Your res_enrich object does not contain the ",
+           size_leaves_by,
+           " column.\n",
+           "Compute this first or select another column to use for the leaves size.")
+  }
+
   n_gs <- min(n_gs, nrow(res_enrich))
   gs_to_use <- unique(
     c(
@@ -95,7 +111,7 @@ gs_dendro <- function(res_enrich,
     hclust(method = clust_method)
   my_dend <- my_hclust %>%
     as.dendrogram(hang = -1) %>%
-    set("leaves_pch", 19)             # TODO: can I set the border to black? (and leave the fill to black?)
+    set("leaves_pch", 19)
 
   dend_idx <- order.dendrogram(my_dend) # keep the sorted index vector for the leaves
 
@@ -106,7 +122,7 @@ gs_dendro <- function(res_enrich,
   if (!is.null(color_leaves_by)) {
     # setup color
     mypal <- rev(scales::alpha(colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 1))
-    col_var <- res_enrich[gs_to_use, "z_score"]
+    col_var <- res_enrich[gs_to_use, color_leaves_by]
     leaves_col <- map2color(col_var, mypal, limits = range(col_var))[dend_idx]
 
     my_dend <- set(my_dend, "leaves_col", leaves_col)
