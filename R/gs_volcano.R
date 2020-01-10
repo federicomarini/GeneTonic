@@ -3,6 +3,9 @@
 #' Volcano plot for gene sets, to summarize visually the functional enrichment
 #' results
 #'
+#' It is also possible to reduce the redundancy of the input `res_enrich` object,
+#' if it is passed in advance to the [gs_simplify()] function.
+#'
 #' @param res_enrich A `data.frame` object, storing the result of the functional
 #' enrichment analysis. See more in the main function, [GeneTonic()], to check the
 #' formatting requirements (a minimal set of columns should be present).

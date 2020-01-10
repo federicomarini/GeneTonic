@@ -46,6 +46,10 @@ A \code{ggplot} object
 Volcano plot for gene sets, to summarize visually the functional enrichment
 results
 }
+\details{
+It is also possible to reduce the redundancy of the input \code{res_enrich} object,
+if it is passed in advance to the \code{\link[=gs_simplify]{gs_simplify()}} function.
+}
 \examples{
 
 library("macrophage")
