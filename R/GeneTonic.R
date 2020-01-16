@@ -698,7 +698,7 @@ GeneTonic <- function(dds,
     output$infobox_resde <- renderbs4ValueBox({
       bs4ValueBox(
         value = paste0(
-          nrow(deseqresult2df(res_de, FDR = input$de_fdr)), # TODO: set via widget?
+          nrow(deseqresult2df(res_de, FDR = input$de_fdr)),
           " DE genes"
         ),
         subtitle = "res object",
@@ -799,7 +799,7 @@ GeneTonic <- function(dds,
           FDR = input$de_fdr,
           de_only = FALSE,
           cluster_rows = TRUE,
-          # TODOTODO: options for the heatmap go on left side, as could be common to more!
+          # TODO: options for the heatmap go on left side, as could be common to more!
           cluster_columns = TRUE,
           center_mean = TRUE,
           scale_row = TRUE,
