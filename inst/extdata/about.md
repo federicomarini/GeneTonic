@@ -1,11 +1,11 @@
+
 ## About `GeneTonic`
 
-`GeneTonic` is a Bioconductor package ...
+`GeneTonic` is a Bioconductor package whose aim is to analyze and integrate the results from Differential Expression analysis and functional enrichment analysis.
 
-Thanks to its interactive/reactive design, combined with its support for reproducbile analyses, ...
+This package provides a Shiny application that aims to combine at different levels the existing pieces of the transcriptome data and results, in a way that makes it easier to generate insightful observations and hypothesis - combining the benefits of interactivity and reproducibility, e.g. by capturing the features and gene sets of interest highlighted during the live session, and creating an HTML report as an artifact where text, code, and output coexist.
 
-`GeneTonic` was developed by Federico Marini ...
-
+`GeneTonic` is developed by Federico Marini (https://github.com/federicomarini).
 
 ## Developers
 
