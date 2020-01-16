@@ -35,7 +35,7 @@ knitr::opts_chunk$set(
     comment  = "#>",
     error    = FALSE,
     warning  = FALSE,
-    eval     = TRUE, # TODO: temporarily speeding up building and checking
+    eval     = TRUE,
     message  = FALSE,
     fig.width = 10
 )
@@ -376,7 +376,7 @@ gs_dendro(res_enrich_macrophage,
           n_gs = 50,
           gs_dist_type = "kappa", 
           clust_method = "ward.D2",
-          color_leaves_by = "z_score",      # TODO: define the complete behavior correctly here!
+          color_leaves_by = "z_score",
           size_leaves_by = "gs_pvalue",
           color_branches_by = "clusters",
           create_plot = TRUE)
@@ -560,7 +560,7 @@ A: You can set up a small conversion function, on the line of `shake_topGOtableR
 
 **Q: I'd like to try `GeneTonic` but I could not install it/I just want a quick peek into it. What can I do for this?**
 
-A: We set up an instance of `GeneTonic` running on the `macrophage` dataset at this address: http://shiny.imbei.uni-mainz.de:3838/GeneTonic. TODOTODO
+A: We set up an instance of `GeneTonic` running on the `macrophage` dataset at this address: http://shiny.imbei.uni-mainz.de:3838/GeneTonic.
 
 # Session Info {-}
 
