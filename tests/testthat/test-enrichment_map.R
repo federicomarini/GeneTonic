@@ -7,7 +7,13 @@ test_that("Graph is generated", {
                       n_gs = 50)
   expect_is(g, "igraph")
 
-  pl <- ggplotly(g)
-  expect_is(pl, "plotly")
-  expect_is(pl, "htmlwidgets")
+  library(magrittr)
+  vi <- visNetwork::visIgraph(g) %>%
+    visOptions(highlightNearest = list(enabled = TRUE,
+                                       degree = 1,
+                                       hover = TRUE),
+               nodesIdSelection = TRUE)
+
+  expect_is(vi, "visNetwork")
+  expect_is(vi, "htmlwidget")
 })
