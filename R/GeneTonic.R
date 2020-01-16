@@ -799,7 +799,6 @@ GeneTonic <- function(dds,
           FDR = input$de_fdr,
           de_only = FALSE,
           cluster_rows = TRUE,
-          # TODO: options for the heatmap go on left side, as could be common to more!
           cluster_columns = TRUE,
           center_mean = TRUE,
           scale_row = TRUE,
