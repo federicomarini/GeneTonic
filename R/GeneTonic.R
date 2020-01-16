@@ -580,6 +580,9 @@ GeneTonic <- function(dds,
     ),
     # controlbar definition ---------------------------------------------------
     controlbar = bs4Dash::bs4DashControlbar(
+      numericInput(inputId = "de_fdr",
+                   label = "False Discovery Rate (FDR) for DE",
+                   value = 0.05, min = 0.0001, max = 1, step = 0.01),
       numericInput(inputId = "n_genesets",
                    label = "Number of genesets",
                    value = 15, min = 1, max = 50),
@@ -695,7 +698,7 @@ GeneTonic <- function(dds,
     output$infobox_resde <- renderbs4ValueBox({
       bs4ValueBox(
         value = paste0(
-          nrow(deseqresult2df(res_de, FDR = 0.05)), # TODO: set via widget?
+          nrow(deseqresult2df(res_de, FDR = input$de_fdr)), # TODO: set via widget?
           " DE genes"
         ),
         subtitle = "res object",
@@ -793,7 +796,7 @@ GeneTonic <- function(dds,
           res_enrich,
           annotation_obj = annotation_obj,
           geneset_id = cur_gsid,
-          FDR = 0.05,
+          FDR = input$de_fdr,
           de_only = FALSE,
           cluster_rows = TRUE,
           # TODOTODO: options for the heatmap go on left side, as could be common to more!
@@ -809,10 +812,9 @@ GeneTonic <- function(dds,
           res_enrich,
           annotation_obj = annotation_obj,
           geneset_id = cur_gsid,
-          FDR = 0.05,
+          FDR = input$de_fdr,
           de_only = FALSE,
           cluster_rows = TRUE,
-          # TODOTODO: options for the heatmap go on left side, as could be common to more!
           cluster_columns = TRUE,
           center_mean = TRUE,
           scale_row = TRUE
@@ -946,7 +948,7 @@ GeneTonic <- function(dds,
           res_enrich,
           annotation_obj = annotation_obj,
           geneset_id = cur_gsid,
-          FDR = 0.05,
+          FDR = input$de_fdr,
           de_only = FALSE,
           cluster_rows = TRUE,
           cluster_columns = TRUE,
@@ -961,7 +963,7 @@ GeneTonic <- function(dds,
           res_enrich,
           annotation_obj = annotation_obj,
           geneset_id = cur_gsid,
-          FDR = 0.05,
+          FDR = input$de_fdr,
           de_only = FALSE,
           cluster_rows = TRUE,
           cluster_columns = TRUE,
