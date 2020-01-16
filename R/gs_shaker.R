@@ -24,6 +24,7 @@
 #' @examples
 #' # dds
 #' library("macrophage")
+#' library("DESeq2")
 #' data(gse)
 #' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
 #' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
@@ -31,8 +32,9 @@
 #' # res object
 #' data(res_de_macrophage, package = "GeneTonic")
 #' res_de <- res_macrophage_IFNg_vs_naive
-#' res_macrophage_IFNg_vs_naive$SYMBOL <- rowData(dds_macrophage)$SYMBOL
-#' de_symbols_IFNg_vs_naive <- res_macrophage_IFNg_vs_naive[(!(is.na(res_macrophage_IFNg_vs_naive$padj))) & (res_macrophage_IFNg_vs_naive$padj <= 0.05), "SYMBOL"]
+#' de_symbols_IFNg_vs_naive <- res_macrophage_IFNg_vs_naive[
+#'   (!(is.na(res_macrophage_IFNg_vs_naive$padj))) &
+#'   (res_macrophage_IFNg_vs_naive$padj <= 0.05), "SYMBOL"]
 #' bg_ids <- rowData(dds_macrophage)$SYMBOL[rowSums(counts(dds_macrophage)) > 0]
 #' \dontrun{
 #' library("clusterProfiler")
@@ -54,7 +56,10 @@ shake_enrichResult <- function(obj) {
   if (!is(obj, "enrichResult"))
     stop("Provided object must be of class `enrichResult`")
 
-  # TODO: check that the genes are provided as symbols
+  if (is.null(obj@result$geneID)) {
+    stop("You are providing an object where the gene symbols are not specified, ",
+         "this is required for running GeneTonic properly.")
+  }
 
   message("Found ", nrow(obj@result), " gene sets in `enrichResult` object, of which ", nrow(as.data.frame(obj)), " are significant.")
   message("Converting for usage in GeneTonic...")

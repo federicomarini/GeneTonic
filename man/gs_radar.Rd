@@ -30,7 +30,6 @@ A \code{plotly} object
 \description{
 Radar (spider) plot for gene sets, either for one or more results from functional
 enrichment analysis.
-TODO: enforce the same set of genesets are available!
 }
 \examples{
 

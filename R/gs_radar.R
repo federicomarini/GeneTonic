@@ -2,7 +2,6 @@
 #'
 #' Radar (spider) plot for gene sets, either for one or more results from functional
 #' enrichment analysis.
-#' TODO: enforce the same set of genesets are available!
 #'
 #' @param res_enrich1 A `data.frame` object, storing the result of the functional
 #' enrichment analysis. See more in the main function, [GeneTonic()], to check the
