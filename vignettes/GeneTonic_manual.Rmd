@@ -218,7 +218,7 @@ res_enrich_macrophage <- get_aggrscores(res_enrich = res_enrich_macrophage,
 
 Once you have the four objects specified above, you can set the `project_id` to be a character string at wish, and you can just launch the `GeneTonic` app:
 
-```{r eval=FALSE}
+```{r dryrun, eval=FALSE}
 GeneTonic(dds = dds_macrophage,
           res_de = res_macrophage_IFNg_vs_naive,
           res_enrich = res_enrich_macrophage,
@@ -291,7 +291,7 @@ The `r BiocStyle::Biocpkg("GeneTonic")` package provides, apart from the main ap
 
 Summarize the top genesets by displaying the logFC of each set's components - and transform the `ggplot` output into a `plotly` visualization, where tooltips can deliver additional information:
 
-```{r}
+```{r enhancetable}
 p <- enhance_table(res_enrich_macrophage,
                    res_macrophage_IFNg_vs_naive,
                    n_gs = 30,
@@ -304,7 +304,7 @@ ggplotly(p)
 
 Display the relationship between genesets and genes that belong to them (useful e.g. to see overlap between terms):
 
-```{r}
+```{r alluvial}
 gs_alluvial(res_enrich = res_enrich_macrophage,
             res_de = res_macrophage_IFNg_vs_naive,
             annotation_obj = anno_df,
@@ -313,7 +313,7 @@ gs_alluvial(res_enrich = res_enrich_macrophage,
 
 Display a bipartite graph where genesets and genes are included, and make it interactive:
 
-```{r}
+```{r ggs}
 ggs <- ggs_graph(res_enrich_macrophage,
                  res_de = res_macrophage_IFNg_vs_naive,
                  anno_df,
@@ -336,7 +336,7 @@ ggs %>%
 
 Plot an enrichment map of the enrichment results, where you can choose with `n_gs` the number of top genesets to be displayed, and specify in `gs_ids` the gene set identifiers - these will be merged together for each function's context:
 
-```{r}
+```{r summaryrep}
 em <- enrichment_map(res_enrich_macrophage,
                      res_macrophage_IFNg_vs_naive,
                      n_gs = 30,
@@ -354,7 +354,7 @@ em %>%
 
 Display a volcano plot for genesets, plotting significance (y-axis) versus Z score (x-axis), with color and size encoding some geneset features:
 
-```{r}
+```{r volcano}
 gs_volcano(res_enrich_macrophage,
            p_threshold = 0.05,
            color_by = "aggr_score",
@@ -371,7 +371,7 @@ gs_volcano(res_enrich_simplified,
 
 Plot a dendrogram of the enrichment results (or a subset thereof), using node color, node size, and branch color to encode relevant geneset features (and their groups):
 
-```{r}
+```{r dendro}
 gs_dendro(res_enrich_macrophage,
           n_gs = 50,
           gs_dist_type = "kappa", 
@@ -384,7 +384,7 @@ gs_dendro(res_enrich_macrophage,
 
 Produce a MultiDimensional Scaling plot of the genesets in the enrichment results:
 
-```{r}
+```{r mds}
 gs_mds(res_enrich_macrophage,
        res_macrophage_IFNg_vs_naive,
        anno_df,
@@ -400,7 +400,7 @@ gs_mds(res_enrich_macrophage,
 
 Obtain a simple overview of enrichment results, showing e.g. significance and direction of change (`z_score`)
 
-```{r}
+```{r overview}
 gs_summary_overview(res_enrich_macrophage,
                     n_gs = 30,
                     p_value_column = "gs_pvalue",
@@ -409,7 +409,7 @@ gs_summary_overview(res_enrich_macrophage,
 
 Plot a summary heatmap of genes vs genesets, encoding the logFC of genes and representing the overlap among genesets:
 
-```{r}
+```{r sumheat}
 gs_summary_heat(res_enrich_macrophage,
                 res_macrophage_IFNg_vs_naive,
                 anno_df,
@@ -418,7 +418,7 @@ gs_summary_heat(res_enrich_macrophage,
 
 Plot a heatmap on the geneset scores, computed sample-wise via `gs_scores` so that the geneset members compose a Z score that gets summarized: 
 
-```{r}
+```{r scoresheat}
 vst_macrophage <- vst(dds_macrophage)
 scores_mat <- gs_scores(vst_macrophage,
                         res_de = res_macrophage_IFNg_vs_naive,
@@ -433,7 +433,7 @@ gs_scoresheat(scores_mat,
 
 Enjoy a fully fledged `happy_hour` by running offline the analysis contained in the report, included in the `r BiocStyle::Biocpkg("GeneTonic")` package.
 
-```{r eval=FALSE}
+```{r happyhour, eval=FALSE}
 happy_hour(dds = dds_macrophage,
            res_de = res_de,
            res_enrich = res_enrich,
@@ -451,7 +451,7 @@ Here you can choose a number of genesets (`mygenesets`) and genes (`mygenes`), s
 
 Advanced users can also provide a custom RMarkdown file, and to guarantee it works in the context of `happy_hour`, we recommend to inspect the template available here:
 
-```{r}
+```{r template}
 template_rmd <- system.file("extdata",
                             "cocktail_recipe.Rmd",
                             package = "GeneTonic")
@@ -462,10 +462,13 @@ template_rmd
 
 While `GeneTonic` works currently with a single `res_enrich` object, there are some functions that allow a visual comparison between two different enrichment results (the functions are displaying a shuffled instance of the single `res_enrich`):
 
-```{r}
+```{r compare1}
 gs_summary_overview_pair(res_enrich = res_enrich_macrophage)
-gs_radar(res_enrich1 = res_enrich_macrophage)
 gs_horizon(res_enrich = res_enrich_macrophage, n_gs = 25)
+```
+
+```{r compare2}
+gs_radar(res_enrich1 = res_enrich_macrophage)
 ```
 
 In particular, the `gs_horizon` function tries to group the different genesets based on their relative enrichment across conditions, similar to a representation of [@Dutertre2019] (e.g. Fig. 5G).
@@ -475,7 +478,7 @@ Thanks to Charlotte Soneson for providing a compact working implementation of th
 
 Extract results and sort them (filtering by FDR) with `deseqresult2df`, select one top-ranking gene, extract its expression values and plot them, and display some buttons to link to external databases:
 
-```{r}
+```{r misc}
 head(deseqresult2df(res_macrophage_IFNg_vs_naive))
 # to make sure normalized values are available...
 dds_macrophage <- estimateSizeFactors(dds_macrophage)   
@@ -496,7 +499,7 @@ geneinfo_2_html("IRF1")
 
 Plot a signature heatmap for a gene set, where a matrix of genes times samples for the set members is extracted, plus generate some HTML code to summarize the information of a Gene Ontology term:
 
-```{r}
+```{r gsheatmap}
 gs_heatmap(se = vst_macrophage,
            res_de = res_macrophage_IFNg_vs_naive,
            res_enrich = res_enrich_macrophage,
@@ -512,14 +515,14 @@ go_2_html("GO:0060337",
 
 Some functions are just to ensure that the input objects are conform with the format expected by `GeneTonic`:
 
-```{r eval=FALSE}
+```{r shakers, eval=FALSE}
 res_enrich <- shake_enrichResult(enrichment_results_from_clusterProfiler)
 res_enrich <- shake_topGOtableResult(enrichment_results_from_topGOtable)
 ```
 
 As an internal check, one can see if all required arguments are fine for running `GeneTonic` by running `checkup_GeneTonic`:
 
-```{r}
+```{r checkup}
 checkup_GeneTonic(dds = dds_macrophage,
                   res_de = res_macrophage_IFNg_vs_naive,
                   res_enrich = res_enrich_macrophage,
@@ -537,7 +540,7 @@ The authors appreciate well-considered suggestions for improvements or new featu
 
 If you use `GeneTonic` for your analysis, please cite it as shown below:
 
-```{r}
+```{r cite}
 citation("GeneTonic")
 ```
 
@@ -564,7 +567,7 @@ A: We set up an instance of `GeneTonic` running on the `macrophage` dataset at t
 
 # Session Info {-}
 
-```{r}
+```{r sessioninfo}
 sessionInfo()
 ```
 
