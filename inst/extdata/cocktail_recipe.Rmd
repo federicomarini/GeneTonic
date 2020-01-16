@@ -77,9 +77,6 @@ if (usage_mode == "shiny_mode") {
 
 selected_genesets
 selected_genes
-
-# TODO: clean up to see if they are present
-
 ```
 
 
@@ -111,7 +108,7 @@ gs_volcano(res_enrich, volcano_labels = 0, gs_labels = corresponding_gs_ids)
 Here is a heatmap for each bookmarked set
 
 ```{r echo = TRUE, results="asis"}
-vst_data <- DESeq2::vst(dds) # TODO: maybe have it passed as param
+vst_data <- DESeq2::vst(dds) # or also have it passed as param
 
 for (gs in selected_genesets) {
   corresponding_gs_desc <- res_enrich[gs, "gs_description"]
