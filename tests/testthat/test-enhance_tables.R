@@ -10,5 +10,5 @@ test_that("Enhanced table is created", {
 
   pl <- ggplotly(p)
   expect_is(pl, "plotly")
-  expect_is(pl, "htmlwidgets")
+  expect_is(pl, "htmlwidget")
 })
