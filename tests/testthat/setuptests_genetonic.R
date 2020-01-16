@@ -1,9 +1,12 @@
 library("GeneTonic")
 
-library("macrophage")
-library("DESeq2")
-library("org.Hs.eg.db")
-library("AnnotationDbi")
+suppressPackageStartupMessages({
+  library("macrophage")
+  library("DESeq2")
+  library("org.Hs.eg.db")
+  library("AnnotationDbi")
+  library("clusterProfiler")
+})
 
 # dds --------------------------------------------------------------------------
 data(gse)
@@ -56,8 +59,7 @@ topgoDE_macrophage_IFNg_vs_naive <-
   read.table(system.file("extdata", "topgotable_res_IFNg_vs_naive.txt", package = "GeneTonic"),
              stringsAsFactors = FALSE)
 
-library(clusterProfiler)
-
+message("Running enrichGO...")
 ego_IFNg_vs_naive <- enrichGO(gene = de_symbols_IFNg_vs_naive,
                               universe      = bg_ids,
                               keyType       = "SYMBOL",
