@@ -6,5 +6,8 @@ test_that("Alluvial plot (interactive) is generated", {
                    annotation_obj = anno_df,
                    n_gs = 5)
   expect_is(p, "plotly")
-  # TODOTODO, expect I get htmlwidgets...
+
+  pl <- ggplotly(p)
+  expect_is(pl, "plotly")
+  expect_is(pl, "htmlwidgets")
 })

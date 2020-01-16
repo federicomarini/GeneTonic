@@ -6,5 +6,8 @@ test_that("Graph is generated", {
                       annotation_obj = anno_df,
                       n_gs = 50)
   expect_is(g, "igraph")
-  # TODOTODO, expect I get htmlwidgets...
+
+  pl <- ggplotly(g)
+  expect_is(pl, "plotly")
+  expect_is(pl, "htmlwidgets")
 })

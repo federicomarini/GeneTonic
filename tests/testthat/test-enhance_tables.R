@@ -7,5 +7,8 @@ test_that("Enhanced table is created", {
                      n_gs = 50,
                      chars_limit = 60)
   expect_is(p, "gg")
-  # TODOTODO, expect I get htmlwidgets...
+
+  pl <- ggplotly(p)
+  expect_is(pl, "plotly")
+  expect_is(pl, "htmlwidgets")
 })
