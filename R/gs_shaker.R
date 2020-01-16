@@ -81,13 +81,23 @@ shake_enrichResult <- function(obj) {
 #'
 shake_topGOtableResult <- function(obj,
                                    p_value_column = "p.value_elim") {
-  # if (!is(obj, "topGOtableResult"))
-    # stop("Provided object must be of class `topGOtableResult`")
-  # TODO: or make somehow sure it comes from topGOtable
-  # Plus: store somewhere the ontology - extra col?
 
-  # TODO: check that the genes are provided as symbols
+  if(!all(c("GO.ID", "Term", "Annotated", "Significant", "Expected", "p.value_classic") %in%
+          colnames(obj))) {
+    stop("The provided object must be of in the format specified by the `pcaExplorer::topGOtable` function")
+  }
 
+  if(!p_value_column %in% colnames(obj)) {
+    stop("You specified a column for the p-value which is not contained in the provided object. \n",
+         "Please check the colnames of your object in advance.")
+  }
+
+  if(!"genes" %in% colnames(obj)) {
+    stop("The column `genes` is not present in the provided object and is required for properly running GeneTonic.",
+         "\nMaybe you did set `addGeneToTerms` to FALSE in the call to `pcaExplorer::topGOtable`?")
+  }
+
+  # Thought: store somewhere the ontology if possible - in an extra column?
   message("Found ", nrow(obj), " gene sets in `topGOtableResult` object.")
   message("Converting for usage in GeneTonic...")
 
@@ -109,7 +119,6 @@ shake_topGOtableResult <- function(obj,
 
   return(mydf)
 }
-
 
 
 # TODO: shake_goseqResult ?
