@@ -152,6 +152,7 @@ shake_topGOtableResult <- function(obj,
   return(mydf)
 }
 
-
-# TODO: shake_goseqResult ?
-# TODO: shake_viseago ?
+## potential extensions, if the formats/classes get defined in a stable/compatible manner
+# shake_goseqResult?
+# shake_viseago?
+# shake_GSECA?
