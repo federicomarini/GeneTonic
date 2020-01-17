@@ -285,6 +285,35 @@ map2color <- function(x, pal, limits = NULL) {
 }
 
 
+#' Check colors
+#'
+#' Check correct specification of colors
+#'
+#' This is a vectorized version of [grDevices::col2rgb()]
+#'
+#' @param x A vector of strings specifying colors
+#'
+#' @return A vector of logical values, one for each specified color - `TRUE` if
+#' the color is specified correctly
+#' @export
+#'
+#' @examples
+#' # simple case
+#' mypal <- c("steelblue", "#FF1100")
+#' check_colors(mypal)
+#' mypal2 <- rev(
+#'   scales::alpha(
+#'     colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.4))
+#' check_colors(mypal2)
+#' # useful with long vectors to check at once if all cols are fine
+#' all(check_colors(mypal2))
+check_colors <- function(x) {
+  sapply(x, function(col) {
+    tryCatch(is.matrix(col2rgb(col)),
+             error = function(e) FALSE)
+  })
+}
+
 #' Generate a table from the `DESeq2` results
 #'
 #' Generate a tidy table with the results of `DESeq2`

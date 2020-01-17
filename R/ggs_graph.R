@@ -90,6 +90,11 @@ ggs_graph <- function(res_enrich,
       stop("Please check that you are correctly providing the color palette, ",
            "it should be encoded as a vector of colors specified as characters ",
            "(textual or hex codes)")
+
+    if (!all(check_colors(genes_graph_colpal)))
+      stop("You are providing your color palette in a format which ",
+           "\ncan not be handled by `grDevices::col2rgb`. \n\n",
+           "Try running `check_colors` on the palette object.")
   }
 
   n_gs <- min(n_gs, nrow(res_enrich))
