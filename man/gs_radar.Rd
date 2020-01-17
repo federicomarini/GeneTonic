@@ -14,7 +14,9 @@ gs_spider(res_enrich1, res_enrich2, n_gs = 20, p_value_column = "gs_pvalue")
 enrichment analysis. See more in the main function, \code{\link[=GeneTonic]{GeneTonic()}}, to check the
 formatting requirements (a minimal set of columns should be present).}
 
-\item{res_enrich2}{TODO}
+\item{res_enrich2}{Analogous to \code{res_enrich1}, another \code{data.frame} object,
+storing the result of the functional enrichment analysis, but for a different
+setting (e.g. another contrast)}
 
 \item{n_gs}{Integer value, corresponding to the maximal number of gene sets to
 be displayed}

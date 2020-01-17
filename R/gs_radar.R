@@ -6,7 +6,9 @@
 #' @param res_enrich1 A `data.frame` object, storing the result of the functional
 #' enrichment analysis. See more in the main function, [GeneTonic()], to check the
 #' formatting requirements (a minimal set of columns should be present).
-#' @param res_enrich2 TODO
+#' @param res_enrich2 Analogous to `res_enrich1`, another `data.frame` object,
+#' storing the result of the functional enrichment analysis, but for a different
+#' setting (e.g. another contrast)
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be displayed
 #' @param p_value_column Character string, specifying the column of `res_enrich`
