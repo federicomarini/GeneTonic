@@ -6,6 +6,15 @@ test_that("radar plot is generated", {
                                           res_macrophage_IFNg_vs_naive,
                                           annotation_obj = anno_df,
                                           aggrfun = mean)
-  p <- gs_radar(res_enrich_withscores)
+  p <- gs_radar(res_enrich = res_enrich_withscores)
   expect_is(p, "plotly")
+
+  res_enrich2 <- res_enrich_withscores[1:60, ]
+  set.seed(42)
+  shuffled_ones <- sample(seq_len(60)) # to generate permuted p-values
+  res_enrich2$gs_pvalue <- res_enrich2$gs_pvalue[shuffled_ones]
+  # ideally, I would also permute the z scores and aggregated scores
+  p2 <- gs_radar(res_enrich = res_enrich_withscores,
+                 res_enrich2 = res_enrich2)
+  expect_is(p2, "plotly")
 })
