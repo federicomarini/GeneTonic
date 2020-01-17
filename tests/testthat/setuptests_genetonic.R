@@ -1,5 +1,6 @@
 library("GeneTonic")
 
+message("--- Loading packages...")
 suppressPackageStartupMessages({
   library("macrophage")
   library("DESeq2")
@@ -7,6 +8,9 @@ suppressPackageStartupMessages({
   library("AnnotationDbi")
   library("clusterProfiler")
 })
+message("- Done!")
+
+message("--- Generating objects for the testing setup...")
 
 # dds --------------------------------------------------------------------------
 data(gse)
@@ -58,8 +62,9 @@ bg_ids <- rowData(dds_macrophage)$SYMBOL[rowSums(counts(dds_macrophage)) > 0]
 topgoDE_macrophage_IFNg_vs_naive <-
   read.table(system.file("extdata", "topgotable_res_IFNg_vs_naive.txt", package = "GeneTonic"),
              stringsAsFactors = FALSE)
+message("- Done!")
 
-message("Running enrichGO...")
+message("--- Running enrichGO...")
 ego_IFNg_vs_naive <- enrichGO(gene = de_symbols_IFNg_vs_naive,
                               universe      = bg_ids,
                               keyType       = "SYMBOL",
@@ -76,3 +81,6 @@ ego_IFNg_vs_naive <- enrichGO(gene = de_symbols_IFNg_vs_naive,
 dds_unnormalized <- dds_macrophage
 assays(dds_unnormalized)[["normalizationFactors"]] <- NULL
 res_enrich_IFNg_vs_naive <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)[1:200, ]
+message("- Done!")
+
+message("--- Test setup script completed!")
