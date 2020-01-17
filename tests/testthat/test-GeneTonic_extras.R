@@ -13,7 +13,7 @@ test_that("Overlap functions work", {
 
 test_that("JS code for DT is generated", {
   simplest_df <- data.frame(
-    a = c(rep("a",9)),
+    a = c(rep("a", 9)),
     value = c(-4, -3, -2, -1, 0, 1, 2, 3, 4)
   )
 

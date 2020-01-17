@@ -192,7 +192,7 @@ gs_summary_overview_pair <- function(res_enrich,
   p <- ggplot(re_both_sorted, aes_string(x = "gs_description", y = "logp10")) +
     geom_segment(aes_string(x = "gs_description", xend = "gs_description", y = "logp10_2", yend = "logp10"), color = "grey") +
     geom_point(aes(col = .data[[color_by]]), size = 4) +
-    geom_point(aes_string(y = "logp10_2", col = paste0(color_by,"_2")),
+    geom_point(aes_string(y = "logp10_2", col = paste0(color_by, "_2")),
                size = 4, alpha = alpha_set2) +
     scale_color_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
     coord_flip() +
