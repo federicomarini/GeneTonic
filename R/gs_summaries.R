@@ -226,6 +226,11 @@ gs_summary_overview_pair <- function(res_enrich,
 #' Plots a summary of enrichment results - horizon plot to compare one or more
 #' sets of results
 #'
+#' It makes sense to have the results in `res_enrich` sorted by increasing `gs_pvalue`,
+#' to make sure the top results are first sorted by the significance (when selecting
+#' the common gene sets across the `res_enrich` elements provided in
+#' `compared_res_enrich_list`)
+#'
 #' @param res_enrich A `data.frame` object, storing the result of the functional
 #' enrichment analysis. See more in the main function, [GeneTonic()], to check the
 #' formatting requirements (a minimal set of columns should be present).
@@ -277,19 +282,121 @@ gs_summary_overview_pair <- function(res_enrich,
 #' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 #' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 #'
-#' gs_horizon(res_enrich,
-#'            n_gs = 15)
+#' #gs_horizon(res_enrich,
+#' #            n_gs = 15)
 #'
-gs_horizon <- function(res_enrich, # TODO: should be a list of res_enrich objects!
+#' res_enrich2 <- res_enrich[1:42, ]
+#' res_enrich3 <- res_enrich[1:42, ]
+#' res_enrich4 <- res_enrich[1:42, ]
+#'
+#' set.seed(2*42)
+#' shuffled_ones_2 <- sample(seq_len(42)) # to generate permuted p-values
+#' res_enrich2$gs_pvalue <- res_enrich2$gs_pvalue[shuffled_ones_2]
+#' res_enrich2$z_score <- res_enrich2$z_score[shuffled_ones_2]
+#' res_enrich2$aggr_score <- res_enrich2$aggr_score[shuffled_ones_2]
+#'
+#' set.seed(3*42)
+#' shuffled_ones_3 <- sample(seq_len(42)) # to generate permuted p-values
+#' res_enrich3$gs_pvalue <- res_enrich3$gs_pvalue[shuffled_ones_3]
+#' res_enrich3$z_score <- res_enrich3$z_score[shuffled_ones_3]
+#' res_enrich3$aggr_score <- res_enrich3$aggr_score[shuffled_ones_3]
+#'
+#' set.seed(4*42)
+#' shuffled_ones_4 <- sample(seq_len(42)) # to generate permuted p-values
+#' res_enrich4$gs_pvalue <- res_enrich4$gs_pvalue[shuffled_ones_4]
+#' res_enrich4$z_score <- res_enrich4$z_score[shuffled_ones_4]
+#' res_enrich4$aggr_score <- res_enrich4$aggr_score[shuffled_ones_4]
+#'
+#' compa_list <- list(
+#'   scenario2 = res_enrich2,
+#'   scenario3 = res_enrich3,
+#'   scenario4 = res_enrich4
+#' )
+gs_horizon <- function(res_enrich,
+                       compared_res_enrich_list,
                        n_gs = 20,
                        p_value_column = "gs_pvalue",
-                       color_by = "z_score") {
+                       color_by = "z_score",
+                       ref_name = "ref_scenario",
+                       sort_by = c("clustered", "first_set")) {
   if (!(color_by %in% colnames(res_enrich))) {
     stop("Your res_enrich object does not contain the ",
          color_by,
          " column.\n",
          "Compute this first or select another column to use for the color.")
   }
+  # checks on the list with other res_enrich to compare against
+  # TODO TODO
+  # need to be res_enrichs
+  # need to have color_by
+  # n_gs must be >0
+
+
+
+
+
+
+  sort_by <- match.arg(sort_by, c("clustered", "first_set"))
+
+  # compared_res_enrich_list
+  # append original ref
+  all_res_enrichs <- compared_res_enrich_list
+  all_res_enrichs[[ref_name]] <- res_enrich
+
+  all_gsids <- lapply(all_res_enrichs, function(arg) arg[["gs_id"]])
+
+  gs_common <- Reduce(intersect, all_gsids)
+
+  if (length(gs_common) == 0) {
+    stop("No gene sets have been found in common to the two enrichment results")
+  }
+
+  # restrict to the top common n_gs
+  gs_common <- gs_common[seq_len(min(n_gs, length(gs_common)))]
+
+  # append scenario info
+  res_enrich[["scenario"]] <- ref_name
+  compared_res_enrich_list <- lapply(seq_len(length(compared_res_enrich_list)),
+                                     function(arg) {
+                                       re <- compared_res_enrich_list[[arg]]
+                                       re[["scenario"]] <- names(compared_res_enrich_list)[arg]
+                                       return(re)
+                                     })
+
+  # reduce to common sets
+  re_ref <- res_enrich[gs_common, ]
+  re_comp <- lapply(seq_len(length(compared_res_enrich_list)),
+                    function(arg) {
+                      re <- compared_res_enrich_list[[arg]]
+                      re <- re[gs_common, ]
+                      return(re)
+                    })
+
+  merged_res_enh <- rbind(
+    re_ref,
+    do.call(rbind, re_comp)
+  )
+  merged_res_enh$logp10 <- -log10(merged_res_enh$gs_pvalue)
+  # TODO; here!
+
+
+
+
+
+
+
+
+
+
+  common_re1 <- res_enrich[gs_common, ]
+  common_re2 <- res_enrich2[gs_common, ]
+
+  common_re1$logp10 <- -log10(common_re1[[p_value_column]])
+  common_re2$logp10 <- -log10(common_re2[[p_value_column]])
+
+
+
+
 
   # res_enrich <- get_aggrscores(topgoDE_macrophage_IFNg_vs_naive,res_macrophage_IFNg_vs_naive, annotation_obj = anno_df)
   res_enriched_1 <- res_enrich

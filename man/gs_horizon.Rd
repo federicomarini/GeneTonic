@@ -6,6 +6,7 @@
 \usage{
 gs_horizon(
   res_enrich,
+  compared_res_enrich_list,
   n_gs = 20,
   p_value_column = "gs_pvalue",
   color_by = "z_score"
@@ -67,9 +68,30 @@ data(res_enrich_macrophage, package = "GeneTonic")
 res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 
-gs_horizon(res_enrich,
-           n_gs = 15)
+#gs_horizon(res_enrich,
+#            n_gs = 15)
 
+res_enrich2 <- res_enrich[1:42, ]
+res_enrich3 <- res_enrich[1:42, ]
+res_enrich4 <- res_enrich[1:42, ]
+
+set.seed(2*42)
+shuffled_ones_2 <- sample(seq_len(42)) # to generate permuted p-values
+res_enrich2$gs_pvalue <- res_enrich2$gs_pvalue[shuffled_ones_2]
+res_enrich2$z_score <- res_enrich2$z_score[shuffled_ones_2]
+res_enrich2$aggr_score <- res_enrich2$aggr_score[shuffled_ones_2]
+
+set.seed(3*42)
+shuffled_ones_3 <- sample(seq_len(42)) # to generate permuted p-values
+res_enrich3$gs_pvalue <- res_enrich3$gs_pvalue[shuffled_ones_3]
+res_enrich3$z_score <- res_enrich3$z_score[shuffled_ones_3]
+res_enrich3$aggr_score <- res_enrich3$aggr_score[shuffled_ones_3]
+
+set.seed(4*42)
+shuffled_ones_4 <- sample(seq_len(42)) # to generate permuted p-values
+res_enrich4$gs_pvalue <- res_enrich4$gs_pvalue[shuffled_ones_4]
+res_enrich4$z_score <- res_enrich4$z_score[shuffled_ones_4]
+res_enrich4$aggr_score <- res_enrich4$aggr_score[shuffled_ones_4]
 }
 \seealso{
 \code{\link[=gs_summary_overview]{gs_summary_overview()}}, \code{\link[=gs_summary_overview_pair]{gs_summary_overview_pair()}}
