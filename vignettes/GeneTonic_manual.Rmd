@@ -477,8 +477,11 @@ gs_horizon(res_enrich = res_enrich_macrophage, n_gs = 25)
 ```
 
 ```{r compare2}
+# with only one set
 gs_radar(res_enrich = res_enrich_macrophage)
-# TODO: an example with shuffled gene sets?
+# with a dataset to compare against
+gs_radar(res_enrich = res_enrich_macrophage,
+         res_enrich2 = res_enrich2)
 ```
 
 In particular, the `gs_horizon` function tries to group the different genesets based on their relative enrichment across conditions, similar to a representation of [@Dutertre2019] (e.g. Fig. 5G).
