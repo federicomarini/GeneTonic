@@ -148,42 +148,51 @@ gs_summary_overview <- function(res_enrich,
 #' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 #' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 #'
-#' gs_summary_overview_pair(res_enrich = res_enrich)
-#'
+#' res_enrich2 <- res_enrich[1:42, ]
+#' set.seed(42)
+#' shuffled_ones <- sample(seq_len(42)) # to generate permuted p-values
+#' res_enrich2$gs_pvalue <- res_enrich2$gs_pvalue[shuffled_ones]
+#' res_enrich2$z_score <- res_enrich2$z_score[shuffled_ones]
+#' res_enrich2$aggr_score <- res_enrich2$aggr_score[shuffled_ones]
+#' # ideally, I would also permute the z scores and aggregated scores
+#' gs_summary_overview_pair(res_enrich = res_enrich,
+#'                          res_enrich2 = res_enrich2)
 gs_summary_overview_pair <- function(res_enrich,
                                      res_enrich2,
                                      n_gs = 20,
                                      p_value_column = "gs_pvalue",
                                      color_by = "z_score",
-                                     alpha_set2 = 0.4) {
+                                     alpha_set2 = 1) {
   if (!(color_by %in% colnames(res_enrich))) {
     stop("Your res_enrich object does not contain the ",
          color_by,
          " column.\n",
          "Compute this first or select another column to use for the color.")
   }
+  # same for set2
+  if (!(color_by %in% colnames(res_enrich2))) {
+    stop("Your res_enrich object does not contain the ",
+         color_by,
+         " column.\n",
+         "Compute this first or select another column to use for the color.")
+  }
 
-  # TODO: require that both res_enrich have the same terms in the table
-  # identical(re1$GO.ID,re2$GO.ID) # or so
+  gs_set1 <- res_enrich$gs_id
+  gs_set2 <- res_enrich2$gs_id
+  gs_common <- intersect(gs_set1, gs_set2)
+  # restrict to the top common n_gs
+  gs_common <- gs_common[seq_len(min(n_gs, length(gs_common)))]
 
-  re1 <- res_enrich
-  re1$logp10 <- -log10(res_enrich[[p_value_column]])
+  common_re1 <- res_enrich[gs_common, ]
+  common_re2 <- res_enrich2[gs_common, ]
 
-  set.seed(42)
-  shuffled_ones <- sample(seq_len(nrow(re1)))
-  # re2 <- res_enrich2
-  re2 <- res_enrich
-  re2$logp10 <- -log10(re2[[p_value_column]])
+  common_re1$logp10 <- -log10(common_re1[[p_value_column]])
+  common_re2$logp10 <- -log10(common_re2[[p_value_column]])
 
-  re2$z_score <- re2$z_score[shuffled_ones]
-  re2$aggr_score <- re2$aggr_score[shuffled_ones]
-  re2$logp10 <- re1$logp10[shuffled_ones]
-
-  re_both <- mutate(re1,
-                    z_score_2 = re2$z_score,
-                    aggr_score_2 = re2$aggr_score,
-                    logp10_2 = re2$logp10)
-  re_both <- re_both[seq_len(n_gs), ]
+  re_both <- common_re1
+  re_both[["logp10_2"]] <- common_re2$logp10
+  re_both[[color_by]] <- common_re1[[color_by]]
+  re_both[[paste0(color_by, "_2")]] <- common_re2[[color_by]]
 
   re_both_sorted <- re_both %>%
     arrange(.data$logp10) %>%
@@ -191,14 +200,16 @@ gs_summary_overview_pair <- function(res_enrich,
 
   p <- ggplot(re_both_sorted, aes_string(x = "gs_description", y = "logp10")) +
     geom_segment(aes_string(x = "gs_description", xend = "gs_description", y = "logp10_2", yend = "logp10"), color = "grey") +
-    geom_point(aes(col = .data[[color_by]]), size = 4) +
+    geom_point(aes(fill = .data[[color_by]]), size = 4, pch = 21) +
     geom_point(aes_string(y = "logp10_2", col = paste0(color_by, "_2")),
                size = 4, alpha = alpha_set2) +
     scale_color_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
+    scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026", guide = FALSE) +
     coord_flip() +
     labs(x = "Gene set description",
          y = "log10 p-value",
          col = color_by) +
+    ylim(0, NA) +
     theme_minimal()
 
   return(p)

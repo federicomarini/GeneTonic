@@ -463,7 +463,16 @@ template_rmd
 While `GeneTonic` works currently with a single `res_enrich` object, there are some functions that allow a visual comparison between two different enrichment results (the functions are displaying a shuffled instance of the single `res_enrich`):
 
 ```{r compare1}
-gs_summary_overview_pair(res_enrich = res_enrich_macrophage)
+# generating some shuffled gene sets
+res_enrich2 <- res_enrich_macrophage[1:50, ]
+set.seed(42)
+shuffled_ones <- sample(seq_len(50)) # to generate permuted p-values
+res_enrich2$gs_pvalue <- res_enrich2$gs_pvalue[shuffled_ones]
+res_enrich2$z_score <- res_enrich2$z_score[shuffled_ones]
+res_enrich2$aggr_score <- res_enrich2$aggr_score[shuffled_ones]
+
+gs_summary_overview_pair(res_enrich = res_enrich_macrophage,
+                         res_enrich2 = res_enrich2)
 gs_horizon(res_enrich = res_enrich_macrophage, n_gs = 25)
 ```
 

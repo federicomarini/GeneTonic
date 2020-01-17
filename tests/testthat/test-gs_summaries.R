@@ -16,8 +16,16 @@ test_that("summary plots are generated", {
                                           annotation_obj = anno_df,
                                           aggrfun = mean)
 
+  # generating a shuffled dataset
+  res_enrich2 <- res_enrich_withscores[1:20, ]
+  set.seed(42)
+  shuffled_ones <- sample(seq_len(20)) # to generate permuted p-values
+  res_enrich2$gs_pvalue <- res_enrich2$gs_pvalue[shuffled_ones]
+  res_enrich2$z_score <- res_enrich2$z_score[shuffled_ones]
+  res_enrich2$aggr_score <- res_enrich2$aggr_score[shuffled_ones]
+
   p1 <- gs_summary_overview(res_enrich_withscores)
-  p2 <- gs_summary_overview_pair(res_enrich_withscores)
+  p2 <- gs_summary_overview_pair(res_enrich_withscores, res_enrich2)
   p3 <- gs_horizon(res_enrich_withscores)
   expect_is(p1, "gg")
   expect_is(p2, "gg")
