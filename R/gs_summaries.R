@@ -226,14 +226,20 @@ gs_summary_overview_pair <- function(res_enrich,
 #' Plots a summary of enrichment results - horizon plot to compare one or more
 #' sets of results
 #'
-#' It makes sense to have the results in `res_enrich` sorted by increasing `gs_pvalue`,
-#' to make sure the top results are first sorted by the significance (when selecting
-#' the common gene sets across the `res_enrich` elements provided in
-#' `compared_res_enrich_list`)
+#' @details It makes sense to have the results in `res_enrich` sorted by
+#' increasing `gs_pvalue`, to make sure the top results are first sorted by the
+#' significance (when selecting the common gene sets across the `res_enrich`
+#' elements provided in `compared_res_enrich_list`)
+#'
+#' The gene sets included are a subset of the ones in common to all different
+#' scenarios included in `res_enrich` and the elements of `compared_res_enrich_list`.
 #'
 #' @param res_enrich A `data.frame` object, storing the result of the functional
 #' enrichment analysis. See more in the main function, [GeneTonic()], to check the
 #' formatting requirements (a minimal set of columns should be present).
+#' @param compared_res_enrich_list A named list, where each element is a `data.frame`
+#' formatted like the standard `res_enrich` objects used by `GeneTonic`. The
+#' names of the list are the names of the scenarios.
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be displayed
 #' @param p_value_column Character string, specifying the column of `res_enrich`
@@ -242,6 +248,13 @@ gs_summary_overview_pair <- function(res_enrich,
 #' p-value - have been specified).
 #' @param color_by Character, specifying the column of `res_enrich` to be used
 #' for coloring the plotted gene sets. Defaults sensibly to `z_score`.
+#' @param ref_name Character, defining the name of the scenario to compare
+#' against (the one in `res_enrich`) - defaults to "ref_scenario".
+#' @param sort_by Character string, either "clustered", or "first_set". This
+#' controls the sorting order of the included terms in the final plot.
+#' "clustered" presents the terms grouped by the scenario where they assume the
+#' highest values. "first_set" sorts the terms by the significance value in the
+#' reference scenario.
 #'
 #' @return A `ggplot` object
 #'
@@ -282,9 +295,6 @@ gs_summary_overview_pair <- function(res_enrich,
 #' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 #' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 #'
-#' #gs_horizon(res_enrich,
-#' #            n_gs = 15)
-#'
 #' res_enrich2 <- res_enrich[1:42, ]
 #' res_enrich3 <- res_enrich[1:42, ]
 #' res_enrich4 <- res_enrich[1:42, ]
@@ -312,6 +322,15 @@ gs_summary_overview_pair <- function(res_enrich,
 #'   scenario3 = res_enrich3,
 #'   scenario4 = res_enrich4
 #' )
+#'
+#' gs_horizon(res_enrich,
+#'            compared_res_enrich_list = compa_list,
+#'            n_gs = 50,
+#'            sort_by = "clustered")
+#' gs_horizon(res_enrich,
+#'            compared_res_enrich_list = compa_list,
+#'            n_gs = 20,
+#'            sort_by = "first_set")
 gs_horizon <- function(res_enrich,
                        compared_res_enrich_list,
                        n_gs = 20,
@@ -330,7 +349,7 @@ gs_horizon <- function(res_enrich,
   # need to be res_enrichs
   # need to have color_by
   # n_gs must be >0
-
+  # list must be named, otherwise message and assign
 
 
 
@@ -377,117 +396,110 @@ gs_horizon <- function(res_enrich,
     do.call(rbind, re_comp)
   )
   merged_res_enh$logp10 <- -log10(merged_res_enh$gs_pvalue)
-  # TODO; here!
+
+  if (sort_by == "first_set") {
+    # sorted by category in scenario1
+    p <- merged_res_enh %>%
+      mutate(gs_description = factor(.data$gs_description, rev(unique(.data$gs_description)))) %>%
+      arrange((.data$logp10)) %>%
+      ggplot(aes_string(x = "gs_description", y = "logp10")) +
+      geom_line(aes_string(group = "scenario", col = "scenario"), size = 3, alpha = 0.7) +
+      geom_point(aes_string(fill = "z_score"), size = 4, pch = 21) +
+      scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
+      ylim(c(0, NA)) +
+      coord_flip() +
+      theme_minimal()
+  } else if (sort_by == "clustered") {
+    # with a nicer sorting - "grouped" by scenario
+    nicerorder_terms <- merged_res_enh %>%
+      group_by(.data$gs_description) %>%
+      mutate(main_category = .data$scenario[which.max(.data$logp10)],
+             max_value = max(.data$logp10)) %>%
+      arrange(.data$main_category, desc(.data$max_value)) %>%
+      dplyr::pull(.data$gs_description)
+
+    p <- merged_res_enh %>%
+      # mutate(gs_description=factor(gs_description, unique(gs_description))) %>%
+      mutate(gs_description = factor(.data$gs_description, rev(unique(nicerorder_terms)))) %>%
+      arrange(desc(.data$logp10)) %>%
+      ggplot(aes_string(x = "gs_description", y = "logp10")) +
+      geom_line(aes_string(group = "scenario", col = "scenario"), size = 3, alpha = 0.7) +
+      geom_point(aes_string(fill = "z_score"), size = 4, pch = 21) +
+      scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
+      ylim(c(0, NA)) +
+      coord_flip() +
+      theme_minimal()
+  }
+
+  return(p)
 
 
-
-
-
-
-
-
-
-
-  common_re1 <- res_enrich[gs_common, ]
-  common_re2 <- res_enrich2[gs_common, ]
-
-  common_re1$logp10 <- -log10(common_re1[[p_value_column]])
-  common_re2$logp10 <- -log10(common_re2[[p_value_column]])
-
-
-
-
-
-  # res_enrich <- get_aggrscores(topgoDE_macrophage_IFNg_vs_naive,res_macrophage_IFNg_vs_naive, annotation_obj = anno_df)
-  res_enriched_1 <- res_enrich
-
-  res_enriched_1 <- res_enriched_1[seq_len(n_gs), ]
-  res_enriched_1$logp10 <-  -log10(res_enriched_1[[p_value_column]])
-
-  res_enriched_2 <-
-    res_enriched_3 <-
-    res_enriched_4 <- res_enriched_1
-
-  set.seed(42)
-  shuffled_r2 <- sample(seq_len(nrow(res_enriched_1)))
-  shuffled_r3 <- sample(seq_len(nrow(res_enriched_1)))
-  shuffled_r4 <- sample(seq_len(nrow(res_enriched_1)))
-
-  res_enriched_2$z_score <- res_enriched_2$z_score[shuffled_r2]
-  res_enriched_2$aggr_score <- res_enriched_2$aggr_score[shuffled_r2]
-  res_enriched_2$logp10 <- res_enriched_2$logp10[shuffled_r2]
-  res_enriched_3$z_score <- res_enriched_3$z_score[shuffled_r3]
-  res_enriched_3$aggr_score <- res_enriched_3$aggr_score[shuffled_r3]
-  res_enriched_3$logp10 <- res_enriched_3$logp10[shuffled_r3]
-  res_enriched_4$z_score <- res_enriched_4$z_score[shuffled_r4]
-  res_enriched_4$aggr_score <- res_enriched_4$aggr_score[shuffled_r4]
-  res_enriched_4$logp10 <- res_enriched_4$logp10[shuffled_r4]
-
-  res_enriched_1$scenario <- "original"
-  res_enriched_2$scenario <- "shuffled_2"
-  res_enriched_3$scenario <- "shuffled_3"
-  res_enriched_4$scenario <- "shuffled_4"
-
-  # to preserve the order of the terms
-  res_enriched_1 <- res_enriched_1 %>%
-    arrange(.data$logp10) %>%
-    mutate(gs_description = factor(.data$gs_description, unique(.data$gs_description)))
-
-  # to preserve the sorting of scenarios
-  merged_res_enh <- rbind(res_enriched_1,
-                          res_enriched_2,
-                          res_enriched_3,
-                          res_enriched_4)
-  merged_res_enh$scenario <- factor(merged_res_enh$scenario, unique(merged_res_enh$scenario))
-
-
-  # if only with one...
-  res_enriched_1 %>%
-    # arrange(logp10) %>%
-    # mutate(gs_description=factor(gs_description, unique(gs_description))) %>%
-    ggplot(aes_string(x = "gs_description", y = "logp10")) +
-    geom_line(aes_string(group = "scenario", col = "scenario"), size = 3, alpha = 0.7) +
-    geom_point(aes_string(fill = "z_score"), size = 4, pch = 21) +
-    scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
-    ylim(c(0, NA)) +
-    coord_flip() +
-    theme_minimal()
-
-  # sorted by category in scenario1
-  merged_res_enh %>%
-    mutate(gs_description = factor(.data$gs_description, unique(.data$gs_description))) %>%
-    arrange(desc(.data$logp10)) %>%
-    ggplot(aes_string(x = "gs_description", y = "logp10")) +
-    geom_line(aes_string(group = "scenario", col = "scenario"), size = 3, alpha = 0.7) +
-    geom_point(aes_string(fill = "z_score"), size = 4, pch = 21) +
-    scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
-    ylim(c(0, NA)) +
-    coord_flip() +
-    theme_minimal()
-
-  # with a nicer sorting - "grouped" by scenario
-
-  nicerorder_terms <- merged_res_enh %>%
-    group_by(.data$gs_description) %>%
-    mutate(main_category = .data$scenario[which.max(.data$logp10)],
-           max_value = max(.data$logp10)) %>%
-    arrange(.data$main_category, desc(.data$max_value)) %>%
-    dplyr::pull(.data$gs_description)
-
-
-
-  merged_res_enh %>%
-    # mutate(gs_description=factor(gs_description, unique(gs_description))) %>%
-    mutate(gs_description = factor(.data$gs_description, rev(unique(nicerorder_terms)))) %>%
-    arrange(desc(.data$logp10)) %>%
-    ggplot(aes_string(x = "gs_description", y = "logp10")) +
-    geom_line(aes_string(group = "scenario", col = "scenario"), size = 3, alpha = 0.7) +
-    geom_point(aes_string(fill = "z_score"), size = 4, pch = 21) +
-    scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
-    ylim(c(0, NA)) +
-    coord_flip() +
-    theme_minimal()
-
+ ####### #################
+#######
+ ####### common_re1 <- res_enrich[gs_common, ]
+ ####### common_re2 <- res_enrich2[gs_common, ]
+#######
+ ####### common_re1$logp10 <- -log10(common_re1[[p_value_column]])
+ ####### common_re2$logp10 <- -log10(common_re2[[p_value_column]])
+#######
+#######
+#######
+ ####### re_ref$logp10 <- -log10(re_ref$gs_pvalue)
+#######
+ ####### # res_enrich <- get_aggrscores(topgoDE_macrophage_IFNg_vs_naive,res_macrophage_IFNg_vs_naive, a#######nnotation_obj = anno_df)
+ ####### res_enriched_1 <- res_enrich
+#######
+ ####### res_enriched_1 <- res_enriched_1[seq_len(n_gs), ]
+ ####### res_enriched_1$logp10 <-  -log10(res_enriched_1[[p_value_column]])
+#######
+ ####### res_enriched_2 <-
+ #######   res_enriched_3 <-
+ #######   res_enriched_4 <- res_enriched_1
+#######
+ ####### set.seed(42)
+ ####### shuffled_r2 <- sample(seq_len(nrow(res_enriched_1)))
+ ####### shuffled_r3 <- sample(seq_len(nrow(res_enriched_1)))
+ ####### shuffled_r4 <- sample(seq_len(nrow(res_enriched_1)))
+#######
+ ####### res_enriched_2$z_score <- res_enriched_2$z_score[shuffled_r2]
+ ####### res_enriched_2$aggr_score <- res_enriched_2$aggr_score[shuffled_r2]
+ ####### res_enriched_2$logp10 <- res_enriched_2$logp10[shuffled_r2]
+ ####### res_enriched_3$z_score <- res_enriched_3$z_score[shuffled_r3]
+ ####### res_enriched_3$aggr_score <- res_enriched_3$aggr_score[shuffled_r3]
+ ####### res_enriched_3$logp10 <- res_enriched_3$logp10[shuffled_r3]
+ ####### res_enriched_4$z_score <- res_enriched_4$z_score[shuffled_r4]
+ ####### res_enriched_4$aggr_score <- res_enriched_4$aggr_score[shuffled_r4]
+ ####### res_enriched_4$logp10 <- res_enriched_4$logp10[shuffled_r4]
+#######
+ ####### res_enriched_1$scenario <- "original"
+ ####### res_enriched_2$scenario <- "shuffled_2"
+ ####### res_enriched_3$scenario <- "shuffled_3"
+ ####### res_enriched_4$scenario <- "shuffled_4"
+#######
+ ####### # to preserve the order of the terms
+ ####### re_ref <- re_ref %>%
+ #######   arrange(.data$logp10) %>%
+ #######   mutate(gs_description = factor(.data$gs_description, unique(.data$gs_description)))
+#######
+ ####### # to preserve the sorting of scenarios
+ ####### merged_res_enh <- rbind(res_enriched_1,
+ #######                         res_enriched_2,
+ #######                         res_enriched_3,
+ #######                         res_enriched_4)
+ ####### merged_res_enh$scenario <- factor(merged_res_enh$scenario, unique(merged_res_enh$scenario))
+#######
+#######
+ ####### # if only with one...
+ ####### re_ref %>%
+ #######   # arrange(logp10) %>%
+ #######   # mutate(gs_description=factor(gs_description, unique(gs_description))) %>%
+ #######   ggplot(aes_string(x = "gs_description", y = "logp10")) +
+ #######   geom_line(aes_string(group = "scenario", col = "scenario"), size = 3, alpha = 0.7) +
+ #######   geom_point(aes_string(fill = "z_score"), size = 4, pch = 21) +
+ #######   scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
+ #######   ylim(c(0, NA)) +
+ #######   coord_flip() +
+ #######   theme_minimal()
 
 }
 
