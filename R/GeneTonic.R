@@ -1044,7 +1044,7 @@ GeneTonic <- function(dds,
     })
 
     output$gs_summaryradar <- renderPlotly({
-      gs_radar(res_enrich1 = res_enhanced,
+      gs_radar(res_enrich = res_enhanced,
                n_gs = input$n_genesets)
     })
 
