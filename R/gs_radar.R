@@ -112,7 +112,7 @@ gs_radar <- function(res_enrich,
     # restrict to the top common n_gs
     gs_common <- gs_common[seq_len(min(n_gs, length(gs_common)))]
 
-    if (length(gs_common)) {
+    if (length(gs_common) == 0) {
       stop("No gene sets have been found in common to the two enrichment results")
     }
 

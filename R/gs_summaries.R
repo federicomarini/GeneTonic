@@ -181,7 +181,7 @@ gs_summary_overview_pair <- function(res_enrich,
   gs_set2 <- res_enrich2$gs_id
   gs_common <- intersect(gs_set1, gs_set2)
 
-  if (length(gs_common)) {
+  if (length(gs_common) == 0) {
     stop("No gene sets have been found in common to the two enrichment results")
   }
 
