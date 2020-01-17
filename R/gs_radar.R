@@ -144,10 +144,6 @@ gs_radar <- function(res_enrich,
       )
   }
 
-  # TODO: some better tooltips
-  # ideas: https://www.r-bloggers.com/radar-charts-in-r-using-plotly/
-  # TODO: do it like https://stackoverflow.com/questions/37670412/can-i-recreate-this-polar-coordinate-spider-chart-in-plotly/37778091#37778091   !!
-
   return(p)
 }
 
