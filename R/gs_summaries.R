@@ -344,16 +344,47 @@ gs_horizon <- function(res_enrich,
          " column.\n",
          "Compute this first or select another column to use for the color.")
   }
-  # checks on the list with other res_enrich to compare against
-  # TODO TODO
-  # need to be res_enrichs
-  # need to have color_by
-  # n_gs must be >0
-  # list must be named, otherwise message and assign
 
+  if (!n_gs > 0) {
+    stop("Please select a value for `n_gs` greater than 0")
+  }
 
+  if (is.null(names(compared_res_enrich_list))) {
+    message("You provided a list for comparison without specifying names, adding some defaults")
+    names(compared_res_enrich_list) <-
+      paste0("other_", seq_len(length(compared_res_enrich_list)))
+  }
 
+  if (!is(compared_res_enrich_list, "list")) {
+    stop("You need to provide a list for comparison (even versus one scenario)")
+  }
 
+  colnames_res_enrich <- c("gs_id",
+                           "gs_description",
+                           "gs_pvalue",
+                           "gs_genes",
+                           "gs_de_count",
+                           "gs_bg_count")
+  for (i in seq_len(length(compared_res_enrich_list))) {
+    this_re <- compared_res_enrich_list[[i]]
+
+    if (!all(colnames_res_enrich %in% colnames(this_re)))
+      stop("One of the provided `res_enrich` objects does not respect the format ",
+           "required to use in GeneTonic\n",
+           "e.g. all required column names have to be present.\n",
+           "You might want to use one of the `shaker_*` functions to convert it.\n",
+           "Required columns: ", paste(colnames_res_enrich, collapse = ", "),
+           "\nThis occurred at the element ", i, " in your `compared_res_enrich_list`")
+
+    if (!p_value_column %in% colnames(this_re))
+      stop("Required column (p-value) `", p_value_column, "` not found in a component of ",
+           "`compared_res_enrich_list` object.",
+           "\nThis occurred at the element ", i, " in your `compared_res_enrich_list`")
+    if (!color_by %in% colnames(this_re))
+      stop("Required column (for coloring) `", color_by, "` not found in a component of ",
+           "`compared_res_enrich_list` object.",
+           "\nThis occurred at the element ", i, " in your `compared_res_enrich_list`")
+  }
 
   sort_by <- match.arg(sort_by, c("clustered", "first_set"))
 
