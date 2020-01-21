@@ -216,7 +216,7 @@ res_enrich_macrophage <- get_aggrscores(res_enrich = res_enrich_macrophage,
 
 ## All set!
 
-Once you have the four objects specified above, you can set the `project_id` to be a character string at wish, and you can just launch the `GeneTonic` app:
+Once you have the four objects specified above, you can set the `project_id` to be a character string at wish, and you can just launch the `GeneTonic()` app:
 
 ```{r dryrun, eval=FALSE}
 GeneTonic(dds = dds_macrophage,
@@ -236,9 +236,15 @@ The `GeneTonic` app is built with `r BiocStyle::CRANpkg("shiny")`, and its layou
 ## Header (navbar)
 
 The dashboard navbar (as it is called in `bs4Dash`) contains two dropdown menus, which can be expanded by clicking on the respective icons (<i class="fa fa-book"></i> and <i class="fa fa-info"></i>).
-These provide additional buttons to inspect... TODO
+These provide additional buttons to do one the following:
 
-Additionally, one fundamental button is present in the navbar, and serves the purpose of bookmarking genes and gene sets of interest while exploring your data in an interactive session.
+- <i class="fa fa-book"></i> inspect the `r BiocStyle::Biocpkg("GeneTonic")` vignette (either the one installed in bundle with the package, or the online version)
+- <i class="fa fa-question-circle"></i> read some general help on `GeneTonic` TODO?
+- <i class="fa fa-info-circle"></i> display information about the current session (via `sessionInfo()`)
+- <i class="fa fa-heart"></i> show some general information on `r BiocStyle::Biocpkg("GeneTonic")`, like how to cite this tool.
+
+Additionally, one fundamental button is present in the navbar: `r shiny::actionButton("bookmarker", label = "Bookmark", icon = shiny::icon("heart"), style = "color: #ffffff; background-color: #ac0000; border-color: #ffffff", class = "ml-5")`.
+This serves the purpose of bookmarking genes and gene sets of interest while exploring your data in an interactive session.
 This functionality will be exploited in the <i class="fa fa-bookmark"></i> section of the app, where a complete HTML report can be generated as a reproducible artifact.
 
 ## Sidebar
