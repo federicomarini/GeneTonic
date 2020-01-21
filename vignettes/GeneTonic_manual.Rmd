@@ -272,7 +272,58 @@ The tour functionality is provided by the beautiful `r BiocStyle::CRANpkg("rintr
 
 # The `GeneTonic` functionality {#functionality}
 
-What the app tabs do
+## The Welcome panel
+
+This panel in intended to give an overview on the different ingredients you just provided for launching `GeneTonic`.
+
+Collapsible elements, colored each by the typology of data it refers to, contain the underlying tabular information, and a value box provides a quick summary on the dimensions of the input parameters.
+
+The tables are rendered with `DT::datatable`, which provides a practical interface for exploring, sorting, and filtering.
+This framework is also extendable, for example as we do for the `log2FoldChange` column in the `res_de` object, where the values are also visually encoded as diverging bars of different color based on the expression change direction.
+
+## The Gene-Geneset panel
+
+This panel has as its main component an interactive bipartite graph illustrating the relationship between genesets and genes that belong to them.
+One of the relevant parameters for this output is the number of gene sets to be displayed, adjustable from the widget in the control panel on the right.
+
+Such a representation is particularly useful to see overlap between terms, and grasp the way how different genes may play a concerting role in different processes.
+
+The color and shape of the nodes depend on the entity they are related to:
+
+- genes are shown as ellipses, colored with a palette diverging from a neutral color to red (log2FC > 0) or to blue (log2FC < 0)
+- gene sets are enclosed in gold boxes
+
+The interactivity in this graph is essential for zooming, panning, and selecting its nodes.
+The node selection, in particular, triggers a drill-down exploration, which populates a box on the right side, either with a signature heatmap (for a gene set), or with an expression plot, split by the experimental covariates of interest (for a gene).
+In both cases, some HTML content is also generated, with buttons linking to external databases where to retrieve additional information (e.g. ENSEMBL, NCBI, AmiGO, ...).
+
+**Bookmarking from the Gene-Geneset panel:** When clicking on the Bookmark button while in this tab, it is possible to add to the shortlisted items of interest both genes and gene sets.
+To do so, while one of the nodes is selected, click on the button with the mouse - or alternatively, click on the Left Ctrl button of your keyboard.
+A notification will be triggered, informing the status of the bookmarked elements.
+
+## The Enrichment Map panel
+
+This panel, similar to the Gene-Geneset tab, has again an interactive graph of a subset of the gene sets (you can control again the number of included sets from the control sidebar).
+This is also called an enrichment map - it is also possible to generate them in tools such as Cytoscape.
+In this case, the genesets are directly connected by an edge, where the thickness encodes the degree of similarity (e.g. in terms of overlap) between them; sets below a similarity threshold are not displayed for the sake of better clarity.
+
+The size of the node encodes the information of the number of genes detected as Differentially Expressed (from the column `gs_de_count`), while the color is representative of the computed Z score for each set.
+This value is computed as $z = \frac{(upgenes - downgenes)}{\sqrt{(upgenes + downgenes)}}$ and is indicative of the expression changes of the genes assigned to a particular set.
+Please, keep in mind that methods based on overrepresentation analysis only do not account for the topology that might be behind the set of interacting features (i.e. an upregulated gene involved in inhibition of a pathway would still be counted as a positive element in the equation above).
+
+The `z_score` and `aggr_score` (in the simplest form, a mean of the log2FoldChange values for all the genes of a set) can be easily computed with the `get_aggrscores()`, which appends these scores for each gene set to the original `res_enrich` data frame.
+
+The interactive flavor in this tab permits a quick exploration of the signature heatmaps for the genesets of interest by simply clicking on a node; this also triggers the display of some HTML content, if related to a Gene Ontology term.
+
+**Bookmarking from the Enrichment Map panel:** If the user clicks on the Bookmark button while in this tab, it will add the selected node to the shortlist of genesets, visible later in the Bookmarks panel.
+The Left Ctrl button of your keyboard can again be used for this purpose, and this will trigger a notification in the lower right part of the screen.
+
+## The Overview panel
+
+## The GSViz panel TODO proper name?!
+
+## The Bookmarks panel
+
 
 
 
@@ -292,6 +343,8 @@ TODO
 # Using the `GeneTonic` functions {#functions}
 
 The `r BiocStyle::Biocpkg("GeneTonic")` package provides, apart from the main app where to perform the analysis in an interactive way, a number of functions which can be used also as standalone components for a workflow.
+
+This sections contains some showcase examples on how to use them.
 
 ## Overview functions: genes and gene sets
 
