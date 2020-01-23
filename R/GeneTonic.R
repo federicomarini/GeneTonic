@@ -197,17 +197,17 @@ GeneTonic <- function(dds,
         bs4SidebarMenuItem(
           "Enrichment Map",
           tabName = "tab_emap",
-          icon = "map"
+          icon = "project-diagram" # hubspot? map?
         ),
         bs4SidebarMenuItem(
-          "DEview",
-          tabName = "tab_deview",
+          "Overview",
+          tabName = "tab_overview",
           icon = "eye"
         ),
         bs4SidebarMenuItem(
-          "GeneSets",
-          tabName = "tab_genesets",
-          icon = "list-alt"
+          "GSViz",
+          tabName = "tab_gsviz",
+          icon = "images"
         ),
         bs4SidebarMenuItem(
           "Bookmarks",
@@ -408,7 +408,7 @@ GeneTonic <- function(dds,
 
         # ui panel de view --------------------------------------------------------
         bs4TabItem(
-          tabName = "tab_deview",
+          tabName = "tab_overview",
           fluidRow(
             column(
               width = 11
@@ -459,7 +459,7 @@ GeneTonic <- function(dds,
 
         # ui panel genesets view ------------------------------------------------------
         bs4TabItem(
-          tabName = "tab_genesets",
+          tabName = "tab_gsviz",
           fluidRow(
             column(
               width = 11
