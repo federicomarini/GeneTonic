@@ -564,7 +564,7 @@ GeneTonic <- function(dds,
                 "start_happyhour",
                 "Start the happy hour!",
                 class = "biocdlbutton",
-                icon = "magic")
+                icon = "cocktail") # magic?
             )
           )
         ),
