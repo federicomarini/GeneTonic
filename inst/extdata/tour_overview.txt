@@ -1,0 +1,15 @@
+element;intro
+#Welcome;Welcome!
+#mymenu;
+#shiny-tab-tab_overview;
+#controlbar-toggle;You can control this by clicking on the controlbar toggle...
+#n_genesets;... and changing the number of genesets.
+#controlbar-toggle;Close back the controlbar.
+#shiny-tab-tab_overview;
+#tabcard_deview;
+#tabcard_deview-Tab1;
+#tabcard_deview;
+#tabcard_deview-Tab2;
+#tabcard_deview;
+#shiny-tab-tab_overview;
+#thanks;
