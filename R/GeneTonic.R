@@ -523,7 +523,13 @@ GeneTonic <- function(dds,
                   tabName = "Tab 8",
                   active = FALSE,
                   withSpinner(plotlyOutput("gs_summaryradar"))
+                ),
+                bs4TabPanel(
+                  tabName = "Tab 9",
+                  active = FALSE,
+                  withSpinner(plotOutput("gs_dendro"))
                 )
+
               )
             )
           )
@@ -1053,6 +1059,13 @@ GeneTonic <- function(dds,
       gs_radar(res_enrich = res_enhanced,
                n_gs = input$n_genesets)
     })
+
+    output$gs_dendro <- renderPlot({
+      gs_dendro(res_enrich = res_enhanced,
+                 n_gs = input$n_genesets)
+    })
+
+
 
     # panel bookmarks ---------------------------------------------------------
 
