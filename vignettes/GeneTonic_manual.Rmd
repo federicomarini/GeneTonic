@@ -31,19 +31,19 @@ bibliography: GeneTonic.bib
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
-    collapse = TRUE,
-    comment  = "#>",
-    error    = FALSE,
-    warning  = FALSE,
-    eval     = TRUE,
-    message  = FALSE,
-    fig.width = 10
+  collapse = TRUE,
+  comment  = "#>",
+  error    = FALSE,
+  warning  = FALSE,
+  eval     = TRUE,
+  message  = FALSE,
+  fig.width = 10
 )
 options(width = 100)
 stopifnot(requireNamespace("htmltools"))
 htmltools::tagList(rmarkdown::html_dependency_font_awesome())
 ```
-  
+
 ---
 
 # Introduction {#introduction}
@@ -76,7 +76,7 @@ To install this package, start R and enter:
 
 ```{r install, eval=FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
+  install.packages("BiocManager")
 
 BiocManager::install("GeneTonic")
 ```
@@ -438,7 +438,7 @@ em %>%
                                      degree = 1,
                                      hover = TRUE),
              nodesIdSelection = TRUE)
-  
+
 ```
 
 Display a volcano plot for genesets, plotting significance (y-axis) versus Z score (x-axis), with color and size encoding some geneset features:
@@ -509,11 +509,12 @@ Plot a heatmap on the geneset scores, computed sample-wise via `gs_scores` so th
 
 ```{r scoresheat}
 vst_macrophage <- vst(dds_macrophage)
-scores_mat <- gs_scores(vst_macrophage,
-                        res_de = res_macrophage_IFNg_vs_naive,
-                        res_enrich = res_enrich_macrophage,
-                        annotation_obj = anno_df
-                       )
+scores_mat <- gs_scores(
+  se = vst_macrophage,
+  res_de = res_macrophage_IFNg_vs_naive,
+  res_enrich = res_enrich_macrophage,
+  annotation_obj = anno_df
+)
 gs_scoresheat(scores_mat,
               n_gs = 30)
 ```
