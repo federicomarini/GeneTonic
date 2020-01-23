@@ -134,9 +134,9 @@ GeneTonic <- function(dds,
             onclick = ifelse(system.file("doc", "GeneTonic_manual.html", package = "GeneTonic") != "",
                              "",
                              "window.open('https://federicomarini.github.io/GeneTonic/articles/GeneTonic_manual.html', '_blank')")
-                             # sprintf("window.open('http://bioconductor.org/packages/%s/bioc/vignettes/GeneTonic/inst/doc/GeneTonic_manual.html', '_blank')",
-                             #         ifelse(unlist(packageVersion("GeneTonic"))[2] %% 2L==0L, "release", "devel")
-                             # )
+            # sprintf("window.open('http://bioconductor.org/packages/%s/bioc/vignettes/GeneTonic/inst/doc/GeneTonic_manual.html', '_blank')",
+            #         ifelse(unlist(packageVersion("GeneTonic"))[2] %% 2L==0L, "release", "devel")
+            # )
             # )
           ),
           actionButton(
@@ -294,8 +294,7 @@ GeneTonic <- function(dds,
               collapsible = TRUE,
               collapsed = TRUE,
               closable = FALSE,
-              DT::dataTableOutput("overview_dds"
-              )
+              DT::dataTableOutput("overview_dds")
             ),
             bs4Dash::bs4Card(
               width = 6,
@@ -524,7 +523,6 @@ GeneTonic <- function(dds,
                   active = FALSE,
                   withSpinner(plotOutput("gs_dendro"))
                 )
-
               )
             )
           )
@@ -603,8 +601,8 @@ GeneTonic <- function(dds,
                                    annotation_obj = annotation_obj)
 
     # output$ui_exp_condition <- renderUI({
-      # selectInput("exp_condition", label = "Group/color by: ",
-                  # choices = c(NULL, poss_covars), selected = NULL, multiple = TRUE)
+    # selectInput("exp_condition", label = "Group/color by: ",
+    # choices = c(NULL, poss_covars), selected = NULL, multiple = TRUE)
     # })
 
 
@@ -923,7 +921,7 @@ GeneTonic <- function(dds,
       cur_gsid <- res_enrich$gs_id[match(input$emap_visnet_selected, res_enrich$gs_description)]
       validate(need(!is.na(cur_gsid),
                     message = "" # "Please select a gene set from the enrichment map."
-                    ))
+      ))
 
 
       if (!is.null(input$exp_condition)) {
@@ -1043,7 +1041,7 @@ GeneTonic <- function(dds,
 
     output$gs_dendro <- renderPlot({
       gs_dendro(res_enrich = res_enhanced,
-                 n_gs = input$n_genesets)
+                n_gs = input$n_genesets)
     })
 
 
