@@ -25,7 +25,7 @@ bibliography: GeneTonic.bib
 
 **Compiled date**: `r Sys.Date()`
 
-**Last edited**: 2019-11-30
+**Last edited**: 2020-01-23
 
 **License**: `r packageDescription("GeneTonic")[["License"]]`
 

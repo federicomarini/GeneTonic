@@ -16,7 +16,7 @@
 * Added link to the demo instance
 * Added examples for overlap functions, gene info buttons, map2color, and deseqresult2df
 * Extended documentation of some parameters
-* Some functions have gained an alias for calling them: `gs_spider` is equivalent to `gs_radar`, and `gs_sankey` is equivalent to `gs_alliuvial`
+* Some functions have gained an alias for calling them: `gs_spider` is equivalent to `gs_radar`, and `gs_sankey` is equivalent to `gs_alluvial`
 
 # GeneTonic 0.8.0
 
