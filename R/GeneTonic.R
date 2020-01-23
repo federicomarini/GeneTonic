@@ -1239,9 +1239,8 @@ GeneTonic <- function(dds,
     # bookmarker --------------------------------------------------------------
     observeEvent(input$bookmarker, {
       if (input$gt_tabs == "tab_welcome")
-        showNotification("welcome on board!")
+        showNotification("Welcome to GeneTonic!")
       else if (input$gt_tabs == "tab_ggs") {
-        showNotification("ggs baby")
         g <- reactive_values$ggs_graph()
         cur_sel <- input$ggsnetwork_selected
         if (cur_sel == "") {
@@ -1276,7 +1275,6 @@ GeneTonic <- function(dds,
         }
       }
       else if (input$gt_tabs == "tab_emap") {
-        showNotification("maaap maaap")
         g <- reactive_values$ggs_graph()
         cur_sel <- input$emap_visnet_selected
         cur_sel_id <- res_enrich$gs_id[match(cur_sel, res_enrich$gs_description)]
@@ -1294,16 +1292,13 @@ GeneTonic <- function(dds,
         }
       }
       else if (input$gt_tabs == "tab_bookmarks")
-        showNotification("catching up and wrapping up...")
-      else if (input$gt_tabs == "tab_about")
-        showNotification("youwannaknowwhatitsallabout")
-
+        showNotification("You are already in the Bookmarks tab...")
     })
 
 
     # observeEvent(input$start_happyhour, {
-    #   showNotification("The happy hour is officially on!",
-    #                    type = "message")
+      # showNotification("The happy hour is on! Please wait for the report to be fully compiled",
+                       # type = "message")
     # })
 
 
