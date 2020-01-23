@@ -406,7 +406,7 @@ GeneTonic <- function(dds,
           )
         ),
 
-        # ui panel de view --------------------------------------------------------
+        # ui panel overview --------------------------------------------------------
         bs4TabItem(
           tabName = "tab_overview",
           fluidRow(
@@ -416,7 +416,7 @@ GeneTonic <- function(dds,
             column(
               width = 1,
               actionButton(
-                "tour_deview", label = "", icon = icon("question-circle"),
+                "tour_overview", label = "", icon = icon("question-circle"),
                 style = .helpbutton_biocstyle
               )
             )
@@ -457,7 +457,7 @@ GeneTonic <- function(dds,
           )
         ),
 
-        # ui panel genesets view ------------------------------------------------------
+        # ui panel GSViz view ------------------------------------------------------
         bs4TabItem(
           tabName = "tab_gsviz",
           fluidRow(
@@ -467,7 +467,7 @@ GeneTonic <- function(dds,
             column(
               width = 1,
               actionButton(
-                "tour_genesetsview", label = "", icon = icon("question-circle"),
+                "tour_gsviz", label = "", icon = icon("question-circle"),
                 style = .helpbutton_biocstyle
               )
             )
@@ -1168,7 +1168,6 @@ GeneTonic <- function(dds,
     # observers ---------------------------------------------------------------
 
     observeEvent(input$tour_firststeps, {
-      # tour <- read.delim("/Users/fede/Development/GeneTonic/inst/extdata/tour_welcome.txt",
       tour <- read.delim(system.file("extdata", "tour_welcome.txt", package = "GeneTonic"),
                          sep = ";", stringsAsFactors = FALSE,
                          row.names = NULL, quote = "")
@@ -1176,7 +1175,6 @@ GeneTonic <- function(dds,
     })
 
     observeEvent(input$tour_ggs, {
-      # tour <- read.delim("/Users/fede/Development/GeneTonic/inst/extdata/tour_ggs.txt",
       tour <- read.delim(system.file("extdata", "tour_ggs.txt", package = "GeneTonic"),
                          sep = ";", stringsAsFactors = FALSE,
                          row.names = NULL, quote = "")
@@ -1184,15 +1182,27 @@ GeneTonic <- function(dds,
     })
 
     observeEvent(input$tour_emap, {
-      # tour <- read.delim("/Users/fede/Development/GeneTonic/inst/extdata/tour_emap.txt",
       tour <- read.delim(system.file("extdata", "tour_emap.txt", package = "GeneTonic"),
                          sep = ";", stringsAsFactors = FALSE,
                          row.names = NULL, quote = "")
       rintrojs::introjs(session, options = list(steps = tour))
     })
 
+    observeEvent(input$tour_overview, {
+      tour <- read.delim(system.file("extdata", "tour_overview.txt", package = "GeneTonic"),
+                         sep = ";", stringsAsFactors = FALSE,
+                         row.names = NULL, quote = "")
+      rintrojs::introjs(session, options = list(steps = tour))
+    })
+
+    observeEvent(input$tour_gsviz, {
+      tour <- read.delim(system.file("extdata", "tour_gsviz.txt", package = "GeneTonic"),
+                         sep = ";", stringsAsFactors = FALSE,
+                         row.names = NULL, quote = "")
+      rintrojs::introjs(session, options = list(steps = tour))
+    })
+
     observeEvent(input$tour_bookmarks, {
-      # tour <- read.delim("/Users/fede/Development/GeneTonic/inst/extdata/tour_bookmarks.txt",
       tour <- read.delim(system.file("extdata", "tour_bookmarks.txt", package = "GeneTonic"),
                          sep = ";", stringsAsFactors = FALSE,
                          row.names = NULL, quote = "")
