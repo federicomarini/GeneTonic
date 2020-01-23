@@ -213,11 +213,6 @@ GeneTonic <- function(dds,
           "Bookmarks",
           tabName = "tab_bookmarks",
           icon = "bookmark"
-        ),
-        bs4SidebarMenuItem(
-          "About",
-          tabName = "tab_about",
-          icon = "institution"
         )
       )
     ),
@@ -565,20 +560,6 @@ GeneTonic <- function(dds,
                 "Start the happy hour!",
                 class = "biocdlbutton",
                 icon = "cocktail") # magic?
-            )
-          )
-        ),
-
-        # ui panel about -----------------------------------------------------------
-        bs4TabItem(
-          tabName = "tab_about",
-
-          fluidRow(
-            column(
-              width = 8,
-              includeMarkdown(system.file("extdata", "about.md", package = "GeneTonic")),
-
-              verbatimTextOutput("sessioninfo")
             )
           )
         )
@@ -1225,27 +1206,35 @@ GeneTonic <- function(dds,
 
 
     observeEvent(input$btn_info_session, {
-      showModal(modalDialog(
-        title = "Session information", size = "l", fade = TRUE,
-        footer = NULL, easyClose = TRUE,
-        tagList(renderPrint({
-          sessionInfo()
-        }))
-      ))
+      showModal(
+        modalDialog(
+          title = "Session information", size = "l", fade = TRUE,
+          footer = NULL, easyClose = TRUE,
+          tagList(
+            tags$code("> sessionInfo()"),
+            renderPrint({
+              sessionInfo()
+            })
+          )
+        )
+      )
     })
 
     observeEvent(input$btn_info_genetonic, {
-      showModal(modalDialog(
-        title = "About GeneTonic", size = "l", fade = TRUE,
-        footer = NULL, easyClose = TRUE,
-        tagList(
-          "GeneTonic_info", br(), br(),
-          HTML("If you use this package, please use the following citation information:"),
-          renderPrint({
-            citation("GeneTonic")
-          })
+      showModal(
+        modalDialog(
+          title = "About GeneTonic", size = "l", fade = TRUE,
+          footer = NULL, easyClose = TRUE,
+          tagList(
+            # "GeneTonic_info", br(), br(),
+            # HTML("If you use this package, please use the following citation information:"),
+            includeMarkdown(system.file("extdata", "about.md", package = "GeneTonic")),
+            renderPrint({
+              citation("GeneTonic")
+            })
+          )
         )
-      ))
+      )
     })
 
 

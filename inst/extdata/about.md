@@ -1,5 +1,6 @@
-
-## About `GeneTonic`
+<div align="center">
+<img src="GeneTonic/GeneTonic.png" alt="" width="150" />
+</div>
 
 `GeneTonic` is a Bioconductor package whose aim is to analyze and integrate the results from Differential Expression analysis and functional enrichment analysis.
 
@@ -7,23 +8,17 @@ This package provides a Shiny application that aims to combine at different leve
 
 `GeneTonic` is developed by Federico Marini (https://github.com/federicomarini).
 
-## Developers
-
-<a href="mailto:mailto:marinif@uni-mainz.de?subject=[GeneTonic_feedback]" class="btn btn-primary"><i class="fa fa-mail"></i>Federico Marini</a>
-
 ## Code
 
-All code for `GeneTonic` is available on<a href="https://github.com/federicomarini/GeneTonic" target="_blank">GitHub</a>.
+All the code for `GeneTonic` is available on<a href="https://github.com/federicomarini/GeneTonic" target="_blank">GitHub</a>.
 
+If you have some suggestions on new features, or would like to contribute to the development, please reach out there by opening an issue and/or composing a pull request.
+
+<hr/>
 
 ## Citation info
 
 If you use `GeneTonic` for your analysis, please cite it as here below:
 
-```r
-citation("GeneTonic")
-```
+`> citation("GeneTonic")`
 
-<hr/>
-
-## Session Info
