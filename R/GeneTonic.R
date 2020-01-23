@@ -977,28 +977,32 @@ GeneTonic <- function(dds,
     output$enriched_funcres <- renderPlot({
       enhance_table(res_enrich, res_de,
                     annotation_obj = annotation_obj,
-                    n_gs = 50)
+                    n_gs = input$n_genesets)
     })
 
     output$gs_volcano <- renderPlot({
       gs_volcano(
         get_aggrscores(res_enrich,
                        res_de,
-                       annotation_obj = annotation_obj))
+                       annotation_obj = annotation_obj),
+        volcano_labels = input$n_genesets
+      )
     })
 
     output$gs_volcano_simplified <- renderPlot({
       gs_volcano(
         get_aggrscores(gs_simplify(res_enrich, gs_overlap = 0.6),
                        res_de,
-                       annotation_obj = annotation_obj))
+                       annotation_obj = annotation_obj),
+        volcano_labels = input$n_genesets
+      )
     })
 
     output$enriched_funcres_plotly <- renderPlotly({
       ggplotly(enhance_table(res_enrich,
                              res_de,
                              annotation_obj = annotation_obj,
-                             n_gs = 50))
+                             n_gs = input$n_genesets))
     })
 
 
@@ -1011,7 +1015,9 @@ GeneTonic <- function(dds,
                 annotation_obj = annotation_obj)
     })
     output$gsscores_heatmap <- renderPlot({
-      gs_scoresheat(gss_mat())
+      gs_scoresheat(
+        gss_mat(),
+        n_gs = input$n_genesets)
     })
 
     output$alluvial_genesets <- renderPlotly({
