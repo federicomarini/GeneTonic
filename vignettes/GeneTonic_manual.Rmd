@@ -261,16 +261,14 @@ There you can find widgets that control the appearance of output (plots, tables,
 
 The main body of the `GeneTonic` application is structured in tabs that are activated by clicking on the respective icons or text in the sidebar.
 
-While the Welcome tab might be self-explanatory, the functionality of each tab can go in depth, and new users can benefit of the 
-<button id="tour_" type="button" class="btn btn-default action-button" style=color: #0092AC; background-color: #FFFFFF; border-color: #FFFFFF>
-  <i class="fa fa-question-circle"></i>
-</button>
-button to trigger an interactive tour of `GeneTonic`, which allows users to learn the basic usage mechanisms by doing.
+While the Welcome tab might be self-explanatory, the functionality of each tab can go in depth, and new users can benefit of the `r shiny::actionButton("tour", label = "", icon = shiny::icon("question-circle"), style = "color: #0092AC; background-color: #FFFFFF; border-color: #ffffff")` button to trigger an interactive tour of `GeneTonic`, which allows users to learn the basic usage mechanisms by doing.
 During a tour, the highlighted elements respond to the user's actions, while the rest of the UI is kept shaded.
 Tours can be interrupted anytime by clicking outside of the focused window, and arrows (left, right) can be used as well to navigate between steps.
 The tour functionality is provided by the beautiful `r BiocStyle::CRANpkg("rintrojs")` package.
 
 # The `GeneTonic` functionality {#functionality}
+
+The main `GeneTonic` app is structured in different panels, and each of these is presented in detail in the subsequent sections.
 
 ## The Welcome panel
 
