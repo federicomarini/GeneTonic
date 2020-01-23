@@ -292,7 +292,7 @@ The color and shape of the nodes depend on the entity they are related to:
 - gene sets are enclosed in gold boxes
 
 The interactivity in this graph is essential for zooming, panning, and selecting its nodes.
-The node selection, in particular, triggers a drill-down exploration, which populates a box on the right side, either with a signature heatmap (for a gene set), or with an expression plot, split by the experimental covariates of interest (for a gene).
+The node selection, in particular, triggers a drill-down exploration, which populates a box on the right side, either with a signature heatmap (for a gene set), or with an expression plot, split by the experimental covariates of interest (for a gene) - this behavior can be controlled by the "Group/color by" selectize widget in the control sidebar.
 In both cases, some HTML content is also generated, with buttons linking to external databases where to retrieve additional information (e.g. ENSEMBL, NCBI, AmiGO, ...).
 
 **Bookmarking from the Gene-Geneset panel:** When clicking on the Bookmark button while in this tab, it is possible to add to the shortlisted items of interest both genes and gene sets.
@@ -318,25 +318,57 @@ The Left Ctrl button of your keyboard can again be used for this purpose, and th
 
 ## The Overview panel
 
-## The GSViz panel TODO proper name?!
+This panel presents to the user a series of summary plots, based on the outputs of `enhance_table()` and `gs_volcano()`, aiming to provide a mean to summarize the most relevant genesets in the `res_enrich` object.
+The number of displayed (or labeled, according to each function) genesets can be as usual controlled by the widget in the right sidebar.
+
+We avoid (re)rendering all plots at once by placing them as content of different tabs in a `bs4TabCard` container - this allows the user to navigate in a more agile way to the desired output elements.
+
+Interactive versions of the plots are returned via calls to `ggplotly`.
+
+## The GSViz panel
+
+This panel, similarly to the Overview panel, presents a variety of plots visualizing the gene sets - and their mutual relationships, or their behavior across samples.
+This includes, for example:
+
+- a genesets by sample heatmap (via `gs_scores()` and `gs_scoresheat()`),  with a score for each matrix element corresponding to the sum of the standardized expression values of its components
+- a genesets-gene Sankey diagram (via `gs_alluvial()`, aliased to `gs_sankey()`), to represent the N:N membership relationships
+- a summary heatmap (via `gs_summary_heat()`) to display the memberships and at the same time the expression change of each gene set member
+- a multi-dimensional scaling (MDS) plot, based on `gs_mds()`, to provide a 2d visualization of the distance among genesets (based on a similarity measure e.g. their overlap or other criteria, such as their semantic similarity)
+- a compact summary of `res_enrich`, via `gs_summary_overview()`, where aggregated scores and significance can be displayed on the same plot - for this, there are functions to compare different `res_enrich` objects (`gs_summary_overview()`, `gs_summary_overview_pair()`)
+- alternative visual representation of the `res_enrich` objects, based on `gs_radar()` (equivalent to `gs_spider()`) and `gs_dendro()`
+
+As in many other panels, the control over the number of genesets displayed is tweaked with the widget in the right sidebar, "Number of genesets".
 
 ## The Bookmarks panel
 
+In this panel, the user can obtain a complete overview on the bookmarked features of interest, both genes (left side) and genesets (right side). 
+
+During a live exploration session, it might be tricky to recall the exact aspect of each point of interest. 
+
+Below the interactive `DT::datatable` objects, the content of each table can also be separately downloaded by clicking on the respective button.
+Moreover, there is a button (with the cocktail icon <i class="fa fa-cocktail"></i>) that triggers the generation of a content-rich report which will focus on all the shortlisted elements.
+This leverages a template report delivered as a part of `r BiocStyle::Biocpkg("GeneTonic")`, which accesses the input elements and the reactive values for the bookmarks, based on the `happy_hour()` function.
 
 
+If a user already knows a set of features and geneset of interest, it is also possible to practically call `happy_hour()` directly from the command line (see the example in the chunk below).
+Please keep in mind that the identifiers to be used should match the values used as row names of the `dds` object and as `gs_id` column of the original `res_enrich` input.
 
+```{r, eval = FALSE}
+happy_hour(dds = dds_macrophage,
+           res_de = res_de,
+           res_enrich = res_enrich,
+           annotation_obj = anno_df,
+           project_id = "examplerun",
+           mygenesets = res_enrich$gs_id[c(1:5,11,31)],
+           mygenes = c("ENSG00000125347",
+                       "ENSG00000172399",
+                       "ENSG00000137496")
+)
+```
 
+This report will serve as a useful means to generate a permanent and reproducible analysis output, that can be further stored or shared.
 
-
-
-
-
-
-
-
-
-
-TODO
+Ideally, each live session with `GeneTonic` could terminate with a call to `happy_hour()` - admittedly, an aperitivo should start with that, and not end - please accept our apologies :) .
 
 # Using the `GeneTonic` functions {#functions}
 
