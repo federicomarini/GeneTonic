@@ -372,7 +372,7 @@ gs_horizon <- function(res_enrich,
       stop("One of the provided `res_enrich` objects does not respect the format ",
            "required to use in GeneTonic\n",
            "e.g. all required column names have to be present.\n",
-           "You might want to use one of the `shaker_*` functions to convert it.\n",
+           "You might want to use one of the `shake_*` functions to convert it.\n",
            "Required columns: ", paste(colnames_res_enrich, collapse = ", "),
            "\nThis occurred at the element ", i, " in your `compared_res_enrich_list`")
 
