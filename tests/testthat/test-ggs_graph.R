@@ -13,6 +13,16 @@ test_that("Graph is generated", {
                   prettify = FALSE)
   expect_is(g2, "igraph")
 
+
+  alt_pal <- scales::alpha(
+    colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.4)
+  g3 <- ggs_graph(res_enrich = res_enrich_IFNg_vs_naive,
+                  res_de = res_macrophage_IFNg_vs_naive,
+                  annotation_obj = anno_df,
+                  n_gs = 10,
+                  genes_graph_colpal = alt_pal)
+  expect_is(g3, "igraph")
+
   expect_error(
     ggs_graph(res_enrich = res_enrich_IFNg_vs_naive,
               res_de = res_macrophage_IFNg_vs_naive,
