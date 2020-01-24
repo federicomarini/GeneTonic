@@ -58,7 +58,6 @@ Imports:
     visNetwork
 Suggests:
     knitr,
-    magick,
     BiocStyle,
     htmltools,
     clusterProfiler,
