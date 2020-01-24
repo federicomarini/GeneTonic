@@ -17,4 +17,20 @@ test_that("radar plot is generated", {
   p2 <- gs_radar(res_enrich = res_enrich_withscores,
                  res_enrich2 = res_enrich2)
   expect_is(p2, "plotly")
+
+
+  r2 <- res_enrich_IFNg_vs_naive
+  expect_warning(
+    gs_radar(res_enrich = res_enrich_IFNg_vs_naive,
+             res_enrich2 = r2)
+  )
+
+  r1only <- res_enrich_withscores[1:50,]
+  r2only <- res_enrich_withscores[51:150,]
+  expect_error(
+    gs_radar(res_enrich = r1only,
+             res_enrich2 = r2only)
+  )
+
 })
+
