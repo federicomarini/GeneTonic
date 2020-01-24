@@ -68,4 +68,87 @@ test_that("summary plots are generated", {
              sort_by = "first_set")
   expect_is(p3a, "gg")
   expect_is(p3b, "gg")
+
+
+  # for the pairs...
+  expect_error(
+    gs_summary_overview_pair(
+      res_enrich = res_enrich2,
+      res_enrich2 = res_enrich_IFNg_vs_naive, # no z score there
+      color_by = "z_score")
+  )
+
+  expect_error(
+    gs_summary_overview_pair(
+      res_enrich = res_enrich_withscores[1:30, ],
+      res_enrich2 = res_enrich_withscores[31:60,]
+    )
+  )
+
+  # for the horizon...
+  expect_error(
+    gs_horizon(res_enrich = topgoDE_macrophage_IFNg_vs_naive,
+               compared_res_enrich_list = compa_list,
+               n_gs = 50,
+               sort_by = "clustered")
+  )
+
+  expect_error(
+    gs_horizon(res_enrich_withscores,
+               compared_res_enrich_list = compa_list,
+               n_gs = 0,
+               sort_by = "clustered")
+  )
+
+  expect_error(
+    gs_horizon(res_enrich_withscores,
+               compared_res_enrich_list = res_enrich2,
+               n_gs = 50,
+               sort_by = "clustered")
+  )
+
+  expect_message(
+    gs_horizon(res_enrich_withscores,
+               compared_res_enrich_list = unname(compa_list),
+               n_gs = 20,
+               sort_by = "first_set")
+  )
+
+  compa_list2 <- compa_list
+  compa_list2[[3]] <- topgoDE_macrophage_IFNg_vs_naive
+  expect_error(
+    gs_horizon(res_enrich_withscores,
+               compared_res_enrich_list = compa_list2,
+               n_gs = 50,
+               sort_by = "clustered")
+  )
+
+  compa_list3 <- compa_list
+  compa_list3[[3]] <- res_enrich_IFNg_vs_naive # no z_score in it
+  expect_error(
+    gs_horizon(res_enrich_withscores,
+               compared_res_enrich_list = compa_list3,
+               n_gs = 50,
+               sort_by = "clustered")
+  )
+
+  compa_list4 <- compa_list
+  res_other_pvalue <- res_enrich_withscores
+  res_other_pvalue$gs_pval_weight <- res_other_pvalue$gs_pvalue
+  expect_error(
+    gs_horizon(res_other_pvalue,
+               compared_res_enrich_list = compa_list4,
+               n_gs = 50,
+               p_value_column = "gs_pval_weight",
+               sort_by = "clustered")
+  )
+
+  re1 <- res_enrich_withscores[1:30, ]
+  compa_list5 <- list(re2 = res_enrich2[51:70, ])
+  expect_error(
+    gs_horizon(re1,
+               compared_res_enrich_list = compa_list5,
+               n_gs = 50,
+               sort_by = "clustered")
+  )
 })
