@@ -75,7 +75,7 @@ gs_radar <- function(res_enrich,
   }
 
   if (!is.null(res_enrich2)) {
-    if (!("z_score" %in% colnames(res_enrich))) {
+    if (!("z_score" %in% colnames(res_enrich2))) {
       warning("You need to add the z_score or the aggregated score")
     }
   }
