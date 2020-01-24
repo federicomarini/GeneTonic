@@ -17,4 +17,13 @@ test_that("Gene set dendrogram is created", {
   expect_is(my_dend2, "dendrogram")
   expect_is(my_dend3, "dendrogram")
   expect_is(my_dend4, "dendrogram")
+
+  expect_error(
+    gs_dendro(res_enrich_withscores, n_gs = 20,
+              color_leaves_by = "mean_score")
+  )
+  expect_error(
+    gs_dendro(res_enrich_withscores, n_gs = 20,
+              size_leaves_by = "pvalue")
+  )
 })
