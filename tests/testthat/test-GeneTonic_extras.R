@@ -38,6 +38,20 @@ test_that("map2color works", {
   expect_length(m2c_nolimits, 20)
 })
 
+test_that("color check works", {
+  mypal <- c("steelblue", "#FF1100")
+  expect_true(all(check_colors(mypal)))
+
+  mypal2 <- rev(
+    scales::alpha(
+      colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.4))
+  expect_true(all(check_colors(mypal2)))
+
+  my_non_pal <- c("green", "gren", "hmm", "whoops")
+  check_colors(my_non_pal)
+  expect_true(!all(check_colors(my_non_pal)))
+})
+
 test_that("results to data frame conversion works", {
   res_df <- deseqresult2df(res_macrophage_IFNg_vs_naive, FDR = 1)
   res_df2 <- deseqresult2df(res_macrophage_IFNg_vs_naive, FDR = 0.05)
