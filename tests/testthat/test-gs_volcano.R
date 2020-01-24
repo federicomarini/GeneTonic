@@ -9,6 +9,12 @@ test_that("Plot is generated", {
                                           annotation_obj = anno_df,
                                           aggrfun = mean)
   expect_is(gs_volcano(res_enrich_withscores), "gg")
+
+  expect_error(
+    gs_volcano(
+      res_enrich_withscores,
+      color_by = "fake_col")
+  )
 })
 
 test_that("mds plot with custom genesets", {
