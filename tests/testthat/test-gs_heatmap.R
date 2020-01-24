@@ -42,5 +42,24 @@ test_that("Geneset heatmap is created", {
                    anno_col_info = "condition"
   )
   expect_is(p3, "HeatmapList")
+
+  # enforcing id not present in the object
+  mycustomlist <- c(
+    rownames(vst_macrophage)[1:10],
+    "ENSmadeUPid"
+  )
+  # p4 <- gs_heatmap(se = vst_macrophage,
+  #                  res_de = res_macrophage_IFNg_vs_naive,
+  #                  res_enrich = res_enrich_IFNg_vs_naive,
+  #                  annotation_obj = anno_df,
+  #                  genelist = mycustomlist,
+  #                  FDR = 0.05,
+  #                  de_only = TRUE,
+  #                  cluster_rows = TRUE,
+  #                  cluster_columns = TRUE,
+  #                  center_mean = TRUE,
+  #                  scale_row = TRUE,
+  #                  anno_col_info = "condition"
+  # )
   file.remove("Rplots.pdf")
 })
