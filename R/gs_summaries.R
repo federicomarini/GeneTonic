@@ -436,6 +436,7 @@ gs_horizon <- function(res_enrich,
       ggplot(aes_string(x = "gs_description", y = "logp10")) +
       geom_line(aes_string(group = "scenario", col = "scenario"), size = 3, alpha = 0.7) +
       geom_point(aes_string(fill = "z_score"), size = 4, pch = 21) +
+      scale_color_brewer(palette = "Set2") +
       scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
       ylim(c(0, NA)) +
       coord_flip() +
@@ -455,12 +456,17 @@ gs_horizon <- function(res_enrich,
       arrange(desc(.data$logp10)) %>%
       ggplot(aes_string(x = "gs_description", y = "logp10")) +
       geom_line(aes_string(group = "scenario", col = "scenario"), size = 3, alpha = 0.7) +
+      scale_color_brewer(palette = "Set2") +
       geom_point(aes_string(fill = "z_score"), size = 4, pch = 21) +
       scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
       ylim(c(0, NA)) +
       coord_flip() +
       theme_minimal()
   }
+
+  p <- p + labs(x = "Gene set description",
+                y = "log10 p-value",
+                col = color_by)
 
   return(p)
 }
