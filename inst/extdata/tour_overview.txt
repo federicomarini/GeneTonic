@@ -1,15 +1,19 @@
 element;intro
-#Welcome;Welcome!
-#mymenu;
-#shiny-tab-tab_overview;
-#controlbar-toggle;You can control this by clicking on the controlbar toggle...
-#n_genesets;... and changing the number of genesets.
+#Welcome;Welcome to the interactive tour for <code>GeneTonic</code>!<br><br>Here you will get to know the functionality included in the <b>Overview/<b> panel.
+#mymenu;Here is where you can move around the different tabs of <code>GeneTonic</code>.
+#shiny-tab-tab_overview;This is the main content of the Overview tab. In this tab, some overview plots are provided on the <code>res_enrich</code> element you provided - these include a gene set volcano plot, and a plot where the contribution of each gene to the gene set is explicitly drawn as a single point, positioned according to their expression change.
+#controlbar-toggle;You can control the number of gene sets you are inspecting (or labeling) by clicking on the controlbar toggle...
+#n_genesets;... and changing there the number of genesets.
 #controlbar-toggle;Close back the controlbar.
-#shiny-tab-tab_overview;
-#tabcard_deview;
-#tabcard_deview-Tab1;
-#tabcard_deview;
-#tabcard_deview-Tab2;
-#tabcard_deview;
-#shiny-tab-tab_overview;
-#thanks;
+#shiny-tab-tab_overview;In order to render the elements in a smoother way, the content is organized in a <code>tabCard</code> UI element, and the plots are generated one by one.
+#tabcard_deview;You can select the respective tab by clicking on their label.
+#tabcard_deview-Tab1;In this case, you display a gene set volcano plot, and the first top categories are labeled with their description.
+#tabcard_deview;Select the content of the next tab now...
+#tabcard_deview-Tab2;... and see how the gene set volcano plot changes, by eliminating some of the redundant terms.
+#tabcard_deview;Now select the content of the third tab...
+#tabcard_deview-Tab3;... which displays the output of <code>enhance_table</code>, in this case with a static plot.
+#tabcard_deview;In the fourth tab...
+#tabcard_deview-Tab4;... the same content is displayed in an interactive way, where you can hover with the mouse on the single data points and read out their values.
+#tabcard_deview;You can always change the content displayed by switching the tabs with a click on their label.
+#shiny-tab-tab_overview;... and this will be displayed in the main panel.
+#thanks;Thank you for taking the Overview panel tour of <code>GeneTonic</code>!
