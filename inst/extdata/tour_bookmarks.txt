@@ -1,14 +1,17 @@
 element;intro
-#Welcome;Welcome!
-#mymenu;
-#shiny-tab-tab_bookmarks;
-#bookmarks_genes;
-#bookmarker;
-#bookmarks_genesets;
-#btn_export_genes;
-#btn_export_genesets;
+#Welcome;Welcome to the interactive tour for <code>GeneTonic</code>!<br><br>Here you will get to know the functionality included in the <b>Bookmarks</b> panel.
+#mymenu;Here is where you can move around the different tabs of <code>GeneTonic</code>.
+#shiny-tab-tab_bookmarks;This is the main content of the Bookmark tab. In this tab, you will see the entities (genes and gene sets) that you bookmarked through your exploration, and will be able to start the generation of a full report, with a series of specific content generated on the shortlisted features and gene sets. <br><br>This will serve as the basis to guarantee the technical reproducibility of your analyses, on top of being a handy functionality to store and share the insights one might gain during an interactive session.
+#shiny-tab-tab_bookmarks;It is interesting to note that this functionality is offered via the <code>happy_hour()</code> function, that can also be called directly from the command line, by passing the usual set of parameters you would provide to <code>GeneTonic</code>. This can be particularly relevant if for example you have previous knowledge of some entities that you would like to check out in more detail (e.g. a number of GO terms for which you want to generate the signature heatmap).
+#bookmarker;In case you forgot/overlooked the Bookmarking functionality: this is the button to click when a gene or a geneset is selected in one of the interactive visualizations. <br><br>Alternatively, the bookmarking can be triggered by clicking on the left Control key (also for Mac users).
+#infobox_book_genes;Start checking this info box, where you can see the number of shortlisted genes. If you clicked and bookmarked some in the Gene-Geneset panel, this should contain some already.
+#bookmarks_genes;The bookmarked genes can also be displayed fully in this interactive table.
+#infobox_book_genesets;Analogous to the info box for genes, this is the one for an overview on the genesets...
+#bookmarks_genesets;... which are also displayed fully in their interactive table.
+#btn_export_genes;By clicking on this action button, you can download the content of the above bookmarked genes table as a text file.
+#btn_export_genesets;The same is true for this button, which dowloads the list of genesets.
+#start_happyhour;To generate the full report on the bookmarked entities, you need just one click on this to start the <>happy_hour</code>. The template this function builds upon is delivered together with the package, and is used by default, but can also be modified/overridden.<br><br>Remember, to use this functionality you need to have Pandoc installed - this is often already present on many systems.
 #mymenu;Feel free to revisit the content of any other tab, so that you can bookmark more genes or genesets.
-#start_happyhour;
-#save_rmd;
-#shiny-tab-tab_bookmarks;
-#thanks;
+#start_happyhour;Then again, the happy hour is just one click away to (re)start.
+#shiny-tab-tab_bookmarks;This is often a very convenient way to summarize, archive, and share the insights you might have collected live during the exploration on the features of interest.
+#thanks;Thank you for taking the Bookmarks panel tour of <code>GeneTonic</code>!
