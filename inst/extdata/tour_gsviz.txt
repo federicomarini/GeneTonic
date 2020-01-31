@@ -7,19 +7,19 @@ element;intro
 #controlbar-toggle;Close back the controlbar.
 #shiny-tab-tab_gsviz;Similar to the Overview panel, the content is organized in a <code>tabCard</code> UI element, and the plots are generated one by one.
 #tabcard_genesets;You can select the respective tab by clicking on their label.
-#tabcard_genesets-Tab1;Here you can see the output of the <code>gs_scoresheat</code> function, where each gene set gets a score, derived by the sum of the Z-scores of its components.
+#tabcard_genesets-ScoresHeatmap;Here you can see the output of the <code>gs_scoresheat</code> function, where each gene set gets a score, derived by the sum of the Z-scores of its components.
 #tabcard_genesets;Select the content of the next tab now...
-#tabcard_genesets-Tab2;... and see an alluvial plot (also called Sankey plot) for the membership relationships of genes and gene sets.
+#tabcard_genesets-AlluvialPlot;... and see an alluvial plot (also called Sankey plot) for the membership relationships of genes and gene sets.
 #tabcard_genesets;In the next tab ...
-#tabcard_genesets-Tab3;... you can see a summary heatmap, where again the membership is displayed, together with the color mapped to the expression change. This is useful to illustrate how redundant some terms might be.
+#tabcard_genesets-SummaryHeatmap;... you can see a summary heatmap, where again the membership is displayed, together with the color mapped to the expression change. This is useful to illustrate how redundant some terms might be.
 #tabcard_genesets;Moving to the next tab...
-#tabcard_genesets-Tab4;... you can see a multi-dimensional scaling (MDS) plot for the gene sets, with a similarity measure based on their overlap. Coloring the circles by their Z score (or aggregated score) is useful to identify how coordinated changes are also reflected in similar gene sets.
+#tabcard_genesets-GenesetMDS;... you can see a multi-dimensional scaling (MDS) plot for the gene sets, with a similarity measure based on their overlap. Coloring the circles by their Z score (or aggregated score) is useful to identify how coordinated changes are also reflected in similar gene sets.
 #tabcard_genesets;The next tabs try to give a simple overview on the terms.
-#tabcard_genesets-Tab5;Here, again the significance and an aggregated score are contrasted for each set (this plot exists are for pairwise comparisons, or for comparisons involving more <code>res_enrich</code> objects). This can be a simple alternative to a tabular representation of the same data.
+#tabcard_genesets-SummaryOverview;Here, again the significance and an aggregated score are contrasted for each set (this plot exists are for pairwise comparisons, or for comparisons involving more <code>res_enrich</code> objects). This can be a simple alternative to a tabular representation of the same data.
 #tabcard_genesets;In the next tab...
-#tabcard_genesets-Tab8;... the information is encoded as a radar plot - which might also be useful for comparing two enrichment results on the same figure - where interaction is enabled via plotly.
+#tabcard_genesets-GenesetRadar;... the information is encoded as a radar plot - which might also be useful for comparing two enrichment results on the same figure - where interaction is enabled via plotly.
 #tabcard_genesets;The last tab contains another summary on the <code>res_enrich</code> object...
-#tabcard_genesets-Tab9;... based on a dendrogram representation of the results. The coloring and are of the final nodes (the leaves) maps to a gene set aggregated score, and its size. Branches in the dendrogram are colored according to the dynamic tree cut algorithm.
+#tabcard_genesets-GenesetDendrogram;... based on a dendrogram representation of the results. The coloring and are of the final nodes (the leaves) maps to a gene set aggregated score, and its size. Branches in the dendrogram are colored according to the dynamic tree cut algorithm.
 #tabcard_genesets;You can always change the content displayed by switching the tabs with a click on their label.
 #shiny-tab-tab_gsviz;... and this will be displayed in the main panel.
 #thanks;Thank you for taking the GSViz panel tour of <code>GeneTonic</code>!

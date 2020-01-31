@@ -472,57 +472,48 @@ GeneTonic <- function(dds,
 
           fluidRow(
             bs4Dash::column(
-              width = 10,
-              offset = 1,
+              width = 11,
+              offset = 0,
               bs4Dash::bs4TabCard(
                 id = "tabcard_genesets",
-                title = "Different views",
+                title = "GSViz",
                 side = "right",
                 elevation = 2,
                 width = 12,
+                closable = FALSE,
                 bs4TabPanel(
-                  tabName = "Tab 1",
+                  tabName = "Scores Heatmap",
                   active = TRUE,
                   withSpinner(plotOutput("gsscores_heatmap"))
 
                 ),
                 bs4TabPanel(
-                  tabName = "Tab 2",
+                  tabName = "Alluvial Plot",
                   active = FALSE,
                   withSpinner(plotlyOutput("alluvial_genesets"))
                 ),
                 bs4TabPanel(
-                  tabName = "Tab 3",
+                  tabName = "Summary Heatmap",
                   active = FALSE,
                   withSpinner(plotOutput("gs_summaryheat"))
                 ),
                 bs4TabPanel(
-                  tabName = "Tab 4",
+                  tabName = "Geneset MDS",
                   active = FALSE,
                   withSpinner(plotOutput("mds_genesets"))
                 ),
                 bs4TabPanel(
-                  tabName = "Tab 5",
+                  tabName = "Summary Overview",
                   active = FALSE,
                   withSpinner(plotOutput("gs_summaryoverview"))
                 ),
                 bs4TabPanel(
-                  tabName = "Tab 6",
-                  active = FALSE,
-                  plotOutput("gs_summary_overview_pair")
-                ),
-                bs4TabPanel(
-                  tabName = "Tab 7",
-                  active = FALSE,
-                  withSpinner(plotOutput("gs_summaryhorizon"))
-                ),
-                bs4TabPanel(
-                  tabName = "Tab 8",
+                  tabName = "Geneset Radar",
                   active = FALSE,
                   withSpinner(plotlyOutput("gs_summaryradar"))
                 ),
                 bs4TabPanel(
-                  tabName = "Tab 9",
+                  tabName = "Geneset Dendrogram",
                   active = FALSE,
                   withSpinner(plotOutput("gs_dendro"))
                 )
