@@ -7,13 +7,14 @@ element;intro
 #controlbar-toggle;Close back the controlbar.
 #shiny-tab-tab_overview;In order to render the elements in a smoother way, the content is organized in a <code>tabCard</code> UI element, and the plots are generated one by one.
 #tabcard_deview;You can select the respective tab by clicking on their label.
-#tabcard_deview-Tab1;In this case, you display a gene set volcano plot, and the first top categories are labeled with their description.
+#tabcard_deview-GenesetVolcano;In this case, you display a gene set volcano plot, and the first top categories are labeled with their description.
 #tabcard_deview;Select the content of the next tab now...
-#tabcard_deview-Tab2;... and see how the gene set volcano plot changes, by eliminating some of the redundant terms.
+#tabcard_deview-GenesetVolcanosimplified;... and see how the gene set volcano plot changes, by eliminating some of the redundant terms.
+#gs_overlap;This widget controls how the redundant categories are simplified out of the original set. You can change the value here and see how this affects the main plot, re-rendered in the other UI element.
 #tabcard_deview;Now select the content of the third tab...
-#tabcard_deview-Tab3;... which displays the output of <code>enhance_table</code>, in this case with a static plot.
+#tabcard_deview-EnhancedTable;... which displays the output of <code>enhance_table</code>, in this case with a static plot.
 #tabcard_deview;In the fourth tab...
-#tabcard_deview-Tab4;... the same content is displayed in an interactive way, where you can hover with the mouse on the single data points and read out their values.
+#tabcard_deview-EnhancedTableinteractive;... the same content is displayed in an interactive way, where you can hover with the mouse on the single data points and read out their values.
 #tabcard_deview;You can always change the content displayed by switching the tabs with a click on their label.
 #shiny-tab-tab_overview;... and this will be displayed in the main panel.
 #thanks;Thank you for taking the Overview panel tour of <code>GeneTonic</code>!

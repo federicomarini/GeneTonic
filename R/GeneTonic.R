@@ -422,17 +422,17 @@ GeneTonic <- function(dds,
               offset = 1,
               bs4Dash::bs4TabCard(
                 id = "tabcard_deview",
-                title = "Different views",
+                title = "Overview",
                 side = "right",
                 elevation = 2,
                 width = 12,
                 bs4TabPanel(
-                  tabName = "Tab 1",
+                  tabName = "Geneset Volcano",
                   active = TRUE,
                   withSpinner(plotOutput("gs_volcano"))
                 ),
                 bs4TabPanel(
-                  tabName = "Tab 2",
+                  tabName = "Geneset Volcano - simplified",
                   active = FALSE,
                   numericInput(inputId = "gs_overlap",
                                label = "Gene Set overlap",
@@ -440,12 +440,12 @@ GeneTonic <- function(dds,
                   withSpinner(plotOutput("gs_volcano_simplified"))
                 ),
                 bs4TabPanel(
-                  tabName = "Tab 3",
+                  tabName = "Enhanced Table",
                   active = FALSE,
                   withSpinner(plotOutput("enriched_funcres"))
                 ),
                 bs4TabPanel(
-                  tabName = "Tab 4",
+                  tabName = "Enhanced Table - interactive",
                   active = FALSE,
                   withSpinner(plotlyOutput("enriched_funcres_plotly"))
                 )
