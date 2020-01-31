@@ -434,6 +434,9 @@ GeneTonic <- function(dds,
                 bs4TabPanel(
                   tabName = "Tab 2",
                   active = FALSE,
+                  numericInput(inputId = "gs_overlap",
+                               label = "Gene Set overlap",
+                               value = 0.6, min = 0, max = 1, step = 0.05),
                   withSpinner(plotOutput("gs_volcano_simplified"))
                 ),
                 bs4TabPanel(
@@ -451,7 +454,7 @@ GeneTonic <- function(dds,
           )
         ),
 
-        # ui panel GSViz view ------------------------------------------------------
+        # ui panel GSViz ------------------------------------------------------
         bs4TabItem(
           tabName = "tab_gsviz",
           fluidRow(
@@ -957,7 +960,7 @@ GeneTonic <- function(dds,
       }
     })
 
-    # panel DEview ------------------------------------------------------------
+    # panel Overview ------------------------------------------------------------
 
     output$enriched_funcres <- renderPlot({
       enhance_table(res_enrich, res_de,
@@ -976,7 +979,7 @@ GeneTonic <- function(dds,
 
     output$gs_volcano_simplified <- renderPlot({
       gs_volcano(
-        get_aggrscores(gs_simplify(res_enrich, gs_overlap = 0.6),
+        get_aggrscores(gs_simplify(res_enrich, gs_overlap = input$gs_overlap),
                        res_de,
                        annotation_obj = annotation_obj),
         volcano_labels = input$n_genesets
@@ -991,7 +994,7 @@ GeneTonic <- function(dds,
     })
 
 
-    # panel genesets view -----------------------------------------------------
+    # panel GSViz -----------------------------------------------------
 
     gss_mat <- reactive({
       gs_scores(se = myvst,
@@ -1046,7 +1049,7 @@ GeneTonic <- function(dds,
 
 
 
-    # panel bookmarks ---------------------------------------------------------
+    # panel Bookmarks ---------------------------------------------------------
 
     output$ui_bookmarks <- renderUI({
       tagList(
