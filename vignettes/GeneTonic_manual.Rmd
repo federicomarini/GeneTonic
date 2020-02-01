@@ -239,9 +239,9 @@ The dashboard navbar (as it is called in `bs4Dash`) contains two dropdown menus,
 These provide additional buttons to do one the following:
 
 - <i class="fa fa-book"></i> inspect the `r BiocStyle::Biocpkg("GeneTonic")` vignette (either the one installed in bundle with the package, or the online version)
-- <i class="fa fa-question-circle"></i> read some general help on `GeneTonic` TODO?
+- <i class="fa fa-question-circle"></i> read some first help information on `GeneTonic` (What the package does in brief, what is required to run properly)
 - <i class="fa fa-info-circle"></i> display information about the current session (via `sessionInfo()`)
-- <i class="fa fa-heart"></i> show some general information on `r BiocStyle::Biocpkg("GeneTonic")`, like how to cite this tool.
+- <i class="fa fa-heart"></i> show some general information on `r BiocStyle::Biocpkg("GeneTonic")`, like where to find its development version (and contribute to that), or how to cite this tool.
 
 Additionally, one fundamental button is present in the navbar: `r shiny::actionButton("bookmarker", label = "Bookmark", icon = shiny::icon("heart"), style = "color: #ffffff; background-color: #ac0000; border-color: #ffffff", class = "ml-5")`.
 This serves the purpose of bookmarking genes and gene sets of interest while exploring your data in an interactive session.

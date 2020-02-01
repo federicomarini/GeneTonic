@@ -153,7 +153,7 @@ gs_heatmap <- function(se,
   ### anno_col_info <- anno_col_info[anno_col_info %in% colnames(colData(se))]
   ### sample_decoration <- as.data.frame(colData(se))[, anno_col_info, drop = FALSE]
 
-  # TODO: is there a way to make this programmatically & clever?
+  # could there be a way to make this programmatically & clever?
 
   ## if only one column: SO
   # anno_col_vals <- colData(se)[,anno_col_info,drop = TRUE]

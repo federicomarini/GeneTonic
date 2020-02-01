@@ -140,9 +140,9 @@ GeneTonic <- function(dds,
             # )
           ),
           actionButton(
-            inputId = "btn_docs_link",
+            inputId = "btn_first_help",
             icon = icon("question-circle"),
-            label = "Help", style = .actionbutton_biocstyle
+            label = "First Help", style = .actionbutton_biocstyle
           )
 
         ),
@@ -177,7 +177,7 @@ GeneTonic <- function(dds,
       skin = "dark",
       status = "primary",
       brandColor = NULL,
-      url = "http://bioconductor.org/",
+      url = "https://bioconductor.org/packages/GeneTonic",
       # src = "logos/online-learning.png",
       elevation = 1,
       opacity = 0.8,
@@ -1211,6 +1211,18 @@ GeneTonic <- function(dds,
     #   print(input$gt_tabs)
     # })
 
+    observeEvent(input$btn_first_help, {
+      showModal(
+        modalDialog(
+          title = "First Help Info", size = "l", fade = TRUE,
+          footer = NULL, easyClose = TRUE,
+          tagList(
+            includeMarkdown(system.file("extdata", "GeneTonic101.md", package = "GeneTonic")),
+          )
+        )
+      )
+    })
+
     observeEvent(input$btn_docs_vignette, {
       path <- system.file("doc", "GeneTonic_manual.html", package = "GeneTonic")
       if (path == "") {
@@ -1242,8 +1254,6 @@ GeneTonic <- function(dds,
           title = "About GeneTonic", size = "l", fade = TRUE,
           footer = NULL, easyClose = TRUE,
           tagList(
-            # "GeneTonic_info", br(), br(),
-            # HTML("If you use this package, please use the following citation information:"),
             includeMarkdown(system.file("extdata", "about.md", package = "GeneTonic")),
             renderPrint({
               citation("GeneTonic")
