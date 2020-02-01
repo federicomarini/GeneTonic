@@ -375,7 +375,9 @@ GeneTonic_footer <- fluidRow(
 
 .onLoad <- function(libname, pkgname) {
   # Create link to logo
+  #nocov start
   shiny::addResourcePath("GeneTonic", system.file("www", package = "GeneTonic"))
+  #nocov end
 }
 
 
@@ -384,7 +386,12 @@ GeneTonic_footer <- fluidRow(
 .actionbutton_biocstyle <- "color: #ffffff; background-color: #0092AC"
 .helpbutton_biocstyle <- "color: #0092AC; background-color: #FFFFFF; border-color: #FFFFFF"
 
-gt_downloadButton <- function(outputId, label = "Download", icon = "magic", class = NULL, ...) {
+# custom download button with icon and color tweaks
+gt_downloadButton <- function(outputId,
+                              label = "Download",
+                              icon = "magic",
+                              class = NULL,
+                              ...) {
   aTag <- tags$a(id = outputId,
                  class = paste("btn btn-default shiny-download-link", class),
                  href = "",
