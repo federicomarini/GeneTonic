@@ -26,4 +26,8 @@ test_that("Converting from clusterProfiler", {
 
   expect_error(shake_enrichResult(topgoDE_macrophage_IFNg_vs_naive))
   expect_error(shake_enrichResult(as.data.frame(ego_IFNg_vs_naive)))
+
+  ego_mod <- ego_IFNg_vs_naive
+  ego_mod@result$geneID <- NULL
+  expect_error(shake_enrichResult(ego_mod))
 })
