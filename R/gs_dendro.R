@@ -102,9 +102,8 @@ gs_dendro <- function(res_enrich,
     dmat <- create_kappa_matrix(res_enrich, n_gs, gs_ids)
   } else if (gs_dist_type == "jaccard") {
     dmat <- create_jaccard_matrix(res_enrich, n_gs, gs_ids, return_sym = TRUE)
-  } else if (gs_dist_type == "semsim") {
-    dmat <- create_semsim_matrix(res_enrich, semsim_data = semsim_data, n_gs, gs_ids)
   }
+
   rownames(dmat) <- colnames(dmat) <- res_enrich[gs_to_use, "gs_description"]
 
   my_hclust <- as.dist(1 - dmat) %>%

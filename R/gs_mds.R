@@ -110,12 +110,6 @@ gs_mds <- function(res_enrich,
   )
 
 
-  # alternative: use semantic similarity
-  # library(GOSemSim)
-  # mmGO <- godata('org.Mm.eg.db', ont="BP")
-  # mysims <- mgoSim(res_enrich[["gs_id"]], res_enrich[["gs_id"]],
-  # semData=mmGO, measure="Wang", combine=NULL)
-
   if (similarity_measure == "kappa_matrix") {
     my_simmat <- create_kappa_matrix(res_enrich, n_gs = n_gs, gs_ids = gs_ids)
 
