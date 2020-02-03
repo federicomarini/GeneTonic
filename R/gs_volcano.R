@@ -3,6 +3,9 @@
 #' Volcano plot for gene sets, to summarize visually the functional enrichment
 #' results
 #'
+#' It is also possible to reduce the redundancy of the input `res_enrich` object,
+#' if it is passed in advance to the [gs_simplify()] function.
+#'
 #' @param res_enrich A `data.frame` object, storing the result of the functional
 #' enrichment analysis. See more in the main function, [GeneTonic()], to check the
 #' formatting requirements (a minimal set of columns should be present).
@@ -68,14 +71,18 @@ gs_volcano <- function(res_enrich,
                        color_by = "aggr_score",
                        volcano_labels = 10,
                        scale_circles = 1,
-                       # TODO option to collapse similar terms?
                        gs_ids = NULL,
                        plot_title = NULL
 ) {
   # res_enrich has to contain the aggregated scores
   if (!all(c("z_score", "aggr_score") %in% colnames(res_enrich)))
     stop("You might need to compute the aggregated scores first")
-  # TODO: or call in advance the get_aggr_scores function?
+
+  if (!color_by %in% colnames(res_enrich))
+    stop("Your res_enrich object does not contain the ",
+         color_by,
+         " column.\n",
+         "Compute this first or select another column to use for the color.")
 
   volcano_labels <- min(volcano_labels, nrow(res_enrich))
 
@@ -123,11 +130,6 @@ gs_volcano <- function(res_enrich,
   } else {
     p <- p + ggtitle(plot_title)
   }
-  # beautify all I have in the plot...
-
-  # something TODOTODO to prepare the labels for plotly, if I am using it
-  ## one option: pass a text aes to geom_point, which is not used in gg but in plotly
 
   return(p)
-
 }

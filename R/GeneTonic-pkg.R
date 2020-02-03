@@ -24,7 +24,7 @@
 #' @importFrom ggrepel geom_label_repel geom_text_repel
 #' @import GO.db
 #' @importFrom graphics par plot
-#' @importFrom grDevices colorRampPalette rgb
+#' @importFrom grDevices colorRampPalette rgb col2rgb
 #' @importFrom grid gpar
 #' @importFrom igraph delete.edges E "E<-" graph.data.frame
 #' permute.vertices V "V<-"

@@ -25,25 +25,25 @@ bibliography: GeneTonic.bib
 
 **Compiled date**: `r Sys.Date()`
 
-**Last edited**: 2019-11-30
+**Last edited**: 2020-01-23
 
 **License**: `r packageDescription("GeneTonic")[["License"]]`
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
-    collapse = TRUE,
-    comment  = "#>",
-    error    = FALSE,
-    warning  = FALSE,
-    eval     = TRUE, # TODO: temporarily speeding up building and checking
-    message  = FALSE,
-    fig.width = 10
+  collapse = TRUE,
+  comment  = "#>",
+  error    = FALSE,
+  warning  = FALSE,
+  eval     = TRUE,
+  message  = FALSE,
+  fig.width = 10
 )
 options(width = 100)
 stopifnot(requireNamespace("htmltools"))
 htmltools::tagList(rmarkdown::html_dependency_font_awesome())
 ```
-  
+
 ---
 
 # Introduction {#introduction}
@@ -76,7 +76,7 @@ To install this package, start R and enter:
 
 ```{r install, eval=FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
+  install.packages("BiocManager")
 
 BiocManager::install("GeneTonic")
 ```
@@ -216,9 +216,9 @@ res_enrich_macrophage <- get_aggrscores(res_enrich = res_enrich_macrophage,
 
 ## All set!
 
-Once you have the four objects specified above, you can set the `project_id` to be a character string at wish, and you can just launch the `GeneTonic` app:
+Once you have the four objects specified above, you can set the `project_id` to be a character string at wish, and you can just launch the `GeneTonic()` app:
 
-```{r eval=FALSE}
+```{r dryrun, eval=FALSE}
 GeneTonic(dds = dds_macrophage,
           res_de = res_macrophage_IFNg_vs_naive,
           res_enrich = res_enrich_macrophage,
@@ -236,9 +236,15 @@ The `GeneTonic` app is built with `r BiocStyle::CRANpkg("shiny")`, and its layou
 ## Header (navbar)
 
 The dashboard navbar (as it is called in `bs4Dash`) contains two dropdown menus, which can be expanded by clicking on the respective icons (<i class="fa fa-book"></i> and <i class="fa fa-info"></i>).
-These provide additional buttons to inspect... TODO
+These provide additional buttons to do one the following:
 
-Additionally, one fundamental button is present in the navbar, and serves the purpose of bookmarking genes and gene sets of interest while exploring your data in an interactive session.
+- <i class="fa fa-book"></i> inspect the `r BiocStyle::Biocpkg("GeneTonic")` vignette (either the one installed in bundle with the package, or the online version)
+- <i class="fa fa-question-circle"></i> read some first help information on `GeneTonic` (What the package does in brief, what is required to run properly)
+- <i class="fa fa-info-circle"></i> display information about the current session (via `sessionInfo()`)
+- <i class="fa fa-heart"></i> show some general information on `r BiocStyle::Biocpkg("GeneTonic")`, like where to find its development version (and contribute to that), or how to cite this tool.
+
+Additionally, one fundamental button is present in the navbar: `r shiny::actionButton("bookmarker", label = "Bookmark", icon = shiny::icon("heart"), style = "color: #ffffff; background-color: #ac0000; border-color: #ffffff", class = "ml-5")`.
+This serves the purpose of bookmarking genes and gene sets of interest while exploring your data in an interactive session.
 This functionality will be exploited in the <i class="fa fa-bookmark"></i> section of the app, where a complete HTML report can be generated as a reproducible artifact.
 
 ## Sidebar
@@ -255,43 +261,136 @@ There you can find widgets that control the appearance of output (plots, tables,
 
 The main body of the `GeneTonic` application is structured in tabs that are activated by clicking on the respective icons or text in the sidebar.
 
-While the Welcome tab might be self-explanatory, the functionality of each tab can go in depth, and new users can benefit of the 
-<button id="tour_" type="button" class="btn btn-default action-button" style=color: #0092AC; background-color: #FFFFFF; border-color: #FFFFFF>
-  <i class="fa fa-question-circle"></i>
-</button>
-button to trigger an interactive tour of `GeneTonic`, which allows users to learn the basic usage mechanisms by doing.
+While the Welcome tab might be self-explanatory, the functionality of each tab can go in depth, and new users can benefit of the `r shiny::actionButton("tour", label = "", icon = shiny::icon("question-circle"), style = "color: #0092AC; background-color: #FFFFFF; border-color: #ffffff")` button to trigger an interactive tour of `GeneTonic`, which allows users to learn the basic usage mechanisms by doing.
 During a tour, the highlighted elements respond to the user's actions, while the rest of the UI is kept shaded.
 Tours can be interrupted anytime by clicking outside of the focused window, and arrows (left, right) can be used as well to navigate between steps.
 The tour functionality is provided by the beautiful `r BiocStyle::CRANpkg("rintrojs")` package.
 
 # The `GeneTonic` functionality {#functionality}
 
-What the app tabs do
+The main `GeneTonic` app is structured in different panels, and each of these is presented in detail in the subsequent sections.
+
+## The Welcome panel
+
+This panel in intended to give an overview on the different ingredients you just provided for launching `GeneTonic`.
+
+Collapsible elements, colored each by the typology of data it refers to, contain the underlying tabular information, and a value box provides a quick summary on the dimensions of the input parameters.
+
+The tables are rendered with `DT::datatable`, which provides a practical interface for exploring, sorting, and filtering.
+This framework is also extendable, for example as we do for the `log2FoldChange` column in the `res_de` object, where the values are also visually encoded as diverging bars of different color based on the expression change direction.
+
+## The Gene-Geneset panel
+
+This panel has as its main component an interactive bipartite graph illustrating the relationship between genesets and genes that belong to them.
+One of the relevant parameters for this output is the number of gene sets to be displayed, adjustable from the widget in the control panel on the right.
+
+Such a representation is particularly useful to see overlap between terms, and grasp the way how different genes may play a concerting role in different processes.
+
+The color and shape of the nodes depend on the entity they are related to:
+
+- genes are shown as ellipses, colored with a palette diverging from a neutral color to red (log2FC > 0) or to blue (log2FC < 0)
+- gene sets are enclosed in gold boxes
+
+The interactivity in this graph is essential for zooming, panning, and selecting its nodes.
+The node selection, in particular, triggers a drill-down exploration, which populates a box on the right side, either with a signature heatmap (for a gene set), or with an expression plot, split by the experimental covariates of interest (for a gene) - this behavior can be controlled by the "Group/color by" selectize widget in the control sidebar.
+In both cases, some HTML content is also generated, with buttons linking to external databases where to retrieve additional information (e.g. ENSEMBL, NCBI, AmiGO, ...).
+
+A demonstration of how to use this panel effectively is provided by the tour, triggered by clicking on the `r shiny::actionButton("tour", label = "", icon = shiny::icon("question-circle"), style = "color: #0092AC; background-color: #FFFFFF; border-color: #ffffff")` button in the upper right corner of the tab.
+
+**Bookmarking from the Gene-Geneset panel:** When clicking on the Bookmark button while in this tab, it is possible to add to the shortlisted items of interest both genes and gene sets.
+To do so, while one of the nodes is selected, click on the button with the mouse - or alternatively, click on the Left Ctrl button of your keyboard.
+A notification will be triggered, informing the status of the bookmarked elements.
+
+## The Enrichment Map panel
+
+This panel, similar to the Gene-Geneset tab, has again an interactive graph of a subset of the gene sets (you can control again the number of included sets from the control sidebar).
+This is also called an enrichment map - it is also possible to generate them in tools such as Cytoscape.
+In this case, the genesets are directly connected by an edge, where the thickness encodes the degree of similarity (e.g. in terms of overlap) between them; sets below a similarity threshold are not displayed for the sake of better clarity.
+
+The size of the node encodes the information of the number of genes detected as Differentially Expressed (from the column `gs_de_count`), while the color is representative of the computed Z score for each set.
+This value is computed as $z = \frac{(upgenes - downgenes)}{\sqrt{(upgenes + downgenes)}}$ and is indicative of the expression changes of the genes assigned to a particular set.
+Please, keep in mind that methods based on overrepresentation analysis only do not account for the topology that might be behind the set of interacting features (i.e. an upregulated gene involved in inhibition of a pathway would still be counted as a positive element in the equation above).
+
+The `z_score` and `aggr_score` (in the simplest form, a mean of the log2FoldChange values for all the genes of a set) can be easily computed with the `get_aggrscores()`, which appends these scores for each gene set to the original `res_enrich` data frame.
+
+The interactive flavor in this tab permits a quick exploration of the signature heatmaps for the genesets of interest by simply clicking on a node; this also triggers the display of some HTML content, if related to a Gene Ontology term.
+
+A demonstration of how to use this panel effectively is provided by the tour, triggered by clicking on the `r shiny::actionButton("tour", label = "", icon = shiny::icon("question-circle"), style = "color: #0092AC; background-color: #FFFFFF; border-color: #ffffff")` button in the upper right corner of the tab.
+
+**Bookmarking from the Enrichment Map panel:** If the user clicks on the Bookmark button while in this tab, it will add the selected node to the shortlist of genesets, visible later in the Bookmarks panel.
+The Left Ctrl button of your keyboard can again be used for this purpose, and this will trigger a notification in the lower right part of the screen.
+
+## The Overview panel
+
+This panel presents to the user a series of summary plots, based on the outputs of `enhance_table()` and `gs_volcano()`, aiming to provide a mean to summarize the most relevant genesets in the `res_enrich` object.
+The number of displayed (or labeled, according to each function) genesets can be as usual controlled by the widget in the right sidebar.
+
+We avoid (re)rendering all plots at once by placing them as content of different tabs in a `bs4TabCard` container - this allows the user to navigate in a more agile way to the desired output elements.
+
+Interactive versions of the plots are returned via calls to `ggplotly`.
+
+A demonstration of how to use this panel effectively is provided by the tour, triggered by clicking on the `r shiny::actionButton("tour", label = "", icon = shiny::icon("question-circle"), style = "color: #0092AC; background-color: #FFFFFF; border-color: #ffffff")` button in the upper right corner of the tab.
+
+## The GSViz panel
+
+This panel, similarly to the Overview panel, presents a variety of plots visualizing the gene sets - and their mutual relationships, or their behavior across samples.
+This includes, for example:
+
+- a genesets by sample heatmap (via `gs_scores()` and `gs_scoresheat()`),  with a score for each matrix element corresponding to the sum of the standardized expression values of its components
+- a genesets-gene Sankey diagram (via `gs_alluvial()`, aliased to `gs_sankey()`), to represent the N:N membership relationships
+- a summary heatmap (via `gs_summary_heat()`) to display the memberships and at the same time the expression change of each gene set member
+- a multi-dimensional scaling (MDS) plot, based on `gs_mds()`, to provide a 2d visualization of the distance among genesets (based on a similarity measure e.g. their overlap or other criteria, such as their semantic similarity)
+- a compact summary of `res_enrich`, via `gs_summary_overview()`, where aggregated scores and significance can be displayed on the same plot - for this, there are functions to compare different `res_enrich` objects (`gs_summary_overview()`, `gs_summary_overview_pair()`)
+- alternative visual representation of the `res_enrich` objects, based on `gs_radar()` (equivalent to `gs_spider()`) and `gs_dendro()`
+
+As in many other panels, the control over the number of genesets displayed is tweaked with the widget in the right sidebar, "Number of genesets".
+
+A demonstration of how to use this panel effectively is provided by the tour, triggered by clicking on the `r shiny::actionButton("tour", label = "", icon = shiny::icon("question-circle"), style = "color: #0092AC; background-color: #FFFFFF; border-color: #ffffff")` button in the upper right corner of the tab.
+
+## The Bookmarks panel
+
+In this panel, the user can obtain a complete overview on the bookmarked features of interest, both genes (left side) and genesets (right side). 
+
+During a live exploration session, it might be tricky to recall the exact aspect of each point of interest. 
+
+Below the interactive `DT::datatable` objects, the content of each table can also be separately downloaded by clicking on the respective button.
+Moreover, there is a button (with the cocktail icon <i class="fa fa-cocktail"></i>) that triggers the generation of a content-rich report which will focus on all the shortlisted elements.
+This leverages a template report delivered as a part of `r BiocStyle::Biocpkg("GeneTonic")`, which accesses the input elements and the reactive values for the bookmarks, based on the `happy_hour()` function.
 
 
+If a user already knows a set of features and geneset of interest, it is also possible to practically call `happy_hour()` directly from the command line (see the example in the chunk below).
+Please keep in mind that the identifiers to be used should match the values used as row names of the `dds` object and as `gs_id` column of the original `res_enrich` input.
 
+```{r, eval = FALSE}
+happy_hour(dds = dds_macrophage,
+           res_de = res_de,
+           res_enrich = res_enrich,
+           annotation_obj = anno_df,
+           project_id = "examplerun",
+           mygenesets = res_enrich$gs_id[c(1:5,11,31)],
+           mygenes = c("ENSG00000125347",
+                       "ENSG00000172399",
+                       "ENSG00000137496")
+)
+```
 
+This report will serve as a useful means to generate a permanent and reproducible analysis output, that can be further stored or shared.
 
+Ideally, each live session with `GeneTonic` could terminate with a call to `happy_hour()` - admittedly, an aperitivo should start with that, and not end - please accept our apologies :) .
 
-
-
-
-
-
-
-
-
-TODO
+A demonstration of how to use this panel effectively is provided by the tour, triggered by clicking on the `r shiny::actionButton("tour", label = "", icon = shiny::icon("question-circle"), style = "color: #0092AC; background-color: #FFFFFF; border-color: #ffffff")` button in the upper right corner of the tab.
 
 # Using the `GeneTonic` functions {#functions}
 
 The `r BiocStyle::Biocpkg("GeneTonic")` package provides, apart from the main app where to perform the analysis in an interactive way, a number of functions which can be used also as standalone components for a workflow.
 
+This sections contains some showcase examples on how to use them.
+
 ## Overview functions: genes and gene sets
 
 Summarize the top genesets by displaying the logFC of each set's components - and transform the `ggplot` output into a `plotly` visualization, where tooltips can deliver additional information:
 
-```{r}
+```{r enhancetable}
 p <- enhance_table(res_enrich_macrophage,
                    res_macrophage_IFNg_vs_naive,
                    n_gs = 30,
@@ -304,7 +403,7 @@ ggplotly(p)
 
 Display the relationship between genesets and genes that belong to them (useful e.g. to see overlap between terms):
 
-```{r}
+```{r alluvial}
 gs_alluvial(res_enrich = res_enrich_macrophage,
             res_de = res_macrophage_IFNg_vs_naive,
             annotation_obj = anno_df,
@@ -313,7 +412,7 @@ gs_alluvial(res_enrich = res_enrich_macrophage,
 
 Display a bipartite graph where genesets and genes are included, and make it interactive:
 
-```{r}
+```{r ggs}
 ggs <- ggs_graph(res_enrich_macrophage,
                  res_de = res_macrophage_IFNg_vs_naive,
                  anno_df,
@@ -336,7 +435,7 @@ ggs %>%
 
 Plot an enrichment map of the enrichment results, where you can choose with `n_gs` the number of top genesets to be displayed, and specify in `gs_ids` the gene set identifiers - these will be merged together for each function's context:
 
-```{r}
+```{r summaryrep}
 em <- enrichment_map(res_enrich_macrophage,
                      res_macrophage_IFNg_vs_naive,
                      n_gs = 30,
@@ -349,12 +448,12 @@ em %>%
                                      degree = 1,
                                      hover = TRUE),
              nodesIdSelection = TRUE)
-  
+
 ```
 
 Display a volcano plot for genesets, plotting significance (y-axis) versus Z score (x-axis), with color and size encoding some geneset features:
 
-```{r}
+```{r volcano}
 gs_volcano(res_enrich_macrophage,
            p_threshold = 0.05,
            color_by = "aggr_score",
@@ -371,12 +470,12 @@ gs_volcano(res_enrich_simplified,
 
 Plot a dendrogram of the enrichment results (or a subset thereof), using node color, node size, and branch color to encode relevant geneset features (and their groups):
 
-```{r}
+```{r dendro}
 gs_dendro(res_enrich_macrophage,
           n_gs = 50,
           gs_dist_type = "kappa", 
           clust_method = "ward.D2",
-          color_leaves_by = "z_score",      # TODO: define the complete behavior correctly here!
+          color_leaves_by = "z_score",
           size_leaves_by = "gs_pvalue",
           color_branches_by = "clusters",
           create_plot = TRUE)
@@ -384,7 +483,7 @@ gs_dendro(res_enrich_macrophage,
 
 Produce a MultiDimensional Scaling plot of the genesets in the enrichment results:
 
-```{r}
+```{r mds}
 gs_mds(res_enrich_macrophage,
        res_macrophage_IFNg_vs_naive,
        anno_df,
@@ -400,7 +499,7 @@ gs_mds(res_enrich_macrophage,
 
 Obtain a simple overview of enrichment results, showing e.g. significance and direction of change (`z_score`)
 
-```{r}
+```{r overview}
 gs_summary_overview(res_enrich_macrophage,
                     n_gs = 30,
                     p_value_column = "gs_pvalue",
@@ -409,7 +508,7 @@ gs_summary_overview(res_enrich_macrophage,
 
 Plot a summary heatmap of genes vs genesets, encoding the logFC of genes and representing the overlap among genesets:
 
-```{r}
+```{r sumheat}
 gs_summary_heat(res_enrich_macrophage,
                 res_macrophage_IFNg_vs_naive,
                 anno_df,
@@ -418,13 +517,14 @@ gs_summary_heat(res_enrich_macrophage,
 
 Plot a heatmap on the geneset scores, computed sample-wise via `gs_scores` so that the geneset members compose a Z score that gets summarized: 
 
-```{r}
+```{r scoresheat}
 vst_macrophage <- vst(dds_macrophage)
-scores_mat <- gs_scores(vst_macrophage,
-                        res_de = res_macrophage_IFNg_vs_naive,
-                        res_enrich = res_enrich_macrophage,
-                        annotation_obj = anno_df
-                       )
+scores_mat <- gs_scores(
+  se = vst_macrophage,
+  res_de = res_macrophage_IFNg_vs_naive,
+  res_enrich = res_enrich_macrophage,
+  annotation_obj = anno_df
+)
 gs_scoresheat(scores_mat,
               n_gs = 30)
 ```
@@ -433,7 +533,7 @@ gs_scoresheat(scores_mat,
 
 Enjoy a fully fledged `happy_hour` by running offline the analysis contained in the report, included in the `r BiocStyle::Biocpkg("GeneTonic")` package.
 
-```{r eval=FALSE}
+```{r happyhour, eval=FALSE}
 happy_hour(dds = dds_macrophage,
            res_de = res_de,
            res_enrich = res_enrich,
@@ -451,7 +551,7 @@ Here you can choose a number of genesets (`mygenesets`) and genes (`mygenes`), s
 
 Advanced users can also provide a custom RMarkdown file, and to guarantee it works in the context of `happy_hour`, we recommend to inspect the template available here:
 
-```{r}
+```{r template}
 template_rmd <- system.file("extdata",
                             "cocktail_recipe.Rmd",
                             package = "GeneTonic")
@@ -462,10 +562,62 @@ template_rmd
 
 While `GeneTonic` works currently with a single `res_enrich` object, there are some functions that allow a visual comparison between two different enrichment results (the functions are displaying a shuffled instance of the single `res_enrich`):
 
-```{r}
-gs_summary_overview_pair(res_enrich = res_enrich_macrophage)
-gs_radar(res_enrich1 = res_enrich_macrophage)
-gs_horizon(res_enrich = res_enrich_macrophage, n_gs = 25)
+```{r comparepair}
+# generating some shuffled gene sets
+res_enrich2 <- res_enrich_macrophage[1:50, ]
+set.seed(42)
+shuffled_ones <- sample(seq_len(50)) # to generate permuted p-values
+res_enrich2$gs_pvalue <- res_enrich2$gs_pvalue[shuffled_ones]
+res_enrich2$z_score <- res_enrich2$z_score[shuffled_ones]
+res_enrich2$aggr_score <- res_enrich2$aggr_score[shuffled_ones]
+
+gs_summary_overview_pair(res_enrich = res_enrich_macrophage,
+                         res_enrich2 = res_enrich2,
+                         n_gs = 25)
+```
+
+
+```{r compare4}
+res_enrich2 <- res_enrich_macrophage[1:42, ]
+res_enrich3 <- res_enrich_macrophage[1:42, ]
+res_enrich4 <- res_enrich_macrophage[1:42, ]
+
+set.seed(2*42)
+shuffled_ones_2 <- sample(seq_len(42)) # to generate permuted p-values
+res_enrich2$gs_pvalue <- res_enrich2$gs_pvalue[shuffled_ones_2]
+res_enrich2$z_score <- res_enrich2$z_score[shuffled_ones_2]
+res_enrich2$aggr_score <- res_enrich2$aggr_score[shuffled_ones_2]
+
+set.seed(3*42)
+shuffled_ones_3 <- sample(seq_len(42)) # to generate permuted p-values
+res_enrich3$gs_pvalue <- res_enrich3$gs_pvalue[shuffled_ones_3]
+res_enrich3$z_score <- res_enrich3$z_score[shuffled_ones_3]
+res_enrich3$aggr_score <- res_enrich3$aggr_score[shuffled_ones_3]
+
+set.seed(4*42)
+shuffled_ones_4 <- sample(seq_len(42)) # to generate permuted p-values
+res_enrich4$gs_pvalue <- res_enrich4$gs_pvalue[shuffled_ones_4]
+res_enrich4$z_score <- res_enrich4$z_score[shuffled_ones_4]
+res_enrich4$aggr_score <- res_enrich4$aggr_score[shuffled_ones_4]
+
+compa_list <- list(
+  scenario2 = res_enrich2,
+  scenario3 = res_enrich3,
+  scenario4 = res_enrich4
+)
+
+gs_horizon(res_enrich_macrophage,
+           compared_res_enrich_list = compa_list,
+           n_gs = 20,
+           sort_by = "clustered")
+```
+
+```{r compareradar}
+# with only one set
+gs_radar(res_enrich = res_enrich_macrophage)
+# with a dataset to compare against
+gs_radar(res_enrich = res_enrich_macrophage,
+         res_enrich2 = res_enrich2)
 ```
 
 In particular, the `gs_horizon` function tries to group the different genesets based on their relative enrichment across conditions, similar to a representation of [@Dutertre2019] (e.g. Fig. 5G).
@@ -475,7 +627,7 @@ Thanks to Charlotte Soneson for providing a compact working implementation of th
 
 Extract results and sort them (filtering by FDR) with `deseqresult2df`, select one top-ranking gene, extract its expression values and plot them, and display some buttons to link to external databases:
 
-```{r}
+```{r misc}
 head(deseqresult2df(res_macrophage_IFNg_vs_naive))
 # to make sure normalized values are available...
 dds_macrophage <- estimateSizeFactors(dds_macrophage)   
@@ -496,7 +648,7 @@ geneinfo_2_html("IRF1")
 
 Plot a signature heatmap for a gene set, where a matrix of genes times samples for the set members is extracted, plus generate some HTML code to summarize the information of a Gene Ontology term:
 
-```{r}
+```{r gsheatmap}
 gs_heatmap(se = vst_macrophage,
            res_de = res_macrophage_IFNg_vs_naive,
            res_enrich = res_enrich_macrophage,
@@ -512,14 +664,14 @@ go_2_html("GO:0060337",
 
 Some functions are just to ensure that the input objects are conform with the format expected by `GeneTonic`:
 
-```{r eval=FALSE}
+```{r shakers, eval=FALSE}
 res_enrich <- shake_enrichResult(enrichment_results_from_clusterProfiler)
 res_enrich <- shake_topGOtableResult(enrichment_results_from_topGOtable)
 ```
 
 As an internal check, one can see if all required arguments are fine for running `GeneTonic` by running `checkup_GeneTonic`:
 
-```{r}
+```{r checkup}
 checkup_GeneTonic(dds = dds_macrophage,
                   res_de = res_macrophage_IFNg_vs_naive,
                   res_enrich = res_enrich_macrophage,
@@ -537,7 +689,7 @@ The authors appreciate well-considered suggestions for improvements or new featu
 
 If you use `GeneTonic` for your analysis, please cite it as shown below:
 
-```{r}
+```{r cite}
 citation("GeneTonic")
 ```
 
@@ -546,7 +698,7 @@ citation("GeneTonic")
 
 **Q: Why is this package called `GeneTonic`?**
 
-A: For obvious reasons :) Like a cocktail, ingredients (expression matrix, results from DE, and results from functional enrichment analysis) do taste better together.
+A: For obvious reasons :) Like in a cocktail, ingredients (expression matrix, results from DE, and results from functional enrichment analysis) do taste better together.
 Plus, I like puns with words. And cocktails. Sometimes simultaneously.
 
 **Q: My configuration on two machines is somewhat different, so I am having difficulty in finding out what packages are different. Is there something tio help on this?**
@@ -560,11 +712,11 @@ A: You can set up a small conversion function, on the line of `shake_topGOtableR
 
 **Q: I'd like to try `GeneTonic` but I could not install it/I just want a quick peek into it. What can I do for this?**
 
-A: We set up an instance of `GeneTonic` running on the `macrophage` dataset at this address: http://shiny.imbei.uni-mainz.de:3838/GeneTonic. TODOTODO
+A: We set up an instance of `GeneTonic` running on the `macrophage` dataset at this address: http://shiny.imbei.uni-mainz.de:3838/GeneTonic.
 
 # Session Info {-}
 
-```{r}
+```{r sessioninfo}
 sessionInfo()
 ```
 

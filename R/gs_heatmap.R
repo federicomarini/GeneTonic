@@ -108,9 +108,11 @@ gs_heatmap <- function(se,
     }
   } else {
     # overridable via a list
-    if (!all(genelist %in% rownames(se)))
-      warning("Some of the provided gene ids were not found in the SummarizedExperiment")
-
+    if (!all(genelist %in% rownames(se))) {
+      not_there <- genelist[!(genelist %in% rownames(se))]
+      warning("Some of the provided gene ids were not found in the SummarizedExperiment",
+              "\nNot found: ", not_there)
+    }
     thisset_members_ids <- intersect(rownames(se), genelist)
     thisset_name <- "Custom list"
   }
@@ -141,7 +143,7 @@ gs_heatmap <- function(se,
     de_res <- deseqresult2df(res_de, FDR)
     de_genes <- de_res$id
     de_to_keep <- rownames(mydata_sig) %in% de_genes
-    mydata_sig <- mydata_sig[de_to_keep, ]
+    mydata_sig <- mydata_sig[de_to_keep, , drop = FALSE]
   }
 
   # dim(mydata_sig)
@@ -151,7 +153,7 @@ gs_heatmap <- function(se,
   ### anno_col_info <- anno_col_info[anno_col_info %in% colnames(colData(se))]
   ### sample_decoration <- as.data.frame(colData(se))[, anno_col_info, drop = FALSE]
 
-  # TODO: is there a way to make this programmatically & clever?
+  # could there be a way to make this programmatically & clever?
 
   ## if only one column: SO
   # anno_col_vals <- colData(se)[,anno_col_info,drop = TRUE]

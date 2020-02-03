@@ -24,9 +24,6 @@
 #' node sizes. Defaults to 5 - works well chained to `visNetwork` functions.
 #' @param color_by Character, specifying the column of `res_enrich` to be used
 #' for coloring the plotted gene sets. Defaults to `gs_pvalue`.
-#' @param size_by TODO
-#'
-#' TODOTODO: similarity measures, say, jaccard, or simple overlap
 #'
 #' @return An `igraph` object to be further manipulated or processed/plotted
 #'
@@ -91,11 +88,13 @@ enrichment_map <- function(res_enrich,
                            overlap_threshold = 0.1,
                            scale_edges_width = 200,
                            scale_nodes_size = 5,
-                           color_by = "gs_pvalue",
-                           size_by) {
+                           color_by = "gs_pvalue") {
 
-  # if we want to allow for other feats to be colored by, check that some aggregated scores are there
-  # TODOTODO, if... otherwise, compute aggr scores
+  if (!color_by %in% colnames(res_enrich))
+    stop("Your res_enrich object does not contain the ",
+         color_by,
+         " column.\n",
+         "Compute this first or select another column to use for the color.")
 
   n_gs <- min(n_gs, nrow(res_enrich))
 
@@ -113,7 +112,6 @@ enrichment_map <- function(res_enrich,
 
   rownames(overlap_matrix) <- colnames(overlap_matrix) <- res_enrich[rownames(overlap_matrix), "gs_description"]
 
-  # oooooor TODOTODO: go directly from this adjacency matrix? use overlap as weights
   om_df <- as.data.frame(overlap_matrix)
   om_df$id <- rownames(om_df)
 
@@ -142,11 +140,10 @@ enrichment_map <- function(res_enrich,
   V(emg)$original_size <- gs_size
 
   col_var <- res_enrich[idx, color_by]
+  # the palette changes if it is z_score VS pvalue
   if (all(col_var <= 1)) { # likely p-values...
     col_var <- -log10(col_var)
     # V(g)$color <- colVar
-
-    # TODO: palette changes if it is z_score VS pvalue
     mypal <- (scales::alpha(
       colorRampPalette(RColorBrewer::brewer.pal(name = "YlOrRd", 9))(50), 0.8))
     mypal_hover <- (scales::alpha(
@@ -179,7 +176,6 @@ enrichment_map <- function(res_enrich,
   V(emg)$color.highlight <- map2color(col_var, mypal_select, limits = range(col_var))
   V(emg)$color.hover <- map2color(col_var, mypal_hover, limits = range(col_var))
 
-  # TODOTODO: some kind of border prettifying?
   V(emg)$color.border <- "black"
 
   # additional specification of edge colors

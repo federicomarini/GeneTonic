@@ -6,5 +6,5 @@ test_that("Alluvial plot (interactive) is generated", {
                    annotation_obj = anno_df,
                    n_gs = 5)
   expect_is(p, "plotly")
-  # TODOTODO, expect I get htmlwidgets...
+  expect_is(p, "htmlwidget")
 })

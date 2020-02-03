@@ -13,7 +13,7 @@ test_that("Overlap functions work", {
 
 test_that("JS code for DT is generated", {
   simplest_df <- data.frame(
-    a = c(rep("a",9)),
+    a = c(rep("a", 9)),
     value = c(-4, -3, -2, -1, 0, 1, 2, 3, 4)
   )
 
@@ -36,6 +36,20 @@ test_that("map2color works", {
 
   expect_length(m2c, 20)
   expect_length(m2c_nolimits, 20)
+})
+
+test_that("color check works", {
+  mypal <- c("steelblue", "#FF1100")
+  expect_true(all(check_colors(mypal)))
+
+  mypal2 <- rev(
+    scales::alpha(
+      colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.4))
+  expect_true(all(check_colors(mypal2)))
+
+  my_non_pal <- c("green", "gren", "hmm", "whoops")
+  check_colors(my_non_pal)
+  expect_true(!all(check_colors(my_non_pal)))
 })
 
 test_that("results to data frame conversion works", {

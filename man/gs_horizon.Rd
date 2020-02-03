@@ -6,15 +6,22 @@
 \usage{
 gs_horizon(
   res_enrich,
+  compared_res_enrich_list,
   n_gs = 20,
   p_value_column = "gs_pvalue",
-  color_by = "z_score"
+  color_by = "z_score",
+  ref_name = "ref_scenario",
+  sort_by = c("clustered", "first_set")
 )
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
 enrichment analysis. See more in the main function, \code{\link[=GeneTonic]{GeneTonic()}}, to check the
 formatting requirements (a minimal set of columns should be present).}
+
+\item{compared_res_enrich_list}{A named list, where each element is a \code{data.frame}
+formatted like the standard \code{res_enrich} objects used by \code{GeneTonic}. The
+names of the list are the names of the scenarios.}
 
 \item{n_gs}{Integer value, corresponding to the maximal number of gene sets to
 be displayed}
@@ -26,6 +33,15 @@ p-value - have been specified).}
 
 \item{color_by}{Character, specifying the column of \code{res_enrich} to be used
 for coloring the plotted gene sets. Defaults sensibly to \code{z_score}.}
+
+\item{ref_name}{Character, defining the name of the scenario to compare
+against (the one in \code{res_enrich}) - defaults to "ref_scenario".}
+
+\item{sort_by}{Character string, either "clustered", or "first_set". This
+controls the sorting order of the included terms in the final plot.
+"clustered" presents the terms grouped by the scenario where they assume the
+highest values. "first_set" sorts the terms by the significance value in the
+reference scenario.}
 }
 \value{
 A \code{ggplot} object
@@ -33,6 +49,15 @@ A \code{ggplot} object
 \description{
 Plots a summary of enrichment results - horizon plot to compare one or more
 sets of results
+}
+\details{
+It makes sense to have the results in \code{res_enrich} sorted by
+increasing \code{gs_pvalue}, to make sure the top results are first sorted by the
+significance (when selecting the common gene sets across the \code{res_enrich}
+elements provided in \code{compared_res_enrich_list})
+
+The gene sets included are a subset of the ones in common to all different
+scenarios included in \code{res_enrich} and the elements of \code{compared_res_enrich_list}.
 }
 \examples{
 
@@ -67,9 +92,42 @@ data(res_enrich_macrophage, package = "GeneTonic")
 res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 
-gs_horizon(res_enrich,
-           n_gs = 15)
+res_enrich2 <- res_enrich[1:42, ]
+res_enrich3 <- res_enrich[1:42, ]
+res_enrich4 <- res_enrich[1:42, ]
 
+set.seed(2*42)
+shuffled_ones_2 <- sample(seq_len(42)) # to generate permuted p-values
+res_enrich2$gs_pvalue <- res_enrich2$gs_pvalue[shuffled_ones_2]
+res_enrich2$z_score <- res_enrich2$z_score[shuffled_ones_2]
+res_enrich2$aggr_score <- res_enrich2$aggr_score[shuffled_ones_2]
+
+set.seed(3*42)
+shuffled_ones_3 <- sample(seq_len(42)) # to generate permuted p-values
+res_enrich3$gs_pvalue <- res_enrich3$gs_pvalue[shuffled_ones_3]
+res_enrich3$z_score <- res_enrich3$z_score[shuffled_ones_3]
+res_enrich3$aggr_score <- res_enrich3$aggr_score[shuffled_ones_3]
+
+set.seed(4*42)
+shuffled_ones_4 <- sample(seq_len(42)) # to generate permuted p-values
+res_enrich4$gs_pvalue <- res_enrich4$gs_pvalue[shuffled_ones_4]
+res_enrich4$z_score <- res_enrich4$z_score[shuffled_ones_4]
+res_enrich4$aggr_score <- res_enrich4$aggr_score[shuffled_ones_4]
+
+compa_list <- list(
+  scenario2 = res_enrich2,
+  scenario3 = res_enrich3,
+  scenario4 = res_enrich4
+)
+
+gs_horizon(res_enrich,
+           compared_res_enrich_list = compa_list,
+           n_gs = 50,
+           sort_by = "clustered")
+gs_horizon(res_enrich,
+           compared_res_enrich_list = compa_list,
+           n_gs = 20,
+           sort_by = "first_set")
 }
 \seealso{
 \code{\link[=gs_summary_overview]{gs_summary_overview()}}, \code{\link[=gs_summary_overview_pair]{gs_summary_overview_pair()}}

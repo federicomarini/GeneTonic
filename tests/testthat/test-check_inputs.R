@@ -26,3 +26,26 @@ test_that("Early fails are triggered", {
                          res_enrich_IFNg_vs_naive,
                          annotation_obj = anno_df[, -1]))
 })
+
+test_that("Warnings are thrown correctly", {
+  expect_warning(
+    checkup_GeneTonic(
+      dds_unnormalized,
+      res_macrophage_IFNg_vs_naive,
+      res_enrich_IFNg_vs_naive,
+      annotation_obj = anno_df
+    )
+  )
+
+  dds_mod <- dds_macrophage[-c(1:50),]
+  expect_warning(
+    checkup_GeneTonic(
+      dds_mod,
+      res_macrophage_IFNg_vs_naive,
+      res_enrich_IFNg_vs_naive,
+      annotation_obj = anno_df
+    )
+  )
+
+
+})

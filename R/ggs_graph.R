@@ -84,8 +84,19 @@ ggs_graph <- function(res_enrich,
                       geneset_graph_color = "gold",
                       genes_graph_colpal = NULL) {
 
-  # verify the genesets are sorted in a meaningful way?
-  #TODOTODO
+  if (!is.null(genes_graph_colpal)) {
+
+    if (!is(genes_graph_colpal, "character"))
+      stop("Please check that you are correctly providing the color palette, ",
+           "it should be encoded as a vector of colors specified as characters ",
+           "(textual or hex codes)")
+
+    if (!all(check_colors(genes_graph_colpal)))
+      stop("You are providing your color palette in a format which ",
+           "\ncan not be handled by `grDevices::col2rgb`. \n\n",
+           "Try running `check_colors` on the palette object.")
+  }
+
   n_gs <- min(n_gs, nrow(res_enrich))
 
   enriched_gsids <- res_enrich[["gs_id"]]
@@ -139,7 +150,7 @@ ggs_graph <- function(res_enrich,
     fcs_genes <- res_de[annotation_obj$gene_id[match((V(g)$name[nodeIDs_genes]), annotation_obj$gene_name)], ]$log2FoldChange
 
     if (!is.null(genes_graph_colpal)) {
-      mypal <- genes_graph_colpal # TODO: check something on the pal
+      mypal <- genes_graph_colpal
     } else {
       mypal <- rev(scales::alpha(
         colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.4))

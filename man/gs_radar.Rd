@@ -5,16 +5,29 @@
 \alias{gs_spider}
 \title{Radar (spider) plot for gene sets}
 \usage{
-gs_radar(res_enrich1, res_enrich2, n_gs = 20, p_value_column = "gs_pvalue")
+gs_radar(
+  res_enrich,
+  res_enrich2 = NULL,
+  n_gs = 20,
+  p_value_column = "gs_pvalue"
+)
 
-gs_spider(res_enrich1, res_enrich2, n_gs = 20, p_value_column = "gs_pvalue")
+gs_spider(
+  res_enrich,
+  res_enrich2 = NULL,
+  n_gs = 20,
+  p_value_column = "gs_pvalue"
+)
 }
 \arguments{
-\item{res_enrich1}{A \code{data.frame} object, storing the result of the functional
+\item{res_enrich}{A \code{data.frame} object, storing the result of the functional
 enrichment analysis. See more in the main function, \code{\link[=GeneTonic]{GeneTonic()}}, to check the
 formatting requirements (a minimal set of columns should be present).}
 
-\item{res_enrich2}{TODO}
+\item{res_enrich2}{Analogous to \code{res_enrich1}, another \code{data.frame} object,
+storing the result of the functional enrichment analysis, but for a different
+setting (e.g. another contrast).
+Defaults to NULL (in this case, a single set of enrichment results is plotted).}
 
 \item{n_gs}{Integer value, corresponding to the maximal number of gene sets to
 be displayed}
@@ -30,7 +43,6 @@ A \code{plotly} object
 \description{
 Radar (spider) plot for gene sets, either for one or more results from functional
 enrichment analysis.
-TODO: enforce the same set of genesets are available!
 }
 \examples{
 
@@ -64,7 +76,16 @@ res_de <- res_macrophage_IFNg_vs_naive
 data(res_enrich_macrophage, package = "GeneTonic")
 res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
-gs_radar(res_enrich1 = res_enrich)
+gs_radar(res_enrich = res_enrich)
 # or using the alias...
-gs_spider(res_enrich1 = res_enrich)
+gs_spider(res_enrich = res_enrich)
+
+# with more than one set
+res_enrich2 <- res_enrich[1:60, ]
+set.seed(42)
+shuffled_ones <- sample(seq_len(60)) # to generate permuted p-values
+res_enrich2$gs_pvalue <- res_enrich2$gs_pvalue[shuffled_ones]
+# ideally, I would also permute the z scores and aggregated scores
+gs_radar(res_enrich = res_enrich,
+         res_enrich2 = res_enrich2)
 }

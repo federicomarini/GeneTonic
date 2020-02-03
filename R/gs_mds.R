@@ -89,7 +89,6 @@ gs_mds <- function(res_enrich,
                    plot_title = NULL,
                    return_data = FALSE) { # or aggr_score
 
-  # TODO: match.arg on similarity matrix?
   similarity_measure <- match.arg(similarity_measure,
                                   c("kappa_matrix", "overlap_matrix"))
 
@@ -111,21 +110,12 @@ gs_mds <- function(res_enrich,
   )
 
 
-  # alternative: use semantic similarity
-  # library(GOSemSim)
-  # mmGO <- godata('org.Mm.eg.db', ont="BP")
-  # mysims <- mgoSim(res_enrich[["gs_id"]], res_enrich[["gs_id"]],
-  # semData=mmGO, measure="Wang", combine=NULL)
-
   if (similarity_measure == "kappa_matrix") {
     my_simmat <- create_kappa_matrix(res_enrich, n_gs = n_gs, gs_ids = gs_ids)
 
   } else if (similarity_measure == "overlap_matrix") {
     my_simmat <- create_jaccard_matrix(res_enrich, n_gs = n_gs, gs_ids = gs_ids, return_sym = TRUE)
-  }
-
-  # else ... TODO
-
+  } # else ...
 
   # subset here, internally
   res_enrich <- res_enrich[gs_to_use, ]
@@ -137,20 +127,18 @@ gs_mds <- function(res_enrich,
 
   mds_gs <- cmdscale((1 - my_simmat), eig = TRUE, k = mds_k)
 
-  # TODOTODO: cbind it to the original data frame?
   mds_gs_df <- data.frame(
     dim1 = mds_gs$points[, 1],
-    dim2 = mds_gs$points[, 2], # TODO: handle 3rd dim?
+    dim2 = mds_gs$points[, 2],
     gs_id = mysets,
     gs_name = mysets_names,
     gs_DEcount = res_enrich$DE_count,
     gs_colby = res_enrich[[mds_colorby]],
-    gs_text = paste0(mysets, ": ", mysets_names),  # TODOTODO: is there a way to avoid the warning from gg?
+    gs_text = paste0(mysets, ": ", mysets_names),
     stringsAsFactors = FALSE
   )
 
   if (return_data) {
-    # TODO: maybe
     return(mds_gs_df)
   }
 
@@ -203,5 +191,4 @@ gs_mds <- function(res_enrich,
   }
 
   return(p)
-  ## also something to obtain clusters of terms? - well, the colors do it somehow already
 }

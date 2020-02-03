@@ -134,15 +134,15 @@ GeneTonic <- function(dds,
             onclick = ifelse(system.file("doc", "GeneTonic_manual.html", package = "GeneTonic") != "",
                              "",
                              "window.open('https://federicomarini.github.io/GeneTonic/articles/GeneTonic_manual.html', '_blank')")
-                             # sprintf("window.open('http://bioconductor.org/packages/%s/bioc/vignettes/GeneTonic/inst/doc/GeneTonic_manual.html', '_blank')",
-                             #         ifelse(unlist(packageVersion("GeneTonic"))[2] %% 2L==0L, "release", "devel")
-                             # )
+            # sprintf("window.open('http://bioconductor.org/packages/%s/bioc/vignettes/GeneTonic/inst/doc/GeneTonic_manual.html', '_blank')",
+            #         ifelse(unlist(packageVersion("GeneTonic"))[2] %% 2L==0L, "release", "devel")
+            # )
             # )
           ),
           actionButton(
-            inputId = "btn_docs_link",
+            inputId = "btn_first_help",
             icon = icon("question-circle"),
-            label = "Help", style = .actionbutton_biocstyle
+            label = "First Help", style = .actionbutton_biocstyle
           )
 
         ),
@@ -177,7 +177,7 @@ GeneTonic <- function(dds,
       skin = "dark",
       status = "primary",
       brandColor = NULL,
-      url = "http://bioconductor.org/",
+      url = "https://bioconductor.org/packages/GeneTonic",
       # src = "logos/online-learning.png",
       elevation = 1,
       opacity = 0.8,
@@ -197,27 +197,22 @@ GeneTonic <- function(dds,
         bs4SidebarMenuItem(
           "Enrichment Map",
           tabName = "tab_emap",
-          icon = "map"
+          icon = "project-diagram" # hubspot? map?
         ),
         bs4SidebarMenuItem(
-          "DEview",
-          tabName = "tab_deview",
+          "Overview",
+          tabName = "tab_overview",
           icon = "eye"
         ),
         bs4SidebarMenuItem(
-          "GeneSets",
-          tabName = "tab_genesets",
-          icon = "list-alt"
+          "GSViz",
+          tabName = "tab_gsviz",
+          icon = "images"
         ),
         bs4SidebarMenuItem(
           "Bookmarks",
           tabName = "tab_bookmarks",
           icon = "bookmark"
-        ),
-        bs4SidebarMenuItem(
-          "About",
-          tabName = "tab_about",
-          icon = "institution"
         )
       )
     ),
@@ -299,8 +294,7 @@ GeneTonic <- function(dds,
               collapsible = TRUE,
               collapsed = TRUE,
               closable = FALSE,
-              DT::dataTableOutput("overview_dds"
-              )
+              DT::dataTableOutput("overview_dds")
             ),
             bs4Dash::bs4Card(
               width = 6,
@@ -358,19 +352,25 @@ GeneTonic <- function(dds,
             column(
               width = 8,
               withSpinner(
-                visNetworkOutput("ggsnetwork", height = "700px", width = "100%")
+                visNetworkOutput("ggsnetwork",
+                                 height = "700px",
+                                 width = "100%")
               )
             ),
             column(
               width = 4,
               bs4Card(
+                title = "Geneset Box",
                 width = 12,
+                closable = FALSE,
                 uiOutput("ui_ggs_genesetbox")
               ),
               # box(),
               hr(),
               bs4Card(
+                title = "Gene Box",
                 width = 12,
+                closable = FALSE,
                 uiOutput("ui_ggs_genebox")
               )
             )
@@ -396,19 +396,26 @@ GeneTonic <- function(dds,
             column(
               width = 8,
               withSpinner(
-                visNetworkOutput("emap_visnet", height = "700px", width = "100%")
+                visNetworkOutput("emap_visnet",
+                                 height = "700px",
+                                 width = "100%")
               )
             ),
             column(
               width = 4,
-              uiOutput("ui_emap_sidecontent")
+              bs4Card(
+                title = "Geneset Box",
+                width = 12,
+                closable = FALSE,
+                uiOutput("ui_emap_sidecontent")
+              )
             )
           )
         ),
 
-        # ui panel de view --------------------------------------------------------
+        # ui panel overview --------------------------------------------------------
         bs4TabItem(
-          tabName = "tab_deview",
+          tabName = "tab_overview",
           fluidRow(
             column(
               width = 11
@@ -416,7 +423,7 @@ GeneTonic <- function(dds,
             column(
               width = 1,
               actionButton(
-                "tour_deview", label = "", icon = icon("question-circle"),
+                "tour_overview", label = "", icon = icon("question-circle"),
                 style = .helpbutton_biocstyle
               )
             )
@@ -424,42 +431,50 @@ GeneTonic <- function(dds,
 
           fluidRow(
             bs4Dash::column(
-              width = 10,
-              offset = 1,
+              width = 11,
+              offset = 0,
               bs4Dash::bs4TabCard(
                 id = "tabcard_deview",
-                title = "Different views",
+                title = "Overview",
                 side = "right",
                 elevation = 2,
                 width = 12,
+                closable = FALSE,
                 bs4TabPanel(
-                  tabName = "Tab 1",
+                  tabName = "Geneset Volcano",
                   active = TRUE,
-                  withSpinner(plotOutput("gs_volcano"))
+                  withSpinner(plotOutput("gs_volcano",
+                                         height = "650px"))
                 ),
                 bs4TabPanel(
-                  tabName = "Tab 2",
+                  tabName = "Geneset Volcano - simplified",
                   active = FALSE,
-                  withSpinner(plotOutput("gs_volcano_simplified"))
+                  numericInput(inputId = "gs_overlap",
+                               label = "Gene Set overlap",
+                               value = 0.6, min = 0, max = 1, step = 0.05),
+                  withSpinner(plotOutput("gs_volcano_simplified",
+                                         height = "650px"))
                 ),
                 bs4TabPanel(
-                  tabName = "Tab 3",
+                  tabName = "Enhanced Table",
                   active = FALSE,
-                  withSpinner(plotOutput("enriched_funcres"))
+                  withSpinner(plotOutput("enriched_funcres",
+                                         height = "650px"))
                 ),
                 bs4TabPanel(
-                  tabName = "Tab 4",
+                  tabName = "Enhanced Table - interactive",
                   active = FALSE,
-                  withSpinner(plotlyOutput("enriched_funcres_plotly"))
+                  withSpinner(plotlyOutput("enriched_funcres_plotly",
+                                           height = "650px"))
                 )
               )
             )
           )
         ),
 
-        # ui panel genesets view ------------------------------------------------------
+        # ui panel GSViz ------------------------------------------------------
         bs4TabItem(
-          tabName = "tab_genesets",
+          tabName = "tab_gsviz",
           fluidRow(
             column(
               width = 11
@@ -467,7 +482,7 @@ GeneTonic <- function(dds,
             column(
               width = 1,
               actionButton(
-                "tour_genesetsview", label = "", icon = icon("question-circle"),
+                "tour_gsviz", label = "", icon = icon("question-circle"),
                 style = .helpbutton_biocstyle
               )
             )
@@ -475,54 +490,57 @@ GeneTonic <- function(dds,
 
           fluidRow(
             bs4Dash::column(
-              width = 10,
-              offset = 1,
+              width = 11,
+              offset = 0,
               bs4Dash::bs4TabCard(
                 id = "tabcard_genesets",
-                title = "Different views",
+                title = "GSViz",
                 side = "right",
                 elevation = 2,
                 width = 12,
+                closable = FALSE,
                 bs4TabPanel(
-                  tabName = "Tab 1",
+                  tabName = "Scores Heatmap",
                   active = TRUE,
-                  withSpinner(plotOutput("gsscores_heatmap"))
+                  withSpinner(plotOutput("gsscores_heatmap",
+                                         height = "650px"))
 
                 ),
                 bs4TabPanel(
-                  tabName = "Tab 2",
+                  tabName = "Alluvial Plot",
                   active = FALSE,
-                  withSpinner(plotlyOutput("alluvial_genesets"))
+                  withSpinner(plotlyOutput("alluvial_genesets",
+                                           height = "650px"))
                 ),
                 bs4TabPanel(
-                  tabName = "Tab 3",
+                  tabName = "Summary Heatmap",
                   active = FALSE,
-                  withSpinner(plotOutput("gs_summaryheat"))
+                  withSpinner(plotOutput("gs_summaryheat",
+                                         height = "650px"))
                 ),
                 bs4TabPanel(
-                  tabName = "Tab 4",
+                  tabName = "Geneset MDS",
                   active = FALSE,
-                  withSpinner(plotOutput("mds_genesets"))
+                  withSpinner(plotOutput("mds_genesets",
+                                         height = "650px"))
                 ),
                 bs4TabPanel(
-                  tabName = "Tab 5",
+                  tabName = "Summary Overview",
                   active = FALSE,
-                  withSpinner(plotOutput("gs_summaryoverview"))
+                  withSpinner(plotOutput("gs_summaryoverview",
+                                         height = "650px"))
                 ),
                 bs4TabPanel(
-                  tabName = "Tab 6",
+                  tabName = "Geneset Radar",
                   active = FALSE,
-                  plotOutput("gs_summary_overview_pair")
+                  withSpinner(plotlyOutput("gs_summaryradar",
+                                           height = "650px"))
                 ),
                 bs4TabPanel(
-                  tabName = "Tab 7",
+                  tabName = "Geneset Dendrogram",
                   active = FALSE,
-                  withSpinner(plotOutput("gs_summaryhorizon"))
-                ),
-                bs4TabPanel(
-                  tabName = "Tab 8",
-                  active = FALSE,
-                  withSpinner(plotlyOutput("gs_summaryradar"))
+                  withSpinner(plotOutput("gs_dendro",
+                                         height = "650px"))
                 )
               )
             )
@@ -554,25 +572,12 @@ GeneTonic <- function(dds,
             bs4Dash::column(
               width = 8,
               offset = 2,
+              br(), br(),
               gt_downloadButton(
                 "start_happyhour",
                 "Start the happy hour!",
                 class = "biocdlbutton",
-                icon = "magic")
-            )
-          )
-        ),
-
-        # ui panel about -----------------------------------------------------------
-        bs4TabItem(
-          tabName = "tab_about",
-
-          fluidRow(
-            column(
-              width = 8,
-              includeMarkdown(system.file("extdata", "about.md", package = "GeneTonic")),
-
-              verbatimTextOutput("sessioninfo")
+                icon = "cocktail") # magic?
             )
           )
         )
@@ -580,6 +585,9 @@ GeneTonic <- function(dds,
     ),
     # controlbar definition ---------------------------------------------------
     controlbar = bs4Dash::bs4DashControlbar(
+      numericInput(inputId = "de_fdr",
+                   label = "False Discovery Rate (FDR) for DE",
+                   value = 0.05, min = 0.0001, max = 1, step = 0.01),
       numericInput(inputId = "n_genesets",
                    label = "Number of genesets",
                    value = 15, min = 1, max = 50),
@@ -613,8 +621,8 @@ GeneTonic <- function(dds,
                                    annotation_obj = annotation_obj)
 
     # output$ui_exp_condition <- renderUI({
-      # selectInput("exp_condition", label = "Group/color by: ",
-                  # choices = c(NULL, poss_covars), selected = NULL, multiple = TRUE)
+    # selectInput("exp_condition", label = "Group/color by: ",
+    # choices = c(NULL, poss_covars), selected = NULL, multiple = TRUE)
     # })
 
 
@@ -695,7 +703,7 @@ GeneTonic <- function(dds,
     output$infobox_resde <- renderbs4ValueBox({
       bs4ValueBox(
         value = paste0(
-          nrow(deseqresult2df(res_de, FDR = 0.05)), # TODO: set via widget?
+          nrow(deseqresult2df(res_de, FDR = input$de_fdr)),
           " DE genes"
         ),
         subtitle = "res object",
@@ -769,7 +777,6 @@ GeneTonic <- function(dds,
 
     output$ui_ggs_genesetbox <- renderUI({
       tagList(
-        h5("Genesetbox"),
         # verbatimTextOutput("netnode"),
         plotOutput("net_sigheatplot"),
         uiOutput("ggs_geneset_info")
@@ -782,7 +789,7 @@ GeneTonic <- function(dds,
       cur_node <- match(cur_sel, V(g)$name)
       cur_nodetype <- V(g)$nodetype[cur_node]
       validate(need(cur_nodetype == "GeneSet",
-                    message = "Please select a gene set."
+                    message = "Please select a gene set from the Gene-Geneset Graph."
       ))
       cur_gsid <- res_enrich$gs_id[match(input$ggsnetwork_selected, res_enrich$gs_description)]
 
@@ -793,10 +800,9 @@ GeneTonic <- function(dds,
           res_enrich,
           annotation_obj = annotation_obj,
           geneset_id = cur_gsid,
-          FDR = 0.05,
+          FDR = input$de_fdr,
           de_only = FALSE,
           cluster_rows = TRUE,
-          # TODOTODO: options for the heatmap go on left side, as could be common to more!
           cluster_columns = TRUE,
           center_mean = TRUE,
           scale_row = TRUE,
@@ -809,10 +815,9 @@ GeneTonic <- function(dds,
           res_enrich,
           annotation_obj = annotation_obj,
           geneset_id = cur_gsid,
-          FDR = 0.05,
+          FDR = input$de_fdr,
           de_only = FALSE,
           cluster_rows = TRUE,
-          # TODOTODO: options for the heatmap go on left side, as could be common to more!
           cluster_columns = TRUE,
           center_mean = TRUE,
           scale_row = TRUE
@@ -835,7 +840,6 @@ GeneTonic <- function(dds,
 
     output$ui_ggs_genebox <- renderUI({
       tagList(
-        h5("Genebox"),
         uiOutput("ggs_gene_info"),
         plotOutput("ggs_geneplot")
       )
@@ -917,7 +921,7 @@ GeneTonic <- function(dds,
     output$emap_geneset_info <- renderUI({
       cur_gsid <- res_enrich$gs_id[match(input$emap_visnet_selected, res_enrich$gs_description)]
       validate(need(!is.na(cur_gsid),
-                    message = "Please select a gene set from the enrichment map."))
+                    message = ""))
 
       # message(cur_gsid)
       # GOTERM[[cur_gsid]]
@@ -934,8 +938,8 @@ GeneTonic <- function(dds,
       # ))
       cur_gsid <- res_enrich$gs_id[match(input$emap_visnet_selected, res_enrich$gs_description)]
       validate(need(!is.na(cur_gsid),
-                    message = "" # "Please select a gene set from the enrichment map."
-                    ))
+                    message = "Please select a gene set from the Enrichment Map."
+      ))
 
 
       if (!is.null(input$exp_condition)) {
@@ -946,7 +950,7 @@ GeneTonic <- function(dds,
           res_enrich,
           annotation_obj = annotation_obj,
           geneset_id = cur_gsid,
-          FDR = 0.05,
+          FDR = input$de_fdr,
           de_only = FALSE,
           cluster_rows = TRUE,
           cluster_columns = TRUE,
@@ -961,7 +965,7 @@ GeneTonic <- function(dds,
           res_enrich,
           annotation_obj = annotation_obj,
           geneset_id = cur_gsid,
-          FDR = 0.05,
+          FDR = input$de_fdr,
           de_only = FALSE,
           cluster_rows = TRUE,
           cluster_columns = TRUE,
@@ -971,37 +975,41 @@ GeneTonic <- function(dds,
       }
     })
 
-    # panel DEview ------------------------------------------------------------
+    # panel Overview ------------------------------------------------------------
 
     output$enriched_funcres <- renderPlot({
       enhance_table(res_enrich, res_de,
                     annotation_obj = annotation_obj,
-                    n_gs = 50)
+                    n_gs = input$n_genesets)
     })
 
     output$gs_volcano <- renderPlot({
       gs_volcano(
         get_aggrscores(res_enrich,
                        res_de,
-                       annotation_obj = annotation_obj))
+                       annotation_obj = annotation_obj),
+        volcano_labels = input$n_genesets
+      )
     })
 
     output$gs_volcano_simplified <- renderPlot({
       gs_volcano(
-        get_aggrscores(gs_simplify(res_enrich, gs_overlap = 0.6),
+        get_aggrscores(gs_simplify(res_enrich, gs_overlap = input$gs_overlap),
                        res_de,
-                       annotation_obj = annotation_obj))
+                       annotation_obj = annotation_obj),
+        volcano_labels = input$n_genesets
+      )
     })
 
     output$enriched_funcres_plotly <- renderPlotly({
       ggplotly(enhance_table(res_enrich,
                              res_de,
                              annotation_obj = annotation_obj,
-                             n_gs = 50))
+                             n_gs = input$n_genesets))
     })
 
 
-    # panel genesets view -----------------------------------------------------
+    # panel GSViz -----------------------------------------------------
 
     gss_mat <- reactive({
       gs_scores(se = myvst,
@@ -1010,7 +1018,9 @@ GeneTonic <- function(dds,
                 annotation_obj = annotation_obj)
     })
     output$gsscores_heatmap <- renderPlot({
-      gs_scoresheat(gss_mat())
+      gs_scoresheat(
+        gss_mat(),
+        n_gs = input$n_genesets)
     })
 
     output$alluvial_genesets <- renderPlotly({
@@ -1043,11 +1053,18 @@ GeneTonic <- function(dds,
     })
 
     output$gs_summaryradar <- renderPlotly({
-      gs_radar(res_enrich1 = res_enhanced,
+      gs_radar(res_enrich = res_enhanced,
                n_gs = input$n_genesets)
     })
 
-    # panel bookmarks ---------------------------------------------------------
+    output$gs_dendro <- renderPlot({
+      gs_dendro(res_enrich = res_enhanced,
+                n_gs = input$n_genesets)
+    })
+
+
+
+    # panel Bookmarks ---------------------------------------------------------
 
     output$ui_bookmarks <- renderUI({
       tagList(
@@ -1148,7 +1165,6 @@ GeneTonic <- function(dds,
     # observers ---------------------------------------------------------------
 
     observeEvent(input$tour_firststeps, {
-      # tour <- read.delim("/Users/fede/Development/GeneTonic/inst/extdata/tour_welcome.txt",
       tour <- read.delim(system.file("extdata", "tour_welcome.txt", package = "GeneTonic"),
                          sep = ";", stringsAsFactors = FALSE,
                          row.names = NULL, quote = "")
@@ -1156,7 +1172,6 @@ GeneTonic <- function(dds,
     })
 
     observeEvent(input$tour_ggs, {
-      # tour <- read.delim("/Users/fede/Development/GeneTonic/inst/extdata/tour_ggs.txt",
       tour <- read.delim(system.file("extdata", "tour_ggs.txt", package = "GeneTonic"),
                          sep = ";", stringsAsFactors = FALSE,
                          row.names = NULL, quote = "")
@@ -1164,15 +1179,27 @@ GeneTonic <- function(dds,
     })
 
     observeEvent(input$tour_emap, {
-      # tour <- read.delim("/Users/fede/Development/GeneTonic/inst/extdata/tour_emap.txt",
       tour <- read.delim(system.file("extdata", "tour_emap.txt", package = "GeneTonic"),
                          sep = ";", stringsAsFactors = FALSE,
                          row.names = NULL, quote = "")
       rintrojs::introjs(session, options = list(steps = tour))
     })
 
+    observeEvent(input$tour_overview, {
+      tour <- read.delim(system.file("extdata", "tour_overview.txt", package = "GeneTonic"),
+                         sep = ";", stringsAsFactors = FALSE,
+                         row.names = NULL, quote = "")
+      rintrojs::introjs(session, options = list(steps = tour))
+    })
+
+    observeEvent(input$tour_gsviz, {
+      tour <- read.delim(system.file("extdata", "tour_gsviz.txt", package = "GeneTonic"),
+                         sep = ";", stringsAsFactors = FALSE,
+                         row.names = NULL, quote = "")
+      rintrojs::introjs(session, options = list(steps = tour))
+    })
+
     observeEvent(input$tour_bookmarks, {
-      # tour <- read.delim("/Users/fede/Development/GeneTonic/inst/extdata/tour_bookmarks.txt",
       tour <- read.delim(system.file("extdata", "tour_bookmarks.txt", package = "GeneTonic"),
                          sep = ";", stringsAsFactors = FALSE,
                          row.names = NULL, quote = "")
@@ -1183,6 +1210,18 @@ GeneTonic <- function(dds,
     # observe({
     #   print(input$gt_tabs)
     # })
+
+    observeEvent(input$btn_first_help, {
+      showModal(
+        modalDialog(
+          title = "First Help Info", size = "l", fade = TRUE,
+          footer = NULL, easyClose = TRUE,
+          tagList(
+            includeMarkdown(system.file("extdata", "GeneTonic101.md", package = "GeneTonic")),
+          )
+        )
+      )
+    })
 
     observeEvent(input$btn_docs_vignette, {
       path <- system.file("doc", "GeneTonic_manual.html", package = "GeneTonic")
@@ -1195,36 +1234,41 @@ GeneTonic <- function(dds,
 
 
     observeEvent(input$btn_info_session, {
-      showModal(modalDialog(
-        title = "Session information", size = "l", fade = TRUE,
-        footer = NULL, easyClose = TRUE,
-        tagList(renderPrint({
-          sessionInfo()
-        }))
-      ))
+      showModal(
+        modalDialog(
+          title = "Session information", size = "l", fade = TRUE,
+          footer = NULL, easyClose = TRUE,
+          tagList(
+            tags$code("> sessionInfo()"),
+            renderPrint({
+              sessionInfo()
+            })
+          )
+        )
+      )
     })
 
     observeEvent(input$btn_info_genetonic, {
-      showModal(modalDialog(
-        title = "About GeneTonic", size = "l", fade = TRUE,
-        footer = NULL, easyClose = TRUE,
-        tagList(
-          "GeneTonic_info", br(), br(),
-          HTML("If you use this package, please use the following citation information:"),
-          renderPrint({
-            citation("GeneTonic")
-          })
+      showModal(
+        modalDialog(
+          title = "About GeneTonic", size = "l", fade = TRUE,
+          footer = NULL, easyClose = TRUE,
+          tagList(
+            includeMarkdown(system.file("extdata", "about.md", package = "GeneTonic")),
+            renderPrint({
+              citation("GeneTonic")
+            })
+          )
         )
-      ))
+      )
     })
 
 
     # bookmarker --------------------------------------------------------------
     observeEvent(input$bookmarker, {
       if (input$gt_tabs == "tab_welcome")
-        showNotification("welcome on board!")
+        showNotification("Welcome to GeneTonic!")
       else if (input$gt_tabs == "tab_ggs") {
-        showNotification("ggs baby")
         g <- reactive_values$ggs_graph()
         cur_sel <- input$ggsnetwork_selected
         if (cur_sel == "") {
@@ -1259,7 +1303,6 @@ GeneTonic <- function(dds,
         }
       }
       else if (input$gt_tabs == "tab_emap") {
-        showNotification("maaap maaap")
         g <- reactive_values$ggs_graph()
         cur_sel <- input$emap_visnet_selected
         cur_sel_id <- res_enrich$gs_id[match(cur_sel, res_enrich$gs_description)]
@@ -1277,16 +1320,13 @@ GeneTonic <- function(dds,
         }
       }
       else if (input$gt_tabs == "tab_bookmarks")
-        showNotification("catching up and wrapping up...")
-      else if (input$gt_tabs == "tab_about")
-        showNotification("youwannaknowwhatitsallabout")
-
+        showNotification("You are already in the Bookmarks tab...")
     })
 
 
     # observeEvent(input$start_happyhour, {
-    #   showNotification("The happy hour is officially on!",
-    #                    type = "message")
+      # showNotification("The happy hour is on! Please wait for the report to be fully compiled",
+                       # type = "message")
     # })
 
 

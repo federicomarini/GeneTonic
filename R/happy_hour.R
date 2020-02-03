@@ -1,3 +1,5 @@
+#nocov start
+
 #' Check whether `pandoc` and `pandoc-citeproc` are available
 #'
 #' @details Credits to the original implementation proposed by Charlotte Soneson,
@@ -10,7 +12,7 @@
 #' either warning or error messages are triggered.
 #'
 .check_pandoc <- function(ignore_pandoc) {
-  #nocov start
+
   if (Sys.which("pandoc") == "") {
     if (ignore_pandoc) {
       ## If ignore_pandoc is TRUE, just give a warning
@@ -31,7 +33,6 @@
       stop("pandoc-citeproc is not available!")
     }
   }
-  #nocov end
 }
 
 
@@ -150,7 +151,7 @@ happy_hour <- function(dds,
                        res_de,
                        res_enrich,
                        annotation_obj,
-                       project_id, # TODO: use some funny random names?
+                       project_id,
                        mygenesets,
                        mygenes,
                        usage_mode = "batch_mode",
@@ -200,7 +201,7 @@ happy_hour <- function(dds,
 
 
   # output files
-  output_report <- file.path(output_dir, basename(output_file)) # TODO: normalizePath?
+  output_report <- file.path(output_dir, basename(output_file)) # no need of normalizePath?
   output_rmd <- file.path(
     output_dir,
     paste0(tools::file_path_sans_ext(basename(output_file)), ".Rmd")
@@ -236,7 +237,7 @@ happy_hour <- function(dds,
            ". Please remove or rename this file, or choose another ",
            "output_file name.", call. = FALSE)
     } else {
-      # TODO: another possible thought: work in a tempdir, that is probably even more elegant
+      # another possible thought: work in a tempdir, that is probably even more elegant
       file.copy(from = template_rmd, to = output_rmd, overwrite = FALSE)
     }
   } else {
@@ -264,3 +265,5 @@ happy_hour <- function(dds,
 
   invisible(output_file)
 }
+
+#nocov end

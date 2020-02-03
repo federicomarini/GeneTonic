@@ -13,8 +13,7 @@ enrichment_map(
   overlap_threshold = 0.1,
   scale_edges_width = 200,
   scale_nodes_size = 5,
-  color_by = "gs_pvalue",
-  size_by
+  color_by = "gs_pvalue"
 )
 }
 \arguments{
@@ -46,10 +45,6 @@ node sizes. Defaults to 5 - works well chained to \code{visNetwork} functions.}
 
 \item{color_by}{Character, specifying the column of \code{res_enrich} to be used
 for coloring the plotted gene sets. Defaults to \code{gs_pvalue}.}
-
-\item{size_by}{TODO
-
-TODOTODO: similarity measures, say, jaccard, or simple overlap}
 }
 \value{
 An \code{igraph} object to be further manipulated or processed/plotted

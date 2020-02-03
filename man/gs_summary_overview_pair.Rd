@@ -10,7 +10,7 @@ gs_summary_overview_pair(
   n_gs = 20,
   p_value_column = "gs_pvalue",
   color_by = "z_score",
-  alpha_set2 = 0.4
+  alpha_set2 = 1
 )
 }
 \arguments{
@@ -74,8 +74,15 @@ data(res_enrich_macrophage, package = "GeneTonic")
 res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 
-gs_summary_overview_pair(res_enrich = res_enrich)
-
+res_enrich2 <- res_enrich[1:42, ]
+set.seed(42)
+shuffled_ones <- sample(seq_len(42)) # to generate permuted p-values
+res_enrich2$gs_pvalue <- res_enrich2$gs_pvalue[shuffled_ones]
+res_enrich2$z_score <- res_enrich2$z_score[shuffled_ones]
+res_enrich2$aggr_score <- res_enrich2$aggr_score[shuffled_ones]
+# ideally, I would also permute the z scores and aggregated scores
+gs_summary_overview_pair(res_enrich = res_enrich,
+                         res_enrich2 = res_enrich2)
 }
 \seealso{
 \code{\link[=gs_summary_overview]{gs_summary_overview()}}, \code{\link[=gs_horizon]{gs_horizon()}}

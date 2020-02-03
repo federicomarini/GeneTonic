@@ -148,42 +148,56 @@ gs_summary_overview <- function(res_enrich,
 #' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 #' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 #'
-#' gs_summary_overview_pair(res_enrich = res_enrich)
-#'
+#' res_enrich2 <- res_enrich[1:42, ]
+#' set.seed(42)
+#' shuffled_ones <- sample(seq_len(42)) # to generate permuted p-values
+#' res_enrich2$gs_pvalue <- res_enrich2$gs_pvalue[shuffled_ones]
+#' res_enrich2$z_score <- res_enrich2$z_score[shuffled_ones]
+#' res_enrich2$aggr_score <- res_enrich2$aggr_score[shuffled_ones]
+#' # ideally, I would also permute the z scores and aggregated scores
+#' gs_summary_overview_pair(res_enrich = res_enrich,
+#'                          res_enrich2 = res_enrich2)
 gs_summary_overview_pair <- function(res_enrich,
                                      res_enrich2,
                                      n_gs = 20,
                                      p_value_column = "gs_pvalue",
                                      color_by = "z_score",
-                                     alpha_set2 = 0.4) {
+                                     alpha_set2 = 1) {
   if (!(color_by %in% colnames(res_enrich))) {
     stop("Your res_enrich object does not contain the ",
          color_by,
          " column.\n",
          "Compute this first or select another column to use for the color.")
   }
+  # same for set2
+  if (!(color_by %in% colnames(res_enrich2))) {
+    stop("Your res_enrich object does not contain the ",
+         color_by,
+         " column.\n",
+         "Compute this first or select another column to use for the color.")
+  }
 
-  # TODO: require that both res_enrich have the same terms in the table
-  # identical(re1$GO.ID,re2$GO.ID) # or so
+  gs_set1 <- res_enrich$gs_id
+  gs_set2 <- res_enrich2$gs_id
+  gs_common <- intersect(gs_set1, gs_set2)
 
-  re1 <- res_enrich
-  re1$logp10 <- -log10(res_enrich[[p_value_column]])
+  if (length(gs_common) == 0) {
+    stop("No gene sets have been found in common to the two enrichment results")
+  }
 
-  set.seed(42)
-  shuffled_ones <- sample(seq_len(nrow(re1)))
-  # re2 <- res_enrich2
-  re2 <- res_enrich
-  re2$logp10 <- -log10(re2[[p_value_column]])
+  # restrict to the top common n_gs
+  gs_common <- gs_common[seq_len(min(n_gs, length(gs_common)))]
 
-  re2$z_score <- re2$z_score[shuffled_ones]
-  re2$aggr_score <- re2$aggr_score[shuffled_ones]
-  re2$logp10 <- re1$logp10[shuffled_ones]
+  common_re1 <- res_enrich[gs_common, ]
+  common_re2 <- res_enrich2[gs_common, ]
 
-  re_both <- mutate(re1,
-                    z_score_2 = re2$z_score,
-                    aggr_score_2 = re2$aggr_score,
-                    logp10_2 = re2$logp10)
-  re_both <- re_both[seq_len(n_gs), ]
+  common_re1$logp10 <- -log10(common_re1[[p_value_column]])
+  common_re2$logp10 <- -log10(common_re2[[p_value_column]])
+
+  re_both <- common_re1
+  re_both[["logp10_2"]] <- common_re2$logp10
+  re_both[[color_by]] <- common_re1[[color_by]]
+  re_both[[paste0(color_by, "_2")]] <- common_re2[[color_by]]
 
   re_both_sorted <- re_both %>%
     arrange(.data$logp10) %>%
@@ -191,14 +205,16 @@ gs_summary_overview_pair <- function(res_enrich,
 
   p <- ggplot(re_both_sorted, aes_string(x = "gs_description", y = "logp10")) +
     geom_segment(aes_string(x = "gs_description", xend = "gs_description", y = "logp10_2", yend = "logp10"), color = "grey") +
-    geom_point(aes(col = .data[[color_by]]), size = 4) +
-    geom_point(aes_string(y = "logp10_2", col = paste0(color_by,"_2")),
+    geom_point(aes(fill = .data[[color_by]]), size = 4, pch = 21) +
+    geom_point(aes_string(y = "logp10_2", col = paste0(color_by, "_2")),
                size = 4, alpha = alpha_set2) +
     scale_color_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
+    scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026", guide = FALSE) +
     coord_flip() +
     labs(x = "Gene set description",
          y = "log10 p-value",
          col = color_by) +
+    ylim(0, NA) +
     theme_minimal()
 
   return(p)
@@ -210,9 +226,20 @@ gs_summary_overview_pair <- function(res_enrich,
 #' Plots a summary of enrichment results - horizon plot to compare one or more
 #' sets of results
 #'
+#' @details It makes sense to have the results in `res_enrich` sorted by
+#' increasing `gs_pvalue`, to make sure the top results are first sorted by the
+#' significance (when selecting the common gene sets across the `res_enrich`
+#' elements provided in `compared_res_enrich_list`)
+#'
+#' The gene sets included are a subset of the ones in common to all different
+#' scenarios included in `res_enrich` and the elements of `compared_res_enrich_list`.
+#'
 #' @param res_enrich A `data.frame` object, storing the result of the functional
 #' enrichment analysis. See more in the main function, [GeneTonic()], to check the
 #' formatting requirements (a minimal set of columns should be present).
+#' @param compared_res_enrich_list A named list, where each element is a `data.frame`
+#' formatted like the standard `res_enrich` objects used by `GeneTonic`. The
+#' names of the list are the names of the scenarios.
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be displayed
 #' @param p_value_column Character string, specifying the column of `res_enrich`
@@ -221,6 +248,13 @@ gs_summary_overview_pair <- function(res_enrich,
 #' p-value - have been specified).
 #' @param color_by Character, specifying the column of `res_enrich` to be used
 #' for coloring the plotted gene sets. Defaults sensibly to `z_score`.
+#' @param ref_name Character, defining the name of the scenario to compare
+#' against (the one in `res_enrich`) - defaults to "ref_scenario".
+#' @param sort_by Character string, either "clustered", or "first_set". This
+#' controls the sorting order of the included terms in the final plot.
+#' "clustered" presents the terms grouped by the scenario where they assume the
+#' highest values. "first_set" sorts the terms by the significance value in the
+#' reference scenario.
 #'
 #' @return A `ggplot` object
 #'
@@ -261,13 +295,49 @@ gs_summary_overview_pair <- function(res_enrich,
 #' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 #' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 #'
-#' gs_horizon(res_enrich,
-#'            n_gs = 15)
+#' res_enrich2 <- res_enrich[1:42, ]
+#' res_enrich3 <- res_enrich[1:42, ]
+#' res_enrich4 <- res_enrich[1:42, ]
 #'
-gs_horizon <- function(res_enrich, # TODO: should be a list of res_enrich objects!
+#' set.seed(2*42)
+#' shuffled_ones_2 <- sample(seq_len(42)) # to generate permuted p-values
+#' res_enrich2$gs_pvalue <- res_enrich2$gs_pvalue[shuffled_ones_2]
+#' res_enrich2$z_score <- res_enrich2$z_score[shuffled_ones_2]
+#' res_enrich2$aggr_score <- res_enrich2$aggr_score[shuffled_ones_2]
+#'
+#' set.seed(3*42)
+#' shuffled_ones_3 <- sample(seq_len(42)) # to generate permuted p-values
+#' res_enrich3$gs_pvalue <- res_enrich3$gs_pvalue[shuffled_ones_3]
+#' res_enrich3$z_score <- res_enrich3$z_score[shuffled_ones_3]
+#' res_enrich3$aggr_score <- res_enrich3$aggr_score[shuffled_ones_3]
+#'
+#' set.seed(4*42)
+#' shuffled_ones_4 <- sample(seq_len(42)) # to generate permuted p-values
+#' res_enrich4$gs_pvalue <- res_enrich4$gs_pvalue[shuffled_ones_4]
+#' res_enrich4$z_score <- res_enrich4$z_score[shuffled_ones_4]
+#' res_enrich4$aggr_score <- res_enrich4$aggr_score[shuffled_ones_4]
+#'
+#' compa_list <- list(
+#'   scenario2 = res_enrich2,
+#'   scenario3 = res_enrich3,
+#'   scenario4 = res_enrich4
+#' )
+#'
+#' gs_horizon(res_enrich,
+#'            compared_res_enrich_list = compa_list,
+#'            n_gs = 50,
+#'            sort_by = "clustered")
+#' gs_horizon(res_enrich,
+#'            compared_res_enrich_list = compa_list,
+#'            n_gs = 20,
+#'            sort_by = "first_set")
+gs_horizon <- function(res_enrich,
+                       compared_res_enrich_list,
                        n_gs = 20,
                        p_value_column = "gs_pvalue",
-                       color_by = "z_score") {
+                       color_by = "z_score",
+                       ref_name = "ref_scenario",
+                       sort_by = c("clustered", "first_set")) {
   if (!(color_by %in% colnames(res_enrich))) {
     stop("Your res_enrich object does not contain the ",
          color_by,
@@ -275,97 +345,130 @@ gs_horizon <- function(res_enrich, # TODO: should be a list of res_enrich object
          "Compute this first or select another column to use for the color.")
   }
 
-  # res_enrich <- get_aggrscores(topgoDE_macrophage_IFNg_vs_naive,res_macrophage_IFNg_vs_naive, annotation_obj = anno_df)
-  res_enriched_1 <- res_enrich
+  if (!n_gs > 0) {
+    stop("Please select a value for `n_gs` greater than 0")
+  }
 
-  res_enriched_1 <- res_enriched_1[seq_len(n_gs), ]
-  res_enriched_1$logp10 <-  -log10(res_enriched_1[[p_value_column]])
+  if (is.null(names(compared_res_enrich_list))) {
+    message("You provided a list for comparison without specifying names, adding some defaults")
+    names(compared_res_enrich_list) <-
+      paste0("other_", seq_len(length(compared_res_enrich_list)))
+  }
 
-  res_enriched_2 <-
-    res_enriched_3 <-
-    res_enriched_4 <- res_enriched_1
+  if (!is(compared_res_enrich_list, "list")) {
+    stop("You need to provide a list for comparison (even versus one scenario)")
+  }
 
-  set.seed(42)
-  shuffled_r2 <- sample(seq_len(nrow(res_enriched_1)))
-  shuffled_r3 <- sample(seq_len(nrow(res_enriched_1)))
-  shuffled_r4 <- sample(seq_len(nrow(res_enriched_1)))
+  colnames_res_enrich <- c("gs_id",
+                           "gs_description",
+                           "gs_pvalue",
+                           "gs_genes",
+                           "gs_de_count",
+                           "gs_bg_count")
+  for (i in seq_len(length(compared_res_enrich_list))) {
+    this_re <- compared_res_enrich_list[[i]]
 
-  res_enriched_2$z_score <- res_enriched_2$z_score[shuffled_r2]
-  res_enriched_2$aggr_score <- res_enriched_2$aggr_score[shuffled_r2]
-  res_enriched_2$logp10 <- res_enriched_2$logp10[shuffled_r2]
-  res_enriched_3$z_score <- res_enriched_3$z_score[shuffled_r3]
-  res_enriched_3$aggr_score <- res_enriched_3$aggr_score[shuffled_r3]
-  res_enriched_3$logp10 <- res_enriched_3$logp10[shuffled_r3]
-  res_enriched_4$z_score <- res_enriched_4$z_score[shuffled_r4]
-  res_enriched_4$aggr_score <- res_enriched_4$aggr_score[shuffled_r4]
-  res_enriched_4$logp10 <- res_enriched_4$logp10[shuffled_r4]
+    if (!all(colnames_res_enrich %in% colnames(this_re)))
+      stop("One of the provided `res_enrich` objects does not respect the format ",
+           "required to use in GeneTonic\n",
+           "e.g. all required column names have to be present.\n",
+           "You might want to use one of the `shake_*` functions to convert it.\n",
+           "Required columns: ", paste(colnames_res_enrich, collapse = ", "),
+           "\nThis occurred at the element ", i, " in your `compared_res_enrich_list`")
 
-  res_enriched_1$scenario <- "original"
-  res_enriched_2$scenario <- "shuffled_2"
-  res_enriched_3$scenario <- "shuffled_3"
-  res_enriched_4$scenario <- "shuffled_4"
+    if (!p_value_column %in% colnames(this_re))
+      stop("Required column (p-value) `", p_value_column, "` not found in a component of ",
+           "`compared_res_enrich_list` object.",
+           "\nThis occurred at the element ", i, " in your `compared_res_enrich_list`")
+    if (!color_by %in% colnames(this_re))
+      stop("Required column (for coloring) `", color_by, "` not found in a component of ",
+           "`compared_res_enrich_list` object.",
+           "\nThis occurred at the element ", i, " in your `compared_res_enrich_list`")
+  }
 
-  # to preserve the order of the terms
-  res_enriched_1 <- res_enriched_1 %>%
-    arrange(.data$logp10) %>%
-    mutate(gs_description = factor(.data$gs_description, unique(.data$gs_description)))
+  sort_by <- match.arg(sort_by, c("clustered", "first_set"))
 
-  # to preserve the sorting of scenarios
-  merged_res_enh <- rbind(res_enriched_1,
-                          res_enriched_2,
-                          res_enriched_3,
-                          res_enriched_4)
-  merged_res_enh$scenario <- factor(merged_res_enh$scenario, unique(merged_res_enh$scenario))
+  # compared_res_enrich_list
+  # append original ref
+  all_res_enrichs <- compared_res_enrich_list
+  all_res_enrichs[[ref_name]] <- res_enrich
 
+  all_gsids <- lapply(all_res_enrichs, function(arg) arg[["gs_id"]])
 
-  # if only with one...
-  res_enriched_1 %>%
-    # arrange(logp10) %>%
-    # mutate(gs_description=factor(gs_description, unique(gs_description))) %>%
-    ggplot(aes_string(x = "gs_description", y = "logp10")) +
-    geom_line(aes_string(group = "scenario", col = "scenario"), size = 3, alpha = 0.7) +
-    geom_point(aes_string(fill = "z_score"), size = 4, pch = 21) +
-    scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
-    ylim(c(0, NA)) +
-    coord_flip() +
-    theme_minimal()
+  gs_common <- Reduce(intersect, all_gsids)
 
-  # sorted by category in scenario1
-  merged_res_enh %>%
-    mutate(gs_description = factor(.data$gs_description, unique(.data$gs_description))) %>%
-    arrange(desc(.data$logp10)) %>%
-    ggplot(aes_string(x = "gs_description", y = "logp10")) +
-    geom_line(aes_string(group = "scenario", col = "scenario"), size = 3, alpha = 0.7) +
-    geom_point(aes_string(fill = "z_score"), size = 4, pch = 21) +
-    scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
-    ylim(c(0, NA)) +
-    coord_flip() +
-    theme_minimal()
+  if (length(gs_common) == 0) {
+    stop("No gene sets have been found in common to the two enrichment results")
+  }
 
-  # with a nicer sorting - "grouped" by scenario
+  # restrict to the top common n_gs
+  gs_common <- gs_common[seq_len(min(n_gs, length(gs_common)))]
 
-  nicerorder_terms <- merged_res_enh %>%
-    group_by(.data$gs_description) %>%
-    mutate(main_category = .data$scenario[which.max(.data$logp10)],
-           max_value = max(.data$logp10)) %>%
-    arrange(.data$main_category, desc(.data$max_value)) %>%
-    dplyr::pull(.data$gs_description)
+  # append scenario info
+  res_enrich[["scenario"]] <- ref_name
+  compared_res_enrich_list <- lapply(seq_len(length(compared_res_enrich_list)),
+                                     function(arg) {
+                                       re <- compared_res_enrich_list[[arg]]
+                                       re[["scenario"]] <- names(compared_res_enrich_list)[arg]
+                                       return(re)
+                                     })
 
+  # reduce to common sets
+  re_ref <- res_enrich[gs_common, ]
+  re_comp <- lapply(seq_len(length(compared_res_enrich_list)),
+                    function(arg) {
+                      re <- compared_res_enrich_list[[arg]]
+                      re <- re[gs_common, ]
+                      return(re)
+                    })
 
+  merged_res_enh <- rbind(
+    re_ref,
+    do.call(rbind, re_comp)
+  )
+  merged_res_enh$logp10 <- -log10(merged_res_enh$gs_pvalue)
 
-  merged_res_enh %>%
-    # mutate(gs_description=factor(gs_description, unique(gs_description))) %>%
-    mutate(gs_description = factor(.data$gs_description, rev(unique(nicerorder_terms)))) %>%
-    arrange(desc(.data$logp10)) %>%
-    ggplot(aes_string(x = "gs_description", y = "logp10")) +
-    geom_line(aes_string(group = "scenario", col = "scenario"), size = 3, alpha = 0.7) +
-    geom_point(aes_string(fill = "z_score"), size = 4, pch = 21) +
-    scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
-    ylim(c(0, NA)) +
-    coord_flip() +
-    theme_minimal()
+  if (sort_by == "first_set") {
+    # sorted by category in scenario1
+    p <- merged_res_enh %>%
+      mutate(gs_description = factor(.data$gs_description, rev(unique(.data$gs_description)))) %>%
+      arrange((.data$logp10)) %>%
+      ggplot(aes_string(x = "gs_description", y = "logp10")) +
+      geom_line(aes_string(group = "scenario", col = "scenario"), size = 3, alpha = 0.7) +
+      geom_point(aes_string(fill = "z_score"), size = 4, pch = 21) +
+      scale_color_brewer(palette = "Set2") +
+      scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
+      ylim(c(0, NA)) +
+      coord_flip() +
+      theme_minimal()
+  } else if (sort_by == "clustered") {
+    # with a nicer sorting - "grouped" by scenario
+    nicerorder_terms <- merged_res_enh %>%
+      group_by(.data$gs_description) %>%
+      mutate(main_category = .data$scenario[which.max(.data$logp10)],
+             max_value = max(.data$logp10)) %>%
+      arrange(.data$main_category, desc(.data$max_value)) %>%
+      dplyr::pull(.data$gs_description)
 
+    p <- merged_res_enh %>%
+      # mutate(gs_description=factor(gs_description, unique(gs_description))) %>%
+      mutate(gs_description = factor(.data$gs_description, rev(unique(nicerorder_terms)))) %>%
+      arrange(desc(.data$logp10)) %>%
+      ggplot(aes_string(x = "gs_description", y = "logp10")) +
+      geom_line(aes_string(group = "scenario", col = "scenario"), size = 3, alpha = 0.7) +
+      scale_color_brewer(palette = "Set2") +
+      geom_point(aes_string(fill = "z_score"), size = 4, pch = 21) +
+      scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
+      ylim(c(0, NA)) +
+      coord_flip() +
+      theme_minimal()
+  }
 
+  p <- p + labs(x = "Gene set description",
+                y = "log10 p-value",
+                col = color_by)
+
+  return(p)
 }
 
 
@@ -460,71 +563,3 @@ gs_summary_heat <- function(res_enrich,
 
   return(p)
 }
-
-
-
-# or something like
-# TODO TODO https://www.biostars.org/p/299161/
-
-
-# gs_summary_heat(res_enrich,res_de,annotation_obj = anno_df, n_gs = 30)
-# gs_summary_heat(res_enrich,res_de,annotation_obj = anno_df, n_gs = 30) %>% plotly::ggplotly()
-#
-#
-# gs_summary_dots <- function (object,
-#                              x = "geneRatio",
-#                              color = "p.adjust",
-#                              showCategory = 10,
-#                              size = NULL,
-#                              split = NULL,
-#                              font.size = 12,
-#                              title = "",
-#                              orderBy = "x",
-#                              decreasing = TRUE)
-# {
-#   #
-#   # enrich2list <- lapply(seq_len(n_gs), function(gs) { # goterm <-
-#   # res_enrich$Term[gs] go_genes <- res_enrich2$genes[gs] go_genes <-
-#   # strsplit(go_genes, ",") %>% unlist return(go_genes) }) names(enrich2list) <-
-#   # enriched_gsids[seq_len(n_gs)]
-#
-#
-#
-#
-#   colorBy <- match.arg(color, c("pvalue", "p.adjust", "qvalue","Zscore","aggr_score"))
-#   if (x == "geneRatio" || x == "GeneRatio") {
-#     x <- "GeneRatio"
-#     if (is.null(size))
-#       size <- "Count"
-#   }
-#   else if (x == "count" || x == "Count") {
-#     x <- "Count"
-#     if (is.null(size))
-#       size <- "GeneRatio"
-#   }
-#   else if (is(x, "formula")) {
-#     x <- as.character(x)[2]
-#     if (is.null(size))
-#       size <- "Count"
-#   }
-#   else {
-#     if (is.null(size))
-#       size <- "Count"
-#   }
-#   df <- fortify(object, showCategory = showCategory, split = split)
-#   if (!orderBy %in% colnames(df)) {
-#     message("wrong orderBy parameter; set to default `orderBy = \"x\"`")
-#     orderBy <- "x"
-#   }
-#   if (orderBy == "x") {
-#     df <- dplyr::mutate(df, x = eval(parse(text = x)))
-#   }
-#   idx <- order(df[[orderBy]], decreasing = decreasing)
-#   df$Description <- factor(df$Description, levels = rev(unique(df$Description[idx])))
-#   ggplot(df, aes_string(x = x, y = "Description", size = size,
-#                         color = colorBy)) + geom_point() + scale_color_continuous(low = "red",
-#                                                                                   high = "blue", name = color, guide = guide_colorbar(reverse = TRUE)) +
-#     ylab(NULL) + ggtitle(title) + theme_dose(font.size) +
-#     scale_size(range = c(3, 8))
-# }
-#

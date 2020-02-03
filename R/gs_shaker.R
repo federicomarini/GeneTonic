@@ -22,12 +22,44 @@
 #' @family shakers
 #'
 #' @examples
-#' # TODO
+#' # dds
+#' library("macrophage")
+#' library("DESeq2")
+#' data(gse)
+#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
+#'
+#' # res object
+#' data(res_de_macrophage, package = "GeneTonic")
+#' res_de <- res_macrophage_IFNg_vs_naive
+#' de_symbols_IFNg_vs_naive <- res_macrophage_IFNg_vs_naive[
+#'   (!(is.na(res_macrophage_IFNg_vs_naive$padj))) &
+#'   (res_macrophage_IFNg_vs_naive$padj <= 0.05), "SYMBOL"]
+#' bg_ids <- rowData(dds_macrophage)$SYMBOL[rowSums(counts(dds_macrophage)) > 0]
+#' \dontrun{
+#' library("clusterProfiler")
+#' library("org.Hs.eg.db")
+#' ego_IFNg_vs_naive <- enrichGO(gene = de_symbols_IFNg_vs_naive,
+#'                               universe      = bg_ids,
+#'                               keyType       = "SYMBOL",
+#'                               OrgDb         = org.Hs.eg.db,
+#'                               ont           = "BP",
+#'                               pAdjustMethod = "BH",
+#'                               pvalueCutoff  = 0.01,
+#'                               qvalueCutoff  = 0.05,
+#'                               readable      = FALSE)
+#'
+#' res_enrich <- shake_enrichResult(ego_IFNg_vs_naive)
+#' head(res_enrich)
+#' }
 shake_enrichResult <- function(obj) {
   if (!is(obj, "enrichResult"))
     stop("Provided object must be of class `enrichResult`")
 
-  # TODO: check that the genes are provided as symbols
+  if (is.null(obj@result$geneID)) {
+    stop("You are providing an object where the gene symbols are not specified, ",
+         "this is required for running GeneTonic properly.")
+  }
 
   message("Found ", nrow(obj@result), " gene sets in `enrichResult` object, of which ", nrow(as.data.frame(obj)), " are significant.")
   message("Converting for usage in GeneTonic...")
@@ -81,13 +113,23 @@ shake_enrichResult <- function(obj) {
 #'
 shake_topGOtableResult <- function(obj,
                                    p_value_column = "p.value_elim") {
-  # if (!is(obj, "topGOtableResult"))
-    # stop("Provided object must be of class `topGOtableResult`")
-  # TODO: or make somehow sure it comes from topGOtable
-  # Plus: store somewhere the ontology - extra col?
 
-  # TODO: check that the genes are provided as symbols
+  if(!all(c("GO.ID", "Term", "Annotated", "Significant", "Expected", "p.value_classic") %in%
+          colnames(obj))) {
+    stop("The provided object must be of in the format specified by the `pcaExplorer::topGOtable` function")
+  }
 
+  if(!p_value_column %in% colnames(obj)) {
+    stop("You specified a column for the p-value which is not contained in the provided object. \n",
+         "Please check the colnames of your object in advance.")
+  }
+
+  if(!"genes" %in% colnames(obj)) {
+    stop("The column `genes` is not present in the provided object and is required for properly running GeneTonic.",
+         "\nMaybe you did set `addGeneToTerms` to FALSE in the call to `pcaExplorer::topGOtable`?")
+  }
+
+  # Thought: store somewhere the ontology if possible - in an extra column?
   message("Found ", nrow(obj), " gene sets in `topGOtableResult` object.")
   message("Converting for usage in GeneTonic...")
 
@@ -110,7 +152,7 @@ shake_topGOtableResult <- function(obj,
   return(mydf)
 }
 
-
-
-# TODO: shake_goseqResult ?
-# TODO: shake_viseago ?
+## potential extensions, if the formats/classes get defined in a stable/compatible manner
+# shake_goseqResult?
+# shake_viseago?
+# shake_GSECA?

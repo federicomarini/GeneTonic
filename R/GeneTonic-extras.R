@@ -47,9 +47,7 @@ go_2_html <- function(go_id, res_enrich = NULL) {
            paste0("<b>Secondary: </b>", Secondary(fullinfo), collapse = ""),
            "")
   )
-  # ALT IDEA TODO: return as a table?!
   return(HTML(mycontent))
-
 }
 
 #' Link to the AmiGO database
@@ -287,6 +285,35 @@ map2color <- function(x, pal, limits = NULL) {
 }
 
 
+#' Check colors
+#'
+#' Check correct specification of colors
+#'
+#' This is a vectorized version of [grDevices::col2rgb()]
+#'
+#' @param x A vector of strings specifying colors
+#'
+#' @return A vector of logical values, one for each specified color - `TRUE` if
+#' the color is specified correctly
+#' @export
+#'
+#' @examples
+#' # simple case
+#' mypal <- c("steelblue", "#FF1100")
+#' check_colors(mypal)
+#' mypal2 <- rev(
+#'   scales::alpha(
+#'     colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.4))
+#' check_colors(mypal2)
+#' # useful with long vectors to check at once if all cols are fine
+#' all(check_colors(mypal2))
+check_colors <- function(x) {
+  sapply(x, function(col) {
+    tryCatch(is.matrix(col2rgb(col)),
+             error = function(e) FALSE)
+  })
+}
+
 #' Generate a table from the `DESeq2` results
 #'
 #' Generate a tidy table with the results of `DESeq2`
@@ -348,7 +375,9 @@ GeneTonic_footer <- fluidRow(
 
 .onLoad <- function(libname, pkgname) {
   # Create link to logo
+  #nocov start
   shiny::addResourcePath("GeneTonic", system.file("www", package = "GeneTonic"))
+  #nocov end
 }
 
 
@@ -357,7 +386,12 @@ GeneTonic_footer <- fluidRow(
 .actionbutton_biocstyle <- "color: #ffffff; background-color: #0092AC"
 .helpbutton_biocstyle <- "color: #0092AC; background-color: #FFFFFF; border-color: #FFFFFF"
 
-gt_downloadButton <- function(outputId, label = "Download", icon = "magic", class = NULL, ...) {
+# custom download button with icon and color tweaks
+gt_downloadButton <- function(outputId,
+                              label = "Download",
+                              icon = "magic",
+                              class = NULL,
+                              ...) {
   aTag <- tags$a(id = outputId,
                  class = paste("btn btn-default shiny-download-link", class),
                  href = "",
