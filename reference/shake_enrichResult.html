@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.1</span>
       </span>
     </div>
 
@@ -150,8 +150,35 @@
 <code><a href='shake_topGOtableResult.html'>shake_topGOtableResult</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'># TODO
-</div></pre>
+    <pre class="examples"><div class='input'><span class='co'># dds</span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"macrophage"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"DESeq2"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>gse</span>)
+<span class='no'>dds_macrophage</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html'>DESeqDataSet</a></span>(<span class='no'>gse</span>, <span class='kw'>design</span> <span class='kw'>=</span> ~<span class='no'>line</span> + <span class='no'>condition</span>)</div><div class='output co'>#&gt; <span class='message'>using counts and average transcript lengths from tximeta</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>dds_macrophage</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/substr.html'>substr</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>dds_macrophage</span>), <span class='fl'>1</span>, <span class='fl'>15</span>)
+
+<span class='co'># res object</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>res_de_macrophage</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"GeneTonic"</span>)
+<span class='no'>res_de</span> <span class='kw'>&lt;-</span> <span class='no'>res_macrophage_IFNg_vs_naive</span>
+<span class='no'>de_symbols_IFNg_vs_naive</span> <span class='kw'>&lt;-</span> <span class='no'>res_macrophage_IFNg_vs_naive</span>[
+  (!(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>res_macrophage_IFNg_vs_naive</span>$<span class='no'>padj</span>))) <span class='kw'>&amp;</span>
+  (<span class='no'>res_macrophage_IFNg_vs_naive</span>$<span class='no'>padj</span> <span class='kw'>&lt;=</span> <span class='fl'>0.05</span>), <span class='st'>"SYMBOL"</span>]
+<span class='no'>bg_ids</span> <span class='kw'>&lt;-</span> <span class='fu'>rowData</span>(<span class='no'>dds_macrophage</span>)$<span class='no'>SYMBOL</span>[<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowSums</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/counts.html'>counts</a></span>(<span class='no'>dds_macrophage</span>)) <span class='kw'>&gt;</span> <span class='fl'>0</span>]
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"clusterProfiler"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"org.Hs.eg.db"</span>)
+<span class='no'>ego_IFNg_vs_naive</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/clusterProfiler/man/enrichGO.html'>enrichGO</a></span>(<span class='kw'>gene</span> <span class='kw'>=</span> <span class='no'>de_symbols_IFNg_vs_naive</span>,
+                              <span class='kw'>universe</span>      <span class='kw'>=</span> <span class='no'>bg_ids</span>,
+                              <span class='kw'>keyType</span>       <span class='kw'>=</span> <span class='st'>"SYMBOL"</span>,
+                              <span class='kw'>OrgDb</span>         <span class='kw'>=</span> <span class='no'>org.Hs.eg.db</span>,
+                              <span class='kw'>ont</span>           <span class='kw'>=</span> <span class='st'>"BP"</span>,
+                              <span class='kw'>pAdjustMethod</span> <span class='kw'>=</span> <span class='st'>"BH"</span>,
+                              <span class='kw'>pvalueCutoff</span>  <span class='kw'>=</span> <span class='fl'>0.01</span>,
+                              <span class='kw'>qvalueCutoff</span>  <span class='kw'>=</span> <span class='fl'>0.05</span>,
+                              <span class='kw'>readable</span>      <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
+<span class='no'>res_enrich</span> <span class='kw'>&lt;-</span> <span class='fu'>shake_enrichResult</span>(<span class='no'>ego_IFNg_vs_naive</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>res_enrich</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

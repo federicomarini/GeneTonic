@@ -70,7 +70,7 @@ sets of results" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.1</span>
       </span>
     </div>
 
@@ -134,9 +134,12 @@ sets of results</p>
 
     <pre class="usage"><span class='fu'>gs_horizon</span>(
   <span class='no'>res_enrich</span>,
+  <span class='no'>compared_res_enrich_list</span>,
   <span class='kw'>n_gs</span> <span class='kw'>=</span> <span class='fl'>20</span>,
   <span class='kw'>p_value_column</span> <span class='kw'>=</span> <span class='st'>"gs_pvalue"</span>,
-  <span class='kw'>color_by</span> <span class='kw'>=</span> <span class='st'>"z_score"</span>
+  <span class='kw'>color_by</span> <span class='kw'>=</span> <span class='st'>"z_score"</span>,
+  <span class='kw'>ref_name</span> <span class='kw'>=</span> <span class='st'>"ref_scenario"</span>,
+  <span class='kw'>sort_by</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"clustered"</span>, <span class='st'>"first_set"</span>)
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -147,6 +150,12 @@ sets of results</p>
       <td><p>A <code>data.frame</code> object, storing the result of the functional
 enrichment analysis. See more in the main function, <code><a href='GeneTonic.html'>GeneTonic()</a></code>, to check the
 formatting requirements (a minimal set of columns should be present).</p></td>
+    </tr>
+    <tr>
+      <th>compared_res_enrich_list</th>
+      <td><p>A named list, where each element is a <code>data.frame</code>
+formatted like the standard <code>res_enrich</code> objects used by <code>GeneTonic</code>. The
+names of the list are the names of the scenarios.</p></td>
     </tr>
     <tr>
       <th>n_gs</th>
@@ -165,11 +174,32 @@ p-value - have been specified).</p></td>
       <td><p>Character, specifying the column of <code>res_enrich</code> to be used
 for coloring the plotted gene sets. Defaults sensibly to <code>z_score</code>.</p></td>
     </tr>
+    <tr>
+      <th>ref_name</th>
+      <td><p>Character, defining the name of the scenario to compare
+against (the one in <code>res_enrich</code>) - defaults to "ref_scenario".</p></td>
+    </tr>
+    <tr>
+      <th>sort_by</th>
+      <td><p>Character string, either "clustered", or "first_set". This
+controls the sorting order of the included terms in the final plot.
+"clustered" presents the terms grouped by the scenario where they assume the
+highest values. "first_set" sorts the terms by the significance value in the
+reference scenario.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A <code>ggplot</code> object</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>It makes sense to have the results in <code>res_enrich</code> sorted by
+increasing <code>gs_pvalue</code>, to make sure the top results are first sorted by the
+significance (when selecting the common gene sets across the <code>res_enrich</code>
+elements provided in <code>compared_res_enrich_list</code>)</p>
+<p>The gene sets included are a subset of the ones in common to all different
+scenarios included in <code>res_enrich</code> and the elements of <code>compared_res_enrich_list</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='gs_summary_overview.html'>gs_summary_overview()</a></code>, <code><a href='gs_summary_overview_pair.html'>gs_summary_overview_pair()</a></code></p></div>
@@ -203,15 +233,48 @@ for coloring the plotted gene sets. Defaults sensibly to <code>z_score</code>.</
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>res_enrich_macrophage</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"GeneTonic"</span>)
 <span class='no'>res_enrich</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='shake_topGOtableResult.html'>shake_topGOtableResult</a></span>(<span class='no'>topgoDE_macrophage_IFNg_vs_naive</span>)</div><div class='output co'>#&gt; <span class='message'>Found 500 gene sets in `topGOtableResult` object.</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div><div class='input'><span class='no'>res_enrich</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_aggrscores.html'>get_aggrscores</a></span>(<span class='no'>res_enrich</span>, <span class='no'>res_de</span>, <span class='no'>anno_df</span>)
 
+<span class='no'>res_enrich2</span> <span class='kw'>&lt;-</span> <span class='no'>res_enrich</span>[<span class='fl'>1</span>:<span class='fl'>42</span>, ]
+<span class='no'>res_enrich3</span> <span class='kw'>&lt;-</span> <span class='no'>res_enrich</span>[<span class='fl'>1</span>:<span class='fl'>42</span>, ]
+<span class='no'>res_enrich4</span> <span class='kw'>&lt;-</span> <span class='no'>res_enrich</span>[<span class='fl'>1</span>:<span class='fl'>42</span>, ]
+
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>2</span>*<span class='fl'>42</span>)
+<span class='no'>shuffled_ones_2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span>(<span class='fl'>42</span>)) <span class='co'># to generate permuted p-values</span>
+<span class='no'>res_enrich2</span>$<span class='no'>gs_pvalue</span> <span class='kw'>&lt;-</span> <span class='no'>res_enrich2</span>$<span class='no'>gs_pvalue</span>[<span class='no'>shuffled_ones_2</span>]
+<span class='no'>res_enrich2</span>$<span class='no'>z_score</span> <span class='kw'>&lt;-</span> <span class='no'>res_enrich2</span>$<span class='no'>z_score</span>[<span class='no'>shuffled_ones_2</span>]
+<span class='no'>res_enrich2</span>$<span class='no'>aggr_score</span> <span class='kw'>&lt;-</span> <span class='no'>res_enrich2</span>$<span class='no'>aggr_score</span>[<span class='no'>shuffled_ones_2</span>]
+
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>3</span>*<span class='fl'>42</span>)
+<span class='no'>shuffled_ones_3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span>(<span class='fl'>42</span>)) <span class='co'># to generate permuted p-values</span>
+<span class='no'>res_enrich3</span>$<span class='no'>gs_pvalue</span> <span class='kw'>&lt;-</span> <span class='no'>res_enrich3</span>$<span class='no'>gs_pvalue</span>[<span class='no'>shuffled_ones_3</span>]
+<span class='no'>res_enrich3</span>$<span class='no'>z_score</span> <span class='kw'>&lt;-</span> <span class='no'>res_enrich3</span>$<span class='no'>z_score</span>[<span class='no'>shuffled_ones_3</span>]
+<span class='no'>res_enrich3</span>$<span class='no'>aggr_score</span> <span class='kw'>&lt;-</span> <span class='no'>res_enrich3</span>$<span class='no'>aggr_score</span>[<span class='no'>shuffled_ones_3</span>]
+
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>4</span>*<span class='fl'>42</span>)
+<span class='no'>shuffled_ones_4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span>(<span class='fl'>42</span>)) <span class='co'># to generate permuted p-values</span>
+<span class='no'>res_enrich4</span>$<span class='no'>gs_pvalue</span> <span class='kw'>&lt;-</span> <span class='no'>res_enrich4</span>$<span class='no'>gs_pvalue</span>[<span class='no'>shuffled_ones_4</span>]
+<span class='no'>res_enrich4</span>$<span class='no'>z_score</span> <span class='kw'>&lt;-</span> <span class='no'>res_enrich4</span>$<span class='no'>z_score</span>[<span class='no'>shuffled_ones_4</span>]
+<span class='no'>res_enrich4</span>$<span class='no'>aggr_score</span> <span class='kw'>&lt;-</span> <span class='no'>res_enrich4</span>$<span class='no'>aggr_score</span>[<span class='no'>shuffled_ones_4</span>]
+
+<span class='no'>compa_list</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+  <span class='kw'>scenario2</span> <span class='kw'>=</span> <span class='no'>res_enrich2</span>,
+  <span class='kw'>scenario3</span> <span class='kw'>=</span> <span class='no'>res_enrich3</span>,
+  <span class='kw'>scenario4</span> <span class='kw'>=</span> <span class='no'>res_enrich4</span>
+)
+
 <span class='fu'>gs_horizon</span>(<span class='no'>res_enrich</span>,
-           <span class='kw'>n_gs</span> <span class='kw'>=</span> <span class='fl'>15</span>)</div><div class='img'><img src='gs_horizon-1.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+           <span class='kw'>compared_res_enrich_list</span> <span class='kw'>=</span> <span class='no'>compa_list</span>,
+           <span class='kw'>n_gs</span> <span class='kw'>=</span> <span class='fl'>50</span>,
+           <span class='kw'>sort_by</span> <span class='kw'>=</span> <span class='st'>"clustered"</span>)</div><div class='img'><img src='gs_horizon-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>gs_horizon</span>(<span class='no'>res_enrich</span>,
+           <span class='kw'>compared_res_enrich_list</span> <span class='kw'>=</span> <span class='no'>compa_list</span>,
+           <span class='kw'>n_gs</span> <span class='kw'>=</span> <span class='fl'>20</span>,
+           <span class='kw'>sort_by</span> <span class='kw'>=</span> <span class='st'>"first_set"</span>)</div><div class='img'><img src='gs_horizon-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>

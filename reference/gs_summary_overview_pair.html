@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.1</span>
       </span>
     </div>
 
@@ -136,7 +136,7 @@
   <span class='kw'>n_gs</span> <span class='kw'>=</span> <span class='fl'>20</span>,
   <span class='kw'>p_value_column</span> <span class='kw'>=</span> <span class='st'>"gs_pvalue"</span>,
   <span class='kw'>color_by</span> <span class='kw'>=</span> <span class='st'>"z_score"</span>,
-  <span class='kw'>alpha_set2</span> <span class='kw'>=</span> <span class='fl'>0.4</span>
+  <span class='kw'>alpha_set2</span> <span class='kw'>=</span> <span class='fl'>1</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -213,8 +213,15 @@ transparency used for plotting the points for gene set 2.</p></td>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>res_enrich_macrophage</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"GeneTonic"</span>)
 <span class='no'>res_enrich</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='shake_topGOtableResult.html'>shake_topGOtableResult</a></span>(<span class='no'>topgoDE_macrophage_IFNg_vs_naive</span>)</div><div class='output co'>#&gt; <span class='message'>Found 500 gene sets in `topGOtableResult` object.</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div><div class='input'><span class='no'>res_enrich</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_aggrscores.html'>get_aggrscores</a></span>(<span class='no'>res_enrich</span>, <span class='no'>res_de</span>, <span class='no'>anno_df</span>)
 
-<span class='fu'>gs_summary_overview_pair</span>(<span class='kw'>res_enrich</span> <span class='kw'>=</span> <span class='no'>res_enrich</span>)</div><div class='img'><img src='gs_summary_overview_pair-1.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+<span class='no'>res_enrich2</span> <span class='kw'>&lt;-</span> <span class='no'>res_enrich</span>[<span class='fl'>1</span>:<span class='fl'>42</span>, ]
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>42</span>)
+<span class='no'>shuffled_ones</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span>(<span class='fl'>42</span>)) <span class='co'># to generate permuted p-values</span>
+<span class='no'>res_enrich2</span>$<span class='no'>gs_pvalue</span> <span class='kw'>&lt;-</span> <span class='no'>res_enrich2</span>$<span class='no'>gs_pvalue</span>[<span class='no'>shuffled_ones</span>]
+<span class='no'>res_enrich2</span>$<span class='no'>z_score</span> <span class='kw'>&lt;-</span> <span class='no'>res_enrich2</span>$<span class='no'>z_score</span>[<span class='no'>shuffled_ones</span>]
+<span class='no'>res_enrich2</span>$<span class='no'>aggr_score</span> <span class='kw'>&lt;-</span> <span class='no'>res_enrich2</span>$<span class='no'>aggr_score</span>[<span class='no'>shuffled_ones</span>]
+<span class='co'># ideally, I would also permute the z scores and aggregated scores</span>
+<span class='fu'>gs_summary_overview_pair</span>(<span class='kw'>res_enrich</span> <span class='kw'>=</span> <span class='no'>res_enrich</span>,
+                         <span class='kw'>res_enrich2</span> <span class='kw'>=</span> <span class='no'>res_enrich2</span>)</div><div class='img'><img src='gs_summary_overview_pair-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
