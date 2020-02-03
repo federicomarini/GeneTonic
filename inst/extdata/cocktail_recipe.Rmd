@@ -126,15 +126,6 @@ for (gs in selected_genesets) {
 }
 ```
 
-# Something after that
-
-lorem ipsum
-
-```{r}
-# enrichment map, interactive?
-# ggs_graph?
-```
-
 
 # Session info {-}
 
