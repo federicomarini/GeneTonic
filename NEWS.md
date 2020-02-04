@@ -1,3 +1,22 @@
+# GeneTonic 0.10.0
+
+## New features
+
+* The functions for comparing different `res_enrich`, namely `gs_radar`, `gs_summary_overview_pair`, and `gs_horizon` were internally rewritten to accept correctly the comparison elements
+* The vignette now covers completely the usage cases, with the full description of the user interface of `GeneTonic`
+* The introductory tours are available for all the main panels of `GeneTonic`. Feel free to try them out!
+
+## Other notes
+
+* Some widgets have been added in the UI of `GeneTonic` to enable finer control of the output aspect
+* Examples and unit tests have been further expanded, with better messages for checking progress
+* `check_colors` verify that color palettes are correctly provided
+* Info on `GeneTonic` is now provided with modal dialog windows, rather than in a separate tab
+* The tab names in the main app were slightly edited to better describe their content
+* The info boxes are now shown with a uniform style, based on the `bs4Card` UI element
+* The UI elements have now a better spacing throughout the different tabs
+* Soon the package will be submitted to Bioconductor!
+
 # GeneTonic 0.9.0
 
 ## New features

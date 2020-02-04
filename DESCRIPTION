@@ -1,15 +1,14 @@
 Package: GeneTonic
 Title: Enjoy Analyzing And Integrating The Results From Differential Expression 
     Analysis And Functional Enrichment Analysis
-Version: 0.9.1
-Date: 2020-01-23
+Version: 0.10.0
+Date: 2020-02-04
 Authors@R: 
     c(
-        person("Federico", "Marini", 
-               role=c("aut","cre"), 
-               email="marinif@uni-mainz.de", 
-               comment = c(ORCID = '0000-0003-3252-7758')
-              )
+        person(
+            given = "Federico", family = "Marini", role = c("aut", "cre"), 
+            email = "marinif@uni-mainz.de", comment = c(ORCID = "0000-0003-3252-7758")
+        )
     )
 Description: This package provides a Shiny application that aims to combine at 
     different levels the existing pieces of the transcriptome data and results, 
@@ -18,8 +17,6 @@ Description: This package provides a Shiny application that aims to combine at
     e.g. by capturing the features and gene sets of interest highlighted during 
     the live session, and creating an HTML report as an artifact where text, 
     code, and output coexist.
-Depends:
-    R (>= 3.5.0)
 Imports:
     AnnotationDbi,
     bs4Dash,
