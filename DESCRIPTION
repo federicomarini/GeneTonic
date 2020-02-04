@@ -1,7 +1,7 @@
 Package: GeneTonic
 Title: Enjoy Analyzing And Integrating The Results From Differential Expression 
     Analysis And Functional Enrichment Analysis
-Version: 0.10.0
+Version: 0.99.0
 Date: 2020-02-04
 Authors@R: 
     c(
@@ -17,6 +17,8 @@ Description: This package provides a Shiny application that aims to combine at
     e.g. by capturing the features and gene sets of interest highlighted during 
     the live session, and creating an HTML report as an artifact where text, 
     code, and output coexist.
+Depends:
+    R (>= 4.0.0)
 Imports:
     AnnotationDbi,
     bs4Dash,
@@ -62,8 +64,6 @@ Suggests:
     org.Hs.eg.db,
     magrittr,
     testthat (>= 2.1.0)
-Remotes:
-    mikelove/macrophage
 License: MIT + file LICENSE
 Encoding: UTF-8
 VignetteBuilder: knitr

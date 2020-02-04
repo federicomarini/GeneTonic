@@ -1,3 +1,9 @@
+# GeneTonic 0.99.0
+
+## Other notes
+
+* `GeneTonic` is now submitted to Bioconductor!
+
 # GeneTonic 0.10.0
 
 ## New features
