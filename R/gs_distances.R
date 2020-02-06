@@ -66,7 +66,7 @@ create_kappa_matrix <- function(res_enrich,
   diag(kappa_matrix) <- 1
   N <- length(gs_to_use)
 
-  for (i in 1:(N - 1)) {
+  for (i in seq_len(N - 1)) {
     for (j in (i + 1):N) {
       genes_i <- enrich2list[[i]]
       genes_j <- enrich2list[[j]]
@@ -148,7 +148,7 @@ create_jaccard_matrix <- function(res_enrich,
   overlap_matrix <- matrix(NA, nrow = n, ncol = n)
   rownames(overlap_matrix) <- colnames(overlap_matrix) <- names(enrich2list)
 
-  for (i in 1:n) {
+  for (i in seq_len(n)) {
     # no need to work on full mat, it is simmetric
     for (j in i:n) {
       overlap_matrix[i, j] <-

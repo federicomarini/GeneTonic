@@ -1115,7 +1115,7 @@ GeneTonic <- function(dds,
       datatable(book_df_genes, rownames = FALSE)
     })
     output$bookmarks_genesets <- DT::renderDataTable({
-      book_df_genesets <- res_enrich[reactive_values$mygenesets, 1:2]
+      book_df_genesets <- res_enrich[reactive_values$mygenesets, c("gs_id", "gs_description")]
       datatable(book_df_genesets, rownames = FALSE)
     })
 

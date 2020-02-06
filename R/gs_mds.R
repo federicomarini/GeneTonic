@@ -164,7 +164,7 @@ gs_mds <- function(res_enrich,
     theme_bw()
 
   if (mds_labels > 0) {
-    label_these <- mds_gs_df$gs_id[1:mds_labels]
+    label_these <- mds_gs_df$gs_id[seq_len(mds_labels)]
   } else {
     label_these <- NULL
   }
