@@ -308,10 +308,10 @@ map2color <- function(x, pal, limits = NULL) {
 #' # useful with long vectors to check at once if all cols are fine
 #' all(check_colors(mypal2))
 check_colors <- function(x) {
-  sapply(x, function(col) {
+  vapply(x, function(col) {
     tryCatch(is.matrix(col2rgb(col)),
              error = function(e) FALSE)
-  })
+  }, logical(1))
 }
 
 #' Generate a table from the `DESeq2` results
