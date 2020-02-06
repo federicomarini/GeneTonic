@@ -73,4 +73,5 @@ RoxygenNote: 7.0.2
 Roxygen: list(markdown = TRUE)
 biocViews:
     GUI, GeneExpression, Software, Transcription, Transcriptomics, Visualization,
-    Pathways, ReportWriting, GeneSetEnrichment, Annotation, Pathways, GO
+    DifferentialExpression, Pathways, ReportWriting, GeneSetEnrichment, 
+    Annotation, Pathways, GO
