@@ -138,8 +138,6 @@ enhance_table <- function(res_enrich,
 #' @param res_de A `DESeqResults` object.
 #' @param annotation_obj A `data.frame` object with the feature annotation
 #' information, with at least two columns, `gene_id` and `gene_name`.
-#' @param n_gs Integer value, corresponding to the maximal number of gene sets to
-#' be displayed
 #' @param aggrfun Specifies the function to use for aggregating the scores for
 #' each term. Common values could be `mean` or `median`.
 #'
@@ -191,7 +189,6 @@ enhance_table <- function(res_enrich,
 get_aggrscores <- function(res_enrich,
                            res_de,
                            annotation_obj,
-                           n_gs = 50,
                            aggrfun = mean) {
 
   gs_expanded <- tidyr::separate_rows(res_enrich, "gs_genes", sep = ",")

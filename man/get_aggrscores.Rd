@@ -4,7 +4,7 @@
 \alias{get_aggrscores}
 \title{Compute aggregated scores for gene sets}
 \usage{
-get_aggrscores(res_enrich, res_de, annotation_obj, n_gs = 50, aggrfun = mean)
+get_aggrscores(res_enrich, res_de, annotation_obj, aggrfun = mean)
 }
 \arguments{
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
@@ -15,9 +15,6 @@ formatting requirements (a minimal set of columns should be present).}
 
 \item{annotation_obj}{A \code{data.frame} object with the feature annotation
 information, with at least two columns, \code{gene_id} and \code{gene_name}.}
-
-\item{n_gs}{Integer value, corresponding to the maximal number of gene sets to
-be displayed}
 
 \item{aggrfun}{Specifies the function to use for aggregating the scores for
 each term. Common values could be \code{mean} or \code{median}.}

@@ -96,7 +96,6 @@ gs_mds <- function(res_enrich,
   if (!("z_score" %in% colnames(res_enrich))) {
     res_enrich <- get_aggrscores(res_enrich,
                                  res_de,
-                                 n_gs = nrow(res_enrich),
                                  annotation_obj = annotation_obj)
   }
 
