@@ -55,7 +55,7 @@ create_kappa_matrix <- function(res_enrich,
                        ncol = length(all_genes),
                        dimnames = list(names(enrich2list), all_genes))
   # fill in the occurrency per gene set
-  for (i in seq_len(length(gs_to_use))) {
+  for (i in seq_along(gs_to_use)) {
     current_genes <- enrich2list[[i]]
     binary_mat[i, colnames(binary_mat) %in% current_genes] <- 1
   }

@@ -82,7 +82,7 @@ gs_alluvial <- function(res_enrich,
   })
   names(enrich2list) <- res_enrich[gs_to_use, "gs_description"]
 
-  list2df <- lapply(seq_len(length(enrich2list)), function(gs) {
+  list2df <- lapply(seq_along(enrich2list), function(gs) {
     data.frame(
       gsid = rep(names(enrich2list[gs]), length(enrich2list[[gs]])),
       gene = enrich2list[[gs]])
