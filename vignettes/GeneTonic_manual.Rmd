@@ -133,10 +133,13 @@ dds_macrophage
 Then, we test against a null hypothesis of a log2FoldChange of 1 (instead of the default value of 0), in order to specify that we want to call DE genes with a consistent *and* robust expression change. 
    Finally, we add the gene symbol to the output `DataFrame`.
 
-```{r create_resde, eval = FALSE}
+```{r create_resde1, eval = TRUE}
 keep <- rowSums(counts(dds_macrophage) >= 10) >= 6
 dds_macrophage <- dds_macrophage[keep, ]
-library("org.Hs.eg.db")
+dds_macrophage
+```
+
+```{r create_resde2, eval = FALSE}
 dds_macrophage <- DESeq(dds_macrophage)
 # vst_macrophage <- vst(dds_macrophage)
 res_macrophage_IFNg_vs_naive <- results(dds_macrophage,
@@ -156,10 +159,13 @@ head(res_macrophage_IFNg_vs_naive)
    We are going to use the ORA method implemented in `r BiocStyle::Biocpkg("topGO")`, wrapped in the function `topGOtable` available in the `r BiocStyle::Biocpkg("pcaExplorer")` package, which by default uses the `BP` ontology and the `elim` method to decorrelate the GO graph structure and deliver less redundant functional categories.
    You can also use as an alternative the `enrichGO` function from `r BiocStyle::Biocpkg("clusterProfiler")`.
 
-```{r create_resenrich, eval=FALSE}
+```{r create_resenrich1, eval=TRUE}
 library("AnnotationDbi")
 de_symbols_IFNg_vs_naive <- deseqresult2df(res_macrophage_IFNg_vs_naive, FDR = 0.05)$SYMBOL
 bg_ids <- rowData(dds_macrophage)$SYMBOL[rowSums(counts(dds_macrophage)) > 0]
+```
+
+```{r create_resenrich2, eval=FALSE}
 library("topGO")
 topgoDE_macrophage_IFNg_vs_naive <-
   pcaExplorer::topGOtable(de_symbols_IFNg_vs_naive,
@@ -361,7 +367,7 @@ This leverages a template report delivered as a part of `r BiocStyle::Biocpkg("G
 If a user already knows a set of features and geneset of interest, it is also possible to practically call `happy_hour()` directly from the command line (see the example in the chunk below).
 Please keep in mind that the identifiers to be used should match the values used as row names of the `dds` object and as `gs_id` column of the original `res_enrich` input.
 
-```{r, eval = FALSE}
+```{r starthappyhour, eval = FALSE}
 happy_hour(dds = dds_macrophage,
            res_de = res_de,
            res_enrich = res_enrich,
