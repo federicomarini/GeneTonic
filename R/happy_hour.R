@@ -186,11 +186,11 @@ happy_hour <- function(dds,
 
   # Raise an error if the output format and file name extension don't match
   if (output_format != paste0(tools::file_ext(output_file), "_document")) {
-    stop(paste0("File name extension of output_file (.",
-                tools::file_ext(output_file),
-                ") doesn't agree with the ",
-                "output_format, should be .",
-                gsub("_document$", "", output_format)), call. = FALSE)
+    stop("File name extension of output_file (.",
+         tools::file_ext(output_file),
+         ") doesn't agree with the ",
+         "output_format, should be .",
+         gsub("_document$", "", output_format), call. = FALSE)
   }
 
   # Check that all required input files are available and correctly formatted
