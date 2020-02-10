@@ -78,10 +78,11 @@ GeneTonic <- function(dds,
                       annotation_obj,
                       project_id = "") {
 
-  options(spinner.type = 6)
   # https://projects.lukehaas.me/css-loaders/
   # or even think of https://cran.r-project.org/web/packages/shinycustomloader/README.html
-  options(spinner.color = .biocgreen)
+  oopt <- options(spinner.type = 6, spinner.color = .biocgreen)
+  # play nice with other previously chosen options
+  on.exit(options(oopt))
 
   usage_mode <- "shiny_mode"
 
