@@ -143,7 +143,7 @@ derived from the provided objects.</p>
   <span class='kw'>usage_mode</span> <span class='kw'>=</span> <span class='st'>"batch_mode"</span>,
   <span class='kw'>input_rmd</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>output_file</span> <span class='kw'>=</span> <span class='st'>"my_first_GeneTonic_happyhour.html"</span>,
-  <span class='kw'>output_dir</span> <span class='kw'>=</span> <span class='st'>"./"</span>,
+  <span class='kw'>output_dir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(),
   <span class='kw'>output_format</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>force_overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>knitr_show_progress</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
@@ -211,7 +211,7 @@ with the value of <code>output_format</code>.</p></td>
     <tr>
       <th>output_dir</th>
       <td><p>Character, defining the path to the output directory where
-the report will be generated. Defaults to the current directory (<code>./</code>).</p></td>
+the report will be generated. Defaults to the temp directory (<code><a href='https://rdrr.io/r/base/tempfile.html'>tempdir()</a></code>).</p></td>
     </tr>
     <tr>
       <th>output_format</th>

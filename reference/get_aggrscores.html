@@ -132,7 +132,7 @@ score (using the log2FoldChange values, provided in the res_de)" />
 score (using the log2FoldChange values, provided in the <code>res_de</code>)</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_aggrscores</span>(<span class='no'>res_enrich</span>, <span class='no'>res_de</span>, <span class='no'>annotation_obj</span>, <span class='kw'>n_gs</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>aggrfun</span> <span class='kw'>=</span> <span class='no'>mean</span>)</pre>
+    <pre class="usage"><span class='fu'>get_aggrscores</span>(<span class='no'>res_enrich</span>, <span class='no'>res_de</span>, <span class='no'>annotation_obj</span>, <span class='kw'>aggrfun</span> <span class='kw'>=</span> <span class='no'>mean</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -151,11 +151,6 @@ formatting requirements (a minimal set of columns should be present).</p></td>
       <th>annotation_obj</th>
       <td><p>A <code>data.frame</code> object with the feature annotation
 information, with at least two columns, <code>gene_id</code> and <code>gene_name</code>.</p></td>
-    </tr>
-    <tr>
-      <th>n_gs</th>
-      <td><p>Integer value, corresponding to the maximal number of gene sets to
-be displayed</p></td>
     </tr>
     <tr>
       <th>aggrfun</th>
