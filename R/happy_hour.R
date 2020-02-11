@@ -83,7 +83,7 @@
 #' report. The file name extension must be either `.html` or `.pdf`, and consistent
 #' with the value of `output_format`.
 #' @param output_dir Character, defining the path to the output directory where
-#' the report will be generated. Defaults to the current directory (`./`).
+#' the report will be generated. Defaults to the temp directory (`tempdir()`).
 #' @param output_format The format of the output report. Either `html_document`
 #' or `pdf_document`. The file name extension of `output_file` must be consistent
 #' with this choice. Can also be left empty and determined accordingly.
@@ -157,7 +157,7 @@ happy_hour <- function(dds,
                        usage_mode = "batch_mode",
                        input_rmd = NULL,
                        output_file = "my_first_GeneTonic_happyhour.html",
-                       output_dir = "./",
+                       output_dir = tempdir(),
                        output_format = NULL,
                        force_overwrite = FALSE,
                        knitr_show_progress = FALSE,

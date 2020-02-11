@@ -15,7 +15,7 @@ happy_hour(
   usage_mode = "batch_mode",
   input_rmd = NULL,
   output_file = "my_first_GeneTonic_happyhour.html",
-  output_dir = "./",
+  output_dir = tempdir(),
   output_format = NULL,
   force_overwrite = FALSE,
   knitr_show_progress = FALSE,
@@ -59,7 +59,7 @@ report. The file name extension must be either \code{.html} or \code{.pdf}, and 
 with the value of \code{output_format}.}
 
 \item{output_dir}{Character, defining the path to the output directory where
-the report will be generated. Defaults to the current directory (\verb{./}).}
+the report will be generated. Defaults to the temp directory (\code{tempdir()}).}
 
 \item{output_format}{The format of the output report. Either \code{html_document}
 or \code{pdf_document}. The file name extension of \code{output_file} must be consistent
