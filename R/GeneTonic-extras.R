@@ -19,33 +19,57 @@
 #' @examples
 #' go_2_html("GO:0002250")
 #' go_2_html("GO:0043368")
-go_2_html <- function(go_id, res_enrich = NULL) {
+go_2_html <- function(go_id, 
+                      res_enrich = NULL) {
   fullinfo <- GOTERM[[go_id]]
   if (is.null(fullinfo)) {
-    return(HTML("GeneOntology term not found!"))
+    return(HTML("Gene Ontology term not found!"))
   }
-
+  # extracting the field/component values
+  go_linkbutton <- .link2amigo(GOID(fullinfo))
+  go_term <- Term(fullinfo)
+  go_ontology <- Ontology(fullinfo)
+  go_definition <- Definition(fullinfo)
+  go_synonims <- paste0(
+    unlist(
+      lapply(Synonym(fullinfo), function(arg) {
+        paste0(tags$b("Synonym: "), arg, tags$br())
+      })
+    ), collapse = ""
+  )
+  go_secondary <- Secondary(fullinfo)
+  if (!is.null(res_enrich)) {
+    go_pvalue <- res_enrich[(res_enrich$gs_id == go_id), "gs_pvalue"]
+    go_zscore <- ifelse(
+      "z_score" %in% colnames(res_enrich),
+      format(round(res_enrich[(res_enrich$gs_id == go_id), "z_score"], 2), nsmall = 2),
+      "NA - not yet computed"
+    )
+    go_aggrscore <- ifelse(
+      "aggr_score" %in% colnames(res_enrich),
+      format(round(res_enrich[(res_enrich$gs_id == go_id), "aggr_score"], 2), nsmall = 2),
+      "NA - not yet computed"
+    )
+  }
+  # assembling them together
   mycontent <- paste0(
-    "<b>GO ID: </b>", .link2amigo(GOID(fullinfo)), "<br>",
-    "<b>Term: </b>", Term(fullinfo), "<br></b>",
-    ifelse(!is.null(res_enrich),
-           paste0("<b>p-value: </b>", res_enrich[(res_enrich$gs_id == go_id), "gs_pvalue"], "</br>",
-                  "<b>Z-score: </b>", format(round(res_enrich[(res_enrich$gs_id == go_id), "z_score"], 2), nsmall = 2), "</br>",
-                  "<b>Aggregated score: </b>", format(round(res_enrich[(res_enrich$gs_id == go_id), "aggr_score"], 2), nsmall = 2), "</br>",
-                  collapse = ""),
-           ""),
-    "<b>Ontology: </b>", Ontology(fullinfo), "<br><br>",
-    "<b>Definition: </b>", Definition(fullinfo), "<br>",
-    paste0(
-      unlist(
-        lapply(Synonym(fullinfo), function(arg) {
-          paste0("<b>Synonym: </b>", arg, "<br>")
-        })
-      ), collapse = ""
+    tags$b("GO ID: "), go_linkbutton, tags$br(),
+    tags$b("Term: "), go_term, tags$br(),
+    ifelse(
+      !is.null(res_enrich),
+      paste0(tags$b("p-value: "), go_pvalue, tags$br(),
+             tags$b("Z-score: "), go_zscore, tags$br(),
+             tags$b("Aggregated score: "), go_aggrscore, tags$br(),
+             collapse = ""),
+      ""
     ),
-    ifelse(length(Secondary(fullinfo)) > 0,
-           paste0("<b>Secondary: </b>", Secondary(fullinfo), collapse = ""),
-           "")
+    tags$b("Ontology: "), go_ontology, tags$br(), tags$br(),
+    tags$b("Definition: "), go_definition, tags$br(),
+    go_synonims,
+    ifelse(
+      length(go_secondary) > 0,
+      paste0(tags$b("Secondary: "), go_secondary, collapse = ""),
+      "")
   )
   return(HTML(mycontent))
 }
