@@ -87,7 +87,6 @@ go_2_html <- function(go_id,
           val)
 }
 
-
 #' Information on a gene
 #'
 #' Assembles information, in HTML format, regarding a gene symbol identifier
@@ -96,6 +95,11 @@ go_2_html <- function(go_id,
 #'
 #' @param gene_id Character specifying the gene identifier for which to retrieve
 #' information
+#' @param res_de A `DESeqResults` object, storing the result of the differential
+#' expression analysis. If not provided, the experiment-related information is not
+#' shown, and only some generic info on the identifier is displayed.
+#' The information about the gene is retrieved by matching on the `SYMBOL` column,
+#' which should be provided in `res_de`.
 #'
 #' @return HTML content related to a gene identifier, to be displayed in
 #' web applications (or inserted in Rmd documents)
@@ -104,17 +108,28 @@ go_2_html <- function(go_id,
 #' @examples
 #' geneinfo_2_html("ACTB")
 #' geneinfo_2_html("Pf4")
-geneinfo_2_html <- function(gene_id) {
-  # entrez info
-  # genecards?
-  # using rentrez?
-
+geneinfo_2_html <- function(gene_id, 
+                            res_de = NULL) {
+  gene_ncbi_button <- .link2ncbi(gene_id)
+  gene_genecards_button <- .link2genecards(gene_id)
+  
+  if (!is.null(res_de)) {
+    gene_adjpvalue <- format(res_de[match(gene_id, res_de$SYMBOL), "padj"])
+    gene_logfc <- format(round(res_de[match(gene_id, res_de$SYMBOL), "log2FoldChange"], 2), nsmall = 2)
+  }
+  
+  
   mycontent <- paste0(
-    "<b>", gene_id, "</b><br>",
-    "NCBI link: ",
-    .link2ncbi(gene_id), "<br>",
-    "GeneCards link: ",
-    .link2genecards(gene_id)
+    tags$b(gene_id), tags$br(),
+    "Link to the NCBI Gene database: ", gene_ncbi_button, tags$br(),
+    "Link to the GeneCards database: ", gene_genecards_button, tags$br(),
+    ifelse(
+      !is.null(res_de),
+      paste0(tags$b("DE p-value (adjusted): "), gene_adjpvalue, tags$br(),
+             tags$b("DE log2FoldChange: "), gene_logfc,
+             collapse = ""),
+      ""
+    )
   )
   return(HTML(mycontent))
 }
