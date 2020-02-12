@@ -114,10 +114,18 @@ geneinfo_2_html <- function(gene_id,
   gene_genecards_button <- .link2genecards(gene_id)
 
   if (!is.null(res_de)) {
-    gene_adjpvalue <- format(res_de[match(gene_id, res_de$SYMBOL), "padj"])
-    gene_logfc <- format(round(res_de[match(gene_id, res_de$SYMBOL), "log2FoldChange"], 2), nsmall = 2)
+    gid <- match(gene_id, res_de$SYMBOL)
+    if (is.na(gid)) {
+      message("Could not find the specified gene (`", gene_id,  
+              "`) in the `res_de` object. \n",
+              "Still, the general HTML content has been generated.")
+      gene_adjpvalue <- tags$em("not found")
+      gene_logfc <- tags$em("not found")
+    } else {
+      gene_adjpvalue <- format(res_de[gid, "padj"])
+      gene_logfc <- format(round(res_de[gid, "log2FoldChange"], 2), nsmall = 2)
+    }
   }
-
 
   mycontent <- paste0(
     tags$b(gene_id), tags$br(),
