@@ -65,12 +65,30 @@ test_that("Retrieving info on GO term", {
   expect_is(out, "character")
   expect_is(out, "html")
   expect_equal(go_2_html("GO:00"), HTML("Gene Ontology term not found!"))
+  
+  res_enrich <- get_aggrscores(res_enrich_IFNg_vs_naive,res_de = res_macrophage_IFNg_vs_naive,annotation_obj = anno_df)
+  out2 <- go_2_html("GO:0032729", res_enrich = res_enrich)
+  expect_is(out2, "character")
+  expect_is(out2, "html")
 })
 
-test_that("Retrieving info on GO term", {
+test_that("Retrieving info on gene", {
   out <- geneinfo_2_html("Xist")
   expect_is(out, "character")
   expect_is(out, "html")
+  
+  # using a gene name present in the res_de
+  out2 <- geneinfo_2_html("IRF1", res_de = res_macrophage_IFNg_vs_naive)
+  expect_is(out2, "character")
+  expect_is(out2, "html")
+  
+  # using a gene name which is not in the res_de
+  expect_message(
+    out3 <- geneinfo_2_html("Irf1", res_de = res_macrophage_IFNg_vs_naive)
+  )
+  expect_is(out3, "character")
+  expect_is(out3, "html")
+  expect_true(grepl("not found", out3))
 })
 
 test_that("'Linking to AmiGO database", {
