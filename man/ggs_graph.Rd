@@ -44,7 +44,8 @@ defaults to a color ramp palette interpolating from blue through yellow to red.}
 }
 \value{
 An \code{igraph} object to be further manipulated or processed/plotted (e.g.
-via \code{\link[igraph:plot.igraph]{igraph::plot.igraph()}} or \code{\link[visNetwork:visIgraph]{visNetwork::visIgraph()}})
+via \code{\link[igraph:plot.igraph]{igraph::plot.igraph()}} or
+\link[visNetwork:visNetwork-igraph]{visNetwork::visIgraph()})
 }
 \description{
 Construct a gene-geneset-graph from the results of a functional enrichment

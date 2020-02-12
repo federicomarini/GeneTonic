@@ -23,7 +23,8 @@
 #' defaults to a color ramp palette interpolating from blue through yellow to red.
 #'
 #' @return An `igraph` object to be further manipulated or processed/plotted (e.g.
-#' via [igraph::plot.igraph()] or [visNetwork::visIgraph()])
+#' via [igraph::plot.igraph()] or 
+#' [visNetwork::visIgraph()][visNetwork::visNetwork-igraph])
 #' @export
 #'
 #' @examples

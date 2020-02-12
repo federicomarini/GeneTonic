@@ -296,7 +296,7 @@ styleColorBar_divergent <- function(data,
 #' @param x A character vector of numeric values (e.g. log2FoldChange values) to
 #' be converted to a vector of colors
 #' @param pal A vector of characters specifying the definition of colors for the
-#' palette, e.g. obtained via [RColorBrewer::brewer.pal()]
+#' palette, e.g. obtained via [RColorBrewer::brewer.pal()][RColorBrewer::RColorBrewer]
 #' @param limits A vector containing the limits of the values to be mapped. If
 #' not specified, defaults to the range of values in the `x` vector.
 #'

@@ -11,7 +11,7 @@ map2color(x, pal, limits = NULL)
 be converted to a vector of colors}
 
 \item{pal}{A vector of characters specifying the definition of colors for the
-palette, e.g. obtained via \code{\link[RColorBrewer:brewer.pal]{RColorBrewer::brewer.pal()}}}
+palette, e.g. obtained via \link[RColorBrewer:RColorBrewer]{RColorBrewer::brewer.pal()}}
 
 \item{limits}{A vector containing the limits of the values to be mapped. If
 not specified, defaults to the range of values in the \code{x} vector.}
