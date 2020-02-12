@@ -64,7 +64,7 @@ test_that("Retrieving info on GO term", {
   out <- go_2_html("GO:0032729")
   expect_is(out, "character")
   expect_is(out, "html")
-  expect_equal(go_2_html("GO:00"), HTML("GeneOntology term not found!"))
+  expect_equal(go_2_html("GO:00"), HTML("Gene Ontology term not found!"))
 })
 
 test_that("Retrieving info on GO term", {
