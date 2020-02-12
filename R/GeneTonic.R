@@ -861,7 +861,7 @@ GeneTonic <- function(dds,
       #   cur_geneid, "<br>", "<b>", cur_sel, "</b>"
       # ))
 
-      geneinfo_2_html(cur_sel)
+      geneinfo_2_html(cur_sel, res_de)
     })
 
     output$ggs_geneplot <- renderPlot({
