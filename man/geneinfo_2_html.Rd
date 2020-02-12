@@ -4,11 +4,17 @@
 \alias{geneinfo_2_html}
 \title{Information on a gene}
 \usage{
-geneinfo_2_html(gene_id)
+geneinfo_2_html(gene_id, res_de = NULL)
 }
 \arguments{
 \item{gene_id}{Character specifying the gene identifier for which to retrieve
 information}
+
+\item{res_de}{A \code{DESeqResults} object, storing the result of the differential
+expression analysis. If not provided, the experiment-related information is not
+shown, and only some generic info on the identifier is displayed.
+The information about the gene is retrieved by matching on the \code{SYMBOL} column,
+which should be provided in \code{res_de}.}
 }
 \value{
 HTML content related to a gene identifier, to be displayed in
