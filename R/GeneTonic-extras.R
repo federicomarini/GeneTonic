@@ -19,7 +19,7 @@
 #' @examples
 #' go_2_html("GO:0002250")
 #' go_2_html("GO:0043368")
-go_2_html <- function(go_id, 
+go_2_html <- function(go_id,
                       res_enrich = NULL) {
   fullinfo <- GOTERM[[go_id]]
   if (is.null(fullinfo)) {
@@ -108,17 +108,17 @@ go_2_html <- function(go_id,
 #' @examples
 #' geneinfo_2_html("ACTB")
 #' geneinfo_2_html("Pf4")
-geneinfo_2_html <- function(gene_id, 
+geneinfo_2_html <- function(gene_id,
                             res_de = NULL) {
   gene_ncbi_button <- .link2ncbi(gene_id)
   gene_genecards_button <- .link2genecards(gene_id)
-  
+
   if (!is.null(res_de)) {
     gene_adjpvalue <- format(res_de[match(gene_id, res_de$SYMBOL), "padj"])
     gene_logfc <- format(round(res_de[match(gene_id, res_de$SYMBOL), "log2FoldChange"], 2), nsmall = 2)
   }
-  
-  
+
+
   mycontent <- paste0(
     tags$b(gene_id), tags$br(),
     "Link to the NCBI Gene database: ", gene_ncbi_button, tags$br(),
@@ -296,7 +296,7 @@ styleColorBar_divergent <- function(data,
 #' @param x A character vector of numeric values (e.g. log2FoldChange values) to
 #' be converted to a vector of colors
 #' @param pal A vector of characters specifying the definition of colors for the
-#' palette, e.g. obtained via [RColorBrewer::brewer.pal()][RColorBrewer::RColorBrewer]
+#' palette, e.g. obtained via \code{\link{brewer.pal}}
 #' @param limits A vector containing the limits of the values to be mapped. If
 #' not specified, defaults to the range of values in the `x` vector.
 #'
