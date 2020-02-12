@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.3</span>
       </span>
     </div>
 
@@ -130,7 +130,7 @@
     <p>Assembles information, in HTML format, regarding a gene symbol identifier</p>
     </div>
 
-    <pre class="usage"><span class='fu'>geneinfo_2_html</span>(<span class='no'>gene_id</span>)</pre>
+    <pre class="usage"><span class='fu'>geneinfo_2_html</span>(<span class='no'>gene_id</span>, <span class='kw'>res_de</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -139,6 +139,14 @@
       <th>gene_id</th>
       <td><p>Character specifying the gene identifier for which to retrieve
 information</p></td>
+    </tr>
+    <tr>
+      <th>res_de</th>
+      <td><p>A <code>DESeqResults</code> object, storing the result of the differential
+expression analysis. If not provided, the experiment-related information is not
+shown, and only some generic info on the identifier is displayed.
+The information about the gene is retrieved by matching on the <code>SYMBOL</code> column,
+which should be provided in <code>res_de</code>.</p></td>
     </tr>
     </table>
 
@@ -151,7 +159,7 @@ web applications (or inserted in Rmd documents)</p>
     <p>Creates links to the NCBI and the GeneCards databases</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>geneinfo_2_html</span>(<span class='st'>"ACTB"</span>)</div><div class='output co'>#&gt; &lt;b&gt;ACTB&lt;/b&gt;&lt;br&gt;NCBI link: &lt;a href = "http://www.ncbi.nlm.nih.gov/gene/?term=ACTB[sym]" target = "_blank" class = "btn btn-primary" style = "color: #ffffff; background-color: #0092AC"&gt;ACTB&lt;/a&gt;&lt;br&gt;GeneCards link: &lt;a href = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=ACTB" target = "_blank" class = "btn btn-primary" style = "color: #ffffff; background-color: #0092AC"&gt;ACTB&lt;/a&gt;</div><div class='input'><span class='fu'>geneinfo_2_html</span>(<span class='st'>"Pf4"</span>)</div><div class='output co'>#&gt; &lt;b&gt;Pf4&lt;/b&gt;&lt;br&gt;NCBI link: &lt;a href = "http://www.ncbi.nlm.nih.gov/gene/?term=Pf4[sym]" target = "_blank" class = "btn btn-primary" style = "color: #ffffff; background-color: #0092AC"&gt;Pf4&lt;/a&gt;&lt;br&gt;GeneCards link: &lt;a href = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=Pf4" target = "_blank" class = "btn btn-primary" style = "color: #ffffff; background-color: #0092AC"&gt;Pf4&lt;/a&gt;</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>geneinfo_2_html</span>(<span class='st'>"ACTB"</span>)</div><div class='output co'>#&gt; &lt;b&gt;ACTB&lt;/b&gt;&lt;br/&gt;Link to the NCBI Gene database: &lt;a href = "http://www.ncbi.nlm.nih.gov/gene/?term=ACTB[sym]" target = "_blank" class = "btn btn-primary" style = "color: #ffffff; background-color: #0092AC"&gt;ACTB&lt;/a&gt;&lt;br/&gt;Link to the GeneCards database: &lt;a href = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=ACTB" target = "_blank" class = "btn btn-primary" style = "color: #ffffff; background-color: #0092AC"&gt;ACTB&lt;/a&gt;&lt;br/&gt;</div><div class='input'><span class='fu'>geneinfo_2_html</span>(<span class='st'>"Pf4"</span>)</div><div class='output co'>#&gt; &lt;b&gt;Pf4&lt;/b&gt;&lt;br/&gt;Link to the NCBI Gene database: &lt;a href = "http://www.ncbi.nlm.nih.gov/gene/?term=Pf4[sym]" target = "_blank" class = "btn btn-primary" style = "color: #ffffff; background-color: #0092AC"&gt;Pf4&lt;/a&gt;&lt;br/&gt;Link to the GeneCards database: &lt;a href = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=Pf4" target = "_blank" class = "btn btn-primary" style = "color: #ffffff; background-color: #0092AC"&gt;Pf4&lt;/a&gt;&lt;br/&gt;</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
