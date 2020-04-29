@@ -23,6 +23,12 @@ editor_options:
 bibliography: GeneTonic.bib
 ---
 
+<style type="text/css">
+.smaller {
+  font-size: 10px
+}
+</style>
+
 **Compiled date**: `r Sys.Date()`
 
 **Last edited**: 2020-01-23
@@ -720,7 +726,7 @@ A: You can set up a small conversion function, on the line of `shake_topGOtableR
 
 A: We set up an instance of `GeneTonic` running on the `macrophage` dataset at this address: http://shiny.imbei.uni-mainz.de:3838/GeneTonic.
 
-# Session Info {-}
+# Session Info {- .smaller}
 
 ```{r sessioninfo}
 sessionInfo()
