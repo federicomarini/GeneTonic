@@ -103,7 +103,10 @@ ggs_graph <- function(res_enrich,
   enriched_gsids <- res_enrich[["gs_id"]]
   enriched_gsnames <- res_enrich[["gs_description"]]
   enriched_gsdescs <- vapply(enriched_gsids,
-                             function(arg) Definition(GOTERM[[arg]]),
+                             function(arg) tryCatch(
+                               Definition(GOTERM[[arg]]),
+                               error = function(e) "--- GO Term not found ---"
+                               ),
                              character(1))
 
   gs_to_use <- unique(
