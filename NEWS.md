@@ -1,3 +1,15 @@
+# GeneTonic 1.2.0
+
+## Other notes
+
+* Added an additional mechanism for safe fails when not finding the GO Term and searching for the definition - this could happen e.g. when the term becomes outdated and is removed from the `GO.db` package, or also mistyped if entered by hand at some point.
+
+# GeneTonic 1.0.0
+
+## Other notes
+
+* `GeneTonic` has become a part of Bioconductor!
+
 # GeneTonic 0.99.0
 
 ## Other notes
