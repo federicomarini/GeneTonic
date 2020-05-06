@@ -119,12 +119,12 @@ gene_plot <- function(dds,
     p <- p +
       geom_violin() +
       geom_jitter(position = position_jitter(width = 0.2, height = 0)) +
-      stat_summary(fun.y = median, fun.ymin = median, fun.ymax = median,
+      stat_summary(fun = median, fun.min = median, fun.max = median,
                    geom = "crossbar", width = 0.3)
   } else if (plot_type == "sina" || (plot_type == "auto" & (min_by_groups >= 40))) {
     p <- p +
       ggforce::geom_sina() +
-      stat_summary(fun.y = median, fun.ymin = median, fun.ymax = median,
+      stat_summary(fun = median, fun.min = median, fun.max = median,
                    geom = "crossbar", width = 0.3)
   }
 
