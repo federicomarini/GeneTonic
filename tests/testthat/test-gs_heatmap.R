@@ -39,7 +39,8 @@ test_that("Geneset heatmap is created", {
                    cluster_columns = TRUE,
                    center_mean = TRUE,
                    scale_row = TRUE,
-                   anno_col_info = "condition"
+                   anno_col_info = "condition",
+                   plot_title = "Just this as title"
   )
   expect_is(p3, "HeatmapList")
 
