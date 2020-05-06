@@ -17,7 +17,8 @@ gs_heatmap(
   cluster_columns = FALSE,
   center_mean = TRUE,
   scale_row = FALSE,
-  anno_col_info = NULL
+  anno_col_info = NULL,
+  plot_title = NULL
 )
 }
 \arguments{
@@ -58,6 +59,10 @@ specified by \code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Heatmap()}}}
 
 \item{anno_col_info}{A character vector of names in \code{colData(dds)} to use for
 decorating the heatmap as annotation.}
+
+\item{plot_title}{Character string, to specify the title of the plot,
+displayed over the heatmap. If left to \code{NULL} as by default, it tries to use
+the information on the geneset identifier provided}
 }
 \value{
 A plot returned by the \code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Heatmap()}} function

@@ -27,6 +27,9 @@
 #' @param scale_row Logical, whether to standardize by row the expression values
 #' @param anno_col_info A character vector of names in `colData(dds)` to use for
 #' decorating the heatmap as annotation.
+#' @param plot_title Character string, to specify the title of the plot,
+#' displayed over the heatmap. If left to `NULL` as by default, it tries to use
+#' the information on the geneset identifier provided
 #'
 #' @return A plot returned by the [ComplexHeatmap::Heatmap()] function
 #' @export
@@ -85,7 +88,8 @@ gs_heatmap <- function(se,
                        cluster_columns = FALSE,
                        center_mean = TRUE,
                        scale_row = FALSE,
-                       anno_col_info = NULL
+                       anno_col_info = NULL,
+                       plot_title = NULL
                        ) {
 
   # check that the data would ideally be a DST, so that it is not the counts/normalized?
@@ -148,7 +152,11 @@ gs_heatmap <- function(se,
 
   # dim(mydata_sig)
 
-  title <- paste0("Signature heatmap - ", thisset_name, " - ", geneset_id)
+  if (is.null(plot_title)) {
+    title <- paste0("Signature heatmap - ", thisset_name, " - ", geneset_id)
+  } else {
+    title <- plot_title
+  }
 
   ### anno_col_info <- anno_col_info[anno_col_info %in% colnames(colData(se))]
   ### sample_decoration <- as.data.frame(colData(se))[, anno_col_info, drop = FALSE]
