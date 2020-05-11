@@ -9,6 +9,8 @@
 
 <!-- [![](https://bioconductor.org/shields/build/devel/bioc/GeneTonic.svg)](https://bioconductor.org/checkResults/devel/bioc-LATEST/GeneTonic/) -->
 
+[![R build
+status](https://github.com/federicomarini/GeneTonic/workflows/R-CMD-check/badge.svg)](https://github.com/federicomarini/GeneTonic/actions)
 [![](https://img.shields.io/github/last-commit/federicomarini/GeneTonic.svg)](https://github.com/federicomarini/GeneTonic/commits/master)
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
@@ -16,8 +18,6 @@ stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://
 status](https://travis-ci.org/federicomarini/GeneTonic.svg?branch=master)](https://travis-ci.org/federicomarini/GeneTonic)
 [![Codecov.io coverage
 status](https://codecov.io/github/federicomarini/GeneTonic/coverage.svg?branch=master)](https://codecov.io/github/federicomarini/GeneTonic)
-[![R build
-status](https://github.com/federicomarini/GeneTonic/workflows/R-CMD-check/badge.svg)](https://github.com/federicomarini/GeneTonic/actions)
 <!-- badges: end -->
 
 The goal of GeneTonic is to analyze and integrate the results from
