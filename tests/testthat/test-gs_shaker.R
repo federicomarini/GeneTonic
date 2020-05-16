@@ -31,3 +31,14 @@ test_that("Converting from clusterProfiler", {
   ego_mod@result$geneID <- NULL
   expect_error(shake_enrichResult(ego_mod))
 })
+
+test_that("Converting from the output of DAVID", {
+  david_output <- system.file("extdata", "david_output_chart_BPonly_ifng_vs_naive.txt", package = "GeneTonic")
+  res_enrich_IFNg_vs_naive_david <- shake_davidResult(david_output)
+  required_colnames <- c("gs_id", "gs_description", "gs_pvalue", "gs_genes", "gs_de_count", "gs_bg_count")
+  expect_true(all(required_colnames %in% colnames(res_enrich_IFNg_vs_naive_david)))
+  
+  expect_error(shake_davidResult("non_existing_file.txt"))
+  expect_error(shake_davidResult(topgoDE_macrophage_IFNg_vs_naive))
+  expect_error(shake_davidResult(as.data.frame(ego_IFNg_vs_naive)))
+})
