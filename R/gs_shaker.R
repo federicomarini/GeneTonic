@@ -156,3 +156,60 @@ shake_topGOtableResult <- function(obj,
 # shake_goseqResult?
 # shake_viseago?
 # shake_GSECA?
+
+
+#' Convert the output of DAVID
+#'
+#' Convert the output of DAVID for straightforward use in [GeneTonic()]
+#' 
+#' @param david_output_file The location of the text file output, as exported from
+#' DAVID 
+#'
+#' @return A `data.frame` compatible for use in [GeneTonic()] as `res_enrich`
+#' @export
+#' 
+#' @family shakers
+#'
+#' @examples
+#' david_output_file <- system.file("extdata", 
+#'                                  "david_output_chart_BPonly_ifng_vs_naive.txt", 
+#'                                  package = "GeneTonic")
+#' res_enrich <- shake_davidResult(david_output_file)
+shake_davidResult <- function(david_output_file) {
+  
+  if(!file.exists(david_output_file))
+    stop("File not found")
+  
+  my_david <- read.delim(david_output_file, header = TRUE, sep = "\t")
+  # careful, names are auto-sanitized
+  
+  exp_colnames <- c("Category", "Term", "Count", "X.", "PValue", "Genes",
+                    "List.Total", "Pop.Hits", "Pop.Total", "Fold.Enrichment",
+                    "Bonferroni", "Benjamini", "FDR")
+  if (!all(colnames(my_david) %in% exp_colnames))
+    warning("I could not find some of the usual column names from the DAVID output exported to file")
+  
+  message("Found ", nrow(my_david), " gene sets in the file output from DAVID of which ", sum(my_david$PValue <= 0.05), " are significant (p-value <= 0.05).")
+  message("Converting for usage in GeneTonic...")
+  
+  mydf <- data.frame(
+    gs_id = unlist(lapply(strsplit(my_david$Term, "~"), function(arg) arg[[1]])),
+    gs_description = unlist(lapply(strsplit(my_david$Term, "~"), function(arg) arg[[2]])),
+    gs_pvalue = my_david$PValue,
+    gs_genes = gsub(", ", ",", my_david$Genes),
+    gs_de_count = my_david$Count,
+    gs_bg_count = my_david$Pop.Hits,
+    gs_ontology = my_david$Category,
+    gs_generatio = my_david$Count/my_david$List.Total,
+    gs_bgratio = my_david$Pop.Hits/my_david$Pop.Total,
+    gs_foldenrich  = my_david$Fold.Enrichment,
+    gs_bonferroni = my_david$Bonferroni,
+    gs_benjamini = my_david$Benjamini,
+    gs_FDR = my_david$FDR,
+    stringsAsFactors = FALSE
+  )
+  
+  rownames(mydf) <- mydf$gs_id
+  
+  return(mydf)
+}
