@@ -49,6 +49,7 @@ head(res_enrich)
 }
 \seealso{
 Other shakers: 
+\code{\link{shake_davidResult}()},
 \code{\link{shake_topGOtableResult}()}
 }
 \concept{shakers}
