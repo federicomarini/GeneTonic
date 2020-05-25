@@ -13,8 +13,13 @@
 #' Convert an enrichResult object
 #'
 #' Convert an enrichResult object for straightforward use in [GeneTonic()]
+#' 
+#' This function is able to handle the output of `clusterProfiler` and `reactomePA`,
+#' as they both return an object of class `enrichResult` - and this in turn 
+#' contains the information required to create correctly a `res_enrich` object.
 #'
-#' @param obj An `enrichResult` object, obtained via `clusterProfiler`
+#' @param obj An `enrichResult` object, obtained via `clusterProfiler` (or also 
+#' via `reactomePA`)
 #'
 #' @return A `data.frame` compatible for use in [GeneTonic()] as `res_enrich`
 #' @export
