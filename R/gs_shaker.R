@@ -213,3 +213,82 @@ shake_davidResult <- function(david_output_file) {
   
   return(mydf)
 }
+
+
+
+#' Convert the output of Enrichr
+#'
+#' Convert the output of Enrichr for straightforward use in [GeneTonic()]
+#' 
+#' @param enrichr_output_file The location of the text file output, as exported from
+#' Enrichr 
+#' @param enrichr_output A data.frame with the output of `enrichr`, related to a 
+#' specific set of genesets. Usually it is one of the members of the list returned
+#' by the initial call to `enrichr`.
+#'
+#' @return A `data.frame` compatible for use in [GeneTonic()] as `res_enrich`
+#' @export
+#' 
+#' @family shakers
+#'
+#' @examples
+#' # library(enrichR)
+#' # dbs <- c("GO_Molecular_Function_2018", 
+#' #          "GO_Cellular_Component_2018", 
+#' #          "GO_Biological_Process_2018", 
+#' #          "KEGG_2019_Human", 
+#' #          "Reactome_2016", 
+#' #          "WikiPathways_2019_Human")
+#' # degenes <- (deseqresult2df(res_macrophage_IFNg_vs_naive, FDR = 0.01)$SYMBOL)
+#' # if called directly withín R...
+#' # enrichr_output_macrophage <- enrichr(degenes, dbs)
+#' # or alternatively, if downloaded from the website in tabular format
+#' enrichr_output_file <- system.file("extdata", 
+#'                                    "enrichr_tblexport_IFNg_vs_naive.txt", 
+#'                                    package = "GeneTonic")
+#' res_from_enrichr <- shake_enrichrResult(enrichr_output_file = enrichr_output_file)
+#' # res_from_enrichr2 <- shake_enrichrResult(
+#' #   enrichr_output = enrichr_output_macrophage[["GO_Biological_Process_2018"]])
+shake_enrichrResult <- function(enrichr_output_file,
+                                enrichr_output = NULL) {
+  if (is.null(enrichr_output)) {
+    if(!file.exists(enrichr_output_file))
+      stop("File not found")
+    enrichr_output <- read.delim(enrichr_output_file, header = TRUE, sep = "\t")
+  }
+  
+  if (!is.null(enrichr_output)) {
+    # if still a list, might need to select the appropriate element
+    if (is(enrichr_output, "list"))
+      stop("Expecting a data.frame object. Maybe you are providing the list", 
+           " containing it? You could do so by selecting the appropriate element",
+           " of the list")
+  }
+  
+  exp_colnames <- c("Term", "Overlap", "P.value", "Adjusted.P.value",
+                    "Old.P.value", "Old.Adjusted.P.value", "Odds.Ratio",
+                    "Combined.Score", "Genes")
+  if (!all(colnames(enrichr_output) %in% exp_colnames))
+    warning("I could not find some of the usual column names from the Enrichr output")
+  
+  message("Found ", nrow(enrichr_output), " gene sets in the file output from Enrichr of which ", sum(enrichr_output$P.value <= 0.05), " are significant (p-value <= 0.05).")
+  message("Converting for usage in GeneTonic...")
+  
+  # TODO: split up id and term - or just keep em the same?!
+  # this does work for go term as they encode it...
+  mydf <- data.frame(
+    gs_id = gsub("\\)", "", gsub("^.* \\(", "", enrichr_output$Term)),
+    gs_description = gsub(" \\(GO.*$", "", enrichr_output$Term),
+    gs_pvalue = enrichr_output$P.value,
+    gs_genes = gsub(";", ",", enrichr_output$Genes),
+    gs_de_count = as.numeric(
+      unlist(lapply(strsplit(enrichr_output$Overlap, "/"), function(arg) arg[[1]]))),
+    gs_bg_count = as.numeric(
+      unlist(lapply(strsplit(enrichr_output$Overlap, "/"), function(arg) arg[[2]]))),
+    gs_adj_pvalue = enrichr_output$Adjusted.P.value,
+    stringsAsFactors = FALSE
+  )
+  
+  rownames(mydf) <- mydf$gs_id
+  
+  return(mydf)
