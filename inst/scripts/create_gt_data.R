@@ -51,6 +51,30 @@ topgoDE_macrophage_IFNg_vs_naive <-
              stringsAsFactors = FALSE)
 
 
+# gostres object ----------------------------------------------------------
+library("gprofiler2")
+degenes <- deseqresult2df(res_macrophage_IFNg_vs_naive, FDR = 0.01)$SYMBOL
+gostres_macrophage <- gost(
+  query = degenes, 
+  organism = "hsapiens", 
+  ordered_query = FALSE, 
+  multi_query = FALSE, 
+  significant = FALSE, 
+  exclude_iea = TRUE, 
+  measure_underrepresentation = FALSE, 
+  evcodes = TRUE, 
+  user_threshold = 0.05, 
+  correction_method = "g_SCS", 
+  domain_scope = "annotated", 
+  # custom_bg =  res_macrophage_IFNg_vs_naive$SYMBOL, 
+  numeric_ns = "", 
+  sources = "GO:BP", 
+  as_short_link = FALSE)
+  # as_short_link = TRUE) # alternative, to work on the textual output of the web interface
+
+save(gostres_macrophage, file = "data/gostres_macrophage.RData", compress = "xz")
+
+
 # enrichr_output_macrophage -----------------------------------------------
 library("enrichR")
 dbs <- c("GO_Molecular_Function_2018",
