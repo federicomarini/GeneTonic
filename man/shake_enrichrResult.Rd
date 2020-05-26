@@ -21,7 +21,7 @@ A \code{data.frame} compatible for use in \code{\link[=GeneTonic]{GeneTonic()}} 
 Convert the output of Enrichr for straightforward use in \code{\link[=GeneTonic]{GeneTonic()}}
 }
 \examples{
-# library(enrichR)
+# library("enrichR")
 # dbs <- c("GO_Molecular_Function_2018", 
 #          "GO_Cellular_Component_2018", 
 #          "GO_Biological_Process_2018", 

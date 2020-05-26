@@ -7,12 +7,11 @@
 shake_gprofilerResult(gprofiler_output_file, gprofiler_output = NULL)
 }
 \arguments{
-\item{enrichr_output_file}{The location of the text file output, as exported from
-the website of g:Profiler}
+\item{gprofiler_output_file}{The location of the text file output, as exported from
+g:Profiler}
 
-\item{enrichr_output}{A data.frame with the output created with the function
-\code{gost} from \code{gprofiler2}. Usually it is the \verb{$result} element of the list returned
-when calling \code{gost}}
+\item{gprofiler_output}{A data.frame with the output of \code{gost()} in \code{gprofiler2}.
+Usually it is one of the members of the list returned by the initial call to \code{gost}.}
 }
 \value{
 A \code{data.frame} compatible for use in \code{\link[=GeneTonic]{GeneTonic()}} as \code{res_enrich}
@@ -25,10 +24,15 @@ Convert the output of g:Profiler for straightforward use in \code{\link[=GeneTon
 # if called directly withín R...
 # enrichr_output_macrophage <- enrichr(degenes, dbs)
 # or alternatively, if downloaded from the website in tabular format
-gprofiler_output_file <- system.file("extdata", 
-                                   "enrichr_tblexport_IFNg_vs_naive.txt", 
-                                   package = "GeneTonic")
-res_from_enrichr <- shake_gprofilerResult(gprofiler_output_file = gprofiler_output_file)
+gprofiler_output_file <- system.file(
+  "extdata", 
+  "gProfiler_hsapiens_5-25-2020_tblexport_IFNg_vs_naive.csv", 
+  package = "GeneTonic")
+res_from_gprofiler <- shake_gprofilerResult(gprofiler_output_file = gprofiler_output_file)
+
+res_from_gprofiler_2 <- shake_gprofilerResult(
+  gprofiler_output = gostres_macrophage$result
+)
 }
 \seealso{
 Other shakers: 
