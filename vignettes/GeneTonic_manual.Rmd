@@ -61,7 +61,7 @@ This package provides a Shiny application that aims to combine at different leve
 In order to use `r BiocStyle::Biocpkg("GeneTonic")` in your workflow, the following inputs are required: 
 
 - `dds`, a `DESeqDataSet` containing the expression matrix;
-- `res_de`, a `DESeqResults`, i.e. a `DataFrame` storing the results of the differentially expression analysis;
+- `res_de`, a `DESeqResults`, i.e. a `DataFrame` storing the results of the differential expression analysis;
 - `res_enrich`, a `data.frame` with the results of functional enrichment analysis;
 - `annotation_obj`, a `data.frame` with the correspondence between identifiers for the features under inspection in the `dds` object.
 
