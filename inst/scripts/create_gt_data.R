@@ -49,3 +49,19 @@ save(topgoDE_macrophage_IFNg_vs_naive, file = "data/res_enrich_macrophage.RData"
 topgoDE_macrophage_IFNg_vs_naive <-
   read.table(system.file("extdata", "topgotable_res_IFNg_vs_naive.txt", package = "GeneTonic"),
              stringsAsFactors = FALSE)
+
+
+# enrichr_output_macrophage -----------------------------------------------
+library("enrichR")
+dbs <- c("GO_Molecular_Function_2018",
+         "GO_Cellular_Component_2018",
+         "GO_Biological_Process_2018",
+         "KEGG_2019_Human",
+         "Reactome_2016",
+         "WikiPathways_2019_Human")
+degenes <- (deseqresult2df(res_macrophage_IFNg_vs_naive, FDR = 0.01)$SYMBOL)
+enrichr_output_macrophage <- enrichr(degenes, dbs)
+
+save(enrichr_output_macrophage, 
+     file = "data/enrichr_output_macrophage.RData", 
+     compress = "xz")
