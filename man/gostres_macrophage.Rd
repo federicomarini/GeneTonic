@@ -22,3 +22,9 @@ Alasoo, et al. "Shared genetic effects on chromatin and gene
 expression indicate a role for enhancer priming in immune response",
 Nature Genetics, January 2018 doi: 10.1038/s41588-018-0046-7.
 }
+\seealso{
+Other pathway-analysis-results: 
+\code{\link{enrichr_output_macrophage}},
+\code{\link{topgoDE_macrophage_IFNg_vs_naive}}
+}
+\concept{pathway-analysis-results}
