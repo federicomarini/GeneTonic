@@ -297,3 +297,100 @@ shake_enrichrResult <- function(enrichr_output_file,
   rownames(mydf) <- mydf$gs_id
   
   return(mydf)
+}
+
+
+#' Convert the output of g:Profiler
+#'
+#' Convert the output of g:Profiler for straightforward use in [GeneTonic()]
+#' 
+#' @param enrichr_output_file The location of the text file output, as exported from
+#' the website of g:Profiler 
+#' @param enrichr_output A data.frame with the output created with the function 
+#' `gost` from `gprofiler2`. Usually it is the `$result` element of the list returned
+#' when calling `gost`
+#'
+#' @return A `data.frame` compatible for use in [GeneTonic()] as `res_enrich`
+#' @export
+#' 
+#' @family shakers
+#'
+#' @examples
+#' # degenes <- (deseqresult2df(res_macrophage_IFNg_vs_naive, FDR = 0.01)$SYMBOL)
+#' # if called directly withín R...
+#' # enrichr_output_macrophage <- enrichr(degenes, dbs)
+#' # or alternatively, if downloaded from the website in tabular format
+#' gprofiler_output_file <- system.file("extdata", 
+#'                                    "enrichr_tblexport_IFNg_vs_naive.txt", 
+#'                                    package = "GeneTonic")
+#' res_from_enrichr <- shake_gprofilerResult(gprofiler_output_file = gprofiler_output_file)
+shake_gprofilerResult <- function(gprofiler_output_file,
+                                  gprofiler_output = NULL) {
+  if (is.null(gprofiler_output)) {
+    # expecting text input
+    if(!file.exists(gprofiler_output_file))
+      stop("File not found")
+    gprofiler_output <- read.delim(gprofiler_output_file, header = TRUE, sep = ",")
+    
+    exp_colnames_textual <- c("source", "term_name", "term_id", "adjusted_p_value", 
+                              "negative_log10_of_adjusted_p_value", "term_size", 
+                              "query_size", "intersection_size", "effective_domain_size",
+                              "intersections")
+    
+    if (!all(colnames(gprofiler_output) %in% exp_colnames_textual))
+      stop("I could not find some of the usual column names from the g:Profiler output.", 
+           " A possible reason could be that you did not specify `evcodes = TRUE`?",
+           " This is required to fill in all the required fields of `res_enrich`")
+    
+    message("Found ", nrow(gprofiler_output), " gene sets in the file output from Enrichr of which ", sum(gprofiler_output$adjusted_p_value <= 0.05), " are significant (p-value <= 0.05).")
+    message("Converting for usage in GeneTonic...")
+    
+    mydf <- data.frame(
+      gs_id = gprofiler_output$term_id,
+      gs_description = gprofiler_output$term_name,
+      gs_pvalue = gprofiler_output$adjusted_p_value,
+      gs_genes = gprofiler_output$intersections,
+      gs_de_count = gprofiler_output$intersection_size,
+      gs_bg_count = gprofiler_output$term_size,
+      gs_adj_pvalue = gprofiler_output$adjusted_p_value,
+      stringsAsFactors = FALSE
+    )
+    
+  } else {
+    # using directly the output from the call from gprofiler2
+    # if still a list, might need to select the appropriate element
+    if (is(gprofiler_output, "list"))
+      stop("Expecting a data.frame object. Maybe you are providing the list", 
+           " containing it? You could do so by selecting the appropriate element",
+           " of the list")
+    
+    exp_colnames_rcall <- c("query", "significant", "p_value", "term_size", "query_size",
+                            "intersection_size", "precision", "recall",
+                            "term_id", "source", "term_name", "effective_domain_size",
+                            "source_order", "parents", "evidence_codes", "intersection")
+    
+    if (!all(colnames(gprofiler_output) %in% exp_colnames_rcall))
+      stop("I could not find some of the usual column names from the g:Profiler output.", 
+           " A possible reason could be that you did not specify `evcodes = TRUE`?",
+           " This is required to fill in all the required fields of `res_enrich`")
+    
+    message("Found ", nrow(gprofiler_output), " gene sets in the file output from Enrichr of which ", sum(gprofiler_output$p_value <= 0.05), " are significant (p-value <= 0.05).")
+    message("Converting for usage in GeneTonic...")
+    
+    mydf <- data.frame(
+      gs_id = gprofiler_output$term_id,
+      gs_description = gprofiler_output$term_name,
+      gs_pvalue = gprofiler_output$p_value,
+      gs_genes = gprofiler_output$intersection,
+      gs_de_count = gprofiler_output$intersection_size,
+      gs_bg_count = gprofiler_output$term_size,
+      gs_adj_pvalue = gprofiler_output$p_value,
+      gs_ontology = gprofiler_output$source,
+      stringsAsFactors = FALSE
+    )
+  }
+  
+  rownames(mydf) <- mydf$gs_id
+  
+  return(mydf)
+}
