@@ -323,7 +323,11 @@ shake_enrichrResult <- function(enrichr_output_file,
 #'   "extdata", 
 #'   "gProfiler_hsapiens_5-25-2020_tblexport_IFNg_vs_naive.csv", 
 #'   package = "GeneTonic")
-#' res_from_enrichr <- shake_gprofilerResult(gprofiler_output_file = gprofiler_output_file)
+#' res_from_gprofiler <- shake_gprofilerResult(gprofiler_output_file = gprofiler_output_file)
+#' 
+#' res_from_gprofiler_2 <- shake_gprofilerResult(
+#'   gprofiler_output = gostres_macrophage$result
+#' )
 shake_gprofilerResult <- function(gprofiler_output_file,
                                   gprofiler_output = NULL) {
   if (is.null(gprofiler_output)) {
