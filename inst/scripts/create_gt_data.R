@@ -1,9 +1,9 @@
-library(GeneTonic)
-library(macrophage)
+library("GeneTonic")
+library("macrophage")
 data(gse)
 
 # dds object -------------------------------------------------------------------
-library(DESeq2)
+library("DESeq2")
 dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
 rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 # no need to save this one, can be readily generated
@@ -65,3 +65,4 @@ enrichr_output_macrophage <- enrichr(degenes, dbs)
 save(enrichr_output_macrophage, 
      file = "data/enrichr_output_macrophage.RData", 
      compress = "xz")
+
