@@ -7,13 +7,19 @@
 shake_enrichResult(obj)
 }
 \arguments{
-\item{obj}{An \code{enrichResult} object, obtained via \code{clusterProfiler}}
+\item{obj}{An \code{enrichResult} object, obtained via \code{clusterProfiler} (or also
+via \code{reactomePA})}
 }
 \value{
 A \code{data.frame} compatible for use in \code{\link[=GeneTonic]{GeneTonic()}} as \code{res_enrich}
 }
 \description{
 Convert an enrichResult object for straightforward use in \code{\link[=GeneTonic]{GeneTonic()}}
+}
+\details{
+This function is able to handle the output of \code{clusterProfiler} and \code{reactomePA},
+as they both return an object of class \code{enrichResult} - and this in turn
+contains the information required to create correctly a \code{res_enrich} object.
 }
 \examples{
 # dds
@@ -50,6 +56,8 @@ head(res_enrich)
 \seealso{
 Other shakers: 
 \code{\link{shake_davidResult}()},
+\code{\link{shake_enrichrResult}()},
+\code{\link{shake_gprofilerResult}()},
 \code{\link{shake_topGOtableResult}()}
 }
 \concept{shakers}

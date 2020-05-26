@@ -29,6 +29,8 @@ res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 \seealso{
 Other shakers: 
 \code{\link{shake_davidResult}()},
-\code{\link{shake_enrichResult}()}
+\code{\link{shake_enrichResult}()},
+\code{\link{shake_enrichrResult}()},
+\code{\link{shake_gprofilerResult}()}
 }
 \concept{shakers}
