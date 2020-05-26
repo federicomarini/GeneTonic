@@ -237,7 +237,7 @@ shake_davidResult <- function(david_output_file) {
 #' @family shakers
 #'
 #' @examples
-#' # library(enrichR)
+#' # library("enrichR")
 #' # dbs <- c("GO_Molecular_Function_2018", 
 #' #          "GO_Cellular_Component_2018", 
 #' #          "GO_Biological_Process_2018", 
@@ -304,11 +304,10 @@ shake_enrichrResult <- function(enrichr_output_file,
 #'
 #' Convert the output of g:Profiler for straightforward use in [GeneTonic()]
 #' 
-#' @param enrichr_output_file The location of the text file output, as exported from
-#' the website of g:Profiler 
-#' @param enrichr_output A data.frame with the output created with the function 
-#' `gost` from `gprofiler2`. Usually it is the `$result` element of the list returned
-#' when calling `gost`
+#' @param gprofiler_output_file The location of the text file output, as exported from
+#' g:Profiler 
+#' @param gprofiler_output A data.frame with the output of `gost()` in `gprofiler2`. 
+#' Usually it is one of the members of the list returned by the initial call to `gost`.
 #'
 #' @return A `data.frame` compatible for use in [GeneTonic()] as `res_enrich`
 #' @export
@@ -320,9 +319,10 @@ shake_enrichrResult <- function(enrichr_output_file,
 #' # if called directly withín R...
 #' # enrichr_output_macrophage <- enrichr(degenes, dbs)
 #' # or alternatively, if downloaded from the website in tabular format
-#' gprofiler_output_file <- system.file("extdata", 
-#'                                    "enrichr_tblexport_IFNg_vs_naive.txt", 
-#'                                    package = "GeneTonic")
+#' gprofiler_output_file <- system.file(
+#'   "extdata", 
+#'   "gProfiler_hsapiens_5-25-2020_tblexport_IFNg_vs_naive.csv", 
+#'   package = "GeneTonic")
 #' res_from_enrichr <- shake_gprofilerResult(gprofiler_output_file = gprofiler_output_file)
 shake_gprofilerResult <- function(gprofiler_output_file,
                                   gprofiler_output = NULL) {
