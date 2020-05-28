@@ -75,6 +75,24 @@ gostres_macrophage <- gost(
 save(gostres_macrophage, file = "data/gostres_macrophage.RData", compress = "xz")
 
 
+# fgseaRes object ---------------------------------------------------------
+library("dplyr")
+library("tibble")
+library("fgsea")
+res2 <- res_macrophage_IFNg_vs_naive %>%
+  as.data.frame() %>% 
+  dplyr::select(SYMBOL, stat)
+de_ranks <- deframe(res2)
+head(de_ranks, 20)
+pathways_gmtfile <- gmtPathways("../MSigDBMaker/msigdb_v7.0_files_to_download_locally/msigdb_v7.0_GMTs/c5.bp.v7.0.symbols.gmt")
+fgseaRes <- fgsea(pathways = pathways_gmtfile, 
+                  stats = de_ranks, 
+                  nperm=100000)
+fgseaRes <- fgseaRes %>% 
+  arrange(desc(NES))
+save(fgseaRes, file = "data/fgseaRes.RData", compress = "xz")
+
+
 # enrichr_output_macrophage -----------------------------------------------
 library("enrichR")
 dbs <- c("GO_Molecular_Function_2018",
