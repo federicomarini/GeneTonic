@@ -325,6 +325,7 @@ shake_enrichrResult <- function(enrichr_output_file,
 #'   package = "GeneTonic")
 #' res_from_gprofiler <- shake_gprofilerResult(gprofiler_output_file = gprofiler_output_file)
 #' 
+#' data(gostres_macrophage, package = "GeneTonic")
 #' res_from_gprofiler_2 <- shake_gprofilerResult(
 #'   gprofiler_output = gostres_macrophage$result
 #' )
