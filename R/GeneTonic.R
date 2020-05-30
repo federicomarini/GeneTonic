@@ -580,6 +580,26 @@ GeneTonic <- function(dds,
                 class = "biocdlbutton",
                 icon = "cocktail") # magic?
             )
+          ),
+          hr(),
+          br(), br(), br(),
+          fluidRow(
+            column(
+              width = 4, 
+              textInput(
+                "se_export_name",label = "Choose a filename for the serialized .rds object",
+                value = "se_GeneTonic_toiSEE.rds"
+              )
+            ),
+            column(
+              width = 4,
+              gt_downloadButton(
+                "button_iSEEexport",
+                label = "Export as serialized SummarizedExperiment",
+                class = "biocdlbutton",
+                icon = "glasses"
+              )
+            )
           )
         )
       )
@@ -1155,6 +1175,15 @@ GeneTonic <- function(dds,
           quiet = TRUE),
           message = "Generating the html report",
           detail = "This can take some time")
+      }
+    )
+    
+    output$button_iSEEexport <- downloadHandler(
+      filename = function() {
+        input$se_export_name
+      }, content = function(file) {
+        se <- export_for_iSEE(dds, res_de)
+        saveRDS(se, file = file)
       }
     )
 
