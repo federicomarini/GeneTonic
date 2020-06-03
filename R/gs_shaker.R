@@ -399,3 +399,66 @@ shake_gprofilerResult <- function(gprofiler_output_file,
   
   return(mydf)
 }
+
+
+
+#' Convert the output of fgsea
+#'
+#' Convert the output of fgsea for straightforward use in [GeneTonic()]
+#' 
+#' @param fgsea_output A data.frame with the output of `fgsea()` in `fgsea`. 
+#'
+#' @return A `data.frame` compatible for use in [GeneTonic()] as `res_enrich`
+#' @export
+#' 
+#' @family shakers
+#'
+#' @examples
+#' data(fgseaRes, package = "GeneTonic")
+#' res_from_fgsea <- shake_fgseaResult(fgseaRes)
+shake_fgseaResult <- function(fgsea_output) {
+  if (!is(fgsea_output, "data.frame")) {
+    stop("fgsea output should be a data.frame!")
+  }
+  exp_colnames <- c("pathway", "pval", "padj", "ES", "NES",
+                    "nMoreExtreme", "size", "leadingEdge")
+  if (!all(colnames(fgsea_output) %in% exp_colnames))
+    stop("I could not find some of the usual column names from the fgsea output.", 
+         " Maybe you performed additional processing/filtering steps?")
+    
+  if (!is(fgsea_output$leadingEdge, "list")) {
+    stop("Expecting 'leadingEdge' column to be a list")
+  }
+    
+  message("Found ", nrow(fgsea_output), " gene sets in the file output from Enrichr of which ", sum(fgsea_output$padj <= 0.05), " are significant (p-value <= 0.05).")
+  message("Converting for usage in GeneTonic...")
+  
+  message(
+    "Using the content of the 'leadingEdge' column to generate the 'gs_genes' for GeneTonic...",
+    " If you have that information available directly, please adjust the content accordingly.",
+    "\n\nUsing the set of the leadingEdge size to compute the 'gs_de_count'"
+  )
+
+  message("\n\nfgsea is commonly returning no identifier for the gene sets used.",
+          " Please consider editing the 'gs_id' field manually according to the gene set you",
+          " provided")
+  
+  mydf <- data.frame(
+    gs_id = fgsea_output$pathway,
+    gs_description = fgsea_output$pathway,
+    gs_pvalue = fgsea_output$pval,
+    gs_genes = vapply(fgsea_output$leadingEdge, 
+                      function (arg) paste(arg, collapse = ","), character(1)),
+    gs_de_count = lengths(fgsea_output$leadingEdge),
+    gs_bg_count = fgsea_output$size,
+    gs_NES = fgsea_output$NES,
+    gs_adj_pvalue = fgsea_output$padj,
+    stringsAsFactors = FALSE
+  )
+  
+  rownames(mydf) <- mydf$gs_id
+  
+  return(mydf)
+}
+
+
