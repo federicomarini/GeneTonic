@@ -781,7 +781,10 @@ GeneTonic <- function(dds,
         visOptions(highlightNearest = list(enabled = TRUE,
                                            degree = 1,
                                            hover = TRUE),
-                   nodesIdSelection = TRUE)
+                   nodesIdSelection = TRUE) %>% 
+        visExport(name = "ggs_network", 
+                  type = "png",
+                  label = "Save ggs graph")
 
     })
 
@@ -928,7 +931,10 @@ GeneTonic <- function(dds,
         visOptions(highlightNearest = list(enabled = TRUE,
                                            degree = 1,
                                            hover = TRUE),
-                   nodesIdSelection = TRUE)
+                   nodesIdSelection = TRUE) %>% 
+        visExport(name = "emap_network", 
+                  type = "png",
+                  label = "Save enrichment map")
 
     })
 
