@@ -70,3 +70,29 @@ test_that("Converting from the output of g:Profiler", {
   expect_error(shake_gprofilerResult(topgoDE_macrophage_IFNg_vs_naive))
 })
 
+
+test_that("Converting from the output of enrichR", {
+  
+  enrichr_output_file <- system.file("extdata",
+                                     "enrichr_tblexport_IFNg_vs_naive.txt",
+                                     package = "GeneTonic")
+  res_from_enrichr <- shake_enrichrResult(enrichr_output_file = enrichr_output_file)
+  required_colnames <- c("gs_id", "gs_description", "gs_pvalue", "gs_genes", "gs_de_count", "gs_bg_count")
+  
+  expect_true(all(required_colnames %in% colnames(res_from_enrichr)))
+  expect_true(nrow(res_from_enrichr) == 2734)
+  expect_true(ncol(res_from_enrichr) == 7)
+  
+  data(enrichr_output_macrophage, package = "GeneTonic")
+  res_from_enrichr2 <- shake_enrichrResult(
+    enrichr_output = enrichr_output_macrophage[["GO_Biological_Process_2018"]])
+
+  expect_true(all(required_colnames %in% colnames(res_from_enrichr2)))
+  expect_true(nrow(res_from_enrichr2) == 2734)
+  expect_true(ncol(res_from_enrichr2) == 7)
+  
+  
+  expect_error(shake_enrichrResult("non_existing_file.txt"))
+  expect_error(shake_enrichrResult(topgoDE_macrophage_IFNg_vs_naive))
+})
+
