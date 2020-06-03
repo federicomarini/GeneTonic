@@ -96,3 +96,16 @@ test_that("Converting from the output of enrichR", {
   expect_error(shake_enrichrResult(topgoDE_macrophage_IFNg_vs_naive))
 })
 
+test_that("Converting from the output of fgsea", {
+  data(fgseaRes, package = "GeneTonic")
+  res_from_fgsea <- shake_fgseaResult(fgseaRes)
+  
+  required_colnames <- c("gs_id", "gs_description", "gs_pvalue", "gs_genes", "gs_de_count", "gs_bg_count")
+  expect_true(all(required_colnames %in% colnames(res_from_fgsea)))
+  expect_true(nrow(res_from_fgsea) == 7341)
+  expect_true(ncol(res_from_fgsea) == 8)
+  
+  expect_error(shake_fgseaResult(non_existing_object))
+  expect_error(shake_fgseaResult(topgoDE_macrophage_IFNg_vs_naive))
+})
+
