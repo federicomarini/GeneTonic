@@ -32,6 +32,7 @@ test_that("Converting from clusterProfiler", {
   expect_error(shake_enrichResult(ego_mod))
 })
 
+
 test_that("Converting from the output of DAVID", {
   david_output <- system.file("extdata", "david_output_chart_BPonly_ifng_vs_naive.txt", package = "GeneTonic")
   res_enrich_IFNg_vs_naive_david <- shake_davidResult(david_output)
@@ -42,3 +43,30 @@ test_that("Converting from the output of DAVID", {
   expect_error(shake_davidResult(topgoDE_macrophage_IFNg_vs_naive))
   expect_error(shake_davidResult(as.data.frame(ego_IFNg_vs_naive)))
 })
+
+
+test_that("Converting from the output of g:Profiler", {
+  
+  gprofiler_output_file <- system.file(
+    "extdata",
+    "gProfiler_hsapiens_5-25-2020_tblexport_IFNg_vs_naive.csv",
+    package = "GeneTonic")
+  res_from_gprofiler <- shake_gprofilerResult(gprofiler_output_file = gprofiler_output_file)
+
+  required_colnames <- c("gs_id", "gs_description", "gs_pvalue", "gs_genes", "gs_de_count", "gs_bg_count")
+  expect_true(all(required_colnames %in% colnames(res_from_gprofiler)))
+  expect_true(nrow(res_from_gprofiler) == 5593)
+  expect_true(ncol(res_from_gprofiler) == 7)
+  
+  data(gostres_macrophage, package = "GeneTonic")
+  res_from_gprofiler_2 <- shake_gprofilerResult(
+    gprofiler_output = gostres_macrophage$result
+  )
+  expect_true(all(required_colnames %in% colnames(res_from_gprofiler_2)))
+  expect_true(nrow(res_from_gprofiler_2) == 5593)
+  expect_true(ncol(res_from_gprofiler_2) == 8)
+  
+  expect_error(shake_gprofilerResult("non_existing_file.txt"))
+  expect_error(shake_gprofilerResult(topgoDE_macrophage_IFNg_vs_naive))
+})
+
