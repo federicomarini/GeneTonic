@@ -211,8 +211,11 @@ p-value - have been specified).</p></td>
 <span class='co'># res_enrich object</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>res_enrich_macrophage</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"GeneTonic"</span>)
 <span class='no'>res_enrich</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='shake_topGOtableResult.html'>shake_topGOtableResult</a></span>(<span class='no'>topgoDE_macrophage_IFNg_vs_naive</span>)</div><div class='output co'>#&gt; <span class='message'>Found 500 gene sets in `topGOtableResult` object.</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div><div class='input'><span class='no'>res_enrich</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_aggrscores.html'>get_aggrscores</a></span>(<span class='no'>res_enrich</span>, <span class='no'>res_de</span>, <span class='no'>anno_df</span>)
-<span class='fu'>gs_radar</span>(<span class='kw'>res_enrich</span> <span class='kw'>=</span> <span class='no'>res_enrich</span>)
-<span class='co'># or using the alias...</span>
+<span class='fu'>gs_radar</span>(<span class='kw'>res_enrich</span> <span class='kw'>=</span> <span class='no'>res_enrich</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `arrange_()` is deprecated as of dplyr 0.7.0.</span>
+#&gt; <span class='warning'>Please use `arrange()` instead.</span>
+#&gt; <span class='warning'>See vignette('programming') for more help</span>
+#&gt; <span class='warning'><span style='color: #555555;'>This warning is displayed once every 8 hours.</span><span></span>
+#&gt; <span class='warning'></span><span style='color: #555555;'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span><span></span></div><div class='input'><span class='co'># or using the alias...</span>
 <span class='fu'>gs_spider</span>(<span class='kw'>res_enrich</span> <span class='kw'>=</span> <span class='no'>res_enrich</span>)
 
 <span class='co'># with more than one set</span>
@@ -222,7 +225,7 @@ p-value - have been specified).</p></td>
 <span class='no'>res_enrich2</span>$<span class='no'>gs_pvalue</span> <span class='kw'>&lt;-</span> <span class='no'>res_enrich2</span>$<span class='no'>gs_pvalue</span>[<span class='no'>shuffled_ones</span>]
 <span class='co'># ideally, I would also permute the z scores and aggregated scores</span>
 <span class='fu'>gs_radar</span>(<span class='kw'>res_enrich</span> <span class='kw'>=</span> <span class='no'>res_enrich</span>,
-         <span class='kw'>res_enrich2</span> <span class='kw'>=</span> <span class='no'>res_enrich2</span>)</div></pre>
+         <span class='kw'>res_enrich2</span> <span class='kw'>=</span> <span class='no'>res_enrich2</span>)</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

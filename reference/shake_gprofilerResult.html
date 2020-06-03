@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Simplify results from functional enrichment analysis — gs_simplify • GeneTonic</title>
+<title>Convert the output of g:Profiler — shake_gprofilerResult • GeneTonic</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Simplify results from functional enrichment analysis — gs_simplify" />
-<meta property="og:description" content="Simplify results from functional enrichment analysis, removing genesets that
-are redundant to enhance interpretation of the results" />
+<meta property="og:title" content="Convert the output of g:Profiler — shake_gprofilerResult" />
+<meta property="og:description" content="Convert the output of g:Profiler for straightforward use in GeneTonic()" />
 
 
 
@@ -125,51 +124,57 @@ are redundant to enhance interpretation of the results" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Simplify results from functional enrichment analysis</h1>
-    <small class="dont-index">Source: <a href='https://github.com/federicomarini/GeneTonic/blob/master/R/gs_simplify.R'><code>R/gs_simplify.R</code></a></small>
-    <div class="hidden name"><code>gs_simplify.Rd</code></div>
+    <h1>Convert the output of g:Profiler</h1>
+    <small class="dont-index">Source: <a href='https://github.com/federicomarini/GeneTonic/blob/master/R/gs_shaker.R'><code>R/gs_shaker.R</code></a></small>
+    <div class="hidden name"><code>shake_gprofilerResult.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Simplify results from functional enrichment analysis, removing genesets that
-are redundant to enhance interpretation of the results</p>
+    <p>Convert the output of g:Profiler for straightforward use in <code><a href='GeneTonic.html'>GeneTonic()</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>gs_simplify</span>(<span class='no'>res_enrich</span>, <span class='kw'>gs_overlap</span> <span class='kw'>=</span> <span class='fl'>0.75</span>)</pre>
+    <pre class="usage"><span class='fu'>shake_gprofilerResult</span>(<span class='no'>gprofiler_output_file</span>, <span class='kw'>gprofiler_output</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>res_enrich</th>
-      <td><p>A <code>data.frame</code> object, storing the result of the functional
-enrichment analysis. See more in the main function, <code><a href='GeneTonic.html'>GeneTonic()</a></code>, to check the
-formatting requirements (a minimal set of columns should be present).</p></td>
+      <th>gprofiler_output_file</th>
+      <td><p>The location of the text file output, as exported from
+g:Profiler</p></td>
     </tr>
     <tr>
-      <th>gs_overlap</th>
-      <td><p>Numeric value, which defines the threshold for removing
-terms that present an overlap greater than the specified value. Changing its
-value can control the granularity of how redundant terms are removed from the
-original <code>res_enrich</code> for the next steps, e.g. plotting this via <code><a href='gs_volcano.html'>gs_volcano()</a></code></p></td>
+      <th>gprofiler_output</th>
+      <td><p>A data.frame with the output of <code>gost()</code> in <code>gprofiler2</code>.
+Usually it is one of the members of the list returned by the initial call to <code>gost</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>data.frame</code> with a subset of the original gene sets</p>
+    <p>A <code>data.frame</code> compatible for use in <code><a href='GeneTonic.html'>GeneTonic()</a></code> as <code>res_enrich</code></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='gs_volcano.html'>gs_volcano()</a></code> and <code><a href='ggs_graph.html'>ggs_graph()</a></code> can e.g. show an overview on the
-simplified table of gene sets</p></div>
+    <div class='dont-index'><p>Other shakers: 
+<code><a href='shake_davidResult.html'>shake_davidResult</a>()</code>,
+<code><a href='shake_enrichResult.html'>shake_enrichResult</a>()</code>,
+<code><a href='shake_enrichrResult.html'>shake_enrichrResult</a>()</code>,
+<code><a href='shake_topGOtableResult.html'>shake_topGOtableResult</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'># res_enrich object</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>res_enrich_macrophage</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"GeneTonic"</span>)
-<span class='no'>res_enrich</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='shake_topGOtableResult.html'>shake_topGOtableResult</a></span>(<span class='no'>topgoDE_macrophage_IFNg_vs_naive</span>)</div><div class='output co'>#&gt; <span class='message'>Found 500 gene sets in `topGOtableResult` object.</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span>(<span class='no'>res_enrich</span>)</div><div class='output co'>#&gt; [1] 500   7</div><div class='input'><span class='no'>res_enrich_simplified</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_simplify</span>(<span class='no'>res_enrich</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span>(<span class='no'>res_enrich_simplified</span>)</div><div class='output co'>#&gt; [1] 143   7</div><div class='input'><span class='co'># and then use this further for all other functions expecting a res_enrich</span></div></pre>
+    <pre class="examples"><div class='input'><span class='co'># degenes &lt;- (deseqresult2df(res_macrophage_IFNg_vs_naive, FDR = 0.01)$SYMBOL)</span>
+<span class='co'># if called directly withín R...</span>
+<span class='co'># enrichr_output_macrophage &lt;- enrichr(degenes, dbs)</span>
+<span class='co'># or alternatively, if downloaded from the website in tabular format</span>
+<span class='no'>gprofiler_output_file</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(
+  <span class='st'>"extdata"</span>,
+  <span class='st'>"gProfiler_hsapiens_5-25-2020_tblexport_IFNg_vs_naive.csv"</span>,
+  <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"GeneTonic"</span>)
+<span class='no'>res_from_gprofiler</span> <span class='kw'>&lt;-</span> <span class='fu'>shake_gprofilerResult</span>(<span class='kw'>gprofiler_output_file</span> <span class='kw'>=</span> <span class='no'>gprofiler_output_file</span>)</div><div class='output co'>#&gt; <span class='message'>Found 5593 gene sets in the file output from Enrichr of which 179 are significant (p-value &lt;= 0.05).</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>gostres_macrophage</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"GeneTonic"</span>)
+<span class='no'>res_from_gprofiler_2</span> <span class='kw'>&lt;-</span> <span class='fu'>shake_gprofilerResult</span>(
+  <span class='kw'>gprofiler_output</span> <span class='kw'>=</span> <span class='no'>gostres_macrophage</span>$<span class='no'>result</span>
+)</div><div class='output co'>#&gt; <span class='message'>Found 5593 gene sets in the file output from Enrichr of which 179 are significant (p-value &lt;= 0.05).</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

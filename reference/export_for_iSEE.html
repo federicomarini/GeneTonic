@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Simplify results from functional enrichment analysis — gs_simplify • GeneTonic</title>
+<title>export_for_iSEE — export_for_iSEE • GeneTonic</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Simplify results from functional enrichment analysis — gs_simplify" />
-<meta property="og:description" content="Simplify results from functional enrichment analysis, removing genesets that
-are redundant to enhance interpretation of the results" />
+<meta property="og:title" content="export_for_iSEE — export_for_iSEE" />
+<meta property="og:description" content="Combine data from a typical DESeq2 run" />
 
 
 
@@ -125,51 +124,58 @@ are redundant to enhance interpretation of the results" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Simplify results from functional enrichment analysis</h1>
-    <small class="dont-index">Source: <a href='https://github.com/federicomarini/GeneTonic/blob/master/R/gs_simplify.R'><code>R/gs_simplify.R</code></a></small>
-    <div class="hidden name"><code>gs_simplify.Rd</code></div>
+    <h1>export_for_iSEE</h1>
+    <small class="dont-index">Source: <a href='https://github.com/federicomarini/GeneTonic/blob/master/R/export_for_iSEE.R'><code>R/export_for_iSEE.R</code></a></small>
+    <div class="hidden name"><code>export_for_iSEE.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Simplify results from functional enrichment analysis, removing genesets that
-are redundant to enhance interpretation of the results</p>
+    <p>Combine data from a typical DESeq2 run</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gs_simplify</span>(<span class='no'>res_enrich</span>, <span class='kw'>gs_overlap</span> <span class='kw'>=</span> <span class='fl'>0.75</span>)</pre>
+    <pre class="usage"><span class='fu'>export_for_iSEE</span>(<span class='no'>dds</span>, <span class='no'>res_de</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>res_enrich</th>
-      <td><p>A <code>data.frame</code> object, storing the result of the functional
-enrichment analysis. See more in the main function, <code><a href='GeneTonic.html'>GeneTonic()</a></code>, to check the
-formatting requirements (a minimal set of columns should be present).</p></td>
+      <th>dds</th>
+      <td><p>A <code>DESeqDataSet</code> object.</p></td>
     </tr>
     <tr>
-      <th>gs_overlap</th>
-      <td><p>Numeric value, which defines the threshold for removing
-terms that present an overlap greater than the specified value. Changing its
-value can control the granularity of how redundant terms are removed from the
-original <code>res_enrich</code> for the next steps, e.g. plotting this via <code><a href='gs_volcano.html'>gs_volcano()</a></code></p></td>
+      <th>res_de</th>
+      <td><p>A <code>DESeqResults</code> object.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>data.frame</code> with a subset of the original gene sets</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <p>A SummarizedExperiment object, with raw counts, normalized counts, and
+variance-stabilizing transformed counts in the assay slots; and with colData
+and rowData extracted from the corresponding input parameters - mainly the
+results for differential expression analysis.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <div class='dont-index'><p><code><a href='gs_volcano.html'>gs_volcano()</a></code> and <code><a href='ggs_graph.html'>ggs_graph()</a></code> can e.g. show an overview on the
-simplified table of gene sets</p></div>
+    <p>Combines the DESeqDataSet input and DESeqResults into a SummarizedExperiment
+object, which can be readily explored with iSEE.</p>
+<p>A typical usage would be after running the DESeq2 pipeline and/or after exploring
+the functional enrichment results with <code><a href='GeneTonic.html'>GeneTonic()</a></code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'># res_enrich object</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>res_enrich_macrophage</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"GeneTonic"</span>)
-<span class='no'>res_enrich</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='shake_topGOtableResult.html'>shake_topGOtableResult</a></span>(<span class='no'>topgoDE_macrophage_IFNg_vs_naive</span>)</div><div class='output co'>#&gt; <span class='message'>Found 500 gene sets in `topGOtableResult` object.</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span>(<span class='no'>res_enrich</span>)</div><div class='output co'>#&gt; [1] 500   7</div><div class='input'><span class='no'>res_enrich_simplified</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_simplify</span>(<span class='no'>res_enrich</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span>(<span class='no'>res_enrich_simplified</span>)</div><div class='output co'>#&gt; [1] 143   7</div><div class='input'><span class='co'># and then use this further for all other functions expecting a res_enrich</span></div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"macrophage"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"DESeq2"</span>)
+
+<span class='co'># dds object</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"gse"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"macrophage"</span>)
+<span class='no'>dds_macrophage</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html'>DESeqDataSet</a></span>(<span class='no'>gse</span>, <span class='kw'>design</span> <span class='kw'>=</span> ~<span class='no'>line</span> + <span class='no'>condition</span>)</div><div class='output co'>#&gt; <span class='message'>using counts and average transcript lengths from tximeta</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>dds_macrophage</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/substr.html'>substr</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>dds_macrophage</span>), <span class='fl'>1</span>, <span class='fl'>15</span>)
+<span class='no'>dds_macrophage</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/estimateSizeFactors.html'>estimateSizeFactors</a></span>(<span class='no'>dds_macrophage</span>)</div><div class='output co'>#&gt; <span class='message'>using 'avgTxLength' from assays(dds), correcting for library size</span></div><div class='input'>
+<span class='co'># res object</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>res_de_macrophage</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"GeneTonic"</span>)
+<span class='no'>res_de</span> <span class='kw'>&lt;-</span> <span class='no'>res_macrophage_IFNg_vs_naive</span>
+
+<span class='co'># now everything is in place to launch the app</span>
+<span class='co'># dds_macrophage &lt;- DESeq2::DESeq(dds_macrophage)</span>
+<span class='no'>se_macrophage</span> <span class='kw'>&lt;-</span> <span class='fu'>export_for_iSEE</span>(<span class='no'>dds_macrophage</span>, <span class='no'>res_de</span>)</div><div class='output co'>#&gt; <span class='message'>Attempting to combine a dds and a res_de object where not allidentifiers are shared. Subsetting to the intersection of these...</span></div><div class='input'><span class='co'># iSEE(se_macrophage)</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

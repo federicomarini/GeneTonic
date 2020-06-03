@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Simplify results from functional enrichment analysis — gs_simplify • GeneTonic</title>
+<title>A sample output from fgsea — fgseaRes • GeneTonic</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="Simplify results from functional enrichment analysis — gs_simplify" />
-<meta property="og:description" content="Simplify results from functional enrichment analysis, removing genesets that
-are redundant to enhance interpretation of the results" />
+<meta property="og:title" content="A sample output from fgsea — fgseaRes" />
+<meta property="og:description" content="A sample output object as created from a call to the fgsea() function, in
+the fgsea package, as a practical framework for performing GSEA" />
 
 
 
@@ -125,51 +125,32 @@ are redundant to enhance interpretation of the results" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Simplify results from functional enrichment analysis</h1>
-    <small class="dont-index">Source: <a href='https://github.com/federicomarini/GeneTonic/blob/master/R/gs_simplify.R'><code>R/gs_simplify.R</code></a></small>
-    <div class="hidden name"><code>gs_simplify.Rd</code></div>
+    <h1>A sample output from fgsea</h1>
+    <small class="dont-index">Source: <a href='https://github.com/federicomarini/GeneTonic/blob/master/R/GeneTonic-data.R'><code>R/GeneTonic-data.R</code></a></small>
+    <div class="hidden name"><code>fgseaRes.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Simplify results from functional enrichment analysis, removing genesets that
-are redundant to enhance interpretation of the results</p>
+    <p>A sample output object as created from a call to the <code>fgsea()</code> function, in
+the <code>fgsea</code> package, as a practical framework for performing GSEA</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gs_simplify</span>(<span class='no'>res_enrich</span>, <span class='kw'>gs_overlap</span> <span class='kw'>=</span> <span class='fl'>0.75</span>)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>res_enrich</th>
-      <td><p>A <code>data.frame</code> object, storing the result of the functional
-enrichment analysis. See more in the main function, <code><a href='GeneTonic.html'>GeneTonic()</a></code>, to check the
-formatting requirements (a minimal set of columns should be present).</p></td>
-    </tr>
-    <tr>
-      <th>gs_overlap</th>
-      <td><p>Numeric value, which defines the threshold for removing
-terms that present an overlap greater than the specified value. Changing its
-value can control the granularity of how redundant terms are removed from the
-original <code>res_enrich</code> for the next steps, e.g. plotting this via <code><a href='gs_volcano.html'>gs_volcano()</a></code></p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>A <code>data.frame</code> with a subset of the original gene sets</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <p>This object has been created on the data from the <code>macrophage</code> package
+by analyzing downstream the differentially expressed genes
+when comparing IFNg treated samples vs naive samples, accounting
+for the different cell lines included.</p>
+<p>Details on how this object has been created are included in the <code>create_gt_data.R</code>
+script, included in the <code>scripts</code> folder of the <code>GeneTonic</code> package.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <div class='dont-index'><p><code><a href='gs_volcano.html'>gs_volcano()</a></code> and <code><a href='ggs_graph.html'>ggs_graph()</a></code> can e.g. show an overview on the
-simplified table of gene sets</p></div>
+    <p>Alasoo, et al. "Shared genetic effects on chromatin and gene
+expression indicate a role for enhancer priming in immune response",
+Nature Genetics, January 2018 doi: 10.1038/s41588-018-0046-7.</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'># res_enrich object</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>res_enrich_macrophage</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"GeneTonic"</span>)
-<span class='no'>res_enrich</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='shake_topGOtableResult.html'>shake_topGOtableResult</a></span>(<span class='no'>topgoDE_macrophage_IFNg_vs_naive</span>)</div><div class='output co'>#&gt; <span class='message'>Found 500 gene sets in `topGOtableResult` object.</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span>(<span class='no'>res_enrich</span>)</div><div class='output co'>#&gt; [1] 500   7</div><div class='input'><span class='no'>res_enrich_simplified</span> <span class='kw'>&lt;-</span> <span class='fu'>gs_simplify</span>(<span class='no'>res_enrich</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span>(<span class='no'>res_enrich_simplified</span>)</div><div class='output co'>#&gt; [1] 143   7</div><div class='input'><span class='co'># and then use this further for all other functions expecting a res_enrich</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
