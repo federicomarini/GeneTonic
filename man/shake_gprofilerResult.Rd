@@ -40,6 +40,7 @@ Other shakers:
 \code{\link{shake_davidResult}()},
 \code{\link{shake_enrichResult}()},
 \code{\link{shake_enrichrResult}()},
+\code{\link{shake_fgseaResult}()},
 \code{\link{shake_topGOtableResult}()}
 }
 \concept{shakers}

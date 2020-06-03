@@ -43,6 +43,7 @@ res_from_enrichr <- shake_enrichrResult(enrichr_output_file = enrichr_output_fil
 Other shakers: 
 \code{\link{shake_davidResult}()},
 \code{\link{shake_enrichResult}()},
+\code{\link{shake_fgseaResult}()},
 \code{\link{shake_gprofilerResult}()},
 \code{\link{shake_topGOtableResult}()}
 }

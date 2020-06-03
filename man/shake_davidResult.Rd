@@ -26,6 +26,7 @@ res_enrich <- shake_davidResult(david_output_file)
 Other shakers: 
 \code{\link{shake_enrichResult}()},
 \code{\link{shake_enrichrResult}()},
+\code{\link{shake_fgseaResult}()},
 \code{\link{shake_gprofilerResult}()},
 \code{\link{shake_topGOtableResult}()}
 }
