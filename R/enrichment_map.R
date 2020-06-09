@@ -80,7 +80,8 @@
 #' #   visOptions(highlightNearest = list(enabled = TRUE,
 #' #                                      degree = 1,
 #' #                                      hover = TRUE),
-#' #             nodesIdSelection = TRUE)
+#' #             nodesIdSelection = TRUE,
+#' #             selectedBy = ")
 enrichment_map <- function(res_enrich,
                            res_de,
                            annotation_obj,
@@ -97,6 +98,7 @@ enrichment_map <- function(res_enrich,
          " column.\n",
          "Compute this first or select another column to use for the color.")
 
+  
   n_gs <- min(n_gs, nrow(res_enrich))
 
   gs_to_use <- unique(
@@ -122,6 +124,25 @@ enrichment_map <- function(res_enrich,
   omm <- omm[omm$gs_1 != omm$gs_2, ]
   # ... and the ones from the other triangular portion
   omm <- omm[!is.na(omm$value), ]
+  
+  add_most_senior_node <- function(res_enrich, omm) {
+    onts <- unique(AnnotationDbi::select(GO.db::GO.db, 
+                                         keys = res_enrich$gs_id, 
+                                         "ONTOLOGY")$ONTOLOGY)
+    if(onts == "BP") {
+      go_senior <- "biological processes"
+    }  else if(onts == "MF") {
+      go_senior <- "molecular functions"
+    } else if(onts == "CC") {
+      go_senior <- "cellular components"
+    }
+    all_terms <- unique(c(omm$gs_1, omm$gs_2))
+    tmp_df <- data.frame("gs_1" = rep(go_senior, length(all_terms)), 
+                         "gs_2" = all_terms,
+                         "value" = rep(1, length(all_terms)))
+    omm <- rbind(omm, tmp_df)
+  }
+  omm <- add_most_senior_node(res_enrich = res_enrich, omm = omm)
 
   # omm <- reshape2::melt(overlap_matrix)
   # omm <- omm[omm$Var1 != omm$Var2, ]
@@ -136,11 +157,13 @@ enrichment_map <- function(res_enrich,
   idx <- match(V(emg)$name, res_enrich$gs_description)
 
   gs_size <- res_enrich$gs_de_count[idx]
+  gs_size[is.na(gs_size)] <- max(gs_size, na.rm = T)*1.1
 
   V(emg)$size <- scale_nodes_size * sqrt(gs_size)
   V(emg)$original_size <- gs_size
 
   col_var <- res_enrich[idx, color_by]
+  col_var[is.na(col_var)] <- 1.0
   # the palette changes if it is z_score VS pvalue
   if (all(col_var <= 1)) { # likely p-values...
     col_var <- -log10(col_var)
@@ -176,6 +199,19 @@ enrichment_map <- function(res_enrich,
   V(emg)$color.background <- map2color(col_var, mypal, limits = range(col_var))
   V(emg)$color.highlight <- map2color(col_var, mypal_select, limits = range(col_var))
   V(emg)$color.hover <- map2color(col_var, mypal_hover, limits = range(col_var))
+  
+  emg <- set_vertex_attr(graph = emg, 
+                         name = color_by, 
+                         value = V(emg)$name)
+  emg <- set_vertex_attr(graph = emg, 
+                         name = paste0(color_by, "_background"), 
+                         value = V(emg)$color.background)
+  emg <- set_vertex_attr(graph = emg, 
+                         name = paste0(color_by, "_highlight"), 
+                         value = V(emg)$color.highlight)
+  emg <- set_vertex_attr(graph = emg, 
+                         name = paste0(color_by, "_hover"), 
+                         value = V(emg)$color.hover)
 
   V(emg)$color.border <- "black"
 
@@ -185,6 +221,57 @@ enrichment_map <- function(res_enrich,
   # re-sorting the vertices alphabetically
   rank_gs <- rank(V(emg)$name)
   emg <- permute.vertices(emg, rank_gs)
+  
+  # add communities based on different community detection algorithms
+  add_communities <- function(em) {
+    cd_algorithms <- c(cluster_louvain, 
+                       cluster_edge_betweenness, 
+                       cluster_fast_greedy)
+    names(cd_algorithms) <- c("louvain", 
+                              "in_betweenness", 
+                              "fast_greedy")
+    i <- 1
+    for (algo in cd_algorithms) {
+      cl <- algo(em)$membership
+      col_background <- map2color(cl, mypal, range(cl))
+      col_highlight <- map2color(cl, mypal_select, range(cl))
+      col_hover <- map2color(cl, mypal_hover, range(cl))
+      em <- set_vertex_attr(graph = em, 
+                            name = names(cd_algorithms)[i], 
+                            value = cl)
+      em <- set_vertex_attr(graph = em, 
+                            name = paste0(names(cd_algorithms)[i], "_background"), 
+                            value = col_background)
+      em <- set_vertex_attr(graph = em, 
+                            name = paste0(names(cd_algorithms)[i], "_highlight"), 
+                            value = col_highlight)
+      em <- set_vertex_attr(graph = em, 
+                            name = paste0(names(cd_algorithms)[i], "_hover"), 
+                            value = col_hover)
+      i <- i + 1
+    }
+    return(em)
+  }
+  
+  emg <- add_communities(emg)
 
   return(emg)
+}
+
+create_interactive_map <- function(em, color_by = "gs_pvalue") {
+  idx <- grep(color_by, x = vertex_attr_names(em))
+  if(length(idx) > 0) {
+    V(em)$color.background <- vertex_attr(em, paste0(color_by, "_background"))
+    V(em)$color.highlight <- vertex_attr(em, paste0(color_by, "_highlight"))
+    V(em)$color.hover <- vertex_attr(em, paste0(color_by, "_hover"))
+  }
+  vis_graph <- visIgraph(em)
+  select_options <- vertex_attr_names(em)[grep("_background", x = vertex_attr_names(em))]
+  select_options <- gsub("_background", "", select_options)
+  vis_graph <- visOptions(vis_graph, highlightNearest = list(enabled = TRUE, 
+                                                             degree = 1, 
+                                                             hover = TRUE),
+                          nodesIdSelection = TRUE,
+                          selectedBy = list(variable="louvain", variable="in_betweenness"))
+  return(vis_graph)
 }
