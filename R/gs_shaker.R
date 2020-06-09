@@ -192,7 +192,7 @@ shake_davidResult <- function(david_output_file) {
                     "List.Total", "Pop.Hits", "Pop.Total", "Fold.Enrichment",
                     "Bonferroni", "Benjamini", "FDR")
   if (!all(colnames(my_david) %in% exp_colnames))
-    warning("I could not find some of the usual column names from the DAVID output exported to file")
+    stop("I could not find some of the usual column names from the DAVID output exported to file")
   
   message("Found ", nrow(my_david), " gene sets in the file output from DAVID of which ", sum(my_david$PValue <= 0.05), " are significant (p-value <= 0.05).")
   message("Converting for usage in GeneTonic...")
