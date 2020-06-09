@@ -68,6 +68,14 @@ test_that("Converting from the output of g:Profiler", {
   
   expect_error(shake_gprofilerResult("non_existing_file.txt"))
   expect_error(shake_gprofilerResult(topgoDE_macrophage_IFNg_vs_naive))
+  
+  expect_error(shake_gprofilerResult(list(res_from_gprofiler_2)))
+  expect_error(shake_gprofilerResult(gostres_macrophage))
+  
+  gostres_macrophage_gonewrong <- gostres_macrophage
+  colnames(gostres_macrophage_gonewrong$result)[3] <- "any_wrong_name"
+  expect_error(shake_gprofilerResult(gostres_macrophage_gonewrong$result))
+  
 })
 
 
@@ -94,6 +102,12 @@ test_that("Converting from the output of enrichR", {
   
   expect_error(shake_enrichrResult("non_existing_file.txt"))
   expect_error(shake_enrichrResult(topgoDE_macrophage_IFNg_vs_naive))
+  
+  expect_error(shake_enrichrResult(enrichr_output_macrophage))
+  
+  enrichr_output_macrophage_gonewrong <- enrichr_output_macrophage
+  colnames(enrichr_output_macrophage_gonewrong$GO_Biological_Process_2018)[3] <- "any_wrong_name"
+  expect_error(shake_enrichrResult(enrichr_output_macrophage_gonewrong$GO_Biological_Process_2018))
 })
 
 test_that("Converting from the output of fgsea", {
@@ -107,5 +121,14 @@ test_that("Converting from the output of fgsea", {
   
   expect_error(shake_fgseaResult(non_existing_object))
   expect_error(shake_fgseaResult(topgoDE_macrophage_IFNg_vs_naive))
+  expect_error(shake_fgseaResult(list(fgsea_output)))
+  
+  fgseaRes_gonewrong <- fgseaRes
+  fgseaRes_gonewrong$leadingEdge <- vapply(
+    fgseaRes_gonewrong$leadingEdge, 
+    function (arg) paste(arg, collapse = ","), character(1))
+  
+  expect_error(shake_fgseaResult(fgseaRes_gonewrong))
+  
 })
 
