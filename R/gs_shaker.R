@@ -274,7 +274,7 @@ shake_enrichrResult <- function(enrichr_output_file,
                     "Old.P.value", "Old.Adjusted.P.value", "Odds.Ratio",
                     "Combined.Score", "Genes")
   if (!all(colnames(enrichr_output) %in% exp_colnames))
-    warning("I could not find some of the usual column names from the Enrichr output")
+    stop("I could not find some of the usual column names from the Enrichr output")
   
   message("Found ", nrow(enrichr_output), " gene sets in the file output from Enrichr of which ", sum(enrichr_output$P.value <= 0.05), " are significant (p-value <= 0.05).")
   message("Converting for usage in GeneTonic...")
@@ -457,6 +457,9 @@ shake_fgseaResult <- function(fgsea_output) {
   )
   
   rownames(mydf) <- mydf$gs_id
+  
+  # consider re-sorting by p-value?
+  
   
   return(mydf)
 }
