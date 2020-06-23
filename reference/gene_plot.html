@@ -135,17 +135,17 @@ by experimental group(s) of interest" />
 by experimental group(s) of interest</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/gene_plot.html'>gene_plot</a></span>(
-  <span class='kw'>dds</span>,
-  <span class='kw'>gene</span>,
-  intgroup = <span class='st'>"condition"</span>,
-  assay = <span class='st'>"counts"</span>,
-  annotation_obj = <span class='kw'>NULL</span>,
-  normalized = <span class='fl'>TRUE</span>,
-  transform = <span class='fl'>TRUE</span>,
-  labels_repel = <span class='fl'>TRUE</span>,
-  plot_type = <span class='st'>"auto"</span>,
-  return_data = <span class='fl'>FALSE</span>
+    <pre class="usage"><span class='fu'>gene_plot</span>(
+  <span class='no'>dds</span>,
+  <span class='no'>gene</span>,
+  <span class='kw'>intgroup</span> <span class='kw'>=</span> <span class='st'>"condition"</span>,
+  <span class='kw'>assay</span> <span class='kw'>=</span> <span class='st'>"counts"</span>,
+  <span class='kw'>annotation_obj</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>normalized</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>transform</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>labels_repel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>plot_type</span> <span class='kw'>=</span> <span class='st'>"auto"</span>,
+  <span class='kw'>return_data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -217,27 +217,27 @@ for interactive visualization, instead of the static <code>ggplot</code> viz.</p
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"macrophage"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://github.com/mikelove/DESeq2'>"DESeq2"</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"DESeq2"</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"org.Hs.eg.db"</span>)
 
 <span class='co'># dds object</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"gse"</span>, package = <span class='st'>"macrophage"</span>)
-<span class='kw'>dds_macrophage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html'>DESeqDataSet</a></span>(<span class='kw'>gse</span>, design = <span class='op'>~</span><span class='kw'>line</span> <span class='op'>+</span> <span class='kw'>condition</span>)</div><div class='output co'>#&gt; <span class='message'>using counts and average transcript lengths from tximeta</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='kw'>dds_macrophage</span>) <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/substr.html'>substr</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='kw'>dds_macrophage</span>), <span class='fl'>1</span>, <span class='fl'>15</span>)
-<span class='kw'>dds_macrophage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/estimateSizeFactors.html'>estimateSizeFactors</a></span>(<span class='kw'>dds_macrophage</span>)</div><div class='output co'>#&gt; <span class='message'>using 'avgTxLength' from assays(dds), correcting for library size</span></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"gse"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"macrophage"</span>)
+<span class='no'>dds_macrophage</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html'>DESeqDataSet</a></span>(<span class='no'>gse</span>, <span class='kw'>design</span> <span class='kw'>=</span> ~<span class='no'>line</span> + <span class='no'>condition</span>)</div><div class='output co'>#&gt; <span class='message'>using counts and average transcript lengths from tximeta</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>dds_macrophage</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/substr.html'>substr</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>dds_macrophage</span>), <span class='fl'>1</span>, <span class='fl'>15</span>)
+<span class='no'>dds_macrophage</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/estimateSizeFactors.html'>estimateSizeFactors</a></span>(<span class='no'>dds_macrophage</span>)</div><div class='output co'>#&gt; <span class='message'>using 'avgTxLength' from assays(dds), correcting for library size</span></div><div class='input'>
 <span class='co'># annotation object</span>
-<span class='kw'>anno_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
-  gene_id = <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='kw'>dds_macrophage</span>),
-  gene_name = <span class='fu'><a href='https://rdrr.io/pkg/AnnotationDbi/man/AnnotationDb-class.html'>mapIds</a></span>(<span class='kw'>org.Hs.eg.db</span>,
-                     keys = <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='kw'>dds_macrophage</span>),
-                     column = <span class='st'>"SYMBOL"</span>,
-                     keytype = <span class='st'>"ENSEMBL"</span>),
-  stringsAsFactors = <span class='fl'>FALSE</span>,
-  row.names = <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='kw'>dds_macrophage</span>)
+<span class='no'>anno_df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
+  <span class='kw'>gene_id</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>dds_macrophage</span>),
+  <span class='kw'>gene_name</span> <span class='kw'>=</span> <span class='fu'>mapIds</span>(<span class='no'>org.Hs.eg.db</span>,
+                     <span class='kw'>keys</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>dds_macrophage</span>),
+                     <span class='kw'>column</span> <span class='kw'>=</span> <span class='st'>"SYMBOL"</span>,
+                     <span class='kw'>keytype</span> <span class='kw'>=</span> <span class='st'>"ENSEMBL"</span>),
+  <span class='kw'>stringsAsFactors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>dds_macrophage</span>)
 )</div><div class='output co'>#&gt; <span class='message'>'select()' returned 1:many mapping between keys and columns</span></div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/gene_plot.html'>gene_plot</a></span>(<span class='kw'>dds_macrophage</span>,
-          gene = <span class='st'>"ENSG00000125347"</span>,
-          intgroup = <span class='st'>"condition"</span>,
-          annotation_obj = <span class='kw'>anno_df</span>)</div><div class='img'><img src='gene_plot-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'>gene_plot</span>(<span class='no'>dds_macrophage</span>,
+          <span class='kw'>gene</span> <span class='kw'>=</span> <span class='st'>"ENSG00000125347"</span>,
+          <span class='kw'>intgroup</span> <span class='kw'>=</span> <span class='st'>"condition"</span>,
+          <span class='kw'>annotation_obj</span> <span class='kw'>=</span> <span class='no'>anno_df</span>)</div><div class='img'><img src='gene_plot-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -253,7 +253,7 @@ for interactive visualization, instead of the static <code>ggplot</code> viz.</p
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

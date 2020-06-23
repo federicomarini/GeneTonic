@@ -133,7 +133,7 @@
     <p>Check correct specification of colors</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/check_colors.html'>check_colors</a></span>(<span class='kw'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>check_colors</span>(<span class='no'>x</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -154,12 +154,12 @@ the color is specified correctly</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># simple case</span>
-<span class='kw'>mypal</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"steelblue"</span>, <span class='st'>"#FF1100"</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/check_colors.html'>check_colors</a></span>(<span class='kw'>mypal</span>)</div><div class='output co'>#&gt; steelblue   #FF1100 
-#&gt;      TRUE      TRUE </div><div class='input'><span class='kw'>mypal2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rev.html'>rev</a></span>(
-  <span class='kw'>scales</span>::<span class='fu'><a href='https://scales.r-lib.org//reference/alpha.html'>alpha</a></span>(
-    <span class='fu'><a href='https://rdrr.io/r/grDevices/colorRamp.html'>colorRampPalette</a></span>(<span class='kw'>RColorBrewer</span>::<span class='fu'><a href='https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html'>brewer.pal</a></span>(name = <span class='st'>"RdYlBu"</span>, <span class='fl'>11</span>))(<span class='fl'>50</span>), <span class='fl'>0.4</span>))
-<span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/check_colors.html'>check_colors</a></span>(<span class='kw'>mypal2</span>)</div><div class='output co'>#&gt; #31369566 #35429B66 #394FA166 #3D5CA766 #4169AE66 #4576B466 #4F81BA66 #598DC066 
+<span class='no'>mypal</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"steelblue"</span>, <span class='st'>"#FF1100"</span>)
+<span class='fu'>check_colors</span>(<span class='no'>mypal</span>)</div><div class='output co'>#&gt; steelblue   #FF1100 
+#&gt;      TRUE      TRUE </div><div class='input'><span class='no'>mypal2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rev.html'>rev</a></span>(
+  <span class='kw pkg'>scales</span><span class='kw ns'>::</span><span class='fu'><a href='https://scales.r-lib.org//reference/alpha.html'>alpha</a></span>(
+    <span class='fu'><a href='https://rdrr.io/r/grDevices/colorRamp.html'>colorRampPalette</a></span>(<span class='kw pkg'>RColorBrewer</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html'>brewer.pal</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"RdYlBu"</span>, <span class='fl'>11</span>))(<span class='fl'>50</span>), <span class='fl'>0.4</span>))
+<span class='fu'>check_colors</span>(<span class='no'>mypal2</span>)</div><div class='output co'>#&gt; #31369566 #35429B66 #394FA166 #3D5CA766 #4169AE66 #4576B466 #4F81BA66 #598DC066 
 #&gt;      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE 
 #&gt; #6298C666 #6CA3CC66 #76AED166 #81B7D666 #8CC0DB66 #97C9E066 #A3D2E566 #AEDAE966 
 #&gt;      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE 
@@ -173,7 +173,7 @@ the color is specified correctly</p>
 #&gt;      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE 
 #&gt; #AF092666 #A5002666 
 #&gt;      TRUE      TRUE </div><div class='input'><span class='co'># useful with long vectors to check at once if all cols are fine</span>
-<span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/check_colors.html'>check_colors</a></span>(<span class='kw'>mypal2</span>))</div><div class='output co'>#&gt; [1] TRUE</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span>(<span class='fu'>check_colors</span>(<span class='no'>mypal2</span>))</div><div class='output co'>#&gt; [1] TRUE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -189,7 +189,7 @@ the color is specified correctly</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
