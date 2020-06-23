@@ -8,12 +8,9 @@ cache: packages
 
 r_binary_packages:
   - stringr
-  - dplyr
   - igraph
   - RCurl
   - XML
-  - git2r
-  - magick
 
 warnings_are_errors: false
 
