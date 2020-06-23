@@ -133,7 +133,7 @@
     <p>Style DT color bars for values that diverge from 0.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>styleColorBar_divergent</span>(<span class='no'>data</span>, <span class='no'>color_pos</span>, <span class='no'>color_neg</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/styleColorBar_divergent.html'>styleColorBar_divergent</a></span>(<span class='kw'>data</span>, <span class='kw'>color_pos</span>, <span class='kw'>color_neg</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -174,45 +174,45 @@ https://stackoverflow.com/questions/33521828/stylecolorbar-center-and-shift-left
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>res_de_macrophage</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"GeneTonic"</span>)
-<span class='no'>res_df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='deseqresult2df.html'>deseqresult2df</a></span>(<span class='no'>res_macrophage_IFNg_vs_naive</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>res_de_macrophage</span>, package = <span class='st'>"GeneTonic"</span>)
+<span class='kw'>res_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/deseqresult2df.html'>deseqresult2df</a></span>(<span class='kw'>res_macrophage_IFNg_vs_naive</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"magrittr"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"DT"</span>)
-<span class='kw pkg'>DT</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/DT/man/datatable.html'>datatable</a></span>(<span class='no'>res_df</span> [<span class='fl'>1</span>:<span class='fl'>50</span>, ],
-              <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-                <span class='kw'>pageLength</span> <span class='kw'>=</span> <span class='fl'>25</span>,
-                <span class='kw'>columnDefs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-                  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>className</span> <span class='kw'>=</span> <span class='st'>"dt-center"</span>, <span class='kw'>targets</span> <span class='kw'>=</span> <span class='st'>"_all"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://github.com/rstudio/DT'>"DT"</a></span>)
+<span class='kw'>DT</span>::<span class='fu'><a href='https://rdrr.io/pkg/DT/man/datatable.html'>datatable</a></span>(<span class='kw'>res_df</span> [<span class='fl'>1</span><span class='op'>:</span><span class='fl'>50</span>, ],
+              options = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+                pageLength = <span class='fl'>25</span>,
+                columnDefs = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+                  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(className = <span class='st'>"dt-center"</span>, targets = <span class='st'>"_all"</span>)
                 )
               )
-) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/DT/man/formatCurrency.html'>formatRound</a></span>(<span class='kw'>columns</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"log2FoldChange"</span>), <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>3</span>) <span class='kw'>%&gt;%</span>
+) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/DT/man/formatCurrency.html'>formatRound</a></span>(columns = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"log2FoldChange"</span>), digits = <span class='fl'>3</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/pkg/DT/man/formatCurrency.html'>formatStyle</a></span>(
     <span class='st'>"log2FoldChange"</span>,
-    <span class='kw'>background</span> <span class='kw'>=</span> <span class='fu'>styleColorBar_divergent</span>(<span class='no'>res_df</span>$<span class='no'>log2FoldChange</span>,
-                                         <span class='kw pkg'>scales</span><span class='kw ns'>::</span><span class='fu'><a href='https://scales.r-lib.org//reference/alpha.html'>alpha</a></span>(<span class='st'>"navyblue"</span>, <span class='fl'>0.4</span>),
-                                         <span class='kw pkg'>scales</span><span class='kw ns'>::</span><span class='fu'><a href='https://scales.r-lib.org//reference/alpha.html'>alpha</a></span>(<span class='st'>"darkred"</span>, <span class='fl'>0.4</span>)),
-    <span class='kw'>backgroundSize</span> <span class='kw'>=</span> <span class='st'>"100% 90%"</span>,
-    <span class='kw'>backgroundRepeat</span> <span class='kw'>=</span> <span class='st'>"no-repeat"</span>,
-    <span class='kw'>backgroundPosition</span> <span class='kw'>=</span> <span class='st'>"center"</span>
+    background = <span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/styleColorBar_divergent.html'>styleColorBar_divergent</a></span>(<span class='kw'>res_df</span><span class='op'>$</span><span class='kw'>log2FoldChange</span>,
+                                         <span class='kw'>scales</span>::<span class='fu'><a href='https://scales.r-lib.org//reference/alpha.html'>alpha</a></span>(<span class='st'>"navyblue"</span>, <span class='fl'>0.4</span>),
+                                         <span class='kw'>scales</span>::<span class='fu'><a href='https://scales.r-lib.org//reference/alpha.html'>alpha</a></span>(<span class='st'>"darkred"</span>, <span class='fl'>0.4</span>)),
+    backgroundSize = <span class='st'>"100% 90%"</span>,
+    backgroundRepeat = <span class='st'>"no-repeat"</span>,
+    backgroundPosition = <span class='st'>"center"</span>
   )
 
 
-<span class='no'>simplest_df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
-  <span class='kw'>a</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='st'>"a"</span>,<span class='fl'>9</span>)),
-  <span class='kw'>value</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>4</span>, -<span class='fl'>3</span>, -<span class='fl'>2</span>, -<span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>4</span>)
+<span class='kw'>simplest_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
+  a = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='st'>"a"</span>,<span class='fl'>9</span>)),
+  value = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='op'>-</span><span class='fl'>4</span>, <span class='op'>-</span><span class='fl'>3</span>, <span class='op'>-</span><span class='fl'>2</span>, <span class='op'>-</span><span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>4</span>)
 )
 
 <span class='co'># or with a very simple data frame</span>
-<span class='kw pkg'>DT</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/DT/man/datatable.html'>datatable</a></span>(<span class='no'>simplest_df</span>) <span class='kw'>%&gt;%</span>
+<span class='kw'>DT</span>::<span class='fu'><a href='https://rdrr.io/pkg/DT/man/datatable.html'>datatable</a></span>(<span class='kw'>simplest_df</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/pkg/DT/man/formatCurrency.html'>formatStyle</a></span>(
     <span class='st'>'value'</span>,
-    <span class='kw'>background</span> <span class='kw'>=</span> <span class='fu'>styleColorBar_divergent</span>(<span class='no'>simplest_df</span>$<span class='no'>value</span>,
-                                         <span class='kw pkg'>scales</span><span class='kw ns'>::</span><span class='fu'><a href='https://scales.r-lib.org//reference/alpha.html'>alpha</a></span>(<span class='st'>"forestgreen"</span>, <span class='fl'>0.4</span>),
-                                         <span class='kw pkg'>scales</span><span class='kw ns'>::</span><span class='fu'><a href='https://scales.r-lib.org//reference/alpha.html'>alpha</a></span>(<span class='st'>"gold"</span>, <span class='fl'>0.4</span>)),
-    <span class='kw'>backgroundSize</span> <span class='kw'>=</span> <span class='st'>"100% 90%"</span>,
-    <span class='kw'>backgroundRepeat</span> <span class='kw'>=</span> <span class='st'>"no-repeat"</span>,
-    <span class='kw'>backgroundPosition</span> <span class='kw'>=</span> <span class='st'>"center"</span>
+    background = <span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/styleColorBar_divergent.html'>styleColorBar_divergent</a></span>(<span class='kw'>simplest_df</span><span class='op'>$</span><span class='kw'>value</span>,
+                                         <span class='kw'>scales</span>::<span class='fu'><a href='https://scales.r-lib.org//reference/alpha.html'>alpha</a></span>(<span class='st'>"forestgreen"</span>, <span class='fl'>0.4</span>),
+                                         <span class='kw'>scales</span>::<span class='fu'><a href='https://scales.r-lib.org//reference/alpha.html'>alpha</a></span>(<span class='st'>"gold"</span>, <span class='fl'>0.4</span>)),
+    backgroundSize = <span class='st'>"100% 90%"</span>,
+    backgroundRepeat = <span class='st'>"no-repeat"</span>,
+    backgroundPosition = <span class='st'>"center"</span>
   )</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -130,10 +130,10 @@
     </div>
 
     <div class="ref-description">
-    <p>Convert an enrichResult object for straightforward use in <code><a href='GeneTonic.html'>GeneTonic()</a></code></p>
+    <p>Convert an enrichResult object for straightforward use in <code><a href='https://rdrr.io/pkg/GeneTonic/man/GeneTonic.html'>GeneTonic()</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>shake_enrichResult</span>(<span class='no'>obj</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/shake_enrichResult.html'>shake_enrichResult</a></span>(<span class='kw'>obj</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -147,7 +147,7 @@ via <code>reactomePA</code>)</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>data.frame</code> compatible for use in <code><a href='GeneTonic.html'>GeneTonic()</a></code> as <code>res_enrich</code></p>
+    <p>A <code>data.frame</code> compatible for use in <code><a href='https://rdrr.io/pkg/GeneTonic/man/GeneTonic.html'>GeneTonic()</a></code> as <code>res_enrich</code></p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function is able to handle the output of <code>clusterProfiler</code> and <code>reactomePA</code>,
@@ -156,41 +156,41 @@ contains the information required to create correctly a <code>res_enrich</code> 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other shakers: 
-<code><a href='shake_davidResult.html'>shake_davidResult</a>()</code>,
-<code><a href='shake_enrichrResult.html'>shake_enrichrResult</a>()</code>,
-<code><a href='shake_fgseaResult.html'>shake_fgseaResult</a>()</code>,
-<code><a href='shake_gprofilerResult.html'>shake_gprofilerResult</a>()</code>,
-<code><a href='shake_topGOtableResult.html'>shake_topGOtableResult</a>()</code></p></div>
+<code><a href='https://rdrr.io/pkg/GeneTonic/man/shake_davidResult.html'>shake_davidResult</a>()</code>,
+<code><a href='https://rdrr.io/pkg/GeneTonic/man/shake_enrichrResult.html'>shake_enrichrResult</a>()</code>,
+<code><a href='https://rdrr.io/pkg/GeneTonic/man/shake_fgseaResult.html'>shake_fgseaResult</a>()</code>,
+<code><a href='https://rdrr.io/pkg/GeneTonic/man/shake_gprofilerResult.html'>shake_gprofilerResult</a>()</code>,
+<code><a href='https://rdrr.io/pkg/GeneTonic/man/shake_topGOtableResult.html'>shake_topGOtableResult</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># dds</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"macrophage"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"DESeq2"</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>gse</span>)
-<span class='no'>dds_macrophage</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html'>DESeqDataSet</a></span>(<span class='no'>gse</span>, <span class='kw'>design</span> <span class='kw'>=</span> ~<span class='no'>line</span> + <span class='no'>condition</span>)</div><div class='output co'>#&gt; <span class='message'>using counts and average transcript lengths from tximeta</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>dds_macrophage</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/substr.html'>substr</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>dds_macrophage</span>), <span class='fl'>1</span>, <span class='fl'>15</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://github.com/mikelove/DESeq2'>"DESeq2"</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>gse</span>)
+<span class='kw'>dds_macrophage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html'>DESeqDataSet</a></span>(<span class='kw'>gse</span>, design = <span class='op'>~</span><span class='kw'>line</span> <span class='op'>+</span> <span class='kw'>condition</span>)</div><div class='output co'>#&gt; <span class='message'>using counts and average transcript lengths from tximeta</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='kw'>dds_macrophage</span>) <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/substr.html'>substr</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='kw'>dds_macrophage</span>), <span class='fl'>1</span>, <span class='fl'>15</span>)
 
 <span class='co'># res object</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>res_de_macrophage</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"GeneTonic"</span>)
-<span class='no'>res_de</span> <span class='kw'>&lt;-</span> <span class='no'>res_macrophage_IFNg_vs_naive</span>
-<span class='no'>de_symbols_IFNg_vs_naive</span> <span class='kw'>&lt;-</span> <span class='no'>res_macrophage_IFNg_vs_naive</span>[
-  (!(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>res_macrophage_IFNg_vs_naive</span>$<span class='no'>padj</span>))) <span class='kw'>&amp;</span>
-  (<span class='no'>res_macrophage_IFNg_vs_naive</span>$<span class='no'>padj</span> <span class='kw'>&lt;=</span> <span class='fl'>0.05</span>), <span class='st'>"SYMBOL"</span>]
-<span class='no'>bg_ids</span> <span class='kw'>&lt;-</span> <span class='fu'>rowData</span>(<span class='no'>dds_macrophage</span>)$<span class='no'>SYMBOL</span>[<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowSums</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/counts.html'>counts</a></span>(<span class='no'>dds_macrophage</span>)) <span class='kw'>&gt;</span> <span class='fl'>0</span>]
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"clusterProfiler"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>res_de_macrophage</span>, package = <span class='st'>"GeneTonic"</span>)
+<span class='kw'>res_de</span> <span class='op'>&lt;-</span> <span class='kw'>res_macrophage_IFNg_vs_naive</span>
+<span class='kw'>de_symbols_IFNg_vs_naive</span> <span class='op'>&lt;-</span> <span class='kw'>res_macrophage_IFNg_vs_naive</span>[
+  (<span class='op'>!</span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='kw'>res_macrophage_IFNg_vs_naive</span><span class='op'>$</span><span class='kw'>padj</span>))) <span class='op'>&amp;</span>
+  (<span class='kw'>res_macrophage_IFNg_vs_naive</span><span class='op'>$</span><span class='kw'>padj</span> <span class='op'>&lt;=</span> <span class='fl'>0.05</span>), <span class='st'>"SYMBOL"</span>]
+<span class='kw'>bg_ids</span> <span class='op'>&lt;-</span> <span class='fu'>rowData</span>(<span class='kw'>dds_macrophage</span>)<span class='op'>$</span><span class='kw'>SYMBOL</span>[<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowSums</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/counts.html'>counts</a></span>(<span class='kw'>dds_macrophage</span>)) <span class='op'>&gt;</span> <span class='fl'>0</span>]
+<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://guangchuangyu.github.io/software/clusterProfiler'>"clusterProfiler"</a></span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"org.Hs.eg.db"</span>)
-<span class='no'>ego_IFNg_vs_naive</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/clusterProfiler/man/enrichGO.html'>enrichGO</a></span>(<span class='kw'>gene</span> <span class='kw'>=</span> <span class='no'>de_symbols_IFNg_vs_naive</span>,
-                              <span class='kw'>universe</span>      <span class='kw'>=</span> <span class='no'>bg_ids</span>,
-                              <span class='kw'>keyType</span>       <span class='kw'>=</span> <span class='st'>"SYMBOL"</span>,
-                              <span class='kw'>OrgDb</span>         <span class='kw'>=</span> <span class='no'>org.Hs.eg.db</span>,
-                              <span class='kw'>ont</span>           <span class='kw'>=</span> <span class='st'>"BP"</span>,
-                              <span class='kw'>pAdjustMethod</span> <span class='kw'>=</span> <span class='st'>"BH"</span>,
-                              <span class='kw'>pvalueCutoff</span>  <span class='kw'>=</span> <span class='fl'>0.01</span>,
-                              <span class='kw'>qvalueCutoff</span>  <span class='kw'>=</span> <span class='fl'>0.05</span>,
-                              <span class='kw'>readable</span>      <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='kw'>ego_IFNg_vs_naive</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/clusterProfiler/man/enrichGO.html'>enrichGO</a></span>(gene = <span class='kw'>de_symbols_IFNg_vs_naive</span>,
+                              universe      = <span class='kw'>bg_ids</span>,
+                              keyType       = <span class='st'>"SYMBOL"</span>,
+                              OrgDb         = <span class='kw'>org.Hs.eg.db</span>,
+                              ont           = <span class='st'>"BP"</span>,
+                              pAdjustMethod = <span class='st'>"BH"</span>,
+                              pvalueCutoff  = <span class='fl'>0.01</span>,
+                              qvalueCutoff  = <span class='fl'>0.05</span>,
+                              readable      = <span class='fl'>FALSE</span>)
 
-<span class='no'>res_enrich</span> <span class='kw'>&lt;-</span> <span class='fu'>shake_enrichResult</span>(<span class='no'>ego_IFNg_vs_naive</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>res_enrich</span>)
+<span class='kw'>res_enrich</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/shake_enrichResult.html'>shake_enrichResult</a></span>(<span class='kw'>ego_IFNg_vs_naive</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>res_enrich</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -135,24 +135,24 @@ derived from the provided objects." />
 derived from the provided objects.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>happy_hour</span>(
-  <span class='no'>dds</span>,
-  <span class='no'>res_de</span>,
-  <span class='no'>res_enrich</span>,
-  <span class='no'>annotation_obj</span>,
-  <span class='no'>project_id</span>,
-  <span class='no'>mygenesets</span>,
-  <span class='no'>mygenes</span>,
-  <span class='kw'>usage_mode</span> <span class='kw'>=</span> <span class='st'>"batch_mode"</span>,
-  <span class='kw'>input_rmd</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>output_file</span> <span class='kw'>=</span> <span class='st'>"my_first_GeneTonic_happyhour.html"</span>,
-  <span class='kw'>output_dir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(),
-  <span class='kw'>output_format</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>force_overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>knitr_show_progress</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>ignore_pandoc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>open_after_creating</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='no'>...</span>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/happy_hour.html'>happy_hour</a></span>(
+  <span class='kw'>dds</span>,
+  <span class='kw'>res_de</span>,
+  <span class='kw'>res_enrich</span>,
+  <span class='kw'>annotation_obj</span>,
+  <span class='kw'>project_id</span>,
+  <span class='kw'>mygenesets</span>,
+  <span class='kw'>mygenes</span>,
+  usage_mode = <span class='st'>"batch_mode"</span>,
+  input_rmd = <span class='kw'>NULL</span>,
+  output_file = <span class='st'>"my_first_GeneTonic_happyhour.html"</span>,
+  output_dir = <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(),
+  output_format = <span class='kw'>NULL</span>,
+  force_overwrite = <span class='fl'>FALSE</span>,
+  knitr_show_progress = <span class='fl'>FALSE</span>,
+  ignore_pandoc = <span class='fl'>FALSE</span>,
+  open_after_creating = <span class='fl'>TRUE</span>,
+  <span class='kw'>...</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -171,19 +171,19 @@ also commonly used in the <code>DESeq2</code> framework.</p></td>
     <tr>
       <th>res_enrich</th>
       <td><p>A <code>data.frame</code> object, storing the result of the functional
-enrichment analysis. See <code><a href='GeneTonic.html'>GeneTonic()</a></code> for the formatting requirements.</p></td>
+enrichment analysis. See <code><a href='https://rdrr.io/pkg/GeneTonic/man/GeneTonic.html'>GeneTonic()</a></code> for the formatting requirements.</p></td>
     </tr>
     <tr>
       <th>annotation_obj</th>
       <td><p>A <code>data.frame</code> object with the feature annotation
 information, with at least two columns, <code>gene_id</code> and <code>gene_name</code>. See
-<code><a href='GeneTonic.html'>GeneTonic()</a></code> for the formatting requirements.</p></td>
+<code><a href='https://rdrr.io/pkg/GeneTonic/man/GeneTonic.html'>GeneTonic()</a></code> for the formatting requirements.</p></td>
     </tr>
     <tr>
       <th>project_id</th>
       <td><p>A character string, which can be considered as an identifier
 for the set/session, and will be e.g. used in the title of the report created
-via <code>happy_hour()</code></p></td>
+via <code><a href='https://rdrr.io/pkg/GeneTonic/man/happy_hour.html'>happy_hour()</a></code></p></td>
     </tr>
     <tr>
       <th>mygenesets</th>
@@ -269,44 +269,44 @@ directory will be deleted once the report is generated.</p>
 upon which this function is <strong>heavily</strong> inspired.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='GeneTonic.html'>GeneTonic()</a></code>, <code><a href='shake_topGOtableResult.html'>shake_topGOtableResult()</a></code>, <code><a href='shake_enrichResult.html'>shake_enrichResult()</a></code></p></div>
+    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/GeneTonic/man/GeneTonic.html'>GeneTonic()</a></code>, <code><a href='https://rdrr.io/pkg/GeneTonic/man/shake_topGOtableResult.html'>shake_topGOtableResult()</a></code>, <code><a href='https://rdrr.io/pkg/GeneTonic/man/shake_enrichResult.html'>shake_enrichResult()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"macrophage"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"DESeq2"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://github.com/mikelove/DESeq2'>"DESeq2"</a></span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"org.Hs.eg.db"</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"AnnotationDbi"</span>)
 
 <span class='co'># dds object</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"gse"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"macrophage"</span>)
-<span class='no'>dds_macrophage</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html'>DESeqDataSet</a></span>(<span class='no'>gse</span>, <span class='kw'>design</span> <span class='kw'>=</span> ~<span class='no'>line</span> + <span class='no'>condition</span>)</div><div class='output co'>#&gt; <span class='message'>using counts and average transcript lengths from tximeta</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>dds_macrophage</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/substr.html'>substr</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>dds_macrophage</span>), <span class='fl'>1</span>, <span class='fl'>15</span>)
-<span class='no'>dds_macrophage</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/estimateSizeFactors.html'>estimateSizeFactors</a></span>(<span class='no'>dds_macrophage</span>)</div><div class='output co'>#&gt; <span class='message'>using 'avgTxLength' from assays(dds), correcting for library size</span></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"gse"</span>, package = <span class='st'>"macrophage"</span>)
+<span class='kw'>dds_macrophage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html'>DESeqDataSet</a></span>(<span class='kw'>gse</span>, design = <span class='op'>~</span><span class='kw'>line</span> <span class='op'>+</span> <span class='kw'>condition</span>)</div><div class='output co'>#&gt; <span class='message'>using counts and average transcript lengths from tximeta</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='kw'>dds_macrophage</span>) <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/substr.html'>substr</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='kw'>dds_macrophage</span>), <span class='fl'>1</span>, <span class='fl'>15</span>)
+<span class='kw'>dds_macrophage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/estimateSizeFactors.html'>estimateSizeFactors</a></span>(<span class='kw'>dds_macrophage</span>)</div><div class='output co'>#&gt; <span class='message'>using 'avgTxLength' from assays(dds), correcting for library size</span></div><div class='input'>
 <span class='co'># annotation object</span>
-<span class='no'>anno_df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
-  <span class='kw'>gene_id</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>dds_macrophage</span>),
-  <span class='kw'>gene_name</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/AnnotationDbi/man/AnnotationDb-class.html'>mapIds</a></span>(<span class='no'>org.Hs.eg.db</span>,
-                     <span class='kw'>keys</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>dds_macrophage</span>),
-                     <span class='kw'>column</span> <span class='kw'>=</span> <span class='st'>"SYMBOL"</span>,
-                     <span class='kw'>keytype</span> <span class='kw'>=</span> <span class='st'>"ENSEMBL"</span>),
-  <span class='kw'>stringsAsFactors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>dds_macrophage</span>)
+<span class='kw'>anno_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
+  gene_id = <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='kw'>dds_macrophage</span>),
+  gene_name = <span class='fu'><a href='https://rdrr.io/pkg/AnnotationDbi/man/AnnotationDb-class.html'>mapIds</a></span>(<span class='kw'>org.Hs.eg.db</span>,
+                     keys = <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='kw'>dds_macrophage</span>),
+                     column = <span class='st'>"SYMBOL"</span>,
+                     keytype = <span class='st'>"ENSEMBL"</span>),
+  stringsAsFactors = <span class='fl'>FALSE</span>,
+  row.names = <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='kw'>dds_macrophage</span>)
 )</div><div class='output co'>#&gt; <span class='message'>'select()' returned 1:many mapping between keys and columns</span></div><div class='input'>
 <span class='co'># res object</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>res_de_macrophage</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"GeneTonic"</span>)
-<span class='no'>res_de</span> <span class='kw'>&lt;-</span> <span class='no'>res_macrophage_IFNg_vs_naive</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>res_de_macrophage</span>, package = <span class='st'>"GeneTonic"</span>)
+<span class='kw'>res_de</span> <span class='op'>&lt;-</span> <span class='kw'>res_macrophage_IFNg_vs_naive</span>
 
 <span class='co'># res_enrich object</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>res_enrich_macrophage</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"GeneTonic"</span>)
-<span class='no'>res_enrich</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='shake_topGOtableResult.html'>shake_topGOtableResult</a></span>(<span class='no'>topgoDE_macrophage_IFNg_vs_naive</span>)</div><div class='output co'>#&gt; <span class='message'>Found 500 gene sets in `topGOtableResult` object.</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div><div class='input'><span class='no'>res_enrich</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_aggrscores.html'>get_aggrscores</a></span>(<span class='no'>res_enrich</span>, <span class='no'>res_de</span>, <span class='no'>anno_df</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>res_enrich_macrophage</span>, package = <span class='st'>"GeneTonic"</span>)
+<span class='kw'>res_enrich</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/shake_topGOtableResult.html'>shake_topGOtableResult</a></span>(<span class='kw'>topgoDE_macrophage_IFNg_vs_naive</span>)</div><div class='output co'>#&gt; <span class='message'>Found 500 gene sets in `topGOtableResult` object.</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div><div class='input'><span class='kw'>res_enrich</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/get_aggrscores.html'>get_aggrscores</a></span>(<span class='kw'>res_enrich</span>, <span class='kw'>res_de</span>, <span class='kw'>anno_df</span>)
 
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>happy_hour</span>(<span class='kw'>dds</span> <span class='kw'>=</span> <span class='no'>dds_macrophage</span>,
-           <span class='kw'>res_de</span> <span class='kw'>=</span> <span class='no'>res_de</span>,
-           <span class='kw'>res_enrich</span> <span class='kw'>=</span> <span class='no'>res_enrich</span>,
-           <span class='kw'>annotation_obj</span> <span class='kw'>=</span> <span class='no'>anno_df</span>,
-           <span class='kw'>project_id</span> <span class='kw'>=</span> <span class='st'>"examplerun"</span>,
-           <span class='kw'>mygenesets</span> <span class='kw'>=</span> <span class='no'>res_enrich</span>$<span class='no'>gs_id</span>[<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>5</span>,<span class='fl'>11</span>,<span class='fl'>31</span>)],
-           <span class='kw'>mygenes</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ENSG00000125347"</span>,
+<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/happy_hour.html'>happy_hour</a></span>(dds = <span class='kw'>dds_macrophage</span>,
+           res_de = <span class='kw'>res_de</span>,
+           res_enrich = <span class='kw'>res_enrich</span>,
+           annotation_obj = <span class='kw'>anno_df</span>,
+           project_id = <span class='st'>"examplerun"</span>,
+           mygenesets = <span class='kw'>res_enrich</span><span class='op'>$</span><span class='kw'>gs_id</span>[<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>,<span class='fl'>11</span>,<span class='fl'>31</span>)],
+           mygenes = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ENSG00000125347"</span>,
                        <span class='st'>"ENSG00000172399"</span>,
                        <span class='st'>"ENSG00000137496"</span>)
 )
