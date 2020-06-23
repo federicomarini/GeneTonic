@@ -6,12 +6,6 @@ r: bioc-devel
 sudo: false
 cache: packages
 
-r_binary_packages:
-  - stringr
-  - igraph
-  - RCurl
-  - XML
-
 warnings_are_errors: false
 
 env:
