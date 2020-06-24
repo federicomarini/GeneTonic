@@ -133,7 +133,7 @@
     <p>Generate a tidy table with the results of <code>DESeq2</code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>deseqresult2df</span>(<span class='no'>res_de</span>, <span class='kw'>FDR</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/deseqresult2df.html'>deseqresult2df</a></span>(<span class='kw'>res_de</span>, FDR = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -157,8 +157,8 @@ sorted by adjusted p-value. If FDR is specified, the table contains only genes
 with adjusted p-value smaller than the value.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>res_de_macrophage</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"GeneTonic"</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>res_macrophage_IFNg_vs_naive</span>)</div><div class='output co'>#&gt; log2 fold change (MLE): condition IFNg vs naive 
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>res_de_macrophage</span>, package = <span class='st'>"GeneTonic"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>res_macrophage_IFNg_vs_naive</span>)</div><div class='output co'>#&gt; log2 fold change (MLE): condition IFNg vs naive 
 #&gt; Wald test p-value: condition IFNg vs naive 
 #&gt; DataFrame with 6 rows and 7 columns
 #&gt;                  baseMean log2FoldChange     lfcSE      stat      pvalue
@@ -176,8 +176,8 @@ with adjusted p-value smaller than the value.</p>
 #&gt; ENSG00000000457 1.00000e+00       SCYL3
 #&gt; ENSG00000000460 4.09728e-01    C1orf112
 #&gt; ENSG00000000938 1.00000e+00         FGR
-#&gt; ENSG00000000971 1.37057e-13         CFH</div><div class='input'><span class='no'>res_df</span> <span class='kw'>&lt;-</span> <span class='fu'>deseqresult2df</span>(<span class='no'>res_macrophage_IFNg_vs_naive</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>res_df</span>)</div><div class='output co'>#&gt;                              id   baseMean log2FoldChange     lfcSE     stat
+#&gt; ENSG00000000971 1.37057e-13         CFH</div><div class='input'><span class='kw'>res_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/deseqresult2df.html'>deseqresult2df</a></span>(<span class='kw'>res_macrophage_IFNg_vs_naive</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>res_df</span>)</div><div class='output co'>#&gt;                              id   baseMean log2FoldChange     lfcSE     stat
 #&gt; ENSG00000125347 ENSG00000125347 30585.0749       5.560124 0.2182663 20.89248
 #&gt; ENSG00000162645 ENSG00000162645 36790.5921       6.665804 0.2865732 19.77088
 #&gt; ENSG00000111181 ENSG00000111181   688.5779       4.710592 0.1961023 18.92172
@@ -206,7 +206,7 @@ with adjusted p-value smaller than the value.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>
