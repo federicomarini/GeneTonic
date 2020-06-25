@@ -41,6 +41,7 @@
 #' @export
 #'
 #' @examples
+#' library("igraph")
 #' g <- make_full_graph(5) %du% make_full_graph(5) %du% make_full_graph(5)
 #' g <- add_edges(g, c(1,6, 1,11, 6, 11))
 #' cluster_markov(g)
@@ -62,7 +63,7 @@ cluster_markov <- function(g,
   stopifnot(mcl_expansion > 1)
   stopifnot(mcl_inflation > 1)
   stopifnot(loop_value >= 0) 
-  stopifnot(iterations > 0)
+  stopifnot(max_iter > 0)
   
   if (is.null(add_self_loops)) {
     stop("add_self_loops has to be TRUE or FALSE")

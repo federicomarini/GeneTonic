@@ -63,6 +63,7 @@ More info on the MCL: https://micans.org/mcl/index.html, and
 https://micans.org/mcl/sec_description1.html
 }
 \examples{
+library("igraph")
 g <- make_full_graph(5) \%du\% make_full_graph(5) \%du\% make_full_graph(5)
 g <- add_edges(g, c(1,6, 1,11, 6, 11))
 cluster_markov(g)
