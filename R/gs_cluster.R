@@ -18,37 +18,52 @@
 #' Issue 7, 1 April 2002, Pages 1575–1584, https://doi.org/10.1093/nar/30.7.1575
 #'
 #' @param g The input graph object
-#' @param add_self_loops  TODO
-#' @param loop_value  TODO
-#' @param mcl_expansion  TODO
-#' @param mcl_inflation  TODO
-#' @param allow_singletons  TODO
-#' @param max_iter  TODO
-#' @param return_node_names  TODO
-#' @param return_esm  TODO
+#' @param add_self_loops Logical, whether to add self-loops to the matrix by 
+#' setting the diagonal to `loop_value`
+#' @param loop_value Numeric, the value to use for self-loops
+#' @param mcl_expansion Numeric, cluster expansion factor for the Markov clustering
+#' iteration - defaults to 2
+#' @param mcl_inflation Numeric, cluster inflation factor for the Markov clustering
+#' iteration - defaults to 2
+#' @param allow_singletons Logical; if `TRUE`, single isolated vertices are allowed 
+#' to form their own cluster. If set to `FALSE`, all clusters of size = 1 are 
+#' grouped in one cluster (to be interpreteted as background noise).
+#' @param max_iter Numeric value for the maximum number of iterations for the 
+#' Markov clustering
+#' @param return_node_names Logical, if the graph is named and set to `TRUE`, returns
+#' the node names. 
+#' @param return_esm Logical, contolling whether the equilibrium state matrix should be returned 
 #'
 #' @return This function returns a `communities` object, containing the numbers of
-#' the assigned membership. Please see the [igraph::communities()] manual page for details
+#' the assigned membership (in the slot `membership`). Please see the 
+#' [igraph::communities()] manual page for additional details
+#' 
 #' @export
 #'
 #' @examples
-#' # TODO
+#' g <- make_full_graph(5) %du% make_full_graph(5) %du% make_full_graph(5)
+#' g <- add_edges(g, c(1,6, 1,11, 6, 11))
+#' cluster_markov(g)
+#' V(g)$color <- cluster_markov(g)$membership
+#' plot(g)
 cluster_markov <- function(g, 
-                              add_self_loops = TRUE,
-                              loop_value = 1,
-                              mcl_expansion = 2, 
-                              mcl_inflation = 2, 
-                              allow_singletons = TRUE, 
-                              max_iter = 100, 
-                              return_node_names = TRUE,
-                              return_esm = FALSE) {
+                           add_self_loops = TRUE,
+                           loop_value = 1,
+                           mcl_expansion = 2, 
+                           mcl_inflation = 2, 
+                           allow_singletons = TRUE, 
+                           max_iter = 100, 
+                           return_node_names = TRUE,
+                           return_esm = FALSE) {
   # g must be a graph
   if (!is(g, "igraph"))
     stop("You need to provide an igraph object as input")
   
-  # limits to the param values, is there any documented there?
-  # expansion must be >=1?
-  # inflation as well?
+  stopifnot(mcl_expansion > 1)
+  stopifnot(mcl_inflation > 1)
+  stopifnot(loop_value >= 0) 
+  stopifnot(iterations > 0)
+  
   if (is.null(add_self_loops)) {
     stop("add_self_loops has to be TRUE or FALSE")
   }
@@ -134,7 +149,6 @@ cluster_markov <- function(g,
   
   class(res) <- "communities" # to take advantage of the goodies for printing and co
   
-  # return an object inspired to the communities object in igraph
   return(res)
 }
 

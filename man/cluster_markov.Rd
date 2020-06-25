@@ -19,25 +19,33 @@ cluster_markov(
 \arguments{
 \item{g}{The input graph object}
 
-\item{add_self_loops}{TODO}
+\item{add_self_loops}{Logical, whether to add self-loops to the matrix by
+setting the diagonal to \code{loop_value}}
 
-\item{loop_value}{TODO}
+\item{loop_value}{Numeric, the value to use for self-loops}
 
-\item{mcl_expansion}{TODO}
+\item{mcl_expansion}{Numeric, cluster expansion factor for the Markov clustering
+iteration - defaults to 2}
 
-\item{mcl_inflation}{TODO}
+\item{mcl_inflation}{Numeric, cluster inflation factor for the Markov clustering
+iteration - defaults to 2}
 
-\item{allow_singletons}{TODO}
+\item{allow_singletons}{Logical; if \code{TRUE}, single isolated vertices are allowed
+to form their own cluster. If set to \code{FALSE}, all clusters of size = 1 are
+grouped in one cluster (to be interpreteted as background noise).}
 
-\item{max_iter}{TODO}
+\item{max_iter}{Numeric value for the maximum number of iterations for the
+Markov clustering}
 
-\item{return_node_names}{TODO}
+\item{return_node_names}{Logical, if the graph is named and set to \code{TRUE}, returns
+the node names.}
 
-\item{return_esm}{TODO}
+\item{return_esm}{Logical, contolling whether the equilibrium state matrix should be returned}
 }
 \value{
 This function returns a \code{communities} object, containing the numbers of
-the assigned membership. Please see the \code{\link[igraph:communities]{igraph::communities()}} manual page for details
+the assigned membership (in the slot \code{membership}). Please see the
+\code{\link[igraph:communities]{igraph::communities()}} manual page for additional details
 }
 \description{
 This function implements the Markov Clustering (MCL) algorithm for finding community
@@ -55,7 +63,11 @@ More info on the MCL: https://micans.org/mcl/index.html, and
 https://micans.org/mcl/sec_description1.html
 }
 \examples{
-# TODO
+g <- make_full_graph(5) \%du\% make_full_graph(5) \%du\% make_full_graph(5)
+g <- add_edges(g, c(1,6, 1,11, 6, 11))
+cluster_markov(g)
+V(g)$color <- cluster_markov(g)$membership
+plot(g)
 }
 \references{
 van Dongen, S.M., Graph clustering by flow simulation (2000) PhD thesis,
