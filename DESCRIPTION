@@ -28,6 +28,7 @@ Imports:
     dplyr,
     DT,
     dynamicTreeCut,
+    expm,
     ggforce,
     ggplot2,
     ggrepel,
