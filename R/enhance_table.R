@@ -83,10 +83,14 @@ enhance_table <- function(res_enrich,
     genesid_thisset <- annotation_obj$gene_id[match(genes_thisset, annotation_obj$gene_name)]
 
     res_thissubset <- res_de[genesid_thisset, ]
+    
+    res_thissubset <- as.data.frame(res_thissubset)
+    
     res_thissubset$gene_name <- genes_thisset
     res_thissubset$gs_desc <- as.factor(res_enrich[gs, "gs_description"])
     res_thissubset$gs_id <- res_enrich[gs, "gs_id"]
-    return(as.data.frame(res_thissubset))
+    # return(as.data.frame(res_thissubset))
+    return(res_thissubset)
   })
   gs_fulllist <- do.call(rbind, gs_fulllist)
 
@@ -217,3 +221,153 @@ get_aggrscores <- function(res_enrich,
 
   return(res_enrich)
 }
+
+
+
+#' Distill enrichment results
+#' 
+#' Distill the main topics from the enrichment results, based on the graph derived 
+#' from constructing an enrichment map
+#'
+#' @param res_enrich A `data.frame` object, storing the result of the functional
+#' enrichment analysis.
+#' @param res_de A `DESeqResults` object. As for the `dds` parameter, this is
+#' also commonly used in the `DESeq2` framework.
+#' @param annotation_obj A `data.frame` object, containing two columns, `gene_id`
+#' with a set of unambiguous identifiers (e.g. ENSEMBL ids) and `gene_name`,
+#' containing e.g. HGNC-based gene symbols. 
+#' @param n_gs Integer value, corresponding to the maximal number of gene sets to
+#' be used.
+#' @param cluster_fun Character, referring to the name of the function used for 
+#' the community detection in the enrichment map graph. Could be one of "cluster_markov",
+#' "cluster_louvain", or "cluster_walktrap", as they all return a `communities`
+#' object.
+#'
+#' @return A list containing two objects:
+#' - the distilled table of enrichment, `distilled_table`, where the new meta-genesets
+#' are identified and defined, specifying e.g. the names of each component, and the
+#' genes associated to these.
+#' - the distilled graph for the enrichment map, `distilled_em`, with the information
+#' on the membership 
+#' 
+#' @export
+#'
+#' @examples
+#' library("macrophage")
+#' library("DESeq2")
+#' library("org.Hs.eg.db")
+#' library("AnnotationDbi")
+#'
+#' # dds object
+#' data("gse", package = "macrophage")
+#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
+#' dds_macrophage <- estimateSizeFactors(dds_macrophage)
+#'
+#' # annotation object
+#' anno_df <- data.frame(
+#'   gene_id = rownames(dds_macrophage),
+#'   gene_name = mapIds(org.Hs.eg.db,
+#'                      keys = rownames(dds_macrophage),
+#'                      column = "SYMBOL",
+#'                      keytype = "ENSEMBL"),
+#'   stringsAsFactors = FALSE,
+#'   row.names = rownames(dds_macrophage)
+#' )
+#'
+#' # res object
+#' data(res_de_macrophage, package = "GeneTonic")
+#' res_de <- res_macrophage_IFNg_vs_naive
+#'
+#' # res_enrich object
+#' data(res_enrich_macrophage, package = "GeneTonic")
+#' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
+#' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
+#' 
+#' distilled <- distill_enrichment(res_enrich,
+#'                                 res_de,
+#'                                 annotation_obj,
+#'                                 n_gs = 100,
+#'                                 cluster_fun = "cluster_markov")
+#' colnames(distilled$distilled_table)
+#' distilled$distilled_em
+distill_enrichment <- function(res_enrich,
+                               res_de,
+                               annotation_obj,
+                               n_gs = nrow(res_enrich),
+                               cluster_fun = "cluster_markov") {
+  
+  cluster_fun <- match.arg(
+    cluster_fun, c("cluster_markov", "cluster_louvain", "cluster_walktrap"))
+  cluster_fun <- match.fun(cluster_fun)
+  
+  n_gs <- min(n_gs, nrow(res_enrich))
+  
+  em <- enrichment_map(res_enrich,
+                       res_de,
+                       annotation_obj,
+                       n_gs = n_gs)
+  
+  # subset accordingly
+  res_enrich <- res_enrich[seq_len(n_gs), ]
+  
+  gs_communities <- cluster_fun(em)
+  res_enrich$gs_membership <- gs_communities$membership
+  V(em)$membership <- gs_communities$membership
+  V(em)$color <- gs_communities$membership
+  
+  
+  # aggregate the results according to the defined gs_membership column
+  
+  distilled_res <- data.frame(
+    metags_cluster = unique(res_enrich$gs_membership),
+    metags_n_gs = NA,
+    metags_genes = NA,
+    metags_n_genes = NA,
+    metags_gsidlist = NA,
+    metags_gsdesclist = NA,
+    metags_msgs = NA,
+    metags_mcgs = NA, 
+    stringsAsFactors = FALSE
+  )
+  
+  for (i in seq_along(distilled_res$metags_cluster)) {
+    # message(i)
+    # message(distilled_res$metags_cluster[i])
+    subset_enrich <- res_enrich[res_enrich$gs_membership == distilled_res$metags_cluster[i], ]
+    distilled_res[i, "metags_n_gs"] <- nrow(subset_enrich)
+    
+    all_genes_singlevec <- unique(strsplit(paste0(subset_enrich$gs_genes, collapse = ","), ",")[[1]])
+    distilled_res[i, "metags_genes"] <- paste0(all_genes_singlevec, collapse = ",")
+    distilled_res[i, "metags_n_genes"] <- length(all_genes_singlevec)
+    
+    distilled_res[i, "metags_gsidlist"] <- paste0(subset_enrich$gs_id, collapse = ",") # nested list or collapsed?
+    distilled_res[i, "metags_gsdesclist"] <- paste0(subset_enrich$gs_description, collapse = ",")
+    
+    most_sig <- which.min(subset_enrich$gs_pvalue)
+    distilled_res[i, "metags_msgs"] <- paste0(
+      subset_enrich$gs_id[most_sig], "|", 
+      subset_enrich$gs_description[most_sig], "|",
+      subset_enrich$gs_pvalue[most_sig])
+    
+    mgs_graph <- induced_subgraph(em, subset_enrich$gs_description)    
+    distilled_res[i, "metags_mcgs"] <- names(which.max(strength(mgs_graph)))
+  }
+  # later add something maybe even based on NLP/wordcloud or so
+  
+    
+    # lapply(unique(res_enrich$gs_membership), function(gs_cluster) {
+    # cur_clus <- gs_cluster
+    # message(cur_clus)
+    # clu_n_gs <- res_enrich$gs_membership
+  # })
+  
+  return(
+    list(distilled_table = distilled_res,
+         distilled_em = em)
+  )
+}
+
+
+
+
