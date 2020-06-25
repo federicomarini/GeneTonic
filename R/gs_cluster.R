@@ -60,14 +60,12 @@ cluster_markov <- function(g,
   if (!is(g, "igraph"))
     stop("You need to provide an igraph object as input")
   
+  stopifnot(is.logical(add_self_loops))
+  stopifnot(loop_value >= 0)
   stopifnot(mcl_expansion > 1)
   stopifnot(mcl_inflation > 1)
   stopifnot(loop_value >= 0) 
   stopifnot(max_iter > 0)
-  
-  if (is.null(add_self_loops)) {
-    stop("add_self_loops has to be TRUE or FALSE")
-  }
   
   # graph to adjacency matrix
   adj_mat <- igraph::as_adjacency_matrix(g) 
@@ -105,7 +103,7 @@ cluster_markov <- function(g,
   }
   
   if (converged & is.na(cur_mat_norm[1, 1]))
-    stop("Error occurred")
+    stop("An error occurred after convergence - maybe you set `add_self_loops` to FALSE?")
   
   # getting the attractors - non-zero elements of the matrix diagonal
   clu_attractors <- which(diag(cur_mat_norm) > 0)
