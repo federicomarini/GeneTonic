@@ -33,4 +33,22 @@ test_that("The distillery is up and running", {
   expect_is(d_en, "list")
   expect_is(d_en$distilled_table, "data.frame")
   expect_is(d_en$distilled_em, "igraph")
+  
+  d_en_louvain <- distill_enrichment(res_enrich_IFNg_vs_naive,
+                                     res_macrophage_IFNg_vs_naive,
+                                     annotation_obj = anno_df,
+                                     n_gs = 100,
+                                     cluster_fun = "cluster_louvain")
+  
+  d_en_walktrap <- distill_enrichment(res_enrich_IFNg_vs_naive,
+                                     res_macrophage_IFNg_vs_naive,
+                                     annotation_obj = anno_df,
+                                     n_gs = 100,
+                                     cluster_fun = "cluster_walktrap")
+  
+  expect_error(distill_enrichment(res_enrich_IFNg_vs_naive,
+                                  res_macrophage_IFNg_vs_naive,
+                                  annotation_obj = anno_df,
+                                  n_gs = 100,
+                                  cluster_fun = "cluster_wrong_function"))
 })
