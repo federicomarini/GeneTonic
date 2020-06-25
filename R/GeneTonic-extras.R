@@ -112,6 +112,7 @@ geneinfo_2_html <- function(gene_id,
                             res_de = NULL) {
   gene_ncbi_button <- .link2ncbi(gene_id)
   gene_genecards_button <- .link2genecards(gene_id)
+  gene_gtex_button <- .link2gtex(gene_id)
 
   if (!is.null(res_de)) {
     gid <- match(gene_id, res_de$SYMBOL)
@@ -131,6 +132,7 @@ geneinfo_2_html <- function(gene_id,
     tags$b(gene_id), tags$br(),
     "Link to the NCBI Gene database: ", gene_ncbi_button, tags$br(),
     "Link to the GeneCards database: ", gene_genecards_button, tags$br(),
+    "Link to the GTEx Portal: ", gene_gtex_button, tags$br(),
     ifelse(
       !is.null(res_de),
       paste0(tags$b("DE p-value (adjusted): "), gene_adjpvalue, tags$br(),
@@ -167,6 +169,21 @@ geneinfo_2_html <- function(gene_id,
           .actionbutton_biocstyle,
           val)
 }
+
+#' Link to the GTEx Portal
+#'
+#' @param val Character, the gene symbol of interest
+#'
+#' @return HTML for an action button
+#' @noRd
+.link2gtex <- function(val) {
+  sprintf('<a href = "https://www.gtexportal.org/home/gene/%s" target = "_blank" class = "btn btn-primary" style = "%s"><i class="fa fa-dna"></i>%s</a>',
+          val,
+          .actionbutton_biocstyle,
+          val)
+}
+
+
 
 #' Calculate overlap coefficient
 #'
