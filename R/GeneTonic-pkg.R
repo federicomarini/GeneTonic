@@ -19,6 +19,7 @@
 #' @importFrom DT datatable dataTableOutput renderDataTable formatRound
 #' formatStyle JS
 #' @importFrom dynamicTreeCut cutreeDynamic
+#' @importFrom expm "%^%"
 #' @importFrom ggforce geom_sina
 #' @import ggplot2
 #' @importFrom ggrepel geom_label_repel geom_text_repel
@@ -26,8 +27,8 @@
 #' @importFrom graphics par plot
 #' @importFrom grDevices colorRampPalette rgb col2rgb
 #' @importFrom grid gpar
-#' @importFrom igraph delete.edges E "E<-" graph.data.frame
-#' permute.vertices V "V<-"
+#' @importFrom igraph add_edges delete.edges "%du%" E "E<-" graph.data.frame induced_subgraph
+#' make_full_graph permute.vertices strength V "V<-" vcount get.edgelist
 #' @importFrom matrixStats rowSds
 #' @importFrom methods is
 #' @importFrom plotly ggplotly plotlyOutput renderPlotly plot_ly layout add_trace
