@@ -433,10 +433,14 @@ GeneTonic <- function(dds,
                 column(
                   width = 8,
                   withSpinner(
-                    tagList(
-                      DT::dataTableOutput("dt_distill"),
-                      uiOutput("distill_launch")
-                    )
+                    DT::dataTableOutput("dt_distill")
+                  ),
+                  
+                  uiOutput("distill_launch"),
+                  numericInput(
+                    inputId = "n_genesets_distill",
+                    label = "Number of genesets",
+                    value = min(50, nrow(res_enrich)), min = 1, max = nrow(res_enrich)
                   )
                 ),
                 column(
@@ -650,7 +654,7 @@ GeneTonic <- function(dds,
                    value = 0.05, min = 0.0001, max = 1, step = 0.01),
       numericInput(inputId = "n_genesets",
                    label = "Number of genesets",
-                   value = 15, min = 1, max = 50),
+                   value = 15, min = 1, max = nrow(res_enrich)),
       selectInput("exp_condition", label = "Group/color by: ",
                   choices = c(NULL, names(colData(dds))), selected = NULL, multiple = TRUE)
     ),
@@ -1048,7 +1052,7 @@ GeneTonic <- function(dds,
         res_enrich = res_enrich,
         res_de = res_de,
         annotation_obj = annotation_obj,
-        n_gs = 100) # TOchoose
+        n_gs = input$n_genesets_distill)
       return(distillat)
     })
     
@@ -1081,10 +1085,12 @@ GeneTonic <- function(dds,
     })
     
     output$distill_launch <- renderUI({
-      actionButton(
-        inputId = "btn_show_emap_distilled",
-        icon = icon("hubspot"),
-        label = "Distill emap", style = .actionbutton_biocstyle
+      tagList(
+        actionButton(
+          inputId = "btn_show_emap_distilled",
+          icon = icon("hubspot"),
+          label = "Distill emap", style = .actionbutton_biocstyle
+        )
       )
     })
     
