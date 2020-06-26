@@ -433,7 +433,7 @@ deseqresult2df <- function(res_de, FDR = NULL) {
 export_to_sif <- function(g, sif_file = "", edge_label = "relates_to") {
   
   stopifnot(is(g, "igraph"))
-  stopifnot(is.character(sif_file) && length(sif_file))
+  stopifnot(is.character(sif_file) & length(sif_file) == 1)
   sif_file <- normalizePath(sif_file, mustWork = FALSE)
   stopifnot(is.character(edge_label) && length(edge_label) == 1)
   
