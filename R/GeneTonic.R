@@ -1040,15 +1040,133 @@ GeneTonic <- function(dds,
         )
       }
     })
-
+    
+    
+    # geneset distillery
+    reactive_values$distillat <- reactive({
+      distillat <- distill_enrichment(
+        res_enrich = res_enrich,
+        res_de = res_de,
+        annotation_obj = annotation_obj,
+        n_gs = 100) # TOchoose
+      return(distillat)
+    })
+    
+    output$dt_distill <- DT::renderDataTable({
+      dist_table <- reactive_values$distillat()$distilled_table
+      
+      DT::datatable(
+        dist_table[,1:4],
+        selection = "single",
+        rownames = FALSE,
+        options = list(
+          pageLength = 50,
+          scrollX = TRUE, 
+          scrollY = "400px")
+      )
+    })
+    
+    output$ui_metags_sidecontent <- renderUI({
+      tagList(
+        plotOutput("distill_heatmap"),
+        uiOutput("distill_info")
+      )
+    })
+    
+    output$distill_info <- renderUI({
+      "haha"
+    })
+    
+    output$distill_launch <- renderUI({
+      actionButton(
+        inputId = "btn_show_emap_distilled",
+        icon = icon("hubspot"),
+        label = "Distill emap", style = .actionbutton_biocstyle
+      )
+    })
+    
+    output$distill_heatmap <- renderPlot({
+      dist_table <- reactive_values$distillat()$distilled_table
+      s <- input$dt_distill_rows_selected
+      
+      validate(need(length(s) > 0,
+                    message = "Please select a meta-geneset from the table"
+      ))
+      
+      selrow <- dist_table[s,]$metags_msgs
+      
+      sel_genes <- strsplit(dist_table[s,]$metags_genes, ",")[[1]]
+      # message(length(sel_genes))
+      sel_genes_id <- annotation_obj$gene_id[match(sel_genes, annotation_obj$gene_name)]
+      # message(length(sel_genes_id))
+      
+      if (!is.null(input$exp_condition)) {
+        
+        gs_heatmap(
+          myvst,
+          res_de,
+          res_enrich,
+          annotation_obj = annotation_obj,
+          genelist = sel_genes_id,
+          FDR = input$de_fdr,
+          de_only = FALSE,
+          cluster_rows = TRUE,
+          cluster_columns = TRUE,
+          center_mean = TRUE,
+          scale_row = TRUE,
+          anno_col_info = input$exp_condition,
+          plot_title = selrow
+          
+        )
+      } else {
+        gs_heatmap(
+          myvst,
+          res_de,
+          res_enrich,
+          annotation_obj = annotation_obj,
+          genelist = sel_genes_id,
+          FDR = input$de_fdr,
+          de_only = FALSE,
+          cluster_rows = TRUE,
+          cluster_columns = TRUE,
+          center_mean = TRUE,
+          scale_row = TRUE,
+          plot_title = selrow
+        )
+      }
+    })
+    
+    # output$distill_graph <- renderPlot({
+    #   plot(reactive_values$distillat()$distilled_em)
+    # })
+    
+    output$distill_graph <- renderVisNetwork({
+      ig <- reactive_values$distillat()$distilled_em
+      colpal <- colorspace::rainbow_hcl(length(unique(V(ig)$color)))[V(ig)$color]
+      V(ig)$color.background <- scales::alpha(colpal, alpha = 0.8)
+      V(ig)$color.highlight <- scales::alpha(colpal, alpha = 1)
+      V(ig)$color.hover <- scales::alpha(colpal, alpha = 0.5)
+      
+      V(ig)$color.border <- "black"
+      
+      visNetwork::visIgraph(ig) %>%
+        visOptions(highlightNearest = list(enabled = TRUE,
+                                           degree = 1,
+                                           hover = TRUE),
+                   nodesIdSelection = TRUE)
+      
+    })
+    
+    
+    
     # panel Overview ------------------------------------------------------------
-
+    
     output$enriched_funcres <- renderPlot({
       enhance_table(res_enrich, res_de,
                     annotation_obj = annotation_obj,
                     n_gs = input$n_genesets)
     })
-
+    
     output$gs_volcano <- renderPlot({
       gs_volcano(
         get_aggrscores(res_enrich,
@@ -1057,7 +1175,7 @@ GeneTonic <- function(dds,
         volcano_labels = input$n_genesets
       )
     })
-
+    
     output$gs_volcano_simplified <- renderPlot({
       gs_volcano(
         get_aggrscores(gs_simplify(res_enrich, gs_overlap = input$gs_overlap),
@@ -1066,17 +1184,17 @@ GeneTonic <- function(dds,
         volcano_labels = input$n_genesets
       )
     })
-
+    
     output$enriched_funcres_plotly <- renderPlotly({
       ggplotly(enhance_table(res_enrich,
                              res_de,
                              annotation_obj = annotation_obj,
                              n_gs = input$n_genesets))
     })
-
-
+    
+    
     # panel GSViz -----------------------------------------------------
-
+    
     gss_mat <- reactive({
       gs_scores(se = myvst,
                 res_de = res_de,
