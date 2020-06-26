@@ -34,6 +34,8 @@ test_that("The distillery is up and running", {
   expect_is(d_en$distilled_table, "data.frame")
   expect_is(d_en$distilled_em, "igraph")
   
+  library("igraph")
+  
   d_en_louvain <- distill_enrichment(res_enrich_IFNg_vs_naive,
                                      res_macrophage_IFNg_vs_naive,
                                      annotation_obj = anno_df,
