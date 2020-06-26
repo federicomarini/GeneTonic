@@ -1055,6 +1055,8 @@ GeneTonic <- function(dds,
     output$dt_distill <- DT::renderDataTable({
       dist_table <- reactive_values$distillat()$distilled_table
       
+      # TODO: reorder the columns from the distilled table
+      
       DT::datatable(
         dist_table[,1:4],
         selection = "single",
@@ -1075,6 +1077,7 @@ GeneTonic <- function(dds,
     
     output$distill_info <- renderUI({
       "haha"
+      # TODO: structure up the content, a la gene2html
     })
     
     output$distill_launch <- renderUI({
@@ -1148,6 +1151,8 @@ GeneTonic <- function(dds,
       V(ig)$color.hover <- scales::alpha(colpal, alpha = 0.5)
       
       V(ig)$color.border <- "black"
+      
+      # TODO: add behavior by group selection
       
       visNetwork::visIgraph(ig) %>%
         visOptions(highlightNearest = list(enabled = TRUE,
