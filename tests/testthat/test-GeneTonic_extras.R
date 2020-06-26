@@ -60,6 +60,19 @@ test_that("results to data frame conversion works", {
   expect_error(deseqresult2df(res_df))
 })
 
+test_that("Exporting to sif format works", {
+  library("igraph")
+  g <- make_full_graph(5) %du% make_full_graph(5) %du% make_full_graph(5)
+  g <- add_edges(g, c(1,6, 1,11, 6, 11))
+  siffile <- export_to_sif(g, tempfile())
+  
+  expect_is(siffile, "character")
+  
+  expect_error(export_to_sif(V(g)))
+  expect_error(export_to_sif(g, 1))
+  expect_error(export_to_sif(g, sif_file = c(tempfile(), "there_sif.txt")))
+})
+
 test_that("Retrieving info on GO term", {
   out <- go_2_html("GO:0032729")
   expect_is(out, "character")
