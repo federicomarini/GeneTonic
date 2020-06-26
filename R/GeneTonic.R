@@ -397,9 +397,16 @@ GeneTonic <- function(dds,
             column(
               width = 8,
               withSpinner(
-                visNetworkOutput("emap_visnet",
-                                 height = "700px",
-                                 width = "100%")
+                tagList(
+                  selectInput(
+                    inputId = "emap_colorby", 
+                    label = "Color emap by",
+                    choices = colnames(res_enrich)[unlist(lapply(res_enrich, is.numeric))],
+                    selected = "gs_pvalue"),
+                  visNetworkOutput("emap_visnet",
+                                   height = "700px",
+                                   width = "100%")
+                )
               )
             ),
             column(
@@ -918,7 +925,7 @@ GeneTonic <- function(dds,
         n_gs = input$n_genesets,
         overlap_threshold = 0.1,
         scale_edges_width = 200,
-        color_by = "gs_pvalue"
+        color_by = input$emap_colorby
       )
       # rank_gs <- rank(V(emg)$name)
       # emg <- permute.vertices(emg, rank_gs)
