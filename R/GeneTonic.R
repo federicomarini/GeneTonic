@@ -1152,13 +1152,12 @@ GeneTonic <- function(dds,
       
       V(ig)$color.border <- "black"
       
-      # TODO: add behavior by group selection
-      
       visNetwork::visIgraph(ig) %>%
         visOptions(highlightNearest = list(enabled = TRUE,
                                            degree = 1,
                                            hover = TRUE),
-                   nodesIdSelection = TRUE)
+                   nodesIdSelection = TRUE, 
+                   selectedBy = "membership")
       
     })
     
