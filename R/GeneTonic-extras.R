@@ -411,6 +411,45 @@ deseqresult2df <- function(res_de, FDR = NULL) {
   res
 }
 
+#' Export to sif
+#' 
+#' Export a graph to a Simple Interaction Format file
+#'
+#' @param g An `igraph` object
+#' @param sif_file Character string, the path to the file where to save the exported
+#' graph as .sif file
+#' @param edge_label Character string, defining the name of the interaction type.
+#' Defaults here to "relates_to"
+#'
+#' @return Returns the path to the exported file, invisibly
+#' 
+#' @export
+#'
+#' @examples
+#' library("igraph")
+#' g <- make_full_graph(5) %du% make_full_graph(5) %du% make_full_graph(5)
+#' g <- add_edges(g, c(1,6, 1,11, 6, 11))
+#' export_to_sif(g, tempfile())
+export_to_sif <- function(g, sif_file = "", edge_label = "relates_to") {
+  
+  stopifnot(is(g, "igraph"))
+  stopifnot(is.character(sif_file) && length(sif_file))
+  sif_file <- normalizePath(sif_file, mustWork = FALSE)
+  stopifnot(is.character(edge_label) && length(edge_label) == 1)
+  
+  el <- get.edgelist(g)
+  sif_df <- data.frame(
+    n1 = el[, 1],
+    edge_label = edge_label,
+    n2 = el[, 2]
+  )
+  message("Saving the file to ", sif_file)
+  write.table(sif_df, file = sif_file, sep = "\t", quote = FALSE, 
+              col.names = FALSE, row.names = FALSE)
+  message("Done!")
+  return(invisible(sif_file))
+}
+
 GeneTonic_footer <- fluidRow(
   column(
     width = 1,
