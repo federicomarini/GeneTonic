@@ -1455,8 +1455,20 @@ GeneTonic <- function(dds,
         )
       )
     })
-
-
+    
+    
+    observeEvent(input$btn_show_emap_distilled, {
+      showModal(
+        modalDialog(
+          title = "distillery", size = "l", fade = TRUE,
+          footer = NULL, easyClose = TRUE,
+          
+          visNetworkOutput("distill_graph")
+        )
+      )
+    })
+    
+    
     # bookmarker --------------------------------------------------------------
     observeEvent(input$bookmarker, {
       if (input$gt_tabs == "tab_welcome")
