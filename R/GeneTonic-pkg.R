@@ -46,7 +46,7 @@
 #' @import SummarizedExperiment
 #' @importFrom tidyr separate_rows pivot_longer
 #' @importFrom tools file_ext file_path_sans_ext
-#' @importFrom utils read.delim sessionInfo browseURL citation data
+#' @importFrom utils read.delim sessionInfo browseURL citation data write.table
 #' @importFrom visNetwork renderVisNetwork visExport visIgraph visNetworkOutput 
 #' visOptions
 #' @importFrom viridis viridis
