@@ -1151,6 +1151,7 @@ GeneTonic <- function(dds,
     
     output$distill_graph <- renderVisNetwork({
       ig <- reactive_values$distillat()$distilled_em
+      # TODO: define color palette
       colpal <- colorspace::rainbow_hcl(length(unique(V(ig)$color)))[V(ig)$color]
       V(ig)$color.background <- scales::alpha(colpal, alpha = 0.8)
       V(ig)$color.highlight <- scales::alpha(colpal, alpha = 1)
