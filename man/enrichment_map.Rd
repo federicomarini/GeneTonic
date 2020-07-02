@@ -96,8 +96,8 @@ em <- enrichment_map(res_enrich,
 em
 
 # could be viewed interactively with
-# library(visNetwork)
-# library(magrittr)
+# library("visNetwork")
+# library("magrittr")
 # em \%>\%
 #   visIgraph() \%>\%
 #   visOptions(highlightNearest = list(enabled = TRUE,

@@ -12,6 +12,7 @@
 #' bs4SidebarMenuItem bs4TabItem bs4TabItems bs4ValueBox
 #' bs4ValueBoxOutput renderbs4InfoBox renderbs4ValueBox
 #' bs4TabPanel bs4TabCard
+#' @importFrom colorspace rainbow_hcl
 #' @importFrom ComplexHeatmap Heatmap HeatmapAnnotation draw
 #' @importFrom dendextend branches_attr_by_clusters set
 #' @importFrom DESeq2 vst counts estimateSizeFactors normalizationFactors sizeFactors
@@ -19,6 +20,7 @@
 #' @importFrom DT datatable dataTableOutput renderDataTable formatRound
 #' formatStyle JS
 #' @importFrom dynamicTreeCut cutreeDynamic
+#' @importFrom expm "%^%"
 #' @importFrom ggforce geom_sina
 #' @import ggplot2
 #' @importFrom ggrepel geom_label_repel geom_text_repel
@@ -26,8 +28,8 @@
 #' @importFrom graphics par plot
 #' @importFrom grDevices colorRampPalette rgb col2rgb
 #' @importFrom grid gpar
-#' @importFrom igraph delete.edges E "E<-" graph.data.frame
-#' permute.vertices V "V<-"
+#' @importFrom igraph add_edges delete.edges "%du%" E "E<-" graph.data.frame induced_subgraph
+#' make_full_graph permute.vertices strength V "V<-" vcount get.edgelist
 #' @importFrom matrixStats rowSds
 #' @importFrom methods is
 #' @importFrom plotly ggplotly plotlyOutput renderPlotly plot_ly layout add_trace
@@ -45,7 +47,7 @@
 #' @import SummarizedExperiment
 #' @importFrom tidyr separate_rows pivot_longer
 #' @importFrom tools file_ext file_path_sans_ext
-#' @importFrom utils read.delim sessionInfo browseURL citation data
+#' @importFrom utils read.delim sessionInfo browseURL citation data write.table
 #' @importFrom visNetwork renderVisNetwork visExport visIgraph visNetworkOutput 
 #' visOptions
 #' @importFrom viridis viridis

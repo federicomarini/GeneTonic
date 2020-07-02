@@ -1,8 +1,8 @@
 Package: GeneTonic
 Title: Enjoy Analyzing And Integrating The Results From Differential Expression 
     Analysis And Functional Enrichment Analysis
-Version: 1.1.1
-Date: 2020-05-04
+Version: 1.1.2
+Date: 2020-07-02
 Authors@R: 
     c(
         person(
@@ -22,12 +22,14 @@ Depends:
 Imports:
     AnnotationDbi,
     bs4Dash,
+    colorspace,
     ComplexHeatmap,
     dendextend,
     DESeq2,
     dplyr,
     DT,
     dynamicTreeCut,
+    expm,
     ggforce,
     ggplot2,
     ggrepel,
@@ -69,7 +71,7 @@ Encoding: UTF-8
 VignetteBuilder: knitr
 URL: https://github.com/federicomarini/GeneTonic
 BugReports: https://github.com/federicomarini/GeneTonic/issues
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 biocViews:
     GUI, GeneExpression, Software, Transcription, Transcriptomics, Visualization,
