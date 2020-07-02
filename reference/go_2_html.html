@@ -133,7 +133,7 @@
     <p>Assembles information, in HTML format, regarding a Gene Ontology identifier</p>
     </div>
 
-    <pre class="usage"><span class='fu'>go_2_html</span>(<span class='no'>go_id</span>, <span class='kw'>res_enrich</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/go_2_html.html'>go_2_html</a></span>(<span class='kw'>go_id</span>, res_enrich = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -148,7 +148,7 @@ to retrieve information</p></td>
       <td><p>A <code>data.frame</code> object, storing the result of the functional
 enrichment analysis. If not provided, the experiment-related information is not
 shown, and only some generic info on the identifier is displayed.
-See more in the main function, <code><a href='GeneTonic.html'>GeneTonic()</a></code>, to check the
+See more in the main function, <code><a href='https://rdrr.io/pkg/GeneTonic/man/GeneTonic.html'>GeneTonic()</a></code>, to check the
 formatting requirements (a minimal set of columns should be present).</p></td>
     </tr>
     </table>
@@ -162,7 +162,7 @@ web applications (or inserted in Rmd documents)</p>
     <p>Also creates a link to the AmiGO database</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>go_2_html</span>(<span class='st'>"GO:0002250"</span>)</div><div class='output co'>#&gt; &lt;b&gt;GO ID: &lt;/b&gt;&lt;a href = "http://amigo.geneontology.org/amigo/term/GO:0002250" target = "_blank" class = "btn btn-primary" style = "color: #ffffff; background-color: #0092AC"&gt;GO:0002250&lt;/a&gt;&lt;br/&gt;&lt;b&gt;Term: &lt;/b&gt;adaptive immune response&lt;br/&gt;&lt;b&gt;Ontology: &lt;/b&gt;BP&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Definition: &lt;/b&gt;An immune response mediated by cells expressing specific receptors for antigen produced through a somatic diversification process, and allowing for an enhanced secondary response to subsequent exposures to the same antigen (immunological memory).&lt;br/&gt;&lt;b&gt;Synonym: &lt;/b&gt;acquired immune response&lt;br/&gt;&lt;b&gt;Synonym: &lt;/b&gt;immune memory response&lt;br/&gt;</div><div class='input'><span class='fu'>go_2_html</span>(<span class='st'>"GO:0043368"</span>)</div><div class='output co'>#&gt; &lt;b&gt;GO ID: &lt;/b&gt;&lt;a href = "http://amigo.geneontology.org/amigo/term/GO:0043368" target = "_blank" class = "btn btn-primary" style = "color: #ffffff; background-color: #0092AC"&gt;GO:0043368&lt;/a&gt;&lt;br/&gt;&lt;b&gt;Term: &lt;/b&gt;positive T cell selection&lt;br/&gt;&lt;b&gt;Ontology: &lt;/b&gt;BP&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Definition: &lt;/b&gt;The process of sparing immature T cells which react with self-MHC protein complexes with low affinity levels from apoptotic death.&lt;br/&gt;&lt;b&gt;Synonym: &lt;/b&gt;positive T lymphocyte selection&lt;br/&gt;&lt;b&gt;Synonym: &lt;/b&gt;positive T-cell selection&lt;br/&gt;&lt;b&gt;Synonym: &lt;/b&gt;positive T-lymphocyte selection&lt;br/&gt;</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/go_2_html.html'>go_2_html</a></span>(<span class='st'>"GO:0002250"</span>)</div><div class='output co'>#&gt; &lt;b&gt;GO ID: &lt;/b&gt;&lt;a href = "http://amigo.geneontology.org/amigo/term/GO:0002250" target = "_blank" class = "btn btn-primary" style = "color: #ffffff; background-color: #0092AC"&gt;GO:0002250&lt;/a&gt;&lt;br/&gt;&lt;b&gt;Term: &lt;/b&gt;adaptive immune response&lt;br/&gt;&lt;b&gt;Ontology: &lt;/b&gt;BP&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Definition: &lt;/b&gt;An immune response mediated by cells expressing specific receptors for antigen produced through a somatic diversification process, and allowing for an enhanced secondary response to subsequent exposures to the same antigen (immunological memory).&lt;br/&gt;&lt;b&gt;Synonym: &lt;/b&gt;acquired immune response&lt;br/&gt;&lt;b&gt;Synonym: &lt;/b&gt;immune memory response&lt;br/&gt;</div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/go_2_html.html'>go_2_html</a></span>(<span class='st'>"GO:0043368"</span>)</div><div class='output co'>#&gt; &lt;b&gt;GO ID: &lt;/b&gt;&lt;a href = "http://amigo.geneontology.org/amigo/term/GO:0043368" target = "_blank" class = "btn btn-primary" style = "color: #ffffff; background-color: #0092AC"&gt;GO:0043368&lt;/a&gt;&lt;br/&gt;&lt;b&gt;Term: &lt;/b&gt;positive T cell selection&lt;br/&gt;&lt;b&gt;Ontology: &lt;/b&gt;BP&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Definition: &lt;/b&gt;The process of sparing immature T cells which react with self-MHC protein complexes with low affinity levels from apoptotic death.&lt;br/&gt;&lt;b&gt;Synonym: &lt;/b&gt;positive T lymphocyte selection&lt;br/&gt;&lt;b&gt;Synonym: &lt;/b&gt;positive T-cell selection&lt;br/&gt;&lt;b&gt;Synonym: &lt;/b&gt;positive T-lymphocyte selection&lt;br/&gt;</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -178,7 +178,7 @@ web applications (or inserted in Rmd documents)</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

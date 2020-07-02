@@ -133,7 +133,7 @@
     <p>Export a graph to a Simple Interaction Format file</p>
     </div>
 
-    <pre class="usage"><span class='fu'>export_to_sif</span>(<span class='no'>g</span>, <span class='kw'>sif_file</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>edge_label</span> <span class='kw'>=</span> <span class='st'>"relates_to"</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/export_to_sif.html'>export_to_sif</a></span>(<span class='kw'>g</span>, sif_file = <span class='st'>""</span>, edge_label = <span class='st'>"relates_to"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -159,10 +159,10 @@ Defaults here to "relates_to"</p></td>
     <p>Returns the path to the exported file, invisibly</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"igraph"</span>)
-<span class='no'>g</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/make_full_graph.html'>make_full_graph</a></span>(<span class='fl'>5</span>) <span class='kw'>%du%</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/make_full_graph.html'>make_full_graph</a></span>(<span class='fl'>5</span>) <span class='kw'>%du%</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/make_full_graph.html'>make_full_graph</a></span>(<span class='fl'>5</span>)
-<span class='no'>g</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/add_edges.html'>add_edges</a></span>(<span class='no'>g</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>6</span>, <span class='fl'>1</span>,<span class='fl'>11</span>, <span class='fl'>6</span>, <span class='fl'>11</span>))
-<span class='fu'>export_to_sif</span>(<span class='no'>g</span>, <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>())</div><div class='output co'>#&gt; <span class='message'>Saving the file to /tmp/RtmpRkjFUK/file3d517f0adf8d</span></div><div class='output co'>#&gt; <span class='message'>Done!</span></div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='http://igraph.org'>"igraph"</a></span>)
+<span class='kw'>g</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/make_full_graph.html'>make_full_graph</a></span>(<span class='fl'>5</span>) <span class='op'>%du%</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/make_full_graph.html'>make_full_graph</a></span>(<span class='fl'>5</span>) <span class='op'>%du%</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/make_full_graph.html'>make_full_graph</a></span>(<span class='fl'>5</span>)
+<span class='kw'>g</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/add_edges.html'>add_edges</a></span>(<span class='kw'>g</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>6</span>, <span class='fl'>1</span>,<span class='fl'>11</span>, <span class='fl'>6</span>, <span class='fl'>11</span>))
+<span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/export_to_sif.html'>export_to_sif</a></span>(<span class='kw'>g</span>, <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>())</div><div class='output co'>#&gt; <span class='message'>Saving the file to /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpof9SC9/file13cb17328173</span></div><div class='output co'>#&gt; <span class='message'>Done!</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -178,7 +178,7 @@ Defaults here to "relates_to"</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

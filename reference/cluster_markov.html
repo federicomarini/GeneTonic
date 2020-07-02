@@ -135,16 +135,16 @@ structure, in an analogous way to other existing algorithms in igraph." />
 structure, in an analogous way to other existing algorithms in <code>igraph</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>cluster_markov</span>(
-  <span class='no'>g</span>,
-  <span class='kw'>add_self_loops</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>loop_value</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>mcl_expansion</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>mcl_inflation</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>allow_singletons</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>max_iter</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>return_node_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>return_esm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/cluster_markov.html'>cluster_markov</a></span>(
+  <span class='kw'>g</span>,
+  add_self_loops = <span class='fl'>TRUE</span>,
+  loop_value = <span class='fl'>1</span>,
+  mcl_expansion = <span class='fl'>2</span>,
+  mcl_inflation = <span class='fl'>2</span>,
+  allow_singletons = <span class='fl'>TRUE</span>,
+  max_iter = <span class='fl'>100</span>,
+  return_node_names = <span class='fl'>TRUE</span>,
+  return_esm = <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -219,7 +219,7 @@ large-scale detection of protein families (2002) Nucleic Acids Research, Volume 
 Issue 7, 1 April 2002, Pages 1575–1584, https://doi.org/10.1093/nar/30.7.1575</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"igraph"</span>)</div><div class='output co'>#&gt; <span class='message'></span>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='http://igraph.org'>"igraph"</a></span>)</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: ‘igraph’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:DelayedArray’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    path, simplify</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:GenomicRanges’:</span>
@@ -234,9 +234,9 @@ Issue 7, 1 April 2002, Pages 1575–1584, https://doi.org/10.1093/nar/30.7.1575<
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    decompose, spectrum</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:base’:</span>
 #&gt; <span class='message'></span>
-#&gt; <span class='message'>    union</span></div><div class='input'><span class='no'>g</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/make_full_graph.html'>make_full_graph</a></span>(<span class='fl'>5</span>) <span class='kw'>%du%</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/make_full_graph.html'>make_full_graph</a></span>(<span class='fl'>5</span>) <span class='kw'>%du%</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/make_full_graph.html'>make_full_graph</a></span>(<span class='fl'>5</span>)
-<span class='no'>g</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/add_edges.html'>add_edges</a></span>(<span class='no'>g</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>6</span>, <span class='fl'>1</span>,<span class='fl'>11</span>, <span class='fl'>6</span>, <span class='fl'>11</span>))
-<span class='fu'>cluster_markov</span>(<span class='no'>g</span>)</div><div class='output co'>#&gt; IGRAPH clustering mcl, groups: 3, mod: NA
+#&gt; <span class='message'>    union</span></div><div class='input'><span class='kw'>g</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/make_full_graph.html'>make_full_graph</a></span>(<span class='fl'>5</span>) <span class='op'>%du%</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/make_full_graph.html'>make_full_graph</a></span>(<span class='fl'>5</span>) <span class='op'>%du%</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/make_full_graph.html'>make_full_graph</a></span>(<span class='fl'>5</span>)
+<span class='kw'>g</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/add_edges.html'>add_edges</a></span>(<span class='kw'>g</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>6</span>, <span class='fl'>1</span>,<span class='fl'>11</span>, <span class='fl'>6</span>, <span class='fl'>11</span>))
+<span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/cluster_markov.html'>cluster_markov</a></span>(<span class='kw'>g</span>)</div><div class='output co'>#&gt; IGRAPH clustering mcl, groups: 3, mod: NA
 #&gt; + groups:
 #&gt;   $`1`
 #&gt;   [1] 1 2 3 4 5
@@ -246,8 +246,8 @@ Issue 7, 1 April 2002, Pages 1575–1584, https://doi.org/10.1093/nar/30.7.1575<
 #&gt;   
 #&gt;   $`3`
 #&gt;   [1] 11 12 13 14 15
-#&gt;   </div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span>(<span class='no'>g</span>)$<span class='no'>color</span> <span class='kw'>&lt;-</span> <span class='fu'>cluster_markov</span>(<span class='no'>g</span>)$<span class='no'>membership</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>g</span>)</div><div class='img'><img src='cluster_markov-1.png' alt='' width='700' height='433' /></div></pre>
+#&gt;   </div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span>(<span class='kw'>g</span>)<span class='op'>$</span><span class='kw'>color</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/cluster_markov.html'>cluster_markov</a></span>(<span class='kw'>g</span>)<span class='op'>$</span><span class='kw'>membership</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>g</span>)</div><div class='img'><img src='cluster_markov-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -263,7 +263,7 @@ Issue 7, 1 April 2002, Pages 1575–1584, https://doi.org/10.1093/nar/30.7.1575<
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>
