@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
       </span>
     </div>
 
@@ -133,13 +133,13 @@
     <p>Plots a summary of enrichment results - for two sets of results</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/gs_summary_overview_pair.html'>gs_summary_overview_pair</a></span>(
-  <span class='kw'>res_enrich</span>,
-  <span class='kw'>res_enrich2</span>,
-  n_gs = <span class='fl'>20</span>,
-  p_value_column = <span class='st'>"gs_pvalue"</span>,
-  color_by = <span class='st'>"z_score"</span>,
-  alpha_set2 = <span class='fl'>1</span>
+    <pre class="usage"><span class='fu'>gs_summary_overview_pair</span>(
+  <span class='no'>res_enrich</span>,
+  <span class='no'>res_enrich2</span>,
+  <span class='kw'>n_gs</span> <span class='kw'>=</span> <span class='fl'>20</span>,
+  <span class='kw'>p_value_column</span> <span class='kw'>=</span> <span class='st'>"gs_pvalue"</span>,
+  <span class='kw'>color_by</span> <span class='kw'>=</span> <span class='st'>"z_score"</span>,
+  <span class='kw'>alpha_set2</span> <span class='kw'>=</span> <span class='fl'>1</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -148,7 +148,7 @@
     <tr>
       <th>res_enrich</th>
       <td><p>A <code>data.frame</code> object, storing the result of the functional
-enrichment analysis. See more in the main function, <code><a href='https://rdrr.io/pkg/GeneTonic/man/GeneTonic.html'>GeneTonic()</a></code>, to check the
+enrichment analysis. See more in the main function, <code><a href='GeneTonic.html'>GeneTonic()</a></code>, to check the
 formatting requirements (a minimal set of columns should be present).</p></td>
     </tr>
     <tr>
@@ -185,46 +185,46 @@ transparency used for plotting the points for gene set 2.</p></td>
     <p>A <code>ggplot</code> object</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/GeneTonic/man/gs_summary_overview.html'>gs_summary_overview()</a></code>, <code><a href='https://rdrr.io/pkg/GeneTonic/man/gs_horizon.html'>gs_horizon()</a></code></p></div>
+    <div class='dont-index'><p><code><a href='gs_summary_overview.html'>gs_summary_overview()</a></code>, <code><a href='gs_horizon.html'>gs_horizon()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"macrophage"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://github.com/mikelove/DESeq2'>"DESeq2"</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"DESeq2"</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"org.Hs.eg.db"</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"AnnotationDbi"</span>)
 
 <span class='co'># dds object</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"gse"</span>, package = <span class='st'>"macrophage"</span>)
-<span class='kw'>dds_macrophage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html'>DESeqDataSet</a></span>(<span class='kw'>gse</span>, design = <span class='op'>~</span><span class='kw'>line</span> <span class='op'>+</span> <span class='kw'>condition</span>)</div><div class='output co'>#&gt; <span class='message'>using counts and average transcript lengths from tximeta</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='kw'>dds_macrophage</span>) <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/substr.html'>substr</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='kw'>dds_macrophage</span>), <span class='fl'>1</span>, <span class='fl'>15</span>)
-<span class='kw'>dds_macrophage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/estimateSizeFactors.html'>estimateSizeFactors</a></span>(<span class='kw'>dds_macrophage</span>)</div><div class='output co'>#&gt; <span class='message'>using 'avgTxLength' from assays(dds), correcting for library size</span></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"gse"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"macrophage"</span>)
+<span class='no'>dds_macrophage</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html'>DESeqDataSet</a></span>(<span class='no'>gse</span>, <span class='kw'>design</span> <span class='kw'>=</span> ~<span class='no'>line</span> + <span class='no'>condition</span>)</div><div class='output co'>#&gt; <span class='message'>using counts and average transcript lengths from tximeta</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>dds_macrophage</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/substr.html'>substr</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>dds_macrophage</span>), <span class='fl'>1</span>, <span class='fl'>15</span>)
+<span class='no'>dds_macrophage</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/estimateSizeFactors.html'>estimateSizeFactors</a></span>(<span class='no'>dds_macrophage</span>)</div><div class='output co'>#&gt; <span class='message'>using 'avgTxLength' from assays(dds), correcting for library size</span></div><div class='input'>
 <span class='co'># annotation object</span>
-<span class='kw'>anno_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
-  gene_id = <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='kw'>dds_macrophage</span>),
-  gene_name = <span class='fu'><a href='https://rdrr.io/pkg/AnnotationDbi/man/AnnotationDb-class.html'>mapIds</a></span>(<span class='kw'>org.Hs.eg.db</span>,
-                     keys = <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='kw'>dds_macrophage</span>),
-                     column = <span class='st'>"SYMBOL"</span>,
-                     keytype = <span class='st'>"ENSEMBL"</span>),
-  stringsAsFactors = <span class='fl'>FALSE</span>,
-  row.names = <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='kw'>dds_macrophage</span>)
+<span class='no'>anno_df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
+  <span class='kw'>gene_id</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>dds_macrophage</span>),
+  <span class='kw'>gene_name</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/AnnotationDbi/man/AnnotationDb-class.html'>mapIds</a></span>(<span class='no'>org.Hs.eg.db</span>,
+                     <span class='kw'>keys</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>dds_macrophage</span>),
+                     <span class='kw'>column</span> <span class='kw'>=</span> <span class='st'>"SYMBOL"</span>,
+                     <span class='kw'>keytype</span> <span class='kw'>=</span> <span class='st'>"ENSEMBL"</span>),
+  <span class='kw'>stringsAsFactors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>dds_macrophage</span>)
 )</div><div class='output co'>#&gt; <span class='message'>'select()' returned 1:many mapping between keys and columns</span></div><div class='input'>
 <span class='co'># res object</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>res_de_macrophage</span>, package = <span class='st'>"GeneTonic"</span>)
-<span class='kw'>res_de</span> <span class='op'>&lt;-</span> <span class='kw'>res_macrophage_IFNg_vs_naive</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>res_de_macrophage</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"GeneTonic"</span>)
+<span class='no'>res_de</span> <span class='kw'>&lt;-</span> <span class='no'>res_macrophage_IFNg_vs_naive</span>
 
 <span class='co'># res_enrich object</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>res_enrich_macrophage</span>, package = <span class='st'>"GeneTonic"</span>)
-<span class='kw'>res_enrich</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/shake_topGOtableResult.html'>shake_topGOtableResult</a></span>(<span class='kw'>topgoDE_macrophage_IFNg_vs_naive</span>)</div><div class='output co'>#&gt; <span class='message'>Found 500 gene sets in `topGOtableResult` object.</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div><div class='input'><span class='kw'>res_enrich</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/get_aggrscores.html'>get_aggrscores</a></span>(<span class='kw'>res_enrich</span>, <span class='kw'>res_de</span>, <span class='kw'>anno_df</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>res_enrich_macrophage</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"GeneTonic"</span>)
+<span class='no'>res_enrich</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='shake_topGOtableResult.html'>shake_topGOtableResult</a></span>(<span class='no'>topgoDE_macrophage_IFNg_vs_naive</span>)</div><div class='output co'>#&gt; <span class='message'>Found 500 gene sets in `topGOtableResult` object.</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div><div class='input'><span class='no'>res_enrich</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_aggrscores.html'>get_aggrscores</a></span>(<span class='no'>res_enrich</span>, <span class='no'>res_de</span>, <span class='no'>anno_df</span>)
 
-<span class='kw'>res_enrich2</span> <span class='op'>&lt;-</span> <span class='kw'>res_enrich</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>42</span>, ]
+<span class='no'>res_enrich2</span> <span class='kw'>&lt;-</span> <span class='no'>res_enrich</span>[<span class='fl'>1</span>:<span class='fl'>42</span>, ]
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>42</span>)
-<span class='kw'>shuffled_ones</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span>(<span class='fl'>42</span>)) <span class='co'># to generate permuted p-values</span>
-<span class='kw'>res_enrich2</span><span class='op'>$</span><span class='kw'>gs_pvalue</span> <span class='op'>&lt;-</span> <span class='kw'>res_enrich2</span><span class='op'>$</span><span class='kw'>gs_pvalue</span>[<span class='kw'>shuffled_ones</span>]
-<span class='kw'>res_enrich2</span><span class='op'>$</span><span class='kw'>z_score</span> <span class='op'>&lt;-</span> <span class='kw'>res_enrich2</span><span class='op'>$</span><span class='kw'>z_score</span>[<span class='kw'>shuffled_ones</span>]
-<span class='kw'>res_enrich2</span><span class='op'>$</span><span class='kw'>aggr_score</span> <span class='op'>&lt;-</span> <span class='kw'>res_enrich2</span><span class='op'>$</span><span class='kw'>aggr_score</span>[<span class='kw'>shuffled_ones</span>]
+<span class='no'>shuffled_ones</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span>(<span class='fl'>42</span>)) <span class='co'># to generate permuted p-values</span>
+<span class='no'>res_enrich2</span>$<span class='no'>gs_pvalue</span> <span class='kw'>&lt;-</span> <span class='no'>res_enrich2</span>$<span class='no'>gs_pvalue</span>[<span class='no'>shuffled_ones</span>]
+<span class='no'>res_enrich2</span>$<span class='no'>z_score</span> <span class='kw'>&lt;-</span> <span class='no'>res_enrich2</span>$<span class='no'>z_score</span>[<span class='no'>shuffled_ones</span>]
+<span class='no'>res_enrich2</span>$<span class='no'>aggr_score</span> <span class='kw'>&lt;-</span> <span class='no'>res_enrich2</span>$<span class='no'>aggr_score</span>[<span class='no'>shuffled_ones</span>]
 <span class='co'># ideally, I would also permute the z scores and aggregated scores</span>
-<span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/gs_summary_overview_pair.html'>gs_summary_overview_pair</a></span>(res_enrich = <span class='kw'>res_enrich</span>,
-                         res_enrich2 = <span class='kw'>res_enrich2</span>)</div><div class='img'><img src='gs_summary_overview_pair-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'>gs_summary_overview_pair</span>(<span class='kw'>res_enrich</span> <span class='kw'>=</span> <span class='no'>res_enrich</span>,
+                         <span class='kw'>res_enrich2</span> <span class='kw'>=</span> <span class='no'>res_enrich2</span>)</div><div class='img'><img src='gs_summary_overview_pair-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -240,7 +240,7 @@ transparency used for plotting the points for gene set 2.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

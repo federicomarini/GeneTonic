@@ -73,7 +73,7 @@ between each pair of sets" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
       </span>
     </div>
 
@@ -135,11 +135,11 @@ between each pair of sets" />
 between each pair of sets</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/create_jaccard_matrix.html'>create_jaccard_matrix</a></span>(
-  <span class='kw'>res_enrich</span>,
-  n_gs = <span class='fu'><a href='https://rdrr.io/pkg/AnnotationDbi/man/Bimap-toTable.html'>nrow</a></span>(<span class='kw'>res_enrich</span>),
-  gs_ids = <span class='kw'>NULL</span>,
-  return_sym = <span class='fl'>FALSE</span>
+    <pre class="usage"><span class='fu'>create_jaccard_matrix</span>(
+  <span class='no'>res_enrich</span>,
+  <span class='kw'>n_gs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>res_enrich</span>),
+  <span class='kw'>gs_ids</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>return_sym</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -148,7 +148,7 @@ between each pair of sets</p>
     <tr>
       <th>res_enrich</th>
       <td><p>A <code>data.frame</code> object, storing the result of the functional
-enrichment analysis. See more in the main function, <code><a href='https://rdrr.io/pkg/GeneTonic/man/GeneTonic.html'>GeneTonic()</a></code>, to see the
+enrichment analysis. See more in the main function, <code><a href='GeneTonic.html'>GeneTonic()</a></code>, to see the
 formatting requirements.</p></td>
     </tr>
     <tr>
@@ -166,7 +166,7 @@ the ones specified via <code>n_gs</code>. Defaults to NULL.</p></td>
     <tr>
       <th>return_sym</th>
       <td><p>Logical, whether to return the symmetrical matrix or just the
-upper triangular - as needed by <code><a href='https://rdrr.io/pkg/GeneTonic/man/enrichment_map.html'>enrichment_map()</a></code>, for example.</p></td>
+upper triangular - as needed by <code><a href='enrichment_map.html'>enrichment_map()</a></code>, for example.</p></td>
     </tr>
     </table>
 
@@ -175,15 +175,15 @@ upper triangular - as needed by <code><a href='https://rdrr.io/pkg/GeneTonic/man
     <p>A matrix with the kappa scores between gene sets</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/GeneTonic/man/gs_mds.html'>gs_mds()</a></code>, <code><a href='https://rdrr.io/pkg/GeneTonic/man/enrichment_map.html'>enrichment_map()</a></code></p></div>
+    <div class='dont-index'><p><code><a href='gs_mds.html'>gs_mds()</a></code>, <code><a href='enrichment_map.html'>enrichment_map()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># res_enrich object</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>res_enrich_macrophage</span>, package = <span class='st'>"GeneTonic"</span>)
-<span class='kw'>res_enrich</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/shake_topGOtableResult.html'>shake_topGOtableResult</a></span>(<span class='kw'>topgoDE_macrophage_IFNg_vs_naive</span>)</div><div class='output co'>#&gt; <span class='message'>Found 500 gene sets in `topGOtableResult` object.</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div><div class='input'>
-<span class='kw'>jmat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/create_jaccard_matrix.html'>create_jaccard_matrix</a></span>(<span class='kw'>res_enrich</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>200</span>,])
-<span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span>(<span class='kw'>jmat</span>)</div><div class='output co'>#&gt; [1] 200 200</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>res_enrich_macrophage</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"GeneTonic"</span>)
+<span class='no'>res_enrich</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='shake_topGOtableResult.html'>shake_topGOtableResult</a></span>(<span class='no'>topgoDE_macrophage_IFNg_vs_naive</span>)</div><div class='output co'>#&gt; <span class='message'>Found 500 gene sets in `topGOtableResult` object.</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div><div class='input'>
+<span class='no'>jmat</span> <span class='kw'>&lt;-</span> <span class='fu'>create_jaccard_matrix</span>(<span class='no'>res_enrich</span>[<span class='fl'>1</span>:<span class='fl'>200</span>,])
+<span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span>(<span class='no'>jmat</span>)</div><div class='output co'>#&gt; [1] 200 200</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -199,7 +199,7 @@ upper triangular - as needed by <code><a href='https://rdrr.io/pkg/GeneTonic/man
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

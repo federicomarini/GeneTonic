@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
       </span>
     </div>
 
@@ -130,10 +130,10 @@
     </div>
 
     <div class="ref-description">
-    <p>Convert the output of fgsea for straightforward use in <code><a href='https://rdrr.io/pkg/GeneTonic/man/GeneTonic.html'>GeneTonic()</a></code></p>
+    <p>Convert the output of fgsea for straightforward use in <code><a href='GeneTonic.html'>GeneTonic()</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/shake_fgseaResult.html'>shake_fgseaResult</a></span>(<span class='kw'>fgsea_output</span>)</pre>
+    <pre class="usage"><span class='fu'>shake_fgseaResult</span>(<span class='no'>fgsea_output</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -146,19 +146,19 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>data.frame</code> compatible for use in <code><a href='https://rdrr.io/pkg/GeneTonic/man/GeneTonic.html'>GeneTonic()</a></code> as <code>res_enrich</code></p>
+    <p>A <code>data.frame</code> compatible for use in <code><a href='GeneTonic.html'>GeneTonic()</a></code> as <code>res_enrich</code></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other shakers: 
-<code><a href='https://rdrr.io/pkg/GeneTonic/man/shake_davidResult.html'>shake_davidResult</a>()</code>,
-<code><a href='https://rdrr.io/pkg/GeneTonic/man/shake_enrichResult.html'>shake_enrichResult</a>()</code>,
-<code><a href='https://rdrr.io/pkg/GeneTonic/man/shake_enrichrResult.html'>shake_enrichrResult</a>()</code>,
-<code><a href='https://rdrr.io/pkg/GeneTonic/man/shake_gprofilerResult.html'>shake_gprofilerResult</a>()</code>,
-<code><a href='https://rdrr.io/pkg/GeneTonic/man/shake_topGOtableResult.html'>shake_topGOtableResult</a>()</code></p></div>
+<code><a href='shake_davidResult.html'>shake_davidResult</a>()</code>,
+<code><a href='shake_enrichResult.html'>shake_enrichResult</a>()</code>,
+<code><a href='shake_enrichrResult.html'>shake_enrichrResult</a>()</code>,
+<code><a href='shake_gprofilerResult.html'>shake_gprofilerResult</a>()</code>,
+<code><a href='shake_topGOtableResult.html'>shake_topGOtableResult</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>fgseaRes</span>, package = <span class='st'>"GeneTonic"</span>)
-<span class='kw'>res_from_fgsea</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/shake_fgseaResult.html'>shake_fgseaResult</a></span>(<span class='kw'>fgseaRes</span>)</div><div class='output co'>#&gt; <span class='message'>Found 7341 gene sets in the file output from Enrichr of which 102 are significant (p-value &lt;= 0.05).</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div><div class='output co'>#&gt; <span class='message'>Using the content of the 'leadingEdge' column to generate the 'gs_genes' for GeneTonic... If you have that information available directly, please adjust the content accordingly.</span>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>fgseaRes</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"GeneTonic"</span>)
+<span class='no'>res_from_fgsea</span> <span class='kw'>&lt;-</span> <span class='fu'>shake_fgseaResult</span>(<span class='no'>fgseaRes</span>)</div><div class='output co'>#&gt; <span class='message'>Found 7341 gene sets in the file output from Enrichr of which 102 are significant (p-value &lt;= 0.05).</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div><div class='output co'>#&gt; <span class='message'>Using the content of the 'leadingEdge' column to generate the 'gs_genes' for GeneTonic... If you have that information available directly, please adjust the content accordingly.</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>Using the set of the leadingEdge size to compute the 'gs_de_count'</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'></span>
@@ -178,7 +178,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

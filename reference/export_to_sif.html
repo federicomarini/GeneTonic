@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate Jaccard Index between two sets — overlap_jaccard_index • GeneTonic</title>
+<title>Export to sif — export_to_sif • GeneTonic</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Calculate Jaccard Index between two sets — overlap_jaccard_index" />
-<meta property="og:description" content="Calculate similarity coefficient with the Jaccard Index" />
+<meta property="og:title" content="Export to sif — export_to_sif" />
+<meta property="og:description" content="Export a graph to a Simple Interaction Format file" />
 
 
 
@@ -124,38 +124,45 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate Jaccard Index between two sets</h1>
+    <h1>Export to sif</h1>
     <small class="dont-index">Source: <a href='https://github.com/federicomarini/GeneTonic/blob/master/R/GeneTonic-extras.R'><code>R/GeneTonic-extras.R</code></a></small>
-    <div class="hidden name"><code>overlap_jaccard_index.Rd</code></div>
+    <div class="hidden name"><code>export_to_sif.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Calculate similarity coefficient with the Jaccard Index</p>
+    <p>Export a graph to a Simple Interaction Format file</p>
     </div>
 
-    <pre class="usage"><span class='fu'>overlap_jaccard_index</span>(<span class='no'>x</span>, <span class='no'>y</span>)</pre>
+    <pre class="usage"><span class='fu'>export_to_sif</span>(<span class='no'>g</span>, <span class='kw'>sif_file</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>edge_label</span> <span class='kw'>=</span> <span class='st'>"relates_to"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>Character vector, corresponding to set 1</p></td>
+      <th>g</th>
+      <td><p>An <code>igraph</code> object</p></td>
     </tr>
     <tr>
-      <th>y</th>
-      <td><p>Character vector, corresponding to set 2</p></td>
+      <th>sif_file</th>
+      <td><p>Character string, the path to the file where to save the exported
+graph as .sif file</p></td>
+    </tr>
+    <tr>
+      <th>edge_label</th>
+      <td><p>Character string, defining the name of the interaction type.
+Defaults here to "relates_to"</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A numeric value between 0 and 1</p>
+    <p>Returns the path to the exported file, invisibly</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>1</span>, <span class='fl'>21</span>, <span class='fl'>2</span>)
-<span class='no'>b</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>1</span>, <span class='fl'>11</span>, <span class='fl'>2</span>)
-<span class='fu'>overlap_jaccard_index</span>(<span class='no'>a</span>,<span class='no'>b</span>)</div><div class='output co'>#&gt; [1] 0.5454545</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"igraph"</span>)
+<span class='no'>g</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/make_full_graph.html'>make_full_graph</a></span>(<span class='fl'>5</span>) <span class='kw'>%du%</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/make_full_graph.html'>make_full_graph</a></span>(<span class='fl'>5</span>) <span class='kw'>%du%</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/make_full_graph.html'>make_full_graph</a></span>(<span class='fl'>5</span>)
+<span class='no'>g</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/add_edges.html'>add_edges</a></span>(<span class='no'>g</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>6</span>, <span class='fl'>1</span>,<span class='fl'>11</span>, <span class='fl'>6</span>, <span class='fl'>11</span>))
+<span class='fu'>export_to_sif</span>(<span class='no'>g</span>, <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>())</div><div class='output co'>#&gt; <span class='message'>Saving the file to /tmp/RtmpRkjFUK/file3d517f0adf8d</span></div><div class='output co'>#&gt; <span class='message'>Done!</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

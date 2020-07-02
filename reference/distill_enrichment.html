@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Radar (spider) plot for gene sets — gs_radar • GeneTonic</title>
+<title>Distill enrichment results — distill_enrichment • GeneTonic</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="Radar (spider) plot for gene sets — gs_radar" />
-<meta property="og:description" content="Radar (spider) plot for gene sets, either for one or more results from functional
-enrichment analysis." />
+<meta property="og:title" content="Distill enrichment results — distill_enrichment" />
+<meta property="og:description" content="Distill the main topics from the enrichment results, based on the graph derived
+from constructing an enrichment map" />
 
 
 
@@ -125,28 +125,22 @@ enrichment analysis." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Radar (spider) plot for gene sets</h1>
-    <small class="dont-index">Source: <a href='https://github.com/federicomarini/GeneTonic/blob/master/R/gs_radar.R'><code>R/gs_radar.R</code></a></small>
-    <div class="hidden name"><code>gs_radar.Rd</code></div>
+    <h1>Distill enrichment results</h1>
+    <small class="dont-index">Source: <a href='https://github.com/federicomarini/GeneTonic/blob/master/R/enhance_table.R'><code>R/enhance_table.R</code></a></small>
+    <div class="hidden name"><code>distill_enrichment.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Radar (spider) plot for gene sets, either for one or more results from functional
-enrichment analysis.</p>
+    <p>Distill the main topics from the enrichment results, based on the graph derived
+from constructing an enrichment map</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gs_radar</span>(
+    <pre class="usage"><span class='fu'>distill_enrichment</span>(
   <span class='no'>res_enrich</span>,
-  <span class='kw'>res_enrich2</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>n_gs</span> <span class='kw'>=</span> <span class='fl'>20</span>,
-  <span class='kw'>p_value_column</span> <span class='kw'>=</span> <span class='st'>"gs_pvalue"</span>
-)
-
-<span class='fu'>gs_spider</span>(
-  <span class='no'>res_enrich</span>,
-  <span class='kw'>res_enrich2</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>n_gs</span> <span class='kw'>=</span> <span class='fl'>20</span>,
-  <span class='kw'>p_value_column</span> <span class='kw'>=</span> <span class='st'>"gs_pvalue"</span>
+  <span class='no'>res_de</span>,
+  <span class='no'>annotation_obj</span>,
+  <span class='kw'>n_gs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>res_enrich</span>),
+  <span class='kw'>cluster_fun</span> <span class='kw'>=</span> <span class='st'>"cluster_markov"</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -155,37 +149,46 @@ enrichment analysis.</p>
     <tr>
       <th>res_enrich</th>
       <td><p>A <code>data.frame</code> object, storing the result of the functional
-enrichment analysis. See more in the main function, <code><a href='GeneTonic.html'>GeneTonic()</a></code>, to check the
-formatting requirements (a minimal set of columns should be present).</p></td>
+enrichment analysis.</p></td>
     </tr>
     <tr>
-      <th>res_enrich2</th>
-      <td><p>Analogous to <code>res_enrich1</code>, another <code>data.frame</code> object,
-storing the result of the functional enrichment analysis, but for a different
-setting (e.g. another contrast).
-Defaults to NULL (in this case, a single set of enrichment results is plotted).</p></td>
+      <th>res_de</th>
+      <td><p>A <code>DESeqResults</code> object. As for the <code>dds</code> parameter, this is
+also commonly used in the <code>DESeq2</code> framework.</p></td>
+    </tr>
+    <tr>
+      <th>annotation_obj</th>
+      <td><p>A <code>data.frame</code> object, containing two columns, <code>gene_id</code>
+with a set of unambiguous identifiers (e.g. ENSEMBL ids) and <code>gene_name</code>,
+containing e.g. HGNC-based gene symbols.</p></td>
     </tr>
     <tr>
       <th>n_gs</th>
       <td><p>Integer value, corresponding to the maximal number of gene sets to
-be displayed</p></td>
+be used.</p></td>
     </tr>
     <tr>
-      <th>p_value_column</th>
-      <td><p>Character string, specifying the column of <code>res_enrich</code>
-where the p-value to be represented is specified. Defaults to <code>gs_pvalue</code>
-(it could have other values, in case more than one p-value - or an adjusted
-p-value - have been specified).</p></td>
+      <th>cluster_fun</th>
+      <td><p>Character, referring to the name of the function used for
+the community detection in the enrichment map graph. Could be one of "cluster_markov",
+"cluster_louvain", or "cluster_walktrap", as they all return a <code>communities</code>
+object.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>plotly</code> object</p>
+    <p>A list containing two objects:</p><ul>
+<li><p>the distilled table of enrichment, <code>distilled_table</code>, where the new meta-genesets
+are identified and defined, specifying e.g. the names of each component, and the
+genes associated to these.</p></li>
+<li><p>the distilled graph for the enrichment map, <code>distilled_em</code>, with the information
+on the membership</p></li>
+</ul>
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"macrophage"</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"macrophage"</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"DESeq2"</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"org.Hs.eg.db"</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"AnnotationDbi"</span>)
@@ -211,21 +214,24 @@ p-value - have been specified).</p></td>
 <span class='co'># res_enrich object</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>res_enrich_macrophage</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"GeneTonic"</span>)
 <span class='no'>res_enrich</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='shake_topGOtableResult.html'>shake_topGOtableResult</a></span>(<span class='no'>topgoDE_macrophage_IFNg_vs_naive</span>)</div><div class='output co'>#&gt; <span class='message'>Found 500 gene sets in `topGOtableResult` object.</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div><div class='input'><span class='no'>res_enrich</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_aggrscores.html'>get_aggrscores</a></span>(<span class='no'>res_enrich</span>, <span class='no'>res_de</span>, <span class='no'>anno_df</span>)
-<span class='fu'>gs_radar</span>(<span class='kw'>res_enrich</span> <span class='kw'>=</span> <span class='no'>res_enrich</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `arrange_()` is deprecated as of dplyr 0.7.0.</span>
-#&gt; <span class='warning'>Please use `arrange()` instead.</span>
-#&gt; <span class='warning'>See vignette('programming') for more help</span>
-#&gt; <span class='warning'>This warning is displayed once every 8 hours.</span>
-#&gt; <span class='warning'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span></div><div class='input'><span class='co'># or using the alias...</span>
-<span class='fu'>gs_spider</span>(<span class='kw'>res_enrich</span> <span class='kw'>=</span> <span class='no'>res_enrich</span>)
 
-<span class='co'># with more than one set</span>
-<span class='no'>res_enrich2</span> <span class='kw'>&lt;-</span> <span class='no'>res_enrich</span>[<span class='fl'>1</span>:<span class='fl'>60</span>, ]
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>42</span>)
-<span class='no'>shuffled_ones</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span>(<span class='fl'>60</span>)) <span class='co'># to generate permuted p-values</span>
-<span class='no'>res_enrich2</span>$<span class='no'>gs_pvalue</span> <span class='kw'>&lt;-</span> <span class='no'>res_enrich2</span>$<span class='no'>gs_pvalue</span>[<span class='no'>shuffled_ones</span>]
-<span class='co'># ideally, I would also permute the z scores and aggregated scores</span>
-<span class='fu'>gs_radar</span>(<span class='kw'>res_enrich</span> <span class='kw'>=</span> <span class='no'>res_enrich</span>,
-         <span class='kw'>res_enrich2</span> <span class='kw'>=</span> <span class='no'>res_enrich2</span>)</div></pre>
+<span class='no'>distilled</span> <span class='kw'>&lt;-</span> <span class='fu'>distill_enrichment</span>(<span class='no'>res_enrich</span>,
+                                <span class='no'>res_de</span>,
+                                <span class='no'>annotation_obj</span>,
+                                <span class='kw'>n_gs</span> <span class='kw'>=</span> <span class='fl'>100</span>,
+                                <span class='kw'>cluster_fun</span> <span class='kw'>=</span> <span class='st'>"cluster_markov"</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/AnnotationDbi/man/Bimap-toTable.html'>colnames</a></span>(<span class='no'>distilled</span>$<span class='no'>distilled_table</span>)</div><div class='output co'>#&gt; [1] "metags_cluster"    "metags_n_gs"       "metags_genes"     
+#&gt; [4] "metags_n_genes"    "metags_gsidlist"   "metags_gsdesclist"
+#&gt; [7] "metags_msgs"       "metags_mcgs"      </div><div class='input'><span class='no'>distilled</span>$<span class='no'>distilled_em</span></div><div class='output co'>#&gt; IGRAPH 3c03a13 UN-- 100 553 -- 
+#&gt; + attr: name (v/c), size (v/n), original_size (v/n), color.background
+#&gt; | (v/c), color.highlight (v/c), color.hover (v/c), color.border (v/c),
+#&gt; | membership (v/n), color (v/n), width (e/n), color (e/c)
+#&gt; + edges from 3c03a13 (vertex names):
+#&gt; [1] adaptive immune response--interferon-gamma-mediated signaling pathway                                      
+#&gt; [2] adaptive immune response--antigen processing and presentation of endogenous peptide antigen via MHC class I
+#&gt; [3] adaptive immune response--positive regulation of T cell mediated cytotoxicity                              
+#&gt; [4] adaptive immune response--antigen processing and presentation via MHC class Ib                             
+#&gt; + ... omitted several edges</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
