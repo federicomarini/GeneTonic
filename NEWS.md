@@ -1,8 +1,22 @@
 # GeneTonic 1.2.0
 
+## New features
+
+* The geneset distillery is officially open! `GeneTonic` offers functionality to aggregate together gene sets into overarching biological themes, based on a network-based refinement of the enrichment map. 
+  Corresponding graphical functionalities are also extended to accommodate meta-genesets.
+  An efficient implementation for the Markov clustering on graph objects is also provided
+  
+* `GeneTonic` can now receive the input of many other tools for functional enrichment analysis - this includes the output (text export) of DAVID (`shake_davidResult`), enrichr (from website and via the package, with `shake_enrichrResult`), fgsea (`shake_fgseaResult`), and g:Profiler (with `shake_gprofilerResult`, which can handle the textual output from the website, as well the one from the call to the `gost` in `gprofiler2`)
+
+* An export button to a `SummarizedExperiment` object for `iSEE` and its underlying machinery has been added. If the visualization options in `GeneTonic` are not exactly what you would expect, you might find an excellent venue in the `iSEE` framework
+
 ## Other notes
 
 * Added an additional mechanism for safe fails when not finding the GO Term and searching for the definition - this could happen e.g. when the term becomes outdated and is removed from the `GO.db` package, or also mistyped if entered by hand at some point.
+* `gs_heatmap` has a new parameter, `plot_title`, to override the title to be displayed and set it to any custom string
+* It is now possible to save a snapshot of the graphs created with `visNetwork`
+* The Gene Box now also contains links to the GTEx portal for the selected feature
+* `export_to_sif` enables to export a graph object to a text file, encoded with the SIF format
 
 # GeneTonic 1.0.0
 
