@@ -133,7 +133,7 @@
     <p>Style DT color bars for values that diverge from 0.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/styleColorBar_divergent.html'>styleColorBar_divergent</a></span>(<span class='kw'>data</span>, <span class='kw'>color_pos</span>, <span class='kw'>color_neg</span>)</pre>
+    <pre class="usage"><span class='fu'>styleColorBar_divergent</span>(<span class='kw'>data</span>, <span class='kw'>color_pos</span>, <span class='kw'>color_neg</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -175,7 +175,7 @@ https://stackoverflow.com/questions/33521828/stylecolorbar-center-and-shift-left
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>res_de_macrophage</span>, package = <span class='st'>"GeneTonic"</span>)
-<span class='kw'>res_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/deseqresult2df.html'>deseqresult2df</a></span>(<span class='kw'>res_macrophage_IFNg_vs_naive</span>)
+<span class='kw'>res_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='deseqresult2df.html'>deseqresult2df</a></span>(<span class='kw'>res_macrophage_IFNg_vs_naive</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"magrittr"</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://github.com/rstudio/DT'>"DT"</a></span>)
 <span class='kw'>DT</span>::<span class='fu'><a href='https://rdrr.io/pkg/DT/man/datatable.html'>datatable</a></span>(<span class='kw'>res_df</span> [<span class='fl'>1</span><span class='op'>:</span><span class='fl'>50</span>, ],
@@ -189,7 +189,7 @@ https://stackoverflow.com/questions/33521828/stylecolorbar-center-and-shift-left
   <span class='fu'><a href='https://rdrr.io/pkg/DT/man/formatCurrency.html'>formatRound</a></span>(columns = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"log2FoldChange"</span>), digits = <span class='fl'>3</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/pkg/DT/man/formatCurrency.html'>formatStyle</a></span>(
     <span class='st'>"log2FoldChange"</span>,
-    background = <span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/styleColorBar_divergent.html'>styleColorBar_divergent</a></span>(<span class='kw'>res_df</span><span class='op'>$</span><span class='kw'>log2FoldChange</span>,
+    background = <span class='fu'>styleColorBar_divergent</span>(<span class='kw'>res_df</span><span class='op'>$</span><span class='kw'>log2FoldChange</span>,
                                          <span class='kw'>scales</span>::<span class='fu'><a href='https://scales.r-lib.org//reference/alpha.html'>alpha</a></span>(<span class='st'>"navyblue"</span>, <span class='fl'>0.4</span>),
                                          <span class='kw'>scales</span>::<span class='fu'><a href='https://scales.r-lib.org//reference/alpha.html'>alpha</a></span>(<span class='st'>"darkred"</span>, <span class='fl'>0.4</span>)),
     backgroundSize = <span class='st'>"100% 90%"</span>,
@@ -207,13 +207,14 @@ https://stackoverflow.com/questions/33521828/stylecolorbar-center-and-shift-left
 <span class='kw'>DT</span>::<span class='fu'><a href='https://rdrr.io/pkg/DT/man/datatable.html'>datatable</a></span>(<span class='kw'>simplest_df</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/pkg/DT/man/formatCurrency.html'>formatStyle</a></span>(
     <span class='st'>'value'</span>,
-    background = <span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/styleColorBar_divergent.html'>styleColorBar_divergent</a></span>(<span class='kw'>simplest_df</span><span class='op'>$</span><span class='kw'>value</span>,
+    background = <span class='fu'>styleColorBar_divergent</span>(<span class='kw'>simplest_df</span><span class='op'>$</span><span class='kw'>value</span>,
                                          <span class='kw'>scales</span>::<span class='fu'><a href='https://scales.r-lib.org//reference/alpha.html'>alpha</a></span>(<span class='st'>"forestgreen"</span>, <span class='fl'>0.4</span>),
                                          <span class='kw'>scales</span>::<span class='fu'><a href='https://scales.r-lib.org//reference/alpha.html'>alpha</a></span>(<span class='st'>"gold"</span>, <span class='fl'>0.4</span>)),
     backgroundSize = <span class='st'>"100% 90%"</span>,
     backgroundRepeat = <span class='st'>"no-repeat"</span>,
     backgroundPosition = <span class='st'>"center"</span>
-  )</div></pre>
+  )
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -229,7 +230,7 @@ https://stackoverflow.com/questions/33521828/stylecolorbar-center-and-shift-left
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

@@ -130,10 +130,10 @@
     </div>
 
     <div class="ref-description">
-    <p>Convert a topGOtableResult object for straightforward use in <code><a href='https://rdrr.io/pkg/GeneTonic/man/GeneTonic.html'>GeneTonic()</a></code></p>
+    <p>Convert a topGOtableResult object for straightforward use in <code><a href='GeneTonic.html'>GeneTonic()</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/shake_topGOtableResult.html'>shake_topGOtableResult</a></span>(<span class='kw'>obj</span>, p_value_column = <span class='st'>"p.value_elim"</span>)</pre>
+    <pre class="usage"><span class='fu'>shake_topGOtableResult</span>(<span class='kw'>obj</span>, p_value_column = <span class='st'>"p.value_elim"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -151,22 +151,24 @@ enrichment has to be used. Example values are "p.value_elim" or "p.value_classic
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>data.frame</code> compatible for use in <code><a href='https://rdrr.io/pkg/GeneTonic/man/GeneTonic.html'>GeneTonic()</a></code> as <code>res_enrich</code></p>
+    <p>A <code>data.frame</code> compatible for use in <code><a href='GeneTonic.html'>GeneTonic()</a></code> as <code>res_enrich</code></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other shakers: 
-<code><a href='https://rdrr.io/pkg/GeneTonic/man/shake_davidResult.html'>shake_davidResult</a>()</code>,
-<code><a href='https://rdrr.io/pkg/GeneTonic/man/shake_enrichResult.html'>shake_enrichResult</a>()</code>,
-<code><a href='https://rdrr.io/pkg/GeneTonic/man/shake_enrichrResult.html'>shake_enrichrResult</a>()</code>,
-<code><a href='https://rdrr.io/pkg/GeneTonic/man/shake_fgseaResult.html'>shake_fgseaResult</a>()</code>,
-<code><a href='https://rdrr.io/pkg/GeneTonic/man/shake_gprofilerResult.html'>shake_gprofilerResult</a>()</code></p></div>
+<code><a href='shake_davidResult.html'>shake_davidResult</a>()</code>,
+<code><a href='shake_enrichResult.html'>shake_enrichResult</a>()</code>,
+<code><a href='shake_enrichrResult.html'>shake_enrichrResult</a>()</code>,
+<code><a href='shake_fgseaResult.html'>shake_fgseaResult</a>()</code>,
+<code><a href='shake_gprofilerResult.html'>shake_gprofilerResult</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># res_enrich object</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>res_enrich_macrophage</span>, package = <span class='st'>"GeneTonic"</span>)
 
-<span class='kw'>res_enrich</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/GeneTonic/man/shake_topGOtableResult.html'>shake_topGOtableResult</a></span>(<span class='kw'>topgoDE_macrophage_IFNg_vs_naive</span>)</div><div class='output co'>#&gt; <span class='message'>Found 500 gene sets in `topGOtableResult` object.</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div><div class='input'></div></pre>
+<span class='kw'>res_enrich</span> <span class='op'>&lt;-</span> <span class='fu'>shake_topGOtableResult</span>(<span class='kw'>topgoDE_macrophage_IFNg_vs_naive</span>)
+</div><div class='output co'>#&gt; <span class='message'>Found 500 gene sets in `topGOtableResult` object.</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -182,7 +184,7 @@ enrichment has to be used. Example values are "p.value_elim" or "p.value_classic
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
