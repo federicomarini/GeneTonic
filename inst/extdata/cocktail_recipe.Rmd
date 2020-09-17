@@ -100,7 +100,7 @@ corresponding_gs_ids <- selected_genesets
 
 gs_mds(res_enrich, res_de, annotation_obj, gs_labels = corresponding_gs_ids)
 
-gs_volcano(res_enrich, volcano_labels = 0, volcano_labels = corresponding_gs_ids)
+gs_volcano(res_enrich, volcano_labels = corresponding_gs_ids)
 ```
 
 # Geneset content, tabbed! {.tabset .tabset-fade}
