@@ -109,7 +109,7 @@ gs_volcano <- function(res_enrich,
     aes_string(x = "z_score", y = "logpval", size = "`set members`",  text = "gs_name")) +
     geom_point(aes_string(col = color_by), shape = 20, alpha = 1) +
     labs(x = "geneset Z score",
-         y = "log10 p-value",
+         y = "-log10 p-value",
          size = "Gene set\nmembers",
          col = "Aggregated\nscore") +
     scale_x_continuous(limits = limit_x) +

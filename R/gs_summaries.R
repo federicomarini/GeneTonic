@@ -82,7 +82,7 @@ gs_summary_overview <- function(res_enrich,
     scale_color_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
     coord_flip() +
     labs(x = "Gene set description",
-         y = "log10 p-value",
+         y = "-log10 p-value",
          col = color_by) +
     theme_minimal()
 
@@ -212,7 +212,7 @@ gs_summary_overview_pair <- function(res_enrich,
     scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026", guide = FALSE) +
     coord_flip() +
     labs(x = "Gene set description",
-         y = "log10 p-value",
+         y = "-log10 p-value",
          col = color_by) +
     ylim(0, NA) +
     theme_minimal()
@@ -465,7 +465,7 @@ gs_horizon <- function(res_enrich,
   }
 
   p <- p + labs(x = "Gene set description",
-                y = "log10 p-value",
+                y = "-log10 p-value",
                 col = color_by)
 
   return(p)
