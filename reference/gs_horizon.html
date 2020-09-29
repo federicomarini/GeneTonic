@@ -135,15 +135,15 @@ sets of results" />
 sets of results</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gs_horizon</span>(
-  <span class='kw'>res_enrich</span>,
-  <span class='kw'>compared_res_enrich_list</span>,
-  n_gs = <span class='fl'>20</span>,
-  p_value_column = <span class='st'>"gs_pvalue"</span>,
-  color_by = <span class='st'>"z_score"</span>,
-  ref_name = <span class='st'>"ref_scenario"</span>,
-  sort_by = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"clustered"</span>, <span class='st'>"first_set"</span>)
-)</pre>
+    <pre class="usage"><span class='fu'>gs_horizon</span><span class='op'>(</span>
+  <span class='va'>res_enrich</span>,
+  <span class='va'>compared_res_enrich_list</span>,
+  n_gs <span class='op'>=</span> <span class='fl'>20</span>,
+  p_value_column <span class='op'>=</span> <span class='st'>"gs_pvalue"</span>,
+  color_by <span class='op'>=</span> <span class='st'>"z_score"</span>,
+  ref_name <span class='op'>=</span> <span class='st'>"ref_scenario"</span>,
+  sort_by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"clustered"</span>, <span class='st'>"first_set"</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -209,73 +209,73 @@ scenarios included in <code>res_enrich</code> and the elements of <code>compared
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"macrophage"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://github.com/mikelove/DESeq2'>"DESeq2"</a></span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"org.Hs.eg.db"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"AnnotationDbi"</span>)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'>"macrophage"</span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/mikelove/DESeq2'>"DESeq2"</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'>"org.Hs.eg.db"</span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'>"AnnotationDbi"</span><span class='op'>)</span>
 
 <span class='co'># dds object</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"gse"</span>, package = <span class='st'>"macrophage"</span>)
-<span class='kw'>dds_macrophage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html'>DESeqDataSet</a></span>(<span class='kw'>gse</span>, design = <span class='op'>~</span><span class='kw'>line</span> <span class='op'>+</span> <span class='kw'>condition</span>)
-</div><div class='output co'>#&gt; <span class='message'>using counts and average transcript lengths from tximeta</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='kw'>dds_macrophage</span>) <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/substr.html'>substr</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='kw'>dds_macrophage</span>), <span class='fl'>1</span>, <span class='fl'>15</span>)
-<span class='kw'>dds_macrophage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/estimateSizeFactors.html'>estimateSizeFactors</a></span>(<span class='kw'>dds_macrophage</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"gse"</span>, package <span class='op'>=</span> <span class='st'>"macrophage"</span><span class='op'>)</span>
+<span class='va'>dds_macrophage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html'>DESeqDataSet</a></span><span class='op'>(</span><span class='va'>gse</span>, design <span class='op'>=</span> <span class='op'>~</span><span class='va'>line</span> <span class='op'>+</span> <span class='va'>condition</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>using counts and average transcript lengths from tximeta</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/substr.html'>substr</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span>, <span class='fl'>1</span>, <span class='fl'>15</span><span class='op'>)</span>
+<span class='va'>dds_macrophage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/estimateSizeFactors.html'>estimateSizeFactors</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>using 'avgTxLength' from assays(dds), correcting for library size</span></div><div class='input'>
 <span class='co'># annotation object</span>
-<span class='kw'>anno_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
-  gene_id = <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='kw'>dds_macrophage</span>),
-  gene_name = <span class='fu'><a href='https://rdrr.io/pkg/AnnotationDbi/man/AnnotationDb-class.html'>mapIds</a></span>(<span class='kw'>org.Hs.eg.db</span>,
-                     keys = <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='kw'>dds_macrophage</span>),
-                     column = <span class='st'>"SYMBOL"</span>,
-                     keytype = <span class='st'>"ENSEMBL"</span>),
-  stringsAsFactors = <span class='fl'>FALSE</span>,
-  row.names = <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='kw'>dds_macrophage</span>)
-)
+<span class='va'>anno_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>
+  gene_id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span>,
+  gene_name <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/AnnotationDbi/man/AnnotationDb-class.html'>mapIds</a></span><span class='op'>(</span><span class='va'>org.Hs.eg.db</span>,
+                     keys <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span>,
+                     column <span class='op'>=</span> <span class='st'>"SYMBOL"</span>,
+                     keytype <span class='op'>=</span> <span class='st'>"ENSEMBL"</span><span class='op'>)</span>,
+  stringsAsFactors <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  row.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span>
+<span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>'select()' returned 1:many mapping between keys and columns</span></div><div class='input'>
 <span class='co'># res object</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>res_de_macrophage</span>, package = <span class='st'>"GeneTonic"</span>)
-<span class='kw'>res_de</span> <span class='op'>&lt;-</span> <span class='kw'>res_macrophage_IFNg_vs_naive</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>res_de_macrophage</span>, package <span class='op'>=</span> <span class='st'>"GeneTonic"</span><span class='op'>)</span>
+<span class='va'>res_de</span> <span class='op'>&lt;-</span> <span class='va'>res_macrophage_IFNg_vs_naive</span>
 
 <span class='co'># res_enrich object</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>res_enrich_macrophage</span>, package = <span class='st'>"GeneTonic"</span>)
-<span class='kw'>res_enrich</span> <span class='op'>&lt;-</span> <span class='fu'><a href='shake_topGOtableResult.html'>shake_topGOtableResult</a></span>(<span class='kw'>topgoDE_macrophage_IFNg_vs_naive</span>)
-</div><div class='output co'>#&gt; <span class='message'>Found 500 gene sets in `topGOtableResult` object.</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div><div class='input'><span class='kw'>res_enrich</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_aggrscores.html'>get_aggrscores</a></span>(<span class='kw'>res_enrich</span>, <span class='kw'>res_de</span>, <span class='kw'>anno_df</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>res_enrich_macrophage</span>, package <span class='op'>=</span> <span class='st'>"GeneTonic"</span><span class='op'>)</span>
+<span class='va'>res_enrich</span> <span class='op'>&lt;-</span> <span class='fu'><a href='shake_topGOtableResult.html'>shake_topGOtableResult</a></span><span class='op'>(</span><span class='va'>topgoDE_macrophage_IFNg_vs_naive</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Found 500 gene sets in `topGOtableResult` object.</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div><div class='input'><span class='va'>res_enrich</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_aggrscores.html'>get_aggrscores</a></span><span class='op'>(</span><span class='va'>res_enrich</span>, <span class='va'>res_de</span>, <span class='va'>anno_df</span><span class='op'>)</span>
 
-<span class='kw'>res_enrich2</span> <span class='op'>&lt;-</span> <span class='kw'>res_enrich</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>42</span>, ]
-<span class='kw'>res_enrich3</span> <span class='op'>&lt;-</span> <span class='kw'>res_enrich</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>42</span>, ]
-<span class='kw'>res_enrich4</span> <span class='op'>&lt;-</span> <span class='kw'>res_enrich</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>42</span>, ]
+<span class='va'>res_enrich2</span> <span class='op'>&lt;-</span> <span class='va'>res_enrich</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>42</span>, <span class='op'>]</span>
+<span class='va'>res_enrich3</span> <span class='op'>&lt;-</span> <span class='va'>res_enrich</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>42</span>, <span class='op'>]</span>
+<span class='va'>res_enrich4</span> <span class='op'>&lt;-</span> <span class='va'>res_enrich</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>42</span>, <span class='op'>]</span>
 
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>2</span><span class='op'>*</span><span class='fl'>42</span>)
-<span class='kw'>shuffled_ones_2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span>(<span class='fl'>42</span>)) <span class='co'># to generate permuted p-values</span>
-<span class='kw'>res_enrich2</span><span class='op'>$</span><span class='kw'>gs_pvalue</span> <span class='op'>&lt;-</span> <span class='kw'>res_enrich2</span><span class='op'>$</span><span class='kw'>gs_pvalue</span>[<span class='kw'>shuffled_ones_2</span>]
-<span class='kw'>res_enrich2</span><span class='op'>$</span><span class='kw'>z_score</span> <span class='op'>&lt;-</span> <span class='kw'>res_enrich2</span><span class='op'>$</span><span class='kw'>z_score</span>[<span class='kw'>shuffled_ones_2</span>]
-<span class='kw'>res_enrich2</span><span class='op'>$</span><span class='kw'>aggr_score</span> <span class='op'>&lt;-</span> <span class='kw'>res_enrich2</span><span class='op'>$</span><span class='kw'>aggr_score</span>[<span class='kw'>shuffled_ones_2</span>]
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>*</span><span class='fl'>42</span><span class='op'>)</span>
+<span class='va'>shuffled_ones_2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html'>sample</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span><span class='op'>(</span><span class='fl'>42</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># to generate permuted p-values</span>
+<span class='va'>res_enrich2</span><span class='op'>$</span><span class='va'>gs_pvalue</span> <span class='op'>&lt;-</span> <span class='va'>res_enrich2</span><span class='op'>$</span><span class='va'>gs_pvalue</span><span class='op'>[</span><span class='va'>shuffled_ones_2</span><span class='op'>]</span>
+<span class='va'>res_enrich2</span><span class='op'>$</span><span class='va'>z_score</span> <span class='op'>&lt;-</span> <span class='va'>res_enrich2</span><span class='op'>$</span><span class='va'>z_score</span><span class='op'>[</span><span class='va'>shuffled_ones_2</span><span class='op'>]</span>
+<span class='va'>res_enrich2</span><span class='op'>$</span><span class='va'>aggr_score</span> <span class='op'>&lt;-</span> <span class='va'>res_enrich2</span><span class='op'>$</span><span class='va'>aggr_score</span><span class='op'>[</span><span class='va'>shuffled_ones_2</span><span class='op'>]</span>
 
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>3</span><span class='op'>*</span><span class='fl'>42</span>)
-<span class='kw'>shuffled_ones_3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span>(<span class='fl'>42</span>)) <span class='co'># to generate permuted p-values</span>
-<span class='kw'>res_enrich3</span><span class='op'>$</span><span class='kw'>gs_pvalue</span> <span class='op'>&lt;-</span> <span class='kw'>res_enrich3</span><span class='op'>$</span><span class='kw'>gs_pvalue</span>[<span class='kw'>shuffled_ones_3</span>]
-<span class='kw'>res_enrich3</span><span class='op'>$</span><span class='kw'>z_score</span> <span class='op'>&lt;-</span> <span class='kw'>res_enrich3</span><span class='op'>$</span><span class='kw'>z_score</span>[<span class='kw'>shuffled_ones_3</span>]
-<span class='kw'>res_enrich3</span><span class='op'>$</span><span class='kw'>aggr_score</span> <span class='op'>&lt;-</span> <span class='kw'>res_enrich3</span><span class='op'>$</span><span class='kw'>aggr_score</span>[<span class='kw'>shuffled_ones_3</span>]
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>3</span><span class='op'>*</span><span class='fl'>42</span><span class='op'>)</span>
+<span class='va'>shuffled_ones_3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html'>sample</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span><span class='op'>(</span><span class='fl'>42</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># to generate permuted p-values</span>
+<span class='va'>res_enrich3</span><span class='op'>$</span><span class='va'>gs_pvalue</span> <span class='op'>&lt;-</span> <span class='va'>res_enrich3</span><span class='op'>$</span><span class='va'>gs_pvalue</span><span class='op'>[</span><span class='va'>shuffled_ones_3</span><span class='op'>]</span>
+<span class='va'>res_enrich3</span><span class='op'>$</span><span class='va'>z_score</span> <span class='op'>&lt;-</span> <span class='va'>res_enrich3</span><span class='op'>$</span><span class='va'>z_score</span><span class='op'>[</span><span class='va'>shuffled_ones_3</span><span class='op'>]</span>
+<span class='va'>res_enrich3</span><span class='op'>$</span><span class='va'>aggr_score</span> <span class='op'>&lt;-</span> <span class='va'>res_enrich3</span><span class='op'>$</span><span class='va'>aggr_score</span><span class='op'>[</span><span class='va'>shuffled_ones_3</span><span class='op'>]</span>
 
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>4</span><span class='op'>*</span><span class='fl'>42</span>)
-<span class='kw'>shuffled_ones_4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span>(<span class='fl'>42</span>)) <span class='co'># to generate permuted p-values</span>
-<span class='kw'>res_enrich4</span><span class='op'>$</span><span class='kw'>gs_pvalue</span> <span class='op'>&lt;-</span> <span class='kw'>res_enrich4</span><span class='op'>$</span><span class='kw'>gs_pvalue</span>[<span class='kw'>shuffled_ones_4</span>]
-<span class='kw'>res_enrich4</span><span class='op'>$</span><span class='kw'>z_score</span> <span class='op'>&lt;-</span> <span class='kw'>res_enrich4</span><span class='op'>$</span><span class='kw'>z_score</span>[<span class='kw'>shuffled_ones_4</span>]
-<span class='kw'>res_enrich4</span><span class='op'>$</span><span class='kw'>aggr_score</span> <span class='op'>&lt;-</span> <span class='kw'>res_enrich4</span><span class='op'>$</span><span class='kw'>aggr_score</span>[<span class='kw'>shuffled_ones_4</span>]
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>4</span><span class='op'>*</span><span class='fl'>42</span><span class='op'>)</span>
+<span class='va'>shuffled_ones_4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html'>sample</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span><span class='op'>(</span><span class='fl'>42</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># to generate permuted p-values</span>
+<span class='va'>res_enrich4</span><span class='op'>$</span><span class='va'>gs_pvalue</span> <span class='op'>&lt;-</span> <span class='va'>res_enrich4</span><span class='op'>$</span><span class='va'>gs_pvalue</span><span class='op'>[</span><span class='va'>shuffled_ones_4</span><span class='op'>]</span>
+<span class='va'>res_enrich4</span><span class='op'>$</span><span class='va'>z_score</span> <span class='op'>&lt;-</span> <span class='va'>res_enrich4</span><span class='op'>$</span><span class='va'>z_score</span><span class='op'>[</span><span class='va'>shuffled_ones_4</span><span class='op'>]</span>
+<span class='va'>res_enrich4</span><span class='op'>$</span><span class='va'>aggr_score</span> <span class='op'>&lt;-</span> <span class='va'>res_enrich4</span><span class='op'>$</span><span class='va'>aggr_score</span><span class='op'>[</span><span class='va'>shuffled_ones_4</span><span class='op'>]</span>
 
-<span class='kw'>compa_list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-  scenario2 = <span class='kw'>res_enrich2</span>,
-  scenario3 = <span class='kw'>res_enrich3</span>,
-  scenario4 = <span class='kw'>res_enrich4</span>
-)
+<span class='va'>compa_list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+  scenario2 <span class='op'>=</span> <span class='va'>res_enrich2</span>,
+  scenario3 <span class='op'>=</span> <span class='va'>res_enrich3</span>,
+  scenario4 <span class='op'>=</span> <span class='va'>res_enrich4</span>
+<span class='op'>)</span>
 
-<span class='fu'>gs_horizon</span>(<span class='kw'>res_enrich</span>,
-           compared_res_enrich_list = <span class='kw'>compa_list</span>,
-           n_gs = <span class='fl'>50</span>,
-           sort_by = <span class='st'>"clustered"</span>)
-</div><div class='img'><img src='gs_horizon-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>gs_horizon</span>(<span class='kw'>res_enrich</span>,
-           compared_res_enrich_list = <span class='kw'>compa_list</span>,
-           n_gs = <span class='fl'>20</span>,
-           sort_by = <span class='st'>"first_set"</span>)
+<span class='fu'>gs_horizon</span><span class='op'>(</span><span class='va'>res_enrich</span>,
+           compared_res_enrich_list <span class='op'>=</span> <span class='va'>compa_list</span>,
+           n_gs <span class='op'>=</span> <span class='fl'>50</span>,
+           sort_by <span class='op'>=</span> <span class='st'>"clustered"</span><span class='op'>)</span>
+</div><div class='img'><img src='gs_horizon-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>gs_horizon</span><span class='op'>(</span><span class='va'>res_enrich</span>,
+           compared_res_enrich_list <span class='op'>=</span> <span class='va'>compa_list</span>,
+           n_gs <span class='op'>=</span> <span class='fl'>20</span>,
+           sort_by <span class='op'>=</span> <span class='st'>"first_set"</span><span class='op'>)</span>
 </div><div class='img'><img src='gs_horizon-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
