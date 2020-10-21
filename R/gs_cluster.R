@@ -27,12 +27,12 @@
 #' iteration - defaults to 2
 #' @param allow_singletons Logical; if `TRUE`, single isolated vertices are allowed 
 #' to form their own cluster. If set to `FALSE`, all clusters of size = 1 are 
-#' grouped in one cluster (to be interpreteted as background noise).
+#' grouped in one cluster (to be interpreted as background noise).
 #' @param max_iter Numeric value for the maximum number of iterations for the 
 #' Markov clustering
 #' @param return_node_names Logical, if the graph is named and set to `TRUE`, returns
 #' the node names. 
-#' @param return_esm Logical, contolling whether the equilibrium state matrix should be returned 
+#' @param return_esm Logical, controlling whether the equilibrium state matrix should be returned 
 #'
 #' @return This function returns a `communities` object, containing the numbers of
 #' the assigned membership (in the slot `membership`). Please see the 

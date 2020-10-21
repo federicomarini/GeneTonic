@@ -713,7 +713,7 @@ citation("GeneTonic")
 A: For obvious reasons :) Like in a cocktail, ingredients (expression matrix, results from DE, and results from functional enrichment analysis) do taste better together.
 Plus, I like puns with words. And cocktails. Sometimes simultaneously.
 
-**Q: My configuration on two machines is somewhat different, so I am having difficulty in finding out what packages are different. Is there something tio help on this?**
+**Q: My configuration on two machines is somewhat different, so I am having difficulty in finding out what packages are different. Is there something to help on this?**
 
 A: Yes, you can check out `r BiocStyle::Githubpkg("federicomarini/sessionDiffo")`, a small utility to compare the outputs of two different `sessionInfo` outputs.
 This can help you pinpoint what packages might be causing the issue.

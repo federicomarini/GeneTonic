@@ -32,7 +32,7 @@ iteration - defaults to 2}
 
 \item{allow_singletons}{Logical; if \code{TRUE}, single isolated vertices are allowed
 to form their own cluster. If set to \code{FALSE}, all clusters of size = 1 are
-grouped in one cluster (to be interpreteted as background noise).}
+grouped in one cluster (to be interpreted as background noise).}
 
 \item{max_iter}{Numeric value for the maximum number of iterations for the
 Markov clustering}
@@ -40,7 +40,7 @@ Markov clustering}
 \item{return_node_names}{Logical, if the graph is named and set to \code{TRUE}, returns
 the node names.}
 
-\item{return_esm}{Logical, contolling whether the equilibrium state matrix should be returned}
+\item{return_esm}{Logical, controlling whether the equilibrium state matrix should be returned}
 }
 \value{
 This function returns a \code{communities} object, containing the numbers of
