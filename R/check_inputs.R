@@ -16,7 +16,7 @@
 #' @param annotation_obj A `data.frame` object, containing two columns, `gene_id`
 #' with a set of unambiguous identifiers (e.g. ENSEMBL ids) and `gene_name`,
 #' containing e.g. HGNC-based gene symbols.
-#'
+#' @param verbose Logical, to control level of verbosity of the messages generated
 #' @return Invisible NULL
 #' @export
 #'
@@ -61,7 +61,8 @@
 checkup_GeneTonic <- function(dds,
                               res_de,
                               res_enrich,
-                              annotation_obj) {
+                              annotation_obj,
+                              verbose = FALSE) {
 
   # checking dds
   if (!is(dds, "DESeqDataSet"))
@@ -198,4 +199,5 @@ checkup_gtl <- function(gtl,
   
   invisible(NULL)
 }
+
 
