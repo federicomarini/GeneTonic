@@ -329,6 +329,9 @@ The interactive flavor in this tab permits a quick exploration of the signature 
 
 A demonstration of how to use this panel effectively is provided by the tour, triggered by clicking on the `r shiny::actionButton("tour", label = "", icon = shiny::icon("question-circle"), style = "color: #0092AC; background-color: #FFFFFF; border-color: #ffffff")` button in the upper right corner of the tab.
 
+In the section below the interactive enrichment map, the functionality for the _distillation_ of gene sets into meta-genesets is provided.  
+In brief, a community detection algorithm is run on the graph underlying the enrichment map, and the additional information extracted is rendered as a table, linked to a meta-geneset box to display the expression signature for all its member genes.
+
 **Bookmarking from the Enrichment Map panel:** If the user clicks on the Bookmark button while in this tab, it will add the selected node to the shortlist of genesets, visible later in the Bookmarks panel.
 The Left Ctrl button of your keyboard can again be used for this purpose, and this will trigger a notification in the lower right part of the screen.
 
@@ -452,8 +455,10 @@ em <- enrichment_map(res_enrich_macrophage,
                      res_macrophage_IFNg_vs_naive,
                      n_gs = 30,
                      anno_df)
+library("igraph")
 library("visNetwork")
 library("magrittr")
+
 em %>% 
   visIgraph() %>% 
   visOptions(highlightNearest = list(enabled = TRUE,
@@ -462,6 +467,41 @@ em %>%
              nodesIdSelection = TRUE)
 
 ```
+
+Expanding on the enrichment map, the distilled content of the `res_enrich` can be represented as enhanced tables and interactive graphs, depicting the membership of the respective meta-genesets
+
+```{r}
+distilled <- distill_enrichment(res_enrich_macrophage,
+                                res_macrophage_IFNg_vs_naive,
+                                anno_df,
+                                n_gs = 60,
+                                cluster_fun = "cluster_markov")
+DT::datatable(distilled$distilled_table[,1:4])
+dim(distilled$distilled_table)
+DT::datatable(distilled$res_enrich[,])
+
+dg <- distilled$distilled_em 
+
+library("igraph")
+library("visNetwork")
+library("magrittr")
+
+# defining a color palette for nicer display
+colpal <- colorspace::rainbow_hcl(length(unique(V(dg)$color)))[V(dg)$color]
+V(dg)$color.background <- scales::alpha(colpal, alpha = 0.8)
+V(dg)$color.highlight <- scales::alpha(colpal, alpha = 1)
+V(dg)$color.hover <- scales::alpha(colpal, alpha = 0.5)
+
+V(dg)$color.border <- "black"
+
+visNetwork::visIgraph(dg) %>%
+  visOptions(highlightNearest = list(enabled = TRUE,
+                                     degree = 1,
+                                     hover = TRUE),
+             nodesIdSelection = TRUE, 
+             selectedBy = "membership")
+```
+
 
 Display a volcano plot for genesets, plotting significance (y-axis) versus Z score (x-axis), with color and size encoding some geneset features:
 
