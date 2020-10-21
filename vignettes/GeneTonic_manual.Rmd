@@ -372,7 +372,6 @@ Below the interactive `DT::datatable` objects, the content of each table can als
 Moreover, there is a button (with the cocktail icon <i class="fa fa-cocktail"></i>) that triggers the generation of a content-rich report which will focus on all the shortlisted elements.
 This leverages a template report delivered as a part of `r BiocStyle::Biocpkg("GeneTonic")`, which accesses the input elements and the reactive values for the bookmarks, based on the `happy_hour()` function.
 
-
 If a user already knows a set of features and geneset of interest, it is also possible to practically call `happy_hour()` directly from the command line (see the example in the chunk below).
 Please keep in mind that the identifiers to be used should match the values used as row names of the `dds` object and as `gs_id` column of the original `res_enrich` input.
 
@@ -394,6 +393,9 @@ This report will serve as a useful means to generate a permanent and reproducibl
 Ideally, each live session with `GeneTonic` could terminate with a call to `happy_hour()` - admittedly, an aperitivo should start with that, and not end - please accept our apologies :) .
 
 A demonstration of how to use this panel effectively is provided by the tour, triggered by clicking on the `r shiny::actionButton("tour", label = "", icon = shiny::icon("question-circle"), style = "color: #0092AC; background-color: #FFFFFF; border-color: #ffffff")` button in the upper right corner of the tab.
+
+In this panel, an export button to a `SummarizedExperiment` object to be provided as input to the `r BiocStyle::Biocpkg("iSEE")` package has been added in version >= 1.2.0. 
+This enables further and fine-grained visualization options in the `iSEE` framework -  if the flavors of `GeneTonic` are not yet what you would want, you might find an excellent venue there.
 
 # Using the `GeneTonic` functions {#functions}
 
