@@ -710,8 +710,10 @@ citation("GeneTonic")
 
 **Q: Why is this package called `GeneTonic`?**
 
-A: For obvious reasons :) Like in a cocktail, ingredients (expression matrix, results from DE, and results from functional enrichment analysis) do taste better together.
-Plus, I like puns with words. And cocktails. Sometimes simultaneously.
+A: For obvious reasons :) Like in a cocktail, ingredients (expression matrix, results from DE, and results from functional enrichment analysis) do taste better together.  
+Plus, I like puns with words.  
+And cocktails.  
+Sometimes simultaneously.
 
 **Q: My configuration on two machines is somewhat different, so I am having difficulty in finding out what packages are different. Is there something to help on this?**
 
@@ -720,7 +722,15 @@ This can help you pinpoint what packages might be causing the issue.
 
 **Q: I am using a different service/software for generating the results of functional enrichment analysis. How do I plug this into `GeneTonic`?**
 
-A: You can set up a small conversion function, on the line of `shake_topGOtableResult` and `shake_enrichResult` (*use the source, Luke* to see how you can build your own), or request such a function - make sure to specify the formatting specifications of your tool of choice (e.g. David, g:Profiler, or commercial solutions such as Ingenuity Pathway Analysis).
+A: You can set up a small conversion function, on the line of `shake_topGOtableResult` and `shake_enrichResult` (*use the source, Luke* to see how you can build your own), or request such a function - make sure to specify the formatting specifications of your tool of choice (e.g. DAVID, g:Profiler, or commercial solutions such as Ingenuity Pathway Analysis).  
+As of Bioconductor release 3.12 (version >= 1.2.0 for `r BiocStyle::Biocpkg("GeneTonic")`), shaker functions are available for these tools:
+
+- `DAVID` (https://david.ncifcrf.gov/), with the result exported in text format
+- `topGO` (available in the `r BiocStyle::Biocpkg("topGO")` package), as in the wrapper function provided by `r BiocStyle::Biocpkg("pcaExplorer")`, `pcaExplorer::topGOtable()`
+- `Enrichr` (https://amp.pharm.mssm.edu/Enrichr/), either from text format or from a call via the `r BiocStyle::CRANpkg("enrichr")` package
+- `fgsea`, taking the output of the workflow from the `r BiocStyle::Biocpkg("fgsea")` package
+- `g:Profiler` (https://biit.cs.ut.ee/gprofiler/), either from text file format or with the output of `gost()` in `r BiocStyle::CRANpkg("gprofiler2")`
+- `clusterProfiler`, providing `enrichResult` objects, commonly returned by `enrichGO()` from `r BiocStyle::Biocpkg("clusterProfiler")` or `enrichPathway()` from `r BiocStyle::Biocpkg("ReactomePA")`
 
 **Q: I'd like to try `GeneTonic` but I could not install it/I just want a quick peek into it. What can I do for this?**
 
