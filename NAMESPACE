@@ -3,6 +3,7 @@
 export(GeneTonic)
 export(check_colors)
 export(checkup_GeneTonic)
+export(checkup_gtl)
 export(cluster_markov)
 export(create_jaccard_matrix)
 export(create_kappa_matrix)
