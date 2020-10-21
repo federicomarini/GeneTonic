@@ -243,12 +243,14 @@ get_aggrscores <- function(res_enrich,
 #' "cluster_louvain", or "cluster_walktrap", as they all return a `communities`
 #' object.
 #'
-#' @return A list containing two objects:
+#' @return A list containing three objects:
 #' - the distilled table of enrichment, `distilled_table`, where the new meta-genesets
 #' are identified and defined, specifying e.g. the names of each component, and the
 #' genes associated to these.
 #' - the distilled graph for the enrichment map, `distilled_em`, with the information
 #' on the membership 
+#' - the original `res_enrich`, augmented with the information of the membership 
+#' related to the meta-genesets
 #' 
 #' @export
 #'
@@ -312,7 +314,7 @@ distill_enrichment <- function(res_enrich,
   res_enrich <- res_enrich[seq_len(n_gs), ]
   
   gs_communities <- cluster_fun(em)
-  res_enrich$gs_membership <- gs_communities$membership
+  res_enrich$gs_membership <- factor(gs_communities$membership)
   V(em)$membership <- gs_communities$membership
   V(em)$color <- gs_communities$membership
   
@@ -364,7 +366,8 @@ distill_enrichment <- function(res_enrich,
   
   return(
     list(distilled_table = distilled_res,
-         distilled_em = em)
+         distilled_em = em,
+         res_enrich = res_enrich)
   )
 }
 

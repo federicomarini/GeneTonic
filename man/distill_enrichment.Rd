@@ -32,13 +32,15 @@ the community detection in the enrichment map graph. Could be one of "cluster_ma
 object.}
 }
 \value{
-A list containing two objects:
+A list containing three objects:
 \itemize{
 \item the distilled table of enrichment, \code{distilled_table}, where the new meta-genesets
 are identified and defined, specifying e.g. the names of each component, and the
 genes associated to these.
 \item the distilled graph for the enrichment map, \code{distilled_em}, with the information
 on the membership
+\item the original \code{res_enrich}, augmented with the information of the membership
+related to the meta-genesets
 }
 }
 \description{
