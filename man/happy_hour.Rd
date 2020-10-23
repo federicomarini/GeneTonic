@@ -9,6 +9,7 @@ happy_hour(
   res_de,
   res_enrich,
   annotation_obj,
+  gtl = NULL,
   project_id,
   mygenesets,
   mygenes,
@@ -37,6 +38,10 @@ enrichment analysis. See \code{\link[=GeneTonic]{GeneTonic()}} for the formattin
 \item{annotation_obj}{A \code{data.frame} object with the feature annotation
 information, with at least two columns, \code{gene_id} and \code{gene_name}. See
 \code{\link[=GeneTonic]{GeneTonic()}} for the formatting requirements.}
+
+\item{gtl}{A \code{GeneTonic}-list object, containing in its slots the arguments
+specified above: \code{dds}, \code{res_de}, \code{res_enrich}, and \code{annotation_obj} - the names
+of the list \emph{must} be specified following the content they are expecting}
 
 \item{project_id}{A character string, which can be considered as an identifier
 for the set/session, and will be e.g. used in the title of the report created

@@ -4,15 +4,19 @@
 \alias{export_for_iSEE}
 \title{export_for_iSEE}
 \usage{
-export_for_iSEE(dds, res_de)
+export_for_iSEE(dds, res_de, gtl = NULL)
 }
 \arguments{
 \item{dds}{A \code{\link{DESeqDataSet}} object.}
 
 \item{res_de}{A \code{\link{DESeqResults}} object.}
+
+\item{gtl}{A \code{GeneTonic}-list object, containing in its slots the arguments
+specified above: \code{dds}, \code{res_de}, \code{res_enrich}, and \code{annotation_obj} - the names
+of the list \emph{must} be specified following the content they are expecting}
 }
 \value{
-A SummarizedExperiment object, with raw counts, normalized counts, and
+A \code{SummarizedExperiment} object, with raw counts, normalized counts, and
 variance-stabilizing transformed counts in the assay slots; and with colData
 and rowData extracted from the corresponding input parameters - mainly the
 results for differential expression analysis.

@@ -8,6 +8,7 @@ ggs_graph(
   res_enrich,
   res_de,
   annotation_obj = NULL,
+  gtl = NULL,
   n_gs = 15,
   gs_ids = NULL,
   prettify = TRUE,
@@ -24,6 +25,10 @@ formatting requirements (a minimal set of columns should be present).}
 
 \item{annotation_obj}{A \code{data.frame} object with the feature annotation
 information, with at least two columns, \code{gene_id} and \code{gene_name}.}
+
+\item{gtl}{A \code{GeneTonic}-list object, containing in its slots the arguments
+specified above: \code{dds}, \code{res_de}, \code{res_enrich}, and \code{annotation_obj} - the names
+of the list \emph{must} be specified following the content they are expecting}
 
 \item{n_gs}{Integer value, corresponding to the maximal number of gene sets to
 be included}
