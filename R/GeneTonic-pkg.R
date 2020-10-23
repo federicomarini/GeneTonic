@@ -16,7 +16,7 @@
 #' @importFrom ComplexHeatmap Heatmap HeatmapAnnotation draw
 #' @importFrom dendextend branches_attr_by_clusters set
 #' @importFrom DESeq2 vst counts estimateSizeFactors normalizationFactors sizeFactors
-#' @importFrom dplyr arrange desc group_by mutate pull "%>%"
+#' @importFrom dplyr arrange desc group_by mutate pull slice select "%>%"
 #' @importFrom DT datatable dataTableOutput renderDataTable formatRound
 #' formatStyle JS
 #' @importFrom dynamicTreeCut cutreeDynamic
