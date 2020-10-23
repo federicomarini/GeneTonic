@@ -1,4 +1,3 @@
-
 #' Visually enhances a functional enrichment result table
 #'
 #' Creates a visual summary for the results of a functional enrichment analysis,
@@ -11,6 +10,9 @@
 #' @param res_de  A `DESeqResults` object.
 #' @param annotation_obj A `data.frame` object with the feature annotation.
 #' information, with at least two columns, `gene_id` and `gene_name`.
+#' @param gtl A `GeneTonic`-list object, containing in its slots the arguments
+#' specified above: `dds`, `res_de`, `res_enrich`, and `annotation_obj` - the names
+#' of the list _must_ be specified following the content they are expecting
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be displayed.
 #' @param gs_ids Character vector, containing a subset of `gs_id` as they are
@@ -63,10 +65,20 @@
 enhance_table <- function(res_enrich,
                           res_de,
                           annotation_obj,
+                          gtl = NULL,
                           n_gs = 50,
                           gs_ids = NULL,
                           chars_limit = 70,
                           plot_title = NULL) {
+  
+  if (!is.null(gtl)) {
+    checkup_gtl(gtl)
+    dds <- gtl$dds
+    res_de <- gtl$res_de
+    res_enrich <- gtl$res_enrich
+    annotation_obj <- gtl$annotation_obj
+  }
+  
   n_gs <- min(n_gs, nrow(res_enrich))
 
   gs_to_use <- unique(
@@ -142,6 +154,9 @@ enhance_table <- function(res_enrich,
 #' @param res_de A `DESeqResults` object.
 #' @param annotation_obj A `data.frame` object with the feature annotation
 #' information, with at least two columns, `gene_id` and `gene_name`.
+#' @param gtl A `GeneTonic`-list object, containing in its slots the arguments
+#' specified above: `dds`, `res_de`, `res_enrich`, and `annotation_obj` - the names
+#' of the list _must_ be specified following the content they are expecting
 #' @param aggrfun Specifies the function to use for aggregating the scores for
 #' each term. Common values could be `mean` or `median`.
 #'
@@ -193,8 +208,17 @@ enhance_table <- function(res_enrich,
 get_aggrscores <- function(res_enrich,
                            res_de,
                            annotation_obj,
+                           gtl = NULL,
                            aggrfun = mean) {
 
+  if (!is.null(gtl)) {
+    checkup_gtl(gtl)
+    dds <- gtl$dds
+    res_de <- gtl$res_de
+    res_enrich <- gtl$res_enrich
+    annotation_obj <- gtl$annotation_obj
+  }
+  
   gs_expanded <- tidyr::separate_rows(res_enrich, "gs_genes", sep = ",")
   gs_expanded$log2FoldChange <-
     res_de[annotation_obj$gene_id[match(gs_expanded$gs_genes, annotation_obj$gene_name)], ]$log2FoldChange
@@ -236,6 +260,9 @@ get_aggrscores <- function(res_enrich,
 #' @param annotation_obj A `data.frame` object, containing two columns, `gene_id`
 #' with a set of unambiguous identifiers (e.g. ENSEMBL ids) and `gene_name`,
 #' containing e.g. HGNC-based gene symbols. 
+#' @param gtl A `GeneTonic`-list object, containing in its slots the arguments
+#' specified above: `dds`, `res_de`, `res_enrich`, and `annotation_obj` - the names
+#' of the list _must_ be specified following the content they are expecting
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be used.
 #' @param cluster_fun Character, referring to the name of the function used for 
@@ -296,12 +323,21 @@ get_aggrscores <- function(res_enrich,
 distill_enrichment <- function(res_enrich,
                                res_de,
                                annotation_obj,
+                               gtl = NULL,
                                n_gs = nrow(res_enrich),
                                cluster_fun = "cluster_markov") {
   
   cluster_fun <- match.arg(
     cluster_fun, c("cluster_markov", "cluster_louvain", "cluster_walktrap"))
   cluster_fun <- match.fun(cluster_fun)
+  
+  if (!is.null(gtl)) {
+    checkup_gtl(gtl)
+    dds <- gtl$dds
+    res_de <- gtl$res_de
+    res_enrich <- gtl$res_enrich
+    annotation_obj <- gtl$annotation_obj
+  }
   
   n_gs <- min(n_gs, nrow(res_enrich))
   

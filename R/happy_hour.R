@@ -68,6 +68,9 @@
 #' @param annotation_obj A `data.frame` object with the feature annotation
 #' information, with at least two columns, `gene_id` and `gene_name`. See
 #' [GeneTonic()] for the formatting requirements.
+#' @param gtl A `GeneTonic`-list object, containing in its slots the arguments
+#' specified above: `dds`, `res_de`, `res_enrich`, and `annotation_obj` - the names
+#' of the list _must_ be specified following the content they are expecting
 #' @param project_id A character string, which can be considered as an identifier
 #' for the set/session, and will be e.g. used in the title of the report created
 #' via [happy_hour()]
@@ -151,6 +154,7 @@ happy_hour <- function(dds,
                        res_de,
                        res_enrich,
                        annotation_obj,
+                       gtl = NULL,
                        project_id,
                        mygenesets,
                        mygenes,
@@ -165,6 +169,13 @@ happy_hour <- function(dds,
                        open_after_creating = TRUE,
                        ...) {
   # generates a nice number of outputs, plots, and so on, placed in a report. Boom :)
+  if (!is.null(gtl)) {
+    checkup_gtl(gtl)
+    dds <- gtl$dds
+    res_de <- gtl$res_de
+    res_enrich <- gtl$res_enrich
+    annotation_obj <- gtl$annotation_obj
+  }
 
   # Check if pandoc and pandoc-citeproc are available
   .check_pandoc(ignore_pandoc)

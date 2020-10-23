@@ -10,6 +10,9 @@
 #' @param res_enrich A `data.frame` object, storing the result of the functional
 #' enrichment analysis. See more in the main function, [GeneTonic()], to check the
 #' formatting requirements (a minimal set of columns should be present).
+#' @param gtl A `GeneTonic`-list object, containing in its slots the arguments
+#' specified above: `dds`, `res_de`, `res_enrich`, and `annotation_obj` - the names
+#' of the list _must_ be specified following the content they are expecting
 #' @param geneset_id Character specifying the gene set identifier to be plotted
 #' @param genelist A vector of character strings, specifying the identifiers
 #' contained in the row names of the `se` input object.
@@ -80,6 +83,7 @@ gs_heatmap <- function(se,
                        res_de,
                        res_enrich,
                        annotation_obj = NULL,
+                       gtl = NULL,
                        geneset_id = NULL,
                        genelist = NULL,
                        FDR = 0.05,
@@ -92,6 +96,14 @@ gs_heatmap <- function(se,
                        plot_title = NULL
                        ) {
 
+  if (!is.null(gtl)) {
+    checkup_gtl(gtl)
+    dds <- gtl$dds
+    res_de <- gtl$res_de
+    res_enrich <- gtl$res_enrich
+    annotation_obj <- gtl$annotation_obj
+  }
+  
   # check that the data would ideally be a DST, so that it is not the counts/normalized?
   mydata <- assay(se)
 
@@ -237,7 +249,10 @@ gs_heatmap <- function(se,
 #' formatting requirements (a minimal set of columns should be present).
 #' @param annotation_obj A `data.frame` object with the feature annotation
 #' information, with at least two columns, `gene_id` and `gene_name`.
-#'
+#' @param gtl A `GeneTonic`-list object, containing in its slots the arguments
+#' specified above: `dds`, `res_de`, `res_enrich`, and `annotation_obj` - the names
+#' of the list _must_ be specified following the content they are expecting
+#' 
 #' @return A matrix with the geneset Z scores, e.g. to be plotted with [gs_scoresheat()]
 #'
 #' @seealso [gs_scoresheat()] plots these scores
@@ -286,8 +301,17 @@ gs_heatmap <- function(se,
 gs_scores <- function(se,
                       res_de, # maybe won't be needed?
                       res_enrich,
-                      annotation_obj = NULL) {
+                      annotation_obj = NULL,
+                      gtl = NULL) {
 
+  if (!is.null(gtl)) {
+    checkup_gtl(gtl)
+    dds <- gtl$dds
+    res_de <- gtl$res_de
+    res_enrich <- gtl$res_enrich
+    annotation_obj <- gtl$annotation_obj
+  }
+  
   mydata <- assay(se)
   # returns a matrix, rows = genesets, cols = samples
   # rownames(res_enrich) <- res_enrich[["gs_id"]]

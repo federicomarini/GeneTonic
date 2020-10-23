@@ -5,6 +5,9 @@
 #' @param res_enrich A `data.frame` object, storing the result of the functional
 #' enrichment analysis. See more in the main function, [GeneTonic()], to see the
 #' formatting requirements.
+#' @param gtl A `GeneTonic`-list object, containing in its slots the arguments
+#' specified above: `dds`, `res_de`, `res_enrich`, and `annotation_obj` - the names
+#' of the list _must_ be specified following the content they are expecting
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be included (from the top ranked ones). Defaults to the number of rows of
 #' `res_enrich`
@@ -66,6 +69,7 @@
 #' gs_dendro(res_enrich,
 #'           n_gs = 100)
 gs_dendro <- function(res_enrich,
+                      gtl = NULL,
                       n_gs = nrow(res_enrich),
                       gs_ids = NULL,
                       gs_dist_type = "kappa", # alternatives
@@ -75,6 +79,14 @@ gs_dendro <- function(res_enrich,
                       color_branches_by = "clusters",
                       create_plot = TRUE) {
 
+  if (!is.null(gtl)) {
+    checkup_gtl(gtl)
+    dds <- gtl$dds
+    res_de <- gtl$res_de
+    res_enrich <- gtl$res_enrich
+    annotation_obj <- gtl$annotation_obj
+  }
+  
   if (!is.null(color_leaves_by)) {
     if (!color_leaves_by %in% colnames(res_enrich))
       stop("Your res_enrich object does not contain the ",
@@ -99,9 +111,9 @@ gs_dendro <- function(res_enrich,
   )
 
   if (gs_dist_type == "kappa") {
-    dmat <- create_kappa_matrix(res_enrich, n_gs, gs_ids)
+    dmat <- create_kappa_matrix(res_enrich, n_gs = n_gs, gs_ids = gs_ids)
   } else if (gs_dist_type == "jaccard") {
-    dmat <- create_jaccard_matrix(res_enrich, n_gs, gs_ids, return_sym = TRUE)
+    dmat <- create_jaccard_matrix(res_enrich, n_gs = n_gs, gs_ids = gs_ids, return_sym = TRUE)
   }
 
   rownames(dmat) <- colnames(dmat) <- res_enrich[gs_to_use, "gs_description"]

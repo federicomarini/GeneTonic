@@ -23,6 +23,9 @@
 #' containing e.g. HGNC-based gene symbols. This object can be constructed via
 #' the `org.eg.XX.db` packages, e.g. with convenience functions such as
 #' [pcaExplorer::get_annotation_orgdb()].
+#' @param gtl A `GeneTonic`-list object, containing in its slots the arguments
+#' specified above: `dds`, `res_de`, `res_enrich`, and `annotation_obj` - the names
+#' of the list _must_ be specified following the content they are expecting
 #' @param project_id  A character string, which can be considered as an identifier
 #' for the set/session, and will be e.g. used in the title of the report created
 #' via [happy_hour()]
@@ -71,11 +74,17 @@
 #'             res_enrich = res_enrich,
 #'             annotation_obj = anno_df,
 #'             project_id = "myexample")
-#'
+#' # alternatively...           
+#' gtl_macrophage <- list(dds = dds_macrophage,
+#'                        res_de = res_de,
+#'                        res_enrich = res_enrich,
+#'                        annotation_obj = anno_df)
+#' # GeneTonic(gtl = gtl_macrophage)             
 GeneTonic <- function(dds,
                       res_de,
                       res_enrich,
                       annotation_obj,
+                      gtl = NULL,
                       project_id = "") {
   
   # https://projects.lukehaas.me/css-loaders/
@@ -86,6 +95,13 @@ GeneTonic <- function(dds,
   
   usage_mode <- "shiny_mode"
   
+  if (!is.null(gtl)) {
+    checkup_gtl(gtl)
+    dds <- gtl$dds
+    res_de <- gtl$res_de
+    res_enrich <- gtl$res_enrich
+    annotation_obj <- gtl$annotation_obj
+  }
   
   # checks on the objects provided
   checkup_GeneTonic(dds,

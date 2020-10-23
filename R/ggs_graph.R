@@ -9,6 +9,9 @@
 #' @param res_de A `DESeqResults` object.
 #' @param annotation_obj A `data.frame` object with the feature annotation
 #' information, with at least two columns, `gene_id` and `gene_name`.
+#' @param gtl A `GeneTonic`-list object, containing in its slots the arguments
+#' specified above: `dds`, `res_de`, `res_enrich`, and `annotation_obj` - the names
+#' of the list _must_ be specified following the content they are expecting
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be included
 #' @param gs_ids Character vector, containing a subset of `gs_id` as they are
@@ -79,11 +82,20 @@
 ggs_graph <- function(res_enrich,
                       res_de,
                       annotation_obj = NULL,
+                      gtl = NULL,
                       n_gs = 15,
                       gs_ids = NULL,
                       prettify = TRUE,
                       geneset_graph_color = "gold",
                       genes_graph_colpal = NULL) {
+  
+  if (!is.null(gtl)) {
+    checkup_gtl(gtl)
+    dds <- gtl$dds
+    res_de <- gtl$res_de
+    res_enrich <- gtl$res_enrich
+    annotation_obj <- gtl$annotation_obj
+  }
 
   if (!is.null(genes_graph_colpal)) {
 
