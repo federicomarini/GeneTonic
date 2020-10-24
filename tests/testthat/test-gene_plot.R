@@ -17,6 +17,14 @@ test_that("Basic gene plot is generated", {
                                                     transform = FALSE,
                                                     labels_repel = FALSE)
   expect_is(p2_noanno_normallabels_untransformed, "gg")
+  
+  gtl_macrophage <- list(dds = dds_macrophage,
+                         res_de = res_macrophage_IFNg_vs_naive,
+                         res_enrich = res_enrich_IFNg_vs_naive,
+                         annotation_obj = anno_df)
+  p3_gtl <- gene_plot(gtl = gtl_macrophage,
+                      gene = "ENSG00000285982")
+  expect_is(p3_gtl, "gg")
 })
 
 test_that("Enforcing plot types", {

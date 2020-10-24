@@ -12,7 +12,16 @@ test_that("Graph is generated", {
                   n_gs = 30,
                   prettify = FALSE)
   expect_is(g2, "igraph")
-
+  
+  gtl_macrophage <- list(dds = dds_macrophage,
+                         res_de = res_macrophage_IFNg_vs_naive,
+                         res_enrich = res_enrich_IFNg_vs_naive,
+                         annotation_obj = anno_df)
+  g3 <- ggs_graph(gtl = gtl_macrophage,
+                  n_gs = 20) 
+  expect_is(g3, "igraph")
+  
+  expect_true(identical_graphs(g, g3))
 
   alt_pal <- scales::alpha(
     colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.4)

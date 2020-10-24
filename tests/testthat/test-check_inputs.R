@@ -86,4 +86,8 @@ test_that("List-based input checks", {
   expect_error(
     checkup_gtl(gtl_missing)
   )
+  
+  expect_error(
+    checkup_gtl(dds_macrophage)
+  )
 })
