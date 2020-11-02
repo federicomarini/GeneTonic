@@ -13,8 +13,6 @@ status](https://github.com/federicomarini/GeneTonic/workflows/R-CMD-check/badge.
 [![](https://img.shields.io/github/last-commit/federicomarini/GeneTonic.svg)](https://github.com/federicomarini/GeneTonic/commits/master)
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
-[![Travis build
-status](https://travis-ci.com/federicomarini/GeneTonic.svg?branch=master)](https://travis-ci.com/federicomarini/GeneTonic)
 [![Codecov.io coverage
 status](https://codecov.io/github/federicomarini/GeneTonic/coverage.svg?branch=master)](https://codecov.io/github/federicomarini/GeneTonic)
 <!-- badges: end -->
