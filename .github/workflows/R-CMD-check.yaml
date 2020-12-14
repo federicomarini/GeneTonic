@@ -19,7 +19,6 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - { os: windows-latest, r: 'devel', bioc: 'devel'}
           - { os: macOS-latest, r: 'release', bioc: '3.12'}
           - { os: macOS-latest, r: 'devel', bioc: 'devel', curlConfigPath: '/usr/bin/'}
           - { os: ubuntu-latest, r: 'release', image: 'bioconductor/bioconductor_docker:devel'}
