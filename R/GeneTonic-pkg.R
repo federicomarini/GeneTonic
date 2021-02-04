@@ -41,7 +41,7 @@
 #' @importFrom scales alpha muted
 #' @rawNamespace import(shiny, except = c(renderDataTable, dataTableOutput))
 #' @importFrom shinycssloaders withSpinner
-#' @importFrom shinyjs useShinyjs extendShinyjs
+#' @importFrom shinyjs useShinyjs extendShinyjs js
 #' @importFrom shinyWidgets dropdownButton tooltipOptions
 #' @importFrom stats var dist hclust as.dendrogram as.dist cmdscale median
 #' order.dendrogram runif
