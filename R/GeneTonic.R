@@ -938,7 +938,8 @@ GeneTonic <- function(dds,
                      icon = icon("project-diagram"),
                      style = .actionbutton_biocstyle),
         
-        uiOutput("ggs_gene_string")
+        uiOutput("ggs_gene_string"),
+        selectInput("string_organism", "Organism", string_organisms)
       )
     })
     
@@ -983,7 +984,7 @@ GeneTonic <- function(dds,
     observeEvent(input$btn_getstring, {
       g <- reactive_values$ggs_graph()
       cur_sel <- input$ggsnetwork_selected
-      js$loadStringData("9606", cur_sel)
+      js$loadStringData(input$string_organism, cur_sel)
     })
     
     output$ggs_gene_string <- renderUI({

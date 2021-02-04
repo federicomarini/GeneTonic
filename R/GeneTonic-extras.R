@@ -506,3 +506,20 @@ gt_downloadButton <- function(outputId,
 
 
 .biocgreen <- "#0092AC"
+
+string_organisms <- list(
+  "Homo sapiens" = 9606,
+  "Mus musculus" = 10090,
+  "Drosophila melanogaster" = 7227,
+  "Danio rerio" = 7955,
+  "Rattus norvegicus" = 10116,
+  "Arabidopsis thaliana" = 3702,
+  "Caenorhabditis elegans" = 6239,
+  "Saccharomyces cerevisiae" = 4932,
+  "Xenopus (Silurana) tropicalis" = 8364,
+  "Gallus gallus" = 9031,
+  "Macaca mulatta" = 9544,
+  "Pan troglodytes" = 9598,
+  "Canis lupus familiaris" = 9615,
+  "Bos taurus" = 9913
+)
