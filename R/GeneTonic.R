@@ -237,6 +237,14 @@ GeneTonic <- function(dds,
     # body definition ---------------------------------------------------------
     body = bs4Dash::bs4DashBody(
       rintrojs::introjsUI(),
+      
+      useShinyjs(),
+      extendShinyjs(
+        script = "GeneTonic/fetchstring.js", 
+        functions = "loadStringData"
+      ),
+      includeScript("http://string-db.org/javascript/combined_embedded_network_v2.0.2.js"),
+      
       ## Define output size and style of error messages
       ## plus, define the myscrollbox div to prevent y overflow when page fills up
       tags$head(
