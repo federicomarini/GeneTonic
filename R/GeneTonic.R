@@ -924,7 +924,13 @@ GeneTonic <- function(dds,
     output$ui_ggs_genebox <- renderUI({
       tagList(
         uiOutput("ggs_gene_info"),
-        plotOutput("ggs_geneplot")
+        plotOutput("ggs_geneplot"),
+        actionButton(inputId = "btn_getstring",
+                     label = "Fetch info from STRING",
+                     icon = icon("project-diagram"),
+                     style = .actionbutton_biocstyle),
+        
+        uiOutput("ggs_gene_string")
       )
     })
     
@@ -966,6 +972,29 @@ GeneTonic <- function(dds,
       )
     })
     
+    observeEvent(input$btn_getstring, {
+      g <- reactive_values$ggs_graph()
+      cur_sel <- input$ggsnetwork_selected
+      js$loadStringData("9606", cur_sel)
+    })
+    
+    output$ggs_gene_string <- renderUI({
+      g <- reactive_values$ggs_graph()
+      cur_sel <- input$ggsnetwork_selected
+      cur_node <- match(cur_sel, V(g)$name)
+      cur_nodetype <- V(g)$nodetype[cur_node]
+      validate(need(cur_nodetype == "Feature",
+                    message = "" # Please select a gene/feature.
+      ))
+      
+      cur_geneid <- annotation_obj$gene_id[match(cur_sel, annotation_obj$gene_name)]
+      
+      # HTML(cur_sel)
+      tags$div(id = "stringEmbedded")
+      # mycontent <- HTML(paste0(
+      #   cur_geneid, "<br>", "<b>", cur_sel, "</b>"
+      # ))
+    })
     
     
     # panel EnrichmentMap -----------------------------------------------------
