@@ -49,6 +49,7 @@ Imports:
     scales,
     shiny,
     shinycssloaders,
+    shinyjs,
     shinyWidgets,
     stats,
     SummarizedExperiment,
