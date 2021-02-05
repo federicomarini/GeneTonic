@@ -329,6 +329,9 @@ The interactive flavor in this tab permits a quick exploration of the signature 
 
 A demonstration of how to use this panel effectively is provided by the tour, triggered by clicking on the `r shiny::actionButton("tour", label = "", icon = shiny::icon("question-circle"), style = "color: #0092AC; background-color: #FFFFFF; border-color: #ffffff")` button in the upper right corner of the tab.
 
+In the section below the interactive enrichment map, the functionality for the _distillation_ of gene sets into meta-genesets is provided.  
+In brief, a community detection algorithm is run on the graph underlying the enrichment map, and the additional information extracted is rendered as a table, linked to a meta-geneset box to display the expression signature for all its member genes.
+
 **Bookmarking from the Enrichment Map panel:** If the user clicks on the Bookmark button while in this tab, it will add the selected node to the shortlist of genesets, visible later in the Bookmarks panel.
 The Left Ctrl button of your keyboard can again be used for this purpose, and this will trigger a notification in the lower right part of the screen.
 
@@ -369,7 +372,6 @@ Below the interactive `DT::datatable` objects, the content of each table can als
 Moreover, there is a button (with the cocktail icon <i class="fa fa-cocktail"></i>) that triggers the generation of a content-rich report which will focus on all the shortlisted elements.
 This leverages a template report delivered as a part of `r BiocStyle::Biocpkg("GeneTonic")`, which accesses the input elements and the reactive values for the bookmarks, based on the `happy_hour()` function.
 
-
 If a user already knows a set of features and geneset of interest, it is also possible to practically call `happy_hour()` directly from the command line (see the example in the chunk below).
 Please keep in mind that the identifiers to be used should match the values used as row names of the `dds` object and as `gs_id` column of the original `res_enrich` input.
 
@@ -391,6 +393,9 @@ This report will serve as a useful means to generate a permanent and reproducibl
 Ideally, each live session with `GeneTonic` could terminate with a call to `happy_hour()` - admittedly, an aperitivo should start with that, and not end - please accept our apologies :) .
 
 A demonstration of how to use this panel effectively is provided by the tour, triggered by clicking on the `r shiny::actionButton("tour", label = "", icon = shiny::icon("question-circle"), style = "color: #0092AC; background-color: #FFFFFF; border-color: #ffffff")` button in the upper right corner of the tab.
+
+In this panel, an export button to a `SummarizedExperiment` object to be provided as input to the `r BiocStyle::Biocpkg("iSEE")` package has been added in version >= 1.2.0. 
+This enables further and fine-grained visualization options in the `iSEE` framework -  if the flavors of `GeneTonic` are not yet what you would want, you might find an excellent venue there.
 
 # Using the `GeneTonic` functions {#functions}
 
@@ -452,8 +457,10 @@ em <- enrichment_map(res_enrich_macrophage,
                      res_macrophage_IFNg_vs_naive,
                      n_gs = 30,
                      anno_df)
+library("igraph")
 library("visNetwork")
 library("magrittr")
+
 em %>% 
   visIgraph() %>% 
   visOptions(highlightNearest = list(enabled = TRUE,
@@ -462,6 +469,41 @@ em %>%
              nodesIdSelection = TRUE)
 
 ```
+
+Expanding on the enrichment map, the distilled content of the `res_enrich` can be represented as enhanced tables and interactive graphs, depicting the membership of the respective meta-genesets
+
+```{r}
+distilled <- distill_enrichment(res_enrich_macrophage,
+                                res_macrophage_IFNg_vs_naive,
+                                anno_df,
+                                n_gs = 60,
+                                cluster_fun = "cluster_markov")
+DT::datatable(distilled$distilled_table[,1:4])
+dim(distilled$distilled_table)
+DT::datatable(distilled$res_enrich[,])
+
+dg <- distilled$distilled_em 
+
+library("igraph")
+library("visNetwork")
+library("magrittr")
+
+# defining a color palette for nicer display
+colpal <- colorspace::rainbow_hcl(length(unique(V(dg)$color)))[V(dg)$color]
+V(dg)$color.background <- scales::alpha(colpal, alpha = 0.8)
+V(dg)$color.highlight <- scales::alpha(colpal, alpha = 1)
+V(dg)$color.hover <- scales::alpha(colpal, alpha = 0.5)
+
+V(dg)$color.border <- "black"
+
+visNetwork::visIgraph(dg) %>%
+  visOptions(highlightNearest = list(enabled = TRUE,
+                                     degree = 1,
+                                     hover = TRUE),
+             nodesIdSelection = TRUE, 
+             selectedBy = "membership")
+```
+
 
 Display a volcano plot for genesets, plotting significance (y-axis) versus Z score (x-axis), with color and size encoding some geneset features:
 
@@ -710,8 +752,10 @@ citation("GeneTonic")
 
 **Q: Why is this package called `GeneTonic`?**
 
-A: For obvious reasons :) Like in a cocktail, ingredients (expression matrix, results from DE, and results from functional enrichment analysis) do taste better together.
-Plus, I like puns with words. And cocktails. Sometimes simultaneously.
+A: For obvious reasons :) Like in a cocktail, ingredients (expression matrix, results from DE, and results from functional enrichment analysis) do taste better together.  
+Plus, I like puns with words.  
+And cocktails.  
+Sometimes simultaneously.
 
 **Q: My configuration on two machines is somewhat different, so I am having difficulty in finding out what packages are different. Is there something to help on this?**
 
@@ -720,7 +764,15 @@ This can help you pinpoint what packages might be causing the issue.
 
 **Q: I am using a different service/software for generating the results of functional enrichment analysis. How do I plug this into `GeneTonic`?**
 
-A: You can set up a small conversion function, on the line of `shake_topGOtableResult` and `shake_enrichResult` (*use the source, Luke* to see how you can build your own), or request such a function - make sure to specify the formatting specifications of your tool of choice (e.g. David, g:Profiler, or commercial solutions such as Ingenuity Pathway Analysis).
+A: You can set up a small conversion function, on the line of `shake_topGOtableResult` and `shake_enrichResult` (*use the source, Luke* to see how you can build your own), or request such a function - make sure to specify the formatting specifications of your tool of choice (e.g. DAVID, g:Profiler, or commercial solutions such as Ingenuity Pathway Analysis).  
+As of Bioconductor release 3.12 (version >= 1.2.0 for `r BiocStyle::Biocpkg("GeneTonic")`), shaker functions are available for these tools:
+
+- `DAVID` (https://david.ncifcrf.gov/), with the result exported in text format
+- `topGO` (available in the `r BiocStyle::Biocpkg("topGO")` package), as in the wrapper function provided by `r BiocStyle::Biocpkg("pcaExplorer")`, `pcaExplorer::topGOtable()`
+- `Enrichr` (https://amp.pharm.mssm.edu/Enrichr/), either from text format or from a call via the `r BiocStyle::CRANpkg("enrichr")` package
+- `fgsea`, taking the output of the workflow from the `r BiocStyle::Biocpkg("fgsea")` package
+- `g:Profiler` (https://biit.cs.ut.ee/gprofiler/), either from text file format or with the output of `gost()` in `r BiocStyle::CRANpkg("gprofiler2")`
+- `clusterProfiler`, providing `enrichResult` objects, commonly returned by `enrichGO()` from `r BiocStyle::Biocpkg("clusterProfiler")` or `enrichPathway()` from `r BiocStyle::Biocpkg("ReactomePA")`
 
 **Q: I'd like to try `GeneTonic` but I could not install it/I just want a quick peek into it. What can I do for this?**
 
