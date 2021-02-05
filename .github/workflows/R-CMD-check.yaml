@@ -81,6 +81,20 @@ jobs:
           sudo -s eval "$sysreqs"
           sudo apt-get update && sudo apt-get -y install libcurl4-openssl-dev
 
+      - name: Install system dependencies (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          brew install cairo
+          brew install harfbuzz
+          brew install fribidi
+          
+      - name: Set up gfortran symlinks (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          set -x
+          sudo ln -s /usr/local/Cellar/gcc@8/8.4.0_2/lib/gcc/8 /usr/local/gfortran/lib
+          gfortran --version
+
       - name: Install dependencies
         run: |
           local_deps <- remotes::local_package_deps(dependencies = TRUE)
