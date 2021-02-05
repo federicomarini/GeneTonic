@@ -84,7 +84,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           brew install cairo
-          brew cask install xquartz
+          brew install --cask xquartz
           brew install harfbuzz
           brew install fribidi
           
