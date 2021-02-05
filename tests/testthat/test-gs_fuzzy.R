@@ -35,6 +35,14 @@ test_that("Fuzzy clustering on example set", {
       "Representative", "Member", "Member", "Member",
       "Representative")
   )
+  
+  expect_warning(
+    gs_fuzzyclustering(fake_re,
+                       n_gs = nrow(fake_re),
+                       gs_ids = NULL,
+                       similarity_matrix = NULL,
+                       similarity_threshold = 0.2)
+  )
 })
 
 test_that("Fuzzy clustering on GeneTonic set", {
