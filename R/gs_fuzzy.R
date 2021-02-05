@@ -1,22 +1,71 @@
 # similarity_matrix <- km_macro
 
-#' Title
+#' Compute fuzzy clusters of gene sets
 #' 
-#' TODO
+#' Compute fuzzy clusters of different gene sets, aiming to identify grouped 
+#' categories that can better represent the distinct biological themes in the
+#' enrichment results
 #'
-#' @param res_enrich TODO
-#' @param n_gs TODO
-#' @param gs_ids TODO
-#' @param similarity_matrix TODO
-#' @param similarity_threshold TODO
-#' @param fuzzy_seeding_initial_neighbors TODO
-#' @param fuzzy_multilinkage_rule TODO
-#'
-#' @return TODO
+#' @param res_enrich A `data.frame` object, storing the result of the functional
+#' enrichment analysis. See more in the main function, [GeneTonic()], to check the
+#' formatting requirements (a minimal set of columns should be present).
+#' @param n_gs Integer value, corresponding to the maximal number of gene sets to
+#' be displayed
+#' @param gs_ids Character vector, containing a subset of `gs_id` as they are
+#' available in `res_enrich`. Lists the gene sets to be displayed.
+#' @param similarity_matrix A similarity matrix between gene sets. Can be e.g. 
+#' computed with [create_kappa_matrix()] or [create_jaccard_matrix()] or a similar
+#' function, returning a symmetric matrix with numeric values (max = 1). If not 
+#' provided, this will be computed on the fly with [create_kappa_matrix()]
+#' @param similarity_threshold A numeric value for the similarity matrix, used to 
+#' determine the initial seeds as in the implementation of DAVID. Higher values
+#' will lead to more genesets being initially unclustered, leading to a  functional 
+#' classification result with fewer groups and fewer geneset members. Defaults to 0.35,
+#' recommended to not go below 0.3 (see DAVID help pages)
+#' @param fuzzy_seeding_initial_neighbors Integer value, corresponding to the minimum
+#' geneset number in a seeding group. Lower values will lead to the inclusion of more
+#' genesets in the functional groups, and may generate a lot of small size groups. 
+#' Defaults to 3
+#' @param fuzzy_multilinkage_rule Numeric value, comprised between 0 and 1. This 
+#' parameter will determine how the seeding groups merge with each other, by specifying
+#' the percentage of shared genesets required to merge the two subsets into one
+#' group. Higher values will give sharper separation between the groups of genesets.
+#' Defaults to 0.5 (50%)
+#' 
+#' @references
+#' See https://david.ncifcrf.gov/helps/functional_classification.html#clustering
+#' for details on the original implementation
+#' 
+#' @return A data frame, shaped in a similar way as the originally provided 
+#' `res_enrich` object, containing two extra columns: `gs_fuzzycluster`, to specify 
+#' the identifier of the fuzzy cluster of genesets, and `gs_cluster_status`, which
+#' can specify whether the geneset is the "Representative" for that cluster or 
+#' a simple "Member".
+#' Notably, the number of rows in the returned object can be higher than the
+#' original number of rows in `res_enrich`.
+#' 
 #' @export
 #'
 #' @examples
-#' # TODO
+#' data(res_enrich_macrophage, package = "GeneTonic")
+#' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
+#' # taking a smaller subset
+#' res_enrich_subset <- res_enrich[1:100, ]
+#' 
+#' fuzzy_subset <- gs_fuzzyclustering(
+#'   res_enrich = res_enrich_subset,
+#'   n_gs = nrow(res_enrich),
+#'   gs_ids = NULL,
+#'   similarity_matrix = NULL,
+#'   similarity_threshold = 0.35,
+#'   fuzzy_seeding_initial_neighbors = 3,
+#'   fuzzy_multilinkage_rule = 0.5)
+#' 
+#' # show all genesets members of the first cluster
+#' fuzzy_subset[fuzzy_subset$gs_fuzzycluster == "1", ]
+#' 
+#' # list only the representative clusters
+#' head(fuzzy_subset[fuzzy_subset$gs_cluster_status == "Representative", ], 10)
 gs_fuzzyclustering <- function(res_enrich,
                                n_gs = nrow(res_enrich),
                                gs_ids = NULL,
@@ -25,16 +74,18 @@ gs_fuzzyclustering <- function(res_enrich,
                                fuzzy_seeding_initial_neighbors = 3,
                                fuzzy_multilinkage_rule = 0.5) {
   
-  # checks: simmat is matrix
-  # checks: simmat is symmetric
-  # checks: simmat is containing the same set of ids
-  # checks: simmat is numeric, and all are less or equal 1
-  
   stopifnot(is.numeric(similarity_threshold))
   stopifnot(is.numeric(fuzzy_seeding_initial_neighbors))
   stopifnot(is.numeric(fuzzy_multilinkage_rule))
   stopifnot(similarity_threshold >= 0 & similarity_threshold <= 1)
+  stopifnot(fuzzy_seeding_initial_neighbors >= 2)
   stopifnot(fuzzy_multilinkage_rule > 0 & fuzzy_multilinkage_rule <= 1)
+  
+  if (similarity_threshold < 0.3)
+    warning(
+      "You selected a small value for the similarity threshold. ",
+      "The resulting clusters might be driven by noisy similarity values."
+    )
   
   gs_to_use <- unique(
     c(
