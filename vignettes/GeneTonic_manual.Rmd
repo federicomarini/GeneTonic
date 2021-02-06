@@ -238,8 +238,8 @@ GeneTonic(dds = dds_macrophage,
           project_id = "GT1")
 ```
 
-Alternatively (this applies from version >= 1.3.0), it is possible to provide a single list object to `GeneTonic()` and many of its functions.
-
+Alternatively (this applies from version >= 1.3.0), it is possible to provide a single list object to `GeneTonic()` and many of its functions.  
+Please note that the arguments should be named as specified in the example below.
 
 ```{r}
 gtl <- list(
@@ -608,6 +608,14 @@ gs_summary_heat(res_enrich_macrophage,
                 n_gs = 20)
 ```
 
+Recalling that you can also use a `gtl` list object as input, a similar call would be:
+
+```{r}
+gs_summary_heat(gtl = gtl,
+                n_gs = 30)
+```
+
+
 Plot a heatmap on the geneset scores, computed sample-wise via `gs_scores` so that the geneset members compose a Z score that gets summarized: 
 
 ```{r scoresheat}
@@ -638,6 +646,20 @@ happy_hour(dds = dds_macrophage,
                        "ENSG00000137496")
 )
 ```
+
+Again, if used with the `gtl` object, the call would look like this:
+
+```{r happyhour2, eval=FALSE}
+happy_hour(gtl = gtl,
+           project_id = "examplerun",
+           mygenesets = gtl$res_enrich$gs_id[c(1:5,11,31)],
+           mygenes = c("ENSG00000125347",
+                       "ENSG00000172399",
+                       "ENSG00000137496"),
+           open_after_creating = TRUE
+)
+```
+
 
 The functionality is also the same activated in the Bookmarks section of the interactive app.
 Here you can choose a number of genesets (`mygenesets`) and genes (`mygenes`), specifying their identifiers, and obtain in batch a number of summary representations focused on these elements.
