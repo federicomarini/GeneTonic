@@ -2,7 +2,7 @@
 % Please edit documentation in R/gs_fuzzy.R
 \name{gs_fuzzyclustering}
 \alias{gs_fuzzyclustering}
-\title{Title}
+\title{Compute fuzzy clusters of gene sets}
 \usage{
 gs_fuzzyclustering(
   res_enrich,
@@ -15,26 +15,74 @@ gs_fuzzyclustering(
 )
 }
 \arguments{
-\item{res_enrich}{TODO}
+\item{res_enrich}{A \code{data.frame} object, storing the result of the functional
+enrichment analysis. See more in the main function, \code{\link[=GeneTonic]{GeneTonic()}}, to check the
+formatting requirements (a minimal set of columns should be present).}
 
-\item{n_gs}{TODO}
+\item{n_gs}{Integer value, corresponding to the maximal number of gene sets to
+be displayed}
 
-\item{gs_ids}{TODO}
+\item{gs_ids}{Character vector, containing a subset of \code{gs_id} as they are
+available in \code{res_enrich}. Lists the gene sets to be displayed.}
 
-\item{similarity_matrix}{TODO}
+\item{similarity_matrix}{A similarity matrix between gene sets. Can be e.g.
+computed with \code{\link[=create_kappa_matrix]{create_kappa_matrix()}} or \code{\link[=create_jaccard_matrix]{create_jaccard_matrix()}} or a similar
+function, returning a symmetric matrix with numeric values (max = 1). If not
+provided, this will be computed on the fly with \code{\link[=create_kappa_matrix]{create_kappa_matrix()}}}
 
-\item{similarity_threshold}{TODO}
+\item{similarity_threshold}{A numeric value for the similarity matrix, used to
+determine the initial seeds as in the implementation of DAVID. Higher values
+will lead to more genesets being initially unclustered, leading to a  functional
+classification result with fewer groups and fewer geneset members. Defaults to 0.35,
+recommended to not go below 0.3 (see DAVID help pages)}
 
-\item{fuzzy_seeding_initial_neighbors}{TODO}
+\item{fuzzy_seeding_initial_neighbors}{Integer value, corresponding to the minimum
+geneset number in a seeding group. Lower values will lead to the inclusion of more
+genesets in the functional groups, and may generate a lot of small size groups.
+Defaults to 3}
 
-\item{fuzzy_multilinkage_rule}{TODO}
+\item{fuzzy_multilinkage_rule}{Numeric value, comprised between 0 and 1. This
+parameter will determine how the seeding groups merge with each other, by specifying
+the percentage of shared genesets required to merge the two subsets into one
+group. Higher values will give sharper separation between the groups of genesets.
+Defaults to 0.5 (50\%)}
 }
 \value{
-TODO
+A data frame, shaped in a similar way as the originally provided
+\code{res_enrich} object, containing two extra columns: \code{gs_fuzzycluster}, to specify
+the identifier of the fuzzy cluster of genesets, and \code{gs_cluster_status}, which
+can specify whether the geneset is the "Representative" for that cluster or
+a simple "Member".
+Notably, the number of rows in the returned object can be higher than the
+original number of rows in \code{res_enrich}.
 }
 \description{
-TODO
+Compute fuzzy clusters of different gene sets, aiming to identify grouped
+categories that can better represent the distinct biological themes in the
+enrichment results
 }
 \examples{
-# TODO
+data(res_enrich_macrophage, package = "GeneTonic")
+res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
+# taking a smaller subset
+res_enrich_subset <- res_enrich[1:100, ]
+
+fuzzy_subset <- gs_fuzzyclustering(
+  res_enrich = res_enrich_subset,
+  n_gs = nrow(res_enrich_subset),
+  gs_ids = NULL,
+  similarity_matrix = NULL,
+  similarity_threshold = 0.35,
+  fuzzy_seeding_initial_neighbors = 3,
+  fuzzy_multilinkage_rule = 0.5)
+
+# show all genesets members of the first cluster
+fuzzy_subset[fuzzy_subset$gs_fuzzycluster == "1", ]
+
+# list only the representative clusters
+head(fuzzy_subset[fuzzy_subset$gs_cluster_status == "Representative", ], 10)
+}
+\references{
+See https://david.ncifcrf.gov/helps/functional_classification.html#clustering
+for details on the original implementation
 }
