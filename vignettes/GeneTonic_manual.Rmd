@@ -605,14 +605,14 @@ Plot a summary heatmap of genes vs genesets, encoding the logFC of genes and rep
 gs_summary_heat(res_enrich_macrophage,
                 res_macrophage_IFNg_vs_naive,
                 anno_df,
-                n_gs = 20)
+                n_gs = 15)
 ```
 
 Recalling that you can also use a `gtl` list object as input, a similar call would be:
 
 ```{r}
 gs_summary_heat(gtl = gtl,
-                n_gs = 30)
+                n_gs = 10)
 ```
 
 
