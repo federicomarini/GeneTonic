@@ -238,8 +238,24 @@ GeneTonic(dds = dds_macrophage,
           project_id = "GT1")
 ```
 
+Alternatively (this applies from version >= 1.3.0), it is possible to provide a single list object to `GeneTonic()` and many of its functions.
 
 
+```{r}
+gtl <- list(
+  dds = DESeq2::estimateSizeFactors(dds_macrophage),
+  res_de = res_macrophage_IFNg_vs_naive,
+  res_enrich = res_enrich_macrophage,
+  annotation_obj = anno_df
+)
+
+# if nothing is returned, the object is ready to be provided to GeneTonic
+checkup_gtl(gtl)
+
+if (interactive()) {
+  GeneTonic(gtl = gtl)
+}
+```
 
 # Description of the `GeneTonic` user interface {#userinterface}
 
@@ -505,7 +521,7 @@ visNetwork::visIgraph(dg) %>%
 ```
 
 Another possibility to summarize the result of enrichment is by applying fuzzy clustering on it to detect groups of related genesets, with the peculiarity that a geneset can belong to different clusters - this reflects the original implementation of DAVID [@Huang2009].  
-The `fuzzy_clustering` function returns a table with additional columns, related to the cluster id and the status for the geneset in that cluster ("Representative" or "Member", where the Representative geneset is the one with lowest p-value in that cluster).
+The `gs_fuzzyclustering()` function returns a table with additional columns, related to the cluster id and the status for the geneset in that cluster ("Representative" or "Member", where the Representative geneset is the one with lowest p-value in that cluster).
 
 ```{r}
 res_enrich_subset <- res_enrich_macrophage[1:100, ]
