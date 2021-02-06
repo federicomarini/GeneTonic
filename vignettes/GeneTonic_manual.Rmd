@@ -504,6 +504,29 @@ visNetwork::visIgraph(dg) %>%
              selectedBy = "membership")
 ```
 
+Another possibility to summarize the result of enrichment is by applying fuzzy clustering on it to detect groups of related genesets, with the peculiarity that a geneset can belong to different clusters - this reflects the original implementation of DAVID [@Huang2009].  
+The `fuzzy_clustering` function returns a table with additional columns, related to the cluster id and the status for the geneset in that cluster ("Representative" or "Member", where the Representative geneset is the one with lowest p-value in that cluster).
+
+```{r}
+res_enrich_subset <- res_enrich_macrophage[1:100, ]
+
+fuzzy_subset <- gs_fuzzyclustering(
+  res_enrich = res_enrich_subset,
+  n_gs = nrow(res_enrich_subset),
+  gs_ids = NULL,
+  similarity_matrix = NULL,
+  similarity_threshold = 0.35,
+  fuzzy_seeding_initial_neighbors = 3,
+  fuzzy_multilinkage_rule = 0.5)
+
+# show all genesets members of the first cluster
+fuzzy_subset[fuzzy_subset$gs_fuzzycluster == "1", ]
+
+# list only the representative clusters
+DT::datatable(
+  fuzzy_subset[fuzzy_subset$gs_cluster_status == "Representative", ]
+)
+```
 
 Display a volcano plot for genesets, plotting significance (y-axis) versus Z score (x-axis), with color and size encoding some geneset features:
 
