@@ -69,7 +69,7 @@ res_enrich_subset <- res_enrich[1:100, ]
 
 fuzzy_subset <- gs_fuzzyclustering(
   res_enrich = res_enrich_subset,
-  n_gs = nrow(res_enrich),
+  n_gs = nrow(res_enrich_subset),
   gs_ids = NULL,
   similarity_matrix = NULL,
   similarity_threshold = 0.35,
