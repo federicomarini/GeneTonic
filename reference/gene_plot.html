@@ -75,7 +75,7 @@ by experimental group(s) of interest" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1</span>
       </span>
     </div>
 
@@ -147,7 +147,8 @@ by experimental group(s) of interest</p>
   transform <span class='op'>=</span> <span class='cn'>TRUE</span>,
   labels_repel <span class='op'>=</span> <span class='cn'>TRUE</span>,
   plot_type <span class='op'>=</span> <span class='st'>"auto"</span>,
-  return_data <span class='op'>=</span> <span class='cn'>FALSE</span>
+  return_data <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  gtl <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -206,6 +207,12 @@ samples in the smallest group defined via <code>intgroup</code></p></td>
       <td><p>Logical, whether the function should just return the
 data.frame of expression values and covariates for custom plotting. Defaults
 to FALSE.</p></td>
+    </tr>
+    <tr>
+      <th>gtl</th>
+      <td><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
+specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
+of the list <em>must</em> be specified following the content they are expecting</p></td>
     </tr>
     </table>
 

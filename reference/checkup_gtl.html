@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Multi Dimensional Scaling plot for gene sets — gs_mds • GeneTonic</title>
+<title>Checking the gtl input object for GeneTonic — checkup_gtl • GeneTonic</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="Multi Dimensional Scaling plot for gene sets — gs_mds" />
-<meta property="og:description" content="Multi Dimensional Scaling plot for gene sets, extracted from a res_enrich
-object" />
+<meta property="og:title" content="Checking the gtl input object for GeneTonic — checkup_gtl" />
+<meta property="og:description" content="Checking the gtl (&quot;GeneTonic list&quot;) input object for GeneTonic, with the
+correct content and format expected" />
 
 
 
@@ -127,113 +127,48 @@ object" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Multi Dimensional Scaling plot for gene sets</h1>
-    <small class="dont-index">Source: <a href='https://github.com/federicomarini/GeneTonic/blob/master/R/gs_mds.R'><code>R/gs_mds.R</code></a></small>
-    <div class="hidden name"><code>gs_mds.Rd</code></div>
+    <h1>Checking the <code>gtl</code> input object for GeneTonic</h1>
+    <small class="dont-index">Source: <a href='https://github.com/federicomarini/GeneTonic/blob/master/R/check_inputs.R'><code>R/check_inputs.R</code></a></small>
+    <div class="hidden name"><code>checkup_gtl.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Multi Dimensional Scaling plot for gene sets, extracted from a <code>res_enrich</code>
-object</p>
+    <p>Checking the <code>gtl</code> ("GeneTonic list") input object for GeneTonic, with the
+correct content and format expected</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gs_mds</span><span class='op'>(</span>
-  <span class='va'>res_enrich</span>,
-  <span class='va'>res_de</span>,
-  <span class='va'>annotation_obj</span>,
-  gtl <span class='op'>=</span> <span class='cn'>NULL</span>,
-  n_gs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/AnnotationDbi/man/Bimap-toTable.html'>nrow</a></span><span class='op'>(</span><span class='va'>res_enrich</span><span class='op'>)</span>,
-  gs_ids <span class='op'>=</span> <span class='cn'>NULL</span>,
-  similarity_measure <span class='op'>=</span> <span class='st'>"kappa_matrix"</span>,
-  mds_k <span class='op'>=</span> <span class='fl'>2</span>,
-  mds_labels <span class='op'>=</span> <span class='fl'>0</span>,
-  mds_colorby <span class='op'>=</span> <span class='st'>"z_score"</span>,
-  gs_labels <span class='op'>=</span> <span class='cn'>NULL</span>,
-  plot_title <span class='op'>=</span> <span class='cn'>NULL</span>,
-  return_data <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>checkup_gtl</span><span class='op'>(</span><span class='va'>gtl</span>, verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>res_enrich</th>
-      <td><p>A <code>data.frame</code> object, storing the result of the functional
-enrichment analysis. See more in the main function, <code><a href='GeneTonic.html'>GeneTonic()</a></code>, to check the
-formatting requirements (a minimal set of columns should be present).</p></td>
-    </tr>
-    <tr>
-      <th>res_de</th>
-      <td><p>A <code>DESeqResults</code> object.</p></td>
-    </tr>
-    <tr>
-      <th>annotation_obj</th>
-      <td><p>A <code>data.frame</code> object with the feature annotation
-information, with at least two columns, <code>gene_id</code> and <code>gene_name</code>.</p></td>
-    </tr>
-    <tr>
       <th>gtl</th>
-      <td><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
-specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
-of the list <em>must</em> be specified following the content they are expecting</p></td>
+      <td><p>A <code>DESeqDataSet</code> object, normally obtained after running your data
+through the <code>DESeq2</code> framework.
+This list should contain</p><ul>
+<li><p>in the <code>dds</code> slot: A <code>DESeqDataSet</code> object</p></li>
+<li><p>in the <code>res_de</code>: A <code>DESeqResults</code> object</p></li>
+<li><p>in the <code>res_enrich</code>: A <code>data.frame</code> object, storing the result of the
+functional enrichment analysis</p></li>
+<li><p>in the <code>annotation_obj</code>: A <code>data.frame</code> object, containing two columns,
+<code>gene_id</code> with a set of unambiguous identifiers (e.g. ENSEMBL ids) and
+<code>gene_name</code>, containing e.g. HGNC-based gene symbols.</p></li>
+</ul></td>
     </tr>
     <tr>
-      <th>n_gs</th>
-      <td><p>Integer value, corresponding to the maximal number of gene sets to
-be included (from the top ranked ones). Defaults to the number of rows of
-<code>res_enrich</code></p></td>
-    </tr>
-    <tr>
-      <th>gs_ids</th>
-      <td><p>Character vector, containing a subset of <code>gs_id</code> as they are
-available in <code>res_enrich</code>. Lists the gene sets to be included, additionally to
-the ones specified via <code>n_gs</code>. Defaults to NULL.</p></td>
-    </tr>
-    <tr>
-      <th>similarity_measure</th>
-      <td><p>Character, currently defaults to <code>kappa_matrix</code>, to
-specify how to compute the similarity measure between gene sets</p></td>
-    </tr>
-    <tr>
-      <th>mds_k</th>
-      <td><p>Integer value, number of dimensions to compute in the multi
-dimensional scaling procedure</p></td>
-    </tr>
-    <tr>
-      <th>mds_labels</th>
-      <td><p>Integer, defines the number of labels to be plotted on top
-of the scatter plot for the provided gene sets.</p></td>
-    </tr>
-    <tr>
-      <th>mds_colorby</th>
-      <td><p>Character specifying the column of <code>res_enrich</code> to be used
-for coloring the plotted gene sets. Defaults sensibly to <code>z_score</code>.</p></td>
-    </tr>
-    <tr>
-      <th>gs_labels</th>
-      <td><p>Character vector, containing a subset of <code>gs_id</code> as they are
-available in <code>res_enrich</code>. Lists the gene sets to be labeled.</p></td>
-    </tr>
-    <tr>
-      <th>plot_title</th>
-      <td><p>Character string, used as title for the plot. If left <code>NULL</code>,
-it defaults to a general description of the plot and of the DE contrast</p></td>
-    </tr>
-    <tr>
-      <th>return_data</th>
-      <td><p>Logical, whether the function should just return the
-data.frame of the MDS coordinates, related to the original <code>res_enrich</code>
-object. Defaults to FALSE.</p></td>
+      <th>verbose</th>
+      <td><p>Logical, to control level of verbosity of the messages generated</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>ggplot</code> object</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <p>Invisible NULL</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <div class='dont-index'><p><code><a href='create_kappa_matrix.html'>create_kappa_matrix()</a></code> is used to calculate the similarity between
-gene sets</p></div>
+    <p>Some suggestions on the requirements for the <code>gtl</code> are returned in the
+error messages.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -268,12 +203,14 @@ gene sets</p></div>
 <span class='va'>res_enrich</span> <span class='op'>&lt;-</span> <span class='fu'><a href='shake_topGOtableResult.html'>shake_topGOtableResult</a></span><span class='op'>(</span><span class='va'>topgoDE_macrophage_IFNg_vs_naive</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Found 500 gene sets in `topGOtableResult` object.</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div><div class='input'><span class='va'>res_enrich</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_aggrscores.html'>get_aggrscores</a></span><span class='op'>(</span><span class='va'>res_enrich</span>, <span class='va'>res_de</span>, <span class='va'>anno_df</span><span class='op'>)</span>
 
-<span class='fu'>gs_mds</span><span class='op'>(</span><span class='va'>res_enrich</span>,
-       <span class='va'>res_de</span>,
-       <span class='va'>anno_df</span>,
-       n_gs <span class='op'>=</span> <span class='fl'>200</span>,
-       mds_labels <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
-</div><div class='img'><img src='gs_mds-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='va'>gtl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>dds <span class='op'>=</span> <span class='va'>dds_macrophage</span>,
+            res_de <span class='op'>=</span> <span class='va'>res_de</span>,
+            res_enrich <span class='op'>=</span> <span class='va'>res_enrich</span>,
+            annotation_obj <span class='op'>=</span> <span class='va'>anno_df</span><span class='op'>)</span>
+
+<span class='fu'>checkup_gtl</span><span class='op'>(</span><span class='va'>gtl</span><span class='op'>)</span>
+<span class='co'># if all is fine, it should return an invisible NULL and a simple message</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

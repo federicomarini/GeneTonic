@@ -77,7 +77,7 @@ visNetwork::visIgraph()" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1</span>
       </span>
     </div>
 
@@ -145,6 +145,7 @@ and <code>res_de</code>. This object can be further plotted, e.g. statically via
   <span class='va'>res_enrich</span>,
   <span class='va'>res_de</span>,
   <span class='va'>annotation_obj</span>,
+  gtl <span class='op'>=</span> <span class='cn'>NULL</span>,
   n_gs <span class='op'>=</span> <span class='fl'>50</span>,
   gs_ids <span class='op'>=</span> <span class='cn'>NULL</span>,
   overlap_threshold <span class='op'>=</span> <span class='fl'>0.1</span>,
@@ -170,6 +171,12 @@ formatting requirements (a minimal set of columns should be present).</p></td>
       <th>annotation_obj</th>
       <td><p>A <code>data.frame</code> object with the feature annotation
 information, with at least two columns, <code>gene_id</code> and <code>gene_name</code>.</p></td>
+    </tr>
+    <tr>
+      <th>gtl</th>
+      <td><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
+specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
+of the list <em>must</em> be specified following the content they are expecting</p></td>
     </tr>
     <tr>
       <th>n_gs</th>
@@ -251,11 +258,11 @@ for coloring the plotted gene sets. Defaults to <code>gs_pvalue</code>.</p></td>
 <span class='op'>)</span>
 
 <span class='va'>em</span>
-</div><div class='output co'>#&gt; IGRAPH 7f13399 UN-- 20 54 -- 
+</div><div class='output co'>#&gt; IGRAPH b941ff7 UN-- 20 54 -- 
 #&gt; + attr: name (v/c), size (v/n), original_size (v/n), color.background
 #&gt; | (v/c), color.highlight (v/c), color.hover (v/c), color.border (v/c),
 #&gt; | width (e/n), color (e/c)
-#&gt; + edges from 7f13399 (vertex names):
+#&gt; + edges from b941ff7 (vertex names):
 #&gt; [1] adaptive immune response--interferon-gamma-mediated signaling pathway                                      
 #&gt; [2] adaptive immune response--antigen processing and presentation of endogenous peptide antigen via MHC class I
 #&gt; [3] adaptive immune response--positive regulation of T cell mediated cytotoxicity                              

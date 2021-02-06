@@ -76,7 +76,7 @@ in the contrast of interest" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1</span>
       </span>
     </div>
 
@@ -143,6 +143,7 @@ in the contrast of interest</p>
   <span class='va'>res_enrich</span>,
   <span class='va'>res_de</span>,
   <span class='va'>annotation_obj</span>,
+  gtl <span class='op'>=</span> <span class='cn'>NULL</span>,
   n_gs <span class='op'>=</span> <span class='fl'>50</span>,
   gs_ids <span class='op'>=</span> <span class='cn'>NULL</span>,
   chars_limit <span class='op'>=</span> <span class='fl'>70</span>,
@@ -166,6 +167,12 @@ formatting requirements (a minimal set of columns should be present).</p></td>
       <th>annotation_obj</th>
       <td><p>A <code>data.frame</code> object with the feature annotation.
 information, with at least two columns, <code>gene_id</code> and <code>gene_name</code>.</p></td>
+    </tr>
+    <tr>
+      <th>gtl</th>
+      <td><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
+specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
+of the list <em>must</em> be specified following the content they are expecting</p></td>
     </tr>
     <tr>
       <th>n_gs</th>

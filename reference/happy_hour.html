@@ -75,7 +75,7 @@ derived from the provided objects." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1</span>
       </span>
     </div>
 
@@ -142,6 +142,7 @@ derived from the provided objects.</p>
   <span class='va'>res_de</span>,
   <span class='va'>res_enrich</span>,
   <span class='va'>annotation_obj</span>,
+  gtl <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>project_id</span>,
   <span class='va'>mygenesets</span>,
   <span class='va'>mygenes</span>,
@@ -180,6 +181,12 @@ enrichment analysis. See <code><a href='GeneTonic.html'>GeneTonic()</a></code> f
       <td><p>A <code>data.frame</code> object with the feature annotation
 information, with at least two columns, <code>gene_id</code> and <code>gene_name</code>. See
 <code><a href='GeneTonic.html'>GeneTonic()</a></code> for the formatting requirements.</p></td>
+    </tr>
+    <tr>
+      <th>gtl</th>
+      <td><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
+specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
+of the list <em>must</em> be specified following the content they are expecting</p></td>
     </tr>
     <tr>
       <th>project_id</th>
