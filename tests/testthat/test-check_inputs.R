@@ -49,3 +49,45 @@ test_that("Warnings are thrown correctly", {
 
 
 })
+
+test_that("Messages are returned correctly", {
+  expect_message(
+    checkup_GeneTonic(
+      dds_macrophage,
+      res_macrophage_IFNg_vs_naive,
+      res_enrich_IFNg_vs_naive,
+      annotation_obj = anno_df,
+      verbose = TRUE
+    )
+  )
+})
+
+
+test_that("List-based input checks", {
+  
+  gtl <- list(
+    dds = dds_macrophage,
+    res_de = res_macrophage_IFNg_vs_naive,
+    res_enrich = res_enrich_IFNg_vs_naive,
+    annotation_obj = anno_df
+  )
+  
+  gtl_missing <- list(
+    dds = dds_macrophage,
+    res_de = res_macrophage_IFNg_vs_naive,
+    # res_enrich = res_enrich_IFNg_vs_naive,
+    annotation_obj = anno_df
+  )
+  
+  expect_message(
+    checkup_gtl(gtl, verbose = TRUE)
+  )
+  
+  expect_error(
+    checkup_gtl(gtl_missing)
+  )
+  
+  expect_error(
+    checkup_gtl(dds_macrophage)
+  )
+})

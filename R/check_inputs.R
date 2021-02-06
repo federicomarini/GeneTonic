@@ -16,7 +16,7 @@
 #' @param annotation_obj A `data.frame` object, containing two columns, `gene_id`
 #' with a set of unambiguous identifiers (e.g. ENSEMBL ids) and `gene_name`,
 #' containing e.g. HGNC-based gene symbols.
-#'
+#' @param verbose Logical, to control level of verbosity of the messages generated
 #' @return Invisible NULL
 #' @export
 #'
@@ -61,7 +61,8 @@
 checkup_GeneTonic <- function(dds,
                               res_de,
                               res_enrich,
-                              annotation_obj) {
+                              annotation_obj,
+                              verbose = FALSE) {
 
   # checking dds
   if (!is(dds, "DESeqDataSet"))
@@ -108,6 +109,95 @@ checkup_GeneTonic <- function(dds,
          "You can use e.g. `pcaExplorer::get_annotation_orgdb()` for this purpose.\n",
          "Required columns: ", paste(colnames_annotation_obj, collapse = ", "))
 
-  message("All set to enjoy GeneTonic!")
+  if (verbose)
+    message("All set to enjoy GeneTonic!")
   invisible(NULL)
 }
+
+
+#' Checking the `gtl` input object for GeneTonic
+#'
+#' Checking the `gtl` ("GeneTonic list") input object for GeneTonic, with the 
+#' correct content and format expected
+#'
+#' Some suggestions on the requirements for the `gtl` are returned in the
+#' error messages.
+#'
+#' @param gtl A `DESeqDataSet` object, normally obtained after running your data
+#' through the `DESeq2` framework.
+#' This list should contain
+#' - in the `dds` slot: A `DESeqDataSet` object
+#' - in the `res_de`: A `DESeqResults` object
+#' - in the `res_enrich`: A `data.frame` object, storing the result of the 
+#' functional enrichment analysis
+#' - in the `annotation_obj`: A `data.frame` object, containing two columns, 
+#' `gene_id` with a set of unambiguous identifiers (e.g. ENSEMBL ids) and 
+#' `gene_name`, containing e.g. HGNC-based gene symbols.
+#' @param verbose Logical, to control level of verbosity of the messages generated
+#'
+#' @return Invisible NULL
+#' @export
+#'
+#' @examples
+#'
+#' library("macrophage")
+#' library("DESeq2")
+#' library("org.Hs.eg.db")
+#' library("AnnotationDbi")
+#'
+#' # dds object
+#' data("gse", package = "macrophage")
+#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
+#' dds_macrophage <- estimateSizeFactors(dds_macrophage)
+#'
+#' # annotation object
+#' anno_df <- data.frame(
+#'   gene_id = rownames(dds_macrophage),
+#'   gene_name = mapIds(org.Hs.eg.db,
+#'                      keys = rownames(dds_macrophage),
+#'                      column = "SYMBOL",
+#'                      keytype = "ENSEMBL"),
+#'   stringsAsFactors = FALSE,
+#'   row.names = rownames(dds_macrophage)
+#' )
+#'
+#' # res object
+#' data(res_de_macrophage, package = "GeneTonic")
+#' res_de <- res_macrophage_IFNg_vs_naive
+#'
+#' # res_enrich object
+#' data(res_enrich_macrophage, package = "GeneTonic")
+#' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
+#' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
+#'
+#' gtl <- list(dds = dds_macrophage,
+#'             res_de = res_de,
+#'             res_enrich = res_enrich,
+#'             annotation_obj = anno_df)
+#' 
+#' checkup_gtl(gtl)
+#' # if all is fine, it should return an invisible NULL and a simple message
+checkup_gtl <- function(gtl,
+                        verbose = FALSE) {
+  
+  # checking gtl
+  if (!is(gtl, "list"))
+    stop("The provided `gtl` is not a list object, please check your input parameters")
+  
+  if(!all(c("dds", "res_de", "res_enrich", "annotation_obj") %in% names(gtl)))
+    stop("The names of the provided gtl object are not specified as expected")
+  
+  dds <- gtl$dds
+  res_de <- gtl$res_de
+  res_enrich <- gtl$res_enrich
+  annotation_obj <- gtl$annotation_obj
+  
+  if (verbose)
+    message("Parameter passed as a list...")
+  checkup_GeneTonic(dds, res_de, res_enrich, annotation_obj, verbose)
+  
+  invisible(NULL)
+}
+
+

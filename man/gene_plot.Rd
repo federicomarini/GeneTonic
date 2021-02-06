@@ -14,7 +14,8 @@ gene_plot(
   transform = TRUE,
   labels_repel = TRUE,
   plot_type = "auto",
-  return_data = FALSE
+  return_data = FALSE,
+  gtl = NULL
 )
 }
 \arguments{
@@ -51,6 +52,10 @@ samples in the smallest group defined via \code{intgroup}}
 \item{return_data}{Logical, whether the function should just return the
 data.frame of expression values and covariates for custom plotting. Defaults
 to FALSE.}
+
+\item{gtl}{A \code{GeneTonic}-list object, containing in its slots the arguments
+specified above: \code{dds}, \code{res_de}, \code{res_enrich}, and \code{annotation_obj} - the names
+of the list \emph{must} be specified following the content they are expecting}
 }
 \value{
 A \code{ggplot} object

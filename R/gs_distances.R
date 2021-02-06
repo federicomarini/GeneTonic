@@ -5,6 +5,9 @@
 #' @param res_enrich A `data.frame` object, storing the result of the functional
 #' enrichment analysis. See more in the main function, [GeneTonic()], to see the
 #' formatting requirements.
+#' @param gtl A `GeneTonic`-list object, containing in its slots the arguments
+#' specified above: `dds`, `res_de`, `res_enrich`, and `annotation_obj` - the names
+#' of the list _must_ be specified following the content they are expecting
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be included (from the top ranked ones). Defaults to the number of rows of
 #' `res_enrich`
@@ -27,10 +30,18 @@
 #' kmat <- create_kappa_matrix(res_enrich[1:200,])
 #' dim(kmat)
 create_kappa_matrix <- function(res_enrich,
+                                gtl = NULL,
                                 n_gs = nrow(res_enrich),
                                 gs_ids = NULL
 
                                 ) {
+  if (!is.null(gtl)) {
+    checkup_gtl(gtl)
+    dds <- gtl$dds
+    res_de <- gtl$res_de
+    res_enrich <- gtl$res_enrich
+    annotation_obj <- gtl$annotation_obj
+  }
 
   n_gs <- min(n_gs, nrow(res_enrich))
 
@@ -100,6 +111,9 @@ create_kappa_matrix <- function(res_enrich,
 #' @param res_enrich A `data.frame` object, storing the result of the functional
 #' enrichment analysis. See more in the main function, [GeneTonic()], to see the
 #' formatting requirements.
+#' @param gtl A `GeneTonic`-list object, containing in its slots the arguments
+#' specified above: `dds`, `res_de`, `res_enrich`, and `annotation_obj` - the names
+#' of the list _must_ be specified following the content they are expecting
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be included (from the top ranked ones). Defaults to the number of rows of
 #' `res_enrich`
@@ -124,10 +138,19 @@ create_kappa_matrix <- function(res_enrich,
 #' jmat <- create_jaccard_matrix(res_enrich[1:200,])
 #' dim(jmat)
 create_jaccard_matrix <- function(res_enrich,
+                                  gtl = NULL,
                                   n_gs = nrow(res_enrich),
                                   gs_ids = NULL,
                                   return_sym = FALSE) {
 
+  if (!is.null(gtl)) {
+    checkup_gtl(gtl)
+    dds <- gtl$dds
+    res_de <- gtl$res_de
+    res_enrich <- gtl$res_enrich
+    annotation_obj <- gtl$annotation_obj
+  }
+  
   n_gs <- min(n_gs, nrow(res_enrich))
 
   gs_to_use <- unique(

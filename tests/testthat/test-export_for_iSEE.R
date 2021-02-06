@@ -14,4 +14,14 @@ test_that("Export SE", {
     se2 <- export_for_iSEE(dds = dds_cutout, 
                            res_de = res_macrophage_IFNg_vs_naive)
   )
+  
+  gtl_macrophage <- list(dds = dds_macrophage,
+                         res_de = res_macrophage_IFNg_vs_naive,
+                         res_enrich = res_enrich_IFNg_vs_naive,
+                         annotation_obj = anno_df)
+  
+  se_gtl <- export_for_iSEE(gtl = gtl_macrophage)
+  expect_is(se_gtl, "SummarizedExperiment")
+  
+  expect_equal(se, se_gtl)
 })

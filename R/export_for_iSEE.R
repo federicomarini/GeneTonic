@@ -10,8 +10,11 @@
 #'
 #' @param dds A \code{\link{DESeqDataSet}} object.
 #' @param res_de A \code{\link{DESeqResults}} object.
-#'
-#' @return A SummarizedExperiment object, with raw counts, normalized counts, and 
+#' @param gtl A `GeneTonic`-list object, containing in its slots the arguments
+#' specified above: `dds`, `res_de`, `res_enrich`, and `annotation_obj` - the names
+#' of the list _must_ be specified following the content they are expecting
+#' 
+#' @return A `SummarizedExperiment` object, with raw counts, normalized counts, and 
 #' variance-stabilizing transformed counts in the assay slots; and with colData 
 #' and rowData extracted from the corresponding input parameters - mainly the 
 #' results for differential expression analysis.
@@ -36,7 +39,18 @@
 #' # dds_macrophage <- DESeq2::DESeq(dds_macrophage)
 #' se_macrophage <- export_for_iSEE(dds_macrophage, res_de)
 #' # iSEE(se_macrophage)
-export_for_iSEE <- function(dds, res_de) {
+export_for_iSEE <- function(dds, 
+                            res_de,
+                            gtl = NULL) {
+  
+  if (!is.null(gtl)) {
+    checkup_gtl(gtl)
+    dds <- gtl$dds
+    res_de <- gtl$res_de
+    res_enrich <- gtl$res_enrich
+    annotation_obj <- gtl$annotation_obj
+  }
+  
   # sanity checks on the objects
   if (length(setdiff(rownames(dds), rownames(res_de))) != 0 | 
       length(setdiff(rownames(res_de), rownames(dds))) != 0) {

@@ -43,6 +43,15 @@ test_that("Geneset heatmap is created", {
                    plot_title = "Just this as title"
   )
   expect_is(p3, "HeatmapList")
+  
+  gtl_macrophage <- list(dds = dds_macrophage,
+                         res_de = res_macrophage_IFNg_vs_naive,
+                         res_enrich = res_enrich_IFNg_vs_naive,
+                         annotation_obj = anno_df)
+  p4 <- gs_heatmap(se = vst_macrophage,
+                   gtl = gtl_macrophage,
+                   geneset_id = cur_gsid)
+  expect_is(p4, "HeatmapList")
 
   # enforcing id not present in the object
   mycustomlist <- c(

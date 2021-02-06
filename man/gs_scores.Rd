@@ -4,7 +4,7 @@
 \alias{gs_scores}
 \title{Compute gene set scores}
 \usage{
-gs_scores(se, res_de, res_enrich, annotation_obj = NULL)
+gs_scores(se, res_de, res_enrich, annotation_obj = NULL, gtl = NULL)
 }
 \arguments{
 \item{se}{A \code{SummarizedExperiment} object, or an object derived from this class,
@@ -20,6 +20,10 @@ formatting requirements (a minimal set of columns should be present).}
 
 \item{annotation_obj}{A \code{data.frame} object with the feature annotation
 information, with at least two columns, \code{gene_id} and \code{gene_name}.}
+
+\item{gtl}{A \code{GeneTonic}-list object, containing in its slots the arguments
+specified above: \code{dds}, \code{res_de}, \code{res_enrich}, and \code{annotation_obj} - the names
+of the list \emph{must} be specified following the content they are expecting}
 }
 \value{
 A matrix with the geneset Z scores, e.g. to be plotted with \code{\link[=gs_scoresheat]{gs_scoresheat()}}

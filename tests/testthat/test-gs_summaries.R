@@ -4,8 +4,17 @@ test_that("summary_heat plot is generated", {
   p <- gs_summary_heat(res_enrich = res_enrich_IFNg_vs_naive,
                        res_de = res_macrophage_IFNg_vs_naive,
                        annotation_obj = anno_df,
-                       n_gs = 30)
+                       n_gs = 20)
   expect_is(p, "gg")
+  
+  gtl_macrophage <- list(dds = dds_macrophage,
+                         res_de = res_macrophage_IFNg_vs_naive,
+                         res_enrich = res_enrich_IFNg_vs_naive,
+                         annotation_obj = anno_df)
+  
+  p2 <- gs_summary_heat(gtl = gtl_macrophage,
+                        n_gs = 20)
+  expect_is(p2, "gg")
 })
 
 test_that("summary plots are generated", {

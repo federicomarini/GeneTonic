@@ -33,6 +33,9 @@
 #' @param return_data Logical, whether the function should just return the
 #' data.frame of expression values and covariates for custom plotting. Defaults
 #' to FALSE.
+#' @param gtl A `GeneTonic`-list object, containing in its slots the arguments
+#' specified above: `dds`, `res_de`, `res_enrich`, and `annotation_obj` - the names
+#' of the list _must_ be specified following the content they are expecting
 #'
 #' @return A `ggplot` object
 #' @export
@@ -72,10 +75,20 @@ gene_plot <- function(dds,
                       transform = TRUE,
                       labels_repel = TRUE,
                       plot_type = "auto",
-                      return_data = FALSE) {
+                      return_data = FALSE,
+                      gtl = NULL) {
 
   plot_type <- match.arg(plot_type,
                          c("auto", "jitteronly", "boxplot", "violin", "sina"))
+  
+  if (!is.null(gtl)) {
+    checkup_gtl(gtl)
+    dds <- gtl$dds
+    res_de <- gtl$res_de
+    res_enrich <- gtl$res_enrich
+    annotation_obj <- gtl$annotation_obj
+  }
+  
   df <- get_expression_values(dds = dds,
                               gene = gene,
                               intgroup = intgroup,
