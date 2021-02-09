@@ -391,7 +391,14 @@ GeneTonic <- function(dds,
                 uiOutput("ui_ggs_genebox")
               )
             )
+          ),
+          fluidRow(
+            column(
+              width = 8,
+              uiOutput("ui_graph_summary")
+            )
           )
+          
         ),
         
         # ui panel enrichment map -------------------------------------------------
@@ -856,6 +863,26 @@ GeneTonic <- function(dds,
       cur_gsid <- res_enrich$gs_id[match(cur_sel, res_enrich$gs_description)]
       
       paste0("I'm selecting ", input$ggsnetwork_selected, ", which has index ", cur_node, " and is of type ", cur_nodetype, "this is from set", cur_gsid)
+    })
+    
+    output$ui_graph_summary <- renderUI({
+      tagList(
+        # TODO: if other UI elements should be in, we can place them here
+        DT::dataTableOutput("table_graph_summary")
+      )
+      
+    })
+    
+    output$table_graph_summary <- DT::renderDataTable({
+      g <- reactive_values$ggs_graph()
+      # TODO...
+      df_nodes <- data.frame(
+        node_name = V(g)$name,
+        node_type = V(g)$nodetype,
+        stringsAsFactors = FALSE
+      )
+      # TODO: here we should compute e.g. node based statistics for the graph (simplest: degree)
+      
     })
     
     output$ui_ggs_genesetbox <- renderUI({
