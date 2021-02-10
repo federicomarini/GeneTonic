@@ -203,3 +203,157 @@ ggs_graph <- function(res_enrich,
 
   return(g)
 }
+
+
+
+
+
+
+
+#' Extract the backbone for the gene-geneset graph
+#' 
+#' Extract the backbone for the gene-geneset graph, either for the genes or for the 
+#' genesets
+#'
+#' @param res_enrich A `data.frame` object, storing the result of the functional
+#' enrichment analysis. See more in the main function, [GeneTonic()], to check the
+#' formatting requirements (a minimal set of columns should be present).
+#' @param res_de A `DESeqResults` object.
+#' @param annotation_obj A `data.frame` object with the feature annotation
+#' information, with at least two columns, `gene_id` and `gene_name`.
+#' @param gtl A `GeneTonic`-list object, containing in its slots the arguments
+#' specified above: `dds`, `res_de`, `res_enrich`, and `annotation_obj` - the names
+#' of the list _must_ be specified following the content they are expecting
+#' @param n_gs Integer value, corresponding to the maximal number of gene sets to
+#' be included
+#' @param gs_ids Character vector, containing a subset of `gs_id` as they are
+#' available in `res_enrich`. Lists the gene sets to be included in addition to 
+#' the top ones (via `n_gs`)
+#' @param bb_on TODO
+#' @param bb_method TODO
+#' @param bb_extract_alpha TODO
+#' @param bb_extract_fwer TODO
+#' @param bb_fullinfo TODO
+#' @param ... TODO
+#'
+#' @return TODO
+#' @export
+#'
+#' @examples
+#' library("macrophage")
+#' library("DESeq2")
+#' library("org.Hs.eg.db")
+#' library("AnnotationDbi")
+#'
+#' # dds object
+#' data("gse", package = "macrophage")
+#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
+#' dds_macrophage <- estimateSizeFactors(dds_macrophage)
+#'
+#' # annotation object
+#' anno_df <- data.frame(
+#'   gene_id = rownames(dds_macrophage),
+#'   gene_name = mapIds(org.Hs.eg.db,
+#'                      keys = rownames(dds_macrophage),
+#'                      column = "SYMBOL",
+#'                      keytype = "ENSEMBL"),
+#'   stringsAsFactors = FALSE,
+#'   row.names = rownames(dds_macrophage)
+#' )
+#'
+#' # res object
+#' data(res_de_macrophage, package = "GeneTonic")
+#' res_de <- res_macrophage_IFNg_vs_naive
+#'
+#' # res_enrich object
+#' data(res_enrich_macrophage, package = "GeneTonic")
+#' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
+#' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
+#'
+#' ggs <- ggs_graph(res_enrich,
+#'                  res_de,
+#'                  anno_df
+#'                 )
+#' ggs_backbone <- ggs_backbone(res_enrich,
+#'                              res_de,
+#'                              anno_df,
+#'                              n_gs = 50,
+#'                              bb_on = "genesets"
+#' )
+#' plot(ggs_backbone)
+#' 
+ggs_backbone <- function(res_enrich,
+                         res_de,
+                         annotation_obj = NULL,
+                         gtl = NULL,
+                         n_gs = 15,
+                         gs_ids = NULL,
+                         bb_on = c("genesets", "features"),
+                         bb_method = c("sdsm", "fsdm", "hyperg", "universal"),
+                         bb_extract_alpha = 0.05,
+                         bb_extract_fwer = c("none","bonferroni","holm"),
+                         bb_fullinfo = FALSE,
+                         ...) {
+  if (!is.null(gtl)) {
+    checkup_gtl(gtl)
+    dds <- gtl$dds
+    res_de <- gtl$res_de
+    res_enrich <- gtl$res_enrich
+    annotation_obj <- gtl$annotation_obj
+  }
+  
+  bb_method <- match.arg(bb_method, c("sdsm", "fsdm", "hyperg", "universal"))
+  bb_extract_fwer = match.arg(bb_extract_fwer, c("none","bonferroni","holm"))
+  bb_on <- match.arg(bb_on, c("genesets", "features"))
+  
+  # first, compute the ggs graph object
+  ggs <- ggs_graph(res_enrich = res_enrich,
+                   res_de = res_de,
+                   annotation_obj = annotation_obj,
+                   gtl = gtl,
+                   n_gs = n_gs,
+                   gs_ids = gs_ids)
+  
+  # for making this a formal bipartite graph
+  V(ggs)$type <- V(ggs)$nodetype=="GeneSet"
+  
+  bpm <- igraph::as_incidence_matrix(ggs)
+  
+  if (bb_on =="features") {
+    bpm_for_backbone <- bpm
+  } else if (bb_on == "genesets") {
+    bpm_for_backbone <- t(bpm)
+  }
+  
+  if (bb_method == "sdsm") {
+    bbobj <- backbone::sdsm(bpm_for_backbone)
+  } else if (bb_method == "fdsm") {
+    bbobj <- backbone::fdsm(bpm_for_backbone, trials = 1000)
+  } else if (bb_method == "hyperg") {
+    bbobj <- backbone::hyperg(bpm_for_backbone)
+  } else if (bb_method == "universal") {
+    bbobj <- backbone::universal(bpm_for_backbone)
+    ## currently not working
+    ## fallback to 
+    bbobj <- backbone::hyperg(bpm_for_backbone)
+  }
+  
+  bbextracted <- backbone::backbone.extract(bbobj,
+                                            alpha = bb_extract_alpha,
+                                            fwer = bb_extract_fwer)
+  
+  bbgraph <- igraph::graph_from_adjacency_matrix(bbextracted, mode = "undirected")
+  
+  if (bb_fullinfo) {
+    return(
+      list(
+        bbgraph = bbgraph,
+        bbobj = bbobj,
+        ggs = ggs
+      )
+    )
+  } else {
+    return(bbgraph)
+  }
+}  
