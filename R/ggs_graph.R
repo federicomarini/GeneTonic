@@ -15,7 +15,8 @@
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be included
 #' @param gs_ids Character vector, containing a subset of `gs_id` as they are
-#' available in `res_enrich`. Lists the gene sets to be displayed.
+#' available in `res_enrich`. Lists the gene sets to be included in addition to 
+#' the top ones (via `n_gs`)
 #' @param prettify Logical, controlling the aspect of the returned graph object.
 #' If TRUE (default value), different shapes of the nodes are returned, based on
 #' the node type
@@ -96,7 +97,10 @@ ggs_graph <- function(res_enrich,
     res_enrich <- gtl$res_enrich
     annotation_obj <- gtl$annotation_obj
   }
-
+  
+  stopifnot(is.numeric(n_gs))
+  stopifnot(is.logical(prettify))
+  
   if (!is.null(genes_graph_colpal)) {
 
     if (!is(genes_graph_colpal, "character"))
