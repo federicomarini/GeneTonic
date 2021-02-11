@@ -229,14 +229,27 @@ ggs_graph <- function(res_enrich,
 #' @param gs_ids Character vector, containing a subset of `gs_id` as they are
 #' available in `res_enrich`. Lists the gene sets to be included in addition to 
 #' the top ones (via `n_gs`)
-#' @param bb_on TODO
-#' @param bb_method TODO
-#' @param bb_extract_alpha TODO
-#' @param bb_extract_fwer TODO
-#' @param bb_fullinfo TODO
-#' @param ... TODO
+#' @param bb_on A character string, either "genesets" or "features", to specify which
+#' entity should be based the backbone graph on.
+#' @param bb_method A character string, referring to the function to be called (
+#' from the `backbone` package) for computing the backbone of the specified 
+#' bipartite graph. Defaults to "sdsm", as recommended in the `backbone` package.
+#' @param bb_extract_alpha A numeric value, specifying the significance level to 
+#' use when detecting the backbone of the network 
+#' @param bb_extract_fwer A character string, defaulting to "none", specifying 
+#' which method to use for the multiple testing correction for controlling the 
+#' family-wise error rate
+#' @param bb_fullinfo Logical value, determining what will be returned as output:
+#' either a simple `ìgraph` object with the graph backbone (if set to `FALSE`), 
+#' or a list object containing also the `backbone` object, and the gene-geneset 
+#' graph used for the computation (if `TRUE`)
+#' @param ... Additional parameters to be passed internally
 #'
-#' @return TODO
+#' @return According to the `bb_fullinfo`, either a simple `ìgraph` object with 
+#' the graph backbone, or a named list object containing:
+#' - the `igraph` of the extracted backbone
+#' - the `backbone` object itself
+#' - the gene-geneset graph used for the computation
 #' @export
 #'
 #' @examples
@@ -290,7 +303,7 @@ ggs_backbone <- function(res_enrich,
                          n_gs = 15,
                          gs_ids = NULL,
                          bb_on = c("genesets", "features"),
-                         bb_method = c("sdsm", "fsdm", "hyperg", "universal"),
+                         bb_method = c("sdsm", "fsdm", "hyperg"),
                          bb_extract_alpha = 0.05,
                          bb_extract_fwer = c("none","bonferroni","holm"),
                          bb_fullinfo = FALSE,
@@ -303,7 +316,7 @@ ggs_backbone <- function(res_enrich,
     annotation_obj <- gtl$annotation_obj
   }
   
-  bb_method <- match.arg(bb_method, c("sdsm", "fsdm", "hyperg", "universal"))
+  bb_method <- match.arg(bb_method, c("sdsm", "fsdm", "hyperg"))
   bb_extract_fwer = match.arg(bb_extract_fwer, c("none","bonferroni","holm"))
   bb_on <- match.arg(bb_on, c("genesets", "features"))
   
@@ -331,11 +344,6 @@ ggs_backbone <- function(res_enrich,
   } else if (bb_method == "fdsm") {
     bbobj <- backbone::fdsm(bpm_for_backbone, trials = 1000)
   } else if (bb_method == "hyperg") {
-    bbobj <- backbone::hyperg(bpm_for_backbone)
-  } else if (bb_method == "universal") {
-    bbobj <- backbone::universal(bpm_for_backbone)
-    ## currently not working
-    ## fallback to 
     bbobj <- backbone::hyperg(bpm_for_backbone)
   }
   

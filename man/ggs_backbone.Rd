@@ -12,7 +12,7 @@ ggs_backbone(
   n_gs = 15,
   gs_ids = NULL,
   bb_on = c("genesets", "features"),
-  bb_method = c("sdsm", "fsdm", "hyperg", "universal"),
+  bb_method = c("sdsm", "fsdm", "hyperg"),
   bb_extract_alpha = 0.05,
   bb_extract_fwer = c("none", "bonferroni", "holm"),
   bb_fullinfo = FALSE,
@@ -40,20 +40,35 @@ be included}
 available in \code{res_enrich}. Lists the gene sets to be included in addition to
 the top ones (via \code{n_gs})}
 
-\item{bb_on}{TODO}
+\item{bb_on}{A character string, either "genesets" or "features", to specify which
+entity should be based the backbone graph on.}
 
-\item{bb_method}{TODO}
+\item{bb_method}{A character string, referring to the function to be called (
+from the \code{backbone} package) for computing the backbone of the specified
+bipartite graph. Defaults to "sdsm", as recommended in the \code{backbone} package.}
 
-\item{bb_extract_alpha}{TODO}
+\item{bb_extract_alpha}{A numeric value, specifying the significance level to
+use when detecting the backbone of the network}
 
-\item{bb_extract_fwer}{TODO}
+\item{bb_extract_fwer}{A character string, defaulting to "none", specifying
+which method to use for the multiple testing correction for controlling the
+family-wise error rate}
 
-\item{bb_fullinfo}{TODO}
+\item{bb_fullinfo}{Logical value, determining what will be returned as output:
+either a simple \code{ìgraph} object with the graph backbone (if set to \code{FALSE}),
+or a list object containing also the \code{backbone} object, and the gene-geneset
+graph used for the computation (if \code{TRUE})}
 
-\item{...}{TODO}
+\item{...}{Additional parameters to be passed internally}
 }
 \value{
-TODO
+According to the \code{bb_fullinfo}, either a simple \code{ìgraph} object with
+the graph backbone, or a named list object containing:
+\itemize{
+\item the \code{igraph} of the extracted backbone
+\item the \code{backbone} object itself
+\item the gene-geneset graph used for the computation
+}
 }
 \description{
 Extract the backbone for the gene-geneset graph, either for the genes or for the
