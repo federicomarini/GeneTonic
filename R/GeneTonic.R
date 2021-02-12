@@ -110,8 +110,10 @@ GeneTonic <- function(dds,
                     annotation_obj)
   
   # clean up the result object, e.g. removing the NAs in the relevant columns
-  res_de <- res_de[!is.na(res_de$log2FoldChange), ]
-  message("Removing ", sum(is.na(res_de$log2FoldChange)), " rows from the result object - logFC detected as NA")
+  removed_genes <- is.na(res_de$log2FoldChange)
+  message("Removing ", sum(removed_genes), 
+          "/", nrow(res_de), " rows from the DE `res_de` object - log2FC values detected as NA")
+  res_de <- res_de[!removed_genes, ]
   
   
   # UI definition -----------------------------------------------------------
