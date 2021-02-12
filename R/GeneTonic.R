@@ -722,6 +722,7 @@ GeneTonic <- function(dds,
       )
     })
     output$overview_res_de <- DT::renderDataTable({
+      res_de <- res_de[order(res_de$padj), ]
       DT::datatable(
         as.data.frame(res_de),
         options = list(
