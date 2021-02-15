@@ -672,7 +672,10 @@ GeneTonic <- function(dds,
                    label = "Number of genesets",
                    value = 15, min = 1, max = nrow(res_enrich)),
       selectInput("exp_condition", label = "Group/color by: ",
-                  choices = c(NULL, names(colData(dds))), selected = NULL, multiple = TRUE)
+                  choices = c(NULL, names(colData(dds))), selected = NULL, multiple = TRUE),
+      colourInput("col", "Select colour for volcano plot", "##1a81c2",
+                  returnName = TRUE,
+                  allowTransparent = TRUE)
     ),
     
     # footer definition -------------------------------------------------------
@@ -862,6 +865,7 @@ GeneTonic <- function(dds,
       tagList(
         # verbatimTextOutput("netnode"),
         plotOutput("net_sigheatplot"),
+        plotOutput("volcano_ggs"),
         uiOutput("ggs_geneset_info")
       )
     })
@@ -906,6 +910,26 @@ GeneTonic <- function(dds,
           scale_row = TRUE
         )
       }
+    })
+    
+    output$volcano_ggs <- renderPlot({
+      g <- reactive_values$ggs_graph()
+      cur_sel <- input$ggsnetwork_selected
+      cur_node <- match(cur_sel, V(g)$name)
+      cur_nodetype <- V(g)$nodetype[cur_node]
+      validate(need(cur_nodetype == "GeneSet",
+                    message = "Please select a gene set from the Gene-Geneset Graph."
+      ))
+      cur_gsid <- res_enrich$gs_id[match(input$ggsnetwork_selected, res_enrich$gs_description)]
+      
+      ggs_volcano(
+        res_de,
+        res_enrich,
+        annotation_obj = annotation_obj,
+        geneset_id = cur_gsid,
+        FDR = input$de_fdr,
+        color = input$col
+      )
     })
     
     output$ggs_geneset_info <- renderUI({
