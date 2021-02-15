@@ -29,8 +29,8 @@
 #' @importFrom graphics par plot
 #' @importFrom grDevices colorRampPalette rgb col2rgb
 #' @importFrom grid gpar
-#' @importFrom igraph add_edges as_adjacency_matrix as_incidence_matrix delete.edges
-#' "%du%" E "E<-" graph.data.frame induced_subgraph
+#' @importFrom igraph add_edges as_adjacency_matrix as_incidence_matrix degree
+#' delete.edges delete_vertices "%du%" E "E<-" graph.data.frame induced_subgraph
 #' make_full_graph permute.vertices strength V "V<-" vcount get.edgelist
 #' @importFrom matrixStats rowSds
 #' @importFrom methods is

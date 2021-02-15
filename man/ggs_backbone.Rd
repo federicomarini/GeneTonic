@@ -16,6 +16,10 @@ ggs_backbone(
   bb_extract_alpha = 0.05,
   bb_extract_fwer = c("none", "bonferroni", "holm"),
   bb_fullinfo = FALSE,
+  bb_remove_singletons = TRUE,
+  color_graph = TRUE,
+  color_by_geneset = "z_score",
+  color_by_feature = "log2FoldChange",
   ...
 )
 }
@@ -58,6 +62,22 @@ family-wise error rate}
 either a simple \code{ìgraph} object with the graph backbone (if set to \code{FALSE}),
 or a list object containing also the \code{backbone} object, and the gene-geneset
 graph used for the computation (if \code{TRUE})}
+
+\item{bb_remove_singletons}{Logical value, defines whether to remove or leave
+in the returned graph the nodes that are not connected to other vertices}
+
+\item{color_graph}{Logical value, specifies whether to use information about
+genesets or features to colorize the nodes, e.g. for this info to be used in
+interactive versions of the graph}
+
+\item{color_by_geneset}{Character string, corresponding to the column in
+\code{res_enrich} to be used for coloring the nodes if \code{bb_on} is set to "genesets".
+Defaults to the "z_score", which can be obtained via \code{get_aggrscores()}}
+
+\item{color_by_feature}{Character string, corresponding to the column in
+\code{res_de} to be used for coloring the nodes if \code{bb_on} is set to "features".
+Defaults to the "log2FoldChange", which should be normally included in a
+DESeqResults object.}
 
 \item{...}{Additional parameters to be passed internally}
 }
@@ -106,16 +126,17 @@ data(res_enrich_macrophage, package = "GeneTonic")
 res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 
-ggs <- ggs_graph(res_enrich,
-                 res_de,
-                 anno_df
-                )
-ggs_backbone <- ggs_backbone(res_enrich,
+ggs_bbg <- ggs_backbone(res_enrich,
                              res_de,
                              anno_df,
                              n_gs = 50,
-                             bb_on = "genesets"
+                             bb_on = "genesets",
+                             color_graph = TRUE,
+                             color_by_geneset = "z_score"
 )
-plot(ggs_backbone)
+plot(ggs_bbg)
+
+# if desired, one can also plot the interactive version
+visNetwork::visIgraph(ggs_bbg)
 
 }
