@@ -288,13 +288,13 @@ ggs_graph <- function(res_enrich,
 #'                  res_de,
 #'                  anno_df
 #'                 )
-#' ggs_backbone <- ggs_backbone(res_enrich,
+#' ggs_bbg <- ggs_backbone(res_enrich,
 #'                              res_de,
 #'                              anno_df,
 #'                              n_gs = 50,
 #'                              bb_on = "genesets"
 #' )
-#' plot(ggs_backbone)
+#' plot(ggs_bbg)
 #' 
 ggs_backbone <- function(res_enrich,
                          res_de,
