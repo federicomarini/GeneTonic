@@ -308,6 +308,10 @@ ggs_backbone <- function(res_enrich,
                          bb_extract_alpha = 0.05,
                          bb_extract_fwer = c("none","bonferroni","holm"),
                          bb_fullinfo = FALSE,
+                         bb_remove_singletons = TRUE,
+                         color_graph = TRUE,
+                         color_by_geneset = "z_score",
+                         color_by_feature = "log2FoldChange",
                          ...) {
   if (!is.null(gtl)) {
     checkup_gtl(gtl)
@@ -315,6 +319,28 @@ ggs_backbone <- function(res_enrich,
     res_de <- gtl$res_de
     res_enrich <- gtl$res_enrich
     annotation_obj <- gtl$annotation_obj
+  }
+  
+  stopifnot(is.logical(bb_fullinfo))
+  stopifnot(is.logical(bb_remove_singletons))
+  stopifnot(is.logical(color_graph))
+  
+  # check that columns to encode the colors are present
+  if (color_graph) {
+    if (bb_on == "genesets") {
+      if (!color_by_geneset %in% colnames(res_enrich))
+        stop("Your res_enrich object does not contain the ",
+             color_by_geneset,
+             " column.\n",
+             "Compute this first or select another column to use for the color.")
+      
+    } else if (bb_on == "features") {
+      if (!color_by_feature %in% colnames(res_de))
+        stop("Your res_de object does not contain the ",
+             color_by_feature,
+             " column.\n",
+             "Compute this first or select another column to use for the color.")
+    }
   }
   
   bb_method <- match.arg(bb_method, c("sdsm", "fsdm", "hyperg"))
