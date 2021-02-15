@@ -394,10 +394,35 @@ GeneTonic <- function(dds,
               )
             )
           ),
+          
           fluidRow(
-            column(
-              width = 8,
-              uiOutput("ui_graph_summary")
+            bs4Dash::bs4Card(
+              width = 12,
+              inputId = "card_ggsbackbone",
+              title = "Gene-geneset graph summaries",
+              status = "info",
+              solidHeader = FALSE,
+              collapsible = TRUE,
+              collapsed = TRUE,
+              closable = FALSE,
+              fluidRow(
+                column(
+                  width = 8,
+                  uiOutput("ui_backbone_launch"),
+                  radioButtons(inputId = "backbone_on", 
+                               label = "Compute the backbone on",
+                               choices = c("genesets", "features"),
+                               selected = "genesets",
+                               inline = TRUE),
+                  withSpinner(
+                    visNetworkOutput("backbone_graph")
+                  )
+                ),
+                column(
+                  width = 4,
+                  uiOutput("ui_graph_summary")
+                )
+              )
             )
           )
           
@@ -871,6 +896,7 @@ GeneTonic <- function(dds,
     output$ui_graph_summary <- renderUI({
       tagList(
         # TODO: if other UI elements should be in, we can place them here
+        h4("Highly connected genes"),
         DT::dataTableOutput("table_graph_summary")
       )
       
@@ -996,6 +1022,36 @@ GeneTonic <- function(dds,
       )
     })
     
+    reactive_values$backbone_graph <- reactive({
+      
+      not_msg <- sprintf("Computing backbone on %s of the current gene-geneset graph, please hold on...", input$backbone_on)
+      showNotification(not_msg)
+      
+      bbg <- ggs_backbone(
+        res_enrich = res_enrich,
+        res_de = res_de,
+        annotation_obj = annotation_obj,
+        n_gs = input$n_genesets,
+        bb_on = input$backbone_on
+        # prettify = TRUE,
+        # geneset_graph_color = "gold"
+      )
+      return(bbg)
+    })
+    
+    output$backbone_graph <- renderVisNetwork({
+      # minimal example
+      
+      visNetwork::visIgraph(reactive_values$backbone_graph()) %>%
+        visOptions(highlightNearest = list(enabled = TRUE,
+                                           degree = 1,
+                                           hover = TRUE),
+                   nodesIdSelection = TRUE) %>% 
+        visExport(name = "backbone_network", 
+                  type = "png",
+                  label = "Save backbone graph")
+      
+    })
     
     
     # panel EnrichmentMap -----------------------------------------------------
