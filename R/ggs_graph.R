@@ -337,6 +337,10 @@ ggs_backbone <- function(res_enrich,
   stopifnot(is.logical(bb_remove_singletons))
   stopifnot(is.logical(color_graph))
   
+  bb_method <- match.arg(bb_method, c("sdsm", "fsdm", "hyperg"))
+  bb_extract_fwer = match.arg(bb_extract_fwer, c("none","bonferroni","holm"))
+  bb_on <- match.arg(bb_on, c("genesets", "features"))
+  
   # check that columns to encode the colors are present
   if (color_graph) {
     if (bb_on == "genesets") {
@@ -354,10 +358,6 @@ ggs_backbone <- function(res_enrich,
              "Compute this first or select another column to use for the color.")
     }
   }
-  
-  bb_method <- match.arg(bb_method, c("sdsm", "fsdm", "hyperg"))
-  bb_extract_fwer = match.arg(bb_extract_fwer, c("none","bonferroni","holm"))
-  bb_on <- match.arg(bb_on, c("genesets", "features"))
   
   # first, compute the ggs graph object
   ggs <- ggs_graph(res_enrich = res_enrich,
