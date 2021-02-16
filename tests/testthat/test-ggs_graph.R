@@ -48,3 +48,68 @@ test_that("Graph is generated", {
               n_gs = 20)
   )
 })
+
+
+test_that("Backbone functionality up and running", {
+  res_enrich_nozscore <- res_enrich_IFNg_vs_naive
+  res_enrich_IFNg_vs_naive <- get_aggrscores(res_enrich_IFNg_vs_naive,
+                                             res_macrophage_IFNg_vs_naive,
+                                             anno_df)
+  bbg <- ggs_backbone(res_enrich = res_enrich_IFNg_vs_naive,
+                      res_de = res_macrophage_IFNg_vs_naive,
+                      annotation_obj = anno_df,
+                      n_gs = 10,
+                      bb_on = "genesets")
+  expect_is(bbg, "igraph")
+  bbg2 <- ggs_backbone(res_enrich = res_enrich_IFNg_vs_naive,
+                       res_de = res_macrophage_IFNg_vs_naive,
+                       annotation_obj = anno_df,
+                       n_gs = 20,
+                       bb_on = "features",
+                       bb_method = "hyperg",
+                       bb_remove_singletons = FALSE,
+                       bb_fullinfo = TRUE)
+  expect_is(bbg2, "list")
+  expect_is(bbg2$bbgraph, "igraph")
+  expect_is(bbg2$ggs, "igraph")
+  
+  gtl_macrophage <- list(dds = dds_macrophage,
+                         res_de = res_macrophage_IFNg_vs_naive,
+                         res_enrich = res_enrich_IFNg_vs_naive,
+                         annotation_obj = anno_df)
+  bbg3 <- ggs_backbone(gtl = gtl_macrophage,
+                       n_gs = 10) 
+  expect_is(bbg3, "igraph")
+  
+  expect_true(identical_graphs(bbg, bbg3))
+  
+  expect_error(
+    ggs_backbone(res_enrich = res_enrich_nozscore,
+                 res_de = res_macrophage_IFNg_vs_naive,
+                 annotation_obj = anno_df,
+                 n_gs = 10,
+                 bb_on = "genesets")
+  )
+  
+  res_de_nolfc <- res_macrophage_IFNg_vs_naive
+  res_de_nolfc$log2FoldChange <- NULL
+  
+  expect_error(
+    ggs_backbone(res_enrich = res_enrich_IFNg_vs_naive,
+                 res_de = res_de_nolfc,
+                 annotation_obj = anno_df,
+                 n_gs = 10,
+                 bb_on = "features")
+  )
+  
+  expect_error(
+    ggs_backbone(res_enrich = res_enrich_IFNg_vs_naive,
+                 res_de = res_macrophage_IFNg_vs_naive,
+                 annotation_obj = anno_df,
+                 n_gs = 10,
+                 bb_on = "genesets",
+                 color_by_geneset = "some_column_not_there")
+  )
+  
+})
+
