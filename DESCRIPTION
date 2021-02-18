@@ -23,6 +23,7 @@ Imports:
     AnnotationDbi,
     bs4Dash,
     colorspace,
+	colourpicker,
     ComplexHeatmap,
     dendextend,
     DESeq2,
