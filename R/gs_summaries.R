@@ -208,8 +208,8 @@ gs_summary_overview_pair <- function(res_enrich,
     geom_point(aes(fill = .data[[color_by]]), size = 4, pch = 21) +
     geom_point(aes_string(y = "logp10_2", col = paste0(color_by, "_2")),
                size = 4, alpha = alpha_set2) +
-    scale_color_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
-    scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026", guide = FALSE) +
+    scale_color_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026", name = paste0(color_by, " set 2")) +
+    scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026", name = paste0(color_by, " set 1")) +
     coord_flip() +
     labs(x = "Gene set description",
          y = "-log10 p-value",
