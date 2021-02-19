@@ -73,6 +73,8 @@ res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 
 gs_summary_overview(res_enrich)
 
+# if desired, it can also be shown as a barplot
+gs_summary_overview(res_enrich, 30, return_barchart = TRUE)
 }
 \seealso{
 \code{\link[=gs_summary_overview_pair]{gs_summary_overview_pair()}}, \code{\link[=gs_horizon]{gs_horizon()}}
