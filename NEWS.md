@@ -7,6 +7,8 @@
   
 * A new function to perform fuzzy clustering (following the implementation of DAVID) is added - see `gs_fuzzyclustering()`. It returns a table with additional information on the cluster of genesets and the status of each set in the group.  
 
+* `gs_summary_overview` can also generate bar plots instead of the default segment-dot (lollipop) plots
+
 # GeneTonic 1.2.0
 
 ## New features
