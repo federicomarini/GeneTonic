@@ -27,6 +27,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -39,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.2</span>
       </span>
     </div>
 
@@ -97,7 +99,7 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#genetonic" class="anchor"></a>GeneTonic</h1></div>
 <!-- badges: start -->
-<p><a href="https://github.com/federicomarini/GeneTonic/actions"><img src="https://github.com/federicomarini/GeneTonic/workflows/R-CMD-check/badge.svg" alt="R build status"></a> <a href="https://bioconductor.org/checkResults/devel/bioc-LATEST/GeneTonic/"><img src="https://bioconductor.org/shields/build/devel/bioc/GeneTonic.svg"></a> <a href="https://github.com/federicomarini/GeneTonic/commits/master"><img src="https://img.shields.io/github/last-commit/federicomarini/GeneTonic.svg"></a> <a href="https://www.tidyverse.org/lifecycle/#stable"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a> <a href="https://codecov.io/github/federicomarini/GeneTonic"><img src="https://codecov.io/github/federicomarini/GeneTonic/coverage.svg?branch=master" alt="Codecov.io coverage status"></a> <!-- badges: end --></p>
+<p><a href="https://github.com/federicomarini/GeneTonic/actions" class="external-link"><img src="https://github.com/federicomarini/GeneTonic/workflows/R-CMD-check/badge.svg" alt="R build status"></a> <a href="https://bioconductor.org/checkResults/devel/bioc-LATEST/GeneTonic/" class="external-link"><img src="https://bioconductor.org/shields/build/devel/bioc/GeneTonic.svg"></a> <a href="https://github.com/federicomarini/GeneTonic/commits/master" class="external-link"><img src="https://img.shields.io/github/last-commit/federicomarini/GeneTonic.svg"></a> <a href="https://www.tidyverse.org/lifecycle/#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a> <a href="https://codecov.io/github/federicomarini/GeneTonic" class="external-link"><img src="https://codecov.io/github/federicomarini/GeneTonic/coverage.svg?branch=master" alt="Codecov.io coverage status"></a> <!-- badges: end --></p>
 <p>The goal of GeneTonic is to analyze and integrate the results from Differential Expression analysis and functional enrichment analysis.</p>
 <p>This package provides a Shiny application that aims to combine at different levels the existing pieces of the transcriptome data and results, in a way that makes it easier to generate insightful observations and hypothesis - combining the benefits of interactivity and reproducibility, e.g. by capturing the features and gene sets of interest highlighted during the live session, and creating an HTML report as an artifact where text, code, and output coexist.</p>
 <div id="installation" class="section level2">
@@ -105,8 +107,8 @@
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install the development version of GeneTonic from GitHub with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://remotes.r-lib.org">"remotes"</a></span><span class="op">)</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"federicomarini/GeneTonic"</span>, 
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://remotes.r-lib.org" class="external-link">"remotes"</a></span><span class="op">)</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"federicomarini/GeneTonic"</span>, 
                         dependencies <span class="op">=</span> <span class="cn">TRUE</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="example" class="section level2">
@@ -114,38 +116,38 @@
 <a href="#example" class="anchor"></a>Example</h2>
 <p>This is a basic example which shows you how to use <code>GeneTonic</code> on a demo dataset (the one included in the <code>macrophage</code> package).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/federicomarini/GeneTonic">"GeneTonic"</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/example.html">example</a></span><span class="op">(</span><span class="st">"GeneTonic"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/federicomarini/GeneTonic" class="external-link">"GeneTonic"</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/example.html" class="external-link">example</a></span><span class="op">(</span><span class="st">"GeneTonic"</span><span class="op">)</span>
 
 <span class="co"># which will in the end run</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st">"macrophage"</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/mikelove/DESeq2">"DESeq2"</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st">"org.Hs.eg.db"</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://bioconductor.org/packages/AnnotationDbi">"AnnotationDbi"</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"macrophage"</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/mikelove/DESeq2" class="external-link">"DESeq2"</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"org.Hs.eg.db"</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://bioconductor.org/packages/AnnotationDbi" class="external-link">"AnnotationDbi"</a></span><span class="op">)</span>
 
 <span class="co"># dds object</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"gse"</span>, package <span class="op">=</span> <span class="st">"macrophage"</span><span class="op">)</span>
-<span class="va">dds_macrophage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html">DESeqDataSet</a></span><span class="op">(</span><span class="va">gse</span>, design <span class="op">=</span> <span class="op">~</span><span class="va">line</span> <span class="op">+</span> <span class="va">condition</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html">substr</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>, <span class="fl">1</span>, <span class="fl">15</span><span class="op">)</span>
-<span class="va">dds_macrophage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/estimateSizeFactors.html">estimateSizeFactors</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"gse"</span>, package <span class="op">=</span> <span class="st">"macrophage"</span><span class="op">)</span>
+<span class="va">dds_macrophage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html" class="external-link">DESeqDataSet</a></span><span class="op">(</span><span class="va">gse</span>, design <span class="op">=</span> <span class="op">~</span><span class="va">line</span> <span class="op">+</span> <span class="va">condition</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>, <span class="fl">1</span>, <span class="fl">15</span><span class="op">)</span>
+<span class="va">dds_macrophage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/estimateSizeFactors.html" class="external-link">estimateSizeFactors</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>
 
 <span class="co"># annotation object</span>
-<span class="va">anno_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
-  gene_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>,
-  gene_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/AnnotationDb-class.html">mapIds</a></span><span class="op">(</span><span class="va">org.Hs.eg.db</span>,
-                     keys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>,
+<span class="va">anno_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>
+  gene_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>,
+  gene_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/AnnotationDb-class.html" class="external-link">mapIds</a></span><span class="op">(</span><span class="va">org.Hs.eg.db</span>,
+                     keys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>,
                      column <span class="op">=</span> <span class="st">"SYMBOL"</span>,
                      keytype <span class="op">=</span> <span class="st">"ENSEMBL"</span><span class="op">)</span>,
   stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>,
-  row.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>
+  row.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>
 <span class="op">)</span>
 
 <span class="co"># res object</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">res_de_macrophage</span>, package <span class="op">=</span> <span class="st">"GeneTonic"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">res_de_macrophage</span>, package <span class="op">=</span> <span class="st">"GeneTonic"</span><span class="op">)</span>
 <span class="va">res_de</span> <span class="op">&lt;-</span> <span class="va">res_macrophage_IFNg_vs_naive</span>
 
 <span class="co"># res_enrich object</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">res_enrich_macrophage</span>, package <span class="op">=</span> <span class="st">"GeneTonic"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">res_enrich_macrophage</span>, package <span class="op">=</span> <span class="st">"GeneTonic"</span><span class="op">)</span>
 <span class="va">res_enrich</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/shake_topGOtableResult.html">shake_topGOtableResult</a></span><span class="op">(</span><span class="va">topgoDE_macrophage_IFNg_vs_naive</span><span class="op">)</span>
 
 <span class="fu"><a href="reference/GeneTonic.html">GeneTonic</a></span><span class="op">(</span>dds <span class="op">=</span> <span class="va">dds_macrophage</span>,
@@ -157,17 +159,17 @@
 <div id="usage-overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage-overview" class="anchor"></a>Usage overview</h2>
-<p>You can find the rendered version of the documentation of <code>GeneTonic</code> at the project website <a href="https://federicomarini.github.io/GeneTonic" class="uri">https://federicomarini.github.io/GeneTonic</a>, created with <code>pkgdown</code>.</p>
+<p>You can find the rendered version of the documentation of <code>GeneTonic</code> at the project website <a href="https://federicomarini.github.io/GeneTonic" class="external-link">https://federicomarini.github.io/GeneTonic</a>, created with <code>pkgdown</code>.</p>
 </div>
 <div id="sneak-peek" class="section level2">
 <h2 class="hasAnchor">
 <a href="#sneak-peek" class="anchor"></a>Sneak peek?</h2>
-<p>Please visit <a href="http://shiny.imbei.uni-mainz.de:3838/GeneTonic/" class="uri">http://shiny.imbei.uni-mainz.de:3838/GeneTonic/</a> to see a small demo instance running, on the <code>macrophage</code> dataset.</p>
+<p>Please visit <a href="http://shiny.imbei.uni-mainz.de:3838/GeneTonic/" class="external-link">http://shiny.imbei.uni-mainz.de:3838/GeneTonic/</a> to see a small demo instance running, on the <code>macrophage</code> dataset.</p>
 </div>
 <div id="development" class="section level2">
 <h2 class="hasAnchor">
 <a href="#development" class="anchor"></a>Development</h2>
-<p>If you encounter a bug, have usage questions, or want to share ideas and functionality to make this package better, feel free to file an <a href="https://github.com/federicomarini/GeneTonic/issues">issue</a>.</p>
+<p>If you encounter a bug, have usage questions, or want to share ideas and functionality to make this package better, feel free to file an <a href="https://github.com/federicomarini/GeneTonic/issues" class="external-link">issue</a>.</p>
 </div>
 <div id="code-of-conduct" class="section level2">
 <h2 class="hasAnchor">
@@ -185,7 +187,7 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
 <li>Download from BIOC at <br><a href="https://www.bioconductor.org/packages/GeneTonic">https://​www.bioconductor.org/​packages/​GeneTonic</a>
 </li>
@@ -195,37 +197,44 @@
 </li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
 <li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
+
 <div class="community">
-<h2>Community</h2>
+<h2 data-toc-skip>Community</h2>
 <ul class="list-unstyled">
 <li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
 </ul>
 </div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>
 <a href="https://federicomarini.github.io">Federico Marini</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-3252-7758" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
 
+
+
   </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://federicomarini.github.io">Federico Marini</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://federicomarini.github.io" class="external-link">Federico Marini</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
@@ -233,6 +242,8 @@
 
   
 
+
+  
 
   </body>
 </html>
