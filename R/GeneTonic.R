@@ -673,9 +673,10 @@ GeneTonic <- function(dds,
                    value = 15, min = 1, max = nrow(res_enrich)),
       selectInput("exp_condition", label = "Group/color by: ",
                   choices = c(NULL, names(colData(dds))), selected = NULL, multiple = TRUE),
-      colourInput("col", "Select colour for volcano plot", "##1a81c2",
+      colourInput("col", "Select colour for volcano plot", "#1a81c2",
                   returnName = TRUE,
-                  allowTransparent = TRUE)
+                  allowTransparent = TRUE),
+      checkboxInput("labels", label = "Display all labels", value = FALSE)
     ),
     
     # footer definition -------------------------------------------------------
@@ -922,14 +923,26 @@ GeneTonic <- function(dds,
       ))
       cur_gsid <- res_enrich$gs_id[match(input$ggsnetwork_selected, res_enrich$gs_description)]
       
-      ggs_volcano(
-        res_de,
-        res_enrich,
-        annotation_obj = annotation_obj,
-        geneset_id = cur_gsid,
-        FDR = input$de_fdr,
-        color = input$col
-      )
+      if (input$labels) {
+        ggs_volcano(
+          res_de,
+          res_enrich,
+          annotation_obj = annotation_obj,
+          geneset_id = cur_gsid,
+          FDR = input$de_fdr,
+          color = input$col,
+          volcano_labels = Inf
+        )
+      } else {
+        ggs_volcano(
+          res_de,
+          res_enrich,
+          annotation_obj = annotation_obj,
+          geneset_id = cur_gsid,
+          FDR = input$de_fdr,
+          color = input$col
+       )
+      }
     })
     
     output$ggs_geneset_info <- renderUI({
