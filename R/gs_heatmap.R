@@ -133,7 +133,6 @@ gs_heatmap <- function(se,
     thisset_name <- "Custom list"
   }
 
-  thisset_members_ids
   sig_to_keep <- (thisset_members_ids %in% rownames(se))#
   thisset_members_ids_available <- thisset_members_ids[sig_to_keep]
 
