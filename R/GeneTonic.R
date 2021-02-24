@@ -58,6 +58,7 @@
 #'   row.names = rownames(dds_macrophage)
 #' )
 #'
+#' 
 #' # res object
 #' data(res_de_macrophage, package = "GeneTonic")
 #' res_de <- res_macrophage_IFNg_vs_naive
@@ -866,7 +867,7 @@ GeneTonic <- function(dds,
       tagList(
         # verbatimTextOutput("netnode"),
         plotOutput("net_sigheatplot"),
-        plotOutput("volcano_ggs"),
+        plotOutput("sig_volcano"),
         uiOutput("ggs_geneset_info")
       )
     })
@@ -913,7 +914,7 @@ GeneTonic <- function(dds,
       }
     })
     
-    output$volcano_ggs <- renderPlot({
+    output$sig_volcano <- renderPlot({
       g <- reactive_values$ggs_graph()
       cur_sel <- input$ggsnetwork_selected
       cur_node <- match(cur_sel, V(g)$name)
@@ -924,7 +925,7 @@ GeneTonic <- function(dds,
       cur_gsid <- res_enrich$gs_id[match(input$ggsnetwork_selected, res_enrich$gs_description)]
       
       if (input$labels) {
-        ggs_volcano(
+        signature_volcano(
           res_de,
           res_enrich,
           annotation_obj = annotation_obj,
@@ -934,7 +935,7 @@ GeneTonic <- function(dds,
           volcano_labels = Inf
         )
       } else {
-        ggs_volcano(
+        signature_volcano(
           res_de,
           res_enrich,
           annotation_obj = annotation_obj,

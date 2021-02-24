@@ -8,11 +8,13 @@ element;intro
 #controlbar-toggle;Close back the controlbar.
 #ggsnetwork;You can interact with the network visualization, either by clicking on a desired node (you can zoom in with the mouse wheel of with the trackpad)...
 #nodeSelectggsnetwork;... or by selecting one here - first the gene sets are displayed, then the genes. Now select a gene set of interest.
-#ui_ggs_genesetbox;Whenever you select something, some additional content gets displayed in the boxes on the right side. If you selected a gene set, you should see some summary information on the geneset, referred to the inputs you provided, below a signature heatmap including all the genes annotated to the gene set.
+#ui_ggs_genesetbox;Whenever you select something, some additional content gets displayed in the boxes on the right side. If you selected a gene set, you should see some summary information on the geneset, referred to the inputs you provided, below a signature heatmap and a signature volcano plot including all the genes annotated to the gene set.
 #ggsnetwork;You can go back to the main network view, and select a gene now.
 #ui_ggs_genebox;See how some links to the selected gene get automatically generated as action buttons - to the NCBI and the GeneCards databases.
 #controlbar-toggle;Toggle again the control bar...
-#exp_condition + .selectize-control;... and select for example 'condition' from the dropdown select input.
+#exp_condition + .selectize-control;... and select for example 'condition' from the dropdown select input...
+#col; ... or you use the <b> Select color for volcano plot </b> option. With this you can change the color and transparency and the genes of the chosen geneset will be displayed accordingly.
+#labels; Also you can decide to check the <b> Display all labels </b> box. This will add the names of all genes in the geneset to the signature volcano plot - otherwise only a small number is displayed to keep a clearly represented plot. 
 #controlbar-toggle;Close back the control bar.
 #ui_ggs_genebox;You can see how the gene infobox also added a plot on the selected gene, split by the factor you specified in the select widget.
 #ggsnetwork;You can be interested in a number of genes and gene sets. <code>GeneTonic</code> supports functions for bookmarking all these entities and combine them together in an HTML report. Select any node now...
