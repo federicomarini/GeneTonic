@@ -10,6 +10,8 @@
 * A new function, `signature_volcano()`, adds a signature volcano plot to the `Gene-Geneset` panel. This plot display the genes of a chosen geneset in color, while the remaining genes of the data are shown as shaded dots in the background. 
   The color and transparency of the displayed genes can be chosen by the user, as well as the option to display the gene names of all genes in the geneset.
 
+* `gs_summary_overview` can also generate bar plots instead of the default segment-dot (lollipop) plots
+
 # GeneTonic 1.2.0
 
 ## New features

@@ -8,7 +8,8 @@ gs_summary_overview(
   res_enrich,
   n_gs = 20,
   p_value_column = "gs_pvalue",
-  color_by = "z_score"
+  color_by = "z_score",
+  return_barchart = FALSE
 )
 }
 \arguments{
@@ -26,6 +27,9 @@ p-value - have been specified).}
 
 \item{color_by}{Character, specifying the column of \code{res_enrich} to be used
 for coloring the plotted gene sets. Defaults sensibly to \code{z_score}.}
+
+\item{return_barchart}{Logical, whether to return a barchart (instead of the
+default dot-segment plot); defaults to FALSE.}
 }
 \value{
 A \code{ggplot} object
@@ -69,6 +73,8 @@ res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 
 gs_summary_overview(res_enrich)
 
+# if desired, it can also be shown as a barplot
+gs_summary_overview(res_enrich, 30, return_barchart = TRUE)
 }
 \seealso{
 \code{\link[=gs_summary_overview_pair]{gs_summary_overview_pair()}}, \code{\link[=gs_horizon]{gs_horizon()}}

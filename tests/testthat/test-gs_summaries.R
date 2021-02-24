@@ -34,8 +34,15 @@ test_that("summary plots are generated", {
   res_enrich2$aggr_score <- res_enrich2$aggr_score[shuffled_ones]
 
   p1 <- gs_summary_overview(res_enrich_withscores)
+  p1_bar <- gs_summary_overview(res_enrich_withscores, return_barchart = TRUE)
+  p1_nocol <- gs_summary_overview(res_enrich_withscores, color_by = NULL)
+  p1_bar_nocol <- gs_summary_overview(res_enrich_withscores, color_by = NULL, 
+                                      return_barchart = TRUE)
   expect_is(p1, "gg")
-
+  expect_is(p1_bar, "gg")
+  expect_is(p1_nocol, "gg")
+  expect_is(p1_bar_nocol, "gg")
+  
   p2 <- gs_summary_overview_pair(res_enrich_withscores, res_enrich2)
   expect_is(p2, "gg")
 

@@ -13,6 +13,8 @@
 #' p-value - have been specified).
 #' @param color_by Character, specifying the column of `res_enrich` to be used
 #' for coloring the plotted gene sets. Defaults sensibly to `z_score`.
+#' @param return_barchart Logical, whether to return a barchart (instead of the 
+#' default dot-segment plot); defaults to FALSE.
 #'
 #' @return A `ggplot` object
 #'
@@ -54,18 +56,23 @@
 #' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 #'
 #' gs_summary_overview(res_enrich)
-#'
+#' 
+#' # if desired, it can also be shown as a barplot
+#' gs_summary_overview(res_enrich, 30, return_barchart = TRUE)
 gs_summary_overview <- function(res_enrich,
                                 n_gs = 20,
                                 p_value_column = "gs_pvalue",
-                                color_by = "z_score"
+                                color_by = "z_score",
+                                return_barchart = FALSE
                                 # , size_by = "gs_de_count"
                                 ) {
-  if (!(color_by %in% colnames(res_enrich))) {
-    stop("Your res_enrich object does not contain the ",
-         color_by,
-         " column.\n",
-         "Compute this first or select another column to use for the color.")
+  if (!is.null(color_by)) {
+    if (!(color_by %in% colnames(res_enrich))) {
+      stop("Your res_enrich object does not contain the ",
+           color_by,
+           " column.\n",
+           "Compute this first or select another column to use for the color.")
+    }
   }
 
   re <- res_enrich
@@ -75,17 +82,44 @@ gs_summary_overview <- function(res_enrich,
   re_sorted <- re %>%
     arrange(.data$logp10) %>%
     mutate(gs_description = factor(.data$gs_description, .data$gs_description))
-  p <- ggplot(re_sorted, (aes_string(x = "gs_description", y = "logp10"))) +
-    geom_segment(aes_string(x = "gs_description", xend = "gs_description", y = 0, yend = "logp10"), color = "grey") +
-    geom_point(aes(col = .data[[color_by]]), size = 4) +
-    # geom_point(aes(col = .data[[color_by]], size = .data[[size_by]])) +
-    scale_color_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
-    coord_flip() +
-    labs(x = "Gene set description",
-         y = "-log10 p-value",
-         col = color_by) +
-    theme_minimal()
-
+  
+  if (return_barchart) {
+    p <- ggplot(re_sorted, (aes_string(x = "gs_description", y = "logp10"))) 
+    
+    if (is.null(color_by)) {
+      p <- p + geom_col()
+    } else {
+      p <- p + geom_col(aes(fill = .data[[color_by]])) + 
+        scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026")
+    }
+    
+    p <- p +
+      coord_flip() + 
+      labs(x = "Gene set description",
+           y = "-log10 p-value",
+           col = color_by) +
+      theme_minimal()
+  } else {
+    p <- ggplot(re_sorted, (aes_string(x = "gs_description", y = "logp10"))) +
+      geom_segment(aes_string(x = "gs_description", 
+                              xend = "gs_description", 
+                              y = 0, 
+                              yend = "logp10"), color = "grey")
+    
+    if (is.null(color_by)) {
+      p <- p + geom_point(size = 4)
+    } else {
+      p <- p + geom_point(aes(col = .data[[color_by]]), size = 4) +
+        scale_color_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026")
+    }
+    
+    p <- p +
+      coord_flip() +
+      labs(x = "Gene set description",
+           y = "-log10 p-value",
+           col = color_by) +
+      theme_minimal()
+  }
   return(p)
 }
 
@@ -208,8 +242,8 @@ gs_summary_overview_pair <- function(res_enrich,
     geom_point(aes(fill = .data[[color_by]]), size = 4, pch = 21) +
     geom_point(aes_string(y = "logp10_2", col = paste0(color_by, "_2")),
                size = 4, alpha = alpha_set2) +
-    scale_color_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
-    scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026", guide = FALSE) +
+    scale_color_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026", name = paste0(color_by, " set 2")) +
+    scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026", name = paste0(color_by, " set 1")) +
     coord_flip() +
     labs(x = "Gene set description",
          y = "-log10 p-value",
