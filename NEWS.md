@@ -2,10 +2,13 @@
 
 ## New features
 
-* The main function `GeneTonic()` gains an extra parameter, `gtl` - this can be used to provided a named list object where a single parameter is passed (e.g. after loading in a single seralized object), while the functionality stays unaltered. 
+* The main function `GeneTonic()` gains an extra parameter, `gtl` - this can be used to provided a named list object where a single parameter is passed (e.g. after loading in a single serialized object), while the functionality stays unaltered. 
   The same `gtl` parameter is also exposed in other functions of the package - see the vignette for some examples, or check the documentation of each specific function.
   
 * A new function to perform fuzzy clustering (following the implementation of DAVID) is added - see `gs_fuzzyclustering()`. It returns a table with additional information on the cluster of genesets and the status of each set in the group.  
+
+* A new function, `signature_volcano()`, adds a signature volcano plot to the `Gene-Geneset` panel. This plot displays the genes of a chosen geneset in color, while the remaining genes of the data are shown as shaded dots in the background. 
+  The color and transparency of the displayed genes can be chosen by the user, as well as the option to display the gene names of all genes in the geneset.
 
 * `gs_summary_overview` can also generate bar plots instead of the default segment-dot (lollipop) plots
 

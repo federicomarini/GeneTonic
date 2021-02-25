@@ -71,6 +71,7 @@ anno_df <- data.frame(
   row.names = rownames(dds_macrophage)
 )
 
+
 # res object
 data(res_de_macrophage, package = "GeneTonic")
 res_de <- res_macrophage_IFNg_vs_naive

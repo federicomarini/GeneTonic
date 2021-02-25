@@ -777,6 +777,18 @@ go_2_html("GO:0060337",
           res_enrich = res_enrich_macrophage)
 ```
 
+Plot a signature volcano plot for a gene set, with the genes of the geneset highlighted in color and the remaining genes shown shaded in the background: 
+
+```{r signaturevolcano}
+signature_volcano(res_de = res_macrophage_IFNg_vs_naive,
+                  res_enrich = res_enrich_macrophage,
+                  annotation_obj = anno_df,
+                  geneset_id = "GO:0060337",
+                  FDR = 0.05,
+                  color = "#1a81c2"
+)
+```
+
 Some functions are just to ensure that the input objects are conform with the format expected by `GeneTonic`:
 
 ```{r shakers, eval=FALSE}
