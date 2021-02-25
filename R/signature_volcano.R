@@ -69,17 +69,17 @@
 #'
 #' # alternatively
 #'
-#' # chemokine_list <- c("ENSG00000108702",
-#' #                     "ENSG00000172156",
-#' #                     "ENSG00000181374",
-#' #                     "ENSG00000276409"
-#' #                     )
+#' chemokine_list <- c("ENSG00000108702",
+#'                     "ENSG00000172156",
+#'                     "ENSG00000181374",
+#'                     "ENSG00000276409"
+#'                     )
 #'
-#' # signature_volcano(res_de,
-#' #                   res_enrich,
-#' #                   anno_df,
-#' #                   genelist = chemokine_list
-#' #                   )
+#' signature_volcano(res_de,
+#'                   res_enrich,
+#'                   anno_df,
+#'                   genelist = chemokine_list
+#'                   )
 #'
 signature_volcano <- function(res_de,
                               res_enrich,
