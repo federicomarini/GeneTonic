@@ -142,8 +142,9 @@
 <h2 class="hasAnchor">
 <a href="#new-features" class="anchor"></a>New features</h2>
 <ul>
-<li><p>The main function <code><a href="../reference/GeneTonic.html">GeneTonic()</a></code> gains an extra parameter, <code>gtl</code> - this can be used to provided a named list object where a single parameter is passed (e.g. after loading in a single seralized object), while the functionality stays unaltered. The same <code>gtl</code> parameter is also exposed in other functions of the package - see the vignette for some examples, or check the documentation of each specific function.</p></li>
+<li><p>The main function <code><a href="../reference/GeneTonic.html">GeneTonic()</a></code> gains an extra parameter, <code>gtl</code> - this can be used to provided a named list object where a single parameter is passed (e.g. after loading in a single serialized object), while the functionality stays unaltered. The same <code>gtl</code> parameter is also exposed in other functions of the package - see the vignette for some examples, or check the documentation of each specific function.</p></li>
 <li><p>A new function to perform fuzzy clustering (following the implementation of DAVID) is added - see <code><a href="../reference/gs_fuzzyclustering.html">gs_fuzzyclustering()</a></code>. It returns a table with additional information on the cluster of genesets and the status of each set in the group.</p></li>
+<li><p>A new function, <code><a href="../reference/signature_volcano.html">signature_volcano()</a></code>, adds a signature volcano plot to the <code>Gene-Geneset</code> panel. This plot displays the genes of a chosen geneset in color, while the remaining genes of the data are shown as shaded dots in the background. The color and transparency of the displayed genes can be chosen by the user, as well as the option to display the gene names of all genes in the geneset.</p></li>
 <li><p><code>gs_summary_overview</code> can also generate bar plots instead of the default segment-dot (lollipop) plots</p></li>
 </ul>
 </div>
@@ -409,11 +410,11 @@
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by <a href="https://federicomarini.github.io" class="external-link">Federico Marini</a>.</p></p>
+  <p>Developed by <a href="https://federicomarini.github.io" class="external-link">Federico Marini</a>, Annekathrin Ludt.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
