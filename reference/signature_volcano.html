@@ -257,18 +257,19 @@ the information on the geneset identifier provided.</p></td>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: ggrepel: 48 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></div><div class='img'><img src='signature_volcano-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># alternatively</span>
 
-<span class='co'># chemokine_list &lt;- c("ENSG00000108702",</span>
-<span class='co'>#                     "ENSG00000172156",</span>
-<span class='co'>#                     "ENSG00000181374",</span>
-<span class='co'>#                     "ENSG00000276409"</span>
-<span class='co'>#                     )</span>
+<span class='va'>chemokine_list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"ENSG00000108702"</span>,
+                    <span class='st'>"ENSG00000172156"</span>,
+                    <span class='st'>"ENSG00000181374"</span>,
+                    <span class='st'>"ENSG00000276409"</span>
+                    <span class='op'>)</span>
 
-<span class='co'># signature_volcano(res_de,</span>
-<span class='co'>#                   res_enrich,</span>
-<span class='co'>#                   anno_df,</span>
-<span class='co'>#                   genelist = chemokine_list</span>
-<span class='co'>#                   )</span>
-
+<span class='fu'>signature_volcano</span><span class='op'>(</span><span class='va'>res_de</span>,
+                  <span class='va'>res_enrich</span>,
+                  <span class='va'>anno_df</span>,
+                  genelist <span class='op'>=</span> <span class='va'>chemokine_list</span>
+                  <span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Some of the provided gene ids were not found in the SummarizedExperiment</span>
+#&gt; <span class='warning'>Not found: ENSG00000172156</span></div><div class='img'><img src='signature_volcano-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
