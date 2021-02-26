@@ -89,7 +89,7 @@ GeneTonic_list <- function(dds,
                     res_enrich,
                     annotation_obj)
 
-  gtl <- list(dds = dds_macrophage,
+  gtl <- list(dds = dds,
               res_de = res_de,
               res_enrich = res_enrich,
               annotation_obj = annotation_obj)
