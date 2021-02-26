@@ -89,10 +89,10 @@ if (interactive())
             annotation_obj = anno_df,
             project_id = "myexample")
 # alternatively...
-gtl_macrophage <- list(dds = dds_macrophage,
-                       res_de = res_de,
-                       res_enrich = res_enrich,
-                       annotation_obj = anno_df)
+gtl_macrophage <- GeneTonic_list(dds = dds_macrophage,
+                                 res_de = res_de,
+                                 res_enrich = res_enrich,
+                                 annotation_obj = anno_df)
 # GeneTonic(gtl = gtl_macrophage)
 }
 \author{
