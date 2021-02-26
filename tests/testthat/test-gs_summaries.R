@@ -6,12 +6,12 @@ test_that("summary_heat plot is generated", {
                        annotation_obj = anno_df,
                        n_gs = 20)
   expect_is(p, "gg")
-  
-  gtl_macrophage <- list(dds = dds_macrophage,
-                         res_de = res_macrophage_IFNg_vs_naive,
-                         res_enrich = res_enrich_IFNg_vs_naive,
-                         annotation_obj = anno_df)
-  
+
+  gtl_macrophage <- GeneTonic_list(dds = dds_macrophage,
+                                   res_de = res_macrophage_IFNg_vs_naive,
+                                   res_enrich = res_enrich_IFNg_vs_naive,
+                                   annotation_obj = anno_df)
+
   p2 <- gs_summary_heat(gtl = gtl_macrophage,
                         n_gs = 20)
   expect_is(p2, "gg")
@@ -36,13 +36,13 @@ test_that("summary plots are generated", {
   p1 <- gs_summary_overview(res_enrich_withscores)
   p1_bar <- gs_summary_overview(res_enrich_withscores, return_barchart = TRUE)
   p1_nocol <- gs_summary_overview(res_enrich_withscores, color_by = NULL)
-  p1_bar_nocol <- gs_summary_overview(res_enrich_withscores, color_by = NULL, 
+  p1_bar_nocol <- gs_summary_overview(res_enrich_withscores, color_by = NULL,
                                       return_barchart = TRUE)
   expect_is(p1, "gg")
   expect_is(p1_bar, "gg")
   expect_is(p1_nocol, "gg")
   expect_is(p1_bar_nocol, "gg")
-  
+
   p2 <- gs_summary_overview_pair(res_enrich_withscores, res_enrich2)
   expect_is(p2, "gg")
 

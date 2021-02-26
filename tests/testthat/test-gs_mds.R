@@ -22,15 +22,15 @@ test_that("mds plot with specified sets works", {
               mds_colorby = "z_score",
               plot_title = "mytitle-mds")
   expect_is(p, "gg")
-  
-  gtl_macrophage <- list(dds = dds_macrophage,
-                         res_de = res_macrophage_IFNg_vs_naive,
-                         res_enrich = res_enrich_IFNg_vs_naive,
-                         annotation_obj = anno_df)
+
+  gtl_macrophage <- GeneTonic_list(dds = dds_macrophage,
+                                   res_de = res_macrophage_IFNg_vs_naive,
+                                   res_enrich = res_enrich_IFNg_vs_naive,
+                                   annotation_obj = anno_df)
   p2 <- gs_mds(gtl = gtl_macrophage,
                n_gs = 10)
   expect_is(p2, "gg")
-  
+
   expect_warning(gs_mds(res_enrich = res_enrich_IFNg_vs_naive,
                         res_de = res_macrophage_IFNg_vs_naive,
                         annotation_obj = anno_df,

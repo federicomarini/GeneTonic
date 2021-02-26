@@ -6,14 +6,14 @@ test_that("Graph is generated", {
                       annotation_obj = anno_df,
                       n_gs = 50)
   expect_is(g, "igraph")
-  
-  gtl_macrophage <- list(dds = dds_macrophage,
-                         res_de = res_macrophage_IFNg_vs_naive,
-                         res_enrich = res_enrich_IFNg_vs_naive,
-                         annotation_obj = anno_df)
+
+  gtl_macrophage <- GeneTonic_list(dds = dds_macrophage,
+                                   res_de = res_macrophage_IFNg_vs_naive,
+                                   res_enrich = res_enrich_IFNg_vs_naive,
+                                   annotation_obj = anno_df)
   g1 <- enrichment_map(gtl = gtl_macrophage)
   expect_is(g1, "igraph")
-  
+
   expect_true(identical_graphs(g, g1))
 
   res_enrich_withscores <- get_aggrscores(res_enrich_IFNg_vs_naive,
