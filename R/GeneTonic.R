@@ -58,6 +58,7 @@
 #'   row.names = rownames(dds_macrophage)
 #' )
 #'
+#' 
 #' # res object
 #' data(res_de_macrophage, package = "GeneTonic")
 #' res_de <- res_macrophage_IFNg_vs_naive
@@ -706,7 +707,11 @@ GeneTonic <- function(dds,
                    label = "Number of genesets",
                    value = 15, min = 1, max = nrow(res_enrich)),
       selectInput("exp_condition", label = "Group/color by: ",
-                  choices = c(NULL, names(colData(dds))), selected = NULL, multiple = TRUE)
+                  choices = c(NULL, names(colData(dds))), selected = NULL, multiple = TRUE),
+      colourInput("col", "Select colour for volcano plot", "#1a81c2",
+                  returnName = TRUE,
+                  allowTransparent = TRUE),
+      checkboxInput("labels", label = "Display all labels", value = FALSE)
     ),
     
     # footer definition -------------------------------------------------------
@@ -918,6 +923,7 @@ GeneTonic <- function(dds,
       tagList(
         # verbatimTextOutput("netnode"),
         plotOutput("net_sigheatplot"),
+        plotOutput("sig_volcano"),
         uiOutput("ggs_geneset_info")
       )
     })
@@ -961,6 +967,38 @@ GeneTonic <- function(dds,
           center_mean = TRUE,
           scale_row = TRUE
         )
+      }
+    })
+    
+    output$sig_volcano <- renderPlot({
+      g <- reactive_values$ggs_graph()
+      cur_sel <- input$ggsnetwork_selected
+      cur_node <- match(cur_sel, V(g)$name)
+      cur_nodetype <- V(g)$nodetype[cur_node]
+      validate(need(cur_nodetype == "GeneSet",
+                    message = "Please select a gene set from the Gene-Geneset Graph."
+      ))
+      cur_gsid <- res_enrich$gs_id[match(input$ggsnetwork_selected, res_enrich$gs_description)]
+      
+      if (input$labels) {
+        signature_volcano(
+          res_de,
+          res_enrich,
+          annotation_obj = annotation_obj,
+          geneset_id = cur_gsid,
+          FDR = input$de_fdr,
+          color = input$col,
+          volcano_labels = Inf
+        )
+      } else {
+        signature_volcano(
+          res_de,
+          res_enrich,
+          annotation_obj = annotation_obj,
+          geneset_id = cur_gsid,
+          FDR = input$de_fdr,
+          color = input$col
+       )
       }
     })
     

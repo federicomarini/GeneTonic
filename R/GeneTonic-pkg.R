@@ -14,6 +14,7 @@
 #' bs4ValueBoxOutput renderbs4InfoBox renderbs4ValueBox
 #' bs4TabPanel bs4TabCard
 #' @importFrom colorspace rainbow_hcl
+#' @importFrom colourpicker colourInput
 #' @importFrom ComplexHeatmap Heatmap HeatmapAnnotation draw
 #' @importFrom dendextend branches_attr_by_clusters set
 #' @importFrom DESeq2 vst counts estimateSizeFactors normalizationFactors sizeFactors

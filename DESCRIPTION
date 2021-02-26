@@ -1,13 +1,17 @@
 Package: GeneTonic
 Title: Enjoy Analyzing And Integrating The Results From Differential Expression 
     Analysis And Functional Enrichment Analysis
-Version: 1.3.1
-Date: 2020-10-21
+Version: 1.3.2
+Date: 2021-02-19
 Authors@R: 
     c(
         person(
             given = "Federico", family = "Marini", role = c("aut", "cre"), 
             email = "marinif@uni-mainz.de", comment = c(ORCID = "0000-0003-3252-7758")
+        ),
+		person(
+            given = "Annekathrin", family = "Ludt", role = c("aut"), 
+            email = "anneludt@uni-mainz.de", comment = c(ORCID = "0000-0002-2475-4945")
         )
     )
 Description: This package provides a Shiny application that aims to combine at 
@@ -24,6 +28,7 @@ Imports:
     backbone,
     bs4Dash,
     colorspace,
+	colourpicker,
     ComplexHeatmap,
     dendextend,
     DESeq2,
