@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.3</span>
       </span>
     </div>
 
@@ -176,8 +176,8 @@ Usually it is one of the members of the list returned by the initial call to <co
 <span class='co'># enrichr_output_macrophage &lt;- enrichr(degenes, dbs)</span>
 <span class='co'># or alternatively, if downloaded from the website in tabular format</span>
 <span class='va'>gprofiler_output_file</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span>
-  <span class='st'>"extdata"</span>, 
-  <span class='st'>"gProfiler_hsapiens_5-25-2020_tblexport_IFNg_vs_naive.csv"</span>, 
+  <span class='st'>"extdata"</span>,
+  <span class='st'>"gProfiler_hsapiens_5-25-2020_tblexport_IFNg_vs_naive.csv"</span>,
   package <span class='op'>=</span> <span class='st'>"GeneTonic"</span><span class='op'>)</span>
 <span class='va'>res_from_gprofiler</span> <span class='op'>&lt;-</span> <span class='fu'>shake_gprofilerResult</span><span class='op'>(</span>gprofiler_output_file <span class='op'>=</span> <span class='va'>gprofiler_output_file</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Found 5593 gene sets in the file output from Enrichr of which 179 are significant (p-value &lt;= 0.05).</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div><div class='input'>
@@ -197,11 +197,11 @@ Usually it is one of the members of the list returned by the initial call to <co
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href="https://federicomarini.github.io" class="external-link">Federico Marini</a>, Annekathrin Ludt.</p>
+  <p><p>Developed by <a href="https://federicomarini.github.io" class="external-link">Federico Marini</a>, Annekathrin Ludt.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
       </footer>

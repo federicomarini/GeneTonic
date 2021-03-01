@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A sample output from g:Profiler — gostres_macrophage • GeneTonic</title>
+<title>Describe a GeneTonic list — describe_gtl • GeneTonic</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="A sample output from g:Profiler — gostres_macrophage" />
-<meta property="og:description" content="A sample output object as created from a call to g:Profiler, with the interface
-provided by gprofiler2 - using the gost() function" />
+<meta property="og:title" content="Describe a GeneTonic list — describe_gtl" />
+<meta property="og:description" content="Obtain a quick textual overview of the essential features of the components
+of the GeneTonic list object" />
 
 
 
@@ -133,36 +133,32 @@ provided by gprofiler2 - using the gost() function" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A sample output from g:Profiler</h1>
-    <small class="dont-index">Source: <a href='https://github.com/federicomarini/GeneTonic/blob/master/R/GeneTonic-data.R'><code>R/GeneTonic-data.R</code></a></small>
-    <div class="hidden name"><code>gostres_macrophage.Rd</code></div>
+    <h1>Describe a GeneTonic list</h1>
+    <small class="dont-index">Source: <a href='https://github.com/federicomarini/GeneTonic/blob/master/R/GeneTonic-extras.R'><code>R/GeneTonic-extras.R</code></a></small>
+    <div class="hidden name"><code>describe_gtl.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A sample output object as created from a call to g:Profiler, with the interface
-provided by <code>gprofiler2</code> - using the <code>gost()</code> function</p>
+    <p>Obtain a quick textual overview of the essential features of the components
+of the GeneTonic list object</p>
     </div>
 
+    <pre class="usage"><span class='fu'>describe_gtl</span><span class='op'>(</span><span class='va'>gtl</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>gtl</th>
+      <td><p>A <code>GeneTonic</code>-list object, containing in its named slots the required
+<code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code></p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>This object has been created on the data from the <code>macrophage</code> package
-by analyzing downstream the differentially expressed genes
-when comparing IFNg treated samples vs naive samples, accounting
-for the different cell lines included.</p>
-<p>Details on how this object has been created are included in the <code>create_gt_data.R</code>
-script, included in the <code>scripts</code> folder of the <code>GeneTonic</code> package.</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>Alasoo, et al. "Shared genetic effects on chromatin and gene
-expression indicate a role for enhancer priming in immune response",
-Nature Genetics, January 2018 doi: 10.1038/s41588-018-0046-7.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other pathway-analysis-results: 
-<code><a href='enrichr_output_macrophage.html'>enrichr_output_macrophage</a></code>,
-<code><a href='topgoDE_macrophage_IFNg_vs_naive.html'>topgoDE_macrophage_IFNg_vs_naive</a></code></p></div>
+    <p>Invisible NULL - the information is displayed as a message in the
+console</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

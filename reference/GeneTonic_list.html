@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compute aggregated scores for gene sets — get_aggrscores • GeneTonic</title>
+<title>Create a list for GeneTonic — GeneTonic_list • GeneTonic</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Compute aggregated scores for gene sets — get_aggrscores" />
-<meta property="og:description" content="Computes for each gene set in the res_enrich object a Z score and an aggregated
-score (using the log2FoldChange values, provided in the res_de)" />
+<meta property="og:title" content="Create a list for GeneTonic — GeneTonic_list" />
+<meta property="og:description" content="Create a list for GeneTonic from the single required components." />
 
 
 
@@ -133,63 +132,72 @@ score (using the log2FoldChange values, provided in the res_de)" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compute aggregated scores for gene sets</h1>
-    <small class="dont-index">Source: <a href='https://github.com/federicomarini/GeneTonic/blob/master/R/enhance_table.R'><code>R/enhance_table.R</code></a></small>
-    <div class="hidden name"><code>get_aggrscores.Rd</code></div>
+    <h1>Create a list for GeneTonic</h1>
+    <small class="dont-index">Source: <a href='https://github.com/federicomarini/GeneTonic/blob/master/R/GeneTonic-extras.R'><code>R/GeneTonic-extras.R</code></a></small>
+    <div class="hidden name"><code>GeneTonic_list.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Computes for each gene set in the <code>res_enrich</code> object a Z score and an aggregated
-score (using the log2FoldChange values, provided in the <code>res_de</code>)</p>
+    <p>Create a list for GeneTonic from the single required components.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_aggrscores</span><span class='op'>(</span><span class='va'>res_enrich</span>, <span class='va'>res_de</span>, <span class='va'>annotation_obj</span>, gtl <span class='op'>=</span> <span class='cn'>NULL</span>, aggrfun <span class='op'>=</span> <span class='va'>mean</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>GeneTonic_list</span><span class='op'>(</span><span class='va'>dds</span>, <span class='va'>res_de</span>, <span class='va'>res_enrich</span>, <span class='va'>annotation_obj</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>res_enrich</th>
-      <td><p>A <code>data.frame</code> object, storing the result of the functional
-enrichment analysis. See more in the main function, <code><a href='GeneTonic.html'>GeneTonic()</a></code>, to check the
-formatting requirements (a minimal set of columns should be present).</p></td>
+      <th>dds</th>
+      <td><p>A <code>DESeqDataSet</code> object, normally obtained after running your data
+through the <code>DESeq2</code> framework.</p></td>
     </tr>
     <tr>
       <th>res_de</th>
-      <td><p>A <code>DESeqResults</code> object.</p></td>
+      <td><p>A <code>DESeqResults</code> object. As for the <code>dds</code> parameter, this is
+also commonly used in the <code>DESeq2</code> framework.</p></td>
+    </tr>
+    <tr>
+      <th>res_enrich</th>
+      <td><p>A <code>data.frame</code> object, storing the result of the functional
+enrichment analysis. Required columns for enjoying the full functionality of
+<code><a href='GeneTonic.html'>GeneTonic()</a></code> include:</p><ul>
+<li><p>a gene set identifier (e.g. GeneOntology id, <code>gs_id</code>) and its term description
+(<code>gs_description</code>)</p></li>
+<li><p>a numeric value for the significance of the enrichment (<code>gs_pvalue</code>)</p></li>
+<li><p>a column named <code>gs_genes</code> containing a comma separated vector of the gene names
+associated to the term, one for each term</p></li>
+<li><p>the number of genes in the geneset of interest detected as differentially
+expressed (<code>gs_de_count</code>), or in the background set of genes (<code>gs_bg_count</code>)
+See <code><a href='shake_topGOtableResult.html'>shake_topGOtableResult()</a></code> or <code><a href='shake_enrichResult.html'>shake_enrichResult()</a></code> for examples of such
+formatting helpers</p></li>
+</ul></td>
     </tr>
     <tr>
       <th>annotation_obj</th>
-      <td><p>A <code>data.frame</code> object with the feature annotation
-information, with at least two columns, <code>gene_id</code> and <code>gene_name</code>.</p></td>
-    </tr>
-    <tr>
-      <th>gtl</th>
-      <td><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
-specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
-of the list <em>must</em> be specified following the content they are expecting</p></td>
-    </tr>
-    <tr>
-      <th>aggrfun</th>
-      <td><p>Specifies the function to use for aggregating the scores for
-each term. Common values could be <code>mean</code> or <code>median</code>.</p></td>
+      <td><p>A <code>data.frame</code> object, containing two columns, <code>gene_id</code>
+with a set of unambiguous identifiers (e.g. ENSEMBL ids) and <code>gene_name</code>,
+containing e.g. HGNC-based gene symbols. This object can be constructed via
+the <code>org.eg.XX.db</code> packages, e.g. with convenience functions such as
+<code>pcaExplorer::get_annotation_orgdb()</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>data.frame</code> with the same columns as provided in the input, with
-additional information on the <code>z_score</code> and the <code>aggr_score</code> for each gene set.
-This information is used by other functions such as <code><a href='gs_volcano.html'>gs_volcano()</a></code> or
-<code><a href='enrichment_map.html'>enrichment_map()</a></code></p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <p>A <code>GeneTonic</code>-list object, containing in its named slots the arguments
+specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
+of the list are specified following the requirements for using it as single
+input to <code><a href='GeneTonic.html'>GeneTonic()</a></code></p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <div class='dont-index'><p><code><a href='gs_volcano.html'>gs_volcano()</a></code> and <code><a href='enrichment_map.html'>enrichment_map()</a></code> make efficient use of the computed
-aggregated scores</p></div>
+    <p>Having this dedicated function saves the pain of remembering which names
+the components of the list should have.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Federico Marini</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'>"macrophage"</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'>"macrophage"</span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/mikelove/DESeq2'>"DESeq2"</a></span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'>"org.Hs.eg.db"</span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://bioconductor.org/packages/AnnotationDbi'>"AnnotationDbi"</a></span><span class='op'>)</span>
@@ -211,6 +219,7 @@ aggregated scores</p></div>
   row.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span>
 <span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>'select()' returned 1:many mapping between keys and columns</span></div><div class='input'>
+
 <span class='co'># res object</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>res_de_macrophage</span>, package <span class='op'>=</span> <span class='st'>"GeneTonic"</span><span class='op'>)</span>
 <span class='va'>res_de</span> <span class='op'>&lt;-</span> <span class='va'>res_macrophage_IFNg_vs_naive</span>
@@ -218,10 +227,22 @@ aggregated scores</p></div>
 <span class='co'># res_enrich object</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>res_enrich_macrophage</span>, package <span class='op'>=</span> <span class='st'>"GeneTonic"</span><span class='op'>)</span>
 <span class='va'>res_enrich</span> <span class='op'>&lt;-</span> <span class='fu'><a href='shake_topGOtableResult.html'>shake_topGOtableResult</a></span><span class='op'>(</span><span class='va'>topgoDE_macrophage_IFNg_vs_naive</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Found 500 gene sets in `topGOtableResult` object.</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div><div class='input'>
-<span class='va'>res_enrich</span> <span class='op'>&lt;-</span> <span class='fu'>get_aggrscores</span><span class='op'>(</span><span class='va'>res_enrich</span>,
-                             <span class='va'>res_de</span>,
-                             <span class='va'>anno_df</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Found 500 gene sets in `topGOtableResult` object.</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div><div class='input'><span class='va'>res_enrich</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_aggrscores.html'>get_aggrscores</a></span><span class='op'>(</span><span class='va'>res_enrich</span>, <span class='va'>res_de</span>, <span class='va'>anno_df</span><span class='op'>)</span>
+
+<span class='va'>gtl_macrophage</span> <span class='op'>&lt;-</span> <span class='fu'>GeneTonic_list</span><span class='op'>(</span>
+  dds <span class='op'>=</span> <span class='va'>dds_macrophage</span>,
+  res_de <span class='op'>=</span> <span class='va'>res_de</span>,
+  res_enrich <span class='op'>=</span> <span class='va'>res_enrich</span>,
+  annotation_obj <span class='op'>=</span> <span class='va'>anno_df</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>---------------------------------</span></div><div class='output co'>#&gt; <span class='message'>----- GeneTonic list object -----</span></div><div class='output co'>#&gt; <span class='message'>---------------------------------</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>----- dds object -----</span></div><div class='output co'>#&gt; <span class='message'>Providing an expression object (as DESeqDataset) of 58294 features over 24 samples</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>----- res_de object -----</span></div><div class='output co'>#&gt; <span class='message'>Providing a DE result object (as DESeqResults), 17806 features tested, 928 found as DE</span></div><div class='output co'>#&gt; <span class='message'>Upregulated:     329</span></div><div class='output co'>#&gt; <span class='message'>Downregulated:   599</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>----- res_enrich object -----</span></div><div class='output co'>#&gt; <span class='message'>Providing an enrichment result object, 500 reported</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>----- annotation_obj object -----</span></div><div class='output co'>#&gt; <span class='message'>Providing an annotation object of 58294 features with information on 2 identifier types</span></div><div class='input'>
+<span class='co'># now everything is in place to launch the app</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'><a href='GeneTonic.html'>GeneTonic</a></span><span class='op'>(</span>gtl <span class='op'>=</span> <span class='va'>gtl_macrophage</span><span class='op'>)</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
