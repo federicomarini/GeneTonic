@@ -1,5 +1,22 @@
 context("Testing extra functions/helpers for GeneTonic")
 
+test_that("Creating and describing gtl", {
+
+  gtl_macrophage <- GeneTonic_list(dds = dds_macrophage,
+                                   res_de = res_macrophage_IFNg_vs_naive,
+                                   res_enrich = res_enrich_IFNg_vs_naive,
+                                   annotation_obj = anno_df)
+  expect_is(gtl_macrophage, "list")
+
+  expect_message({
+    GeneTonic_list(dds = dds_macrophage,
+                   res_de = res_macrophage_IFNg_vs_naive,
+                   res_enrich = res_enrich_IFNg_vs_naive,
+                   annotation_obj = anno_df)
+  })
+})
+
+
 test_that("Overlap functions work", {
   set1 <- letters[1:10]
   set2 <- letters[1:15]
@@ -65,9 +82,9 @@ test_that("Exporting to sif format works", {
   g <- make_full_graph(5) %du% make_full_graph(5) %du% make_full_graph(5)
   g <- add_edges(g, c(1,6, 1,11, 6, 11))
   siffile <- export_to_sif(g, tempfile())
-  
+
   expect_is(siffile, "character")
-  
+
   expect_error(export_to_sif(V(g)))
   expect_error(export_to_sif(g, 1))
   expect_error(export_to_sif(g, sif_file = c(tempfile(), "there_sif.txt")))
@@ -78,7 +95,7 @@ test_that("Retrieving info on GO term", {
   expect_is(out, "character")
   expect_is(out, "html")
   expect_equal(go_2_html("GO:00"), HTML("Gene Ontology term not found!"))
-  
+
   res_enrich <- get_aggrscores(res_enrich_IFNg_vs_naive,res_de = res_macrophage_IFNg_vs_naive,annotation_obj = anno_df)
   out2 <- go_2_html("GO:0032729", res_enrich = res_enrich)
   expect_is(out2, "character")
@@ -89,12 +106,12 @@ test_that("Retrieving info on gene", {
   out <- geneinfo_2_html("Xist")
   expect_is(out, "character")
   expect_is(out, "html")
-  
+
   # using a gene name present in the res_de
   out2 <- geneinfo_2_html("IRF1", res_de = res_macrophage_IFNg_vs_naive)
   expect_is(out2, "character")
   expect_is(out2, "html")
-  
+
   # using a gene name which is not in the res_de
   expect_message(
     out3 <- geneinfo_2_html("Irf1", res_de = res_macrophage_IFNg_vs_naive)

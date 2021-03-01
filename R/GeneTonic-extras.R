@@ -1,3 +1,170 @@
+#' Create a list for GeneTonic
+#'
+#' Create a list for GeneTonic from the single required components.
+#'
+#' Having this dedicated function saves the pain of remembering which names
+#' the components of the list should have.
+#'
+#' @param dds A `DESeqDataSet` object, normally obtained after running your data
+#' through the `DESeq2` framework.
+#' @param res_de A `DESeqResults` object. As for the `dds` parameter, this is
+#' also commonly used in the `DESeq2` framework.
+#' @param res_enrich A `data.frame` object, storing the result of the functional
+#' enrichment analysis. Required columns for enjoying the full functionality of
+#' [GeneTonic()] include:
+#' - a gene set identifier (e.g. GeneOntology id, `gs_id`) and its term description
+#' (`gs_description`)
+#' - a numeric value for the significance of the enrichment (`gs_pvalue`)
+#' - a column named `gs_genes` containing a comma separated vector of the gene names
+#' associated to the term, one for each term
+#' - the number of genes in the geneset of interest detected as differentially
+#' expressed (`gs_de_count`), or in the background set of genes (`gs_bg_count`)
+#' See [shake_topGOtableResult()] or [shake_enrichResult()] for examples of such
+#' formatting helpers
+#' @param annotation_obj A `data.frame` object, containing two columns, `gene_id`
+#' with a set of unambiguous identifiers (e.g. ENSEMBL ids) and `gene_name`,
+#' containing e.g. HGNC-based gene symbols. This object can be constructed via
+#' the `org.eg.XX.db` packages, e.g. with convenience functions such as
+#' [pcaExplorer::get_annotation_orgdb()].
+#'
+#' @return A `GeneTonic`-list object, containing in its named slots the arguments
+#' specified above: `dds`, `res_de`, `res_enrich`, and `annotation_obj` - the names
+#' of the list are specified following the requirements for using it as single
+#' input to `GeneTonic()`
+#'
+#' @export
+#'
+#' @author Federico Marini
+#'
+#' @examples
+#' library("macrophage")
+#' library("DESeq2")
+#' library("org.Hs.eg.db")
+#' library("AnnotationDbi")
+#'
+#' # dds object
+#' data("gse", package = "macrophage")
+#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
+#' dds_macrophage <- estimateSizeFactors(dds_macrophage)
+#'
+#' # annotation object
+#' anno_df <- data.frame(
+#'   gene_id = rownames(dds_macrophage),
+#'   gene_name = mapIds(org.Hs.eg.db,
+#'                      keys = rownames(dds_macrophage),
+#'                      column = "SYMBOL",
+#'                      keytype = "ENSEMBL"),
+#'   stringsAsFactors = FALSE,
+#'   row.names = rownames(dds_macrophage)
+#' )
+#'
+#'
+#' # res object
+#' data(res_de_macrophage, package = "GeneTonic")
+#' res_de <- res_macrophage_IFNg_vs_naive
+#'
+#' # res_enrich object
+#' data(res_enrich_macrophage, package = "GeneTonic")
+#' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
+#' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
+#'
+#' gtl_macrophage <- GeneTonic_list(
+#'   dds = dds_macrophage,
+#'   res_de = res_de,
+#'   res_enrich = res_enrich,
+#'   annotation_obj = anno_df
+#' )
+#'
+#' # now everything is in place to launch the app
+#' if (interactive())
+#'   GeneTonic(gtl = gtl_macrophage)
+GeneTonic_list <- function(dds,
+                      res_de,
+                      res_enrich,
+                      annotation_obj) {
+
+  checkup_GeneTonic(dds,
+                    res_de,
+                    res_enrich,
+                    annotation_obj)
+
+  gtl <- list(dds = dds,
+              res_de = res_de,
+              res_enrich = res_enrich,
+              annotation_obj = annotation_obj)
+
+  describe_gtl(gtl)
+
+  return(gtl)
+}
+
+
+#' Describe a GeneTonic list
+#'
+#' Obtain a quick textual overview of the essential features of the components
+#' of the GeneTonic list object
+#'
+#' @param gtl A `GeneTonic`-list object, containing in its named slots the required
+#' `dds`, `res_de`, `res_enrich`, and `annotation_obj`
+#'
+#' @return Invisible NULL - the information is displayed as a message in the
+#' console
+describe_gtl <- function(gtl) {
+
+  dds <- gtl$dds
+  res_de <- gtl$res_de
+  res_enrich <- gtl$res_enrich
+  annotation_obj <- gtl$annotation_obj
+
+  # extracting relevant info
+  n_features <- nrow(dds)
+  n_samples <- ncol(dds)
+
+  n_tested <- nrow(res_de)
+  n_upDE <- sum(res_de$log2FoldChange < 0 & res_de$padj < 0.05, na.rm = TRUE)
+  n_downDE <- sum(res_de$log2FoldChange > 0 & res_de$padj < 0.05, na.rm = TRUE)
+  n_DE <- n_upDE + n_downDE
+
+  n_genesets <- nrow(res_enrich)
+
+  n_featanno <- nrow(annotation_obj)
+  n_featids <- ncol(annotation_obj)
+
+  message("---------------------------------")
+  message("----- GeneTonic list object -----")
+  message("---------------------------------")
+  message("\n----- dds object -----")
+  message(
+    sprintf(
+      "Providing an expression object (as DESeqDataset) of %d features over %d samples",
+      n_features, n_samples)
+  )
+  message("\n----- res_de object -----")
+  message(
+    sprintf("Providing a DE result object (as DESeqResults), %d features tested, %d found as DE",
+            n_tested, n_DE)
+  )
+  message(sprintf("Upregulated:     %d", n_upDE))
+  message(sprintf("Downregulated:   %d", n_downDE))
+
+
+  message("\n----- res_enrich object -----")
+  message(
+    sprintf("Providing an enrichment result object, %d reported", n_genesets)
+  )
+
+  message("\n----- annotation_obj object -----")
+  message(
+    sprintf(
+      "Providing an annotation object of %d features with information on %d identifier types",
+      n_featanno, n_featids)
+  )
+
+  return(invisible(NULL))
+}
+
+
 #' Information on a GeneOntology identifier
 #'
 #' Assembles information, in HTML format, regarding a Gene Ontology identifier
@@ -117,7 +284,7 @@ geneinfo_2_html <- function(gene_id,
   if (!is.null(res_de)) {
     gid <- match(gene_id, res_de$SYMBOL)
     if (is.na(gid)) {
-      message("Could not find the specified gene (`", gene_id,  
+      message("Could not find the specified gene (`", gene_id,
               "`) in the `res_de` object. \n",
               "Still, the general HTML content has been generated.")
       gene_adjpvalue <- tags$em("not found")
@@ -412,7 +579,7 @@ deseqresult2df <- function(res_de, FDR = NULL) {
 }
 
 #' Export to sif
-#' 
+#'
 #' Export a graph to a Simple Interaction Format file
 #'
 #' @param g An `igraph` object
@@ -422,7 +589,7 @@ deseqresult2df <- function(res_de, FDR = NULL) {
 #' Defaults here to "relates_to"
 #'
 #' @return Returns the path to the exported file, invisibly
-#' 
+#'
 #' @export
 #'
 #' @examples
@@ -431,12 +598,12 @@ deseqresult2df <- function(res_de, FDR = NULL) {
 #' g <- add_edges(g, c(1,6, 1,11, 6, 11))
 #' export_to_sif(g, tempfile())
 export_to_sif <- function(g, sif_file = "", edge_label = "relates_to") {
-  
+
   stopifnot(is(g, "igraph"))
   stopifnot(is.character(sif_file) & length(sif_file) == 1)
   sif_file <- normalizePath(sif_file, mustWork = FALSE)
   stopifnot(is.character(edge_label) && length(edge_label) == 1)
-  
+
   el <- get.edgelist(g)
   sif_df <- data.frame(
     n1 = el[, 1],
@@ -444,7 +611,7 @@ export_to_sif <- function(g, sif_file = "", edge_label = "relates_to") {
     n2 = el[, 2]
   )
   message("Saving the file to ", sif_file)
-  write.table(sif_df, file = sif_file, sep = "\t", quote = FALSE, 
+  write.table(sif_df, file = sif_file, sep = "\t", quote = FALSE,
               col.names = FALSE, row.names = FALSE)
   message("Done!")
   return(invisible(sif_file))

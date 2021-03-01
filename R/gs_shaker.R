@@ -13,12 +13,12 @@
 #' Convert an enrichResult object
 #'
 #' Convert an enrichResult object for straightforward use in [GeneTonic()]
-#' 
+#'
 #' This function is able to handle the output of `clusterProfiler` and `reactomePA`,
-#' as they both return an object of class `enrichResult` - and this in turn 
+#' as they both return an object of class `enrichResult` - and this in turn
 #' contains the information required to create correctly a `res_enrich` object.
 #'
-#' @param obj An `enrichResult` object, obtained via `clusterProfiler` (or also 
+#' @param obj An `enrichResult` object, obtained via `clusterProfiler` (or also
 #' via `reactomePA`)
 #'
 #' @return A `data.frame` compatible for use in [GeneTonic()] as `res_enrich`
@@ -166,37 +166,37 @@ shake_topGOtableResult <- function(obj,
 #' Convert the output of DAVID
 #'
 #' Convert the output of DAVID for straightforward use in [GeneTonic()]
-#' 
+#'
 #' @param david_output_file The location of the text file output, as exported from
-#' DAVID 
+#' DAVID
 #'
 #' @return A `data.frame` compatible for use in [GeneTonic()] as `res_enrich`
 #' @export
-#' 
+#'
 #' @family shakers
 #'
 #' @examples
-#' david_output_file <- system.file("extdata", 
-#'                                  "david_output_chart_BPonly_ifng_vs_naive.txt", 
+#' david_output_file <- system.file("extdata",
+#'                                  "david_output_chart_BPonly_ifng_vs_naive.txt",
 #'                                  package = "GeneTonic")
 #' res_enrich <- shake_davidResult(david_output_file)
 shake_davidResult <- function(david_output_file) {
-  
+
   if(!file.exists(david_output_file))
     stop("File not found")
-  
+
   my_david <- read.delim(david_output_file, header = TRUE, sep = "\t")
   # careful, names are auto-sanitized
-  
+
   exp_colnames <- c("Category", "Term", "Count", "X.", "PValue", "Genes",
                     "List.Total", "Pop.Hits", "Pop.Total", "Fold.Enrichment",
                     "Bonferroni", "Benjamini", "FDR")
-  if (!all(colnames(my_david) %in% exp_colnames))
+  if (!all(exp_colnames %in% colnames(my_david) ))
     stop("I could not find some of the usual column names from the DAVID output exported to file")
-  
+
   message("Found ", nrow(my_david), " gene sets in the file output from DAVID of which ", sum(my_david$PValue <= 0.05), " are significant (p-value <= 0.05).")
   message("Converting for usage in GeneTonic...")
-  
+
   mydf <- data.frame(
     gs_id = unlist(lapply(strsplit(my_david$Term, "~"), function(arg) arg[[1]])),
     gs_description = unlist(lapply(strsplit(my_david$Term, "~"), function(arg) arg[[2]])),
@@ -213,9 +213,9 @@ shake_davidResult <- function(david_output_file) {
     gs_FDR = my_david$FDR,
     stringsAsFactors = FALSE
   )
-  
+
   rownames(mydf) <- mydf$gs_id
-  
+
   return(mydf)
 }
 
@@ -224,32 +224,32 @@ shake_davidResult <- function(david_output_file) {
 #' Convert the output of Enrichr
 #'
 #' Convert the output of Enrichr for straightforward use in [GeneTonic()]
-#' 
+#'
 #' @param enrichr_output_file The location of the text file output, as exported from
-#' Enrichr 
-#' @param enrichr_output A data.frame with the output of `enrichr`, related to a 
+#' Enrichr
+#' @param enrichr_output A data.frame with the output of `enrichr`, related to a
 #' specific set of genesets. Usually it is one of the members of the list returned
 #' by the initial call to `enrichr`.
 #'
 #' @return A `data.frame` compatible for use in [GeneTonic()] as `res_enrich`
 #' @export
-#' 
+#'
 #' @family shakers
 #'
 #' @examples
 #' # library("enrichR")
-#' # dbs <- c("GO_Molecular_Function_2018", 
-#' #          "GO_Cellular_Component_2018", 
-#' #          "GO_Biological_Process_2018", 
-#' #          "KEGG_2019_Human", 
-#' #          "Reactome_2016", 
+#' # dbs <- c("GO_Molecular_Function_2018",
+#' #          "GO_Cellular_Component_2018",
+#' #          "GO_Biological_Process_2018",
+#' #          "KEGG_2019_Human",
+#' #          "Reactome_2016",
 #' #          "WikiPathways_2019_Human")
 #' # degenes <- (deseqresult2df(res_macrophage_IFNg_vs_naive, FDR = 0.01)$SYMBOL)
 #' # if called directly within R...
 #' # enrichr_output_macrophage <- enrichr(degenes, dbs)
 #' # or alternatively, if downloaded from the website in tabular format
-#' enrichr_output_file <- system.file("extdata", 
-#'                                    "enrichr_tblexport_IFNg_vs_naive.txt", 
+#' enrichr_output_file <- system.file("extdata",
+#'                                    "enrichr_tblexport_IFNg_vs_naive.txt",
 #'                                    package = "GeneTonic")
 #' res_from_enrichr <- shake_enrichrResult(enrichr_output_file = enrichr_output_file)
 #' # res_from_enrichr2 <- shake_enrichrResult(
@@ -261,24 +261,24 @@ shake_enrichrResult <- function(enrichr_output_file,
       stop("File not found")
     enrichr_output <- read.delim(enrichr_output_file, header = TRUE, sep = "\t")
   }
-  
+
   if (!is.null(enrichr_output)) {
     # if still a list, might need to select the appropriate element
     if (is(enrichr_output, "list"))
-      stop("Expecting a data.frame object. Maybe you are providing the list", 
+      stop("Expecting a data.frame object. Maybe you are providing the list",
            " containing it? You could do so by selecting the appropriate element",
            " of the list")
   }
-  
+
   exp_colnames <- c("Term", "Overlap", "P.value", "Adjusted.P.value",
                     "Old.P.value", "Old.Adjusted.P.value", "Odds.Ratio",
                     "Combined.Score", "Genes")
   if (!all(colnames(enrichr_output) %in% exp_colnames))
     stop("I could not find some of the usual column names from the Enrichr output")
-  
+
   message("Found ", nrow(enrichr_output), " gene sets in the file output from Enrichr of which ", sum(enrichr_output$P.value <= 0.05), " are significant (p-value <= 0.05).")
   message("Converting for usage in GeneTonic...")
-  
+
   # TODO: split up id and term - or just keep em the same?!
   # this does work for go term as they encode it...
   mydf <- data.frame(
@@ -293,9 +293,9 @@ shake_enrichrResult <- function(enrichr_output_file,
     gs_adj_pvalue = enrichr_output$Adjusted.P.value,
     stringsAsFactors = FALSE
   )
-  
+
   rownames(mydf) <- mydf$gs_id
-  
+
   return(mydf)
 }
 
@@ -303,15 +303,15 @@ shake_enrichrResult <- function(enrichr_output_file,
 #' Convert the output of g:Profiler
 #'
 #' Convert the output of g:Profiler for straightforward use in [GeneTonic()]
-#' 
+#'
 #' @param gprofiler_output_file The location of the text file output, as exported from
-#' g:Profiler 
-#' @param gprofiler_output A data.frame with the output of `gost()` in `gprofiler2`. 
+#' g:Profiler
+#' @param gprofiler_output A data.frame with the output of `gost()` in `gprofiler2`.
 #' Usually it is one of the members of the list returned by the initial call to `gost`.
 #'
 #' @return A `data.frame` compatible for use in [GeneTonic()] as `res_enrich`
 #' @export
-#' 
+#'
 #' @family shakers
 #'
 #' @examples
@@ -320,11 +320,11 @@ shake_enrichrResult <- function(enrichr_output_file,
 #' # enrichr_output_macrophage <- enrichr(degenes, dbs)
 #' # or alternatively, if downloaded from the website in tabular format
 #' gprofiler_output_file <- system.file(
-#'   "extdata", 
-#'   "gProfiler_hsapiens_5-25-2020_tblexport_IFNg_vs_naive.csv", 
+#'   "extdata",
+#'   "gProfiler_hsapiens_5-25-2020_tblexport_IFNg_vs_naive.csv",
 #'   package = "GeneTonic")
 #' res_from_gprofiler <- shake_gprofilerResult(gprofiler_output_file = gprofiler_output_file)
-#' 
+#'
 #' data(gostres_macrophage, package = "GeneTonic")
 #' res_from_gprofiler_2 <- shake_gprofilerResult(
 #'   gprofiler_output = gostres_macrophage$result
@@ -336,20 +336,20 @@ shake_gprofilerResult <- function(gprofiler_output_file,
     if(!file.exists(gprofiler_output_file))
       stop("File not found")
     gprofiler_output <- read.delim(gprofiler_output_file, header = TRUE, sep = ",")
-    
-    exp_colnames_textual <- c("source", "term_name", "term_id", "adjusted_p_value", 
-                              "negative_log10_of_adjusted_p_value", "term_size", 
+
+    exp_colnames_textual <- c("source", "term_name", "term_id", "adjusted_p_value",
+                              "negative_log10_of_adjusted_p_value", "term_size",
                               "query_size", "intersection_size", "effective_domain_size",
                               "intersections")
-    
-    if (!all(colnames(gprofiler_output) %in% exp_colnames_textual))
-      stop("I could not find some of the usual column names from the g:Profiler output.", 
+
+    if (!all(exp_colnames_textual %in% colnames(gprofiler_output)))
+      stop("I could not find some of the usual column names from the g:Profiler output.",
            " A possible reason could be that you did not specify `evcodes = TRUE`?",
            " This is required to fill in all the required fields of `res_enrich`")
-    
+
     message("Found ", nrow(gprofiler_output), " gene sets in the file output from Enrichr of which ", sum(gprofiler_output$adjusted_p_value <= 0.05), " are significant (p-value <= 0.05).")
     message("Converting for usage in GeneTonic...")
-    
+
     mydf <- data.frame(
       gs_id = gprofiler_output$term_id,
       gs_description = gprofiler_output$term_name,
@@ -360,28 +360,28 @@ shake_gprofilerResult <- function(gprofiler_output_file,
       gs_adj_pvalue = gprofiler_output$adjusted_p_value,
       stringsAsFactors = FALSE
     )
-    
+
   } else {
     # using directly the output from the call from gprofiler2
     # if still a list, might need to select the appropriate element
     if (is(gprofiler_output, "list"))
-      stop("Expecting a data.frame object. Maybe you are providing the list", 
+      stop("Expecting a data.frame object. Maybe you are providing the list",
            " containing it? You could do so by selecting the appropriate element",
            " of the list")
-    
+
     exp_colnames_rcall <- c("query", "significant", "p_value", "term_size", "query_size",
                             "intersection_size", "precision", "recall",
                             "term_id", "source", "term_name", "effective_domain_size",
                             "source_order", "parents", "evidence_codes", "intersection")
-    
+
     if (!all(colnames(gprofiler_output) %in% exp_colnames_rcall))
-      stop("I could not find some of the usual column names from the g:Profiler output.", 
+      stop("I could not find some of the usual column names from the g:Profiler output.",
            " A possible reason could be that you did not specify `evcodes = TRUE`?",
            " This is required to fill in all the required fields of `res_enrich`")
-    
+
     message("Found ", nrow(gprofiler_output), " gene sets in the file output from Enrichr of which ", sum(gprofiler_output$p_value <= 0.05), " are significant (p-value <= 0.05).")
     message("Converting for usage in GeneTonic...")
-    
+
     mydf <- data.frame(
       gs_id = gprofiler_output$term_id,
       gs_description = gprofiler_output$term_name,
@@ -394,9 +394,9 @@ shake_gprofilerResult <- function(gprofiler_output_file,
       stringsAsFactors = FALSE
     )
   }
-  
+
   rownames(mydf) <- mydf$gs_id
-  
+
   return(mydf)
 }
 
@@ -405,12 +405,12 @@ shake_gprofilerResult <- function(gprofiler_output_file,
 #' Convert the output of fgsea
 #'
 #' Convert the output of fgsea for straightforward use in [GeneTonic()]
-#' 
-#' @param fgsea_output A data.frame with the output of `fgsea()` in `fgsea`. 
+#'
+#' @param fgsea_output A data.frame with the output of `fgsea()` in `fgsea`.
 #'
 #' @return A `data.frame` compatible for use in [GeneTonic()] as `res_enrich`
 #' @export
-#' 
+#'
 #' @family shakers
 #'
 #' @examples
@@ -423,16 +423,16 @@ shake_fgseaResult <- function(fgsea_output) {
   exp_colnames <- c("pathway", "pval", "padj", "ES", "NES",
                     "nMoreExtreme", "size", "leadingEdge")
   if (!all(colnames(fgsea_output) %in% exp_colnames))
-    stop("I could not find some of the usual column names from the fgsea output.", 
+    stop("I could not find some of the usual column names from the fgsea output.",
          " Maybe you performed additional processing/filtering steps?")
-    
+
   if (!is(fgsea_output$leadingEdge, "list")) {
     stop("Expecting 'leadingEdge' column to be a list")
   }
-    
+
   message("Found ", nrow(fgsea_output), " gene sets in the file output from Enrichr of which ", sum(fgsea_output$padj <= 0.05), " are significant (p-value <= 0.05).")
   message("Converting for usage in GeneTonic...")
-  
+
   message(
     "Using the content of the 'leadingEdge' column to generate the 'gs_genes' for GeneTonic...",
     " If you have that information available directly, please adjust the content accordingly.",
@@ -442,12 +442,12 @@ shake_fgseaResult <- function(fgsea_output) {
   message("\n\nfgsea is commonly returning no identifier for the gene sets used.",
           " Please consider editing the 'gs_id' field manually according to the gene set you",
           " provided")
-  
+
   mydf <- data.frame(
     gs_id = fgsea_output$pathway,
     gs_description = fgsea_output$pathway,
     gs_pvalue = fgsea_output$pval,
-    gs_genes = vapply(fgsea_output$leadingEdge, 
+    gs_genes = vapply(fgsea_output$leadingEdge,
                       function (arg) paste(arg, collapse = ","), character(1)),
     gs_de_count = lengths(fgsea_output$leadingEdge),
     gs_bg_count = fgsea_output$size,
@@ -455,12 +455,12 @@ shake_fgseaResult <- function(fgsea_output) {
     gs_adj_pvalue = fgsea_output$padj,
     stringsAsFactors = FALSE
   )
-  
+
   rownames(mydf) <- mydf$gs_id
-  
+
   # consider re-sorting by p-value?
-  
-  
+
+
   return(mydf)
 }
 

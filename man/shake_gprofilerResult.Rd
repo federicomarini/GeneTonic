@@ -25,8 +25,8 @@ Convert the output of g:Profiler for straightforward use in \code{\link[=GeneTon
 # enrichr_output_macrophage <- enrichr(degenes, dbs)
 # or alternatively, if downloaded from the website in tabular format
 gprofiler_output_file <- system.file(
-  "extdata", 
-  "gProfiler_hsapiens_5-25-2020_tblexport_IFNg_vs_naive.csv", 
+  "extdata",
+  "gProfiler_hsapiens_5-25-2020_tblexport_IFNg_vs_naive.csv",
   package = "GeneTonic")
 res_from_gprofiler <- shake_gprofilerResult(gprofiler_output_file = gprofiler_output_file)
 
