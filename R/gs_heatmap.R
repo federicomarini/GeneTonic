@@ -33,6 +33,8 @@
 #' @param plot_title Character string, to specify the title of the plot,
 #' displayed over the heatmap. If left to `NULL` as by default, it tries to use
 #' the information on the geneset identifier provided
+#' @param ...  Additional arguments passed to other methods, e.g. in the call to 
+#' [ComplexHeatmap::Heatmap()]
 #'
 #' @return A plot returned by the [ComplexHeatmap::Heatmap()] function
 #' @export
@@ -93,7 +95,8 @@ gs_heatmap <- function(se,
                        center_mean = TRUE,
                        scale_row = FALSE,
                        anno_col_info = NULL,
-                       plot_title = NULL
+                       plot_title = NULL,
+                       ...
                        ) {
 
   if (!is.null(gtl)) {
@@ -225,7 +228,8 @@ gs_heatmap <- function(se,
       cluster_rows = cluster_rows,
       cluster_columns = cluster_columns,
       row_labels = annotation_obj[rownames(mydata_sig), ]$gene_name,
-      top_annotation = deco_ha
+      top_annotation = deco_ha,
+      ...
     )
   }
   draw(ch, merge_legend = TRUE)
