@@ -1134,7 +1134,7 @@ GeneTonic <- function(dds,
     })
 
     output$distill_info <- renderUI({
-      "haha"
+      "Meta-geneset information"
       # TODO: structure up the content, a la gene2html
     })
 
