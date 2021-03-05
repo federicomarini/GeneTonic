@@ -154,7 +154,7 @@ enrichment_map <- function(res_enrich,
 
   col_var <- res_enrich[idx, color_by]
   # the palette changes if it is z_score VS pvalue
-  if (all(col_var <= 1)) { # likely p-values...
+  if (all(col_var <= 1) & all(col_var > 0)) { # likely p-values...
     col_var <- -log10(col_var)
     # V(g)$color <- colVar
     mypal <- (scales::alpha(
