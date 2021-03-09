@@ -1116,8 +1116,12 @@ GeneTonic <- function(dds,
 
     output$backbone_graph <- renderVisNetwork({
       # minimal example
+      bbg <- reactive_values$backbone_graph()
+      validate(
+        need({igraph::vcount(bbg) > 0}, message = "Graph has no nodes, try increasing the number of sets to include...")
+      )
 
-      visNetwork::visIgraph(reactive_values$backbone_graph()) %>%
+      visNetwork::visIgraph(bbg) %>%
         visOptions(highlightNearest = list(enabled = TRUE,
                                            degree = 1,
                                            hover = TRUE),
