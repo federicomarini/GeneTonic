@@ -8,6 +8,8 @@
   
 * A new function to perform fuzzy clustering (following the implementation of DAVID) is added - see `gs_fuzzyclustering()`. It returns a table with additional information on the cluster of genesets and the status of each set in the group.  
 
+* The `ggs_backbone()` function can extract the bipartite graph backbone from the Gene-Geneset graph, this can be further explored below the main element in the Gene-Geneset panel. Once the backbone is created, you are one step away from checking out the genes that act as "hubs" in the Gene-Geneset graph, and possibly identify the nodes playing an essential role based on their connectivity.
+
 * A new function, `signature_volcano()`, adds a signature volcano plot to the `Gene-Geneset` panel. This plot displays the genes of a chosen geneset in color, while the remaining genes of the data are shown as shaded dots in the background. 
   The color and transparency of the displayed genes can be chosen by the user, as well as the option to display the gene names of all genes in the geneset.
 
