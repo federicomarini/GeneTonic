@@ -15,7 +15,7 @@
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be included
 #' @param gs_ids Character vector, containing a subset of `gs_id` as they are
-#' available in `res_enrich`. Lists the gene sets to be included in addition to 
+#' available in `res_enrich`. Lists the gene sets to be included in addition to
 #' the top ones (via `n_gs`)
 #' @param prettify Logical, controlling the aspect of the returned graph object.
 #' If TRUE (default value), different shapes of the nodes are returned, based on
@@ -27,7 +27,7 @@
 #' defaults to a color ramp palette interpolating from blue through yellow to red.
 #'
 #' @return An `igraph` object to be further manipulated or processed/plotted (e.g.
-#' via [igraph::plot.igraph()] or 
+#' via [igraph::plot.igraph()] or
 #' [visNetwork::visIgraph()][visNetwork::visNetwork-igraph])
 #' @export
 #'
@@ -89,7 +89,7 @@ ggs_graph <- function(res_enrich,
                       prettify = TRUE,
                       geneset_graph_color = "gold",
                       genes_graph_colpal = NULL) {
-  
+
   if (!is.null(gtl)) {
     checkup_gtl(gtl)
     dds <- gtl$dds
@@ -97,10 +97,10 @@ ggs_graph <- function(res_enrich,
     res_enrich <- gtl$res_enrich
     annotation_obj <- gtl$annotation_obj
   }
-  
+
   stopifnot(is.numeric(n_gs))
   stopifnot(is.logical(prettify))
-  
+
   if (!is.null(genes_graph_colpal)) {
 
     if (!is(genes_graph_colpal, "character"))
@@ -211,8 +211,8 @@ ggs_graph <- function(res_enrich,
 
 
 #' Extract the backbone for the gene-geneset graph
-#' 
-#' Extract the backbone for the gene-geneset graph, either for the genes or for the 
+#'
+#' Extract the backbone for the gene-geneset graph, either for the genes or for the
 #' genesets
 #'
 #' @param res_enrich A `data.frame` object, storing the result of the functional
@@ -227,37 +227,37 @@ ggs_graph <- function(res_enrich,
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be included
 #' @param gs_ids Character vector, containing a subset of `gs_id` as they are
-#' available in `res_enrich`. Lists the gene sets to be included in addition to 
+#' available in `res_enrich`. Lists the gene sets to be included in addition to
 #' the top ones (via `n_gs`)
 #' @param bb_on A character string, either "genesets" or "features", to specify which
 #' entity should be based the backbone graph on.
 #' @param bb_method A character string, referring to the function to be called (
-#' from the `backbone` package) for computing the backbone of the specified 
+#' from the `backbone` package) for computing the backbone of the specified
 #' bipartite graph. Defaults to "sdsm", as recommended in the `backbone` package.
-#' @param bb_extract_alpha A numeric value, specifying the significance level to 
-#' use when detecting the backbone of the network 
-#' @param bb_extract_fwer A character string, defaulting to "none", specifying 
-#' which method to use for the multiple testing correction for controlling the 
+#' @param bb_extract_alpha A numeric value, specifying the significance level to
+#' use when detecting the backbone of the network
+#' @param bb_extract_fwer A character string, defaulting to "none", specifying
+#' which method to use for the multiple testing correction for controlling the
 #' family-wise error rate
 #' @param bb_fullinfo Logical value, determining what will be returned as output:
-#' either a simple `ìgraph` object with the graph backbone (if set to `FALSE`), 
-#' or a list object containing also the `backbone` object, and the gene-geneset 
+#' either a simple `ìgraph` object with the graph backbone (if set to `FALSE`),
+#' or a list object containing also the `backbone` object, and the gene-geneset
 #' graph used for the computation (if `TRUE`)
-#' @param bb_remove_singletons Logical value, defines whether to remove or leave 
+#' @param bb_remove_singletons Logical value, defines whether to remove or leave
 #' in the returned graph the nodes that are not connected to other vertices
-#' @param color_graph Logical value, specifies whether to use information about 
-#' genesets or features to colorize the nodes, e.g. for this info to be used in 
+#' @param color_graph Logical value, specifies whether to use information about
+#' genesets or features to colorize the nodes, e.g. for this info to be used in
 #' interactive versions of the graph
-#' @param color_by_geneset Character string, corresponding to the column in 
+#' @param color_by_geneset Character string, corresponding to the column in
 #' `res_enrich` to be used for coloring the nodes if `bb_on` is set to "genesets".
 #' Defaults to the "z_score", which can be obtained via `get_aggrscores()`
-#' @param color_by_feature Character string, corresponding to the column in 
+#' @param color_by_feature Character string, corresponding to the column in
 #' `res_de` to be used for coloring the nodes if `bb_on` is set to "features".
 #' Defaults to the "log2FoldChange", which should be normally included in a
 #' DESeqResults object.
 #' @param ... Additional parameters to be passed internally
 #'
-#' @return According to the `bb_fullinfo`, either a simple `ìgraph` object with 
+#' @return According to the `bb_fullinfo`, either a simple `ìgraph` object with
 #' the graph backbone, or a named list object containing:
 #' - the `igraph` of the extracted backbone
 #' - the `backbone` object itself
@@ -460,4 +460,87 @@ ggs_backbone <- function(res_enrich,
   } else {
     return(bbgraph)
   }
-}  
+}
+
+
+
+
+
+#' Summarize information on the hub genes
+#'
+#' Summarize information on the hub genes in the Gene-Geneset graph
+#'
+#' @param g An `igraph` object, as generated by the `ggs_graph()` function
+#'
+#' @return A data.frame object, formatted for use in `DT::datatable()`
+#'
+#' @export
+#'
+#' @examples
+#' library("macrophage")
+#' library("DESeq2")
+#' library("org.Hs.eg.db")
+#' library("AnnotationDbi")
+#'
+#' # dds object
+#' data("gse", package = "macrophage")
+#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
+#' dds_macrophage <- estimateSizeFactors(dds_macrophage)
+#'
+#' # annotation object
+#' anno_df <- data.frame(
+#'   gene_id = rownames(dds_macrophage),
+#'   gene_name = mapIds(org.Hs.eg.db,
+#'                      keys = rownames(dds_macrophage),
+#'                      column = "SYMBOL",
+#'                      keytype = "ENSEMBL"),
+#'   stringsAsFactors = FALSE,
+#'   row.names = rownames(dds_macrophage)
+#' )
+#'
+#' # res object
+#' data(res_de_macrophage, package = "GeneTonic")
+#' res_de <- res_macrophage_IFNg_vs_naive
+#'
+#' # res_enrich object
+#' data(res_enrich_macrophage, package = "GeneTonic")
+#' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
+#' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
+#'
+#' ggs <- ggs_graph(res_enrich,
+#'                  res_de,
+#'                  anno_df
+#'                 )
+#' dt_df <- summarize_ggs_hubgenes(ggs)
+#' DT::datatable(dt_df, escape = FALSE)
+summarize_ggs_hubgenes <- function(g) {
+  df_nodes <- data.frame(
+    node_name = V(g)$name,
+    node_type = V(g)$nodetype,
+    stringsAsFactors = FALSE
+  )
+
+  # Select nodes belonging to genes from graph
+  genes <- subset(df_nodes, df_nodes$node_type == "Feature")
+  genes <- genes$node_name
+
+
+  # Get degree of gene nodes in the graph
+  node_degrees <- sapply(genes, function(x) degree(g, x))
+  buttons <- sapply(genes, generate_buttons_hubgenes)
+  #print(buttons)
+
+  node_degrees_df <- data.frame(gene = genes,
+                             degree = node_degrees,
+                             buttons = buttons)
+
+
+  # Sort in descending degree order
+  rownames(node_degrees_df) <- NULL
+  node_degrees_df <- arrange(node_degrees_df, desc(.data$degree))
+  colnames(node_degrees_df) <- c("Gene", "Degree", "See more")
+  return(node_degrees_df)
+}
+
+

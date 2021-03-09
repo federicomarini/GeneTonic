@@ -908,53 +908,11 @@ GeneTonic <- function(dds,
 
     output$table_graph_summary <- DT::renderDataTable({
       g <- reactive_values$ggs_graph()
-      df_nodes <- data.frame(
-        node_name = V(g)$name,
-        node_type = V(g)$nodetype,
-        stringsAsFactors = FALSE
-      )
 
-      # Select nodes belonging to genes from graph
-      genes <- subset(df_nodes, df_nodes$node_type == "Feature")
-      genes <- genes$node_name
+      node_degrees <- summarize_ggs_hubgenes(g)
+      DT::datatable(node_degrees, escape = FALSE)
 
-
-      generate_buttons <- function(x){
-        mybuttons <- paste(tags$b(x), tags$br(),
-                           sprintf('<a href = "http://www.ncbi.nlm.nih.gov/gene/?term=%s[sym]" target = "_blank" class = "btn btn-primary" style = "%s">%s</a>',
-                                   x,
-                                   .actionbutton_biocstyle,
-                                   "NCBI"),
-                           sprintf('<a href = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=%s" target = "_blank" class = "btn btn-primary" style = "%s">%s</a>',
-                                   x,
-                                   .actionbutton_biocstyle,
-                                   "Genecards"),
-                           sprintf('<a href = "https://www.gtexportal.org/home/gene/%s" target = "_blank" class = "btn btn-primary" style = "%s"><i class="fa fa-dna"></i>%s</a>',
-                                   x,
-                                   .actionbutton_biocstyle,
-                                   "GTEx"),
-                           tags$br(style="display:inline-block"),
-                           collapse = "\t")
-        return(mybuttons)
-      }
-
-      # Get degree of gene nodes in the graph
-      node_degrees <- sapply(genes, function(x) degree(g, x))
-      buttons <- sapply(genes, generate_buttons)
-      #print(buttons)
-
-      node_degrees <- data.frame(gene = genes,
-                                 degree = node_degrees,
-                                 buttons = buttons)
-
-
-      # Sort in descending degree order
-      rownames(node_degrees) <- NULL
-      node_degrees <- arrange(node_degrees, desc(degree))
-      colnames(node_degrees) <- c("Gene", "Degree", "See more")
-      table <- datatable(node_degrees, escape = FALSE)
-      table
-      })
+    })
 
     output$ui_ggs_genesetbox <- renderUI({
       tagList(
