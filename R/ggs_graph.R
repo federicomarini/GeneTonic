@@ -332,15 +332,15 @@ ggs_backbone <- function(res_enrich,
     res_enrich <- gtl$res_enrich
     annotation_obj <- gtl$annotation_obj
   }
-  
+
   stopifnot(is.logical(bb_fullinfo))
   stopifnot(is.logical(bb_remove_singletons))
   stopifnot(is.logical(color_graph))
-  
+
   bb_method <- match.arg(bb_method, c("sdsm", "fsdm", "hyperg"))
   bb_extract_fwer = match.arg(bb_extract_fwer, c("none","bonferroni","holm"))
   bb_on <- match.arg(bb_on, c("genesets", "features"))
-  
+
   # check that columns to encode the colors are present
   if (color_graph) {
     if (bb_on == "genesets") {
@@ -349,7 +349,7 @@ ggs_backbone <- function(res_enrich,
              color_by_geneset,
              " column.\n",
              "Compute this first or select another column to use for the color.")
-      
+
     } else if (bb_on == "features") {
       if (!color_by_feature %in% colnames(res_de))
         stop("Your res_de object does not contain the ",
@@ -358,7 +358,7 @@ ggs_backbone <- function(res_enrich,
              "Compute this first or select another column to use for the color.")
     }
   }
-  
+
   # first, compute the ggs graph object
   ggs <- ggs_graph(res_enrich = res_enrich,
                    res_de = res_de,
@@ -366,18 +366,18 @@ ggs_backbone <- function(res_enrich,
                    gtl = gtl,
                    n_gs = n_gs,
                    gs_ids = gs_ids)
-  
+
   # for making this a formal bipartite graph
   V(ggs)$type <- V(ggs)$nodetype=="GeneSet"
-  
+
   bpm <- igraph::as_incidence_matrix(ggs)
-  
+
   if (bb_on =="features") {
     bpm_for_backbone <- bpm
   } else if (bb_on == "genesets") {
     bpm_for_backbone <- t(bpm)
   }
-  
+
   if (bb_method == "sdsm") {
     bbobj <- backbone::sdsm(bpm_for_backbone)
   } else if (bb_method == "fdsm") {
@@ -385,65 +385,70 @@ ggs_backbone <- function(res_enrich,
   } else if (bb_method == "hyperg") {
     bbobj <- backbone::hyperg(bpm_for_backbone)
   }
-  
+
   bbextracted <- backbone::backbone.extract(bbobj,
                                             alpha = bb_extract_alpha,
                                             fwer = bb_extract_fwer)
-  
+
   bbgraph <- igraph::graph_from_adjacency_matrix(bbextracted, mode = "undirected")
-  
+
   if (bb_remove_singletons) {
     bbgraph <- igraph::delete_vertices(bbgraph, !(igraph::degree(bbgraph) >= 1 ))
   }
-  
-  if (color_graph) {
-    if (bb_on == "genesets") {
-      # will use the summarized Z-score
-      color_by <- color_by_geneset
-      idx <- match(V(bbgraph)$name, res_enrich$gs_description)
-      col_var <- res_enrich[idx, color_by]
-      
-      mypal <- rev(scales::alpha(
-        colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.8))
-      mypal_hover <- rev(scales::alpha(
-        colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.5))
-      mypal_select <- rev(scales::alpha(
-        colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 1))
-      
-      V(bbgraph)$color.background <- map2color(col_var, mypal, limits = range(col_var))
-      V(bbgraph)$color.highlight <- map2color(col_var, mypal_select, limits = range(col_var))
-      V(bbgraph)$color.hover <- map2color(col_var, mypal_hover, limits = range(col_var))
-      
-      V(bbgraph)$color.border <- "black"
-      
-      # additional specification of edge colors
-      E(bbgraph)$color <- "lightgrey"
-      
-    } else if (bb_on == "features") {
-      # will use the logFoldChange
-      color_by <- color_by_feature
-      idx <- annotation_obj$gene_id[match(V(bbgraph)$name, annotation_obj$gene_name)]
-      col_var <- res_de[idx, color_by]
-      
-      mypal <- rev(scales::alpha(
-        colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.8))
-      mypal_hover <- rev(scales::alpha(
-        colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.5))
-      mypal_select <- rev(scales::alpha(
-        colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 1))
-      
-      V(bbgraph)$color.background <- map2color(col_var, mypal, limits = range(col_var))
-      V(bbgraph)$color.highlight <- map2color(col_var, mypal_select, limits = range(col_var))
-      V(bbgraph)$color.hover <- map2color(col_var, mypal_hover, limits = range(col_var))
-      
-      V(bbgraph)$color.border <- "black"
-      
-      # additional specification of edge colors
-      E(bbgraph)$color <- "lightgrey"
+
+
+
+  if (igraph::vcount(bbgraph) != 0) {
+
+    if (color_graph) {
+      if (bb_on == "genesets") {
+        # will use the summarized Z-score
+        color_by <- color_by_geneset
+        idx <- match(V(bbgraph)$name, res_enrich$gs_description)
+        col_var <- res_enrich[idx, color_by]
+
+        mypal <- rev(scales::alpha(
+          colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.8))
+        mypal_hover <- rev(scales::alpha(
+          colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.5))
+        mypal_select <- rev(scales::alpha(
+          colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 1))
+
+        V(bbgraph)$color.background <- map2color(col_var, mypal, limits = range(col_var))
+        V(bbgraph)$color.highlight <- map2color(col_var, mypal_select, limits = range(col_var))
+        V(bbgraph)$color.hover <- map2color(col_var, mypal_hover, limits = range(col_var))
+
+        V(bbgraph)$color.border <- "black"
+
+        # additional specification of edge colors
+        E(bbgraph)$color <- "lightgrey"
+
+      } else if (bb_on == "features") {
+        # will use the logFoldChange
+        color_by <- color_by_feature
+        idx <- annotation_obj$gene_id[match(V(bbgraph)$name, annotation_obj$gene_name)]
+        col_var <- res_de[idx, color_by]
+
+        mypal <- rev(scales::alpha(
+          colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.8))
+        mypal_hover <- rev(scales::alpha(
+          colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.5))
+        mypal_select <- rev(scales::alpha(
+          colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 1))
+
+        V(bbgraph)$color.background <- map2color(col_var, mypal, limits = range(col_var))
+        V(bbgraph)$color.highlight <- map2color(col_var, mypal_select, limits = range(col_var))
+        V(bbgraph)$color.hover <- map2color(col_var, mypal_hover, limits = range(col_var))
+
+        V(bbgraph)$color.border <- "black"
+
+        # additional specification of edge colors
+        E(bbgraph)$color <- "lightgrey"
+      }
+
     }
-    
   }
-  
+
   if (bb_fullinfo) {
     return(
       list(
