@@ -17,8 +17,8 @@ A \code{data.frame} compatible for use in \code{\link[=GeneTonic]{GeneTonic()}} 
 Convert the output of DAVID for straightforward use in \code{\link[=GeneTonic]{GeneTonic()}}
 }
 \examples{
-david_output_file <- system.file("extdata", 
-                                 "david_output_chart_BPonly_ifng_vs_naive.txt", 
+david_output_file <- system.file("extdata",
+                                 "david_output_chart_BPonly_ifng_vs_naive.txt",
                                  package = "GeneTonic")
 res_enrich <- shake_davidResult(david_output_file)
 }

@@ -4,9 +4,13 @@ title: >
 author:
 - name: Federico Marini
   affiliation: 
-  - &id1 Institute of Medical Biostatistics, Epidemiology and Informatics (IMBEI), Mainz
+  - Institute of Medical Biostatistics, Epidemiology and Informatics (IMBEI), Mainz
   - Center for Thrombosis and Hemostasis (CTH), Mainz
   email: marinif@uni-mainz.de
+- name: Annekathrin Ludt
+  affiliation: 
+  - Institute of Medical Biostatistics, Epidemiology and Informatics (IMBEI), Mainz
+  email: anneludt@uni-mainz.de
 date: "`r BiocStyle::doc_date()`"
 package: "`r BiocStyle::pkg_ver('GeneTonic')`"
 output: 
@@ -242,7 +246,7 @@ Alternatively (this applies from version >= 1.3.0), it is possible to provide a 
 Please note that the arguments should be named as specified in the example below.
 
 ```{r}
-gtl <- list(
+gtl <- GeneTonic_list(
   dds = DESeq2::estimateSizeFactors(dds_macrophage),
   res_de = res_macrophage_IFNg_vs_naive,
   res_enrich = res_enrich_macrophage,

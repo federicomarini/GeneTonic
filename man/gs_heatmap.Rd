@@ -19,7 +19,8 @@ gs_heatmap(
   center_mean = TRUE,
   scale_row = FALSE,
   anno_col_info = NULL,
-  plot_title = NULL
+  plot_title = NULL,
+  ...
 )
 }
 \arguments{
@@ -68,6 +69,9 @@ decorating the heatmap as annotation.}
 \item{plot_title}{Character string, to specify the title of the plot,
 displayed over the heatmap. If left to \code{NULL} as by default, it tries to use
 the information on the geneset identifier provided}
+
+\item{...}{Additional arguments passed to other methods, e.g. in the call to
+\code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Heatmap()}}}
 }
 \value{
 A plot returned by the \code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Heatmap()}} function

@@ -2,7 +2,7 @@
 #'
 #' Generates a graph for the enrichment map, combining information from `res_enrich`
 #' and `res_de`. This object can be further plotted, e.g. statically via
-#' [igraph::plot.igraph()], or dynamically via 
+#' [igraph::plot.igraph()], or dynamically via
 #' [visNetwork::visIgraph()][visNetwork::visNetwork-igraph]
 #'
 #' @param res_enrich A `data.frame` object, storing the result of the functional
@@ -102,7 +102,7 @@ enrichment_map <- function(res_enrich,
     res_enrich <- gtl$res_enrich
     annotation_obj <- gtl$annotation_obj
   }
-  
+
   if (!color_by %in% colnames(res_enrich))
     stop("Your res_enrich object does not contain the ",
          color_by,
@@ -154,7 +154,7 @@ enrichment_map <- function(res_enrich,
 
   col_var <- res_enrich[idx, color_by]
   # the palette changes if it is z_score VS pvalue
-  if (all(col_var <= 1)) { # likely p-values...
+  if (all(col_var <= 1) & all(col_var > 0)) { # likely p-values...
     col_var <- -log10(col_var)
     # V(g)$color <- colVar
     mypal <- (scales::alpha(

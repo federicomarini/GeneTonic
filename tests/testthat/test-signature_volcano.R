@@ -24,16 +24,16 @@ test_that("Geneset signature volcano is created", {
                    plot_title = "Random Title"
   )
   expect_is(p3, "gg")
-  
-  gtl_macrophage <- list(dds = dds_macrophage,
-                         res_de = res_macrophage_IFNg_vs_naive,
-                         res_enrich = res_enrich_IFNg_vs_naive,
-                         annotation_obj = anno_df)
+
+  gtl_macrophage <- GeneTonic_list(dds = dds_macrophage,
+                                   res_de = res_macrophage_IFNg_vs_naive,
+                                   res_enrich = res_enrich_IFNg_vs_naive,
+                                   annotation_obj = anno_df)
   p4 <- signature_volcano(gtl = gtl_macrophage,
                           geneset_id = cur_gsid,
   )
   expect_is(p4, "gg")
-  
+
   p5 <- signature_volcano(res_de = res_macrophage_IFNg_vs_naive,
                           res_enrich = res_enrich_IFNg_vs_naive,
                           annotation_obj = anno_df,
@@ -58,5 +58,4 @@ test_that("Geneset signature volcano is created", {
     )
   )
 
-  file.remove("Rplots.pdf")
 })
