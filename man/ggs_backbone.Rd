@@ -127,12 +127,12 @@ res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 
 ggs_bbg <- ggs_backbone(res_enrich,
-                             res_de,
-                             anno_df,
-                             n_gs = 50,
-                             bb_on = "genesets",
-                             color_graph = TRUE,
-                             color_by_geneset = "z_score"
+                        res_de,
+                        anno_df,
+                        n_gs = 50,
+                        bb_on = "genesets",
+                        color_graph = TRUE,
+                        color_by_geneset = "z_score"
 )
 plot(ggs_bbg)
 
