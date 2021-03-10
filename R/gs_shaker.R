@@ -421,8 +421,8 @@ shake_fgseaResult <- function(fgsea_output) {
     stop("fgsea output should be a data.frame!")
   }
   exp_colnames <- c("pathway", "pval", "padj", "ES", "NES",
-                    "nMoreExtreme", "size", "leadingEdge")
-  if (!all(colnames(fgsea_output) %in% exp_colnames))
+                    "size", "leadingEdge")
+  if (!all(exp_colnames %in% colnames(fgsea_output)))
     stop("I could not find some of the usual column names from the fgsea output.",
          " Maybe you performed additional processing/filtering steps?")
 
