@@ -111,9 +111,10 @@ GeneTonic <- function(dds,
                     annotation_obj)
 
   # clean up the result object, e.g. removing the NAs in the relevant columns
-  res_de <- res_de[!is.na(res_de$log2FoldChange), ]
-  message("Removing ", sum(is.na(res_de$log2FoldChange)), " rows from the result object - logFC detected as NA")
-
+  removed_genes <- is.na(res_de$log2FoldChange)
+  message("Removing ", sum(removed_genes),
+          "/", nrow(res_de), " rows from the DE `res_de` object - log2FC values detected as NA")
+  res_de <- res_de[!removed_genes, ]
 
   # UI definition -----------------------------------------------------------
 
@@ -392,7 +393,39 @@ GeneTonic <- function(dds,
                 uiOutput("ui_ggs_genebox")
               )
             )
+          ),
+
+          fluidRow(
+            bs4Dash::bs4Card(
+              width = 12,
+              inputId = "card_ggsbackbone",
+              title = "Gene-geneset graph summaries",
+              status = "info",
+              solidHeader = FALSE,
+              collapsible = TRUE,
+              collapsed = TRUE,
+              closable = FALSE,
+              fluidRow(
+                column(
+                  width = 8,
+                  uiOutput("ui_backbone_launch"),
+                  radioButtons(inputId = "backbone_on",
+                               label = "Compute the backbone on",
+                               choices = c("genesets", "features"),
+                               selected = "genesets",
+                               inline = TRUE),
+                  withSpinner(
+                    visNetworkOutput("backbone_graph")
+                  )
+                ),
+                column(
+                  width = 4,
+                  uiOutput("ui_graph_summary")
+                )
+              )
+            )
           )
+
         ),
 
         # ui panel enrichment map -------------------------------------------------
@@ -720,6 +753,7 @@ GeneTonic <- function(dds,
       )
     })
     output$overview_res_de <- DT::renderDataTable({
+      res_de <- res_de[order(res_de$padj), ]
       DT::datatable(
         as.data.frame(res_de),
         options = list(
@@ -863,6 +897,23 @@ GeneTonic <- function(dds,
       paste0("I'm selecting ", input$ggsnetwork_selected, ", which has index ", cur_node, " and is of type ", cur_nodetype, "this is from set", cur_gsid)
     })
 
+    output$ui_graph_summary <- renderUI({
+      tagList(
+        # TODO: if other UI elements should be in, we can place them here
+        h4("Highly connected genes"),
+        DT::dataTableOutput("table_graph_summary")
+      )
+
+    })
+
+    output$table_graph_summary <- DT::renderDataTable({
+      g <- reactive_values$ggs_graph()
+
+      node_degrees <- summarize_ggs_hubgenes(g)
+      DT::datatable(node_degrees, escape = FALSE)
+
+    })
+
     output$ui_ggs_genesetbox <- renderUI({
       tagList(
         # verbatimTextOutput("netnode"),
@@ -1004,6 +1055,40 @@ GeneTonic <- function(dds,
       )
     })
 
+    reactive_values$backbone_graph <- reactive({
+
+      not_msg <- sprintf("Computing backbone on %s of the current gene-geneset graph, please hold on...", input$backbone_on)
+      showNotification(not_msg)
+
+      bbg <- ggs_backbone(
+        res_enrich = res_enrich,
+        res_de = res_de,
+        annotation_obj = annotation_obj,
+        n_gs = input$n_genesets,
+        bb_on = input$backbone_on
+        # prettify = TRUE,
+        # geneset_graph_color = "gold"
+      )
+      return(bbg)
+    })
+
+    output$backbone_graph <- renderVisNetwork({
+      # minimal example
+      bbg <- reactive_values$backbone_graph()
+      validate(
+        need({igraph::vcount(bbg) > 0}, message = "Graph has no nodes, try increasing the number of sets to include...")
+      )
+
+      visNetwork::visIgraph(bbg) %>%
+        visOptions(highlightNearest = list(enabled = TRUE,
+                                           degree = 1,
+                                           hover = TRUE),
+                   nodesIdSelection = TRUE) %>%
+        visExport(name = "backbone_network",
+                  type = "png",
+                  label = "Save backbone graph")
+
+    })
 
 
     # panel EnrichmentMap -----------------------------------------------------

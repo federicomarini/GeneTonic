@@ -34,7 +34,8 @@ of the list \emph{must} be specified following the content they are expecting}
 be included}
 
 \item{gs_ids}{Character vector, containing a subset of \code{gs_id} as they are
-available in \code{res_enrich}. Lists the gene sets to be displayed.}
+available in \code{res_enrich}. Lists the gene sets to be included in addition to
+the top ones (via \code{n_gs})}
 
 \item{prettify}{Logical, controlling the aspect of the returned graph object.
 If TRUE (default value), different shapes of the nodes are returned, based on

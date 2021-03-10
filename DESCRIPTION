@@ -25,6 +25,7 @@ Depends:
     R (>= 4.0.0)
 Imports:
     AnnotationDbi,
+    backbone,
     bs4Dash,
     colorspace,
 	colourpicker,
@@ -81,4 +82,4 @@ Roxygen: list(markdown = TRUE)
 biocViews:
     GUI, GeneExpression, Software, Transcription, Transcriptomics, Visualization,
     DifferentialExpression, Pathways, ReportWriting, GeneSetEnrichment, 
-    Annotation, Pathways, GO
+    Annotation, GO

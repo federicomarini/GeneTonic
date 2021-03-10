@@ -8,10 +8,14 @@
   
 * A new function to perform fuzzy clustering (following the implementation of DAVID) is added - see `gs_fuzzyclustering()`. It returns a table with additional information on the cluster of genesets and the status of each set in the group.  
 
-* A new function, `signature_volcano()`, adds a signature volcano plot to the `Gene-Geneset` panel. This plot displays the genes of a chosen geneset in color, while the remaining genes of the data are shown as shaded dots in the background. 
+* The `ggs_backbone()` function can extract the bipartite graph backbone from the Gene-Geneset graph, this can be further explored below the main element in the Gene-Geneset panel. Once the backbone is created, you are one step away from checking out the genes that act as "hubs" in the Gene-Geneset graph, and possibly identify the nodes playing an essential role based on their connectivity.
+
+* A new function, `signature_volcano()`, adds a signature volcano plot to the Gene-Geneset panel. This plot displays the genes of a chosen geneset in color, while the remaining genes of the data are shown as shaded dots in the background. 
   The color and transparency of the displayed genes can be chosen by the user, as well as the option to display the gene names of all genes in the geneset.
 
-* `gs_summary_overview()` can also generate bar plots instead of the default segment-dot (lollipop) plots
+* `gs_summary_overview()` can also generate bar plots instead of the default segment-dot (lollipop) plots.
+
+* A new function, `summarize_ggs_hubgenes()`, builds a DT `datatable` for the Gene-Geneset panel. This table lists the individual genes of the input data and their respective degree in the Gene-Geneset graph. Furthermore, `action buttons` linking to the NCBI, Genecards and GTEx databases are included for each gene.
 
 ## Other notes
 

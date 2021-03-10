@@ -352,6 +352,38 @@ geneinfo_2_html <- function(gene_id,
 
 
 
+#' Generate set of buttons for the hub genes
+#'
+#' @param x String, gene name
+#'
+#' @return HTML for the action buttons
+#' @noRd
+generate_buttons_hubgenes <- function(x) {
+  mybuttons <- paste(
+    tags$b(x), tags$br(),
+    sprintf(
+      '<a href = "http://www.ncbi.nlm.nih.gov/gene/?term=%s[sym]" target = "_blank" class = "btn btn-primary" style = "%s">%s</a>',
+      x,
+      .actionbutton_biocstyle,
+      "NCBI"),
+    sprintf(
+      '<a href = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=%s" target = "_blank" class = "btn btn-primary" style = "%s">%s</a>',
+      x,
+      .actionbutton_biocstyle,
+      "GeneCards"),
+    sprintf(
+      '<a href = "https://www.gtexportal.org/home/gene/%s" target = "_blank" class = "btn btn-primary" style = "%s">%s</a>',
+      x,
+      .actionbutton_biocstyle,
+      "GTEx"),
+    tags$br(style="display:inline-block"),
+    collapse = "\t")
+  return(mybuttons)
+}
+
+
+
+
 #' Calculate overlap coefficient
 #'
 #' Calculate similarity coefficient between two sets, based on the overlap

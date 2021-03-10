@@ -6,6 +6,7 @@
 #' @author Federico Marini \email{marinif@@uni-mainz.de}
 #'
 #' @importFrom AnnotationDbi Definition GOID Ontology Secondary Synonym Term
+#' @importFrom backbone backbone.extract fdsm hyperg sdsm universal
 #' @importFrom bs4Dash bs4Card bs4DashBody bs4DashControlbar
 #' bs4DashFooter bs4DashNavbar bs4DashPage bs4DashSidebar
 #' bs4InfoBox bs4InfoBoxOutput bs4SidebarMenu
@@ -29,7 +30,8 @@
 #' @importFrom graphics par plot
 #' @importFrom grDevices colorRampPalette rgb col2rgb
 #' @importFrom grid gpar
-#' @importFrom igraph add_edges delete.edges "%du%" E "E<-" graph.data.frame induced_subgraph
+#' @importFrom igraph add_edges as_adjacency_matrix as_incidence_matrix degree
+#' delete.edges delete_vertices "%du%" E "E<-" graph.data.frame induced_subgraph
 #' make_full_graph permute.vertices strength V "V<-" vcount get.edgelist
 #' @importFrom matrixStats rowSds
 #' @importFrom methods is

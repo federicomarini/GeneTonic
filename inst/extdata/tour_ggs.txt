@@ -21,4 +21,5 @@ element;intro
 #bookmarker;... and click on the Bookmark button in the navbar. You can repeat this action as many times as desired.
 #ggsnetwork;To simplify the action of bookmarking many entities which might be close to each other, the bookmarking can be triggered also by pressing the <code>left Ctrl</code> key on your keyboard. Try doing so, and keep track of the app notifying you the node has been added to the lists of genes and genesets of interest.
 #shiny-tab-tab_ggs;You can edit the number of displayed genesets to change the granularity and detail level of the graph, and again bookmark nodes of interest.
+#ui_graph_summary; This table lists the individual genes and their respective degree. In this connection, the degree of a gene is the number of connections of this genes in the above graph. Besides the gene name and the degree, the table also provides more information on the genes. The buttons of the 'See more' column link you directly to the NCBI, Genecards and GTEx databases, where more information of the respective gene is available. 
 #thanks;Thank you for taking the Gene-Geneset panel tour of <code>GeneTonic</code>!
