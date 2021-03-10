@@ -15,7 +15,7 @@
 
 * `gs_summary_overview()` can also generate bar plots instead of the default segment-dot (lollipop) plots.
 
-* A new function, `summarize_ggs_hubgenes()`, builds a DT `datatable` for the Gene-Geneset panel. This table lists the individual genes of the input data and their respective degree in the Gene-Geneset graph. Furthermore, `action buttons` linking to the NCBI, Genecards and GTEx databases are included for each gene.
+* A new function, `summarize_ggs_hubgenes()`, builds a DT `datatable` for the Gene-Geneset panel. This table lists the individual genes of the input data and their respective degree in the Gene-Geneset graph. Furthermore, `action buttons` linking to the NCBI, GeneCards and GTEx databases are included for each gene.
 
 ## Other notes
 
