@@ -20,6 +20,7 @@
 ## Other notes
 
 * `gs_heatmap()` has now the possibility to set the arguments to the call to heatmap generating function, via ellipsis
+* `gs_heatmap()` handles the colors in a consistent way over the different executions, without relying on the random palettes provided by the `Heatmap`'s annotation functionality - could have been misleading if encountering too similar hues are randomly picked
 
 # GeneTonic 1.2.0
 
