@@ -212,13 +212,53 @@ gs_heatmap <- function(se,
       rect_gp = gpar(col = "white", lwd = 0.5),
       cluster_rows = cluster_rows,
       cluster_columns = cluster_columns,
-      row_labels = annotation_obj[rownames(mydata_sig), ]$gene_name
+      row_labels = annotation_obj[rownames(mydata_sig), ]$gene_name,
+      ...
     )
   } else {
     anno_col_info <- anno_col_info[anno_col_info %in% colnames(colData(se))]
     sample_decoration <- as.data.frame(colData(se))[, anno_col_info, drop = FALSE]
-    deco_ha <- HeatmapAnnotation(df = sample_decoration)
-
+    
+    # handling the color with user defined values
+    col_list <- vector(mode = "list", length = ncol(sample_decoration))
+    
+    for(i in seq_len(ncol(sample_decoration))) {
+      these_decos <- sample_decoration[ , i, drop = TRUE]
+      
+      if (is.numeric(these_decos)) {
+        max_val <- max(these_decos, na.rm = TRUE) 
+        min_val <- min(these_decos, na.rm = TRUE)
+        mid_val <- median(these_decos, na.rm = TRUE)
+        
+        if (max_val * min_val >= 0) {
+          # sequential palette, all the same sign
+          these_cols <- circlize::colorRamp2(
+            c(min_val, max_val),
+            c("grey95", "darkred")
+          )
+        } else {
+          # need for a diverging palette
+          these_cols <- circlize::colorRamp2(
+            c(min_val, mid_val, max_val),
+            c("blue", "grey95", "red")
+          )
+        }
+      }
+      
+      if(is.character(these_decos) | is.factor(these_decos)) {
+        if (is.character(these_decos))
+          these_decos <- factor(these_decos)
+        these_cols <- colorspace::rainbow_hcl(n = length(levels(these_decos)))
+        names(these_cols) <- levels(these_decos)
+      }
+      
+      col_list[[i]] <- these_cols
+    }
+    
+    names(col_list) <- colnames(sample_decoration)
+    
+    deco_ha <- HeatmapAnnotation(df = sample_decoration, col = col_list)
+    
     ch <- ComplexHeatmap::Heatmap(
       matrix = mydata_sig,
       column_title = title,
