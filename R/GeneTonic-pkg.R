@@ -13,6 +13,7 @@
 #' bs4SidebarMenuItem bs4TabItem bs4TabItems bs4ValueBox
 #' bs4ValueBoxOutput renderbs4InfoBox renderbs4ValueBox
 #' bs4TabPanel bs4TabCard
+#' @importFrom circlize colorRamp2
 #' @importFrom colorspace rainbow_hcl
 #' @importFrom colourpicker colourInput
 #' @importFrom ComplexHeatmap Heatmap HeatmapAnnotation draw
