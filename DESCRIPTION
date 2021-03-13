@@ -27,6 +27,7 @@ Imports:
     AnnotationDbi,
     backbone,
     bs4Dash,
+    circlize,
     colorspace,
 	colourpicker,
     ComplexHeatmap,
