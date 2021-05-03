@@ -175,8 +175,8 @@ signature_volcano <- function(res_de,
               aes_string(x = "log2FoldChange", y = "logTransformedpvalue")) +
     geom_point(aes_string(color = "significant",
                           alpha = "belonging")) +
-    labs(x = "log2Fold Change",
-         y = "-log10 p-value",
+    labs(x = expression(log[2]~'Fold Change'),
+         y = expression(-log[10]~'p-value'),
          color = "p-value <= FDR") +
     scale_x_continuous(limits = limit_x) +
     scale_color_manual(
