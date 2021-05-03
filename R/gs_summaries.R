@@ -96,7 +96,7 @@ gs_summary_overview <- function(res_enrich,
     p <- p +
       coord_flip() + 
       labs(x = "Gene set description",
-           y = expression(-log[10]~'p-value'),
+           y = "-log10 p-value",
            col = color_by) +
       theme_minimal()
   } else {
@@ -116,7 +116,7 @@ gs_summary_overview <- function(res_enrich,
     p <- p +
       coord_flip() +
       labs(x = "Gene set description",
-           y = expression(-log[10]~'p-value'),
+           y = "-log10 p-value",
            col = color_by) +
       theme_minimal()
   }
@@ -246,7 +246,7 @@ gs_summary_overview_pair <- function(res_enrich,
     scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026", name = paste0(color_by, " set 1")) +
     coord_flip() +
     labs(x = "Gene set description",
-         y = expression(-log[10]~'p-value'),
+         y = "-log10 p-value",
          col = color_by) +
     ylim(0, NA) +
     theme_minimal()
@@ -499,7 +499,7 @@ gs_horizon <- function(res_enrich,
   }
 
   p <- p + labs(x = "Gene set description",
-                y = expression(-log[10]~'p-value'),
+                y = "-log10 p-value",
                 col = color_by)
 
   return(p)
@@ -563,7 +563,6 @@ gs_horizon <- function(res_enrich,
 #'                 res_de = res_de,
 #'                 annotation_obj = anno_df,
 #'                 n_gs = 20)
-
 gs_summary_heat <- function(res_enrich,
                             res_de,
                             annotation_obj,
@@ -601,7 +600,7 @@ gs_summary_heat <- function(res_enrich,
     scale_fill_gradient2(low = muted("deepskyblue"),
                          mid = "lightyellow",
                          high = muted("firebrick"),
-                         name = expression(log[2]~'Fold Change')) +
+                         name = "log2 Fold Change") +
     xlab(NULL) + ylab(NULL) + theme_minimal() +
     theme(panel.grid.major = element_blank(),
           axis.text.x = element_text(angle = 75, hjust = 1))

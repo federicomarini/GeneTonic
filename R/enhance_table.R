@@ -132,7 +132,7 @@ enhance_table <- function(res_enrich,
                        " | ", unique(gs_fulllist$gs_id)
                        )
     ) + 
-    labs(x = expression(log[2]~'Fold Change'))
+    labs(x = "log2 Fold Change")
 
   if (is.null(plot_title)) {
     p <- p + ggtitle(paste0("Enrichment overview - ", this_contrast))
