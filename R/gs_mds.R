@@ -192,7 +192,11 @@ gs_mds <- function(res_enrich,
   df_gs_labels <- mds_gs_df[mds_gs_df$gs_id %in% unique(c(label_these, label_those)), ]
 
   p <- p + geom_label_repel(
-    aes_string(label = "gs_name"), data = df_gs_labels, size = 3)
+    aes_string(label = "gs_name"), 
+    data = df_gs_labels, 
+    size = 3,
+    min.segment.length = 0
+  )
 
   # handling the title
   if (is.null(plot_title)) {

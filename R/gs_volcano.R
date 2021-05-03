@@ -121,7 +121,11 @@ gs_volcano <- function(res_enrich,
     df_gs_labels <- volcano_df[volcano_df$gs_id %in% gs_to_use, ]
 
     p <- p + geom_label_repel(
-      aes_string(label = "gs_name"), data = df_gs_labels, size = 4)
+      aes_string(label = "gs_name"), 
+      data = df_gs_labels, 
+      size = 4,
+      min.segment.length = 0
+    )
   }
 
   # handling the title
