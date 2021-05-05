@@ -12,6 +12,7 @@ gene_plot(
   annotation_obj = NULL,
   normalized = TRUE,
   transform = TRUE,
+  labels_display = TRUE,
   labels_repel = TRUE,
   plot_type = "auto",
   return_data = FALSE,
@@ -40,6 +41,9 @@ normalized by their size factor. Defaults to TRUE, applies when \code{assay} is
 
 \item{transform}{Logical value, corresponding whether to have log scale y-axis
 or not. Defaults to TRUE.}
+
+\item{labels_display}{Logical value. Whether to display the labels of samples,
+defaults to TRUE.}
 
 \item{labels_repel}{Logical value. Whether to use \code{ggrepel}'s functions to
 place labels; defaults to TRUE}
