@@ -28,6 +28,11 @@ test_that("Geneset heatmap is created", {
                    scale_row = TRUE
   )
   expect_is(p2, "HeatmapList")
+
+  vst_macrophage$condition_char <- as.character(vst_macrophage$condition)
+  vst_macrophage$some_numbers <- seq_len(ncol(vst_macrophage))
+  vst_macrophage$also_negative_numbers <- vst_macrophage$some_numbers * c(-1,1)
+
   p3 <- gs_heatmap(se = vst_macrophage,
                    res_de = res_macrophage_IFNg_vs_naive,
                    res_enrich = res_enrich_IFNg_vs_naive,
@@ -39,7 +44,9 @@ test_that("Geneset heatmap is created", {
                    cluster_columns = TRUE,
                    center_mean = TRUE,
                    scale_row = TRUE,
-                   anno_col_info = "condition",
+                   anno_col_info = c("condition_char",
+                                     "some_numbers",
+                                     "also_negative_numbers"),
                    plot_title = "Just this as title"
   )
   expect_is(p3, "HeatmapList")
