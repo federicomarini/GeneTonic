@@ -17,6 +17,8 @@
 
 * A new function, `summarize_ggs_hubgenes()`, builds a DT `datatable` for the Gene-Geneset panel. This table lists the individual genes of the input data and their respective degree in the Gene-Geneset graph. Furthermore, `action buttons` linking to the NCBI, GeneCards and GTEx databases are included for each gene.
 
+* `gene_plot()` gains the extra `labels_display` argument to control whether the labels are at all shown; now the display of the labels is also respecting the jitter of the points
+
 ## Other notes
 
 * `gs_heatmap()` has now the possibility to set the arguments to the call to heatmap generating function, via ellipsis
