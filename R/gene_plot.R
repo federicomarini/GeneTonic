@@ -24,6 +24,8 @@
 #' "counts"
 #' @param transform Logical value, corresponding whether to have log scale y-axis
 #' or not. Defaults to TRUE.
+#' @param labels_display Logical value. Whether to display the labels of samples,
+#' defaults to TRUE.
 #' @param labels_repel Logical value. Whether to use `ggrepel`'s functions to
 #' place labels; defaults to TRUE
 #' @param plot_type Character, one of "auto", "jitteronly", "boxplot", "violin",
@@ -73,6 +75,7 @@ gene_plot <- function(dds,
                       annotation_obj = NULL,
                       normalized = TRUE,
                       transform = TRUE,
+                      labels_display = TRUE,
                       labels_repel = TRUE,
                       plot_type = "auto",
                       return_data = FALSE,
@@ -80,7 +83,7 @@ gene_plot <- function(dds,
 
   plot_type <- match.arg(plot_type,
                          c("auto", "jitteronly", "boxplot", "violin", "sina"))
-  
+
   if (!is.null(gtl)) {
     checkup_gtl(gtl)
     dds <- gtl$dds
@@ -88,7 +91,7 @@ gene_plot <- function(dds,
     res_enrich <- gtl$res_enrich
     annotation_obj <- gtl$annotation_obj
   }
-  
+
   df <- get_expression_values(dds = dds,
                               gene = gene,
                               intgroup = intgroup,
@@ -116,12 +119,15 @@ gene_plot <- function(dds,
     scale_color_discrete(name = "Experimental\ngroup") +
     theme_bw()
 
+  # for connected handling of jittered points AND labels
+  jit_pos <- position_jitter(width = 0.2, height = 0)
+
   # somewhat following the recommendations here
   # https://www.embopress.org/doi/full/10.15252/embj.201694659
   if (plot_type == "jitteronly" || (plot_type == "auto" & min_by_groups <= 3)) {
     p <- p +
-      geom_jitter(aes_string(x = "plotby", y = "exp_value"),
-                     position = position_jitter(width = 0.2, height = 0))
+      geom_point(aes_string(x = "plotby", y = "exp_value"),
+                     position = jit_pos)
     # do nothing - or add a line for the median?
   } else if (plot_type == "boxplot" || (plot_type == "auto" & (min_by_groups > 3 & min_by_groups < 10))) {
     p <- p +
@@ -142,11 +148,17 @@ gene_plot <- function(dds,
   }
 
   # handling the labels
-  if (labels_repel) {
-    p <- p + ggrepel::geom_text_repel(aes_string(label = "sample_id"))
-  }
-  else {
-    p <- p + geom_text(aes_string(label = "sample_id"), hjust = -0.1, vjust = 0.1)
+  if (labels_display) {
+    if (labels_repel) {
+      p <- p + ggrepel::geom_text_repel(aes_string(label = "sample_id"),
+                                        min.segment.length = 0,
+                                        position = jit_pos)
+    }
+    else {
+      p <- p + geom_text(aes_string(label = "sample_id"),
+                         hjust = -0.1, vjust = 0.1,
+                         position = jit_pos)
+    }
   }
 
   y_label <- if (assay == "counts" & normalized) {
