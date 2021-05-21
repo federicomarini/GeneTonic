@@ -19,10 +19,10 @@ jobs:
       fail-fast: false
       matrix:
         config:
-        - { os: macOS-latest, r: '4.1', bioc: '3.13'}
-        - { os: macOS-latest, r: '4.1', bioc: 'devel', curlConfigPath: '/usr/bin/'}
+        - { os: macOS-latest, r: 'release', bioc: '3.13'}
+        - { os: macOS-latest, r: 'release', bioc: 'devel', curlConfigPath: '/usr/bin/'}
         - { os: ubuntu-latest, r: 'release', image: 'bioconductor/bioconductor_docker:devel'}
-        - { os: ubuntu-latest, r: '4.1', bioc: 'devel', cran: "https://demo.rstudiopm.com/all/__linux__/xenial/latest"}
+        - { os: ubuntu-latest, r: 'release', bioc: 'devel', cran: "https://demo.rstudiopm.com/all/__linux__/xenial/latest"}
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
