@@ -58,6 +58,7 @@
 
 
 
+
   
 
   
@@ -80,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
       </span>
     </div>
 
@@ -141,7 +142,7 @@
     <p>Extract expression values, with the possibility to select other assay slots</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_expression_values</span><span class='op'>(</span><span class='va'>dds</span>, <span class='va'>gene</span>, <span class='va'>intgroup</span>, assay <span class='op'>=</span> <span class='st'>"counts"</span>, normalized <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>get_expression_values</span><span class='op'>(</span><span class='va'>dds</span>, <span class='va'>gene</span>, <span class='va'>intgroup</span>, assay <span class='op'>=</span> <span class='st'>"counts"</span>, normalized <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -179,28 +180,31 @@ normalized by their size factor. Defaults to TRUE, applies when <code>assay</cod
 processing</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'>"macrophage"</span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/mikelove/DESeq2'>"DESeq2"</a></span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'>"org.Hs.eg.db"</span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://bioconductor.org/packages/AnnotationDbi'>"AnnotationDbi"</a></span><span class='op'>)</span>
-
-<span class='co'># dds object</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"gse"</span>, package <span class='op'>=</span> <span class='st'>"macrophage"</span><span class='op'>)</span>
-<span class='va'>dds_macrophage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html'>DESeqDataSet</a></span><span class='op'>(</span><span class='va'>gse</span>, design <span class='op'>=</span> <span class='op'>~</span><span class='va'>line</span> <span class='op'>+</span> <span class='va'>condition</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>using counts and average transcript lengths from tximeta</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/substr.html'>substr</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span>, <span class='fl'>1</span>, <span class='fl'>15</span><span class='op'>)</span>
-<span class='va'>dds_macrophage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/estimateSizeFactors.html'>estimateSizeFactors</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>using 'avgTxLength' from assays(dds), correcting for library size</span></div><div class='input'>
-<span class='va'>df_exp</span> <span class='op'>&lt;-</span> <span class='fu'>get_expression_values</span><span class='op'>(</span><span class='va'>dds_macrophage</span>,
-                                gene <span class='op'>=</span> <span class='st'>"ENSG00000125347"</span>,
-                                intgroup <span class='op'>=</span> <span class='st'>"condition"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>df_exp</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                 exp_value   condition
-#&gt; SAMEA103885102   819.6422       naive
-#&gt; SAMEA103885347 31852.1503        IFNg
-#&gt; SAMEA103885043 17874.4499      SL1344
-#&gt; SAMEA103885392 71361.7711 IFNg_SL1344
-#&gt; SAMEA103885182  1239.2723       naive
-#&gt; SAMEA103885136 41985.4038        IFNg</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'>"macrophage"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/mikelove/DESeq2'>"DESeq2"</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'>"org.Hs.eg.db"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://bioconductor.org/packages/AnnotationDbi'>"AnnotationDbi"</a></span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># dds object</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"gse"</span>, package <span class='op'>=</span> <span class='st'>"macrophage"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>dds_macrophage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html'>DESeqDataSet</a></span><span class='op'>(</span><span class='va'>gse</span>, design <span class='op'>=</span> <span class='op'>~</span><span class='va'>line</span> <span class='op'>+</span> <span class='va'>condition</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> using counts and average transcript lengths from tximeta</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/substr.html'>substr</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span>, <span class='fl'>1</span>, <span class='fl'>15</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>dds_macrophage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/BiocGenerics/man/dge.html'>estimateSizeFactors</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> using 'avgTxLength' from assays(dds), correcting for library size</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>df_exp</span> <span class='op'>&lt;-</span> <span class='fu'>get_expression_values</span><span class='op'>(</span><span class='va'>dds_macrophage</span>,</span>
+<span class='r-in'>                                gene <span class='op'>=</span> <span class='st'>"ENSG00000125347"</span>,</span>
+<span class='r-in'>                                intgroup <span class='op'>=</span> <span class='st'>"condition"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>df_exp</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                 exp_value   condition</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> SAMEA103885102   819.6422       naive</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> SAMEA103885347 31852.1503        IFNg</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> SAMEA103885043 17874.4499      SL1344</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> SAMEA103885392 71361.7711 IFNg_SL1344</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> SAMEA103885182  1239.2723       naive</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> SAMEA103885136 41985.4038        IFNg</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -216,7 +220,7 @@ processing</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>

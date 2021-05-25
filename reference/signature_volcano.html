@@ -59,6 +59,7 @@ genes as shaded dots in the background of the plot." />
 
 
 
+
   
 
   
@@ -81,7 +82,7 @@ genes as shaded dots in the background of the plot." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
       </span>
     </div>
 
@@ -143,7 +144,7 @@ genes as shaded dots in the background of the plot." />
 genes as shaded dots in the background of the plot.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>signature_volcano</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>signature_volcano</span><span class='op'>(</span>
   <span class='va'>res_de</span>,
   <span class='va'>res_enrich</span>,
   annotation_obj <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -154,7 +155,7 @@ genes as shaded dots in the background of the plot.</p>
   color <span class='op'>=</span> <span class='st'>"#1a81c2"</span>,
   volcano_labels <span class='op'>=</span> <span class='fl'>25</span>,
   plot_title <span class='op'>=</span> <span class='cn'>NULL</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -217,60 +218,69 @@ the information on the geneset identifier provided.</p></td>
     <p>A plot returned by the <code>ggplot()</code> function</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'>"macrophage"</span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/mikelove/DESeq2'>"DESeq2"</a></span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'>"org.Hs.eg.db"</span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://bioconductor.org/packages/AnnotationDbi'>"AnnotationDbi"</a></span><span class='op'>)</span>
-
-<span class='co'># dds object</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"gse"</span>, package <span class='op'>=</span> <span class='st'>"macrophage"</span><span class='op'>)</span>
-<span class='va'>dds_macrophage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html'>DESeqDataSet</a></span><span class='op'>(</span><span class='va'>gse</span>, design <span class='op'>=</span> <span class='op'>~</span><span class='va'>line</span> <span class='op'>+</span> <span class='va'>condition</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>using counts and average transcript lengths from tximeta</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/substr.html'>substr</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span>, <span class='fl'>1</span>, <span class='fl'>15</span><span class='op'>)</span>
-<span class='va'>dds_macrophage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/estimateSizeFactors.html'>estimateSizeFactors</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>using 'avgTxLength' from assays(dds), correcting for library size</span></div><div class='input'>
-
-<span class='co'># annotation object</span>
-<span class='va'>anno_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>
-  gene_id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span>,
-  gene_name <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/AnnotationDbi/man/AnnotationDb-class.html'>mapIds</a></span><span class='op'>(</span><span class='va'>org.Hs.eg.db</span>,
-                     keys <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span>,
-                     column <span class='op'>=</span> <span class='st'>"SYMBOL"</span>,
-                     keytype <span class='op'>=</span> <span class='st'>"ENSEMBL"</span><span class='op'>)</span>,
-  stringsAsFactors <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  row.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span>
-<span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>'select()' returned 1:many mapping between keys and columns</span></div><div class='input'>
-<span class='co'># res object</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>res_de_macrophage</span>, package <span class='op'>=</span> <span class='st'>"GeneTonic"</span><span class='op'>)</span>
-<span class='va'>res_de</span> <span class='op'>&lt;-</span> <span class='va'>res_macrophage_IFNg_vs_naive</span>
-
-<span class='co'># res_enrich object</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>res_enrich_macrophage</span>, package <span class='op'>=</span> <span class='st'>"GeneTonic"</span><span class='op'>)</span>
-<span class='va'>res_enrich</span> <span class='op'>&lt;-</span> <span class='fu'><a href='shake_topGOtableResult.html'>shake_topGOtableResult</a></span><span class='op'>(</span><span class='va'>topgoDE_macrophage_IFNg_vs_naive</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Found 500 gene sets in `topGOtableResult` object.</span></div><div class='output co'>#&gt; <span class='message'>Converting for usage in GeneTonic...</span></div><div class='input'><span class='va'>res_enrich</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_aggrscores.html'>get_aggrscores</a></span><span class='op'>(</span><span class='va'>res_enrich</span>, <span class='va'>res_de</span>, <span class='va'>anno_df</span><span class='op'>)</span>
-
-<span class='fu'>signature_volcano</span><span class='op'>(</span><span class='va'>res_de</span>,
-                  <span class='va'>res_enrich</span>,
-                  <span class='va'>anno_df</span>,
-                  geneset_id <span class='op'>=</span> <span class='va'>res_enrich</span><span class='op'>$</span><span class='va'>gs_id</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>
-                  <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: ggrepel: 48 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></div><div class='img'><img src='signature_volcano-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># alternatively</span>
-
-<span class='va'>chemokine_list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"ENSG00000108702"</span>,
-                    <span class='st'>"ENSG00000172156"</span>,
-                    <span class='st'>"ENSG00000181374"</span>,
-                    <span class='st'>"ENSG00000276409"</span>
-                    <span class='op'>)</span>
-
-<span class='fu'>signature_volcano</span><span class='op'>(</span><span class='va'>res_de</span>,
-                  <span class='va'>res_enrich</span>,
-                  <span class='va'>anno_df</span>,
-                  genelist <span class='op'>=</span> <span class='va'>chemokine_list</span>
-                  <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Some of the provided gene ids were not found in the SummarizedExperiment</span>
-#&gt; <span class='warning'>Not found: ENSG00000172156</span></div><div class='img'><img src='signature_volcano-2.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'>"macrophage"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/mikelove/DESeq2'>"DESeq2"</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'>"org.Hs.eg.db"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://bioconductor.org/packages/AnnotationDbi'>"AnnotationDbi"</a></span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># dds object</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"gse"</span>, package <span class='op'>=</span> <span class='st'>"macrophage"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>dds_macrophage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html'>DESeqDataSet</a></span><span class='op'>(</span><span class='va'>gse</span>, design <span class='op'>=</span> <span class='op'>~</span><span class='va'>line</span> <span class='op'>+</span> <span class='va'>condition</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> using counts and average transcript lengths from tximeta</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/substr.html'>substr</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span>, <span class='fl'>1</span>, <span class='fl'>15</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>dds_macrophage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/BiocGenerics/man/dge.html'>estimateSizeFactors</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> using 'avgTxLength' from assays(dds), correcting for library size</span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># annotation object</span></span>
+<span class='r-in'><span class='va'>anno_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span></span>
+<span class='r-in'>  gene_id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span>,</span>
+<span class='r-in'>  gene_name <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/AnnotationDbi/man/AnnotationDb-class.html'>mapIds</a></span><span class='op'>(</span><span class='va'>org.Hs.eg.db</span>,</span>
+<span class='r-in'>                     keys <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span>,</span>
+<span class='r-in'>                     column <span class='op'>=</span> <span class='st'>"SYMBOL"</span>,</span>
+<span class='r-in'>                     keytype <span class='op'>=</span> <span class='st'>"ENSEMBL"</span><span class='op'>)</span>,</span>
+<span class='r-in'>  stringsAsFactors <span class='op'>=</span> <span class='cn'>FALSE</span>,</span>
+<span class='r-in'>  row.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 'select()' returned 1:many mapping between keys and columns</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># res object</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>res_de_macrophage</span>, package <span class='op'>=</span> <span class='st'>"GeneTonic"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>res_de</span> <span class='op'>&lt;-</span> <span class='va'>res_macrophage_IFNg_vs_naive</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># res_enrich object</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>res_enrich_macrophage</span>, package <span class='op'>=</span> <span class='st'>"GeneTonic"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>res_enrich</span> <span class='op'>&lt;-</span> <span class='fu'><a href='shake_topGOtableResult.html'>shake_topGOtableResult</a></span><span class='op'>(</span><span class='va'>topgoDE_macrophage_IFNg_vs_naive</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Found 500 gene sets in `topGOtableResult` object.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Converting for usage in GeneTonic...</span>
+<span class='r-in'><span class='va'>res_enrich</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_aggrscores.html'>get_aggrscores</a></span><span class='op'>(</span><span class='va'>res_enrich</span>, <span class='va'>res_de</span>, <span class='va'>anno_df</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>signature_volcano</span><span class='op'>(</span><span class='va'>res_de</span>,</span>
+<span class='r-in'>                  <span class='va'>res_enrich</span>,</span>
+<span class='r-in'>                  <span class='va'>anno_df</span>,</span>
+<span class='r-in'>                  geneset_id <span class='op'>=</span> <span class='va'>res_enrich</span><span class='op'>$</span><span class='va'>gs_id</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span></span>
+<span class='r-in'>                  <span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>ggrepel: 48 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span>
+<span class='r-plt'><img src='signature_volcano-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># alternatively</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>chemokine_list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>c</a></span><span class='op'>(</span><span class='st'>"ENSG00000108702"</span>,</span>
+<span class='r-in'>                    <span class='st'>"ENSG00000172156"</span>,</span>
+<span class='r-in'>                    <span class='st'>"ENSG00000181374"</span>,</span>
+<span class='r-in'>                    <span class='st'>"ENSG00000276409"</span></span>
+<span class='r-in'>                    <span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>signature_volcano</span><span class='op'>(</span><span class='va'>res_de</span>,</span>
+<span class='r-in'>                  <span class='va'>res_enrich</span>,</span>
+<span class='r-in'>                  <span class='va'>anno_df</span>,</span>
+<span class='r-in'>                  genelist <span class='op'>=</span> <span class='va'>chemokine_list</span></span>
+<span class='r-in'>                  <span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Some of the provided gene ids were not found in the SummarizedExperiment</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Not found: ENSG00000172156</span>
+<span class='r-plt'><img src='signature_volcano-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -286,7 +296,7 @@ the information on the geneset identifier provided.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>

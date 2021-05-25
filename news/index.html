@@ -57,6 +57,7 @@
 
 
 
+
   
 
   
@@ -79,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
       </span>
     </div>
 
@@ -137,43 +138,51 @@
 
     <div id="genetonic-140" class="section level1">
 <h1 class="page-header" data-toc-text="1.4.0">
-<a href="#genetonic-140" class="anchor"></a>GeneTonic 1.4.0</h1>
-<div id="new-features" class="section level2">
-<h2 class="hasAnchor">
-<a href="#new-features" class="anchor"></a>New features</h2>
-<ul>
-<li><p>The main function <code><a href="../reference/GeneTonic.html">GeneTonic()</a></code> gains an extra parameter, <code>gtl</code> - this can be used to provided a named list object where a single parameter is passed (e.g. after loading in a single serialized object), while the functionality stays unaltered. The same <code>gtl</code> parameter is also exposed in other functions of the package - see the vignette for some examples, or check the documentation of each specific function. To create this object in a standardized manner, the function <code><a href="../reference/GeneTonic_list.html">GeneTonic_list()</a></code> is now available.</p></li>
-<li><p>A new function to perform fuzzy clustering (following the implementation of DAVID) is added - see <code><a href="../reference/gs_fuzzyclustering.html">gs_fuzzyclustering()</a></code>. It returns a table with additional information on the cluster of genesets and the status of each set in the group.</p></li>
-<li><p>A new function, <code><a href="../reference/signature_volcano.html">signature_volcano()</a></code>, adds a signature volcano plot to the <code>Gene-Geneset</code> panel. This plot displays the genes of a chosen geneset in color, while the remaining genes of the data are shown as shaded dots in the background. The color and transparency of the displayed genes can be chosen by the user, as well as the option to display the gene names of all genes in the geneset.</p></li>
-<li><p><code><a href="../reference/gs_summary_overview.html">gs_summary_overview()</a></code> can also generate bar plots instead of the default segment-dot (lollipop) plots</p></li>
-</ul>
-</div>
+<a href="#genetonic-140" class="anchor" aria-hidden="true"></a>GeneTonic 1.4.0</h1>
 <div id="other-notes" class="section level2">
 <h2 class="hasAnchor">
-<a href="#other-notes" class="anchor"></a>Other notes</h2>
-<ul>
-<li>
-<code><a href="../reference/gs_heatmap.html">gs_heatmap()</a></code> has now the possibility to set the arguments to the call to heatmap generating function, via ellipsis</li>
-</ul>
+<a href="#other-notes" class="anchor" aria-hidden="true"></a>Other notes</h2>
+<ul><li>The manuscript about <code>GeneTonic</code> is now available on bioRxiv at <a href="https://www.biorxiv.org/content/10.1101/2021.05.19.444862v1" class="external-link uri">https://www.biorxiv.org/content/10.1101/2021.05.19.444862v1</a> - the citation item has been updated accordingly</li>
+</ul></div>
 </div>
+    <div id="genetonic-140-1" class="section level1">
+<h1 class="page-header" data-toc-text="1.4.0">
+<a href="#genetonic-140-1" class="anchor" aria-hidden="true"></a>GeneTonic 1.4.0</h1>
+<div id="new-features" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-features" class="anchor" aria-hidden="true"></a>New features</h2>
+<ul><li><p>The main function <code><a href="../reference/GeneTonic.html">GeneTonic()</a></code> gains an extra parameter, <code>gtl</code> - this can be used to provided a named list object where a single parameter is passed (e.g. after loading in a single serialized object), while the functionality stays unaltered. The same <code>gtl</code> parameter is also exposed in other functions of the package - see the vignette for some examples, or check the documentation of each specific function. To create this object in a standardized manner, the function <code><a href="../reference/GeneTonic_list.html">GeneTonic_list()</a></code> is now available.</p></li>
+<li><p>A new function to perform fuzzy clustering (following the implementation of DAVID) is added - see <code><a href="../reference/gs_fuzzyclustering.html">gs_fuzzyclustering()</a></code>. It returns a table with additional information on the cluster of genesets and the status of each set in the group.</p></li>
+<li><p>The <code><a href="../reference/ggs_backbone.html">ggs_backbone()</a></code> function can extract the bipartite graph backbone from the Gene-Geneset graph, this can be further explored below the main element in the Gene-Geneset panel. Once the backbone is created, you are one step away from checking out the genes that act as “hubs” in the Gene-Geneset graph, and possibly identify the nodes playing an essential role based on their connectivity.</p></li>
+<li><p>A new function, <code><a href="../reference/signature_volcano.html">signature_volcano()</a></code>, adds a signature volcano plot to the Gene-Geneset panel. This plot displays the genes of a chosen geneset in color, while the remaining genes of the data are shown as shaded dots in the background. The color and transparency of the displayed genes can be chosen by the user, as well as the option to display the gene names of all genes in the geneset.</p></li>
+<li><p><code><a href="../reference/gs_summary_overview.html">gs_summary_overview()</a></code> can also generate bar plots instead of the default segment-dot (lollipop) plots.</p></li>
+<li><p>A new function, <code><a href="../reference/summarize_ggs_hubgenes.html">summarize_ggs_hubgenes()</a></code>, builds a DT <code>datatable</code> for the Gene-Geneset panel. This table lists the individual genes of the input data and their respective degree in the Gene-Geneset graph. Furthermore, <code>action buttons</code> linking to the NCBI, GeneCards and GTEx databases are included for each gene.</p></li>
+<li><p><code><a href="../reference/gene_plot.html">gene_plot()</a></code> gains the extra <code>labels_display</code> argument to control whether the labels are at all shown; now the display of the labels is also respecting the jitter of the points</p></li>
+</ul></div>
+<div id="other-notes-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#other-notes-1" class="anchor" aria-hidden="true"></a>Other notes</h2>
+<ul><li>
+<code><a href="../reference/gs_heatmap.html">gs_heatmap()</a></code> has now the possibility to set the arguments to the call to heatmap generating function, via ellipsis</li>
+<li>
+<code><a href="../reference/gs_heatmap.html">gs_heatmap()</a></code> handles the colors in a consistent way over the different executions, without relying on the random palettes provided by the <code>Heatmap</code>’s annotation functionality - could have been misleading if encountering too similar hues are randomly picked</li>
+<li>the plots obtained via <code><a href="../reference/gs_mds.html">gs_mds()</a></code> and <code><a href="../reference/gs_volcano.html">gs_volcano()</a></code> now always display the line segments for the data points to be labeled (increasing the readability - as “matching back the label to the drawed circle” - thanks for the suggestion!)</li>
+</ul></div>
 </div>
     <div id="genetonic-120" class="section level1">
 <h1 class="page-header" data-toc-text="1.2.0">
-<a href="#genetonic-120" class="anchor"></a>GeneTonic 1.2.0</h1>
+<a href="#genetonic-120" class="anchor" aria-hidden="true"></a>GeneTonic 1.2.0</h1>
 <div id="new-features-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features-1" class="anchor"></a>New features</h2>
-<ul>
-<li><p>The geneset distillery is officially open! <code>GeneTonic</code> offers functionality to aggregate together gene sets into overarching biological themes, based on a network-based refinement of the enrichment map. Corresponding graphical functionalities are also extended to accommodate meta-genesets. An efficient implementation for the Markov clustering on graph objects is also provided</p></li>
+<a href="#new-features-1" class="anchor" aria-hidden="true"></a>New features</h2>
+<ul><li><p>The geneset distillery is officially open! <code>GeneTonic</code> offers functionality to aggregate together gene sets into overarching biological themes, based on a network-based refinement of the enrichment map. Corresponding graphical functionalities are also extended to accommodate meta-genesets. An efficient implementation for the Markov clustering on graph objects is also provided</p></li>
 <li><p><code>GeneTonic</code> can now receive the input of many other tools for functional enrichment analysis - this includes the output (text export) of DAVID (<code>shake_davidResult</code>), enrichr (from website and via the package, with <code>shake_enrichrResult</code>), fgsea (<code>shake_fgseaResult</code>), and g:Profiler (with <code>shake_gprofilerResult</code>, which can handle the textual output from the website, as well the one from the call to the <code>gost</code> in <code>gprofiler2</code>)</p></li>
 <li><p>An export button to a <code>SummarizedExperiment</code> object for <code>iSEE</code> and its underlying machinery has been added. If the visualization options in <code>GeneTonic</code> are not exactly what you would expect, you might find an excellent venue in the <code>iSEE</code> framework</p></li>
-</ul>
-</div>
-<div id="other-notes-1" class="section level2">
+</ul></div>
+<div id="other-notes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#other-notes-1" class="anchor"></a>Other notes</h2>
-<ul>
-<li>Added an additional mechanism for safe fails when not finding the GO Term and searching for the definition - this could happen e.g. when the term becomes outdated and is removed from the <code>GO.db</code> package, or also mistyped if entered by hand at some point.</li>
+<a href="#other-notes-2" class="anchor" aria-hidden="true"></a>Other notes</h2>
+<ul><li>Added an additional mechanism for safe fails when not finding the GO Term and searching for the definition - this could happen e.g. when the term becomes outdated and is removed from the <code>GO.db</code> package, or also mistyped if entered by hand at some point.</li>
 <li>
 <code>gs_heatmap</code> has a new parameter, <code>plot_title</code>, to override the title to be displayed and set it to any custom string</li>
 <li>It is now possible to save a snapshot of the graphs created with <code>visNetwork</code>
@@ -181,51 +190,43 @@
 <li>The Gene Box now also contains links to the GTEx portal for the selected feature</li>
 <li>
 <code>export_to_sif</code> enables to export a graph object to a text file, encoded with the SIF format</li>
-</ul>
-</div>
+</ul></div>
 </div>
     <div id="genetonic-100" class="section level1">
 <h1 class="page-header" data-toc-text="1.0.0">
-<a href="#genetonic-100" class="anchor"></a>GeneTonic 1.0.0</h1>
-<div id="other-notes-2" class="section level2">
+<a href="#genetonic-100" class="anchor" aria-hidden="true"></a>GeneTonic 1.0.0</h1>
+<div id="other-notes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#other-notes-2" class="anchor"></a>Other notes</h2>
-<ul>
-<li>
+<a href="#other-notes-3" class="anchor" aria-hidden="true"></a>Other notes</h2>
+<ul><li>
 <code>GeneTonic</code> has become a part of Bioconductor!</li>
-</ul>
-</div>
+</ul></div>
 </div>
     <div id="genetonic-0990" class="section level1">
 <h1 class="page-header" data-toc-text="0.99.0">
-<a href="#genetonic-0990" class="anchor"></a>GeneTonic 0.99.0</h1>
-<div id="other-notes-3" class="section level2">
+<a href="#genetonic-0990" class="anchor" aria-hidden="true"></a>GeneTonic 0.99.0</h1>
+<div id="other-notes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#other-notes-3" class="anchor"></a>Other notes</h2>
-<ul>
-<li>
+<a href="#other-notes-4" class="anchor" aria-hidden="true"></a>Other notes</h2>
+<ul><li>
 <code>GeneTonic</code> is now submitted to Bioconductor!</li>
-</ul>
-</div>
+</ul></div>
 </div>
     <div id="genetonic-0100" class="section level1">
 <h1 class="page-header" data-toc-text="0.10.0">
-<a href="#genetonic-0100" class="anchor"></a>GeneTonic 0.10.0</h1>
+<a href="#genetonic-0100" class="anchor" aria-hidden="true"></a>GeneTonic 0.10.0</h1>
 <div id="new-features-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features-2" class="anchor"></a>New features</h2>
-<ul>
-<li>The functions for comparing different <code>res_enrich</code>, namely <code>gs_radar</code>, <code>gs_summary_overview_pair</code>, and <code>gs_horizon</code> were internally rewritten to accept correctly the comparison elements</li>
+<a href="#new-features-2" class="anchor" aria-hidden="true"></a>New features</h2>
+<ul><li>The functions for comparing different <code>res_enrich</code>, namely <code>gs_radar</code>, <code>gs_summary_overview_pair</code>, and <code>gs_horizon</code> were internally rewritten to accept correctly the comparison elements</li>
 <li>The vignette now covers completely the usage cases, with the full description of the user interface of <code>GeneTonic</code>
 </li>
 <li>The introductory tours are available for all the main panels of <code>GeneTonic</code>. Feel free to try them out!</li>
-</ul>
-</div>
-<div id="other-notes-4" class="section level2">
+</ul></div>
+<div id="other-notes-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#other-notes-4" class="anchor"></a>Other notes</h2>
-<ul>
-<li>Some widgets have been added in the UI of <code>GeneTonic</code> to enable finer control of the output aspect</li>
+<a href="#other-notes-5" class="anchor" aria-hidden="true"></a>Other notes</h2>
+<ul><li>Some widgets have been added in the UI of <code>GeneTonic</code> to enable finer control of the output aspect</li>
 <li>Examples and unit tests have been further expanded, with better messages for checking progress</li>
 <li>
 <code>check_colors</code> verify that color palettes are correctly provided</li>
@@ -234,17 +235,15 @@
 <li>The info boxes are now shown with a uniform style, based on the <code>bs4Card</code> UI element</li>
 <li>The UI elements have now a better spacing throughout the different tabs</li>
 <li>Soon the package will be submitted to Bioconductor!</li>
-</ul>
-</div>
+</ul></div>
 </div>
     <div id="genetonic-090" class="section level1">
 <h1 class="page-header" data-toc-text="0.9.0">
-<a href="#genetonic-090" class="anchor"></a>GeneTonic 0.9.0</h1>
+<a href="#genetonic-090" class="anchor" aria-hidden="true"></a>GeneTonic 0.9.0</h1>
 <div id="new-features-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features-3" class="anchor"></a>New features</h2>
-<ul>
-<li>
+<a href="#new-features-3" class="anchor" aria-hidden="true"></a>New features</h2>
+<ul><li>
 <code>GeneTonic</code> sports a blazing new hex sticker - say bye to the original draft!</li>
 <li>The overview DT <code>datatable</code>s has some styling with color bars - e.g. for DE results - to enhance the visual perception of numeric values (e.g. log2FoldChange)</li>
 <li>
@@ -254,156 +253,131 @@
 <code>gs_mds</code> is now optionally returning a data.frame, to be further used for custom plotting or downstream processing</li>
 <li>
 <code>gs_summary_overview</code> now has coloring enabled by the variable of choice</li>
-</ul>
-</div>
-<div id="other-notes-5" class="section level2">
+</ul></div>
+<div id="other-notes-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#other-notes-5" class="anchor"></a>Other notes</h2>
-<ul>
-<li>The UI has received some restyling (e.g. in the choice of the icons for the dropdown menus, or the name of some buttons)</li>
+<a href="#other-notes-6" class="anchor" aria-hidden="true"></a>Other notes</h2>
+<ul><li>The UI has received some restyling (e.g. in the choice of the icons for the dropdown menus, or the name of some buttons)</li>
 <li>Added tour contents for most of the functionality</li>
 <li>Added link to the demo instance</li>
 <li>Added examples for overlap functions, gene info buttons, map2color, and deseqresult2df</li>
 <li>Extended documentation of some parameters</li>
 <li>Some functions have gained an alias for calling them: <code>gs_spider</code> is equivalent to <code>gs_radar</code>, and <code>gs_sankey</code> is equivalent to <code>gs_alluvial</code>
 </li>
-</ul>
-</div>
+</ul></div>
 </div>
     <div id="genetonic-080" class="section level1">
 <h1 class="page-header" data-toc-text="0.8.0">
-<a href="#genetonic-080" class="anchor"></a>GeneTonic 0.8.0</h1>
+<a href="#genetonic-080" class="anchor" aria-hidden="true"></a>GeneTonic 0.8.0</h1>
 <div id="new-features-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features-4" class="anchor"></a>New features</h2>
-<ul>
-<li>
+<a href="#new-features-4" class="anchor" aria-hidden="true"></a>New features</h2>
+<ul><li>
 <code>GeneTonic</code> now delivers bundled example objects to make examples and tests slim</li>
 <li>
 <code>gs_volcano</code> can now plot points by different colors according to the columns of interest</li>
 <li>
 <code>GeneTonic</code> has a fully fledged manual describing its functionality and user interface</li>
-</ul>
-</div>
-<div id="other-notes-6" class="section level2">
+</ul></div>
+<div id="other-notes-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#other-notes-6" class="anchor"></a>Other notes</h2>
-<ul>
-<li>Now using ids for genes and genesets for exchanging information in the app</li>
+<a href="#other-notes-7" class="anchor" aria-hidden="true"></a>Other notes</h2>
+<ul><li>Now using ids for genes and genesets for exchanging information in the app</li>
 <li>Added examples for all functions</li>
 <li>Most tabs have working tours - anchor and text elements</li>
-</ul>
-</div>
+</ul></div>
 </div>
     <div id="genetonic-070" class="section level1">
 <h1 class="page-header" data-toc-text="0.7.0">
-<a href="#genetonic-070" class="anchor"></a>GeneTonic 0.7.0</h1>
+<a href="#genetonic-070" class="anchor" aria-hidden="true"></a>GeneTonic 0.7.0</h1>
 <div id="new-features-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features-5" class="anchor"></a>New features</h2>
-<ul>
-<li>Introduced a uniform interface for calculating different similarity/distance matrices. This enables the usage in the different functions that might need such matrices for further downstream processing (e.g. <code><a href="../reference/enrichment_map.html">enrichment_map()</a></code>, <code><a href="../reference/gs_mds.html">gs_mds()</a></code>)</li>
+<a href="#new-features-5" class="anchor" aria-hidden="true"></a>New features</h2>
+<ul><li>Introduced a uniform interface for calculating different similarity/distance matrices. This enables the usage in the different functions that might need such matrices for further downstream processing (e.g. <code><a href="../reference/enrichment_map.html">enrichment_map()</a></code>, <code><a href="../reference/gs_mds.html">gs_mds()</a></code>)</li>
 <li>First appearance of <code><a href="../reference/gs_dendro.html">gs_dendro()</a></code> to display distance matrices with some visualization sugar, as an alternative to other methods</li>
 <li>The <code>n_gs</code> and <code>gs_ids</code> are exposed to more functions to enable custom subsets of the enrichment results to be inspected</li>
-</ul>
-</div>
+</ul></div>
 </div>
     <div id="genetonic-060" class="section level1">
 <h1 class="page-header" data-toc-text="0.6.0">
-<a href="#genetonic-060" class="anchor"></a>GeneTonic 0.6.0</h1>
+<a href="#genetonic-060" class="anchor" aria-hidden="true"></a>GeneTonic 0.6.0</h1>
 <div id="new-features-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features-6" class="anchor"></a>New features</h2>
-<ul>
-<li>
+<a href="#new-features-6" class="anchor" aria-hidden="true"></a>New features</h2>
+<ul><li>
 <code>gs_heatmap</code> now relies on <code>ComplexHeatmap</code>, to avoid the issues with Shiny of not displaying the outputs in the app, and enabling a comfortable heatmap annotation</li>
 <li>Many functions gain the possibility to pass a set of custom geneset identifiers to be added to the top N sets (default): among these, <code>gs_mds</code>, <code>gs_volcano</code> (parameter: <code>gs_labels</code>), <code>gs_alluvial</code>, <code>ggs_network</code>, <code>enrichment_map</code>, and <code>enhance_table</code> (using <code>gs_ids</code>)</li>
-</ul>
-</div>
-<div id="other-notes-7" class="section level2">
+</ul></div>
+<div id="other-notes-8" class="section level2">
 <h2 class="hasAnchor">
-<a href="#other-notes-7" class="anchor"></a>Other notes</h2>
-<ul>
-<li>
+<a href="#other-notes-8" class="anchor" aria-hidden="true"></a>Other notes</h2>
+<ul><li>
 <code>gs_ggheatmap</code> got renamed to <code>gs_scoresheat</code>
 </li>
 <li>The report generated from the bookmarked content is expanded in its default content</li>
-</ul>
-</div>
+</ul></div>
 </div>
     <div id="genetonic-050" class="section level1">
 <h1 class="page-header" data-toc-text="0.5.0">
-<a href="#genetonic-050" class="anchor"></a>GeneTonic 0.5.0</h1>
+<a href="#genetonic-050" class="anchor" aria-hidden="true"></a>GeneTonic 0.5.0</h1>
 <div id="new-features-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features-7" class="anchor"></a>New features</h2>
-<ul>
-<li>
+<a href="#new-features-7" class="anchor" aria-hidden="true"></a>New features</h2>
+<ul><li>
 <code>GeneTonic</code> now enforces a format for <code>res_enrich</code>, and provides some conversion functions, <code>shake_*()</code>. Requirements are specified in the documentation, if an appropriate converter does not (yet) exist.</li>
 <li>The reporting feature is active to some extent on the bookmarked content.</li>
-</ul>
-</div>
+</ul></div>
 </div>
     <div id="genetonic-040" class="section level1">
 <h1 class="page-header" data-toc-text="0.4.0">
-<a href="#genetonic-040" class="anchor"></a>GeneTonic 0.4.0</h1>
+<a href="#genetonic-040" class="anchor" aria-hidden="true"></a>GeneTonic 0.4.0</h1>
 <div id="new-features-8" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features-8" class="anchor"></a>New features</h2>
-<ul>
-<li>Added functionality for bookmarking</li>
+<a href="#new-features-8" class="anchor" aria-hidden="true"></a>New features</h2>
+<ul><li>Added functionality for bookmarking</li>
 <li>Bookmarking can work (PoP) by pressing a key (left control)!</li>
 <li>
 <code>gene_plot</code> can enforce a plot type overriding the default based on the number of samples per condition</li>
 <li>
 <code>GeneTonic</code> uses now <code>bs4Dash</code> and many of its nice features, replacing the previous implementation based on <code>shinydashboard</code>
 </li>
-</ul>
-</div>
+</ul></div>
 </div>
     <div id="genetonic-030" class="section level1">
 <h1 class="page-header" data-toc-text="0.3.0">
-<a href="#genetonic-030" class="anchor"></a>GeneTonic 0.3.0</h1>
-<div id="other-notes-8" class="section level2">
+<a href="#genetonic-030" class="anchor" aria-hidden="true"></a>GeneTonic 0.3.0</h1>
+<div id="other-notes-9" class="section level2">
 <h2 class="hasAnchor">
-<a href="#other-notes-8" class="anchor"></a>Other notes</h2>
-<ul>
-<li>Rearranging the order of parameters to harmonize it across functions, and uniforming similarly called parameters</li>
-</ul>
-</div>
+<a href="#other-notes-9" class="anchor" aria-hidden="true"></a>Other notes</h2>
+<ul><li>Rearranging the order of parameters to harmonize it across functions, and uniforming similarly called parameters</li>
+</ul></div>
 </div>
     <div id="genetonic-020" class="section level1">
 <h1 class="page-header" data-toc-text="0.2.0">
-<a href="#genetonic-020" class="anchor"></a>GeneTonic 0.2.0</h1>
+<a href="#genetonic-020" class="anchor" aria-hidden="true"></a>GeneTonic 0.2.0</h1>
 <div id="new-features-9" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features-9" class="anchor"></a>New features</h2>
-<ul>
-<li>added geneset scoring calculation and corresponding heatmap</li>
-</ul>
-</div>
+<a href="#new-features-9" class="anchor" aria-hidden="true"></a>New features</h2>
+<ul><li>added geneset scoring calculation and corresponding heatmap</li>
+</ul></div>
 </div>
     <div id="genetonic-010" class="section level1">
 <h1 class="page-header" data-toc-text="0.1.0">
-<a href="#genetonic-010" class="anchor"></a>GeneTonic 0.1.0</h1>
+<a href="#genetonic-010" class="anchor" aria-hidden="true"></a>GeneTonic 0.1.0</h1>
 <div id="new-features-10" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features-10" class="anchor"></a>New features</h2>
-<ul>
-<li>much of the functionality available, in a proof of concept format</li>
-</ul>
-</div>
+<a href="#new-features-10" class="anchor" aria-hidden="true"></a>New features</h2>
+<ul><li>much of the functionality available, in a proof of concept format</li>
+</ul></div>
 </div>
     <div id="genetonic-001" class="section level1">
 <h1 class="page-header" data-toc-text="0.0.1">
-<a href="#genetonic-001" class="anchor"></a>GeneTonic 0.0.1</h1>
+<a href="#genetonic-001" class="anchor" aria-hidden="true"></a>GeneTonic 0.0.1</h1>
 <div id="new-features-11" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features-11" class="anchor"></a>New features</h2>
-<ul>
-<li>backbone of the project started!</li>
-</ul>
-</div>
+<a href="#new-features-11" class="anchor" aria-hidden="true"></a>New features</h2>
+<ul><li>backbone of the project started!</li>
+</ul></div>
 </div>
   </div>
 
@@ -422,7 +396,7 @@
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
