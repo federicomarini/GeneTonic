@@ -1,0 +1,20 @@
+citHeader("To cite the package 'GeneTonic' in publications use:")
+
+citEntry(
+  entry        = "Article",
+  title        = "GeneTonic: an R/Bioconductor package for streamlining the interpretation of RNA-seq data",
+  journal      = "bioRxiv",
+  author       = personList(as.person("Federico Marini"),
+                   as.person("Annekathrin Ludt"),
+                   as.person("Jan Linke"),
+                   as.person("Konstantin Strauch")),
+	year         = "2021",
+	doi          = "10.1101/2021.05.19.444862",
+  url          = "https://bioconductor.org/packages/GeneTonic/",
+
+  textVersion  =
+  paste("Federico Marini, Annekathrin Ludt, Jan Linke, Konstantin Strauch (2021).",
+        "GeneTonic: an R/Bioconductor package for streamlining the interpretation of RNA-seq data\n",
+        " - URL: https://bioconductor.org/packages/GeneTonic/",
+        " - doi: 10.1101/2021.05.19.444862")
+)
