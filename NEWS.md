@@ -1,5 +1,11 @@
 # GeneTonic 1.4.0
 
+## Other notes
+
+* The manuscript about `GeneTonic` is now available on bioRxiv at https://www.biorxiv.org/content/10.1101/2021.05.19.444862v1 - the citation item has been updated accordingly
+
+# GeneTonic 1.4.0
+
 ## New features
 
 * The main function `GeneTonic()` gains an extra parameter, `gtl` - this can be used to provided a named list object where a single parameter is passed (e.g. after loading in a single serialized object), while the functionality stays unaltered. 
