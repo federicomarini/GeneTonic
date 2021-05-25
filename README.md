@@ -28,6 +28,12 @@ and reproducibility, e.g. by capturing the features and gene sets of
 interest highlighted during the live session, and creating an HTML
 report as an artifact where text, code, and output coexist.
 
+GeneTonic can be found on Bioconductor
+(<https://www.bioconductor.org/packages/GeneTonic>).
+
+A preprint :page\_facing\_up: on GeneTonic is now available on bioRxiv
+at <https://www.biorxiv.org/content/10.1101/2021.05.19.444862v1>.
+
 ## Installation
 
 You can install the development version of GeneTonic from GitHub with:

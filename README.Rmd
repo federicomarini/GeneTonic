@@ -29,6 +29,10 @@ The goal of GeneTonic is to analyze and integrate the results from Differential 
 
 This package provides a Shiny application that aims to combine at different levels the existing pieces of the transcriptome data and results, in a way that makes it easier to generate insightful observations and hypothesis - combining the benefits of interactivity and reproducibility, e.g. by capturing the features and gene sets of interest highlighted during the live session, and creating an HTML report as an artifact where text, code, and output coexist.
 
+GeneTonic can be found on Bioconductor (https://www.bioconductor.org/packages/GeneTonic).
+
+A preprint :page_facing_up: on GeneTonic is now available on bioRxiv at https://www.biorxiv.org/content/10.1101/2021.05.19.444862v1.
+
 ## Installation
 
 You can install the development version of GeneTonic from GitHub with:
