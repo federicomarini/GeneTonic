@@ -122,12 +122,11 @@ GeneTonic <- function(dds,
   genetonic_ui <- bs4Dash::bs4DashPage(
     # enable_preloader = TRUE,
     title = "GeneTonic",
-    sidebar_collapsed = TRUE,
-    controlbar_collapsed = TRUE,
-
     # navbar definition -------------------------------------------------------
-    navbar = bs4Dash::bs4DashNavbar(
+    header = bs4Dash::bs4DashNavbar(
       skin = "dark",
+      controlbarIcon = icon("gears"),
+      fixed = TRUE,
       controlbarIcon = "gears",
       fixed = TRUE,
       leftUi = tagList(
@@ -163,7 +162,6 @@ GeneTonic <- function(dds,
             icon = icon("question-circle"),
             label = "First Help", style = .actionbutton_biocstyle
           )
-
         ),
         shinyWidgets::dropdownButton(
           inputId = "ddbtn_info",
@@ -197,6 +195,7 @@ GeneTonic <- function(dds,
       status = "primary",
       brandColor = NULL,
       url = "https://bioconductor.org/packages/GeneTonic",
+      collapsed = TRUE,
       # src = "logos/online-learning.png",
       elevation = 1,
       opacity = 0.8,
@@ -206,32 +205,32 @@ GeneTonic <- function(dds,
         bs4SidebarMenuItem(
           "Welcome!",
           tabName = "tab_welcome",
-          icon = "home"
+          icon = icon("home")
         ),
         bs4SidebarMenuItem(
           "Gene-Geneset",
           tabName = "tab_ggs",
-          icon = "share-alt-square"
+          icon = icon("share-alt-square")
         ),
         bs4SidebarMenuItem(
           "Enrichment Map",
           tabName = "tab_emap",
-          icon = "project-diagram" # hubspot? map?
+          icon = icon("project-diagram") # hubspot? map?
         ),
         bs4SidebarMenuItem(
           "Overview",
           tabName = "tab_overview",
-          icon = "eye"
+          icon = icon("eye")
         ),
         bs4SidebarMenuItem(
           "GSViz",
           tabName = "tab_gsviz",
-          icon = "images"
+          icon = icon("images")
         ),
         bs4SidebarMenuItem(
           "Bookmarks",
           tabName = "tab_bookmarks",
-          icon = "bookmark"
+          icon = icon("bookmark")
         )
       )
     ),
@@ -699,6 +698,7 @@ GeneTonic <- function(dds,
     ),
     # controlbar definition ---------------------------------------------------
     controlbar = bs4Dash::bs4DashControlbar(
+      collapsed = TRUE,
       numericInput(inputId = "de_fdr",
                    label = "False Discovery Rate (FDR) for DE",
                    value = 0.05, min = 0.0001, max = 1, step = 0.01),
