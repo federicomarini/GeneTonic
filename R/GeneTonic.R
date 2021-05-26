@@ -813,8 +813,8 @@ GeneTonic <- function(dds,
       bs4ValueBox(
         value = paste0(nrow(dds), " genes x ", ncol(dds), " samples"),
         subtitle = "dds object",
-        icon = "table",
-        status = "danger",
+        icon = icon("table"),
+        color = "danger",
         width = NULL
       )
     })
@@ -826,8 +826,8 @@ GeneTonic <- function(dds,
           " DE genes"
         ),
         subtitle = "res object",
-        icon = "vial",
-        status = "warning",
+        icon = icon("vial"),
+        color = "warning",
         width = NULL
       )
     })
@@ -839,8 +839,8 @@ GeneTonic <- function(dds,
           " functional categories"
         ),
         subtitle = "func enrich object",
-        icon = "share-alt",
-        status = "success",
+        icon = icon("share-alt"),
+        color = "success",
         width = NULL
       )
     })
@@ -849,8 +849,8 @@ GeneTonic <- function(dds,
       bs4ValueBox(
         value = paste0(ncol(annotation_obj), " feature identifiers for ", nrow(dds), " features"),
         subtitle = "annotation object",
-        icon = "table",
-        status = "info",
+        icon = icon("table"),
+        color = "info",
         width = NULL
       )
     })
@@ -1428,8 +1428,8 @@ GeneTonic <- function(dds,
       bs4InfoBox(
         title = "Bookmarked genes",
         value = length(reactive_values$mygenes),
-        icon = "bookmark",
-        status = "info",
+        icon = icon("bookmark"),
+        color = "info",
         width = 12
       )
     })
@@ -1438,8 +1438,8 @@ GeneTonic <- function(dds,
       bs4InfoBox(
         title = "Bookmarked genesets",
         value = length(reactive_values$mygenesets),
-        icon = "bookmark",
-        status = "success",
+        icon = icon("bookmark"),
+        color = "success",
         width = 12
       )
     })
