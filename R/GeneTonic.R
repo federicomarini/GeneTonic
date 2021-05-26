@@ -127,8 +127,6 @@ GeneTonic <- function(dds,
       skin = "dark",
       controlbarIcon = icon("gears"),
       fixed = TRUE,
-      controlbarIcon = "gears",
-      fixed = TRUE,
       leftUi = tagList(
         tags$code(tags$h3("GeneTonic")),
         actionButton("bookmarker", label = "Bookmark", icon = icon("heart"),
