@@ -526,39 +526,42 @@ GeneTonic <- function(dds,
             bs4Dash::column(
               width = 11,
               offset = 0,
-              bs4Dash::bs4TabCard(
+              bs4Dash::bs4Card(
                 id = "tabcard_deview",
+                # selected = "Geneset Volcano",
                 title = "Overview",
-                side = "right",
+                # side = "right",
                 elevation = 2,
                 width = 12,
                 closable = FALSE,
-                bs4TabPanel(
-                  tabName = "Geneset Volcano",
-                  active = TRUE,
-                  withSpinner(plotOutput("gs_volcano",
-                                         height = "650px"))
-                ),
-                bs4TabPanel(
-                  tabName = "Geneset Volcano - simplified",
-                  active = FALSE,
-                  numericInput(inputId = "gs_overlap",
-                               label = "Gene Set overlap",
-                               value = 0.6, min = 0, max = 1, step = 0.05),
-                  withSpinner(plotOutput("gs_volcano_simplified",
-                                         height = "650px"))
-                ),
-                bs4TabPanel(
-                  tabName = "Enhanced Table",
-                  active = FALSE,
-                  withSpinner(plotOutput("enriched_funcres",
-                                         height = "650px"))
-                ),
-                bs4TabPanel(
-                  tabName = "Enhanced Table - interactive",
-                  active = FALSE,
-                  withSpinner(plotlyOutput("enriched_funcres_plotly",
+                bs4Dash::tabsetPanel(
+                  id = "tsp1",
+                  type = "pills",
+                  selected = "Geneset Volcano",
+                  side = "right",
+                  tabPanel(
+                    title = "Geneset Volcano",
+                    withSpinner(plotOutput("gs_volcano",
                                            height = "650px"))
+                  ),
+                  shiny::tabPanel(
+                    title = "Geneset Volcano - simplified",
+                    numericInput(inputId = "gs_overlap",
+                                 label = "Gene Set overlap",
+                                 value = 0.6, min = 0, max = 1, step = 0.05),
+                    withSpinner(plotOutput("gs_volcano_simplified",
+                                           height = "650px"))
+                  ),
+                  shiny::tabPanel(
+                    title = "Enhanced Table",
+                    withSpinner(plotOutput("enriched_funcres",
+                                           height = "650px"))
+                  ),
+                  shiny::tabPanel(
+                    title = "Enhanced Table - interactive",
+                    withSpinner(plotlyOutput("enriched_funcres_plotly",
+                                             height = "650px"))
+                  )
                 )
               )
             )
@@ -585,55 +588,54 @@ GeneTonic <- function(dds,
             bs4Dash::column(
               width = 11,
               offset = 0,
-              bs4Dash::bs4TabCard(
+              bs4Dash::bs4Card(
                 id = "tabcard_genesets",
                 title = "GSViz",
-                side = "right",
+                # side = "right",
                 elevation = 2,
                 width = 12,
                 closable = FALSE,
-                bs4TabPanel(
-                  tabName = "Scores Heatmap",
-                  active = TRUE,
-                  withSpinner(plotOutput("gsscores_heatmap",
-                                         height = "650px"))
-
-                ),
-                bs4TabPanel(
-                  tabName = "Alluvial Plot",
-                  active = FALSE,
-                  withSpinner(plotlyOutput("alluvial_genesets",
+                bs4Dash::tabsetPanel(
+                  id = "tsp2",
+                  type = "pills",
+                  selected = "Scores Heatmap",
+                  side = "right",
+                  shiny::tabPanel(
+                    title = "Scores Heatmap",
+                    withSpinner(plotOutput("gsscores_heatmap",
                                            height = "650px"))
-                ),
-                bs4TabPanel(
-                  tabName = "Summary Heatmap",
-                  active = FALSE,
-                  withSpinner(plotOutput("gs_summaryheat",
-                                         height = "650px"))
-                ),
-                bs4TabPanel(
-                  tabName = "Geneset MDS",
-                  active = FALSE,
-                  withSpinner(plotOutput("mds_genesets",
-                                         height = "650px"))
-                ),
-                bs4TabPanel(
-                  tabName = "Summary Overview",
-                  active = FALSE,
-                  withSpinner(plotOutput("gs_summaryoverview",
-                                         height = "650px"))
-                ),
-                bs4TabPanel(
-                  tabName = "Geneset Radar",
-                  active = FALSE,
-                  withSpinner(plotlyOutput("gs_summaryradar",
+                    
+                  ),
+                  shiny::tabPanel(
+                    title = "Alluvial Plot",
+                    withSpinner(plotlyOutput("alluvial_genesets",
+                                             height = "650px"))
+                  ),
+                  shiny::tabPanel(
+                    title = "Summary Heatmap",
+                    withSpinner(plotOutput("gs_summaryheat",
                                            height = "650px"))
-                ),
-                bs4TabPanel(
-                  tabName = "Geneset Dendrogram",
-                  active = FALSE,
-                  withSpinner(plotOutput("gs_dendro",
-                                         height = "650px"))
+                  ),
+                  shiny::tabPanel(
+                    title = "Geneset MDS",
+                    withSpinner(plotOutput("mds_genesets",
+                                           height = "650px"))
+                  ),
+                  shiny::tabPanel(
+                    title = "Summary Overview",
+                    withSpinner(plotOutput("gs_summaryoverview",
+                                           height = "650px"))
+                  ),
+                  shiny::tabPanel(
+                    title = "Geneset Radar",
+                    withSpinner(plotlyOutput("gs_summaryradar",
+                                             height = "650px"))
+                  ),
+                  shiny::tabPanel(
+                    title = "Geneset Dendrogram",
+                    withSpinner(plotOutput("gs_dendro",
+                                           height = "650px"))
+                  )
                 )
               )
             )
