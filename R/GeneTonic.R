@@ -715,8 +715,8 @@ GeneTonic <- function(dds,
 
     # footer definition -------------------------------------------------------
     footer = bs4DashFooter(
-      GeneTonic_footer,
-      right_text = NULL
+      left = GeneTonic_footer,
+      right = NULL
     )
 
   )
