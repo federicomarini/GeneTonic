@@ -131,6 +131,7 @@ GeneTonic <- function(dds,
         image = "GeneTonic/GeneTonic.png"
       ),
       skin = "dark",
+      border = FALSE,
       controlbarIcon = icon("gears"),
       fixed = TRUE,
       leftUi = tagList(
