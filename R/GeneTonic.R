@@ -1411,7 +1411,8 @@ GeneTonic <- function(dds,
         fluidRow(
           column(
             width = 6,
-            bs4InfoBoxOutput("infobox_book_genes"),
+            bs4InfoBoxOutput("infobox_book_genes",
+                             width = 6),
             h5("Bookmarked genes"),
             DT::dataTableOutput("bookmarks_genes"),
             downloadButton("btn_export_genes", label = "", class = "biocdlbutton")
@@ -1420,7 +1421,8 @@ GeneTonic <- function(dds,
           ),
           column(
             width = 6,
-            bs4InfoBoxOutput("infobox_book_genesets"),
+            bs4InfoBoxOutput("infobox_book_genesets",
+                             width = 6),
             h5("Bookmarked genesets"),
             DT::dataTableOutput("bookmarks_genesets"),
             downloadButton("btn_export_genesets", label = "", class = "biocdlbutton")
@@ -1435,7 +1437,9 @@ GeneTonic <- function(dds,
         title = "Bookmarked genes",
         value = length(reactive_values$mygenes),
         icon = icon("bookmark"),
+        iconElevation = 3,
         color = "info",
+        fill = TRUE,
         width = 12
       )
     })
@@ -1445,7 +1449,9 @@ GeneTonic <- function(dds,
         title = "Bookmarked genesets",
         value = length(reactive_values$mygenesets),
         icon = icon("bookmark"),
+        iconElevation = 3,
         color = "success",
+        fill = TRUE,
         width = 12
       )
     })
