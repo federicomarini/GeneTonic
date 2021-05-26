@@ -124,6 +124,12 @@ GeneTonic <- function(dds,
     title = "GeneTonic",
     # navbar definition -------------------------------------------------------
     header = bs4Dash::bs4DashNavbar(
+      title = bs4Dash::bs4DashBrand(
+        title = HTML("<small>GeneTonic</small>"),
+        href =  "https://bioconductor.org/packages/GeneTonic",
+        # color = "info",
+        image = "GeneTonic/GeneTonic.png"
+      ),
       skin = "dark",
       controlbarIcon = icon("gears"),
       fixed = TRUE,
