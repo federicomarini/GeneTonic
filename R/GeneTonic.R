@@ -124,23 +124,16 @@ GeneTonic <- function(dds,
     title = "GeneTonic",
     # navbar definition -------------------------------------------------------
     header = bs4Dash::bs4DashNavbar(
-      title = bs4Dash::bs4DashBrand(
-        title = HTML("<small>GeneTonic</small>"),
-        href =  "https://bioconductor.org/packages/GeneTonic",
-        # color = "info",
-        image = "GeneTonic/GeneTonic.png"
-      ),
-      skin = "dark",
-      status = "gray-dark",
-      border = FALSE,
-      controlbarIcon = icon("gears"),
-      fixed = TRUE,
-      leftUi = tagList(
+      # older leftUi elements
+      tagList(
         tags$code(tags$h3("GeneTonic")),
         actionButton("bookmarker", label = "Bookmark", icon = icon("heart"),
                      style = "color: #ffffff; background-color: #ac0000; border-color: #ffffff", class = "ml-5")
       ),
-      rightUi = tagList(
+      # older rightUi elements
+      # ideally to be spaced on the full right side...
+      tags$span(style = "display:inline-block; width: 30%"),
+      tagList(
         shinyWidgets::dropdownButton(
           inputId = "ddbtn_docs",
           circle = FALSE,
@@ -190,7 +183,20 @@ GeneTonic <- function(dds,
             label = "About GeneTonic", style = .actionbutton_biocstyle
           )
         )
-      )
+      ),
+      title = bs4Dash::bs4DashBrand(
+        title = HTML("<small>GeneTonic</small>"),
+        href =  "https://bioconductor.org/packages/GeneTonic",
+        # color = "info",
+        image = "GeneTonic/GeneTonic.png"
+      ),
+      skin = "dark",
+      status = "gray-dark",
+      border = FALSE,
+      controlbarIcon = icon("gears"),
+      fixed = TRUE #,
+      # leftUi = 
+      # rightUi = 
     ),
 
     # sidebar definition ------------------------------------------------------
