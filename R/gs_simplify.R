@@ -28,11 +28,8 @@
 #' res_enrich_simplified <- gs_simplify(res_enrich)
 #' dim(res_enrich_simplified)
 #' # and then use this further for all other functions expecting a res_enrich
-#'
 gs_simplify <- function(res_enrich,
-                        gs_overlap = 0.75
-                        ) {
-
+                        gs_overlap = 0.75) {
   genelists <- lapply(seq_len(nrow(res_enrich)), function(gs) {
     cur_set <- res_enrich[["gs_genes"]][gs]
     gene_vec <- unlist(strsplit(cur_set, ","))
@@ -40,8 +37,11 @@ gs_simplify <- function(res_enrich,
   names(genelists) <- res_enrich[["gs_id"]]
 
   ol_mat <- matrix(0, nrow(res_enrich), nrow(res_enrich),
-                   dimnames = list(res_enrich[["gs_description"]],
-                                   res_enrich[["gs_description"]]))
+    dimnames = list(
+      res_enrich[["gs_description"]],
+      res_enrich[["gs_description"]]
+    )
+  )
   N <- nrow(res_enrich)
   for (i in seq_len(N)) {
     for (j in seq_len(N)) {

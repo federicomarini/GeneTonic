@@ -30,7 +30,7 @@ NULL
 #'
 #' Details on how this object has been created are included in the `create_gt_data.R`
 #' script, included in the `scripts` folder of the `GeneTonic` package.
-#' 
+#'
 #' @family pathway-analysis-results
 #'
 #' @references Alasoo, et al. "Shared genetic effects on chromatin and gene
@@ -54,7 +54,7 @@ NULL
 #'
 #' Details on how this object has been created are included in the `create_gt_data.R`
 #' script, included in the `scripts` folder of the `GeneTonic` package.
-#' 
+#'
 #' @family pathway-analysis-results
 #'
 #' @references Alasoo, et al. "Shared genetic effects on chromatin and gene
@@ -79,7 +79,7 @@ NULL
 #'
 #' Details on how this object has been created are included in the `create_gt_data.R`
 #' script, included in the `scripts` folder of the `GeneTonic` package.
-#' 
+#'
 #' @family pathway-analysis-results
 #'
 #' @references Alasoo, et al. "Shared genetic effects on chromatin and gene
@@ -111,6 +111,3 @@ NULL
 #' @name fgseaRes
 #' @docType data
 NULL
-
-
-

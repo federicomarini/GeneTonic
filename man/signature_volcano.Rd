@@ -64,7 +64,7 @@ library("AnnotationDbi")
 
 # dds object
 data("gse", package = "macrophage")
-dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 dds_macrophage <- estimateSizeFactors(dds_macrophage)
 
@@ -73,9 +73,10 @@ dds_macrophage <- estimateSizeFactors(dds_macrophage)
 anno_df <- data.frame(
   gene_id = rownames(dds_macrophage),
   gene_name = mapIds(org.Hs.eg.db,
-                     keys = rownames(dds_macrophage),
-                     column = "SYMBOL",
-                     keytype = "ENSEMBL"),
+    keys = rownames(dds_macrophage),
+    column = "SYMBOL",
+    keytype = "ENSEMBL"
+  ),
   stringsAsFactors = FALSE,
   row.names = rownames(dds_macrophage)
 )
@@ -90,23 +91,23 @@ res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 
 signature_volcano(res_de,
-                  res_enrich,
-                  anno_df,
-                  geneset_id = res_enrich$gs_id[1]
-                  )
+  res_enrich,
+  anno_df,
+  geneset_id = res_enrich$gs_id[1]
+)
 
 # alternatively
 
-chemokine_list <- c("ENSG00000108702",
-                    "ENSG00000172156",
-                    "ENSG00000181374",
-                    "ENSG00000276409"
-                    )
+chemokine_list <- c(
+  "ENSG00000108702",
+  "ENSG00000172156",
+  "ENSG00000181374",
+  "ENSG00000276409"
+)
 
 signature_volcano(res_de,
-                  res_enrich,
-                  anno_df,
-                  genelist = chemokine_list
-                  )
-
+  res_enrich,
+  anno_df,
+  genelist = chemokine_list
+)
 }

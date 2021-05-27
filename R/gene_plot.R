@@ -49,7 +49,7 @@
 #'
 #' # dds object
 #' data("gse", package = "macrophage")
-#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 #' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 #' dds_macrophage <- estimateSizeFactors(dds_macrophage)
 #'
@@ -57,17 +57,19 @@
 #' anno_df <- data.frame(
 #'   gene_id = rownames(dds_macrophage),
 #'   gene_name = mapIds(org.Hs.eg.db,
-#'                      keys = rownames(dds_macrophage),
-#'                      column = "SYMBOL",
-#'                      keytype = "ENSEMBL"),
+#'     keys = rownames(dds_macrophage),
+#'     column = "SYMBOL",
+#'     keytype = "ENSEMBL"
+#'   ),
 #'   stringsAsFactors = FALSE,
 #'   row.names = rownames(dds_macrophage)
 #' )
 #'
 #' gene_plot(dds_macrophage,
-#'           gene = "ENSG00000125347",
-#'           intgroup = "condition",
-#'           annotation_obj = anno_df)
+#'   gene = "ENSG00000125347",
+#'   intgroup = "condition",
+#'   annotation_obj = anno_df
+#' )
 gene_plot <- function(dds,
                       gene,
                       intgroup = "condition",
@@ -80,9 +82,10 @@ gene_plot <- function(dds,
                       plot_type = "auto",
                       return_data = FALSE,
                       gtl = NULL) {
-
-  plot_type <- match.arg(plot_type,
-                         c("auto", "jitteronly", "boxplot", "violin", "sina"))
+  plot_type <- match.arg(
+    plot_type,
+    c("auto", "jitteronly", "boxplot", "violin", "sina")
+  )
 
   if (!is.null(gtl)) {
     checkup_gtl(gtl)
@@ -92,11 +95,13 @@ gene_plot <- function(dds,
     annotation_obj <- gtl$annotation_obj
   }
 
-  df <- get_expression_values(dds = dds,
-                              gene = gene,
-                              intgroup = intgroup,
-                              assay = assay,
-                              normalized = normalized)
+  df <- get_expression_values(
+    dds = dds,
+    gene = gene,
+    intgroup = intgroup,
+    assay = assay,
+    normalized = normalized
+  )
 
   df$sample_id <- rownames(df)
   if (!is.null(annotation_obj)) {
@@ -111,8 +116,9 @@ gene_plot <- function(dds,
   min_by_groups <- min(table(df$plotby))
   # depending on this, use boxplots/nothing/violins/sina
 
-  if (return_data)
+  if (return_data) {
     return(df)
+  }
 
   p <- ggplot(df, aes_string(x = "plotby", y = "exp_value", col = "plotby")) +
     scale_x_discrete(name = "") +
@@ -127,37 +133,43 @@ gene_plot <- function(dds,
   if (plot_type == "jitteronly" || (plot_type == "auto" & min_by_groups <= 3)) {
     p <- p +
       geom_point(aes_string(x = "plotby", y = "exp_value"),
-                     position = jit_pos)
+        position = jit_pos
+      )
     # do nothing - or add a line for the median?
   } else if (plot_type == "boxplot" || (plot_type == "auto" & (min_by_groups > 3 & min_by_groups < 10))) {
     p <- p +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(position = position_jitter(width = 0.2, height = 0))
-
   } else if (plot_type == "violin" || (plot_type == "auto" & (min_by_groups >= 11 & min_by_groups < 40))) {
     p <- p +
       geom_violin() +
       geom_jitter(position = position_jitter(width = 0.2, height = 0)) +
-      stat_summary(fun = median, fun.min = median, fun.max = median,
-                   geom = "crossbar", width = 0.3)
+      stat_summary(
+        fun = median, fun.min = median, fun.max = median,
+        geom = "crossbar", width = 0.3
+      )
   } else if (plot_type == "sina" || (plot_type == "auto" & (min_by_groups >= 40))) {
     p <- p +
       ggforce::geom_sina() +
-      stat_summary(fun = median, fun.min = median, fun.max = median,
-                   geom = "crossbar", width = 0.3)
+      stat_summary(
+        fun = median, fun.min = median, fun.max = median,
+        geom = "crossbar", width = 0.3
+      )
   }
 
   # handling the labels
   if (labels_display) {
     if (labels_repel) {
       p <- p + ggrepel::geom_text_repel(aes_string(label = "sample_id"),
-                                        min.segment.length = 0,
-                                        position = jit_pos)
+        min.segment.length = 0,
+        position = jit_pos
+      )
     }
     else {
       p <- p + geom_text(aes_string(label = "sample_id"),
-                         hjust = -0.1, vjust = 0.1,
-                         position = jit_pos)
+        hjust = -0.1, vjust = 0.1,
+        position = jit_pos
+      )
     }
   }
 
@@ -215,23 +227,26 @@ gene_plot <- function(dds,
 #'
 #' # dds object
 #' data("gse", package = "macrophage")
-#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 #' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 #' dds_macrophage <- estimateSizeFactors(dds_macrophage)
 #'
 #' df_exp <- get_expression_values(dds_macrophage,
-#'                                 gene = "ENSG00000125347",
-#'                                 intgroup = "condition")
+#'   gene = "ENSG00000125347",
+#'   intgroup = "condition"
+#' )
 #' head(df_exp)
 get_expression_values <- function(dds,
                                   gene,
                                   intgroup,
                                   assay = "counts",
-                                  normalized = TRUE
-                                  ) {
-  if (!(assay %in% names(assays(dds))))
-    stop("Please specify a name of one of the existing assays: \n",
-         paste(names(assays(dds)), collapse = ", "))
+                                  normalized = TRUE) {
+  if (!(assay %in% names(assays(dds)))) {
+    stop(
+      "Please specify a name of one of the existing assays: \n",
+      paste(names(assays(dds)), collapse = ", ")
+    )
+  }
 
   # checking the normalization factors are in
   if (is.null(sizeFactors(dds)) & is.null(normalizationFactors(dds))) {

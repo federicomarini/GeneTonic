@@ -40,7 +40,7 @@ Compute the kappa matrix for enrichment results, as a measure of overlap
 data(res_enrich_macrophage, package = "GeneTonic")
 res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 
-kmat <- create_kappa_matrix(res_enrich[1:200,])
+kmat <- create_kappa_matrix(res_enrich[1:200, ])
 dim(kmat)
 }
 \seealso{

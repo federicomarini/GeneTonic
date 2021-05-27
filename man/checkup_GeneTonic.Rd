@@ -43,7 +43,7 @@ library("AnnotationDbi")
 
 # dds object
 data("gse", package = "macrophage")
-dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 dds_macrophage <- estimateSizeFactors(dds_macrophage)
 
@@ -51,9 +51,10 @@ dds_macrophage <- estimateSizeFactors(dds_macrophage)
 anno_df <- data.frame(
   gene_id = rownames(dds_macrophage),
   gene_name = mapIds(org.Hs.eg.db,
-                     keys = rownames(dds_macrophage),
-                     column = "SYMBOL",
-                     keytype = "ENSEMBL"),
+    keys = rownames(dds_macrophage),
+    column = "SYMBOL",
+    keytype = "ENSEMBL"
+  ),
   stringsAsFactors = FALSE,
   row.names = rownames(dds_macrophage)
 )
@@ -67,9 +68,11 @@ data(res_enrich_macrophage, package = "GeneTonic")
 res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 
-checkup_GeneTonic(dds = dds_macrophage,
-                  res_de = res_de,
-                  res_enrich = res_enrich,
-                  annotation_obj = anno_df)
+checkup_GeneTonic(
+  dds = dds_macrophage,
+  res_de = res_de,
+  res_enrich = res_enrich,
+  annotation_obj = anno_df
+)
 # if all is fine, it should return an invisible NULL and a simple message
 }

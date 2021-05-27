@@ -50,7 +50,7 @@
 #'
 #' # dds object
 #' data("gse", package = "macrophage")
-#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 #' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 #' dds_macrophage <- estimateSizeFactors(dds_macrophage)
 #'
@@ -58,9 +58,10 @@
 #' anno_df <- data.frame(
 #'   gene_id = rownames(dds_macrophage),
 #'   gene_name = mapIds(org.Hs.eg.db,
-#'                      keys = rownames(dds_macrophage),
-#'                      column = "SYMBOL",
-#'                      keytype = "ENSEMBL"),
+#'     keys = rownames(dds_macrophage),
+#'     column = "SYMBOL",
+#'     keytype = "ENSEMBL"
+#'   ),
 #'   stringsAsFactors = FALSE,
 #'   row.names = rownames(dds_macrophage)
 #' )
@@ -75,10 +76,11 @@
 #' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 #'
 #' gs_mds(res_enrich,
-#'        res_de,
-#'        anno_df,
-#'        n_gs = 200,
-#'        mds_labels = 10)
+#'   res_de,
+#'   anno_df,
+#'   n_gs = 200,
+#'   mds_labels = 10
+#' )
 gs_mds <- function(res_enrich,
                    res_de,
                    annotation_obj,
@@ -100,30 +102,32 @@ gs_mds <- function(res_enrich,
     res_enrich <- gtl$res_enrich
     annotation_obj <- gtl$annotation_obj
   }
-  
-  similarity_measure <- match.arg(similarity_measure,
-                                  c("kappa_matrix", "overlap_matrix"))
+
+  similarity_measure <- match.arg(
+    similarity_measure,
+    c("kappa_matrix", "overlap_matrix")
+  )
 
   # require res_enrich to have aggregated scores and so
   if (!("z_score" %in% colnames(res_enrich))) {
     res_enrich <- get_aggrscores(res_enrich,
-                                 res_de,
-                                 annotation_obj = annotation_obj)
+      res_de,
+      annotation_obj = annotation_obj
+    )
   }
 
   n_gs <- min(n_gs, nrow(res_enrich))
 
   gs_to_use <- unique(
     c(
-      res_enrich$gs_id[seq_len(n_gs)],  # the ones from the top
-      gs_ids[gs_ids %in% res_enrich$gs_id]  # the ones specified from the custom list
+      res_enrich$gs_id[seq_len(n_gs)], # the ones from the top
+      gs_ids[gs_ids %in% res_enrich$gs_id] # the ones specified from the custom list
     )
   )
 
 
   if (similarity_measure == "kappa_matrix") {
     my_simmat <- create_kappa_matrix(res_enrich, n_gs = n_gs, gs_ids = gs_ids)
-
   } else if (similarity_measure == "overlap_matrix") {
     my_simmat <- create_jaccard_matrix(res_enrich, n_gs = n_gs, gs_ids = gs_ids, return_sym = TRUE)
   } # else ...
@@ -158,19 +162,26 @@ gs_mds <- function(res_enrich,
 
   this_contrast <- (sub(".*p-value: (.*)", "\\1", mcols(res_de, use.names = TRUE)["pvalue", "description"]))
 
-  p <- ggplot(mds_gs_df, aes_string(x = "dim1",
-                                    y = "dim2",
-                                    text = "gs_text")) +
-    geom_point(aes_string(color = "gs_colby",
-                          size = "gs_DEcount")) +
-    scale_color_gradient2(limit = limit,
-                          low = muted("deepskyblue"),
-                          mid = "lightyellow",
-                          high = muted("firebrick")) +
-    labs(x = "Dimension 1",
-         y = "Dimension 2",
-         col = mds_colorby,
-         size = "Geneset \nmembers"
+  p <- ggplot(mds_gs_df, aes_string(
+    x = "dim1",
+    y = "dim2",
+    text = "gs_text"
+  )) +
+    geom_point(aes_string(
+      color = "gs_colby",
+      size = "gs_DEcount"
+    )) +
+    scale_color_gradient2(
+      limit = limit,
+      low = muted("deepskyblue"),
+      mid = "lightyellow",
+      high = muted("firebrick")
+    ) +
+    labs(
+      x = "Dimension 1",
+      y = "Dimension 2",
+      col = mds_colorby,
+      size = "Geneset \nmembers"
     ) +
     theme_bw()
 
@@ -192,8 +203,8 @@ gs_mds <- function(res_enrich,
   df_gs_labels <- mds_gs_df[mds_gs_df$gs_id %in% unique(c(label_these, label_those)), ]
 
   p <- p + geom_label_repel(
-    aes_string(label = "gs_name"), 
-    data = df_gs_labels, 
+    aes_string(label = "gs_name"),
+    data = df_gs_labels,
     size = 3,
     min.segment.length = 0
   )

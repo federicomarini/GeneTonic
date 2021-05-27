@@ -36,7 +36,7 @@
 #'
 #' # dds object
 #' data("gse", package = "macrophage")
-#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 #' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 #' dds_macrophage <- estimateSizeFactors(dds_macrophage)
 #'
@@ -45,9 +45,10 @@
 #' anno_df <- data.frame(
 #'   gene_id = rownames(dds_macrophage),
 #'   gene_name = mapIds(org.Hs.eg.db,
-#'                      keys = rownames(dds_macrophage),
-#'                      column = "SYMBOL",
-#'                      keytype = "ENSEMBL"),
+#'     keys = rownames(dds_macrophage),
+#'     column = "SYMBOL",
+#'     keytype = "ENSEMBL"
+#'   ),
 #'   stringsAsFactors = FALSE,
 #'   row.names = rownames(dds_macrophage)
 #' )
@@ -62,25 +63,25 @@
 #' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 #'
 #' signature_volcano(res_de,
-#'                   res_enrich,
-#'                   anno_df,
-#'                   geneset_id = res_enrich$gs_id[1]
-#'                   )
+#'   res_enrich,
+#'   anno_df,
+#'   geneset_id = res_enrich$gs_id[1]
+#' )
 #'
 #' # alternatively
 #'
-#' chemokine_list <- c("ENSG00000108702",
-#'                     "ENSG00000172156",
-#'                     "ENSG00000181374",
-#'                     "ENSG00000276409"
-#'                     )
+#' chemokine_list <- c(
+#'   "ENSG00000108702",
+#'   "ENSG00000172156",
+#'   "ENSG00000181374",
+#'   "ENSG00000276409"
+#' )
 #'
 #' signature_volcano(res_de,
-#'                   res_enrich,
-#'                   anno_df,
-#'                   genelist = chemokine_list
-#'                   )
-#'
+#'   res_enrich,
+#'   anno_df,
+#'   genelist = chemokine_list
+#' )
 signature_volcano <- function(res_de,
                               res_enrich,
                               annotation_obj = NULL,
@@ -90,9 +91,7 @@ signature_volcano <- function(res_de,
                               FDR = 0.05,
                               color = "#1a81c2",
                               volcano_labels = 25,
-                              plot_title = NULL
-) {
-  
+                              plot_title = NULL) {
   if (!is.null(gtl)) {
     checkup_gtl(gtl)
     dds <- gtl$dds
@@ -100,7 +99,7 @@ signature_volcano <- function(res_de,
     res_enrich <- gtl$res_enrich
     annotation_obj <- gtl$annotation_obj
   }
-  
+
   # Retrieve information about genes in geneset gs_id
   if (!is.null(geneset_id)) {
     if (geneset_id %in% res_enrich[["gs_id"]]) {
@@ -123,23 +122,23 @@ signature_volcano <- function(res_de,
     thisset_members_ids <- intersect(rownames(res_de), genelist)
     thisset_name <- "Custom list"
   }
-  
-  
+
+
   # Prepare the data
   complete_genes_ids <- rownames(res_de)
   complete_genes <-
     annotation_obj$gene_name[match(complete_genes_ids, annotation_obj$gene_id)]
-  
+
   padj_complete <- res_de[complete_genes_ids, "padj"]
-  filter_info_complete <-sapply(padj_complete, function(x) x <= FDR)
+  filter_info_complete <- sapply(padj_complete, function(x) x <= FDR)
   padj_complete <- sapply(padj_complete, function(x) -log10(x))
-  
+
   log2FoldChange_complete <- res_de[complete_genes_ids, "log2FoldChange"]
-  
+
   gene_set_belong <- complete_genes_ids %in% thisset_members_ids
   filter_info_complete <- filter_info_complete & gene_set_belong
-  
-  
+
+
   thisset_complete_data <- data.frame(
     complete_genes_ids,
     padj_complete,
@@ -147,49 +146,62 @@ signature_volcano <- function(res_de,
     filter_info_complete,
     gene_set_belong
   )
-  
-  colnames(thisset_complete_data) <- c("genes",
-                                       "logTransformedpvalue",
-                                       "log2FoldChange",
-                                       "significant",
-                                       "belonging")
-  
-  
+
+  colnames(thisset_complete_data) <- c(
+    "genes",
+    "logTransformedpvalue",
+    "log2FoldChange",
+    "significant",
+    "belonging"
+  )
+
+
   # Prepare plotting
   volcano_df_complete <- thisset_complete_data
   volcano_df_complete$genes_name <- complete_genes
   max_x <- max(abs(range(thisset_complete_data["log2FoldChange"])))
   limit_x <- max_x * c(-1, 1)
-  
-  
+
+
   # Prepare plot title
   if (is.null(plot_title)) {
     title <- paste0("Signature Volcano Plot - ", thisset_name, " - ", geneset_id)
   } else {
     title <- plot_title
   }
-  
-  
+
+
   # Plot data
-  p <- ggplot(volcano_df_complete,
-              aes_string(x = "log2FoldChange", y = "logTransformedpvalue")) +
-    geom_point(aes_string(color = "significant",
-                          alpha = "belonging")) +
-    labs(x = "log2 Fold Change",
-         y = "-log10 p-value",
-         color = "p-value <= FDR") +
+  p <- ggplot(
+    volcano_df_complete,
+    aes_string(x = "log2FoldChange", y = "logTransformedpvalue")
+  ) +
+    geom_point(aes_string(
+      color = "significant",
+      alpha = "belonging"
+    )) +
+    labs(
+      x = "log2 Fold Change",
+      y = "-log10 p-value",
+      color = "p-value <= FDR"
+    ) +
     scale_x_continuous(limits = limit_x) +
     scale_color_manual(
       labels = c("significant", "not significant"),
       breaks = c("TRUE", "FALSE"),
-      values = c(color, "grey25")) +
-    scale_alpha_manual(breaks = c("TRUE", "FALSE"),
-                       values = c(1, 1 / 10)) +
+      values = c(color, "grey25")
+    ) +
+    scale_alpha_manual(
+      breaks = c("TRUE", "FALSE"),
+      values = c(1, 1 / 10)
+    ) +
     theme_bw() +
-    theme(legend.title = element_text(size = 11, face = "bold"),
-          legend.text = element_text(size = 10))
-  
-  
+    theme(
+      legend.title = element_text(size = 11, face = "bold"),
+      legend.text = element_text(size = 10)
+    )
+
+
   # adding labels to the significant points of the geneset
   p <- p + geom_text_repel(
     data = subset(volcano_df_complete, filter_info_complete),
@@ -197,8 +209,8 @@ signature_volcano <- function(res_de,
     size = 4,
     max.overlaps = volcano_labels
   )
-  
-  
+
+
   # handling the title
   p <- p + ggtitle(title)
   p <- p + guides(alpha = FALSE)

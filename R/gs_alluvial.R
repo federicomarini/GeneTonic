@@ -29,7 +29,7 @@
 #'
 #' # dds object
 #' data("gse", package = "macrophage")
-#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 #' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 #' dds_macrophage <- estimateSizeFactors(dds_macrophage)
 #'
@@ -37,9 +37,10 @@
 #' anno_df <- data.frame(
 #'   gene_id = rownames(dds_macrophage),
 #'   gene_name = mapIds(org.Hs.eg.db,
-#'                      keys = rownames(dds_macrophage),
-#'                      column = "SYMBOL",
-#'                      keytype = "ENSEMBL"),
+#'     keys = rownames(dds_macrophage),
+#'     column = "SYMBOL",
+#'     keytype = "ENSEMBL"
+#'   ),
 #'   stringsAsFactors = FALSE,
 #'   row.names = rownames(dds_macrophage)
 #' )
@@ -53,22 +54,25 @@
 #' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 #' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 #'
-#' gs_alluvial(res_enrich = res_enrich,
-#'             res_de = res_de,
-#'             annotation_obj = anno_df,
-#'             n_gs = 4)
+#' gs_alluvial(
+#'   res_enrich = res_enrich,
+#'   res_de = res_de,
+#'   annotation_obj = anno_df,
+#'   n_gs = 4
+#' )
 #' # or using the alias...
-#' gs_sankey(res_enrich = res_enrich,
-#'           res_de = res_de,
-#'           annotation_obj = anno_df,
-#'           n_gs = 4)
+#' gs_sankey(
+#'   res_enrich = res_enrich,
+#'   res_de = res_de,
+#'   annotation_obj = anno_df,
+#'   n_gs = 4
+#' )
 gs_alluvial <- function(res_enrich,
                         res_de,
                         annotation_obj,
                         gtl = NULL,
                         n_gs = 5,
                         gs_ids = NULL) {
-
   if (!is.null(gtl)) {
     checkup_gtl(gtl)
     dds <- gtl$dds
@@ -76,14 +80,14 @@ gs_alluvial <- function(res_enrich,
     res_enrich <- gtl$res_enrich
     annotation_obj <- gtl$annotation_obj
   }
-  
+
   # res_enhanced <- get_aggrscores(res_enrich, res_de, annotation_obj = annotation_obj)
   n_gs <- min(n_gs, nrow(res_enrich))
 
   gs_to_use <- unique(
     c(
-      res_enrich$gs_id[seq_len(n_gs)],  # the ones from the top
-      gs_ids[gs_ids %in% res_enrich$gs_id]  # the ones specified from the custom list
+      res_enrich$gs_id[seq_len(n_gs)], # the ones from the top
+      gs_ids[gs_ids %in% res_enrich$gs_id] # the ones specified from the custom list
     )
   )
 
@@ -97,7 +101,8 @@ gs_alluvial <- function(res_enrich,
   list2df <- lapply(seq_along(enrich2list), function(gs) {
     data.frame(
       gsid = rep(names(enrich2list[gs]), length(enrich2list[[gs]])),
-      gene = enrich2list[[gs]])
+      gene = enrich2list[[gs]]
+    )
   })
   list2df <- do.call("rbind", list2df)
 
@@ -120,15 +125,15 @@ gs_alluvial <- function(res_enrich,
 
   allnodes <- c(unique(list2df$source), unique(list2df$target))
   allcols <- c(
-    viridis(length(unique(list2df$source))),           # for genesets
-    rep("steelblue", length(unique(list2df$target)))    # for genes
+    viridis(length(unique(list2df$source))), # for genesets
+    rep("steelblue", length(unique(list2df$target))) # for genes
   )
 
   p <- plot_ly(
     type = "sankey",
     domain = list(
-      x =  c(0,1),
-      y =  c(0,1)
+      x =  c(0, 1),
+      y =  c(0, 1)
     ),
     orientation = "h",
     valueformat = ".0f",
@@ -141,11 +146,10 @@ gs_alluvial <- function(res_enrich,
       thickness = 20,
       line = list(color = "black", width = 0.5)
     ),
-
     link = list(
       source = list2df$id_source,
       target = list2df$id_target,
-      value =  list2df$value
+      value = list2df$value
     )
   ) %>%
     plotly::layout(

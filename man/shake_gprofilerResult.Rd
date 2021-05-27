@@ -27,7 +27,8 @@ Convert the output of g:Profiler for straightforward use in \code{\link[=GeneTon
 gprofiler_output_file <- system.file(
   "extdata",
   "gProfiler_hsapiens_5-25-2020_tblexport_IFNg_vs_naive.csv",
-  package = "GeneTonic")
+  package = "GeneTonic"
+)
 res_from_gprofiler <- shake_gprofilerResult(gprofiler_output_file = gprofiler_output_file)
 
 data(gostres_macrophage, package = "GeneTonic")

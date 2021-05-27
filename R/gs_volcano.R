@@ -40,7 +40,7 @@
 #'
 #' # dds object
 #' data("gse", package = "macrophage")
-#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 #' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 #' dds_macrophage <- estimateSizeFactors(dds_macrophage)
 #'
@@ -48,9 +48,10 @@
 #' anno_df <- data.frame(
 #'   gene_id = rownames(dds_macrophage),
 #'   gene_name = mapIds(org.Hs.eg.db,
-#'                      keys = rownames(dds_macrophage),
-#'                      column = "SYMBOL",
-#'                      keytype = "ENSEMBL"),
+#'     keys = rownames(dds_macrophage),
+#'     column = "SYMBOL",
+#'     keytype = "ENSEMBL"
+#'   ),
 #'   stringsAsFactors = FALSE,
 #'   row.names = rownames(dds_macrophage)
 #' )
@@ -65,31 +66,33 @@
 #' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 #'
 #' gs_volcano(res_enrich)
-#'
 gs_volcano <- function(res_enrich,
                        p_threshold = 0.05,
                        color_by = "aggr_score",
                        volcano_labels = 10,
                        scale_circles = 1,
                        gs_ids = NULL,
-                       plot_title = NULL
-) {
+                       plot_title = NULL) {
   # res_enrich has to contain the aggregated scores
-  if (!all(c("z_score", "aggr_score") %in% colnames(res_enrich)))
+  if (!all(c("z_score", "aggr_score") %in% colnames(res_enrich))) {
     stop("You might need to compute the aggregated scores first")
+  }
 
-  if (!color_by %in% colnames(res_enrich))
-    stop("Your res_enrich object does not contain the ",
-         color_by,
-         " column.\n",
-         "Compute this first or select another column to use for the color.")
+  if (!color_by %in% colnames(res_enrich)) {
+    stop(
+      "Your res_enrich object does not contain the ",
+      color_by,
+      " column.\n",
+      "Compute this first or select another column to use for the color."
+    )
+  }
 
   volcano_labels <- min(volcano_labels, nrow(res_enrich))
 
   gs_to_use <- unique(
     c(
-      res_enrich$gs_id[seq_len(volcano_labels)],  # the ones from the top
-      gs_ids[gs_ids %in% res_enrich$gs_id]  # the ones specified from the custom list
+      res_enrich$gs_id[seq_len(volcano_labels)], # the ones from the top
+      gs_ids[gs_ids %in% res_enrich$gs_id] # the ones specified from the custom list
     )
   )
 
@@ -106,23 +109,28 @@ gs_volcano <- function(res_enrich,
 
   p <- ggplot(
     volcano_df,
-    aes_string(x = "z_score", y = "logpval", size = "`set members`",  text = "gs_name")) +
+    aes_string(x = "z_score", y = "logpval", size = "`set members`", text = "gs_name")
+  ) +
     geom_point(aes_string(col = color_by), shape = 20, alpha = 1) +
-    labs(x = "geneset Z score",
-         y = "-log10 p-value",
-         size = "Gene set\nmembers",
-         col = "Aggregated\nscore") +
+    labs(
+      x = "geneset Z score",
+      y = "-log10 p-value",
+      size = "Gene set\nmembers",
+      col = "Aggregated\nscore"
+    ) +
     scale_x_continuous(limits = limit_x) +
     theme_bw() +
-    scale_color_gradient2(limit = limit_z,
-                          low = muted("deepskyblue"), high = muted("firebrick"), mid = "lightyellow")
+    scale_color_gradient2(
+      limit = limit_z,
+      low = muted("deepskyblue"), high = muted("firebrick"), mid = "lightyellow"
+    )
 
   if (length(gs_to_use > 0)) {
     df_gs_labels <- volcano_df[volcano_df$gs_id %in% gs_to_use, ]
 
     p <- p + geom_label_repel(
-      aes_string(label = "gs_name"), 
-      data = df_gs_labels, 
+      aes_string(label = "gs_name"),
+      data = df_gs_labels,
       size = 4,
       min.segment.length = 0
     )

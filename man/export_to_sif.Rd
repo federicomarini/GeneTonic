@@ -24,6 +24,6 @@ Export a graph to a Simple Interaction Format file
 \examples{
 library("igraph")
 g <- make_full_graph(5) \%du\% make_full_graph(5) \%du\% make_full_graph(5)
-g <- add_edges(g, c(1,6, 1,11, 6, 11))
+g <- add_edges(g, c(1, 6, 1, 11, 6, 11))
 export_to_sif(g, tempfile())
 }

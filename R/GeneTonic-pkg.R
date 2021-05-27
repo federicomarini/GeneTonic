@@ -2,16 +2,16 @@
 #'
 #' `GeneTonic` is a Bioconductor package that provides an interactive Shiny-based
 #' graphical user interface for streamlining the interpretation of RNA-seq data
-#'  
-#' `GeneTonic` simplifies and optimizes the integration of all components of 
-#' Diffeential Expression analysis, with functional enrichment analyis and the 
+#'
+#' `GeneTonic` simplifies and optimizes the integration of all components of
+#' Diffeential Expression analysis, with functional enrichment analyis and the
 #' original expression quantifications.
-#' It does so in a way that makes it easier to generate insightful observations 
-#' and hypothesis - combining the benefits of interactivity and reproducibility, 
-#' e.g. by capturing the features and gene sets of interest highlighted during 
-#' the live session, and creating an HTML report as an artifact where text, 
+#' It does so in a way that makes it easier to generate insightful observations
+#' and hypothesis - combining the benefits of interactivity and reproducibility,
+#' e.g. by capturing the features and gene sets of interest highlighted during
+#' the live session, and creating an HTML report as an artifact where text,
 #' code, and output coexist.
-#'  
+#'
 #' @author Federico Marini \email{marinif@@uni-mainz.de}
 #'
 #' @importFrom AnnotationDbi Definition GOID Ontology Secondary Synonym Term
@@ -61,7 +61,7 @@
 #' @importFrom tidyr separate_rows pivot_longer
 #' @importFrom tools file_ext file_path_sans_ext
 #' @importFrom utils read.delim sessionInfo browseURL citation data write.table
-#' @importFrom visNetwork renderVisNetwork visExport visIgraph visNetworkOutput 
+#' @importFrom visNetwork renderVisNetwork visExport visIgraph visNetworkOutput
 #' visOptions
 #' @importFrom viridis viridis
 #'

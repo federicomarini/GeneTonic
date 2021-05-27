@@ -44,7 +44,7 @@
 #'
 #' # dds object
 #' data("gse", package = "macrophage")
-#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 #' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 #' dds_macrophage <- estimateSizeFactors(dds_macrophage)
 #'
@@ -52,9 +52,10 @@
 #' anno_df <- data.frame(
 #'   gene_id = rownames(dds_macrophage),
 #'   gene_name = mapIds(org.Hs.eg.db,
-#'                      keys = rownames(dds_macrophage),
-#'                      column = "SYMBOL",
-#'                      keytype = "ENSEMBL"),
+#'     keys = rownames(dds_macrophage),
+#'     column = "SYMBOL",
+#'     keytype = "ENSEMBL"
+#'   ),
 #'   stringsAsFactors = FALSE,
 #'   row.names = rownames(dds_macrophage)
 #' )
@@ -77,22 +78,26 @@
 #' )
 #'
 #' # now everything is in place to launch the app
-#' if (interactive())
+#' if (interactive()) {
 #'   GeneTonic(gtl = gtl_macrophage)
+#' }
 GeneTonic_list <- function(dds,
-                      res_de,
-                      res_enrich,
-                      annotation_obj) {
+                           res_de,
+                           res_enrich,
+                           annotation_obj) {
+  checkup_GeneTonic(
+    dds,
+    res_de,
+    res_enrich,
+    annotation_obj
+  )
 
-  checkup_GeneTonic(dds,
-                    res_de,
-                    res_enrich,
-                    annotation_obj)
-
-  gtl <- list(dds = dds,
-              res_de = res_de,
-              res_enrich = res_enrich,
-              annotation_obj = annotation_obj)
+  gtl <- list(
+    dds = dds,
+    res_de = res_de,
+    res_enrich = res_enrich,
+    annotation_obj = annotation_obj
+  )
 
   describe_gtl(gtl)
 
@@ -111,7 +116,6 @@ GeneTonic_list <- function(dds,
 #' @return Invisible NULL - the information is displayed as a message in the
 #' console
 describe_gtl <- function(gtl) {
-
   dds <- gtl$dds
   res_de <- gtl$res_de
   res_enrich <- gtl$res_enrich
@@ -138,12 +142,15 @@ describe_gtl <- function(gtl) {
   message(
     sprintf(
       "Providing an expression object (as DESeqDataset) of %d features over %d samples",
-      n_features, n_samples)
+      n_features, n_samples
+    )
   )
   message("\n----- res_de object -----")
   message(
-    sprintf("Providing a DE result object (as DESeqResults), %d features tested, %d found as DE",
-            n_tested, n_DE)
+    sprintf(
+      "Providing a DE result object (as DESeqResults), %d features tested, %d found as DE",
+      n_tested, n_DE
+    )
   )
   message(sprintf("Upregulated:     %d", n_upDE))
   message(sprintf("Downregulated:   %d", n_downDE))
@@ -158,7 +165,8 @@ describe_gtl <- function(gtl) {
   message(
     sprintf(
       "Providing an annotation object of %d features with information on %d identifier types",
-      n_featanno, n_featids)
+      n_featanno, n_featids
+    )
   )
 
   return(invisible(NULL))
@@ -202,7 +210,8 @@ go_2_html <- function(go_id,
       lapply(Synonym(fullinfo), function(arg) {
         paste0(tags$b("Synonym: "), arg, tags$br())
       })
-    ), collapse = ""
+    ),
+    collapse = ""
   )
   go_secondary <- Secondary(fullinfo)
   if (!is.null(res_enrich)) {
@@ -225,9 +234,10 @@ go_2_html <- function(go_id,
     ifelse(
       !is.null(res_enrich),
       paste0(tags$b("p-value: "), go_pvalue, tags$br(),
-             tags$b("Z-score: "), go_zscore, tags$br(),
-             tags$b("Aggregated score: "), go_aggrscore, tags$br(),
-             collapse = ""),
+        tags$b("Z-score: "), go_zscore, tags$br(),
+        tags$b("Aggregated score: "), go_aggrscore, tags$br(),
+        collapse = ""
+      ),
       ""
     ),
     tags$b("Ontology: "), go_ontology, tags$br(), tags$br(),
@@ -236,7 +246,8 @@ go_2_html <- function(go_id,
     ifelse(
       length(go_secondary) > 0,
       paste0(tags$b("Secondary: "), go_secondary, collapse = ""),
-      "")
+      ""
+    )
   )
   return(HTML(mycontent))
 }
@@ -248,10 +259,12 @@ go_2_html <- function(go_id,
 #' @return HTML for an action button
 #' @noRd
 .link2amigo <- function(val) {
-  sprintf('<a href = "http://amigo.geneontology.org/amigo/term/%s" target = "_blank" class = "btn btn-primary" style = "%s">%s</a>',
-          val,
-          .actionbutton_biocstyle,
-          val)
+  sprintf(
+    '<a href = "http://amigo.geneontology.org/amigo/term/%s" target = "_blank" class = "btn btn-primary" style = "%s">%s</a>',
+    val,
+    .actionbutton_biocstyle,
+    val
+  )
 }
 
 #' Information on a gene
@@ -284,9 +297,11 @@ geneinfo_2_html <- function(gene_id,
   if (!is.null(res_de)) {
     gid <- match(gene_id, res_de$SYMBOL)
     if (is.na(gid)) {
-      message("Could not find the specified gene (`", gene_id,
-              "`) in the `res_de` object. \n",
-              "Still, the general HTML content has been generated.")
+      message(
+        "Could not find the specified gene (`", gene_id,
+        "`) in the `res_de` object. \n",
+        "Still, the general HTML content has been generated."
+      )
       gene_adjpvalue <- tags$em("not found")
       gene_logfc <- tags$em("not found")
     } else {
@@ -303,8 +318,9 @@ geneinfo_2_html <- function(gene_id,
     ifelse(
       !is.null(res_de),
       paste0(tags$b("DE p-value (adjusted): "), gene_adjpvalue, tags$br(),
-             tags$b("DE log2FoldChange: "), gene_logfc,
-             collapse = ""),
+        tags$b("DE log2FoldChange: "), gene_logfc,
+        collapse = ""
+      ),
       ""
     )
   )
@@ -318,10 +334,12 @@ geneinfo_2_html <- function(gene_id,
 #' @return HTML for an action button
 #' @noRd
 .link2ncbi <- function(val) {
-  sprintf('<a href = "http://www.ncbi.nlm.nih.gov/gene/?term=%s[sym]" target = "_blank" class = "btn btn-primary" style = "%s">%s</a>',
-          val,
-          .actionbutton_biocstyle,
-          val)
+  sprintf(
+    '<a href = "http://www.ncbi.nlm.nih.gov/gene/?term=%s[sym]" target = "_blank" class = "btn btn-primary" style = "%s">%s</a>',
+    val,
+    .actionbutton_biocstyle,
+    val
+  )
 }
 
 #' Link to the GeneCards database
@@ -331,10 +349,12 @@ geneinfo_2_html <- function(gene_id,
 #' @return HTML for an action button
 #' @noRd
 .link2genecards <- function(val) {
-  sprintf('<a href = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=%s" target = "_blank" class = "btn btn-primary" style = "%s">%s</a>',
-          val,
-          .actionbutton_biocstyle,
-          val)
+  sprintf(
+    '<a href = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=%s" target = "_blank" class = "btn btn-primary" style = "%s">%s</a>',
+    val,
+    .actionbutton_biocstyle,
+    val
+  )
 }
 
 #' Link to the GTEx Portal
@@ -344,10 +364,12 @@ geneinfo_2_html <- function(gene_id,
 #' @return HTML for an action button
 #' @noRd
 .link2gtex <- function(val) {
-  sprintf('<a href = "https://www.gtexportal.org/home/gene/%s" target = "_blank" class = "btn btn-primary" style = "%s"><i class="fa fa-dna"></i>%s</a>',
-          val,
-          .actionbutton_biocstyle,
-          val)
+  sprintf(
+    '<a href = "https://www.gtexportal.org/home/gene/%s" target = "_blank" class = "btn btn-primary" style = "%s"><i class="fa fa-dna"></i>%s</a>',
+    val,
+    .actionbutton_biocstyle,
+    val
+  )
 }
 
 
@@ -365,19 +387,23 @@ generate_buttons_hubgenes <- function(x) {
       '<a href = "http://www.ncbi.nlm.nih.gov/gene/?term=%s[sym]" target = "_blank" class = "btn btn-primary" style = "%s">%s</a>',
       x,
       .actionbutton_biocstyle,
-      "NCBI"),
+      "NCBI"
+    ),
     sprintf(
       '<a href = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=%s" target = "_blank" class = "btn btn-primary" style = "%s">%s</a>',
       x,
       .actionbutton_biocstyle,
-      "GeneCards"),
+      "GeneCards"
+    ),
     sprintf(
       '<a href = "https://www.gtexportal.org/home/gene/%s" target = "_blank" class = "btn btn-primary" style = "%s">%s</a>',
       x,
       .actionbutton_biocstyle,
-      "GTEx"),
-    tags$br(style="display:inline-block"),
-    collapse = "\t")
+      "GTEx"
+    ),
+    tags$br(style = "display:inline-block"),
+    collapse = "\t"
+  )
   return(mybuttons)
 }
 
@@ -399,7 +425,7 @@ generate_buttons_hubgenes <- function(x) {
 #' @examples
 #' a <- seq(1, 21, 2)
 #' b <- seq(1, 11, 2)
-#' overlap_coefficient(a,b)
+#' overlap_coefficient(a, b)
 overlap_coefficient <- function(x, y) {
   length(intersect(x, y)) / min(length(x), length(y))
 }
@@ -417,7 +443,7 @@ overlap_coefficient <- function(x, y) {
 #' @examples
 #' a <- seq(1, 21, 2)
 #' b <- seq(1, 11, 2)
-#' overlap_jaccard_index(a,b)
+#' overlap_jaccard_index(a, b)
 overlap_jaccard_index <- function(x, y) {
   length(intersect(x, y)) / length(unique(c(x, y)))
   # about 2x faster than using union()
@@ -463,20 +489,22 @@ overlap_jaccard_index <- function(x, y) {
 #' res_df <- deseqresult2df(res_macrophage_IFNg_vs_naive)
 #' library("magrittr")
 #' library("DT")
-#' DT::datatable(res_df [1:50, ],
-#'               options = list(
-#'                 pageLength = 25,
-#'                 columnDefs = list(
-#'                   list(className = "dt-center", targets = "_all")
-#'                 )
-#'               )
+#' DT::datatable(res_df[1:50, ],
+#'   options = list(
+#'     pageLength = 25,
+#'     columnDefs = list(
+#'       list(className = "dt-center", targets = "_all")
+#'     )
+#'   )
 #' ) %>%
 #'   formatRound(columns = c("log2FoldChange"), digits = 3) %>%
 #'   formatStyle(
 #'     "log2FoldChange",
-#'     background = styleColorBar_divergent(res_df$log2FoldChange,
-#'                                          scales::alpha("navyblue", 0.4),
-#'                                          scales::alpha("darkred", 0.4)),
+#'     background = styleColorBar_divergent(
+#'       res_df$log2FoldChange,
+#'       scales::alpha("navyblue", 0.4),
+#'       scales::alpha("darkred", 0.4)
+#'     ),
 #'     backgroundSize = "100% 90%",
 #'     backgroundRepeat = "no-repeat",
 #'     backgroundPosition = "center"
@@ -484,17 +512,19 @@ overlap_jaccard_index <- function(x, y) {
 #'
 #'
 #' simplest_df <- data.frame(
-#'   a = c(rep("a",9)),
+#'   a = c(rep("a", 9)),
 #'   value = c(-4, -3, -2, -1, 0, 1, 2, 3, 4)
 #' )
 #'
 #' # or with a very simple data frame
 #' DT::datatable(simplest_df) %>%
 #'   formatStyle(
-#'     'value',
-#'     background = styleColorBar_divergent(simplest_df$value,
-#'                                          scales::alpha("forestgreen", 0.4),
-#'                                          scales::alpha("gold", 0.4)),
+#'     "value",
+#'     background = styleColorBar_divergent(
+#'       simplest_df$value,
+#'       scales::alpha("forestgreen", 0.4),
+#'       scales::alpha("gold", 0.4)
+#'     ),
 #'     backgroundSize = "100% 90%",
 #'     backgroundRepeat = "no-repeat",
 #'     backgroundPosition = "center"
@@ -502,12 +532,13 @@ overlap_jaccard_index <- function(x, y) {
 styleColorBar_divergent <- function(data,
                                     color_pos,
                                     color_neg) {
-
   max_val <- max(abs(data))
   JS(
     sprintf(
       "isNaN(parseFloat(value)) || value < 0 ? 'linear-gradient(90deg, transparent, transparent ' + (50 + value/%s * 50) + '%%, %s ' + (50 + value/%s * 50) + '%%,%s  50%%,transparent 50%%)': 'linear-gradient(90deg, transparent, transparent 50%%, %s 50%%, %s ' + (50 + value/%s * 50) + '%%, transparent ' + (50 + value/%s * 50) + '%%)'",
-      max_val, color_pos, max_val, color_pos, color_neg, color_neg, max_val, max_val))
+      max_val, color_pos, max_val, color_pos, color_neg, color_neg, max_val, max_val
+    )
+  )
 }
 
 
@@ -530,21 +561,25 @@ styleColorBar_divergent <- function(data,
 #'
 #' @examples
 #' a <- 1:9
-#' pal <- RColorBrewer::brewer.pal(9,"Set1")
+#' pal <- RColorBrewer::brewer.pal(9, "Set1")
 #' map2color(a, pal)
 #' plot(a, col = map2color(a, pal), pch = 20, cex = 4)
 #'
 #' b <- 1:50
 #' pal2 <- grDevices::colorRampPalette(
-#'   RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50)
+#'   RColorBrewer::brewer.pal(name = "RdYlBu", 11)
+#' )(50)
 #' plot(b, col = map2color(b, pal2), pch = 20, cex = 3)
 map2color <- function(x, pal, limits = NULL) {
-  if (is.null(limits))
+  if (is.null(limits)) {
     limits <- range(x)
+  }
   pal[findInterval(x, seq(limits[1],
-                          limits[2],
-                          length.out = length(pal) + 1),
-                   all.inside = TRUE)]
+    limits[2],
+    length.out = length(pal) + 1
+  ),
+  all.inside = TRUE
+  )]
 }
 
 
@@ -566,14 +601,17 @@ map2color <- function(x, pal, limits = NULL) {
 #' check_colors(mypal)
 #' mypal2 <- rev(
 #'   scales::alpha(
-#'     colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.4))
+#'     colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.4
+#'   )
+#' )
 #' check_colors(mypal2)
 #' # useful with long vectors to check at once if all cols are fine
 #' all(check_colors(mypal2))
 check_colors <- function(x) {
   vapply(x, function(col) {
     tryCatch(is.matrix(col2rgb(col)),
-             error = function(e) FALSE)
+      error = function(e) FALSE
+    )
   }, logical(1))
 }
 
@@ -598,15 +636,17 @@ check_colors <- function(x) {
 #' res_df <- deseqresult2df(res_macrophage_IFNg_vs_naive)
 #' head(res_df)
 deseqresult2df <- function(res_de, FDR = NULL) {
-  if (!is(res_de, "DESeqResults"))
+  if (!is(res_de, "DESeqResults")) {
     stop("Not a DESeqResults object.")
+  }
   res <- as.data.frame(res_de)
   res <- cbind(rownames(res), res)
   names(res)[1] <- "id"
   res$id <- as.character(res$id)
   res <- res[order(res$padj), ]
-  if (!is.null(FDR))
+  if (!is.null(FDR)) {
     res <- res[!(is.na(res$padj)) & res$padj <= FDR, ]
+  }
   res
 }
 
@@ -627,10 +667,9 @@ deseqresult2df <- function(res_de, FDR = NULL) {
 #' @examples
 #' library("igraph")
 #' g <- make_full_graph(5) %du% make_full_graph(5) %du% make_full_graph(5)
-#' g <- add_edges(g, c(1,6, 1,11, 6, 11))
+#' g <- add_edges(g, c(1, 6, 1, 11, 6, 11))
 #' export_to_sif(g, tempfile())
 export_to_sif <- function(g, sif_file = "", edge_label = "relates_to") {
-
   stopifnot(is(g, "igraph"))
   stopifnot(is.character(sif_file) & length(sif_file) == 1)
   sif_file <- normalizePath(sif_file, mustWork = FALSE)
@@ -643,8 +682,10 @@ export_to_sif <- function(g, sif_file = "", edge_label = "relates_to") {
     n2 = el[, 2]
   )
   message("Saving the file to ", sif_file)
-  write.table(sif_df, file = sif_file, sep = "\t", quote = FALSE,
-              col.names = FALSE, row.names = FALSE)
+  write.table(sif_df,
+    file = sif_file, sep = "\t", quote = FALSE,
+    col.names = FALSE, row.names = FALSE
+  )
   message("Done!")
   return(invisible(sif_file))
 }
@@ -677,9 +718,9 @@ GeneTonic_footer <- fluidRow(
 
 .onLoad <- function(libname, pkgname) {
   # Create link to logo
-  #nocov start
+  # nocov start
   shiny::addResourcePath("GeneTonic", system.file("www", package = "GeneTonic"))
-  #nocov end
+  # nocov end
 }
 
 
@@ -694,13 +735,15 @@ gt_downloadButton <- function(outputId,
                               icon = "magic",
                               class = NULL,
                               ...) {
-  aTag <- tags$a(id = outputId,
-                 class = paste("btn btn-default shiny-download-link", class),
-                 href = "",
-                 target = "_blank",
-                 download = NA,
-                 icon(icon),
-                 label)
+  aTag <- tags$a(
+    id = outputId,
+    class = paste("btn btn-default shiny-download-link", class),
+    href = "",
+    target = "_blank",
+    download = NA,
+    icon(icon),
+    label
+  )
 }
 
 

@@ -18,8 +18,9 @@ Convert the output of DAVID for straightforward use in \code{\link[=GeneTonic]{G
 }
 \examples{
 david_output_file <- system.file("extdata",
-                                 "david_output_chart_BPonly_ifng_vs_naive.txt",
-                                 package = "GeneTonic")
+  "david_output_chart_BPonly_ifng_vs_naive.txt",
+  package = "GeneTonic"
+)
 res_enrich <- shake_davidResult(david_output_file)
 }
 \seealso{

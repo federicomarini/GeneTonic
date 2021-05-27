@@ -20,7 +20,7 @@ Calculate similarity coefficient between two sets, based on the overlap
 \examples{
 a <- seq(1, 21, 2)
 b <- seq(1, 11, 2)
-overlap_coefficient(a,b)
+overlap_coefficient(a, b)
 }
 \seealso{
 https://en.wikipedia.org/wiki/Overlap_coefficient

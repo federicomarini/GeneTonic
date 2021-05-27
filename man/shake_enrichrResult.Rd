@@ -33,8 +33,9 @@ Convert the output of Enrichr for straightforward use in \code{\link[=GeneTonic]
 # enrichr_output_macrophage <- enrichr(degenes, dbs)
 # or alternatively, if downloaded from the website in tabular format
 enrichr_output_file <- system.file("extdata",
-                                   "enrichr_tblexport_IFNg_vs_naive.txt",
-                                   package = "GeneTonic")
+  "enrichr_tblexport_IFNg_vs_naive.txt",
+  package = "GeneTonic"
+)
 res_from_enrichr <- shake_enrichrResult(enrichr_output_file = enrichr_output_file)
 # res_from_enrichr2 <- shake_enrichrResult(
 #   enrichr_output = enrichr_output_macrophage[["GO_Biological_Process_2018"]])

@@ -24,7 +24,6 @@ Convert a topGOtableResult object for straightforward use in \code{\link[=GeneTo
 data(res_enrich_macrophage, package = "GeneTonic")
 
 res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
-
 }
 \seealso{
 Other shakers: 

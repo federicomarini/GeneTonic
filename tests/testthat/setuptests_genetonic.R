@@ -14,16 +14,17 @@ message("--- Generating objects for the testing setup...")
 
 # dds --------------------------------------------------------------------------
 data(gse)
-dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 
 # annotation -------------------------------------------------------------------
 anno_df <- data.frame(
   gene_id = rownames(dds_macrophage),
   gene_name = mapIds(org.Hs.eg.db,
-                     keys = rownames(dds_macrophage),
-                     column = "SYMBOL",
-                     keytype = "ENSEMBL"),
+    keys = rownames(dds_macrophage),
+    column = "SYMBOL",
+    keytype = "ENSEMBL"
+  ),
   stringsAsFactors = FALSE,
   row.names = rownames(dds_macrophage)
 )
@@ -39,8 +40,9 @@ dds_unnormalized <- dds_macrophage
 dds_macrophage <- DESeq(dds_macrophage)
 vst_macrophage <- vst(dds_macrophage)
 res_macrophage_IFNg_vs_naive <- results(dds_macrophage,
-                                        contrast = c("condition", "IFNg", "naive"),
-                                        lfcThreshold = 1, alpha = 0.05)
+  contrast = c("condition", "IFNg", "naive"),
+  lfcThreshold = 1, alpha = 0.05
+)
 summary(res_macrophage_IFNg_vs_naive)
 res_macrophage_IFNg_vs_naive$SYMBOL <- rowData(dds_macrophage)$SYMBOL
 
@@ -61,19 +63,22 @@ bg_ids <- rowData(dds_macrophage)$SYMBOL[rowSums(counts(dds_macrophage)) > 0]
 #             sep = "\t")
 topgoDE_macrophage_IFNg_vs_naive <-
   read.table(system.file("extdata", "topgotable_res_IFNg_vs_naive.txt", package = "GeneTonic"),
-             stringsAsFactors = FALSE)
+    stringsAsFactors = FALSE
+  )
 message("- Done!")
 
 message("--- Running enrichGO...")
-ego_IFNg_vs_naive <- enrichGO(gene = de_symbols_IFNg_vs_naive,
-                              universe      = bg_ids,
-                              keyType       = "SYMBOL",
-                              OrgDb         = org.Hs.eg.db,
-                              ont           = "BP",
-                              pAdjustMethod = "BH",
-                              pvalueCutoff  = 0.01,
-                              qvalueCutoff  = 0.05,
-                              readable      = FALSE)
+ego_IFNg_vs_naive <- enrichGO(
+  gene = de_symbols_IFNg_vs_naive,
+  universe = bg_ids,
+  keyType = "SYMBOL",
+  OrgDb = org.Hs.eg.db,
+  ont = "BP",
+  pAdjustMethod = "BH",
+  pvalueCutoff = 0.01,
+  qvalueCutoff = 0.05,
+  readable = FALSE
+)
 
 # save(dds_macrophage, res_macrophage_IFNg_vs_naive, vst_macrophage, topgoDE_macrophage_IFNg_vs_naive, anno_df, ego_IFNg_vs_naive, file ="quick_startup.RData")
 

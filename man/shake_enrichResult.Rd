@@ -26,7 +26,7 @@ contains the information required to create correctly a \code{res_enrich} object
 library("macrophage")
 library("DESeq2")
 data(gse)
-dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 
 # res object
@@ -34,20 +34,23 @@ data(res_de_macrophage, package = "GeneTonic")
 res_de <- res_macrophage_IFNg_vs_naive
 de_symbols_IFNg_vs_naive <- res_macrophage_IFNg_vs_naive[
   (!(is.na(res_macrophage_IFNg_vs_naive$padj))) &
-  (res_macrophage_IFNg_vs_naive$padj <= 0.05), "SYMBOL"]
+    (res_macrophage_IFNg_vs_naive$padj <= 0.05), "SYMBOL"
+]
 bg_ids <- rowData(dds_macrophage)$SYMBOL[rowSums(counts(dds_macrophage)) > 0]
 \dontrun{
 library("clusterProfiler")
 library("org.Hs.eg.db")
-ego_IFNg_vs_naive <- enrichGO(gene = de_symbols_IFNg_vs_naive,
-                              universe      = bg_ids,
-                              keyType       = "SYMBOL",
-                              OrgDb         = org.Hs.eg.db,
-                              ont           = "BP",
-                              pAdjustMethod = "BH",
-                              pvalueCutoff  = 0.01,
-                              qvalueCutoff  = 0.05,
-                              readable      = FALSE)
+ego_IFNg_vs_naive <- enrichGO(
+  gene = de_symbols_IFNg_vs_naive,
+  universe = bg_ids,
+  keyType = "SYMBOL",
+  OrgDb = org.Hs.eg.db,
+  ont = "BP",
+  pAdjustMethod = "BH",
+  pvalueCutoff = 0.01,
+  qvalueCutoff = 0.05,
+  readable = FALSE
+)
 
 res_enrich <- shake_enrichResult(ego_IFNg_vs_naive)
 head(res_enrich)

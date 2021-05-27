@@ -42,7 +42,7 @@ library("AnnotationDbi")
 
 # dds object
 data("gse", package = "macrophage")
-dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 dds_macrophage <- estimateSizeFactors(dds_macrophage)
 
@@ -50,9 +50,10 @@ dds_macrophage <- estimateSizeFactors(dds_macrophage)
 anno_df <- data.frame(
   gene_id = rownames(dds_macrophage),
   gene_name = mapIds(org.Hs.eg.db,
-                     keys = rownames(dds_macrophage),
-                     column = "SYMBOL",
-                     keytype = "ENSEMBL"),
+    keys = rownames(dds_macrophage),
+    column = "SYMBOL",
+    keytype = "ENSEMBL"
+  ),
   stringsAsFactors = FALSE,
   row.names = rownames(dds_macrophage)
 )
@@ -65,9 +66,11 @@ res_de <- res_macrophage_IFNg_vs_naive
 data(res_enrich_macrophage, package = "GeneTonic")
 res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 
-res_enrich <- get_aggrscores(res_enrich,
-                             res_de,
-                             anno_df)
+res_enrich <- get_aggrscores(
+  res_enrich,
+  res_de,
+  anno_df
+)
 }
 \seealso{
 \code{\link[=gs_volcano]{gs_volcano()}} and \code{\link[=enrichment_map]{enrichment_map()}} make efficient use of the computed

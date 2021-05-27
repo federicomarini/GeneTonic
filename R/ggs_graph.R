@@ -40,7 +40,7 @@
 #'
 #' # dds object
 #' data("gse", package = "macrophage")
-#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 #' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 #' dds_macrophage <- estimateSizeFactors(dds_macrophage)
 #'
@@ -48,9 +48,10 @@
 #' anno_df <- data.frame(
 #'   gene_id = rownames(dds_macrophage),
 #'   gene_name = mapIds(org.Hs.eg.db,
-#'                      keys = rownames(dds_macrophage),
-#'                      column = "SYMBOL",
-#'                      keytype = "ENSEMBL"),
+#'     keys = rownames(dds_macrophage),
+#'     column = "SYMBOL",
+#'     keytype = "ENSEMBL"
+#'   ),
 #'   stringsAsFactors = FALSE,
 #'   row.names = rownames(dds_macrophage)
 #' )
@@ -64,10 +65,11 @@
 #' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 #' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 #'
-#' ggs <- ggs_graph(res_enrich,
-#'                  res_de,
-#'                  anno_df
-#'                 )
+#' ggs <- ggs_graph(
+#'   res_enrich,
+#'   res_de,
+#'   anno_df
+#' )
 #'
 #' ggs
 #'
@@ -89,7 +91,6 @@ ggs_graph <- function(res_enrich,
                       prettify = TRUE,
                       geneset_graph_color = "gold",
                       genes_graph_colpal = NULL) {
-
   if (!is.null(gtl)) {
     checkup_gtl(gtl)
     dds <- gtl$dds
@@ -102,33 +103,42 @@ ggs_graph <- function(res_enrich,
   stopifnot(is.logical(prettify))
 
   if (!is.null(genes_graph_colpal)) {
+    if (!is(genes_graph_colpal, "character")) {
+      stop(
+        "Please check that you are correctly providing the color palette, ",
+        "it should be encoded as a vector of colors specified as characters ",
+        "(textual or hex codes)"
+      )
+    }
 
-    if (!is(genes_graph_colpal, "character"))
-      stop("Please check that you are correctly providing the color palette, ",
-           "it should be encoded as a vector of colors specified as characters ",
-           "(textual or hex codes)")
-
-    if (!all(check_colors(genes_graph_colpal)))
-      stop("You are providing your color palette in a format which ",
-           "\ncan not be handled by `grDevices::col2rgb`. \n\n",
-           "Try running `check_colors` on the palette object.")
+    if (!all(check_colors(genes_graph_colpal))) {
+      stop(
+        "You are providing your color palette in a format which ",
+        "\ncan not be handled by `grDevices::col2rgb`. \n\n",
+        "Try running `check_colors` on the palette object."
+      )
+    }
   }
 
   n_gs <- min(n_gs, nrow(res_enrich))
 
   enriched_gsids <- res_enrich[["gs_id"]]
   enriched_gsnames <- res_enrich[["gs_description"]]
-  enriched_gsdescs <- vapply(enriched_gsids,
-                             function(arg) tryCatch(
-                               Definition(GOTERM[[arg]]),
-                               error = function(e) "--- GO Term not found ---"
-                               ),
-                             character(1))
+  enriched_gsdescs <- vapply(
+    enriched_gsids,
+    function(arg) {
+      tryCatch(
+        Definition(GOTERM[[arg]]),
+        error = function(e) "--- GO Term not found ---"
+      )
+    },
+    character(1)
+  )
 
   gs_to_use <- unique(
     c(
-      res_enrich$gs_id[seq_len(n_gs)],  # the ones from the top
-      gs_ids[gs_ids %in% res_enrich$gs_id]  # the ones specified from the custom list
+      res_enrich$gs_id[seq_len(n_gs)], # the ones from the top
+      gs_ids[gs_ids %in% res_enrich$gs_id] # the ones specified from the custom list
     )
   )
 
@@ -142,7 +152,8 @@ ggs_graph <- function(res_enrich,
   list2df <- lapply(seq_along(enrich2list), function(gs) {
     data.frame(
       gsid = rep(names(enrich2list[gs]), length(enrich2list[[gs]])),
-      gene = enrich2list[[gs]])
+      gene = enrich2list[[gs]]
+    )
   })
   list2df <- do.call("rbind", list2df)
 
@@ -173,7 +184,8 @@ ggs_graph <- function(res_enrich,
       mypal <- genes_graph_colpal
     } else {
       mypal <- rev(scales::alpha(
-        colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.4))
+        colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.4
+      ))
     }
 
     V(g)$color[nodeIDs_genes] <- map2color(fcs_genes, mypal, limits = c(-4, 4))
@@ -181,16 +193,17 @@ ggs_graph <- function(res_enrich,
 
     # title for tooltips
     V(g)$title <- NA
-    V(g)$title[nodeIDs_gs] <- paste0("<h4>",
-                                     sprintf('<a href="http://amigo.geneontology.org/amigo/term/%s" target="_blank">%s</a>', enriched_gsids[nodeIDs_gs], enriched_gsids[nodeIDs_gs]), "</h4><br>",
-                                     V(g)$name[nodeIDs_gs], "<br><br>",
-                                     paste0(strwrap(enriched_gsdescs[nodeIDs_gs], 50), collapse = "<br>"))
-    V(g)$title[nodeIDs_genes] <- paste0("<h4>", V(g)$name[nodeIDs_genes], "</h4><br>",
-                                        "logFC = ", format(round(fcs_genes, 2), nsmall = 2))
-
-
+    V(g)$title[nodeIDs_gs] <- paste0(
+      "<h4>",
+      sprintf('<a href="http://amigo.geneontology.org/amigo/term/%s" target="_blank">%s</a>', enriched_gsids[nodeIDs_gs], enriched_gsids[nodeIDs_gs]), "</h4><br>",
+      V(g)$name[nodeIDs_gs], "<br><br>",
+      paste0(strwrap(enriched_gsdescs[nodeIDs_gs], 50), collapse = "<br>")
+    )
+    V(g)$title[nodeIDs_genes] <- paste0(
+      "<h4>", V(g)$name[nodeIDs_genes], "</h4><br>",
+      "logFC = ", format(round(fcs_genes, 2), nsmall = 2)
+    )
   } else {
-
     V(g)$color[nodeIDs_genes] <- "#B3B3B3"
     V(g)$color[nodeIDs_gs] <- "#E5C494"
   }
@@ -272,7 +285,7 @@ ggs_graph <- function(res_enrich,
 #'
 #' # dds object
 #' data("gse", package = "macrophage")
-#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 #' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 #' dds_macrophage <- estimateSizeFactors(dds_macrophage)
 #'
@@ -280,9 +293,10 @@ ggs_graph <- function(res_enrich,
 #' anno_df <- data.frame(
 #'   gene_id = rownames(dds_macrophage),
 #'   gene_name = mapIds(org.Hs.eg.db,
-#'                      keys = rownames(dds_macrophage),
-#'                      column = "SYMBOL",
-#'                      keytype = "ENSEMBL"),
+#'     keys = rownames(dds_macrophage),
+#'     column = "SYMBOL",
+#'     keytype = "ENSEMBL"
+#'   ),
 #'   stringsAsFactors = FALSE,
 #'   row.names = rownames(dds_macrophage)
 #' )
@@ -297,18 +311,17 @@ ggs_graph <- function(res_enrich,
 #' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 #'
 #' ggs_bbg <- ggs_backbone(res_enrich,
-#'                         res_de,
-#'                         anno_df,
-#'                         n_gs = 50,
-#'                         bb_on = "genesets",
-#'                         color_graph = TRUE,
-#'                         color_by_geneset = "z_score"
+#'   res_de,
+#'   anno_df,
+#'   n_gs = 50,
+#'   bb_on = "genesets",
+#'   color_graph = TRUE,
+#'   color_by_geneset = "z_score"
 #' )
 #' plot(ggs_bbg)
 #'
 #' # if desired, one can also plot the interactive version
 #' visNetwork::visIgraph(ggs_bbg)
-#'
 ggs_backbone <- function(res_enrich,
                          res_de,
                          annotation_obj = NULL,
@@ -318,7 +331,7 @@ ggs_backbone <- function(res_enrich,
                          bb_on = c("genesets", "features"),
                          bb_method = c("sdsm", "fdsm", "hyperg"),
                          bb_extract_alpha = 0.05,
-                         bb_extract_fwer = c("none","bonferroni","holm"),
+                         bb_extract_fwer = c("none", "bonferroni", "holm"),
                          bb_fullinfo = FALSE,
                          bb_remove_singletons = TRUE,
                          color_graph = TRUE,
@@ -338,41 +351,48 @@ ggs_backbone <- function(res_enrich,
   stopifnot(is.logical(color_graph))
 
   bb_method <- match.arg(bb_method, c("sdsm", "fdsm", "hyperg"))
-  bb_extract_fwer = match.arg(bb_extract_fwer, c("none","bonferroni","holm"))
+  bb_extract_fwer <- match.arg(bb_extract_fwer, c("none", "bonferroni", "holm"))
   bb_on <- match.arg(bb_on, c("genesets", "features"))
 
   # check that columns to encode the colors are present
   if (color_graph) {
     if (bb_on == "genesets") {
-      if (!color_by_geneset %in% colnames(res_enrich))
-        stop("Your res_enrich object does not contain the ",
-             color_by_geneset,
-             " column.\n",
-             "Compute this first or select another column to use for the color.")
-
+      if (!color_by_geneset %in% colnames(res_enrich)) {
+        stop(
+          "Your res_enrich object does not contain the ",
+          color_by_geneset,
+          " column.\n",
+          "Compute this first or select another column to use for the color."
+        )
+      }
     } else if (bb_on == "features") {
-      if (!color_by_feature %in% colnames(res_de))
-        stop("Your res_de object does not contain the ",
-             color_by_feature,
-             " column.\n",
-             "Compute this first or select another column to use for the color.")
+      if (!color_by_feature %in% colnames(res_de)) {
+        stop(
+          "Your res_de object does not contain the ",
+          color_by_feature,
+          " column.\n",
+          "Compute this first or select another column to use for the color."
+        )
+      }
     }
   }
 
   # first, compute the ggs graph object
-  ggs <- ggs_graph(res_enrich = res_enrich,
-                   res_de = res_de,
-                   annotation_obj = annotation_obj,
-                   gtl = gtl,
-                   n_gs = n_gs,
-                   gs_ids = gs_ids)
+  ggs <- ggs_graph(
+    res_enrich = res_enrich,
+    res_de = res_de,
+    annotation_obj = annotation_obj,
+    gtl = gtl,
+    n_gs = n_gs,
+    gs_ids = gs_ids
+  )
 
   # for making this a formal bipartite graph
-  V(ggs)$type <- V(ggs)$nodetype=="GeneSet"
+  V(ggs)$type <- V(ggs)$nodetype == "GeneSet"
 
   bpm <- igraph::as_incidence_matrix(ggs)
 
-  if (bb_on =="features") {
+  if (bb_on == "features") {
     bpm_for_backbone <- bpm
   } else if (bb_on == "genesets") {
     bpm_for_backbone <- t(bpm)
@@ -387,19 +407,19 @@ ggs_backbone <- function(res_enrich,
   }
 
   bbextracted <- backbone::backbone.extract(bbobj,
-                                            alpha = bb_extract_alpha,
-                                            fwer = bb_extract_fwer)
+    alpha = bb_extract_alpha,
+    fwer = bb_extract_fwer
+  )
 
   bbgraph <- igraph::graph_from_adjacency_matrix(bbextracted, mode = "undirected")
 
   if (bb_remove_singletons) {
-    bbgraph <- igraph::delete_vertices(bbgraph, !(igraph::degree(bbgraph) >= 1 ))
+    bbgraph <- igraph::delete_vertices(bbgraph, !(igraph::degree(bbgraph) >= 1))
   }
 
 
 
   if (igraph::vcount(bbgraph) != 0) {
-
     if (color_graph) {
       if (bb_on == "genesets") {
         # will use the summarized Z-score
@@ -408,11 +428,14 @@ ggs_backbone <- function(res_enrich,
         col_var <- res_enrich[idx, color_by]
 
         mypal <- rev(scales::alpha(
-          colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.8))
+          colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.8
+        ))
         mypal_hover <- rev(scales::alpha(
-          colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.5))
+          colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.5
+        ))
         mypal_select <- rev(scales::alpha(
-          colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 1))
+          colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 1
+        ))
 
         V(bbgraph)$color.background <- map2color(col_var, mypal, limits = range(col_var))
         V(bbgraph)$color.highlight <- map2color(col_var, mypal_select, limits = range(col_var))
@@ -422,7 +445,6 @@ ggs_backbone <- function(res_enrich,
 
         # additional specification of edge colors
         E(bbgraph)$color <- "lightgrey"
-
       } else if (bb_on == "features") {
         # will use the logFoldChange
         color_by <- color_by_feature
@@ -430,11 +452,14 @@ ggs_backbone <- function(res_enrich,
         col_var <- res_de[idx, color_by]
 
         mypal <- rev(scales::alpha(
-          colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.8))
+          colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.8
+        ))
         mypal_hover <- rev(scales::alpha(
-          colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.5))
+          colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.5
+        ))
         mypal_select <- rev(scales::alpha(
-          colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 1))
+          colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 1
+        ))
 
         V(bbgraph)$color.background <- map2color(col_var, mypal, limits = range(col_var))
         V(bbgraph)$color.highlight <- map2color(col_var, mypal_select, limits = range(col_var))
@@ -445,7 +470,6 @@ ggs_backbone <- function(res_enrich,
         # additional specification of edge colors
         E(bbgraph)$color <- "lightgrey"
       }
-
     }
   }
 
@@ -484,7 +508,7 @@ ggs_backbone <- function(res_enrich,
 #'
 #' # dds object
 #' data("gse", package = "macrophage")
-#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 #' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 #' dds_macrophage <- estimateSizeFactors(dds_macrophage)
 #'
@@ -492,9 +516,10 @@ ggs_backbone <- function(res_enrich,
 #' anno_df <- data.frame(
 #'   gene_id = rownames(dds_macrophage),
 #'   gene_name = mapIds(org.Hs.eg.db,
-#'                      keys = rownames(dds_macrophage),
-#'                      column = "SYMBOL",
-#'                      keytype = "ENSEMBL"),
+#'     keys = rownames(dds_macrophage),
+#'     column = "SYMBOL",
+#'     keytype = "ENSEMBL"
+#'   ),
 #'   stringsAsFactors = FALSE,
 #'   row.names = rownames(dds_macrophage)
 #' )
@@ -508,10 +533,11 @@ ggs_backbone <- function(res_enrich,
 #' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 #' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 #'
-#' ggs <- ggs_graph(res_enrich,
-#'                  res_de,
-#'                  anno_df
-#'                 )
+#' ggs <- ggs_graph(
+#'   res_enrich,
+#'   res_de,
+#'   anno_df
+#' )
 #' dt_df <- summarize_ggs_hubgenes(ggs)
 #' DT::datatable(dt_df, escape = FALSE)
 summarize_ggs_hubgenes <- function(g) {
@@ -529,11 +555,13 @@ summarize_ggs_hubgenes <- function(g) {
   # Get degree of gene nodes in the graph
   node_degrees <- sapply(genes, function(x) degree(g, x))
   buttons <- sapply(genes, generate_buttons_hubgenes)
-  #print(buttons)
+  # print(buttons)
 
-  node_degrees_df <- data.frame(gene = genes,
-                             degree = node_degrees,
-                             buttons = buttons)
+  node_degrees_df <- data.frame(
+    gene = genes,
+    degree = node_degrees,
+    buttons = buttons
+  )
 
 
   # Sort in descending degree order
@@ -542,5 +570,3 @@ summarize_ggs_hubgenes <- function(g) {
   colnames(node_degrees_df) <- c("Gene", "Degree", "See more")
   return(node_degrees_df)
 }
-
-

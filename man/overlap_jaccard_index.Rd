@@ -20,5 +20,5 @@ Calculate similarity coefficient with the Jaccard Index
 \examples{
 a <- seq(1, 21, 2)
 b <- seq(1, 11, 2)
-overlap_jaccard_index(a,b)
+overlap_jaccard_index(a, b)
 }

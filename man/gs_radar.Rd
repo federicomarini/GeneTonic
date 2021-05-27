@@ -53,7 +53,7 @@ library("AnnotationDbi")
 
 # dds object
 data("gse", package = "macrophage")
-dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 dds_macrophage <- estimateSizeFactors(dds_macrophage)
 
@@ -61,9 +61,10 @@ dds_macrophage <- estimateSizeFactors(dds_macrophage)
 anno_df <- data.frame(
   gene_id = rownames(dds_macrophage),
   gene_name = mapIds(org.Hs.eg.db,
-                     keys = rownames(dds_macrophage),
-                     column = "SYMBOL",
-                     keytype = "ENSEMBL"),
+    keys = rownames(dds_macrophage),
+    column = "SYMBOL",
+    keytype = "ENSEMBL"
+  ),
   stringsAsFactors = FALSE,
   row.names = rownames(dds_macrophage)
 )
@@ -86,6 +87,8 @@ set.seed(42)
 shuffled_ones <- sample(seq_len(60)) # to generate permuted p-values
 res_enrich2$gs_pvalue <- res_enrich2$gs_pvalue[shuffled_ones]
 # ideally, I would also permute the z scores and aggregated scores
-gs_radar(res_enrich = res_enrich,
-         res_enrich2 = res_enrich2)
+gs_radar(
+  res_enrich = res_enrich,
+  res_enrich2 = res_enrich2
+)
 }

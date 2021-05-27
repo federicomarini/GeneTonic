@@ -25,7 +25,9 @@ mypal <- c("steelblue", "#FF1100")
 check_colors(mypal)
 mypal2 <- rev(
   scales::alpha(
-    colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.4))
+    colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.4
+  )
+)
 check_colors(mypal2)
 # useful with long vectors to check at once if all cols are fine
 all(check_colors(mypal2))
