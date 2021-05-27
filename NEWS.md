@@ -1,8 +1,9 @@
-# GeneTonic 1.4.0
+# GeneTonic 1.6.0
 
 ## Other notes
 
 * The manuscript about `GeneTonic` is now available on bioRxiv at https://www.biorxiv.org/content/10.1101/2021.05.19.444862v1 - the citation item has been updated accordingly
+* `GeneTonic`'s Shiny app now uses the latest version of `bs4Dash`, which introduced some breaking changes. Most elements should be now available as they were in the original implementation
 
 # GeneTonic 1.4.0
 

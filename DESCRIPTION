@@ -26,7 +26,7 @@ Depends:
 Imports:
     AnnotationDbi,
     backbone,
-    bs4Dash,
+    bs4Dash (>= 2.0.0),
     circlize,
     colorspace,
 	colourpicker,
