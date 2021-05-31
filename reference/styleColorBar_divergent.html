@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.2</span>
       </span>
     </div>
 
@@ -187,20 +187,22 @@ https://stackoverflow.com/questions/33521828/stylecolorbar-center-and-shift-left
 <span class='r-in'><span class='va'>res_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='deseqresult2df.html'>deseqresult2df</a></span><span class='op'>(</span><span class='va'>res_macrophage_IFNg_vs_naive</span><span class='op'>)</span></span>
 <span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://magrittr.tidyverse.org'>"magrittr"</a></span><span class='op'>)</span></span>
 <span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/rstudio/DT'>"DT"</a></span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'>DT</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/DT/man/datatable.html'>datatable</a></span><span class='op'>(</span><span class='va'>res_df</span> <span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>50</span>, <span class='op'>]</span>,</span>
-<span class='r-in'>              options <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span></span>
-<span class='r-in'>                pageLength <span class='op'>=</span> <span class='fl'>25</span>,</span>
-<span class='r-in'>                columnDefs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span></span>
-<span class='r-in'>                  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>className <span class='op'>=</span> <span class='st'>"dt-center"</span>, targets <span class='op'>=</span> <span class='st'>"_all"</span><span class='op'>)</span></span>
-<span class='r-in'>                <span class='op'>)</span></span>
-<span class='r-in'>              <span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>DT</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/DT/man/datatable.html'>datatable</a></span><span class='op'>(</span><span class='va'>res_df</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>50</span>, <span class='op'>]</span>,</span>
+<span class='r-in'>  options <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span></span>
+<span class='r-in'>    pageLength <span class='op'>=</span> <span class='fl'>25</span>,</span>
+<span class='r-in'>    columnDefs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span></span>
+<span class='r-in'>      <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>className <span class='op'>=</span> <span class='st'>"dt-center"</span>, targets <span class='op'>=</span> <span class='st'>"_all"</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='op'>)</span></span>
+<span class='r-in'>  <span class='op'>)</span></span>
 <span class='r-in'><span class='op'>)</span> <span class='op'><a href='https://rdrr.io/pkg/DT/man/DT-imports.html'>%&gt;%</a></span></span>
 <span class='r-in'>  <span class='fu'><a href='https://rdrr.io/pkg/DT/man/formatCurrency.html'>formatRound</a></span><span class='op'>(</span>columns <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>c</a></span><span class='op'>(</span><span class='st'>"log2FoldChange"</span><span class='op'>)</span>, digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'><a href='https://rdrr.io/pkg/DT/man/DT-imports.html'>%&gt;%</a></span></span>
 <span class='r-in'>  <span class='fu'><a href='https://rdrr.io/pkg/DT/man/formatCurrency.html'>formatStyle</a></span><span class='op'>(</span></span>
 <span class='r-in'>    <span class='st'>"log2FoldChange"</span>,</span>
-<span class='r-in'>    background <span class='op'>=</span> <span class='fu'>styleColorBar_divergent</span><span class='op'>(</span><span class='va'>res_df</span><span class='op'>$</span><span class='va'>log2FoldChange</span>,</span>
-<span class='r-in'>                                         <span class='fu'>scales</span><span class='fu'>::</span><span class='fu'><a href='https://scales.r-lib.org/reference/alpha.html'>alpha</a></span><span class='op'>(</span><span class='st'>"navyblue"</span>, <span class='fl'>0.4</span><span class='op'>)</span>,</span>
-<span class='r-in'>                                         <span class='fu'>scales</span><span class='fu'>::</span><span class='fu'><a href='https://scales.r-lib.org/reference/alpha.html'>alpha</a></span><span class='op'>(</span><span class='st'>"darkred"</span>, <span class='fl'>0.4</span><span class='op'>)</span><span class='op'>)</span>,</span>
+<span class='r-in'>    background <span class='op'>=</span> <span class='fu'>styleColorBar_divergent</span><span class='op'>(</span></span>
+<span class='r-in'>      <span class='va'>res_df</span><span class='op'>$</span><span class='va'>log2FoldChange</span>,</span>
+<span class='r-in'>      <span class='fu'>scales</span><span class='fu'>::</span><span class='fu'><a href='https://scales.r-lib.org/reference/alpha.html'>alpha</a></span><span class='op'>(</span><span class='st'>"navyblue"</span>, <span class='fl'>0.4</span><span class='op'>)</span>,</span>
+<span class='r-in'>      <span class='fu'>scales</span><span class='fu'>::</span><span class='fu'><a href='https://scales.r-lib.org/reference/alpha.html'>alpha</a></span><span class='op'>(</span><span class='st'>"darkred"</span>, <span class='fl'>0.4</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='op'>)</span>,</span>
 <span class='r-in'>    backgroundSize <span class='op'>=</span> <span class='st'>"100% 90%"</span>,</span>
 <span class='r-in'>    backgroundRepeat <span class='op'>=</span> <span class='st'>"no-repeat"</span>,</span>
 <span class='r-in'>    backgroundPosition <span class='op'>=</span> <span class='st'>"center"</span></span>
@@ -208,17 +210,19 @@ https://stackoverflow.com/questions/33521828/stylecolorbar-center-and-shift-left
 <span class='r-in'></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='va'>simplest_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span></span>
-<span class='r-in'>  a <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>rep</a></span><span class='op'>(</span><span class='st'>"a"</span>,<span class='fl'>9</span><span class='op'>)</span><span class='op'>)</span>,</span>
+<span class='r-in'>  a <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>rep</a></span><span class='op'>(</span><span class='st'>"a"</span>, <span class='fl'>9</span><span class='op'>)</span><span class='op'>)</span>,</span>
 <span class='r-in'>  value <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>4</span>, <span class='op'>-</span><span class='fl'>3</span>, <span class='op'>-</span><span class='fl'>2</span>, <span class='op'>-</span><span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>4</span><span class='op'>)</span></span>
 <span class='r-in'><span class='op'>)</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># or with a very simple data frame</span></span>
 <span class='r-in'><span class='fu'>DT</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/DT/man/datatable.html'>datatable</a></span><span class='op'>(</span><span class='va'>simplest_df</span><span class='op'>)</span> <span class='op'><a href='https://rdrr.io/pkg/DT/man/DT-imports.html'>%&gt;%</a></span></span>
 <span class='r-in'>  <span class='fu'><a href='https://rdrr.io/pkg/DT/man/formatCurrency.html'>formatStyle</a></span><span class='op'>(</span></span>
-<span class='r-in'>    <span class='st'>'value'</span>,</span>
-<span class='r-in'>    background <span class='op'>=</span> <span class='fu'>styleColorBar_divergent</span><span class='op'>(</span><span class='va'>simplest_df</span><span class='op'>$</span><span class='va'>value</span>,</span>
-<span class='r-in'>                                         <span class='fu'>scales</span><span class='fu'>::</span><span class='fu'><a href='https://scales.r-lib.org/reference/alpha.html'>alpha</a></span><span class='op'>(</span><span class='st'>"forestgreen"</span>, <span class='fl'>0.4</span><span class='op'>)</span>,</span>
-<span class='r-in'>                                         <span class='fu'>scales</span><span class='fu'>::</span><span class='fu'><a href='https://scales.r-lib.org/reference/alpha.html'>alpha</a></span><span class='op'>(</span><span class='st'>"gold"</span>, <span class='fl'>0.4</span><span class='op'>)</span><span class='op'>)</span>,</span>
+<span class='r-in'>    <span class='st'>"value"</span>,</span>
+<span class='r-in'>    background <span class='op'>=</span> <span class='fu'>styleColorBar_divergent</span><span class='op'>(</span></span>
+<span class='r-in'>      <span class='va'>simplest_df</span><span class='op'>$</span><span class='va'>value</span>,</span>
+<span class='r-in'>      <span class='fu'>scales</span><span class='fu'>::</span><span class='fu'><a href='https://scales.r-lib.org/reference/alpha.html'>alpha</a></span><span class='op'>(</span><span class='st'>"forestgreen"</span>, <span class='fl'>0.4</span><span class='op'>)</span>,</span>
+<span class='r-in'>      <span class='fu'>scales</span><span class='fu'>::</span><span class='fu'><a href='https://scales.r-lib.org/reference/alpha.html'>alpha</a></span><span class='op'>(</span><span class='st'>"gold"</span>, <span class='fl'>0.4</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='op'>)</span>,</span>
 <span class='r-in'>    backgroundSize <span class='op'>=</span> <span class='st'>"100% 90%"</span>,</span>
 <span class='r-in'>    backgroundRepeat <span class='op'>=</span> <span class='st'>"no-repeat"</span>,</span>
 <span class='r-in'>    backgroundPosition <span class='op'>=</span> <span class='st'>"center"</span></span>
