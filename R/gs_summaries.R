@@ -13,7 +13,7 @@
 #' p-value - have been specified).
 #' @param color_by Character, specifying the column of `res_enrich` to be used
 #' for coloring the plotted gene sets. Defaults sensibly to `z_score`.
-#' @param return_barchart Logical, whether to return a barchart (instead of the 
+#' @param return_barchart Logical, whether to return a barchart (instead of the
 #' default dot-segment plot); defaults to FALSE.
 #'
 #' @return A `ggplot` object
@@ -30,7 +30,7 @@
 #'
 #' # dds object
 #' data("gse", package = "macrophage")
-#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 #' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 #' dds_macrophage <- estimateSizeFactors(dds_macrophage)
 #'
@@ -38,9 +38,10 @@
 #' anno_df <- data.frame(
 #'   gene_id = rownames(dds_macrophage),
 #'   gene_name = mapIds(org.Hs.eg.db,
-#'                      keys = rownames(dds_macrophage),
-#'                      column = "SYMBOL",
-#'                      keytype = "ENSEMBL"),
+#'     keys = rownames(dds_macrophage),
+#'     column = "SYMBOL",
+#'     keytype = "ENSEMBL"
+#'   ),
 #'   stringsAsFactors = FALSE,
 #'   row.names = rownames(dds_macrophage)
 #' )
@@ -56,7 +57,7 @@
 #' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 #'
 #' gs_summary_overview(res_enrich)
-#' 
+#'
 #' # if desired, it can also be shown as a barplot
 #' gs_summary_overview(res_enrich, 30, return_barchart = TRUE)
 gs_summary_overview <- function(res_enrich,
@@ -65,13 +66,15 @@ gs_summary_overview <- function(res_enrich,
                                 color_by = "z_score",
                                 return_barchart = FALSE
                                 # , size_by = "gs_de_count"
-                                ) {
+) {
   if (!is.null(color_by)) {
     if (!(color_by %in% colnames(res_enrich))) {
-      stop("Your res_enrich object does not contain the ",
-           color_by,
-           " column.\n",
-           "Compute this first or select another column to use for the color.")
+      stop(
+        "Your res_enrich object does not contain the ",
+        color_by,
+        " column.\n",
+        "Compute this first or select another column to use for the color."
+      )
     }
   }
 
@@ -82,42 +85,48 @@ gs_summary_overview <- function(res_enrich,
   re_sorted <- re %>%
     arrange(.data$logp10) %>%
     mutate(gs_description = factor(.data$gs_description, .data$gs_description))
-  
+
   if (return_barchart) {
-    p <- ggplot(re_sorted, (aes_string(x = "gs_description", y = "logp10"))) 
-    
+    p <- ggplot(re_sorted, (aes_string(x = "gs_description", y = "logp10")))
+
     if (is.null(color_by)) {
       p <- p + geom_col()
     } else {
-      p <- p + geom_col(aes(fill = .data[[color_by]])) + 
+      p <- p + geom_col(aes(fill = .data[[color_by]])) +
         scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026")
     }
-    
+
     p <- p +
-      coord_flip() + 
-      labs(x = "Gene set description",
-           y = "-log10 p-value",
-           col = color_by) +
+      coord_flip() +
+      labs(
+        x = "Gene set description",
+        y = "-log10 p-value",
+        col = color_by
+      ) +
       theme_minimal()
   } else {
     p <- ggplot(re_sorted, (aes_string(x = "gs_description", y = "logp10"))) +
-      geom_segment(aes_string(x = "gs_description", 
-                              xend = "gs_description", 
-                              y = 0, 
-                              yend = "logp10"), color = "grey")
-    
+      geom_segment(aes_string(
+        x = "gs_description",
+        xend = "gs_description",
+        y = 0,
+        yend = "logp10"
+      ), color = "grey")
+
     if (is.null(color_by)) {
       p <- p + geom_point(size = 4)
     } else {
       p <- p + geom_point(aes(col = .data[[color_by]]), size = 4) +
         scale_color_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026")
     }
-    
+
     p <- p +
       coord_flip() +
-      labs(x = "Gene set description",
-           y = "-log10 p-value",
-           col = color_by) +
+      labs(
+        x = "Gene set description",
+        y = "-log10 p-value",
+        col = color_by
+      ) +
       theme_minimal()
   }
   return(p)
@@ -158,7 +167,7 @@ gs_summary_overview <- function(res_enrich,
 #'
 #' # dds object
 #' data("gse", package = "macrophage")
-#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 #' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 #' dds_macrophage <- estimateSizeFactors(dds_macrophage)
 #'
@@ -166,9 +175,10 @@ gs_summary_overview <- function(res_enrich,
 #' anno_df <- data.frame(
 #'   gene_id = rownames(dds_macrophage),
 #'   gene_name = mapIds(org.Hs.eg.db,
-#'                      keys = rownames(dds_macrophage),
-#'                      column = "SYMBOL",
-#'                      keytype = "ENSEMBL"),
+#'     keys = rownames(dds_macrophage),
+#'     column = "SYMBOL",
+#'     keytype = "ENSEMBL"
+#'   ),
 #'   stringsAsFactors = FALSE,
 #'   row.names = rownames(dds_macrophage)
 #' )
@@ -189,8 +199,10 @@ gs_summary_overview <- function(res_enrich,
 #' res_enrich2$z_score <- res_enrich2$z_score[shuffled_ones]
 #' res_enrich2$aggr_score <- res_enrich2$aggr_score[shuffled_ones]
 #' # ideally, I would also permute the z scores and aggregated scores
-#' gs_summary_overview_pair(res_enrich = res_enrich,
-#'                          res_enrich2 = res_enrich2)
+#' gs_summary_overview_pair(
+#'   res_enrich = res_enrich,
+#'   res_enrich2 = res_enrich2
+#' )
 gs_summary_overview_pair <- function(res_enrich,
                                      res_enrich2,
                                      n_gs = 20,
@@ -198,17 +210,21 @@ gs_summary_overview_pair <- function(res_enrich,
                                      color_by = "z_score",
                                      alpha_set2 = 1) {
   if (!(color_by %in% colnames(res_enrich))) {
-    stop("Your res_enrich object does not contain the ",
-         color_by,
-         " column.\n",
-         "Compute this first or select another column to use for the color.")
+    stop(
+      "Your res_enrich object does not contain the ",
+      color_by,
+      " column.\n",
+      "Compute this first or select another column to use for the color."
+    )
   }
   # same for set2
   if (!(color_by %in% colnames(res_enrich2))) {
-    stop("Your res_enrich object does not contain the ",
-         color_by,
-         " column.\n",
-         "Compute this first or select another column to use for the color.")
+    stop(
+      "Your res_enrich object does not contain the ",
+      color_by,
+      " column.\n",
+      "Compute this first or select another column to use for the color."
+    )
   }
 
   gs_set1 <- res_enrich$gs_id
@@ -241,13 +257,16 @@ gs_summary_overview_pair <- function(res_enrich,
     geom_segment(aes_string(x = "gs_description", xend = "gs_description", y = "logp10_2", yend = "logp10"), color = "grey") +
     geom_point(aes(fill = .data[[color_by]]), size = 4, pch = 21) +
     geom_point(aes_string(y = "logp10_2", col = paste0(color_by, "_2")),
-               size = 4, alpha = alpha_set2) +
+      size = 4, alpha = alpha_set2
+    ) +
     scale_color_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026", name = paste0(color_by, " set 2")) +
     scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026", name = paste0(color_by, " set 1")) +
     coord_flip() +
-    labs(x = "Gene set description",
-         y = "-log10 p-value",
-         col = color_by) +
+    labs(
+      x = "Gene set description",
+      y = "-log10 p-value",
+      col = color_by
+    ) +
     ylim(0, NA) +
     theme_minimal()
 
@@ -305,7 +324,7 @@ gs_summary_overview_pair <- function(res_enrich,
 #'
 #' # dds object
 #' data("gse", package = "macrophage")
-#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 #' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 #' dds_macrophage <- estimateSizeFactors(dds_macrophage)
 #'
@@ -313,9 +332,10 @@ gs_summary_overview_pair <- function(res_enrich,
 #' anno_df <- data.frame(
 #'   gene_id = rownames(dds_macrophage),
 #'   gene_name = mapIds(org.Hs.eg.db,
-#'                      keys = rownames(dds_macrophage),
-#'                      column = "SYMBOL",
-#'                      keytype = "ENSEMBL"),
+#'     keys = rownames(dds_macrophage),
+#'     column = "SYMBOL",
+#'     keytype = "ENSEMBL"
+#'   ),
 #'   stringsAsFactors = FALSE,
 #'   row.names = rownames(dds_macrophage)
 #' )
@@ -333,19 +353,19 @@ gs_summary_overview_pair <- function(res_enrich,
 #' res_enrich3 <- res_enrich[1:42, ]
 #' res_enrich4 <- res_enrich[1:42, ]
 #'
-#' set.seed(2*42)
+#' set.seed(2 * 42)
 #' shuffled_ones_2 <- sample(seq_len(42)) # to generate permuted p-values
 #' res_enrich2$gs_pvalue <- res_enrich2$gs_pvalue[shuffled_ones_2]
 #' res_enrich2$z_score <- res_enrich2$z_score[shuffled_ones_2]
 #' res_enrich2$aggr_score <- res_enrich2$aggr_score[shuffled_ones_2]
 #'
-#' set.seed(3*42)
+#' set.seed(3 * 42)
 #' shuffled_ones_3 <- sample(seq_len(42)) # to generate permuted p-values
 #' res_enrich3$gs_pvalue <- res_enrich3$gs_pvalue[shuffled_ones_3]
 #' res_enrich3$z_score <- res_enrich3$z_score[shuffled_ones_3]
 #' res_enrich3$aggr_score <- res_enrich3$aggr_score[shuffled_ones_3]
 #'
-#' set.seed(4*42)
+#' set.seed(4 * 42)
 #' shuffled_ones_4 <- sample(seq_len(42)) # to generate permuted p-values
 #' res_enrich4$gs_pvalue <- res_enrich4$gs_pvalue[shuffled_ones_4]
 #' res_enrich4$z_score <- res_enrich4$z_score[shuffled_ones_4]
@@ -358,13 +378,15 @@ gs_summary_overview_pair <- function(res_enrich,
 #' )
 #'
 #' gs_horizon(res_enrich,
-#'            compared_res_enrich_list = compa_list,
-#'            n_gs = 50,
-#'            sort_by = "clustered")
+#'   compared_res_enrich_list = compa_list,
+#'   n_gs = 50,
+#'   sort_by = "clustered"
+#' )
 #' gs_horizon(res_enrich,
-#'            compared_res_enrich_list = compa_list,
-#'            n_gs = 20,
-#'            sort_by = "first_set")
+#'   compared_res_enrich_list = compa_list,
+#'   n_gs = 20,
+#'   sort_by = "first_set"
+#' )
 gs_horizon <- function(res_enrich,
                        compared_res_enrich_list,
                        n_gs = 20,
@@ -373,10 +395,12 @@ gs_horizon <- function(res_enrich,
                        ref_name = "ref_scenario",
                        sort_by = c("clustered", "first_set")) {
   if (!(color_by %in% colnames(res_enrich))) {
-    stop("Your res_enrich object does not contain the ",
-         color_by,
-         " column.\n",
-         "Compute this first or select another column to use for the color.")
+    stop(
+      "Your res_enrich object does not contain the ",
+      color_by,
+      " column.\n",
+      "Compute this first or select another column to use for the color."
+    )
   }
 
   if (!n_gs > 0) {
@@ -393,31 +417,42 @@ gs_horizon <- function(res_enrich,
     stop("You need to provide a list for comparison (even versus one scenario)")
   }
 
-  colnames_res_enrich <- c("gs_id",
-                           "gs_description",
-                           "gs_pvalue",
-                           "gs_genes",
-                           "gs_de_count",
-                           "gs_bg_count")
+  colnames_res_enrich <- c(
+    "gs_id",
+    "gs_description",
+    "gs_pvalue",
+    "gs_genes",
+    "gs_de_count",
+    "gs_bg_count"
+  )
   for (i in seq_len(length(compared_res_enrich_list))) {
     this_re <- compared_res_enrich_list[[i]]
 
-    if (!all(colnames_res_enrich %in% colnames(this_re)))
-      stop("One of the provided `res_enrich` objects does not respect the format ",
-           "required to use in GeneTonic\n",
-           "e.g. all required column names have to be present.\n",
-           "You might want to use one of the `shake_*` functions to convert it.\n",
-           "Required columns: ", paste(colnames_res_enrich, collapse = ", "),
-           "\nThis occurred at the element ", i, " in your `compared_res_enrich_list`")
+    if (!all(colnames_res_enrich %in% colnames(this_re))) {
+      stop(
+        "One of the provided `res_enrich` objects does not respect the format ",
+        "required to use in GeneTonic\n",
+        "e.g. all required column names have to be present.\n",
+        "You might want to use one of the `shake_*` functions to convert it.\n",
+        "Required columns: ", paste(colnames_res_enrich, collapse = ", "),
+        "\nThis occurred at the element ", i, " in your `compared_res_enrich_list`"
+      )
+    }
 
-    if (!p_value_column %in% colnames(this_re))
-      stop("Required column (p-value) `", p_value_column, "` not found in a component of ",
-           "`compared_res_enrich_list` object.",
-           "\nThis occurred at the element ", i, " in your `compared_res_enrich_list`")
-    if (!color_by %in% colnames(this_re))
-      stop("Required column (for coloring) `", color_by, "` not found in a component of ",
-           "`compared_res_enrich_list` object.",
-           "\nThis occurred at the element ", i, " in your `compared_res_enrich_list`")
+    if (!p_value_column %in% colnames(this_re)) {
+      stop(
+        "Required column (p-value) `", p_value_column, "` not found in a component of ",
+        "`compared_res_enrich_list` object.",
+        "\nThis occurred at the element ", i, " in your `compared_res_enrich_list`"
+      )
+    }
+    if (!color_by %in% colnames(this_re)) {
+      stop(
+        "Required column (for coloring) `", color_by, "` not found in a component of ",
+        "`compared_res_enrich_list` object.",
+        "\nThis occurred at the element ", i, " in your `compared_res_enrich_list`"
+      )
+    }
   }
 
   sort_by <- match.arg(sort_by, c("clustered", "first_set"))
@@ -440,21 +475,25 @@ gs_horizon <- function(res_enrich,
 
   # append scenario info
   res_enrich[["scenario"]] <- ref_name
-  compared_res_enrich_list <- lapply(seq_len(length(compared_res_enrich_list)),
-                                     function(arg) {
-                                       re <- compared_res_enrich_list[[arg]]
-                                       re[["scenario"]] <- names(compared_res_enrich_list)[arg]
-                                       return(re)
-                                     })
+  compared_res_enrich_list <- lapply(
+    seq_len(length(compared_res_enrich_list)),
+    function(arg) {
+      re <- compared_res_enrich_list[[arg]]
+      re[["scenario"]] <- names(compared_res_enrich_list)[arg]
+      return(re)
+    }
+  )
 
   # reduce to common sets
   re_ref <- res_enrich[gs_common, ]
-  re_comp <- lapply(seq_len(length(compared_res_enrich_list)),
-                    function(arg) {
-                      re <- compared_res_enrich_list[[arg]]
-                      re <- re[gs_common, ]
-                      return(re)
-                    })
+  re_comp <- lapply(
+    seq_len(length(compared_res_enrich_list)),
+    function(arg) {
+      re <- compared_res_enrich_list[[arg]]
+      re <- re[gs_common, ]
+      return(re)
+    }
+  )
 
   merged_res_enh <- rbind(
     re_ref,
@@ -479,8 +518,10 @@ gs_horizon <- function(res_enrich,
     # with a nicer sorting - "grouped" by scenario
     nicerorder_terms <- merged_res_enh %>%
       group_by(.data$gs_description) %>%
-      mutate(main_category = .data$scenario[which.max(.data$logp10)],
-             max_value = max(.data$logp10)) %>%
+      mutate(
+        main_category = .data$scenario[which.max(.data$logp10)],
+        max_value = max(.data$logp10)
+      ) %>%
       arrange(.data$main_category, desc(.data$max_value)) %>%
       dplyr::pull(.data$gs_description)
 
@@ -498,9 +539,11 @@ gs_horizon <- function(res_enrich,
       theme_minimal()
   }
 
-  p <- p + labs(x = "Gene set description",
-                y = "-log10 p-value",
-                col = color_by)
+  p <- p + labs(
+    x = "Gene set description",
+    y = "-log10 p-value",
+    col = color_by
+  )
 
   return(p)
 }
@@ -535,7 +578,7 @@ gs_horizon <- function(res_enrich,
 #'
 #' # dds object
 #' data("gse", package = "macrophage")
-#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 #' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 #' dds_macrophage <- estimateSizeFactors(dds_macrophage)
 #'
@@ -543,9 +586,10 @@ gs_horizon <- function(res_enrich,
 #' anno_df <- data.frame(
 #'   gene_id = rownames(dds_macrophage),
 #'   gene_name = mapIds(org.Hs.eg.db,
-#'                      keys = rownames(dds_macrophage),
-#'                      column = "SYMBOL",
-#'                      keytype = "ENSEMBL"),
+#'     keys = rownames(dds_macrophage),
+#'     column = "SYMBOL",
+#'     keytype = "ENSEMBL"
+#'   ),
 #'   stringsAsFactors = FALSE,
 #'   row.names = rownames(dds_macrophage)
 #' )
@@ -559,10 +603,12 @@ gs_horizon <- function(res_enrich,
 #' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 #' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 #'
-#' gs_summary_heat(res_enrich = res_enrich,
-#'                 res_de = res_de,
-#'                 annotation_obj = anno_df,
-#'                 n_gs = 20)
+#' gs_summary_heat(
+#'   res_enrich = res_enrich,
+#'   res_de = res_de,
+#'   annotation_obj = anno_df,
+#'   n_gs = 20
+#' )
 gs_summary_heat <- function(res_enrich,
                             res_de,
                             annotation_obj,
@@ -593,17 +639,26 @@ gs_summary_heat <- function(res_enrich,
   gs_expanded[["gs_description"]] <- factor(gs_expanded[["gs_description"]], levels = res_enrich2[["gs_description"]])
   gs_expanded[["gs_genes"]] <- factor(gs_expanded[["gs_genes"]], levels = unique(gs_expanded[["gs_genes"]]))
 
-  p <- ggplot(gs_expanded,
-              aes_string(x = "gs_genes", y = "gs_description")) +
+  p <- ggplot(
+    gs_expanded,
+    aes_string(x = "gs_genes", y = "gs_description")
+  ) +
     geom_tile(aes_string(fill = "log2FoldChange"),
-              color = "white") +
-    scale_fill_gradient2(low = muted("deepskyblue"),
-                         mid = "lightyellow",
-                         high = muted("firebrick"),
-                         name = "log2 Fold Change") +
-    xlab(NULL) + ylab(NULL) + theme_minimal() +
-    theme(panel.grid.major = element_blank(),
-          axis.text.x = element_text(angle = 75, hjust = 1))
+      color = "white"
+    ) +
+    scale_fill_gradient2(
+      low = muted("deepskyblue"),
+      mid = "lightyellow",
+      high = muted("firebrick"),
+      name = "log2 Fold Change"
+    ) +
+    xlab(NULL) +
+    ylab(NULL) +
+    theme_minimal() +
+    theme(
+      panel.grid.major = element_blank(),
+      axis.text.x = element_text(angle = 75, hjust = 1)
+    )
 
   return(p)
 }

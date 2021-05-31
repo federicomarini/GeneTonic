@@ -33,7 +33,6 @@ dim(res_enrich)
 res_enrich_simplified <- gs_simplify(res_enrich)
 dim(res_enrich_simplified)
 # and then use this further for all other functions expecting a res_enrich
-
 }
 \seealso{
 \code{\link[=gs_volcano]{gs_volcano()}} and \code{\link[=ggs_graph]{ggs_graph()}} can e.g. show an overview on the

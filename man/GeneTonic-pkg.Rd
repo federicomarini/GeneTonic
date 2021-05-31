@@ -7,7 +7,8 @@
 \description{
 \code{GeneTonic} is a Bioconductor package that provides an interactive Shiny-based
 graphical user interface for streamlining the interpretation of RNA-seq data
-
+}
+\details{
 \code{GeneTonic} simplifies and optimizes the integration of all components of
 Diffeential Expression analysis, with functional enrichment analyis and the
 original expression quantifications.

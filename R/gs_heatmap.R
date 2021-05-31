@@ -33,7 +33,7 @@
 #' @param plot_title Character string, to specify the title of the plot,
 #' displayed over the heatmap. If left to `NULL` as by default, it tries to use
 #' the information on the geneset identifier provided
-#' @param ...  Additional arguments passed to other methods, e.g. in the call to 
+#' @param ...  Additional arguments passed to other methods, e.g. in the call to
 #' [ComplexHeatmap::Heatmap()]
 #'
 #' @return A plot returned by the [ComplexHeatmap::Heatmap()] function
@@ -47,7 +47,7 @@
 #'
 #' # dds object
 #' data("gse", package = "macrophage")
-#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 #' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 #' dds_macrophage <- estimateSizeFactors(dds_macrophage)
 #'
@@ -57,9 +57,10 @@
 #' anno_df <- data.frame(
 #'   gene_id = rownames(dds_macrophage),
 #'   gene_name = mapIds(org.Hs.eg.db,
-#'                      keys = rownames(dds_macrophage),
-#'                      column = "SYMBOL",
-#'                      keytype = "ENSEMBL"),
+#'     keys = rownames(dds_macrophage),
+#'     column = "SYMBOL",
+#'     keytype = "ENSEMBL"
+#'   ),
 #'   stringsAsFactors = FALSE,
 #'   row.names = rownames(dds_macrophage)
 #' )
@@ -74,13 +75,13 @@
 #' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 #'
 #' gs_heatmap(vst_macrophage,
-#'            res_de,
-#'            res_enrich,
-#'            anno_df,
-#'            geneset_id = res_enrich$gs_id[1],
-#'            cluster_columns = TRUE,
-#'            anno_col_info = "condition")
-#'
+#'   res_de,
+#'   res_enrich,
+#'   anno_df,
+#'   geneset_id = res_enrich$gs_id[1],
+#'   cluster_columns = TRUE,
+#'   anno_col_info = "condition"
+#' )
 gs_heatmap <- function(se,
                        res_de,
                        res_enrich,
@@ -96,9 +97,7 @@ gs_heatmap <- function(se,
                        scale_row = FALSE,
                        anno_col_info = NULL,
                        plot_title = NULL,
-                       ...
-                       ) {
-
+                       ...) {
   if (!is.null(gtl)) {
     checkup_gtl(gtl)
     dds <- gtl$dds
@@ -106,7 +105,7 @@ gs_heatmap <- function(se,
     res_enrich <- gtl$res_enrich
     annotation_obj <- gtl$annotation_obj
   }
-  
+
   # check that the data would ideally be a DST, so that it is not the counts/normalized?
   mydata <- assay(se)
 
@@ -129,14 +128,16 @@ gs_heatmap <- function(se,
     # overridable via a list
     if (!all(genelist %in% rownames(se))) {
       not_there <- genelist[!(genelist %in% rownames(se))]
-      warning("Some of the provided gene ids were not found in the SummarizedExperiment",
-              "\nNot found: ", not_there)
+      warning(
+        "Some of the provided gene ids were not found in the SummarizedExperiment",
+        "\nNot found: ", not_there
+      )
     }
     thisset_members_ids <- intersect(rownames(se), genelist)
     thisset_name <- "Custom list"
   }
 
-  sig_to_keep <- (thisset_members_ids %in% rownames(se))#
+  sig_to_keep <- (thisset_members_ids %in% rownames(se)) #
   thisset_members_ids_available <- thisset_members_ids[sig_to_keep]
 
   mydata_sig <- mydata[thisset_members_ids_available, ]
@@ -218,18 +219,18 @@ gs_heatmap <- function(se,
   } else {
     anno_col_info <- anno_col_info[anno_col_info %in% colnames(colData(se))]
     sample_decoration <- as.data.frame(colData(se))[, anno_col_info, drop = FALSE]
-    
+
     # handling the color with user defined values
     col_list <- vector(mode = "list", length = ncol(sample_decoration))
-    
-    for(i in seq_len(ncol(sample_decoration))) {
-      these_decos <- sample_decoration[ , i, drop = TRUE]
-      
+
+    for (i in seq_len(ncol(sample_decoration))) {
+      these_decos <- sample_decoration[, i, drop = TRUE]
+
       if (is.numeric(these_decos)) {
-        max_val <- max(these_decos, na.rm = TRUE) 
+        max_val <- max(these_decos, na.rm = TRUE)
         min_val <- min(these_decos, na.rm = TRUE)
         mid_val <- median(these_decos, na.rm = TRUE)
-        
+
         if (max_val * min_val >= 0) {
           # sequential palette, all the same sign
           these_cols <- circlize::colorRamp2(
@@ -244,21 +245,22 @@ gs_heatmap <- function(se,
           )
         }
       }
-      
-      if(is.character(these_decos) | is.factor(these_decos)) {
-        if (is.character(these_decos))
+
+      if (is.character(these_decos) | is.factor(these_decos)) {
+        if (is.character(these_decos)) {
           these_decos <- factor(these_decos)
+        }
         these_cols <- colorspace::rainbow_hcl(n = length(levels(these_decos)))
         names(these_cols) <- levels(these_decos)
       }
-      
+
       col_list[[i]] <- these_cols
     }
-    
+
     names(col_list) <- colnames(sample_decoration)
-    
+
     deco_ha <- HeatmapAnnotation(df = sample_decoration, col = col_list)
-    
+
     ch <- ComplexHeatmap::Heatmap(
       matrix = mydata_sig,
       column_title = title,
@@ -295,7 +297,7 @@ gs_heatmap <- function(se,
 #' @param gtl A `GeneTonic`-list object, containing in its slots the arguments
 #' specified above: `dds`, `res_de`, `res_enrich`, and `annotation_obj` - the names
 #' of the list _must_ be specified following the content they are expecting
-#' 
+#'
 #' @return A matrix with the geneset Z scores, e.g. to be plotted with [gs_scoresheat()]
 #'
 #' @seealso [gs_scoresheat()] plots these scores
@@ -310,7 +312,7 @@ gs_heatmap <- function(se,
 #'
 #' # dds object
 #' data("gse", package = "macrophage")
-#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 #' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 #' dds_macrophage <- estimateSizeFactors(dds_macrophage)
 #'
@@ -320,9 +322,10 @@ gs_heatmap <- function(se,
 #' anno_df <- data.frame(
 #'   gene_id = rownames(dds_macrophage),
 #'   gene_name = mapIds(org.Hs.eg.db,
-#'                      keys = rownames(dds_macrophage),
-#'                      column = "SYMBOL",
-#'                      keytype = "ENSEMBL"),
+#'     keys = rownames(dds_macrophage),
+#'     column = "SYMBOL",
+#'     keytype = "ENSEMBL"
+#'   ),
 #'   stringsAsFactors = FALSE,
 #'   row.names = rownames(dds_macrophage)
 #' )
@@ -336,17 +339,17 @@ gs_heatmap <- function(se,
 #' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 #' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 #'
-#' scores_mat <- gs_scores(vst_macrophage,
-#'                         res_de,
-#'                         res_enrich[1:50,],
-#'                         anno_df)
-#'
+#' scores_mat <- gs_scores(
+#'   vst_macrophage,
+#'   res_de,
+#'   res_enrich[1:50, ],
+#'   anno_df
+#' )
 gs_scores <- function(se,
                       res_de, # maybe won't be needed?
                       res_enrich,
                       annotation_obj = NULL,
                       gtl = NULL) {
-
   if (!is.null(gtl)) {
     checkup_gtl(gtl)
     dds <- gtl$dds
@@ -354,7 +357,7 @@ gs_scores <- function(se,
     res_enrich <- gtl$res_enrich
     annotation_obj <- gtl$annotation_obj
   }
-  
+
   mydata <- assay(se)
   # returns a matrix, rows = genesets, cols = samples
   # rownames(res_enrich) <- res_enrich[["gs_id"]]
@@ -366,12 +369,12 @@ gs_scores <- function(se,
   gss_mat <- matrix(NA, nrow = nrow(res_enrich), ncol = ncol(se))
   rownames(gss_mat) <- paste0(
     res_enrich[["gs_description"]], "|",
-    res_enrich[["gs_id"]])
+    res_enrich[["gs_id"]]
+  )
   # rownames(gss_mat) <- res_enrich[["gs_id"]]
   colnames(gss_mat) <- colnames(se)
 
   for (i in seq_len(nrow(res_enrich))) {
-
     thisset_members <- unlist(strsplit(res_enrich[i, "gs_genes"], ","))
     thisset_members_ids <- annotation_obj$gene_id[match(thisset_members, annotation_obj$gene_name)]
 
@@ -415,7 +418,7 @@ gs_scores <- function(se,
 #'
 #' # dds object
 #' data("gse", package = "macrophage")
-#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 #' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 #' dds_macrophage <- estimateSizeFactors(dds_macrophage)
 #'
@@ -425,9 +428,10 @@ gs_scores <- function(se,
 #' anno_df <- data.frame(
 #'   gene_id = rownames(dds_macrophage),
 #'   gene_name = mapIds(org.Hs.eg.db,
-#'                      keys = rownames(dds_macrophage),
-#'                      column = "SYMBOL",
-#'                      keytype = "ENSEMBL"),
+#'     keys = rownames(dds_macrophage),
+#'     column = "SYMBOL",
+#'     keytype = "ENSEMBL"
+#'   ),
 #'   stringsAsFactors = FALSE,
 #'   row.names = rownames(dds_macrophage)
 #' )
@@ -441,22 +445,22 @@ gs_scores <- function(se,
 #' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 #' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 #'
-#' scores_mat <- gs_scores(vst_macrophage,
-#'                         res_de,
-#'                         res_enrich[1:30,],
-#'                         anno_df)
+#' scores_mat <- gs_scores(
+#'   vst_macrophage,
+#'   res_de,
+#'   res_enrich[1:30, ],
+#'   anno_df
+#' )
 #' gs_scoresheat(scores_mat,
-#'               n_gs = 30)
-#'
+#'   n_gs = 30
+#' )
 gs_scoresheat <- function(mat,
                           n_gs = nrow(mat),
                           gs_ids = NULL,
                           clustering_distance_rows = "euclidean",
                           clustering_distance_cols = "euclidean",
                           cluster_rows = TRUE,
-                          cluster_cols = TRUE
-) {
-
+                          cluster_cols = TRUE) {
   n_gs <- min(n_gs, nrow(mat))
   current_ids <- unlist(lapply(
     strsplit(rownames(mat), split = "|", fixed = TRUE), function(arg) arg[[2]]
@@ -464,8 +468,8 @@ gs_scoresheat <- function(mat,
 
   gs_to_use <- unique(
     c(
-      current_ids[seq_len(n_gs)],  # the ones from the top
-      gs_ids[gs_ids %in% current_ids]  # the ones specified from the custom list
+      current_ids[seq_len(n_gs)], # the ones from the top
+      gs_ids[gs_ids %in% current_ids] # the ones specified from the custom list
     )
   )
 
@@ -479,21 +483,25 @@ gs_scoresheat <- function(mat,
   col_tree <- hclust(d_cols)
   score_matrix <- mat
 
-  if (cluster_rows)
+  if (cluster_rows) {
     score_matrix <- score_matrix[row_tree$order, ]
+  }
 
-  if (cluster_cols)
+  if (cluster_cols) {
     score_matrix <- score_matrix[, col_tree$order]
+  }
 
   labels_rows <- factor(rownames(score_matrix),
-                        levels = rev(rownames(score_matrix)))
-                        # to have the top ones on top, if not clustered
+    levels = rev(rownames(score_matrix))
+  )
+  # to have the top ones on top, if not clustered
   labels_cols <- factor(colnames(score_matrix),
-                        levels = colnames(score_matrix))
+    levels = colnames(score_matrix)
+  )
 
   score_df <- expand.grid(list(labels_rows, labels_cols),
-                          KEEP.OUT.ATTRS = FALSE,
-                          stringsAsFactors = FALSE
+    KEEP.OUT.ATTRS = FALSE,
+    stringsAsFactors = FALSE
   )
   scores <- data.frame(as.vector(score_matrix))
   score_df <- cbind(score_df, scores)
@@ -501,7 +509,7 @@ gs_scoresheat <- function(mat,
 
   p <- ggplot(score_df, aes_string(x = "Sample", y = "GeneSet")) +
     geom_tile(aes_string(fill = "Value"), color = "white") +
-  # from brewer.pal(n = 11, name = 'RdYlBu') and brewer.pal(n = 11, name = 'YlGn') - or Spectal, 11?
+    # from brewer.pal(n = 11, name = 'RdYlBu') and brewer.pal(n = 11, name = 'YlGn') - or Spectal, 11?
     scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
     theme(
       axis.title.x = element_blank(),
@@ -512,7 +520,7 @@ gs_scoresheat <- function(mat,
       ),
       legend.title = element_text(size = 9),
       legend.text = element_text(size = 11)
-  ) +
+    ) +
     labs(
       fill = "Geneset \nZ value"
     )

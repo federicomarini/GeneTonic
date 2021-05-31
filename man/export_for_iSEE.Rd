@@ -37,7 +37,7 @@ library("DESeq2")
 
 # dds object
 data("gse", package = "macrophage")
-dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 dds_macrophage <- estimateSizeFactors(dds_macrophage)
 

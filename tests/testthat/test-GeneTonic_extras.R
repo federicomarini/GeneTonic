@@ -1,18 +1,21 @@
 context("Testing extra functions/helpers for GeneTonic")
 
 test_that("Creating and describing gtl", {
-
-  gtl_macrophage <- GeneTonic_list(dds = dds_macrophage,
-                                   res_de = res_macrophage_IFNg_vs_naive,
-                                   res_enrich = res_enrich_IFNg_vs_naive,
-                                   annotation_obj = anno_df)
+  gtl_macrophage <- GeneTonic_list(
+    dds = dds_macrophage,
+    res_de = res_macrophage_IFNg_vs_naive,
+    res_enrich = res_enrich_IFNg_vs_naive,
+    annotation_obj = anno_df
+  )
   expect_is(gtl_macrophage, "list")
 
   expect_message({
-    GeneTonic_list(dds = dds_macrophage,
-                   res_de = res_macrophage_IFNg_vs_naive,
-                   res_enrich = res_enrich_IFNg_vs_naive,
-                   annotation_obj = anno_df)
+    GeneTonic_list(
+      dds = dds_macrophage,
+      res_de = res_macrophage_IFNg_vs_naive,
+      res_enrich = res_enrich_IFNg_vs_naive,
+      annotation_obj = anno_df
+    )
   })
 })
 
@@ -25,7 +28,7 @@ test_that("Overlap functions work", {
   ol_1_2_ji <- overlap_jaccard_index(set1, set2)
 
   expect_equal(ol_1_2, 1)
-  expect_equal(ol_1_2_ji, 2/3)
+  expect_equal(ol_1_2_ji, 2 / 3)
 })
 
 test_that("JS code for DT is generated", {
@@ -45,7 +48,8 @@ test_that("JS code for DT is generated", {
 
 test_that("map2color works", {
   mypal <- rev(scales::alpha(
-    colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.4))
+    colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.4
+  ))
   my_vals <- res_macrophage_IFNg_vs_naive$log2FoldChange[1:20]
   m2c <- map2color(x = my_vals, pal = mypal, limits = c(-4, 4))
   m2c_nolimits <- map2color(x = my_vals, pal = mypal)
@@ -61,7 +65,9 @@ test_that("color check works", {
 
   mypal2 <- rev(
     scales::alpha(
-      colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.4))
+      colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.4
+    )
+  )
   expect_true(all(check_colors(mypal2)))
 
   my_non_pal <- c("green", "gren", "hmm", "whoops")
@@ -80,7 +86,7 @@ test_that("results to data frame conversion works", {
 test_that("Exporting to sif format works", {
   library("igraph")
   g <- make_full_graph(5) %du% make_full_graph(5) %du% make_full_graph(5)
-  g <- add_edges(g, c(1,6, 1,11, 6, 11))
+  g <- add_edges(g, c(1, 6, 1, 11, 6, 11))
   siffile <- export_to_sif(g, tempfile())
 
   expect_is(siffile, "character")
@@ -96,7 +102,7 @@ test_that("Retrieving info on GO term", {
   expect_is(out, "html")
   expect_equal(go_2_html("GO:00"), HTML("Gene Ontology term not found!"))
 
-  res_enrich <- get_aggrscores(res_enrich_IFNg_vs_naive,res_de = res_macrophage_IFNg_vs_naive,annotation_obj = anno_df)
+  res_enrich <- get_aggrscores(res_enrich_IFNg_vs_naive, res_de = res_macrophage_IFNg_vs_naive, annotation_obj = anno_df)
   out2 <- go_2_html("GO:0032729", res_enrich = res_enrich)
   expect_is(out2, "character")
   expect_is(out2, "html")

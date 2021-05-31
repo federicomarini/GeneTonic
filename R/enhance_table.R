@@ -35,7 +35,7 @@
 #'
 #' # dds object
 #' data("gse", package = "macrophage")
-#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 #' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 #' dds_macrophage <- estimateSizeFactors(dds_macrophage)
 #'
@@ -43,9 +43,10 @@
 #' anno_df <- data.frame(
 #'   gene_id = rownames(dds_macrophage),
 #'   gene_name = mapIds(org.Hs.eg.db,
-#'                      keys = rownames(dds_macrophage),
-#'                      column = "SYMBOL",
-#'                      keytype = "ENSEMBL"),
+#'     keys = rownames(dds_macrophage),
+#'     column = "SYMBOL",
+#'     keytype = "ENSEMBL"
+#'   ),
 #'   stringsAsFactors = FALSE,
 #'   row.names = rownames(dds_macrophage)
 #' )
@@ -59,9 +60,10 @@
 #' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 #' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 #' enhance_table(res_enrich,
-#'               res_de,
-#'               anno_df,
-#'               n_gs = 10)
+#'   res_de,
+#'   anno_df,
+#'   n_gs = 10
+#' )
 enhance_table <- function(res_enrich,
                           res_de,
                           annotation_obj,
@@ -70,7 +72,6 @@ enhance_table <- function(res_enrich,
                           gs_ids = NULL,
                           chars_limit = 70,
                           plot_title = NULL) {
-  
   if (!is.null(gtl)) {
     checkup_gtl(gtl)
     dds <- gtl$dds
@@ -78,13 +79,13 @@ enhance_table <- function(res_enrich,
     res_enrich <- gtl$res_enrich
     annotation_obj <- gtl$annotation_obj
   }
-  
+
   n_gs <- min(n_gs, nrow(res_enrich))
 
   gs_to_use <- unique(
     c(
-      res_enrich$gs_id[seq_len(n_gs)],  # the ones from the top
-      gs_ids[gs_ids %in% res_enrich$gs_id]  # the ones specified from the custom list
+      res_enrich$gs_id[seq_len(n_gs)], # the ones from the top
+      gs_ids[gs_ids %in% res_enrich$gs_id] # the ones specified from the custom list
     )
   )
 
@@ -95,9 +96,9 @@ enhance_table <- function(res_enrich,
     genesid_thisset <- annotation_obj$gene_id[match(genes_thisset, annotation_obj$gene_name)]
 
     res_thissubset <- res_de[genesid_thisset, ]
-    
+
     res_thissubset <- as.data.frame(res_thissubset)
-    
+
     res_thissubset$gene_name <- genes_thisset
     res_thissubset$gs_desc <- as.factor(res_enrich[gs, "gs_description"])
     res_thissubset$gs_id <- res_enrich[gs, "gs_id"]
@@ -119,19 +120,20 @@ enhance_table <- function(res_enrich,
       y = "gs_desc",
       fill = "gs_id",
       text = "gene_name"
-    )) +
-
+    )
+  ) +
     scale_x_continuous(limits = c(-max_lfc, max_lfc)) +
-    geom_point(alpha = 0.7, shape = 21, size = 2)  +
+    geom_point(alpha = 0.7, shape = 21, size = 2) +
     theme_minimal() +
     geom_vline(aes(xintercept = 0), col = "steelblue", alpha = 0.4) +
     theme(legend.position = "none") +
-    scale_y_discrete(name = "",
-                     labels = paste0(
-                       substr(as.character(unique(gs_fulllist$gs_desc)), 1, chars_limit),
-                       " | ", unique(gs_fulllist$gs_id)
-                       )
-    ) + 
+    scale_y_discrete(
+      name = "",
+      labels = paste0(
+        substr(as.character(unique(gs_fulllist$gs_desc)), 1, chars_limit),
+        " | ", unique(gs_fulllist$gs_id)
+      )
+    ) +
     labs(x = "log2 Fold Change")
 
   if (is.null(plot_title)) {
@@ -180,7 +182,7 @@ enhance_table <- function(res_enrich,
 #'
 #' # dds object
 #' data("gse", package = "macrophage")
-#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 #' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 #' dds_macrophage <- estimateSizeFactors(dds_macrophage)
 #'
@@ -188,9 +190,10 @@ enhance_table <- function(res_enrich,
 #' anno_df <- data.frame(
 #'   gene_id = rownames(dds_macrophage),
 #'   gene_name = mapIds(org.Hs.eg.db,
-#'                      keys = rownames(dds_macrophage),
-#'                      column = "SYMBOL",
-#'                      keytype = "ENSEMBL"),
+#'     keys = rownames(dds_macrophage),
+#'     column = "SYMBOL",
+#'     keytype = "ENSEMBL"
+#'   ),
 #'   stringsAsFactors = FALSE,
 #'   row.names = rownames(dds_macrophage)
 #' )
@@ -203,15 +206,16 @@ enhance_table <- function(res_enrich,
 #' data(res_enrich_macrophage, package = "GeneTonic")
 #' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 #'
-#' res_enrich <- get_aggrscores(res_enrich,
-#'                              res_de,
-#'                              anno_df)
+#' res_enrich <- get_aggrscores(
+#'   res_enrich,
+#'   res_de,
+#'   anno_df
+#' )
 get_aggrscores <- function(res_enrich,
                            res_de,
                            annotation_obj,
                            gtl = NULL,
                            aggrfun = mean) {
-
   if (!is.null(gtl)) {
     checkup_gtl(gtl)
     dds <- gtl$dds
@@ -219,7 +223,7 @@ get_aggrscores <- function(res_enrich,
     res_enrich <- gtl$res_enrich
     annotation_obj <- gtl$annotation_obj
   }
-  
+
   gs_expanded <- tidyr::separate_rows(res_enrich, "gs_genes", sep = ",")
   gs_expanded$log2FoldChange <-
     res_de[annotation_obj$gene_id[match(gs_expanded$gs_genes, annotation_obj$gene_name)], ]$log2FoldChange
@@ -233,9 +237,11 @@ get_aggrscores <- function(res_enrich,
     z_score <- (upgenes - downgenes) / sqrt(upgenes + downgenes)
 
     aggr_score <- aggrfun(this_subset$log2FoldChange)
-    return(c("DE_count" = nrow(this_subset),
-             "Z_score" = z_score,
-             "aggr_score" = aggr_score))
+    return(c(
+      "DE_count" = nrow(this_subset),
+      "Z_score" = z_score,
+      "aggr_score" = aggr_score
+    ))
   })
 
   names(gs_aggregated) <- res_enrich$gs_id
@@ -250,8 +256,8 @@ get_aggrscores <- function(res_enrich,
 
 
 #' Distill enrichment results
-#' 
-#' Distill the main topics from the enrichment results, based on the graph derived 
+#'
+#' Distill the main topics from the enrichment results, based on the graph derived
 #' from constructing an enrichment map
 #'
 #' @param res_enrich A `data.frame` object, storing the result of the functional
@@ -260,13 +266,13 @@ get_aggrscores <- function(res_enrich,
 #' also commonly used in the `DESeq2` framework.
 #' @param annotation_obj A `data.frame` object, containing two columns, `gene_id`
 #' with a set of unambiguous identifiers (e.g. ENSEMBL ids) and `gene_name`,
-#' containing e.g. HGNC-based gene symbols. 
+#' containing e.g. HGNC-based gene symbols.
 #' @param gtl A `GeneTonic`-list object, containing in its slots the arguments
 #' specified above: `dds`, `res_de`, `res_enrich`, and `annotation_obj` - the names
 #' of the list _must_ be specified following the content they are expecting
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be used.
-#' @param cluster_fun Character, referring to the name of the function used for 
+#' @param cluster_fun Character, referring to the name of the function used for
 #' the community detection in the enrichment map graph. Could be one of "cluster_markov",
 #' "cluster_louvain", or "cluster_walktrap", as they all return a `communities`
 #' object.
@@ -276,10 +282,10 @@ get_aggrscores <- function(res_enrich,
 #' are identified and defined, specifying e.g. the names of each component, and the
 #' genes associated to these.
 #' - the distilled graph for the enrichment map, `distilled_em`, with the information
-#' on the membership 
-#' - the original `res_enrich`, augmented with the information of the membership 
+#' on the membership
+#' - the original `res_enrich`, augmented with the information of the membership
 #' related to the meta-genesets
-#' 
+#'
 #' @export
 #'
 #' @examples
@@ -290,7 +296,7 @@ get_aggrscores <- function(res_enrich,
 #'
 #' # dds object
 #' data("gse", package = "macrophage")
-#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 #' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 #' dds_macrophage <- estimateSizeFactors(dds_macrophage)
 #'
@@ -298,9 +304,10 @@ get_aggrscores <- function(res_enrich,
 #' anno_df <- data.frame(
 #'   gene_id = rownames(dds_macrophage),
 #'   gene_name = mapIds(org.Hs.eg.db,
-#'                      keys = rownames(dds_macrophage),
-#'                      column = "SYMBOL",
-#'                      keytype = "ENSEMBL"),
+#'     keys = rownames(dds_macrophage),
+#'     column = "SYMBOL",
+#'     keytype = "ENSEMBL"
+#'   ),
 #'   stringsAsFactors = FALSE,
 #'   row.names = rownames(dds_macrophage)
 #' )
@@ -313,12 +320,13 @@ get_aggrscores <- function(res_enrich,
 #' data(res_enrich_macrophage, package = "GeneTonic")
 #' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 #' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
-#' 
+#'
 #' distilled <- distill_enrichment(res_enrich,
-#'                                 res_de,
-#'                                 annotation_obj,
-#'                                 n_gs = 100,
-#'                                 cluster_fun = "cluster_markov")
+#'   res_de,
+#'   annotation_obj,
+#'   n_gs = 100,
+#'   cluster_fun = "cluster_markov"
+#' )
 #' colnames(distilled$distilled_table)
 #' distilled$distilled_em
 distill_enrichment <- function(res_enrich,
@@ -327,11 +335,11 @@ distill_enrichment <- function(res_enrich,
                                gtl = NULL,
                                n_gs = nrow(res_enrich),
                                cluster_fun = "cluster_markov") {
-  
   cluster_fun <- match.arg(
-    cluster_fun, c("cluster_markov", "cluster_louvain", "cluster_walktrap"))
+    cluster_fun, c("cluster_markov", "cluster_louvain", "cluster_walktrap")
+  )
   cluster_fun <- match.fun(cluster_fun)
-  
+
   if (!is.null(gtl)) {
     checkup_gtl(gtl)
     dds <- gtl$dds
@@ -339,25 +347,26 @@ distill_enrichment <- function(res_enrich,
     res_enrich <- gtl$res_enrich
     annotation_obj <- gtl$annotation_obj
   }
-  
+
   n_gs <- min(n_gs, nrow(res_enrich))
-  
+
   em <- enrichment_map(res_enrich,
-                       res_de,
-                       annotation_obj,
-                       n_gs = n_gs)
-  
+    res_de,
+    annotation_obj,
+    n_gs = n_gs
+  )
+
   # subset accordingly
   res_enrich <- res_enrich[seq_len(n_gs), ]
-  
+
   gs_communities <- cluster_fun(em)
   res_enrich$gs_membership <- factor(gs_communities$membership)
   V(em)$membership <- gs_communities$membership
   V(em)$color <- gs_communities$membership
-  
-  
+
+
   # aggregate the results according to the defined gs_membership column
-  
+
   distilled_res <- data.frame(
     metags_cluster = unique(res_enrich$gs_membership),
     metags_n_gs = NA,
@@ -366,48 +375,47 @@ distill_enrichment <- function(res_enrich,
     metags_gsidlist = NA,
     metags_gsdesclist = NA,
     metags_msgs = NA,
-    metags_mcgs = NA, 
+    metags_mcgs = NA,
     stringsAsFactors = FALSE
   )
-  
+
   for (i in seq_along(distilled_res$metags_cluster)) {
     # message(i)
     # message(distilled_res$metags_cluster[i])
     subset_enrich <- res_enrich[res_enrich$gs_membership == distilled_res$metags_cluster[i], ]
     distilled_res[i, "metags_n_gs"] <- nrow(subset_enrich)
-    
+
     all_genes_singlevec <- unique(strsplit(paste0(subset_enrich$gs_genes, collapse = ","), ",")[[1]])
     distilled_res[i, "metags_genes"] <- paste0(all_genes_singlevec, collapse = ",")
     distilled_res[i, "metags_n_genes"] <- length(all_genes_singlevec)
-    
+
     distilled_res[i, "metags_gsidlist"] <- paste0(subset_enrich$gs_id, collapse = ",") # nested list or collapsed?
     distilled_res[i, "metags_gsdesclist"] <- paste0(subset_enrich$gs_description, collapse = ",")
-    
+
     most_sig <- which.min(subset_enrich$gs_pvalue)
     distilled_res[i, "metags_msgs"] <- paste0(
-      subset_enrich$gs_id[most_sig], "|", 
+      subset_enrich$gs_id[most_sig], "|",
       subset_enrich$gs_description[most_sig], "|",
-      subset_enrich$gs_pvalue[most_sig])
-    
-    mgs_graph <- induced_subgraph(em, subset_enrich$gs_description)    
+      subset_enrich$gs_pvalue[most_sig]
+    )
+
+    mgs_graph <- induced_subgraph(em, subset_enrich$gs_description)
     distilled_res[i, "metags_mcgs"] <- names(which.max(strength(mgs_graph)))
   }
   # later add something maybe even based on NLP/wordcloud or so
-  
-    
-    # lapply(unique(res_enrich$gs_membership), function(gs_cluster) {
-    # cur_clus <- gs_cluster
-    # message(cur_clus)
-    # clu_n_gs <- res_enrich$gs_membership
+
+
+  # lapply(unique(res_enrich$gs_membership), function(gs_cluster) {
+  # cur_clus <- gs_cluster
+  # message(cur_clus)
+  # clu_n_gs <- res_enrich$gs_membership
   # })
-  
+
   return(
-    list(distilled_table = distilled_res,
-         distilled_em = em,
-         res_enrich = res_enrich)
+    list(
+      distilled_table = distilled_res,
+      distilled_em = em,
+      res_enrich = res_enrich
+    )
   )
 }
-
-
-
-

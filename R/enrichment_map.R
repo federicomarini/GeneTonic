@@ -43,7 +43,7 @@
 #'
 #' # dds object
 #' data("gse", package = "macrophage")
-#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 #' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 #' dds_macrophage <- estimateSizeFactors(dds_macrophage)
 #'
@@ -51,9 +51,10 @@
 #' anno_df <- data.frame(
 #'   gene_id = rownames(dds_macrophage),
 #'   gene_name = mapIds(org.Hs.eg.db,
-#'                      keys = rownames(dds_macrophage),
-#'                      column = "SYMBOL",
-#'                      keytype = "ENSEMBL"),
+#'     keys = rownames(dds_macrophage),
+#'     column = "SYMBOL",
+#'     keytype = "ENSEMBL"
+#'   ),
 #'   stringsAsFactors = FALSE,
 #'   row.names = rownames(dds_macrophage)
 #' )
@@ -68,9 +69,9 @@
 #' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 #'
 #' em <- enrichment_map(res_enrich,
-#'                      res_de,
-#'                      anno_df,
-#'                      n_gs = 20
+#'   res_de,
+#'   anno_df,
+#'   n_gs = 20
 #' )
 #'
 #' em
@@ -94,7 +95,6 @@ enrichment_map <- function(res_enrich,
                            scale_edges_width = 200,
                            scale_nodes_size = 5,
                            color_by = "gs_pvalue") {
-
   if (!is.null(gtl)) {
     checkup_gtl(gtl)
     dds <- gtl$dds
@@ -103,25 +103,29 @@ enrichment_map <- function(res_enrich,
     annotation_obj <- gtl$annotation_obj
   }
 
-  if (!color_by %in% colnames(res_enrich))
-    stop("Your res_enrich object does not contain the ",
-         color_by,
-         " column.\n",
-         "Compute this first or select another column to use for the color.")
+  if (!color_by %in% colnames(res_enrich)) {
+    stop(
+      "Your res_enrich object does not contain the ",
+      color_by,
+      " column.\n",
+      "Compute this first or select another column to use for the color."
+    )
+  }
 
   n_gs <- min(n_gs, nrow(res_enrich))
 
   gs_to_use <- unique(
     c(
-      res_enrich$gs_id[seq_len(n_gs)],  # the ones from the top
-      gs_ids[gs_ids %in% res_enrich$gs_id]  # the ones specified from the custom list
+      res_enrich$gs_id[seq_len(n_gs)], # the ones from the top
+      gs_ids[gs_ids %in% res_enrich$gs_id] # the ones specified from the custom list
     )
   )
 
   overlap_matrix <- create_jaccard_matrix(res_enrich,
-                                          n_gs = n_gs,
-                                          gs_ids = gs_ids,
-                                          return_sym = FALSE)
+    n_gs = n_gs,
+    gs_ids = gs_ids,
+    return_sym = FALSE
+  )
 
   rownames(overlap_matrix) <- colnames(overlap_matrix) <- res_enrich[rownames(overlap_matrix), "gs_description"]
 
@@ -140,7 +144,7 @@ enrichment_map <- function(res_enrich,
   # omm <- omm[!is.na(omm$value), ]
 
   # use this to construct the graph
-  emg <- graph.data.frame(omm[, c(1,2)], directed = FALSE)
+  emg <- graph.data.frame(omm[, c(1, 2)], directed = FALSE)
 
   E(emg)$width <- sqrt(omm$value * scale_edges_width)
   emg <- delete.edges(emg, E(emg)[omm$value < overlap_threshold])
@@ -158,29 +162,38 @@ enrichment_map <- function(res_enrich,
     col_var <- -log10(col_var)
     # V(g)$color <- colVar
     mypal <- (scales::alpha(
-      colorRampPalette(RColorBrewer::brewer.pal(name = "YlOrRd", 9))(50), 0.8))
+      colorRampPalette(RColorBrewer::brewer.pal(name = "YlOrRd", 9))(50), 0.8
+    ))
     mypal_hover <- (scales::alpha(
-      colorRampPalette(RColorBrewer::brewer.pal(name = "YlOrRd", 9))(50), 0.5))
+      colorRampPalette(RColorBrewer::brewer.pal(name = "YlOrRd", 9))(50), 0.5
+    ))
     mypal_select <- (scales::alpha(
-      colorRampPalette(RColorBrewer::brewer.pal(name = "YlOrRd", 9))(50), 1))
+      colorRampPalette(RColorBrewer::brewer.pal(name = "YlOrRd", 9))(50), 1
+    ))
   } else {
     # e.g. using z_score or aggregated value
     if (prod(range(col_var)) >= 0) {
       # gradient palette
       mypal <- (scales::alpha(
-        colorRampPalette(RColorBrewer::brewer.pal(name = "Oranges", 9))(50), 0.8))
+        colorRampPalette(RColorBrewer::brewer.pal(name = "Oranges", 9))(50), 0.8
+      ))
       mypal_hover <- (scales::alpha(
-        colorRampPalette(RColorBrewer::brewer.pal(name = "Oranges", 9))(50), 0.5))
+        colorRampPalette(RColorBrewer::brewer.pal(name = "Oranges", 9))(50), 0.5
+      ))
       mypal_select <- (scales::alpha(
-        colorRampPalette(RColorBrewer::brewer.pal(name = "Oranges", 9))(50), 1))
+        colorRampPalette(RColorBrewer::brewer.pal(name = "Oranges", 9))(50), 1
+      ))
     } else {
       # divergent palette to be used
       mypal <- rev(scales::alpha(
-        colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.8))
+        colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.8
+      ))
       mypal_hover <- rev(scales::alpha(
-        colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.5))
+        colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.5
+      ))
       mypal_select <- rev(scales::alpha(
-        colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 1))
+        colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 1
+      ))
     }
   }
 

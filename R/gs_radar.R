@@ -29,7 +29,7 @@
 #'
 #' # dds object
 #' data("gse", package = "macrophage")
-#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 #' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 #' dds_macrophage <- estimateSizeFactors(dds_macrophage)
 #'
@@ -37,9 +37,10 @@
 #' anno_df <- data.frame(
 #'   gene_id = rownames(dds_macrophage),
 #'   gene_name = mapIds(org.Hs.eg.db,
-#'                      keys = rownames(dds_macrophage),
-#'                      column = "SYMBOL",
-#'                      keytype = "ENSEMBL"),
+#'     keys = rownames(dds_macrophage),
+#'     column = "SYMBOL",
+#'     keytype = "ENSEMBL"
+#'   ),
 #'   stringsAsFactors = FALSE,
 #'   row.names = rownames(dds_macrophage)
 #' )
@@ -62,8 +63,10 @@
 #' shuffled_ones <- sample(seq_len(60)) # to generate permuted p-values
 #' res_enrich2$gs_pvalue <- res_enrich2$gs_pvalue[shuffled_ones]
 #' # ideally, I would also permute the z scores and aggregated scores
-#' gs_radar(res_enrich = res_enrich,
-#'          res_enrich2 = res_enrich2)
+#' gs_radar(
+#'   res_enrich = res_enrich,
+#'   res_enrich2 = res_enrich2
+#' )
 gs_radar <- function(res_enrich,
                      res_enrich2 = NULL,
                      n_gs = 20,
@@ -98,9 +101,10 @@ gs_radar <- function(res_enrich,
         name = "scenario 1"
       ) %>%
       plotly::layout(
-        polar = list(radialaxis = list(visible = TRUE,
-                                       range = c(0, log_smallest_p))
-        )
+        polar = list(radialaxis = list(
+          visible = TRUE,
+          range = c(0, log_smallest_p)
+        ))
         # ,
         # title = "Geneset Radar Chart", font = list(size = 10)
       )
@@ -142,9 +146,10 @@ gs_radar <- function(res_enrich,
         name = "scenario 2"
       ) %>%
       plotly::layout(
-        polar = list(radialaxis = list(visible = TRUE,
-                                       range = c(0, log_smallest_p))
-        )
+        polar = list(radialaxis = list(
+          visible = TRUE,
+          range = c(0, log_smallest_p)
+        ))
       )
   }
 

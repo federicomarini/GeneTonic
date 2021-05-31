@@ -59,7 +59,8 @@
 #'   similarity_matrix = NULL,
 #'   similarity_threshold = 0.35,
 #'   fuzzy_seeding_initial_neighbors = 3,
-#'   fuzzy_multilinkage_rule = 0.5)
+#'   fuzzy_multilinkage_rule = 0.5
+#' )
 #'
 #' # show all genesets members of the first cluster
 #' fuzzy_subset[fuzzy_subset$gs_fuzzycluster == "1", ]
@@ -73,7 +74,6 @@ gs_fuzzyclustering <- function(res_enrich,
                                similarity_threshold = 0.35,
                                fuzzy_seeding_initial_neighbors = 3,
                                fuzzy_multilinkage_rule = 0.5) {
-
   stopifnot(is.numeric(similarity_threshold))
   stopifnot(is.numeric(fuzzy_seeding_initial_neighbors))
   stopifnot(is.numeric(fuzzy_multilinkage_rule))
@@ -81,16 +81,17 @@ gs_fuzzyclustering <- function(res_enrich,
   stopifnot(fuzzy_seeding_initial_neighbors >= 2)
   stopifnot(fuzzy_multilinkage_rule > 0 & fuzzy_multilinkage_rule <= 1)
 
-  if (similarity_threshold < 0.3)
+  if (similarity_threshold < 0.3) {
     warning(
       "You selected a small value for the similarity threshold. ",
       "The resulting clusters might be driven by noisy similarity values."
     )
+  }
 
   gs_to_use <- unique(
     c(
-      res_enrich$gs_id[seq_len(n_gs)],  # the ones from the top
-      gs_ids[gs_ids %in% res_enrich$gs_id]  # the ones specified from the custom list
+      res_enrich$gs_id[seq_len(n_gs)], # the ones from the top
+      gs_ids[gs_ids %in% res_enrich$gs_id] # the ones specified from the custom list
     )
   )
   # TODO: subset here res_enrich AND matrix if provided?
@@ -98,8 +99,9 @@ gs_fuzzyclustering <- function(res_enrich,
   # if simmat not provided, compute it on the fly
   if (is.null(similarity_matrix)) {
     similarity_matrix <- create_kappa_matrix(res_enrich,
-                                             n_gs = n_gs,
-                                             gs_ids = gs_ids)
+      n_gs = n_gs,
+      gs_ids = gs_ids
+    )
     # rownames(similarity_matrix) <- colnames(similarity_matrix) <- res_enrich$gs_id
   }
 
@@ -124,7 +126,7 @@ gs_fuzzyclustering <- function(res_enrich,
       all_seed_gs <- unique(c(cur_gs, similar_genesets)) # if similarity with itself is not reported
       # restricting on the initial seed members
       seed_kappa <- similarity_matrix[rownames(similarity_matrix) %in%
-                                        all_seed_gs, colnames(similarity_matrix) %in% all_seed_gs]
+        all_seed_gs, colnames(similarity_matrix) %in% all_seed_gs]
       diag(seed_kappa) <- 0
       if (mean(seed_kappa >= similarity_threshold) >= fuzzy_multilinkage_rule) {
         # assign members and name the seed
@@ -142,7 +144,7 @@ gs_fuzzyclustering <- function(res_enrich,
   while (i_seed < length(fuzzy_seeds_unique)) {
     shared_genesets <- intersect(fuzzy_seeds_unique[[i_seed]], fuzzy_seeds_unique[[j_seed]])
     all_genesets <- union(fuzzy_seeds_unique[[i_seed]], fuzzy_seeds_unique[[j_seed]])
-    if (length(shared_genesets)/length(all_genesets) > fuzzy_multilinkage_rule & i_seed != j_seed) {
+    if (length(shared_genesets) / length(all_genesets) > fuzzy_multilinkage_rule & i_seed != j_seed) {
       # message("merging...")
       # is sharing majority and not the same seed, merge and drop the seed
       fuzzy_seeds_unique[[i_seed]] <- all_genesets
@@ -161,7 +163,7 @@ gs_fuzzyclustering <- function(res_enrich,
 
   # Rescuing the singletons
   gs_singletons <-
-    res_enrich[ !(res_enrich$gs_id %in% unlist(fuzzy_seeds_unique)), "gs_id"]
+    res_enrich[!(res_enrich$gs_id %in% unlist(fuzzy_seeds_unique)), "gs_id"]
   for (gs_singleton in gs_singletons) {
     fuzzy_seeds_unique[[gs_singleton]] <- gs_singleton
   }
@@ -170,10 +172,13 @@ gs_fuzzyclustering <- function(res_enrich,
 
   # Making the list into matrix
   fuzzy_clusters_mat <- matrix(FALSE,
-                               nrow = nrow(res_enrich),
-                               ncol = length(fuzzy_seeds_unique),
-                               dimnames = list(res_enrich[,"gs_id"],
-                                               names(fuzzy_seeds_unique)))
+    nrow = nrow(res_enrich),
+    ncol = length(fuzzy_seeds_unique),
+    dimnames = list(
+      res_enrich[, "gs_id"],
+      names(fuzzy_seeds_unique)
+    )
+  )
   for (i_clu in names(fuzzy_seeds_unique)) {
     # message(i_clu)
     cluster_gs <- fuzzy_seeds_unique[[i_clu]]
@@ -197,7 +202,8 @@ gs_fuzzyclustering <- function(res_enrich,
       buildup_res_enrich <- rbind(
         buildup_res_enrich,
         data.frame(cur_gs,
-                   gs_fuzzycluster = i_fc)
+          gs_fuzzycluster = i_fc
+        )
       )
     }
   }
@@ -213,7 +219,9 @@ gs_fuzzyclustering <- function(res_enrich,
   gs_mostsig_tuple <- paste0(gs_mostsig$gs_id, "|", gs_mostsig$gs_fuzzycluster)
 
   res_enrich <- res_enrich[order(res_enrich$gs_fuzzycluster,
-                                 res_enrich$gs_pvalue, decreasing = FALSE), ]
+    res_enrich$gs_pvalue,
+    decreasing = FALSE
+  ), ]
 
   re_tuple <- paste0(res_enrich$gs_id, "|", res_enrich$gs_fuzzycluster)
   gs_cluster_status <- re_tuple %in% gs_mostsig_tuple
@@ -224,6 +232,3 @@ gs_fuzzyclustering <- function(res_enrich,
 
   return(res_enrich)
 }
-
-
-

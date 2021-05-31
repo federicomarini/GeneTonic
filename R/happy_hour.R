@@ -1,4 +1,4 @@
-#nocov start
+# nocov start
 
 #' Check whether `pandoc` and `pandoc-citeproc` are available
 #'
@@ -12,12 +12,13 @@
 #' either warning or error messages are triggered.
 #'
 .check_pandoc <- function(ignore_pandoc) {
-
   if (Sys.which("pandoc") == "") {
     if (ignore_pandoc) {
       ## If ignore_pandoc is TRUE, just give a warning
-      warning("pandoc is not available! ",
-              "The final report will not be generated.")
+      warning(
+        "pandoc is not available! ",
+        "The final report will not be generated."
+      )
     } else {
       ## If ignore_pandoc is FALSE, stop
       stop("pandoc is not available!")
@@ -26,8 +27,10 @@
   if (Sys.which("pandoc-citeproc") == "") {
     if (ignore_pandoc) {
       ## If ignore_pandoc is TRUE, just give a warning
-      warning("pandoc-citeproc is not available! ",
-              "The final report will not be generated.")
+      warning(
+        "pandoc-citeproc is not available! ",
+        "The final report will not be generated."
+      )
     } else {
       ## If ignore_pandoc is FALSE, stop
       stop("pandoc-citeproc is not available!")
@@ -114,7 +117,7 @@
 #'
 #' # dds object
 #' data("gse", package = "macrophage")
-#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 #' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 #' dds_macrophage <- estimateSizeFactors(dds_macrophage)
 #'
@@ -122,9 +125,10 @@
 #' anno_df <- data.frame(
 #'   gene_id = rownames(dds_macrophage),
 #'   gene_name = mapIds(org.Hs.eg.db,
-#'                      keys = rownames(dds_macrophage),
-#'                      column = "SYMBOL",
-#'                      keytype = "ENSEMBL"),
+#'     keys = rownames(dds_macrophage),
+#'     column = "SYMBOL",
+#'     keytype = "ENSEMBL"
+#'   ),
 #'   stringsAsFactors = FALSE,
 #'   row.names = rownames(dds_macrophage)
 #' )
@@ -137,17 +141,19 @@
 #' data(res_enrich_macrophage, package = "GeneTonic")
 #' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 #' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
-#'
 #' \dontrun{
-#' happy_hour(dds = dds_macrophage,
-#'            res_de = res_de,
-#'            res_enrich = res_enrich,
-#'            annotation_obj = anno_df,
-#'            project_id = "examplerun",
-#'            mygenesets = res_enrich$gs_id[c(1:5,11,31)],
-#'            mygenes = c("ENSG00000125347",
-#'                        "ENSG00000172399",
-#'                        "ENSG00000137496")
+#' happy_hour(
+#'   dds = dds_macrophage,
+#'   res_de = res_de,
+#'   res_enrich = res_enrich,
+#'   annotation_obj = anno_df,
+#'   project_id = "examplerun",
+#'   mygenesets = res_enrich$gs_id[c(1:5, 11, 31)],
+#'   mygenes = c(
+#'     "ENSG00000125347",
+#'     "ENSG00000172399",
+#'     "ENSG00000137496"
+#'   )
 #' )
 #' }
 happy_hour <- function(dds,
@@ -192,23 +198,29 @@ happy_hour <- function(dds,
   # Raise an error if output_format is not one of the allowed
   if (!(output_format %in% c("pdf_document", "html_document"))) {
     stop("The provided output_format is currently not supported. Please ",
-         "use either 'html_document' or 'pdf_document'.", call. = FALSE)
+      "use either 'html_document' or 'pdf_document'.",
+      call. = FALSE
+    )
   }
 
   # Raise an error if the output format and file name extension don't match
   if (output_format != paste0(tools::file_ext(output_file), "_document")) {
     stop("File name extension of output_file (.",
-         tools::file_ext(output_file),
-         ") doesn't agree with the ",
-         "output_format, should be .",
-         gsub("_document$", "", output_format), call. = FALSE)
+      tools::file_ext(output_file),
+      ") doesn't agree with the ",
+      "output_format, should be .",
+      gsub("_document$", "", output_format),
+      call. = FALSE
+    )
   }
 
   # Check that all required input files are available and correctly formatted
-  checkup_GeneTonic(dds,
-                    res_de,
-                    res_enrich, #  or directly get_aggrscores(res_enrich, res_de, annotation_obj)
-                    annotation_obj)
+  checkup_GeneTonic(
+    dds,
+    res_de,
+    res_enrich, #  or directly get_aggrscores(res_enrich, res_de, annotation_obj)
+    annotation_obj
+  )
 
 
   # output files
@@ -222,22 +234,26 @@ happy_hour <- function(dds,
   if (file.exists(output_report)) {
     if (!force_overwrite) {
       stop("The file ", output_report,
-           " already exists. Please remove or rename the file, provide ",
-           "another value of output_file, or set force_overwrite = TRUE.",
-           call. = FALSE)
+        " already exists. Please remove or rename the file, provide ",
+        "another value of output_file, or set force_overwrite = TRUE.",
+        call. = FALSE
+      )
     } else {
       warning("The file ", output_report,
-              " already exists and will be overwritten, since ",
-              "force_overwrite = TRUE.", immediate. = TRUE,
-              call. = FALSE)
+        " already exists and will be overwritten, since ",
+        "force_overwrite = TRUE.",
+        immediate. = TRUE,
+        call. = FALSE
+      )
     }
   }
 
   # Rmd template
   if (is.null(input_rmd)) {
     template_rmd <- system.file("extdata",
-                                "cocktail_recipe.Rmd",
-                                package = "GeneTonic")
+      "cocktail_recipe.Rmd",
+      package = "GeneTonic"
+    )
   } else {
     template_rmd <- input_rmd
   }
@@ -245,15 +261,18 @@ happy_hour <- function(dds,
   if (file.exists(template_rmd)) {
     if (file.exists(output_rmd)) {
       stop("There is already an .Rmd file called ", output_rmd,
-           ". Please remove or rename this file, or choose another ",
-           "output_file name.", call. = FALSE)
+        ". Please remove or rename this file, or choose another ",
+        "output_file name.",
+        call. = FALSE
+      )
     } else {
       # another possible thought: work in a tempdir, that is probably even more elegant
       file.copy(from = template_rmd, to = output_rmd, overwrite = FALSE)
     }
   } else {
     stop("The Rmd template file ", template_rmd, " does not exist.",
-         call. = FALSE)
+      call. = FALSE
+    )
   }
 
   # Process the arguments
@@ -271,10 +290,11 @@ happy_hour <- function(dds,
   file.remove(output_rmd)
 
   # Open up in a browser
-  if (open_after_creating)
+  if (open_after_creating) {
     browseURL(output_file)
+  }
 
   invisible(output_file)
 }
 
-#nocov end
+# nocov end

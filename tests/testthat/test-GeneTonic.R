@@ -8,15 +8,20 @@ test_that("Shiny app is generated", {
   # expect_is(GeneTonic(), "shiny.appobj")
   # expect_is(GeneTonic(dds), "shiny.appobj")
   # expect_is(GeneTonic(dds_macrophage, res_macrophage_IFNg_vs_naive), "shiny.appobj")
-  expect_is(GeneTonic(dds_macrophage,
-                      res_macrophage_IFNg_vs_naive,
-                      res_enrich_IFNg_vs_naive,
-                      annotation_obj = anno_df),
-            "shiny.appobj")
+  expect_is(
+    GeneTonic(dds_macrophage,
+      res_macrophage_IFNg_vs_naive,
+      res_enrich_IFNg_vs_naive,
+      annotation_obj = anno_df
+    ),
+    "shiny.appobj"
+  )
 
-  gtl_macrophage <- GeneTonic_list(dds = dds_macrophage,
-                                   res_de = res_macrophage_IFNg_vs_naive,
-                                   res_enrich = res_enrich_IFNg_vs_naive,
-                                   annotation_obj = anno_df)
+  gtl_macrophage <- GeneTonic_list(
+    dds = dds_macrophage,
+    res_de = res_macrophage_IFNg_vs_naive,
+    res_enrich = res_enrich_IFNg_vs_naive,
+    annotation_obj = anno_df
+  )
   expect_is(GeneTonic(gtl = gtl_macrophage), "shiny.appobj")
 })

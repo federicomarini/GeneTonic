@@ -74,7 +74,8 @@ fuzzy_subset <- gs_fuzzyclustering(
   similarity_matrix = NULL,
   similarity_threshold = 0.35,
   fuzzy_seeding_initial_neighbors = 3,
-  fuzzy_multilinkage_rule = 0.5)
+  fuzzy_multilinkage_rule = 0.5
+)
 
 # show all genesets members of the first cluster
 fuzzy_subset[fuzzy_subset$gs_fuzzycluster == "1", ]

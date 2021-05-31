@@ -102,7 +102,7 @@ library("AnnotationDbi")
 
 # dds object
 data("gse", package = "macrophage")
-dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 dds_macrophage <- estimateSizeFactors(dds_macrophage)
 
@@ -110,9 +110,10 @@ dds_macrophage <- estimateSizeFactors(dds_macrophage)
 anno_df <- data.frame(
   gene_id = rownames(dds_macrophage),
   gene_name = mapIds(org.Hs.eg.db,
-                     keys = rownames(dds_macrophage),
-                     column = "SYMBOL",
-                     keytype = "ENSEMBL"),
+    keys = rownames(dds_macrophage),
+    column = "SYMBOL",
+    keytype = "ENSEMBL"
+  ),
   stringsAsFactors = FALSE,
   row.names = rownames(dds_macrophage)
 )
@@ -127,16 +128,15 @@ res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 
 ggs_bbg <- ggs_backbone(res_enrich,
-                        res_de,
-                        anno_df,
-                        n_gs = 50,
-                        bb_on = "genesets",
-                        color_graph = TRUE,
-                        color_by_geneset = "z_score"
+  res_de,
+  anno_df,
+  n_gs = 50,
+  bb_on = "genesets",
+  color_graph = TRUE,
+  color_by_geneset = "z_score"
 )
 plot(ggs_bbg)
 
 # if desired, one can also plot the interactive version
 visNetwork::visIgraph(ggs_bbg)
-
 }

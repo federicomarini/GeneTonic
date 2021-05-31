@@ -42,7 +42,7 @@
 #'
 #' # dds object
 #' data("gse", package = "macrophage")
-#' dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+#' dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
 #' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 #' dds_macrophage <- estimateSizeFactors(dds_macrophage)
 #'
@@ -50,9 +50,10 @@
 #' anno_df <- data.frame(
 #'   gene_id = rownames(dds_macrophage),
 #'   gene_name = mapIds(org.Hs.eg.db,
-#'                      keys = rownames(dds_macrophage),
-#'                      column = "SYMBOL",
-#'                      keytype = "ENSEMBL"),
+#'     keys = rownames(dds_macrophage),
+#'     column = "SYMBOL",
+#'     keytype = "ENSEMBL"
+#'   ),
 #'   stringsAsFactors = FALSE,
 #'   row.names = rownames(dds_macrophage)
 #' )
@@ -67,7 +68,8 @@
 #' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 #'
 #' gs_dendro(res_enrich,
-#'           n_gs = 100)
+#'   n_gs = 100
+#' )
 gs_dendro <- function(res_enrich,
                       gtl = NULL,
                       n_gs = nrow(res_enrich),
@@ -78,7 +80,6 @@ gs_dendro <- function(res_enrich,
                       size_leaves_by = "gs_pvalue",
                       color_branches_by = "clusters",
                       create_plot = TRUE) {
-
   if (!is.null(gtl)) {
     checkup_gtl(gtl)
     dds <- gtl$dds
@@ -86,27 +87,33 @@ gs_dendro <- function(res_enrich,
     res_enrich <- gtl$res_enrich
     annotation_obj <- gtl$annotation_obj
   }
-  
+
   if (!is.null(color_leaves_by)) {
-    if (!color_leaves_by %in% colnames(res_enrich))
-      stop("Your res_enrich object does not contain the ",
-           color_leaves_by,
-           " column.\n",
-           "Compute this first or select another column to use for the leaves color.")
+    if (!color_leaves_by %in% colnames(res_enrich)) {
+      stop(
+        "Your res_enrich object does not contain the ",
+        color_leaves_by,
+        " column.\n",
+        "Compute this first or select another column to use for the leaves color."
+      )
+    }
   }
   if (!is.null(size_leaves_by)) {
-    if (!size_leaves_by %in% colnames(res_enrich))
-      stop("Your res_enrich object does not contain the ",
-           size_leaves_by,
-           " column.\n",
-           "Compute this first or select another column to use for the leaves size.")
+    if (!size_leaves_by %in% colnames(res_enrich)) {
+      stop(
+        "Your res_enrich object does not contain the ",
+        size_leaves_by,
+        " column.\n",
+        "Compute this first or select another column to use for the leaves size."
+      )
+    }
   }
 
   n_gs <- min(n_gs, nrow(res_enrich))
   gs_to_use <- unique(
     c(
-      res_enrich$gs_id[seq_len(n_gs)],  # the ones from the top
-      gs_ids[gs_ids %in% res_enrich$gs_id]  # the ones specified from the custom list
+      res_enrich$gs_id[seq_len(n_gs)], # the ones from the top
+      gs_ids[gs_ids %in% res_enrich$gs_id] # the ones specified from the custom list
     )
   )
 
@@ -144,19 +151,20 @@ gs_dendro <- function(res_enrich,
     size_var <- -log10(as.numeric(res_enrich[gs_to_use, "gs_pvalue"]))[dend_idx]
     leaves_size <- 2 * (size_var - min(size_var)) / (max(size_var) - min(size_var) + 1e-10) + 0.3
 
-    my_dend <- set(my_dend, "leaves_cex", leaves_size)     # or to use gs_size?
+    my_dend <- set(my_dend, "leaves_cex", leaves_size) # or to use gs_size?
   }
 
   if (!is.null(color_branches_by)) {
     my.clusters <- unname(dynamicTreeCut::cutreeDynamic(my_hclust,
-                                                        distM = as.matrix(dmat),
-                                                        minClusterSize = 4,
-                                                        verbose = 0))
+      distM = as.matrix(dmat),
+      minClusterSize = 4,
+      verbose = 0
+    ))
     # or use rainbow_hcl from colorspace
     clust_pal <- RColorBrewer::brewer.pal(max(my.clusters), "Set1")
     clust_cols <- (clust_pal[my.clusters])[dend_idx]
 
-    my_dend <-  branches_attr_by_clusters(my_dend, my.clusters[dend_idx], values = clust_pal)
+    my_dend <- branches_attr_by_clusters(my_dend, my.clusters[dend_idx], values = clust_pal)
   }
 
   if (create_plot) {

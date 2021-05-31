@@ -45,7 +45,7 @@ between each pair of sets
 data(res_enrich_macrophage, package = "GeneTonic")
 res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 
-jmat <- create_jaccard_matrix(res_enrich[1:200,])
+jmat <- create_jaccard_matrix(res_enrich[1:200, ])
 dim(jmat)
 }
 \seealso{

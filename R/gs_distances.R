@@ -27,14 +27,12 @@
 #' data(res_enrich_macrophage, package = "GeneTonic")
 #' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 #'
-#' kmat <- create_kappa_matrix(res_enrich[1:200,])
+#' kmat <- create_kappa_matrix(res_enrich[1:200, ])
 #' dim(kmat)
 create_kappa_matrix <- function(res_enrich,
                                 gtl = NULL,
                                 n_gs = nrow(res_enrich),
-                                gs_ids = NULL
-
-                                ) {
+                                gs_ids = NULL) {
   if (!is.null(gtl)) {
     checkup_gtl(gtl)
     dds <- gtl$dds
@@ -47,8 +45,8 @@ create_kappa_matrix <- function(res_enrich,
 
   gs_to_use <- unique(
     c(
-      res_enrich$gs_id[seq_len(n_gs)],  # the ones from the top
-      gs_ids[gs_ids %in% res_enrich$gs_id]  # the ones specified from the custom list
+      res_enrich$gs_id[seq_len(n_gs)], # the ones from the top
+      gs_ids[gs_ids %in% res_enrich$gs_id] # the ones specified from the custom list
     )
   )
 
@@ -62,9 +60,10 @@ create_kappa_matrix <- function(res_enrich,
   # creating binary matrix with gs-gene occurrency
   all_genes <- unique(unlist(enrich2list))
   binary_mat <- matrix(0,
-                       nrow = length(gs_to_use),
-                       ncol = length(all_genes),
-                       dimnames = list(names(enrich2list), all_genes))
+    nrow = length(gs_to_use),
+    ncol = length(all_genes),
+    dimnames = list(names(enrich2list), all_genes)
+  )
   # fill in the occurrency per gene set
   for (i in seq_along(gs_to_use)) {
     current_genes <- enrich2list[[i]]
@@ -72,8 +71,10 @@ create_kappa_matrix <- function(res_enrich,
   }
 
   # creating Kappa Matrix
-  kappa_matrix <- matrix(0, nrow = nrow(binary_mat), ncol = nrow(binary_mat),
-                         dimnames = list(rownames(binary_mat), rownames(binary_mat)))
+  kappa_matrix <- matrix(0,
+    nrow = nrow(binary_mat), ncol = nrow(binary_mat),
+    dimnames = list(rownames(binary_mat), rownames(binary_mat))
+  )
   diag(kappa_matrix) <- 1
   N <- length(gs_to_use)
 
@@ -84,7 +85,7 @@ create_kappa_matrix <- function(res_enrich,
 
       set_both <- length(intersect(genes_i, genes_j))
       set_none <- sum(!all_genes %in% genes_i & !all_genes %in% genes_j)
-      set_only_i <- sum(all_genes %in% genes_i  & !all_genes %in% genes_j)
+      set_only_i <- sum(all_genes %in% genes_i & !all_genes %in% genes_j)
       set_only_j <- sum(!all_genes %in% genes_i & all_genes %in% genes_j)
 
       tot <- sum(set_none, set_only_i, set_only_j, set_both)
@@ -92,7 +93,7 @@ create_kappa_matrix <- function(res_enrich,
       observed <- (set_both + set_none) / tot
       chance <- (set_both + set_only_i) * (set_both + set_only_j) + (set_only_j + set_none) * (set_only_i + set_none)
       chance <- chance / tot^2
-      kappa_matrix[j,i] <- kappa_matrix[i,j] <- (observed - chance) / (1 - chance)
+      kappa_matrix[j, i] <- kappa_matrix[i, j] <- (observed - chance) / (1 - chance)
     }
   }
 
@@ -135,14 +136,13 @@ create_kappa_matrix <- function(res_enrich,
 #' data(res_enrich_macrophage, package = "GeneTonic")
 #' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 #'
-#' jmat <- create_jaccard_matrix(res_enrich[1:200,])
+#' jmat <- create_jaccard_matrix(res_enrich[1:200, ])
 #' dim(jmat)
 create_jaccard_matrix <- function(res_enrich,
                                   gtl = NULL,
                                   n_gs = nrow(res_enrich),
                                   gs_ids = NULL,
                                   return_sym = FALSE) {
-
   if (!is.null(gtl)) {
     checkup_gtl(gtl)
     dds <- gtl$dds
@@ -150,13 +150,13 @@ create_jaccard_matrix <- function(res_enrich,
     res_enrich <- gtl$res_enrich
     annotation_obj <- gtl$annotation_obj
   }
-  
+
   n_gs <- min(n_gs, nrow(res_enrich))
 
   gs_to_use <- unique(
     c(
-      res_enrich$gs_id[seq_len(n_gs)],  # the ones from the top
-      gs_ids[gs_ids %in% res_enrich$gs_id]  # the ones specified from the custom list
+      res_enrich$gs_id[seq_len(n_gs)], # the ones from the top
+      gs_ids[gs_ids %in% res_enrich$gs_id] # the ones specified from the custom list
     )
   )
 
@@ -175,8 +175,10 @@ create_jaccard_matrix <- function(res_enrich,
     # no need to work on full mat, it is simmetric
     for (j in i:n) {
       overlap_matrix[i, j] <-
-        overlap_jaccard_index(unlist(enrich2list[gs_to_use[i]]),
-                              unlist(enrich2list[gs_to_use[j]]))
+        overlap_jaccard_index(
+          unlist(enrich2list[gs_to_use[i]]),
+          unlist(enrich2list[gs_to_use[j]])
+        )
     }
   }
 
