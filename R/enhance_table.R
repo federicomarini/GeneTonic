@@ -94,12 +94,15 @@ enhance_table <- function(res_enrich,
     genes_thisset <- unlist(strsplit(genes_thisset, ","))
 
     genesid_thisset <- annotation_obj$gene_id[match(genes_thisset, annotation_obj$gene_name)]
+    # keep track of what is NA'd
+    na_converted <- is.na(genesid_thisset)
 
-    res_thissubset <- res_de[genesid_thisset, ]
+    res_thissubset <- res_de[na.omit(genesid_thisset), ]
 
     res_thissubset <- as.data.frame(res_thissubset)
 
-    res_thissubset$gene_name <- genes_thisset
+    # use the subset of not NA'd genes
+    res_thissubset$gene_name <- genes_thisset[!na_converted]
     res_thissubset$gs_desc <- as.factor(res_enrich[gs, "gs_description"])
     res_thissubset$gs_id <- res_enrich[gs, "gs_id"]
     # return(as.data.frame(res_thissubset))
