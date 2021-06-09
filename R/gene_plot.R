@@ -139,11 +139,11 @@ gene_plot <- function(dds,
   } else if (plot_type == "boxplot" || (plot_type == "auto" & (min_by_groups > 3 & min_by_groups < 10))) {
     p <- p +
       geom_boxplot(outlier.shape = NA) +
-      geom_jitter(position = position_jitter(width = 0.2, height = 0))
+      geom_point(aes_string(x = "plotby", y = "exp_value"), position = jit_pos)
   } else if (plot_type == "violin" || (plot_type == "auto" & (min_by_groups >= 11 & min_by_groups < 40))) {
     p <- p +
       geom_violin() +
-      geom_jitter(position = position_jitter(width = 0.2, height = 0)) +
+      geom_point(aes_string(x = "plotby", y = "exp_value"), position = jit_pos) +
       stat_summary(
         fun = median, fun.min = median, fun.max = median,
         geom = "crossbar", width = 0.3
