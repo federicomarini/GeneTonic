@@ -11,6 +11,9 @@
 #' formatting requirements (a minimal set of columns should be present).
 #' This object needs to be processed first by a function such as [get_aggrscores()]
 #' to compute the term-wise `z_score` or `aggr_score`, which will be used for plotting
+#' @param gtl A `GeneTonic`-list object, containing in its slots the arguments
+#' specified above: `dds`, `res_de`, `res_enrich`, and `annotation_obj` - the names
+#' of the list _must_ be specified following the content they are expecting
 #' @param p_threshold Numeric, defines the threshold to be used for filtering the
 #' gene sets to display. Defaults to 0.05
 #' @param color_by Character specifying the column of `res_enrich` to be used
@@ -67,12 +70,21 @@
 #'
 #' gs_volcano(res_enrich)
 gs_volcano <- function(res_enrich,
+                       gtl = NULL,
                        p_threshold = 0.05,
                        color_by = "aggr_score",
                        volcano_labels = 10,
                        scale_circles = 1,
                        gs_ids = NULL,
                        plot_title = NULL) {
+  if (!is.null(gtl)) {
+    checkup_gtl(gtl)
+    dds <- gtl$dds
+    res_de <- gtl$res_de
+    res_enrich <- gtl$res_enrich
+    annotation_obj <- gtl$annotation_obj
+  }
+  
   # res_enrich has to contain the aggregated scores
   if (!all(c("z_score", "aggr_score") %in% colnames(res_enrich))) {
     stop("You might need to compute the aggregated scores first")

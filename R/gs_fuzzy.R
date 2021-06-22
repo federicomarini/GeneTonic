@@ -9,6 +9,9 @@
 #' @param res_enrich A `data.frame` object, storing the result of the functional
 #' enrichment analysis. See more in the main function, [GeneTonic()], to check the
 #' formatting requirements (a minimal set of columns should be present).
+#' @param gtl A `GeneTonic`-list object, containing in its slots the arguments
+#' specified above: `dds`, `res_de`, `res_enrich`, and `annotation_obj` - the names
+#' of the list _must_ be specified following the content they are expecting
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be displayed
 #' @param gs_ids Character vector, containing a subset of `gs_id` as they are
@@ -68,6 +71,7 @@
 #' # list only the representative clusters
 #' head(fuzzy_subset[fuzzy_subset$gs_cluster_status == "Representative", ], 10)
 gs_fuzzyclustering <- function(res_enrich,
+                               gtl = NULL,
                                n_gs = nrow(res_enrich),
                                gs_ids = NULL,
                                similarity_matrix = NULL,
@@ -80,6 +84,11 @@ gs_fuzzyclustering <- function(res_enrich,
   stopifnot(similarity_threshold >= 0 & similarity_threshold <= 1)
   stopifnot(fuzzy_seeding_initial_neighbors >= 2)
   stopifnot(fuzzy_multilinkage_rule > 0 & fuzzy_multilinkage_rule <= 1)
+  
+  if (!is.null(gtl)) {
+    checkup_gtl(gtl)
+    res_enrich <- gtl$res_enrich
+  }
 
   if (similarity_threshold < 0.3) {
     warning(

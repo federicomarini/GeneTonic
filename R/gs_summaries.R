@@ -5,6 +5,9 @@
 #' @param res_enrich A `data.frame` object, storing the result of the functional
 #' enrichment analysis. See more in the main function, [GeneTonic()], to check the
 #' formatting requirements (a minimal set of columns should be present).
+#' @param gtl A `GeneTonic`-list object, containing in its slots the arguments
+#' specified above: `dds`, `res_de`, `res_enrich`, and `annotation_obj` - the names
+#' of the list _must_ be specified following the content they are expecting
 #' @param n_gs Integer value, corresponding to the maximal number of gene sets to
 #' be displayed
 #' @param p_value_column Character string, specifying the column of `res_enrich`
@@ -59,14 +62,23 @@
 #' gs_summary_overview(res_enrich)
 #'
 #' # if desired, it can also be shown as a barplot
-#' gs_summary_overview(res_enrich, 30, return_barchart = TRUE)
+#' gs_summary_overview(res_enrich, n_gs = 30, return_barchart = TRUE)
 gs_summary_overview <- function(res_enrich,
+                                gtl = NULL,
                                 n_gs = 20,
                                 p_value_column = "gs_pvalue",
                                 color_by = "z_score",
                                 return_barchart = FALSE
                                 # , size_by = "gs_de_count"
 ) {
+  if (!is.null(gtl)) {
+    checkup_gtl(gtl)
+    dds <- gtl$dds
+    res_de <- gtl$res_de
+    res_enrich <- gtl$res_enrich
+    annotation_obj <- gtl$annotation_obj
+  }
+  
   if (!is.null(color_by)) {
     if (!(color_by %in% colnames(res_enrich))) {
       stop(

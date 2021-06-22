@@ -214,6 +214,9 @@ gene_plot <- function(dds,
 #' @param normalized Logical value, whether the expression values should be
 #' normalized by their size factor. Defaults to TRUE, applies when `assay` is
 #' "counts"
+#' @param gtl A `GeneTonic`-list object, containing in its slots the arguments
+#' specified above: `dds`, `res_de`, `res_enrich`, and `annotation_obj` - the names
+#' of the list _must_ be specified following the content they are expecting
 #'
 #' @return A tidy data.frame with the expression values and covariates for further
 #' processing
@@ -240,7 +243,13 @@ get_expression_values <- function(dds,
                                   gene,
                                   intgroup,
                                   assay = "counts",
-                                  normalized = TRUE) {
+                                  normalized = TRUE,
+                                  gtl = NULL) {
+  if (!is.null(gtl)) {
+    checkup_gtl(gtl)
+    dds <- gtl$dds
+  }
+  
   if (!(assay %in% names(assays(dds)))) {
     stop(
       "Please specify a name of one of the existing assays: \n",
