@@ -58,7 +58,6 @@
 
 
 
-
   
 
   
@@ -81,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.3</span>
       </span>
     </div>
 
@@ -89,7 +88,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -142,7 +141,14 @@
     <p>Extract expression values, with the possibility to select other assay slots</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>get_expression_values</span><span class='op'>(</span><span class='va'>dds</span>, <span class='va'>gene</span>, <span class='va'>intgroup</span>, assay <span class='op'>=</span> <span class='st'>"counts"</span>, normalized <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>get_expression_values</span><span class='op'>(</span>
+  <span class='va'>dds</span>,
+  <span class='va'>gene</span>,
+  <span class='va'>intgroup</span>,
+  assay <span class='op'>=</span> <span class='st'>"counts"</span>,
+  normalized <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  gtl <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -171,6 +177,12 @@ reading out the expression values. Defaults to "counts".</p></td>
       <td><p>Logical value, whether the expression values should be
 normalized by their size factor. Defaults to TRUE, applies when <code>assay</code> is
 "counts"</p></td>
+    </tr>
+    <tr>
+      <th>gtl</th>
+      <td><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
+specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
+of the list <em>must</em> be specified following the content they are expecting</p></td>
     </tr>
     </table>
 

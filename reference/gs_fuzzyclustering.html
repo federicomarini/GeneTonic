@@ -60,7 +60,6 @@ enrichment results" />
 
 
 
-
   
 
   
@@ -83,7 +82,7 @@ enrichment results" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.3</span>
       </span>
     </div>
 
@@ -91,7 +90,7 @@ enrichment results" />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -148,6 +147,7 @@ enrichment results</p>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>gs_fuzzyclustering</span><span class='op'>(</span>
   <span class='va'>res_enrich</span>,
+  gtl <span class='op'>=</span> <span class='cn'>NULL</span>,
   n_gs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/AnnotationDbi/man/Bimap-toTable.html'>nrow</a></span><span class='op'>(</span><span class='va'>res_enrich</span><span class='op'>)</span>,
   gs_ids <span class='op'>=</span> <span class='cn'>NULL</span>,
   similarity_matrix <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -164,6 +164,12 @@ enrichment results</p>
       <td><p>A <code>data.frame</code> object, storing the result of the functional
 enrichment analysis. See more in the main function, <code><a href='GeneTonic.html'>GeneTonic()</a></code>, to check the
 formatting requirements (a minimal set of columns should be present).</p></td>
+    </tr>
+    <tr>
+      <th>gtl</th>
+      <td><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
+specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
+of the list <em>must</em> be specified following the content they are expecting</p></td>
     </tr>
     <tr>
       <th>n_gs</th>

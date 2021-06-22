@@ -58,7 +58,6 @@
 
 
 
-
   
 
   
@@ -81,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.3</span>
       </span>
     </div>
 
@@ -89,7 +88,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -144,6 +143,7 @@
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>gs_summary_overview</span><span class='op'>(</span>
   <span class='va'>res_enrich</span>,
+  gtl <span class='op'>=</span> <span class='cn'>NULL</span>,
   n_gs <span class='op'>=</span> <span class='fl'>20</span>,
   p_value_column <span class='op'>=</span> <span class='st'>"gs_pvalue"</span>,
   color_by <span class='op'>=</span> <span class='st'>"z_score"</span>,
@@ -158,6 +158,12 @@
       <td><p>A <code>data.frame</code> object, storing the result of the functional
 enrichment analysis. See more in the main function, <code><a href='GeneTonic.html'>GeneTonic()</a></code>, to check the
 formatting requirements (a minimal set of columns should be present).</p></td>
+    </tr>
+    <tr>
+      <th>gtl</th>
+      <td><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
+specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
+of the list <em>must</em> be specified following the content they are expecting</p></td>
     </tr>
     <tr>
       <th>n_gs</th>
@@ -234,7 +240,7 @@ default dot-segment plot); defaults to FALSE.</p></td>
 <span class='r-plt'><img src='gs_summary_overview-1.png' alt='' width='700' height='433' /></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># if desired, it can also be shown as a barplot</span></span>
-<span class='r-in'><span class='fu'>gs_summary_overview</span><span class='op'>(</span><span class='va'>res_enrich</span>, <span class='fl'>30</span>, return_barchart <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>gs_summary_overview</span><span class='op'>(</span><span class='va'>res_enrich</span>, n_gs <span class='op'>=</span> <span class='fl'>30</span>, return_barchart <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
 <span class='r-plt'><img src='gs_summary_overview-2.png' alt='' width='700' height='433' /></span>
 </code></pre></div>
   </div>
