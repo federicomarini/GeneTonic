@@ -31,6 +31,13 @@ test_that("summary plots are generated", {
     annotation_obj = anno_df,
     aggrfun = mean
   )
+  
+  gtl_macrophage <- GeneTonic_list(
+    dds = dds_macrophage,
+    res_de = res_macrophage_IFNg_vs_naive,
+    res_enrich = res_enrich_withscores[1:200, ],
+    annotation_obj = anno_df
+  )
 
   # generating a shuffled dataset
   res_enrich2 <- res_enrich_withscores[1:20, ]
@@ -47,11 +54,14 @@ test_that("summary plots are generated", {
     color_by = NULL,
     return_barchart = TRUE
   )
+  p1_gtl <- gs_summary_overview(gtl = gtl_macrophage)
+  
   expect_is(p1, "gg")
   expect_is(p1_bar, "gg")
   expect_is(p1_nocol, "gg")
   expect_is(p1_bar_nocol, "gg")
-
+  expect_is(p1_gtl, "gg")
+  
   p2 <- gs_summary_overview_pair(res_enrich_withscores, res_enrich2)
   expect_is(p2, "gg")
 

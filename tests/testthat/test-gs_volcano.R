@@ -11,6 +11,14 @@ test_that("Plot is generated", {
     aggrfun = mean
   )
   expect_is(gs_volcano(res_enrich_withscores), "gg")
+  
+  gtl_macrophage <- GeneTonic_list(
+    dds = dds_macrophage,
+    res_de = res_macrophage_IFNg_vs_naive,
+    res_enrich = res_enrich_withscores[1:200, ],
+    annotation_obj = anno_df
+  )
+  expect_is(gs_volcano(gtl = gtl_macrophage), "gg")
 
   expect_error(
     gs_volcano(

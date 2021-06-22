@@ -66,4 +66,23 @@ test_that("Fuzzy clustering on GeneTonic set", {
   )
   expect_is(fuzzy_gtexample, "data.frame")
   expect_equal(sum(fuzzy_gtexample$gs_cluster_status == "Representative"), 113)
+  
+  gtl_macrophage <- GeneTonic_list(
+    dds = dds_macrophage,
+    res_de = res_macrophage_IFNg_vs_naive,
+    res_enrich = res_enrich_IFNg_vs_naive[1:200, ],
+    annotation_obj = anno_df
+  )
+  
+  fuzzy_gtexample_gtl <- gs_fuzzyclustering(
+    gtl = gtl_macrophage,
+    n_gs = nrow(res_enrich),
+    gs_ids = NULL,
+    similarity_matrix = NULL,
+    similarity_threshold = 0.35,
+    fuzzy_seeding_initial_neighbors = 3,
+    fuzzy_multilinkage_rule = 0.5
+  )
+  expect_is(fuzzy_gtexample_gtl, "data.frame")
+  
 })

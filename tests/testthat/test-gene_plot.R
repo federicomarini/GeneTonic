@@ -117,6 +117,21 @@ test_that("Extraction of expression values works", {
     assay = "counts"
   )
   expect_is(df_simple, "data.frame")
+  
+  gtl_macrophage <- GeneTonic_list(
+    dds = dds_macrophage,
+    res_de = res_macrophage_IFNg_vs_naive,
+    res_enrich = res_enrich_IFNg_vs_naive[1:200, ],
+    annotation_obj = anno_df
+  )
+  df_simple_gtl <- get_expression_values(
+    gtl = gtl_macrophage,
+    gene = "ENSG00000285982",
+    intgroup = "condition",
+    assay = "counts"
+  )
+  expect_is(df_simple_gtl, "data.frame")
+  
   expect_error(get_expression_values(
     dds = dds_macrophage,
     gene = "ENSG00000285982",
