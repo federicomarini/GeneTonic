@@ -4,7 +4,14 @@
 \alias{get_expression_values}
 \title{Get expression values}
 \usage{
-get_expression_values(dds, gene, intgroup, assay = "counts", normalized = TRUE)
+get_expression_values(
+  dds,
+  gene,
+  intgroup,
+  assay = "counts",
+  normalized = TRUE,
+  gtl = NULL
+)
 }
 \arguments{
 \item{dds}{A \code{DESeqDataSet} object, normally obtained after running your data
@@ -21,6 +28,10 @@ reading out the expression values. Defaults to "counts".}
 \item{normalized}{Logical value, whether the expression values should be
 normalized by their size factor. Defaults to TRUE, applies when \code{assay} is
 "counts"}
+
+\item{gtl}{A \code{GeneTonic}-list object, containing in its slots the arguments
+specified above: \code{dds}, \code{res_de}, \code{res_enrich}, and \code{annotation_obj} - the names
+of the list \emph{must} be specified following the content they are expecting}
 }
 \value{
 A tidy data.frame with the expression values and covariates for further

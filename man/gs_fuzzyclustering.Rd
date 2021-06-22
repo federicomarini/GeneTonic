@@ -6,6 +6,7 @@
 \usage{
 gs_fuzzyclustering(
   res_enrich,
+  gtl = NULL,
   n_gs = nrow(res_enrich),
   gs_ids = NULL,
   similarity_matrix = NULL,
@@ -18,6 +19,10 @@ gs_fuzzyclustering(
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
 enrichment analysis. See more in the main function, \code{\link[=GeneTonic]{GeneTonic()}}, to check the
 formatting requirements (a minimal set of columns should be present).}
+
+\item{gtl}{A \code{GeneTonic}-list object, containing in its slots the arguments
+specified above: \code{dds}, \code{res_de}, \code{res_enrich}, and \code{annotation_obj} - the names
+of the list \emph{must} be specified following the content they are expecting}
 
 \item{n_gs}{Integer value, corresponding to the maximal number of gene sets to
 be displayed}

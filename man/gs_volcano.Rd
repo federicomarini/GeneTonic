@@ -6,6 +6,7 @@
 \usage{
 gs_volcano(
   res_enrich,
+  gtl = NULL,
   p_threshold = 0.05,
   color_by = "aggr_score",
   volcano_labels = 10,
@@ -20,6 +21,10 @@ enrichment analysis. See more in the main function, \code{\link[=GeneTonic]{Gene
 formatting requirements (a minimal set of columns should be present).
 This object needs to be processed first by a function such as \code{\link[=get_aggrscores]{get_aggrscores()}}
 to compute the term-wise \code{z_score} or \code{aggr_score}, which will be used for plotting}
+
+\item{gtl}{A \code{GeneTonic}-list object, containing in its slots the arguments
+specified above: \code{dds}, \code{res_de}, \code{res_enrich}, and \code{annotation_obj} - the names
+of the list \emph{must} be specified following the content they are expecting}
 
 \item{p_threshold}{Numeric, defines the threshold to be used for filtering the
 gene sets to display. Defaults to 0.05}

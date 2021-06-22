@@ -6,6 +6,7 @@
 \usage{
 gs_summary_overview(
   res_enrich,
+  gtl = NULL,
   n_gs = 20,
   p_value_column = "gs_pvalue",
   color_by = "z_score",
@@ -16,6 +17,10 @@ gs_summary_overview(
 \item{res_enrich}{A \code{data.frame} object, storing the result of the functional
 enrichment analysis. See more in the main function, \code{\link[=GeneTonic]{GeneTonic()}}, to check the
 formatting requirements (a minimal set of columns should be present).}
+
+\item{gtl}{A \code{GeneTonic}-list object, containing in its slots the arguments
+specified above: \code{dds}, \code{res_de}, \code{res_enrich}, and \code{annotation_obj} - the names
+of the list \emph{must} be specified following the content they are expecting}
 
 \item{n_gs}{Integer value, corresponding to the maximal number of gene sets to
 be displayed}
@@ -75,7 +80,7 @@ res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 gs_summary_overview(res_enrich)
 
 # if desired, it can also be shown as a barplot
-gs_summary_overview(res_enrich, 30, return_barchart = TRUE)
+gs_summary_overview(res_enrich, n_gs = 30, return_barchart = TRUE)
 }
 \seealso{
 \code{\link[=gs_summary_overview_pair]{gs_summary_overview_pair()}}, \code{\link[=gs_horizon]{gs_horizon()}}
