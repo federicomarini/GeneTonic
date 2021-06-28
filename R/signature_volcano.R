@@ -213,6 +213,6 @@ signature_volcano <- function(res_de,
 
   # handling the title
   p <- p + ggtitle(title)
-  p <- p + guides(alpha = FALSE)
+  p <- p + guides(alpha = "none")
   return(p)
 }
