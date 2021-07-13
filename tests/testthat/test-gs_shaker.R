@@ -19,16 +19,30 @@ test_that("Converting from topGOtable results", {
 })
 
 test_that("Converting from clusterProfiler", {
+  # from enrichGO
   res_enrich_IFNg_vs_naive_cp <- shake_enrichResult(ego_IFNg_vs_naive)
   required_colnames <- c("gs_id", "gs_description", "gs_pvalue", "gs_genes", "gs_de_count", "gs_bg_count")
   expect_true(all(required_colnames %in% colnames(res_enrich_IFNg_vs_naive_cp)))
-
+  
   expect_error(shake_enrichResult(topgoDE_macrophage_IFNg_vs_naive))
   expect_error(shake_enrichResult(as.data.frame(ego_IFNg_vs_naive)))
-
+  
   ego_mod <- ego_IFNg_vs_naive
   ego_mod@result$geneID <- NULL
   expect_error(shake_enrichResult(ego_mod))
+  
+  # from gseGO
+  res_gsenrich_IFNg_vs_naive_cp <- shake_gsenrichResult(gsego_IFNg_vs_naive)
+  required_colnames <- c("gs_id", "gs_description", "gs_pvalue", "gs_genes", "gs_de_count", "gs_bg_count")
+  expect_true(all(required_colnames %in% colnames(res_gsenrich_IFNg_vs_naive_cp)))
+  
+  expect_error(shake_gsenrichResult(topgoDE_macrophage_IFNg_vs_naive))
+  expect_error(shake_gsenrichResult(as.data.frame(ego_IFNg_vs_naive)))
+  
+  gsego_mod <- gsego_IFNg_vs_naive
+  gsego_mod@result$core_enrichment <- NULL
+  expect_error(shake_gsenrichResult(gsego_mod))
+  
 })
 
 
