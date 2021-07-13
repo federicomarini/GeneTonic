@@ -1,5 +1,9 @@
 # GeneTonic 1.6.0
 
+## New features
+
+* `GeneTonic` can now accept the input of `clusterProfiler`'s gene set enrichment analysis functions (`gseGO` and `GSEA`), as implemented in the `shake_gsenrichResult()` function
+
 ## Other notes
 
 * The manuscript about `GeneTonic` is now available on bioRxiv at https://www.biorxiv.org/content/10.1101/2021.05.19.444862v1 - the citation item has been updated accordingly
