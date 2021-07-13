@@ -29,6 +29,7 @@ Other shakers:
 \code{\link{shake_enrichrResult}()},
 \code{\link{shake_fgseaResult}()},
 \code{\link{shake_gprofilerResult}()},
+\code{\link{shake_gsenrichResult}()},
 \code{\link{shake_topGOtableResult}()}
 }
 \concept{shakers}
