@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Checking the input objects for GeneTonic — checkup_GeneTonic • GeneTonic</title>
+<title>Convert a gseaResult object — shake_gsenrichResult • GeneTonic</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Checking the input objects for GeneTonic — checkup_GeneTonic" />
-<meta property="og:description" content="Checking the input objects for GeneTonic, whether these are all set for running
-the app" />
+<meta property="og:title" content="Convert a gseaResult object — shake_gsenrichResult" />
+<meta property="og:description" content="Convert a gseaResult object for straightforward use in GeneTonic()" />
 
 
 
@@ -133,103 +132,83 @@ the app" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Checking the input objects for GeneTonic</h1>
-    <small class="dont-index">Source: <a href='https://github.com/federicomarini/GeneTonic/blob/master/R/check_inputs.R'><code>R/check_inputs.R</code></a></small>
-    <div class="hidden name"><code>checkup_GeneTonic.Rd</code></div>
+    <h1>Convert a gseaResult object</h1>
+    <small class="dont-index">Source: <a href='https://github.com/federicomarini/GeneTonic/blob/master/R/gs_shaker.R'><code>R/gs_shaker.R</code></a></small>
+    <div class="hidden name"><code>shake_gsenrichResult.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Checking the input objects for GeneTonic, whether these are all set for running
-the app</p>
+    <p>Convert a gseaResult object for straightforward use in <code><a href='GeneTonic.html'>GeneTonic()</a></code></p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>checkup_GeneTonic</span><span class='op'>(</span><span class='va'>dds</span>, <span class='va'>res_de</span>, <span class='va'>res_enrich</span>, <span class='va'>annotation_obj</span>, verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>shake_gsenrichResult</span><span class='op'>(</span><span class='va'>obj</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dds</th>
-      <td><p>A <code>DESeqDataSet</code> object, normally obtained after running your data
-through the <code>DESeq2</code> framework.</p></td>
-    </tr>
-    <tr>
-      <th>res_de</th>
-      <td><p>A <code>DESeqResults</code> object. As for the <code>dds</code> parameter, this is
-also commonly used in the <code>DESeq2</code> framework.</p></td>
-    </tr>
-    <tr>
-      <th>res_enrich</th>
-      <td><p>A <code>data.frame</code> object, storing the result of the functional
-enrichment analysis. See more in the main function, <code><a href='GeneTonic.html'>GeneTonic()</a></code>, to check the
-formatting requirements (a minimal set of columns should be present).</p></td>
-    </tr>
-    <tr>
-      <th>annotation_obj</th>
-      <td><p>A <code>data.frame</code> object, containing two columns, <code>gene_id</code>
-with a set of unambiguous identifiers (e.g. ENSEMBL ids) and <code>gene_name</code>,
-containing e.g. HGNC-based gene symbols.</p></td>
-    </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>Logical, to control level of verbosity of the messages generated</p></td>
+      <th>obj</th>
+      <td><p>A <code>gseaResult</code> object, obtained via <code>clusterProfiler</code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Invisible NULL</p>
+    <p>A <code>data.frame</code> compatible for use in <code><a href='GeneTonic.html'>GeneTonic()</a></code> as <code>res_enrich</code></p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Some suggestions on the requirements for each parameter are returned in the
-error messages.</p>
+    <p>This function is able to handle the output of <code>clusterProfiler</code>'s <code>gseGO</code> and
+<code>GSEA</code>, as they both return an object of class <code>gseaResult</code> - and this in turn
+contains the information required to create correctly a <code>res_enrich</code> object.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other shakers: 
+<code><a href='shake_davidResult.html'>shake_davidResult</a>()</code>,
+<code><a href='shake_enrichResult.html'>shake_enrichResult</a>()</code>,
+<code><a href='shake_enrichrResult.html'>shake_enrichrResult</a>()</code>,
+<code><a href='shake_fgseaResult.html'>shake_fgseaResult</a>()</code>,
+<code><a href='shake_gprofilerResult.html'>shake_gprofilerResult</a>()</code>,
+<code><a href='shake_topGOtableResult.html'>shake_topGOtableResult</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># dds</span></span>
 <span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'>"macrophage"</span><span class='op'>)</span></span>
 <span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/mikelove/DESeq2'>"DESeq2"</a></span><span class='op'>)</span></span>
-<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'>"org.Hs.eg.db"</span><span class='op'>)</span></span>
-<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://bioconductor.org/packages/AnnotationDbi'>"AnnotationDbi"</a></span><span class='op'>)</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># dds object</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"gse"</span>, package <span class='op'>=</span> <span class='st'>"macrophage"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>gse</span><span class='op'>)</span></span>
 <span class='r-in'><span class='va'>dds_macrophage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html'>DESeqDataSet</a></span><span class='op'>(</span><span class='va'>gse</span>, design <span class='op'>=</span> <span class='op'>~</span> <span class='va'>line</span> <span class='op'>+</span> <span class='va'>condition</span><span class='op'>)</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> using counts and average transcript lengths from tximeta</span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/substr.html'>substr</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span>, <span class='fl'>1</span>, <span class='fl'>15</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>dds_macrophage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/BiocGenerics/man/dge.html'>estimateSizeFactors</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> using 'avgTxLength' from assays(dds), correcting for library size</span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># annotation object</span></span>
-<span class='r-in'><span class='va'>anno_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span></span>
-<span class='r-in'>  gene_id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span>,</span>
-<span class='r-in'>  gene_name <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/AnnotationDbi/man/AnnotationDb-class.html'>mapIds</a></span><span class='op'>(</span><span class='va'>org.Hs.eg.db</span>,</span>
-<span class='r-in'>    keys <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span>,</span>
-<span class='r-in'>    column <span class='op'>=</span> <span class='st'>"SYMBOL"</span>,</span>
-<span class='r-in'>    keytype <span class='op'>=</span> <span class='st'>"ENSEMBL"</span></span>
-<span class='r-in'>  <span class='op'>)</span>,</span>
-<span class='r-in'>  stringsAsFactors <span class='op'>=</span> <span class='cn'>FALSE</span>,</span>
-<span class='r-in'>  row.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>dds_macrophage</span><span class='op'>)</span></span>
-<span class='r-in'><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> 'select()' returned 1:many mapping between keys and columns</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># res object</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>res_de_macrophage</span>, package <span class='op'>=</span> <span class='st'>"GeneTonic"</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>res_de</span> <span class='op'>&lt;-</span> <span class='va'>res_macrophage_IFNg_vs_naive</span></span>
+<span class='r-in'><span class='va'>sorted_genes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/BiocGenerics/man/sort.html'>sort</a></span><span class='op'>(</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/stats/setNames.html'>setNames</a></span><span class='op'>(</span><span class='va'>res_macrophage_IFNg_vs_naive</span><span class='op'>$</span><span class='va'>log2FoldChange</span>, </span>
+<span class='r-in'>           <span class='va'>res_macrophage_IFNg_vs_naive</span><span class='op'>$</span><span class='va'>SYMBOL</span><span class='op'>)</span>, </span>
+<span class='r-in'>  decreasing <span class='op'>=</span> <span class='cn'>TRUE</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://yulab-smu.top/biomedical-knowledge-mining-book/'>"clusterProfiler"</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'>"org.Hs.eg.db"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>gsego_IFNg_vs_naive</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/clusterProfiler/man/gseGO.html'>gseGO</a></span><span class='op'>(</span></span>
+<span class='r-in'>  geneList <span class='op'>=</span> <span class='va'>sorted_genes</span>,</span>
+<span class='r-in'>  ont <span class='op'>=</span> <span class='st'>"BP"</span>,</span>
+<span class='r-in'>  OrgDb <span class='op'>=</span> <span class='va'>org.Hs.eg.db</span>,</span>
+<span class='r-in'>  keyType <span class='op'>=</span> <span class='st'>"SYMBOL"</span>,</span>
+<span class='r-in'>  minGSSize <span class='op'>=</span> <span class='fl'>10</span>,</span>
+<span class='r-in'>  maxGSSize <span class='op'>=</span> <span class='fl'>500</span>,</span>
+<span class='r-in'>  pvalueCutoff <span class='op'>=</span> <span class='fl'>0.05</span>,</span>
+<span class='r-in'>  verbose <span class='op'>=</span> <span class='cn'>TRUE</span></span>
+<span class='r-in'><span class='op'>)</span></span>
 <span class='r-in'></span>
-<span class='r-in'><span class='co'># res_enrich object</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>res_enrich_macrophage</span>, package <span class='op'>=</span> <span class='st'>"GeneTonic"</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>res_enrich</span> <span class='op'>&lt;-</span> <span class='fu'><a href='shake_topGOtableResult.html'>shake_topGOtableResult</a></span><span class='op'>(</span><span class='va'>topgoDE_macrophage_IFNg_vs_naive</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Found 500 gene sets in `topGOtableResult` object.</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Converting for usage in GeneTonic...</span>
-<span class='r-in'><span class='va'>res_enrich</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_aggrscores.html'>get_aggrscores</a></span><span class='op'>(</span><span class='va'>res_enrich</span>, <span class='va'>res_de</span>, <span class='va'>anno_df</span><span class='op'>)</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='fu'>checkup_GeneTonic</span><span class='op'>(</span></span>
+<span class='r-in'><span class='va'>res_enrich</span> <span class='op'>&lt;-</span> <span class='fu'>shake_gsenrichResult</span><span class='op'>(</span><span class='va'>gsego_IFNg_vs_naive</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>head</a></span><span class='op'>(</span><span class='va'>res_enrich</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>gtl_macrophage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='GeneTonic_list.html'>GeneTonic_list</a></span><span class='op'>(</span></span>
 <span class='r-in'>  dds <span class='op'>=</span> <span class='va'>dds_macrophage</span>,</span>
-<span class='r-in'>  res_de <span class='op'>=</span> <span class='va'>res_de</span>,</span>
+<span class='r-in'>  res_de <span class='op'>=</span> <span class='va'>res_macrophage_IFNg_vs_naive</span>,</span>
 <span class='r-in'>  res_enrich <span class='op'>=</span> <span class='va'>res_enrich</span>,</span>
 <span class='r-in'>  annotation_obj <span class='op'>=</span> <span class='va'>anno_df</span></span>
 <span class='r-in'><span class='op'>)</span></span>
-<span class='r-in'><span class='co'># if all is fine, it should return an invisible NULL and a simple message</span></span>
+<span class='r-in'><span class='op'>}</span></span>
 </code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
