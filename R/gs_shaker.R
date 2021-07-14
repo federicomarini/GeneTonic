@@ -98,6 +98,100 @@ shake_enrichResult <- function(obj) {
 }
 
 
+#' Convert a gseaResult object
+#'
+#' Convert a gseaResult object for straightforward use in [GeneTonic()]
+#'
+#' This function is able to handle the output of `clusterProfiler`'s `gseGO` and
+#' `GSEA`, as they both return an object of class `gseaResult` - and this in turn
+#' contains the information required to create correctly a `res_enrich` object.
+#'
+#' @param obj A `gseaResult` object, obtained via `clusterProfiler`
+#'
+#' @return A `data.frame` compatible for use in [GeneTonic()] as `res_enrich`
+#' @export
+#'
+#' @family shakers
+#'
+#' @examples
+#' # dds
+#' library("macrophage")
+#' library("DESeq2")
+#' data(gse)
+#' dds_macrophage <- DESeqDataSet(gse, design = ~ line + condition)
+#' rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
+#'
+#' # res object
+#' data(res_de_macrophage, package = "GeneTonic")
+#' sorted_genes <- sort(
+#'   setNames(res_macrophage_IFNg_vs_naive$log2FoldChange, 
+#'            res_macrophage_IFNg_vs_naive$SYMBOL), 
+#'   decreasing = TRUE
+#' )
+#' \dontrun{
+#' library("clusterProfiler")
+#' library("org.Hs.eg.db")
+#' gsego_IFNg_vs_naive <- gseGO(
+#'   geneList = sorted_genes,
+#'   ont = "BP",
+#'   OrgDb = org.Hs.eg.db,
+#'   keyType = "SYMBOL",
+#'   minGSSize = 10,
+#'   maxGSSize = 500,
+#'   pvalueCutoff = 0.05,
+#'   verbose = TRUE
+#' )
+#'
+#' res_enrich <- shake_gsenrichResult(gsego_IFNg_vs_naive)
+#' head(res_enrich)
+#' gtl_macrophage <- GeneTonic_list(
+#'   dds = dds_macrophage,
+#'   res_de = res_macrophage_IFNg_vs_naive,
+#'   res_enrich = res_enrich,
+#'   annotation_obj = anno_df
+#' )
+#' }
+shake_gsenrichResult <- function(obj) {
+  if (!is(obj, "gseaResult")) {
+    stop("Provided object must be of class `gseaResult`")
+  }
+  
+  if (is.null(obj@result$core_enrichment)) {
+    stop(
+      "You are providing an object where the `core_enrichment` is not specified, ",
+      "this is required for running GeneTonic properly."
+    )
+  }
+  
+  message(
+    "Using the content of the 'core_enrichment' column to generate the 'gs_genes' for GeneTonic...",
+    " If you have that information available directly, please adjust the content accordingly.",
+    "\n\nUsing the set of the 'core_enrichment' size to compute the 'gs_de_count'"
+  )
+  
+  message("Found ", nrow(obj@result), " gene sets in `gseaResult` object, of which ", nrow(as.data.frame(obj)), " are significant.")
+  message("Converting for usage in GeneTonic...")
+  
+  fullresults <- obj@result
+
+  mydf <- data.frame(
+    gs_id = fullresults$ID,
+    gs_description = fullresults$Description,
+    gs_pvalue = fullresults$pvalue,
+    gs_genes = gsub("/", ",", fullresults$core_enrichment),
+    gs_de_count = lengths(strsplit(fullresults$core_enrichment,split = "/")),
+    gs_bg_count = fullresults$setSize,
+    gs_ontology = obj@setType,
+    gs_NES = fullresults$NES,
+    gs_p.adjust = fullresults$p.adjust,
+    gs_qvalue = fullresults$qvalue,
+    stringsAsFactors = FALSE
+  )
+
+  rownames(mydf) <- mydf$gs_id
+  
+  return(mydf)
+}
 
 
 #' Convert a topGOtableResult object

@@ -80,6 +80,26 @@ ego_IFNg_vs_naive <- enrichGO(
   readable = FALSE
 )
 
+message("--- Running gseGO...")
+sorted_genes <- sort(
+  setNames(res_macrophage_IFNg_vs_naive$log2FoldChange, 
+           res_macrophage_IFNg_vs_naive$SYMBOL), 
+  decreasing = TRUE
+)
+
+suppressWarnings({
+  gsego_IFNg_vs_naive <- gseGO(
+    geneList = sorted_genes,
+    ont = "BP",
+    OrgDb = org.Hs.eg.db,
+    keyType = "SYMBOL",
+    minGSSize = 10,
+    maxGSSize = 500,
+    pvalueCutoff = 0.05,
+    verbose = TRUE
+  )
+})
+
 # save(dds_macrophage, res_macrophage_IFNg_vs_naive, vst_macrophage, topgoDE_macrophage_IFNg_vs_naive, anno_df, ego_IFNg_vs_naive, file ="quick_startup.RData")
 
 # load("/Users/fede/Development/GeneTonic/quick_startup.RData")
