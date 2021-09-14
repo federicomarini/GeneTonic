@@ -749,4 +749,29 @@ gt_downloadButton <- function(outputId,
 }
 
 
+.gt_code_setup <- c(
+  "library('GeneTonic')",
+  "",
+  "# this information is taken from the gtl object you're working on",
+  "# you can read it in from a serialized object",
+  "# gtl <- readRDS('path/to/GeneTonicList.rds')",
+  "# get a quick overview on the object",
+  "describe_gtl(gtl)",
+  "",
+  "# setup the individual elements for the explicit call",
+  "dds <- gtl$dds",
+  "res_enrich <- gtl$res_enrich",
+  "res_de <- gtl$res_de",
+  "annotation_obj <- gtl$annotation_obj",
+  "",
+  "# this is the part dedicated to the function call"
+)
+
+.gt_code_closeup <- c(
+  "",
+  "# this is a ggplot object, so you can save it with a call to `ggsave()`",
+  "# ggsave('plot_filename.png')    # you can change the extension"  
+)
+
+
 .biocgreen <- "#0092AC"
