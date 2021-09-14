@@ -112,6 +112,8 @@ GeneTonic_list <- function(dds,
 #'
 #' @param gtl A `GeneTonic`-list object, containing in its named slots the required
 #' `dds`, `res_de`, `res_enrich`, and `annotation_obj`
+#' 
+#' @export
 #'
 #' @return Invisible NULL - the information is displayed as a message in the
 #' console
