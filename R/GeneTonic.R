@@ -399,6 +399,20 @@ GeneTonic <- function(dds,
                   height = "700px",
                   width = "100%"
                 )
+              ),
+              fluidRow(
+                column(
+                  width = 1,
+                  offset = 11,
+                  tippy::tippy(
+                    actionButton(inputId = "coder_ggsnetwork", 
+                                 label = "",
+                                 style = .helpbutton_biocstyle,
+                                 icon = icon("user-edit")),
+                    "Show the code for this plot",
+                    placement = "left"
+                  )
+                )
               )
             ),
             column(
@@ -476,13 +490,27 @@ GeneTonic <- function(dds,
                 tagList(
                   selectInput(
                     inputId = "emap_colorby",
-                    label = "Color emap by",
+                    label = "Color enrichment map by",
                     choices = colnames(res_enrich)[unlist(lapply(res_enrich, is.numeric))],
                     selected = "gs_pvalue"
                   ),
                   visNetworkOutput("emap_visnet",
                     height = "700px",
                     width = "100%"
+                  ),
+                  fluidRow(
+                    column(
+                      width = 1,
+                      offset = 11,
+                      tippy::tippy(
+                        actionButton(inputId = "coder_emap_visnet", 
+                                     label = "",
+                                     style = .helpbutton_biocstyle,
+                                     icon = icon("user-edit")),
+                        "Show the code for this plot",
+                        placement = "left"
+                      )
+                    )
                   )
                 )
               )
@@ -569,32 +597,93 @@ GeneTonic <- function(dds,
                   side = "right",
                   tabPanel(
                     title = "Geneset Volcano",
-                    withSpinner(plotOutput("gs_volcano",
-                      height = "650px"
-                    ))
+                    withSpinner(
+                      plotOutput("gs_volcano",
+                                 height = "650px")
+                    ),
+                    fluidRow(
+                      column(
+                        width = 1,
+                        offset = 11,
+                        tippy::tippy(
+                          actionButton(inputId = "coder_gs_volcano", 
+                                       label = "",
+                                       style = .helpbutton_biocstyle,
+                                       icon = icon("user-edit")),
+                          "Show the code for this plot",
+                          placement = "left"
+                        )
+                      )
+                    )
                   ),
                   shiny::tabPanel(
                     title = "Geneset Volcano - simplified",
                     numericInput(
                       inputId = "gs_overlap",
                       label = "Gene Set overlap",
-                      value = 0.6, min = 0, max = 1, step = 0.05
+                      value = 0.6, min = 0, max = 1, step = 0.05,
+                      width = "30%"
                     ),
-                    withSpinner(plotOutput("gs_volcano_simplified",
-                      height = "650px"
-                    ))
+                    withSpinner(
+                      plotOutput("gs_volcano_simplified",
+                                 height = "650px")
+                    ),
+                    fluidRow(
+                      column(
+                        width = 1,
+                        offset = 11,
+                        tippy::tippy(
+                          actionButton(inputId = "coder_gs_volcano_simplified", 
+                                       label = "",
+                                       style = .helpbutton_biocstyle,
+                                       icon = icon("user-edit")),
+                          "Show the code for this plot",
+                          placement = "left"
+                        )
+                      )
+                    )
                   ),
                   shiny::tabPanel(
                     title = "Enhanced Table",
-                    withSpinner(plotOutput("enriched_funcres",
-                      height = "650px"
-                    ))
+                    withSpinner(
+                      plotOutput("enriched_funcres",
+                                 height = "650px")
+                    ),
+                    fluidRow(
+                      column(
+                        width = 1,
+                        offset = 11,
+                        tippy::tippy(
+                          actionButton(inputId = "coder_gs_enhancedtable", 
+                                       label = "",
+                                       style = .helpbutton_biocstyle,
+                                       icon = icon("user-edit")),
+                          "Show the code for this plot",
+                          placement = "left"
+                        )
+                      )
+                    )
                   ),
                   shiny::tabPanel(
                     title = "Enhanced Table - interactive",
-                    withSpinner(plotlyOutput("enriched_funcres_plotly",
-                      height = "650px"
-                    ))
+                    withSpinner(
+                      plotlyOutput("enriched_funcres_plotly",
+                                   height = "650px")
+                    ),
+                    fluidRow(
+                      column(
+                        width = 1,
+                        offset = 11,
+                        tippy::tippy(
+                          actionButton(inputId = "coder_gs_enhancedtableinteractive", 
+                                       label = "",
+                                       style = .helpbutton_biocstyle,
+                                       icon = icon("user-edit")),
+                          "Show the code for this plot",
+                          placement = "left"
+                        )
+                      )
+                    )
                   )
                 )
               )
@@ -636,45 +725,150 @@ GeneTonic <- function(dds,
                   side = "right",
                   shiny::tabPanel(
                     title = "Scores Heatmap",
-                    withSpinner(plotOutput("gsscores_heatmap",
-                      height = "650px"
-                    ))
+                    withSpinner(
+                      plotOutput("gsscores_heatmap",
+                                 height = "650px")
+                    ),
+                    fluidRow(
+                      column(
+                        width = 1,
+                        offset = 11,
+                        tippy::tippy(
+                          actionButton(inputId = "coder_gsscores_heatmap", 
+                                       label = "",
+                                       style = .helpbutton_biocstyle,
+                                       icon = icon("user-edit")),
+                          "Show the code for this plot",
+                          placement = "left"
+                        )
+                      )
+                    )
                   ),
                   shiny::tabPanel(
                     title = "Alluvial Plot",
-                    withSpinner(plotlyOutput("alluvial_genesets",
-                      height = "650px"
-                    ))
+                    withSpinner(
+                      plotlyOutput("alluvial_genesets",
+                                   height = "650px")
+                    ),
+                    fluidRow(
+                      column(
+                        width = 1,
+                        offset = 11,
+                        tippy::tippy(
+                          actionButton(inputId = "coder_alluvial_genesets", 
+                                       label = "",
+                                       style = .helpbutton_biocstyle,
+                                       icon = icon("user-edit")),
+                          "Show the code for this plot",
+                          placement = "left"
+                        )
+                      )
+                    )
                   ),
                   shiny::tabPanel(
                     title = "Summary Heatmap",
-                    withSpinner(plotOutput("gs_summaryheat",
-                      height = "650px"
-                    ))
+                    withSpinner(
+                      plotOutput("gs_summaryheat",
+                                 height = "650px")
+                    ),
+                    fluidRow(
+                      column(
+                        width = 1,
+                        offset = 11,
+                        tippy::tippy(
+                          actionButton(inputId = "coder_gs_summaryheat", 
+                                       label = "",
+                                       style = .helpbutton_biocstyle,
+                                       icon = icon("user-edit")),
+                          "Show the code for this plot",
+                          placement = "left"
+                        )
+                      )
+                    )
                   ),
                   shiny::tabPanel(
                     title = "Geneset MDS",
-                    withSpinner(plotOutput("mds_genesets",
-                      height = "650px"
-                    ))
+                    withSpinner(
+                      plotOutput("mds_genesets",
+                                 height = "650px")
+                    ),
+                    fluidRow(
+                      column(
+                        width = 1,
+                        offset = 11,
+                        tippy::tippy(
+                          actionButton(inputId = "coder_mds_genesets", 
+                                       label = "",
+                                       style = .helpbutton_biocstyle,
+                                       icon = icon("user-edit")),
+                          "Show the code for this plot",
+                          placement = "left"
+                        )
+                      )
+                    )
                   ),
                   shiny::tabPanel(
                     title = "Summary Overview",
-                    withSpinner(plotOutput("gs_summaryoverview",
-                      height = "650px"
-                    ))
+                    withSpinner(
+                      plotOutput("gs_summaryoverview",
+                                 height = "650px")
+                    ),
+                    fluidRow(
+                      column(
+                        width = 1,
+                        offset = 11,
+                        tippy::tippy(
+                          actionButton(inputId = "coder_gs_summaryoverview", 
+                                       label = "",
+                                       style = .helpbutton_biocstyle,
+                                       icon = icon("user-edit")),
+                          "Show the code for this plot",
+                          placement = "left"
+                        )
+                      )
+                    )
                   ),
                   shiny::tabPanel(
                     title = "Geneset Radar",
-                    withSpinner(plotlyOutput("gs_summaryradar",
-                      height = "650px"
-                    ))
+                    withSpinner(
+                      plotlyOutput("gs_summaryradar",
+                                   height = "650px")
+                    ),
+                    fluidRow(
+                      column(
+                        width = 1,
+                        offset = 11,
+                        tippy::tippy(
+                          actionButton(inputId = "coder_gs_summaryradar", 
+                                       label = "",
+                                       style = .helpbutton_biocstyle,
+                                       icon = icon("user-edit")),
+                          "Show the code for this plot",
+                          placement = "left"
+                        )
+                      )
+                    )
                   ),
                   shiny::tabPanel(
                     title = "Geneset Dendrogram",
-                    withSpinner(plotOutput("gs_dendro",
-                      height = "650px"
-                    ))
+                    withSpinner(
+                      plotOutput("gs_dendro",
+                                 height = "650px")
+                    ),
+                    fluidRow(
+                      column(
+                        width = 1,
+                        offset = 11,
+                        tippy::tippy(
+                          actionButton(inputId = "coder_gs_dendro", 
+                                       label = "",
+                                       style = .helpbutton_biocstyle,
+                                       icon = icon("user-edit")),
+                          "Show the code for this plot",
+                          placement = "left"
+                        )
+                      )
+                    )
                   )
                 )
               )
@@ -1789,6 +1983,38 @@ GeneTonic <- function(dds,
         showNotification("You are already in the Bookmarks tab...")
       }
     })
+    
+
+    # code popups -------------------------------------------------------------
+    observeEvent(input$coder_gs_volcano, {
+      mycode <- c(
+        .gt_code_setup,
+        "gs_volcano(",
+        "  get_aggrscores(res_enrich,",
+        "                 res_de,",
+        "                 annotation_obj = annotation_obj",
+        "  ),",
+        paste0("  volcano_labels = ", input$n_genesets),
+        ")",
+        .gt_code_closeup
+      )
+      
+      showModal(
+        modalDialog(
+          title = "About this plot", size = "l", fade = TRUE, footer = NULL, easyClose = TRUE,
+          tagList(
+            shinyAce::aceEditor(
+              "editor-gs_volcano",
+              theme = "solarized_light",
+              readOnly = TRUE,
+              value = paste(mycode, collapse = "\n")
+            )
+            # renderPrint({writeLines(mycode)})
+          )
+        )
+      )
+    })
+    
 
 
     # observeEvent(input$start_happyhour, {
