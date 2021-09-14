@@ -2015,7 +2015,402 @@ GeneTonic <- function(dds,
       )
     })
     
-
+    observeEvent(input$coder_gs_volcano_simplified, {
+      mycode <- c(
+        .gt_code_setup,
+        
+        "gs_volcano(",
+        "  get_aggrscores(",
+        "    res_enrich = gs_simplify(res_enrich = res_enrich, ",
+        paste0("                             gs_overlap = ", input$gs_overlap, "),"),
+        "    res_de = res_de,",
+        "    annotation_obj = annotation_obj",
+        "  ),",
+        paste0("  volcano_labels = ", input$n_genesets),
+        ")",
+        
+        .gt_code_closeup
+      )
+      
+      showModal(
+        modalDialog(
+          title = "About this plot", size = "l", fade = TRUE, footer = NULL, easyClose = TRUE,
+          tagList(
+            shinyAce::aceEditor(
+              "editor-gs_volcano_simplified",
+              theme = "solarized_light",
+              readOnly = TRUE,
+              value = paste(mycode, collapse = "\n")
+            )
+          )
+        )
+      )
+    })
+    
+    observeEvent(input$coder_gs_enhancedtable, {
+      mycode <- c(
+        .gt_code_setup,
+        "enhance_table(res_enrich = res_enrich,",
+        "              res_de = res_de,",
+        "              annotation_obj = annotation_obj,",
+        paste0("              n_gs = ", input$n_genesets, ")"),
+        .gt_code_closeup
+      )
+      
+      showModal(
+        modalDialog(
+          title = "About this plot", size = "l", fade = TRUE, footer = NULL, easyClose = TRUE,
+          tagList(
+            shinyAce::aceEditor(
+              "editor-gs_enhancedtable",
+              theme = "solarized_light",
+              readOnly = TRUE,
+              value = paste(mycode, collapse = "\n")
+            )
+          )
+        )
+      )
+    })
+    
+    observeEvent(input$coder_gs_enhancedtableinteractive, {
+      mycode <- c(
+        .gt_code_setup,
+        "library('plotly')",
+        "ggplotly(",
+        "  enhance_table(res_enrich = res_enrich,",
+        "                res_de = res_de,",
+        "                annotation_obj = annotation_obj,",
+        paste0("                n_gs = ", input$n_genesets, ")"),
+        ")"
+        
+      )
+      
+      showModal(
+        modalDialog(
+          title = "About this plot", size = "l", fade = TRUE, footer = NULL, easyClose = TRUE,
+          tagList(
+            shinyAce::aceEditor(
+              "editor-gs_enhancedtableinteractive",
+              theme = "solarized_light",
+              readOnly = TRUE,
+              value = paste(mycode, collapse = "\n")
+            )
+          )
+        )
+      )
+    })
+    
+    observeEvent(input$coder_gsscores_heatmap, {
+      mycode <- c(
+        .gt_code_setup,
+        
+        "myvst <- vst(dds)",
+        "gss_mat <- gs_scores(",
+        "  se = myvst,",
+        "  res_de = res_de,",
+        "  res_enrich = res_enrich,",
+        "  annotation_obj = annotation_obj",
+        ")",
+        "",
+        "gs_scoresheat(",
+        "  gss_mat,",
+        paste0("  n_gs = ", input$n_genesets),
+        ")",
+        
+        .gt_code_closeup
+      )
+      
+      showModal(
+        modalDialog(
+          title = "About this plot", size = "l", fade = TRUE, footer = NULL, easyClose = TRUE,
+          tagList(
+            shinyAce::aceEditor(
+              "editor-gsscores_heatmap",
+              theme = "solarized_light",
+              readOnly = TRUE,
+              value = paste(mycode, collapse = "\n")
+            )
+          )
+        )
+      )
+    })
+    
+    observeEvent(input$coder_alluvial_genesets, {
+      mycode <- c(
+        .gt_code_setup,
+        
+        "gs_alluvial(res_enrich = res_enrich,",
+        "            res_de = res_de, ",
+        "            annotation_obj = annotation_obj, ",
+        paste0("            n_gs = ", input$n_genesets, ")")
+        
+      )
+      
+      showModal(
+        modalDialog(
+          title = "About this plot", size = "l", fade = TRUE, footer = NULL, easyClose = TRUE,
+          tagList(
+            shinyAce::aceEditor(
+              "editor-alluvial_genesets",
+              theme = "solarized_light",
+              readOnly = TRUE,
+              value = paste(mycode, collapse = "\n")
+            )
+          )
+        )
+      )
+    })
+    
+    observeEvent(input$coder_gs_summaryheat, {
+      mycode <- c(
+        .gt_code_setup,
+        
+        "gs_summary_heat(",
+        "  res_enrich = res_enrich, ",
+        "  res_de = res_de, ",
+        "  annotation_obj = annotation_obj,",
+        paste0("  n_gs = ", input$n_genesets),
+        ")",
+        
+        .gt_code_closeup
+      )
+      
+      showModal(
+        modalDialog(
+          title = "About this plot", size = "l", fade = TRUE, footer = NULL, easyClose = TRUE,
+          tagList(
+            shinyAce::aceEditor(
+              "editor-gs_summaryheat",
+              theme = "solarized_light",
+              readOnly = TRUE,
+              value = paste(mycode, collapse = "\n")
+            )
+          )
+        )
+      )
+    })
+    
+    observeEvent(input$coder_mds_genesets, {
+      mycode <- c(
+        .gt_code_setup,
+        
+        "gs_mds(res_enrich = res_enrich, ",
+        "       res_de = res_de, ",
+        "       annotation_obj = annotation_obj,",
+        "       mds_colorby = 'z_score',",
+        paste0("       mds_labels = ", input$n_genesets),
+        ")",
+        
+        .gt_code_closeup
+      )
+      
+      showModal(
+        modalDialog(
+          title = "About this plot", size = "l", fade = TRUE, footer = NULL, easyClose = TRUE,
+          tagList(
+            shinyAce::aceEditor(
+              "editor-mds_genesets",
+              theme = "solarized_light",
+              readOnly = TRUE,
+              value = paste(mycode, collapse = "\n")
+            )
+          )
+        )
+      )
+    })
+    
+    observeEvent(input$coder_gs_summaryoverview, {
+      mycode <- c(
+        .gt_code_setup,
+        
+        "res_enhanced <- get_aggrscores(",
+        "  res_enrich = res_enrich,",
+        "  res_de = res_de,",
+        "  annotation_obj = annotation_obj",
+        ")",
+        "",
+        "gs_summary_overview(",
+        "  res_enrich = res_enhanced,",
+        paste0("  n_gs = ", input$n_genesets),
+        ")",
+        
+        .gt_code_closeup
+      )
+      
+      showModal(
+        modalDialog(
+          title = "About this plot", size = "l", fade = TRUE, footer = NULL, easyClose = TRUE,
+          tagList(
+            shinyAce::aceEditor(
+              "editor-gs_summaryoverview",
+              theme = "solarized_light",
+              readOnly = TRUE,
+              value = paste(mycode, collapse = "\n")
+            )
+          )
+        )
+      )
+    })
+    
+    observeEvent(input$coder_gs_summaryradar, {
+      mycode <- c(
+        .gt_code_setup,
+        
+        "res_enhanced <- get_aggrscores(",
+        "  res_enrich = res_enrich,",
+        "  res_de = res_de,",
+        "  annotation_obj = annotation_obj",
+        ")",
+        "",
+        "gs_radar(",
+        "  res_enrich = res_enhanced,",
+        paste0("  n_gs = ", input$n_genesets),
+        ")"
+        
+      )
+      
+      showModal(
+        modalDialog(
+          title = "About this plot", size = "l", fade = TRUE, footer = NULL, easyClose = TRUE,
+          tagList(
+            shinyAce::aceEditor(
+              "editor-gs_summaryradar",
+              theme = "solarized_light",
+              readOnly = TRUE,
+              value = paste(mycode, collapse = "\n")
+            )
+          )
+        )
+      )
+    })
+    
+    observeEvent(input$coder_gs_dendro, {
+      mycode <- c(
+        .gt_code_setup,
+        
+        "res_enhanced <- get_aggrscores(",
+        "  res_enrich = res_enrich,",
+        "  res_de = res_de,",
+        "  annotation_obj = annotation_obj",
+        ")",
+        "",
+        "gs_dendro(",
+        "  res_enrich = res_enhanced,",
+        paste0("  n_gs = ", input$n_genesets),
+        ")"
+      )
+      
+      showModal(
+        modalDialog(
+          title = "About this plot", size = "l", fade = TRUE, footer = NULL, easyClose = TRUE,
+          tagList(
+            shinyAce::aceEditor(
+              "editor-gs_dendro",
+              theme = "solarized_light",
+              readOnly = TRUE,
+              value = paste(mycode, collapse = "\n")
+            )
+          )
+        )
+      )
+    })
+    
+    observeEvent(input$coder_ggsnetwork, {
+      mycode <- c(
+        .gt_code_setup,
+        
+        "g <- ggs_graph(",
+        "  res_enrich = res_enrich,",
+        "  res_de = res_de,",
+        "  annotation_obj = annotation_obj,",
+        paste0("  n_gs = ", input$n_genesets, ","),
+        "  prettify = TRUE,",
+        "  geneset_graph_color = 'gold'",
+        ")",
+        "",
+        "library('visNetwork')",
+        "library('magrittr')",
+        "visNetwork::visIgraph(g) %>%",
+        "  visOptions(",
+        "    highlightNearest = list(",
+        "      enabled = TRUE,",
+        "      degree = 1,",
+        "      hover = TRUE",
+        "    ),",
+        "    nodesIdSelection = TRUE",
+        "  ) %>%",
+        "  visExport(",
+        "    name = 'ggs_network',",
+        "    type = 'png',",
+        "    label = 'Save ggs graph'",
+        "  )"
+        
+      )
+      
+      showModal(
+        modalDialog(
+          title = "About this plot", size = "l", fade = TRUE, footer = NULL, easyClose = TRUE,
+          tagList(
+            shinyAce::aceEditor(
+              "editor-gs_ggsnetwork",
+              theme = "solarized_light",
+              readOnly = TRUE,
+              value = paste(mycode, collapse = "\n")
+            )
+          )
+        )
+      )
+    })
+    
+    observeEvent(input$coder_emap_visnet, {
+      mycode <- c(
+        .gt_code_setup,
+        
+        "emg <- enrichment_map(",
+        "  res_enrich = res_enrich,",
+        "  res_de = res_de,",
+        "  annotation_obj = annotation_obj,",
+        paste0("  n_gs = ", input$n_genesets, ","),
+        "  overlap_threshold = 0.1,",
+        "  scale_edges_width = 200,",
+        paste0("  color_by = '", input$emap_colorby, "'"),
+        ")",
+        "",
+        "library('visNetwork')",
+        "library('magrittr')",
+        "visNetwork::visIgraph(emg) %>%",
+        "  visOptions(",
+        "    highlightNearest = list(",
+        "      enabled = TRUE,",
+        "      degree = 1,",
+        "      hover = TRUE",
+        "    ),",
+        "    nodesIdSelection = TRUE",
+        "  ) %>%",
+        "  visExport(",
+        "    name = 'emap_network',",
+        "    type = 'png',",
+        "    label = 'Save enrichment map'",
+        "  )"
+        
+      )
+      
+      showModal(
+        modalDialog(
+          title = "About this plot", size = "l", fade = TRUE, footer = NULL, easyClose = TRUE,
+          tagList(
+            shinyAce::aceEditor(
+              "editor-emap_visnet",
+              theme = "solarized_light",
+              readOnly = TRUE,
+              value = paste(mycode, collapse = "\n")
+            )
+          )
+        )
+      )
+    })
+    
+    
 
     # observeEvent(input$start_happyhour, {
     # showNotification("The happy hour is on! Please wait for the report to be fully compiled",
