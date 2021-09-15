@@ -403,14 +403,13 @@ GeneTonic <- function(dds,
               fluidRow(
                 column(
                   width = 1,
-                  offset = 11,
                   tippy::tippy(
-                    actionButton(inputId = "coder_ggsnetwork", 
+                    actionButton(inputId = "coder_ggsnetwork",
                                  label = "",
                                  style = .helpbutton_biocstyle,
                                  icon = icon("user-edit")),
                     "Show the code for this plot",
-                    placement = "left"
+                    placement = "right"
                   )
                 )
               )
@@ -501,14 +500,13 @@ GeneTonic <- function(dds,
                   fluidRow(
                     column(
                       width = 1,
-                      offset = 11,
                       tippy::tippy(
-                        actionButton(inputId = "coder_emap_visnet", 
+                        actionButton(inputId = "coder_emap_visnet",
                                      label = "",
                                      style = .helpbutton_biocstyle,
                                      icon = icon("user-edit")),
                         "Show the code for this plot",
-                        placement = "left"
+                        placement = "right"
                       )
                     )
                   )
@@ -604,14 +602,13 @@ GeneTonic <- function(dds,
                     fluidRow(
                       column(
                         width = 1,
-                        offset = 11,
                         tippy::tippy(
-                          actionButton(inputId = "coder_gs_volcano", 
+                          actionButton(inputId = "coder_gs_volcano",
                                        label = "",
                                        style = .helpbutton_biocstyle,
                                        icon = icon("user-edit")),
                           "Show the code for this plot",
-                          placement = "left"
+                          placement = "right"
                         )
                       )
                     )
@@ -631,14 +628,13 @@ GeneTonic <- function(dds,
                     fluidRow(
                       column(
                         width = 1,
-                        offset = 11,
                         tippy::tippy(
-                          actionButton(inputId = "coder_gs_volcano_simplified", 
+                          actionButton(inputId = "coder_gs_volcano_simplified",
                                        label = "",
                                        style = .helpbutton_biocstyle,
                                        icon = icon("user-edit")),
                           "Show the code for this plot",
-                          placement = "left"
+                          placement = "right"
                         )
                       )
                     )
@@ -652,14 +648,13 @@ GeneTonic <- function(dds,
                     fluidRow(
                       column(
                         width = 1,
-                        offset = 11,
                         tippy::tippy(
-                          actionButton(inputId = "coder_gs_enhancedtable", 
+                          actionButton(inputId = "coder_gs_enhancedtable",
                                        label = "",
                                        style = .helpbutton_biocstyle,
                                        icon = icon("user-edit")),
                           "Show the code for this plot",
-                          placement = "left"
+                          placement = "right"
                         )
                       )
                     )
@@ -673,14 +668,13 @@ GeneTonic <- function(dds,
                     fluidRow(
                       column(
                         width = 1,
-                        offset = 11,
                         tippy::tippy(
-                          actionButton(inputId = "coder_gs_enhancedtableinteractive", 
+                          actionButton(inputId = "coder_gs_enhancedtableinteractive",
                                        label = "",
                                        style = .helpbutton_biocstyle,
                                        icon = icon("user-edit")),
                           "Show the code for this plot",
-                          placement = "left"
+                          placement = "right"
                         )
                       )
                     )
@@ -732,14 +726,13 @@ GeneTonic <- function(dds,
                     fluidRow(
                       column(
                         width = 1,
-                        offset = 11,
                         tippy::tippy(
-                          actionButton(inputId = "coder_gsscores_heatmap", 
+                          actionButton(inputId = "coder_gsscores_heatmap",
                                        label = "",
                                        style = .helpbutton_biocstyle,
                                        icon = icon("user-edit")),
                           "Show the code for this plot",
-                          placement = "left"
+                          placement = "right"
                         )
                       )
                     )
@@ -753,14 +746,13 @@ GeneTonic <- function(dds,
                     fluidRow(
                       column(
                         width = 1,
-                        offset = 11,
                         tippy::tippy(
-                          actionButton(inputId = "coder_alluvial_genesets", 
+                          actionButton(inputId = "coder_alluvial_genesets",
                                        label = "",
                                        style = .helpbutton_biocstyle,
                                        icon = icon("user-edit")),
                           "Show the code for this plot",
-                          placement = "left"
+                          placement = "right"
                         )
                       )
                     )
@@ -774,14 +766,13 @@ GeneTonic <- function(dds,
                     fluidRow(
                       column(
                         width = 1,
-                        offset = 11,
                         tippy::tippy(
-                          actionButton(inputId = "coder_gs_summaryheat", 
+                          actionButton(inputId = "coder_gs_summaryheat",
                                        label = "",
                                        style = .helpbutton_biocstyle,
                                        icon = icon("user-edit")),
                           "Show the code for this plot",
-                          placement = "left"
+                          placement = "right"
                         )
                       )
                     )
@@ -795,14 +786,13 @@ GeneTonic <- function(dds,
                     fluidRow(
                       column(
                         width = 1,
-                        offset = 11,
                         tippy::tippy(
-                          actionButton(inputId = "coder_mds_genesets", 
+                          actionButton(inputId = "coder_mds_genesets",
                                        label = "",
                                        style = .helpbutton_biocstyle,
                                        icon = icon("user-edit")),
                           "Show the code for this plot",
-                          placement = "left"
+                          placement = "right"
                         )
                       )
                     )
@@ -816,14 +806,13 @@ GeneTonic <- function(dds,
                     fluidRow(
                       column(
                         width = 1,
-                        offset = 11,
                         tippy::tippy(
-                          actionButton(inputId = "coder_gs_summaryoverview", 
+                          actionButton(inputId = "coder_gs_summaryoverview",
                                        label = "",
                                        style = .helpbutton_biocstyle,
                                        icon = icon("user-edit")),
                           "Show the code for this plot",
-                          placement = "left"
+                          placement = "right"
                         )
                       )
                     )
@@ -837,14 +826,13 @@ GeneTonic <- function(dds,
                     fluidRow(
                       column(
                         width = 1,
-                        offset = 11,
                         tippy::tippy(
-                          actionButton(inputId = "coder_gs_summaryradar", 
+                          actionButton(inputId = "coder_gs_summaryradar",
                                        label = "",
                                        style = .helpbutton_biocstyle,
                                        icon = icon("user-edit")),
                           "Show the code for this plot",
-                          placement = "left"
+                          placement = "right"
                         )
                       )
                     )
@@ -858,14 +846,13 @@ GeneTonic <- function(dds,
                     fluidRow(
                       column(
                         width = 1,
-                        offset = 11,
                         tippy::tippy(
-                          actionButton(inputId = "coder_gs_dendro", 
+                          actionButton(inputId = "coder_gs_dendro",
                                        label = "",
                                        style = .helpbutton_biocstyle,
                                        icon = icon("user-edit")),
                           "Show the code for this plot",
-                          placement = "left"
+                          placement = "right"
                         )
                       )
                     )
@@ -1983,7 +1970,7 @@ GeneTonic <- function(dds,
         showNotification("You are already in the Bookmarks tab...")
       }
     })
-    
+
 
     # code popups -------------------------------------------------------------
     observeEvent(input$coder_gs_volcano, {
@@ -1998,7 +1985,7 @@ GeneTonic <- function(dds,
         ")",
         .gt_code_closeup
       )
-      
+
       showModal(
         modalDialog(
           title = "About this plot", size = "l", fade = TRUE, footer = NULL, easyClose = TRUE,
@@ -2014,11 +2001,11 @@ GeneTonic <- function(dds,
         )
       )
     })
-    
+
     observeEvent(input$coder_gs_volcano_simplified, {
       mycode <- c(
         .gt_code_setup,
-        
+
         "gs_volcano(",
         "  get_aggrscores(",
         "    res_enrich = gs_simplify(res_enrich = res_enrich, ",
@@ -2028,10 +2015,10 @@ GeneTonic <- function(dds,
         "  ),",
         paste0("  volcano_labels = ", input$n_genesets),
         ")",
-        
+
         .gt_code_closeup
       )
-      
+
       showModal(
         modalDialog(
           title = "About this plot", size = "l", fade = TRUE, footer = NULL, easyClose = TRUE,
@@ -2046,7 +2033,7 @@ GeneTonic <- function(dds,
         )
       )
     })
-    
+
     observeEvent(input$coder_gs_enhancedtable, {
       mycode <- c(
         .gt_code_setup,
@@ -2056,7 +2043,7 @@ GeneTonic <- function(dds,
         paste0("              n_gs = ", input$n_genesets, ")"),
         .gt_code_closeup
       )
-      
+
       showModal(
         modalDialog(
           title = "About this plot", size = "l", fade = TRUE, footer = NULL, easyClose = TRUE,
@@ -2071,7 +2058,7 @@ GeneTonic <- function(dds,
         )
       )
     })
-    
+
     observeEvent(input$coder_gs_enhancedtableinteractive, {
       mycode <- c(
         .gt_code_setup,
@@ -2082,9 +2069,9 @@ GeneTonic <- function(dds,
         "                annotation_obj = annotation_obj,",
         paste0("                n_gs = ", input$n_genesets, ")"),
         ")"
-        
+
       )
-      
+
       showModal(
         modalDialog(
           title = "About this plot", size = "l", fade = TRUE, footer = NULL, easyClose = TRUE,
@@ -2099,11 +2086,11 @@ GeneTonic <- function(dds,
         )
       )
     })
-    
+
     observeEvent(input$coder_gsscores_heatmap, {
       mycode <- c(
         .gt_code_setup,
-        
+
         "myvst <- vst(dds)",
         "gss_mat <- gs_scores(",
         "  se = myvst,",
@@ -2116,10 +2103,10 @@ GeneTonic <- function(dds,
         "  gss_mat,",
         paste0("  n_gs = ", input$n_genesets),
         ")",
-        
+
         .gt_code_closeup
       )
-      
+
       showModal(
         modalDialog(
           title = "About this plot", size = "l", fade = TRUE, footer = NULL, easyClose = TRUE,
@@ -2134,18 +2121,18 @@ GeneTonic <- function(dds,
         )
       )
     })
-    
+
     observeEvent(input$coder_alluvial_genesets, {
       mycode <- c(
         .gt_code_setup,
-        
+
         "gs_alluvial(res_enrich = res_enrich,",
         "            res_de = res_de, ",
         "            annotation_obj = annotation_obj, ",
         paste0("            n_gs = ", input$n_genesets, ")")
-        
+
       )
-      
+
       showModal(
         modalDialog(
           title = "About this plot", size = "l", fade = TRUE, footer = NULL, easyClose = TRUE,
@@ -2160,21 +2147,21 @@ GeneTonic <- function(dds,
         )
       )
     })
-    
+
     observeEvent(input$coder_gs_summaryheat, {
       mycode <- c(
         .gt_code_setup,
-        
+
         "gs_summary_heat(",
         "  res_enrich = res_enrich, ",
         "  res_de = res_de, ",
         "  annotation_obj = annotation_obj,",
         paste0("  n_gs = ", input$n_genesets),
         ")",
-        
+
         .gt_code_closeup
       )
-      
+
       showModal(
         modalDialog(
           title = "About this plot", size = "l", fade = TRUE, footer = NULL, easyClose = TRUE,
@@ -2189,21 +2176,21 @@ GeneTonic <- function(dds,
         )
       )
     })
-    
+
     observeEvent(input$coder_mds_genesets, {
       mycode <- c(
         .gt_code_setup,
-        
+
         "gs_mds(res_enrich = res_enrich, ",
         "       res_de = res_de, ",
         "       annotation_obj = annotation_obj,",
         "       mds_colorby = 'z_score',",
         paste0("       mds_labels = ", input$n_genesets),
         ")",
-        
+
         .gt_code_closeup
       )
-      
+
       showModal(
         modalDialog(
           title = "About this plot", size = "l", fade = TRUE, footer = NULL, easyClose = TRUE,
@@ -2218,11 +2205,11 @@ GeneTonic <- function(dds,
         )
       )
     })
-    
+
     observeEvent(input$coder_gs_summaryoverview, {
       mycode <- c(
         .gt_code_setup,
-        
+
         "res_enhanced <- get_aggrscores(",
         "  res_enrich = res_enrich,",
         "  res_de = res_de,",
@@ -2233,10 +2220,10 @@ GeneTonic <- function(dds,
         "  res_enrich = res_enhanced,",
         paste0("  n_gs = ", input$n_genesets),
         ")",
-        
+
         .gt_code_closeup
       )
-      
+
       showModal(
         modalDialog(
           title = "About this plot", size = "l", fade = TRUE, footer = NULL, easyClose = TRUE,
@@ -2251,11 +2238,11 @@ GeneTonic <- function(dds,
         )
       )
     })
-    
+
     observeEvent(input$coder_gs_summaryradar, {
       mycode <- c(
         .gt_code_setup,
-        
+
         "res_enhanced <- get_aggrscores(",
         "  res_enrich = res_enrich,",
         "  res_de = res_de,",
@@ -2266,9 +2253,9 @@ GeneTonic <- function(dds,
         "  res_enrich = res_enhanced,",
         paste0("  n_gs = ", input$n_genesets),
         ")"
-        
+
       )
-      
+
       showModal(
         modalDialog(
           title = "About this plot", size = "l", fade = TRUE, footer = NULL, easyClose = TRUE,
@@ -2283,11 +2270,11 @@ GeneTonic <- function(dds,
         )
       )
     })
-    
+
     observeEvent(input$coder_gs_dendro, {
       mycode <- c(
         .gt_code_setup,
-        
+
         "res_enhanced <- get_aggrscores(",
         "  res_enrich = res_enrich,",
         "  res_de = res_de,",
@@ -2299,7 +2286,7 @@ GeneTonic <- function(dds,
         paste0("  n_gs = ", input$n_genesets),
         ")"
       )
-      
+
       showModal(
         modalDialog(
           title = "About this plot", size = "l", fade = TRUE, footer = NULL, easyClose = TRUE,
@@ -2314,11 +2301,11 @@ GeneTonic <- function(dds,
         )
       )
     })
-    
+
     observeEvent(input$coder_ggsnetwork, {
       mycode <- c(
         .gt_code_setup,
-        
+
         "g <- ggs_graph(",
         "  res_enrich = res_enrich,",
         "  res_de = res_de,",
@@ -2344,9 +2331,9 @@ GeneTonic <- function(dds,
         "    type = 'png',",
         "    label = 'Save ggs graph'",
         "  )"
-        
+
       )
-      
+
       showModal(
         modalDialog(
           title = "About this plot", size = "l", fade = TRUE, footer = NULL, easyClose = TRUE,
@@ -2361,11 +2348,11 @@ GeneTonic <- function(dds,
         )
       )
     })
-    
+
     observeEvent(input$coder_emap_visnet, {
       mycode <- c(
         .gt_code_setup,
-        
+
         "emg <- enrichment_map(",
         "  res_enrich = res_enrich,",
         "  res_de = res_de,",
@@ -2392,9 +2379,9 @@ GeneTonic <- function(dds,
         "    type = 'png',",
         "    label = 'Save enrichment map'",
         "  )"
-        
+
       )
-      
+
       showModal(
         modalDialog(
           title = "About this plot", size = "l", fade = TRUE, footer = NULL, easyClose = TRUE,
@@ -2409,8 +2396,8 @@ GeneTonic <- function(dds,
         )
       )
     })
-    
-    
+
+
 
     # observeEvent(input$start_happyhour, {
     # showNotification("The happy hour is on! Please wait for the report to be fully compiled",
