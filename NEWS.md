@@ -3,6 +3,7 @@
 ## New features
 
 * `GeneTonic` can now accept the input of `clusterProfiler`'s gene set enrichment analysis functions (`gseGO` and `GSEA`), as implemented in the `shake_gsenrichResult()` function
+* Below each plot and interactive widget, we provide a button that opens up a modal window where the code required to reproduce that output is shown as a snippet. These can be readily copied in extended reports or used to document the exploratory process.
 
 ## Other notes
 
