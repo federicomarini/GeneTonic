@@ -31,8 +31,8 @@ report as an artifact where text, code, and output coexist.
 GeneTonic can be found on Bioconductor
 (<https://www.bioconductor.org/packages/GeneTonic>).
 
-A preprint :page\_facing\_up: on GeneTonic is now available on bioRxiv
-at <https://www.biorxiv.org/content/10.1101/2021.05.19.444862v1>.
+A preprint :page_facing_up: on GeneTonic is now available on bioRxiv at
+<https://www.biorxiv.org/content/10.1101/2021.05.19.444862v1>.
 
 ## Installation
 
@@ -110,9 +110,10 @@ functionality to make this package better, feel free to file an
 
 ## Code of Conduct
 
-Please note that the `GeneTonic` project is released with a [Contributor
-Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,
-you agree to abide by its terms.
+Please note that the GeneTonic project is released with a [Contributor
+Code of
+Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
+By contributing to this project, you agree to abide by its terms.
 
 ## License
 
