@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.0</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/federicomarini/GeneTonic">
+  <a href="https://github.com/federicomarini/GeneTonic" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -61,7 +61,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Get expression values</h1>
-    <small class="dont-index">Source: <a href="https://github.com/federicomarini/GeneTonic/blob/master/R/gene_plot.R"><code>R/gene_plot.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/federicomarini/GeneTonic/blob/HEAD/R/gene_plot.R" class="external-link"><code>R/gene_plot.R</code></a></small>
     <div class="hidden name"><code>get_expression_values.Rd</code></div>
     </div>
 
@@ -78,50 +78,56 @@
   gtl <span class="op">=</span> <span class="cn">NULL</span>
 <span class="op">)</span></code></pre></div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>dds</th>
-      <td><p>A <code>DESeqDataSet</code> object, normally obtained after running your data
-through the <code>DESeq2</code> framework.</p></td>
-    </tr><tr><th>gene</th>
-      <td><p>Character, specifies the identifier of the feature (gene) to be
-extracted</p></td>
-    </tr><tr><th>intgroup</th>
-      <td><p>A character vector of names in <code>colData(dds)</code> to use for grouping.</p></td>
-    </tr><tr><th>assay</th>
-      <td><p>Character, specifies with assay of the <code>dds</code> object to use for
-reading out the expression values. Defaults to "counts".</p></td>
-    </tr><tr><th>normalized</th>
-      <td><p>Logical value, whether the expression values should be
+    <div id="ref-sections">
+    <div id="arguments">
+    <h2>Arguments</h2>
+    <dl><dt>dds</dt>
+<dd><p>A <code>DESeqDataSet</code> object, normally obtained after running your data
+through the <code>DESeq2</code> framework.</p></dd>
+<dt>gene</dt>
+<dd><p>Character, specifies the identifier of the feature (gene) to be
+extracted</p></dd>
+<dt>intgroup</dt>
+<dd><p>A character vector of names in <code>colData(dds)</code> to use for grouping.</p></dd>
+<dt>assay</dt>
+<dd><p>Character, specifies with assay of the <code>dds</code> object to use for
+reading out the expression values. Defaults to "counts".</p></dd>
+<dt>normalized</dt>
+<dd><p>Logical value, whether the expression values should be
 normalized by their size factor. Defaults to TRUE, applies when <code>assay</code> is
-"counts"</p></td>
-    </tr><tr><th>gtl</th>
-      <td><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
+"counts"</p></dd>
+<dt>gtl</dt>
+<dd><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
 specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
-of the list <em>must</em> be specified following the content they are expecting</p></td>
-    </tr></table><h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
+of the list <em>must</em> be specified following the content they are expecting</p></dd>
+</dl></div>
+    <div id="value">
+    <h2>Value</h2>
     <p>A tidy data.frame with the expression values and covariates for further
 processing</p>
+    </div>
+    </div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st">"macrophage"</span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/mikelove/DESeq2">"DESeq2"</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st">"org.Hs.eg.db"</span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://bioconductor.org/packages/AnnotationDbi">"AnnotationDbi"</a></span><span class="op">)</span></span>
+    <div id="examples">
+    <h2>Examples</h2>
+    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"macrophage"</span><span class="op">)</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/mikelove/DESeq2" class="external-link">"DESeq2"</a></span><span class="op">)</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"org.Hs.eg.db"</span><span class="op">)</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://bioconductor.org/packages/AnnotationDbi" class="external-link">"AnnotationDbi"</a></span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># dds object</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"gse"</span>, package <span class="op">=</span> <span class="st">"macrophage"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">dds_macrophage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html">DESeqDataSet</a></span><span class="op">(</span><span class="va">gse</span>, design <span class="op">=</span> <span class="op">~</span> <span class="va">line</span> <span class="op">+</span> <span class="va">condition</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"gse"</span>, package <span class="op">=</span> <span class="st">"macrophage"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">dds_macrophage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html" class="external-link">DESeqDataSet</a></span><span class="op">(</span><span class="va">gse</span>, design <span class="op">=</span> <span class="op">~</span> <span class="va">line</span> <span class="op">+</span> <span class="va">condition</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> using counts and average transcript lengths from tximeta</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html">substr</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>, <span class="fl">1</span>, <span class="fl">15</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">dds_macrophage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/dge.html">estimateSizeFactors</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>, <span class="fl">1</span>, <span class="fl">15</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">dds_macrophage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/dge.html" class="external-link">estimateSizeFactors</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> using 'avgTxLength' from assays(dds), correcting for library size</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">df_exp</span> <span class="op">&lt;-</span> <span class="fu">get_expression_values</span><span class="op">(</span><span class="va">dds_macrophage</span>,</span>
 <span class="r-in">  gene <span class="op">=</span> <span class="st">"ENSG00000125347"</span>,</span>
 <span class="r-in">  intgroup <span class="op">=</span> <span class="st">"condition"</span></span>
 <span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">df_exp</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df_exp</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 exp_value   condition</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> SAMEA103885102   819.6422       naive</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> SAMEA103885347 31852.1503        IFNg</span>
@@ -130,6 +136,7 @@ processing</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> SAMEA103885182  1239.2723       naive</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> SAMEA103885136 41985.4038        IFNg</span>
 </code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

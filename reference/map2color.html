@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.0</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/federicomarini/GeneTonic">
+  <a href="https://github.com/federicomarini/GeneTonic" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -61,7 +61,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Maps numeric values to color values</h1>
-    <small class="dont-index">Source: <a href="https://github.com/federicomarini/GeneTonic/blob/master/R/GeneTonic-extras.R"><code>R/GeneTonic-extras.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/federicomarini/GeneTonic/blob/HEAD/R/GeneTonic-extras.R" class="external-link"><code>R/GeneTonic-extras.R</code></a></small>
     <div class="hidden name"><code>map2color.Rd</code></div>
     </div>
 
@@ -71,37 +71,44 @@
 
     <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">map2color</span><span class="op">(</span><span class="va">x</span>, <span class="va">pal</span>, limits <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>x</th>
-      <td><p>A character vector of numeric values (e.g. log2FoldChange values) to
-be converted to a vector of colors</p></td>
-    </tr><tr><th>pal</th>
-      <td><p>A vector of characters specifying the definition of colors for the
-palette, e.g. obtained via <code>brewer.pal</code></p></td>
-    </tr><tr><th>limits</th>
-      <td><p>A vector containing the limits of the values to be mapped. If
-not specified, defaults to the range of values in the <code>x</code> vector.</p></td>
-    </tr></table><h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
+    <div id="ref-sections">
+    <div id="arguments">
+    <h2>Arguments</h2>
+    <dl><dt>x</dt>
+<dd><p>A character vector of numeric values (e.g. log2FoldChange values) to
+be converted to a vector of colors</p></dd>
+<dt>pal</dt>
+<dd><p>A vector of characters specifying the definition of colors for the
+palette, e.g. obtained via <code>brewer.pal</code></p></dd>
+<dt>limits</dt>
+<dd><p>A vector containing the limits of the values to be mapped. If
+not specified, defaults to the range of values in the <code>x</code> vector.</p></dd>
+</dl></div>
+    <div id="value">
+    <h2>Value</h2>
     <p>A vector of colors, each corresponding to an element in the original
 vector</p>
+    </div>
+    </div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <div id="examples">
+    <h2>Examples</h2>
     <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">a</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">9</span></span>
-<span class="r-in"><span class="va">pal</span> <span class="op">&lt;-</span> <span class="fu">RColorBrewer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html">brewer.pal</a></span><span class="op">(</span><span class="fl">9</span>, <span class="st">"Set1"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">pal</span> <span class="op">&lt;-</span> <span class="fu">RColorBrewer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html" class="external-link">brewer.pal</a></span><span class="op">(</span><span class="fl">9</span>, <span class="st">"Set1"</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">map2color</span><span class="op">(</span><span class="va">a</span>, <span class="va">pal</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "#E41A1C" "#377EB8" "#4DAF4A" "#984EA3" "#FF7F00" "#FFFF33" "#A65628"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [8] "#F781BF" "#999999"</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">a</span>, col <span class="op">=</span> <span class="fu">map2color</span><span class="op">(</span><span class="va">a</span>, <span class="va">pal</span><span class="op">)</span>, pch <span class="op">=</span> <span class="fl">20</span>, cex <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
-<span class="r-plt"><img src="map2color-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">a</span>, col <span class="op">=</span> <span class="fu">map2color</span><span class="op">(</span><span class="va">a</span>, <span class="va">pal</span><span class="op">)</span>, pch <span class="op">=</span> <span class="fl">20</span>, cex <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
+<span class="r-plt img"><img src="map2color-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">b</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">50</span></span>
-<span class="r-in"><span class="va">pal2</span> <span class="op">&lt;-</span> <span class="fu">grDevices</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grDevices/colorRamp.html">colorRampPalette</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="fu">RColorBrewer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html">brewer.pal</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"RdYlBu"</span>, <span class="fl">11</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">pal2</span> <span class="op">&lt;-</span> <span class="fu">grDevices</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">colorRampPalette</a></span><span class="op">(</span></span>
+<span class="r-in">  <span class="fu">RColorBrewer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html" class="external-link">brewer.pal</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"RdYlBu"</span>, <span class="fl">11</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">)</span><span class="op">(</span><span class="fl">50</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">b</span>, col <span class="op">=</span> <span class="fu">map2color</span><span class="op">(</span><span class="va">b</span>, <span class="va">pal2</span><span class="op">)</span>, pch <span class="op">=</span> <span class="fl">20</span>, cex <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
-<span class="r-plt"><img src="map2color-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">b</span>, col <span class="op">=</span> <span class="fu">map2color</span><span class="op">(</span><span class="va">b</span>, <span class="va">pal2</span><span class="op">)</span>, pch <span class="op">=</span> <span class="fl">20</span>, cex <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span class="r-plt img"><img src="map2color-2.png" alt="" width="700" height="433"></span>
 </code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

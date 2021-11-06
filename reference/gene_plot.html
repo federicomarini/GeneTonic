@@ -18,7 +18,7 @@ by experimental group(s) of interest"><!-- mathjax --><script src="https://cdnjs
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.0</span>
       </span>
     </div>
 
@@ -47,7 +47,7 @@ by experimental group(s) of interest"><!-- mathjax --><script src="https://cdnjs
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/federicomarini/GeneTonic">
+  <a href="https://github.com/federicomarini/GeneTonic" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -62,7 +62,7 @@ by experimental group(s) of interest"><!-- mathjax --><script src="https://cdnjs
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plot expression values for a gene</h1>
-    <small class="dont-index">Source: <a href="https://github.com/federicomarini/GeneTonic/blob/master/R/gene_plot.R"><code>R/gene_plot.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/federicomarini/GeneTonic/blob/HEAD/R/gene_plot.R" class="external-link"><code>R/gene_plot.R</code></a></small>
     <div class="hidden name"><code>gene_plot.Rd</code></div>
     </div>
 
@@ -86,79 +86,86 @@ by experimental group(s) of interest</p>
   gtl <span class="op">=</span> <span class="cn">NULL</span>
 <span class="op">)</span></code></pre></div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>dds</th>
-      <td><p>A <code>DESeqDataSet</code> object, normally obtained after running your data
-through the <code>DESeq2</code> framework.</p></td>
-    </tr><tr><th>gene</th>
-      <td><p>Character, specifies the identifier of the feature (gene) to be
-plotted</p></td>
-    </tr><tr><th>intgroup</th>
-      <td><p>A character vector of names in <code>colData(dds)</code> to use for grouping.
-Note: the vector components should be categorical variables.</p></td>
-    </tr><tr><th>assay</th>
-      <td><p>Character, specifies with assay of the <code>dds</code> object to use for
-reading out the expression values. Defaults to "counts".</p></td>
-    </tr><tr><th>annotation_obj</th>
-      <td><p>A <code>data.frame</code> object with the feature annotation
-information, with at least two columns, <code>gene_id</code> and <code>gene_name</code>.</p></td>
-    </tr><tr><th>normalized</th>
-      <td><p>Logical value, whether the expression values should be
+    <div id="ref-sections">
+    <div id="arguments">
+    <h2>Arguments</h2>
+    <dl><dt>dds</dt>
+<dd><p>A <code>DESeqDataSet</code> object, normally obtained after running your data
+through the <code>DESeq2</code> framework.</p></dd>
+<dt>gene</dt>
+<dd><p>Character, specifies the identifier of the feature (gene) to be
+plotted</p></dd>
+<dt>intgroup</dt>
+<dd><p>A character vector of names in <code>colData(dds)</code> to use for grouping.
+Note: the vector components should be categorical variables.</p></dd>
+<dt>assay</dt>
+<dd><p>Character, specifies with assay of the <code>dds</code> object to use for
+reading out the expression values. Defaults to "counts".</p></dd>
+<dt>annotation_obj</dt>
+<dd><p>A <code>data.frame</code> object with the feature annotation
+information, with at least two columns, <code>gene_id</code> and <code>gene_name</code>.</p></dd>
+<dt>normalized</dt>
+<dd><p>Logical value, whether the expression values should be
 normalized by their size factor. Defaults to TRUE, applies when <code>assay</code> is
-"counts"</p></td>
-    </tr><tr><th>transform</th>
-      <td><p>Logical value, corresponding whether to have log scale y-axis
-or not. Defaults to TRUE.</p></td>
-    </tr><tr><th>labels_display</th>
-      <td><p>Logical value. Whether to display the labels of samples,
-defaults to TRUE.</p></td>
-    </tr><tr><th>labels_repel</th>
-      <td><p>Logical value. Whether to use <code>ggrepel</code>'s functions to
-place labels; defaults to TRUE</p></td>
-    </tr><tr><th>plot_type</th>
-      <td><p>Character, one of "auto", "jitteronly", "boxplot", "violin",
+"counts"</p></dd>
+<dt>transform</dt>
+<dd><p>Logical value, corresponding whether to have log scale y-axis
+or not. Defaults to TRUE.</p></dd>
+<dt>labels_display</dt>
+<dd><p>Logical value. Whether to display the labels of samples,
+defaults to TRUE.</p></dd>
+<dt>labels_repel</dt>
+<dd><p>Logical value. Whether to use <code>ggrepel</code>'s functions to
+place labels; defaults to TRUE</p></dd>
+<dt>plot_type</dt>
+<dd><p>Character, one of "auto", "jitteronly", "boxplot", "violin",
 or "sina". Defines the type of <code>geom_</code> to be used for plotting. Defaults to
 <code>auto</code>, which in turn chooses one of the layers according to the number of
-samples in the smallest group defined via <code>intgroup</code></p></td>
-    </tr><tr><th>return_data</th>
-      <td><p>Logical, whether the function should just return the
+samples in the smallest group defined via <code>intgroup</code></p></dd>
+<dt>return_data</dt>
+<dd><p>Logical, whether the function should just return the
 data.frame of expression values and covariates for custom plotting. Defaults
-to FALSE.</p></td>
-    </tr><tr><th>gtl</th>
-      <td><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
+to FALSE.</p></dd>
+<dt>gtl</dt>
+<dd><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
 specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
-of the list <em>must</em> be specified following the content they are expecting</p></td>
-    </tr></table><h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
+of the list <em>must</em> be specified following the content they are expecting</p></dd>
+</dl></div>
+    <div id="value">
+    <h2>Value</h2>
     <p>A <code>ggplot</code> object</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>The result of this function can be fed directly to <code><a href="https://rdrr.io/pkg/plotly/man/ggplotly.html">plotly::ggplotly()</a></code>
+    </div>
+    <div id="details">
+    <h2>Details</h2>
+    <p>The result of this function can be fed directly to <code><a href="https://rdrr.io/pkg/plotly/man/ggplotly.html" class="external-link">plotly::ggplotly()</a></code>
 for interactive visualization, instead of the static <code>ggplot</code> viz.</p>
+    </div>
+    </div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st">"macrophage"</span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/mikelove/DESeq2">"DESeq2"</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st">"org.Hs.eg.db"</span><span class="op">)</span></span>
+    <div id="examples">
+    <h2>Examples</h2>
+    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"macrophage"</span><span class="op">)</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/mikelove/DESeq2" class="external-link">"DESeq2"</a></span><span class="op">)</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"org.Hs.eg.db"</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># dds object</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"gse"</span>, package <span class="op">=</span> <span class="st">"macrophage"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">dds_macrophage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html">DESeqDataSet</a></span><span class="op">(</span><span class="va">gse</span>, design <span class="op">=</span> <span class="op">~</span> <span class="va">line</span> <span class="op">+</span> <span class="va">condition</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"gse"</span>, package <span class="op">=</span> <span class="st">"macrophage"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">dds_macrophage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html" class="external-link">DESeqDataSet</a></span><span class="op">(</span><span class="va">gse</span>, design <span class="op">=</span> <span class="op">~</span> <span class="va">line</span> <span class="op">+</span> <span class="va">condition</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> using counts and average transcript lengths from tximeta</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html">substr</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>, <span class="fl">1</span>, <span class="fl">15</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">dds_macrophage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/dge.html">estimateSizeFactors</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>, <span class="fl">1</span>, <span class="fl">15</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">dds_macrophage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/dge.html" class="external-link">estimateSizeFactors</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> using 'avgTxLength' from assays(dds), correcting for library size</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># annotation object</span></span>
-<span class="r-in"><span class="va">anno_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
-<span class="r-in">  gene_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>,</span>
-<span class="r-in">  gene_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/AnnotationDb-class.html">mapIds</a></span><span class="op">(</span><span class="va">org.Hs.eg.db</span>,</span>
-<span class="r-in">    keys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>,</span>
+<span class="r-in"><span class="va">anno_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span class="r-in">  gene_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>,</span>
+<span class="r-in">  gene_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/AnnotationDb-class.html" class="external-link">mapIds</a></span><span class="op">(</span><span class="va">org.Hs.eg.db</span>,</span>
+<span class="r-in">    keys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>,</span>
 <span class="r-in">    column <span class="op">=</span> <span class="st">"SYMBOL"</span>,</span>
 <span class="r-in">    keytype <span class="op">=</span> <span class="st">"ENSEMBL"</span></span>
 <span class="r-in">  <span class="op">)</span>,</span>
 <span class="r-in">  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">  row.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span></span>
+<span class="r-in">  row.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 'select()' returned 1:many mapping between keys and columns</span>
 <span class="r-in"></span>
@@ -167,8 +174,9 @@ for interactive visualization, instead of the static <code>ggplot</code> viz.</p
 <span class="r-in">  intgroup <span class="op">=</span> <span class="st">"condition"</span>,</span>
 <span class="r-in">  annotation_obj <span class="op">=</span> <span class="va">anno_df</span></span>
 <span class="r-in"><span class="op">)</span></span>
-<span class="r-plt"><img src="gene_plot-1.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="gene_plot-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

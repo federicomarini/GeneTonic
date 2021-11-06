@@ -18,7 +18,7 @@ results"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mat
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.0</span>
       </span>
     </div>
 
@@ -47,7 +47,7 @@ results"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mat
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/federicomarini/GeneTonic">
+  <a href="https://github.com/federicomarini/GeneTonic" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -62,7 +62,7 @@ results"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mat
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Volcano plot for gene sets</h1>
-    <small class="dont-index">Source: <a href="https://github.com/federicomarini/GeneTonic/blob/master/R/gs_volcano.R"><code>R/gs_volcano.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/federicomarini/GeneTonic/blob/HEAD/R/gs_volcano.R" class="external-link"><code>R/gs_volcano.R</code></a></small>
     <div class="hidden name"><code>gs_volcano.Rd</code></div>
     </div>
 
@@ -82,89 +82,98 @@ results</p>
   plot_title <span class="op">=</span> <span class="cn">NULL</span>
 <span class="op">)</span></code></pre></div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>res_enrich</th>
-      <td><p>A <code>data.frame</code> object, storing the result of the functional
+    <div id="ref-sections">
+    <div id="arguments">
+    <h2>Arguments</h2>
+    <dl><dt>res_enrich</dt>
+<dd><p>A <code>data.frame</code> object, storing the result of the functional
 enrichment analysis. See more in the main function, <code><a href="GeneTonic.html">GeneTonic()</a></code>, to check the
 formatting requirements (a minimal set of columns should be present).
 This object needs to be processed first by a function such as <code><a href="get_aggrscores.html">get_aggrscores()</a></code>
-to compute the term-wise <code>z_score</code> or <code>aggr_score</code>, which will be used for plotting</p></td>
-    </tr><tr><th>gtl</th>
-      <td><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
+to compute the term-wise <code>z_score</code> or <code>aggr_score</code>, which will be used for plotting</p></dd>
+<dt>gtl</dt>
+<dd><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
 specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
-of the list <em>must</em> be specified following the content they are expecting</p></td>
-    </tr><tr><th>p_threshold</th>
-      <td><p>Numeric, defines the threshold to be used for filtering the
-gene sets to display. Defaults to 0.05</p></td>
-    </tr><tr><th>color_by</th>
-      <td><p>Character specifying the column of <code>res_enrich</code> to be used
-for coloring the plotted gene sets. Defaults to <code>aggr_score</code>.</p></td>
-    </tr><tr><th>volcano_labels</th>
-      <td><p>Integer, maximum number of labels for the gene sets to be
-plotted as labels on the volcano scatter plot.</p></td>
-    </tr><tr><th>scale_circles</th>
-      <td><p>A numeric value, to define the scaling factor for the
-circle sizes. Defaults to 1.</p></td>
-    </tr><tr><th>gs_ids</th>
-      <td><p>Character vector, containing a subset of <code>gs_id</code> as they are
-available in <code>res_enrich</code>. Lists the gene sets to be labeled.</p></td>
-    </tr><tr><th>plot_title</th>
-      <td><p>Character string, used as title for the plot. If left <code>NULL</code>,
-it defaults to a general description of the plot and of the DE contrast</p></td>
-    </tr></table><h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
+of the list <em>must</em> be specified following the content they are expecting</p></dd>
+<dt>p_threshold</dt>
+<dd><p>Numeric, defines the threshold to be used for filtering the
+gene sets to display. Defaults to 0.05</p></dd>
+<dt>color_by</dt>
+<dd><p>Character specifying the column of <code>res_enrich</code> to be used
+for coloring the plotted gene sets. Defaults to <code>aggr_score</code>.</p></dd>
+<dt>volcano_labels</dt>
+<dd><p>Integer, maximum number of labels for the gene sets to be
+plotted as labels on the volcano scatter plot.</p></dd>
+<dt>scale_circles</dt>
+<dd><p>A numeric value, to define the scaling factor for the
+circle sizes. Defaults to 1.</p></dd>
+<dt>gs_ids</dt>
+<dd><p>Character vector, containing a subset of <code>gs_id</code> as they are
+available in <code>res_enrich</code>. Lists the gene sets to be labeled.</p></dd>
+<dt>plot_title</dt>
+<dd><p>Character string, used as title for the plot. If left <code>NULL</code>,
+it defaults to a general description of the plot and of the DE contrast</p></dd>
+</dl></div>
+    <div id="value">
+    <h2>Value</h2>
     <p>A <code>ggplot</code> object</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
+    </div>
+    <div id="details">
+    <h2>Details</h2>
     <p>It is also possible to reduce the redundancy of the input <code>res_enrich</code> object,
 if it is passed in advance to the <code><a href="gs_simplify.html">gs_simplify()</a></code> function.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
+    </div>
+    <div id="see-also">
+    <h2>See also</h2>
     <div class="dont-index"><p><code><a href="gs_simplify.html">gs_simplify()</a></code> can be applied in advance to <code>res_enrich</code> to reduce
 the redundancy of the displayed gene sets</p></div>
+    </div>
+    </div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <div id="examples">
+    <h2>Examples</h2>
     <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st">"macrophage"</span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/mikelove/DESeq2">"DESeq2"</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st">"org.Hs.eg.db"</span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://bioconductor.org/packages/AnnotationDbi">"AnnotationDbi"</a></span><span class="op">)</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"macrophage"</span><span class="op">)</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/mikelove/DESeq2" class="external-link">"DESeq2"</a></span><span class="op">)</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"org.Hs.eg.db"</span><span class="op">)</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://bioconductor.org/packages/AnnotationDbi" class="external-link">"AnnotationDbi"</a></span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># dds object</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"gse"</span>, package <span class="op">=</span> <span class="st">"macrophage"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">dds_macrophage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html">DESeqDataSet</a></span><span class="op">(</span><span class="va">gse</span>, design <span class="op">=</span> <span class="op">~</span> <span class="va">line</span> <span class="op">+</span> <span class="va">condition</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"gse"</span>, package <span class="op">=</span> <span class="st">"macrophage"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">dds_macrophage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html" class="external-link">DESeqDataSet</a></span><span class="op">(</span><span class="va">gse</span>, design <span class="op">=</span> <span class="op">~</span> <span class="va">line</span> <span class="op">+</span> <span class="va">condition</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> using counts and average transcript lengths from tximeta</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html">substr</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>, <span class="fl">1</span>, <span class="fl">15</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">dds_macrophage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/dge.html">estimateSizeFactors</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>, <span class="fl">1</span>, <span class="fl">15</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">dds_macrophage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/dge.html" class="external-link">estimateSizeFactors</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> using 'avgTxLength' from assays(dds), correcting for library size</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># annotation object</span></span>
-<span class="r-in"><span class="va">anno_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
-<span class="r-in">  gene_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>,</span>
-<span class="r-in">  gene_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/AnnotationDb-class.html">mapIds</a></span><span class="op">(</span><span class="va">org.Hs.eg.db</span>,</span>
-<span class="r-in">    keys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>,</span>
+<span class="r-in"><span class="va">anno_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span class="r-in">  gene_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>,</span>
+<span class="r-in">  gene_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/AnnotationDb-class.html" class="external-link">mapIds</a></span><span class="op">(</span><span class="va">org.Hs.eg.db</span>,</span>
+<span class="r-in">    keys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>,</span>
 <span class="r-in">    column <span class="op">=</span> <span class="st">"SYMBOL"</span>,</span>
 <span class="r-in">    keytype <span class="op">=</span> <span class="st">"ENSEMBL"</span></span>
 <span class="r-in">  <span class="op">)</span>,</span>
 <span class="r-in">  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">  row.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span></span>
+<span class="r-in">  row.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 'select()' returned 1:many mapping between keys and columns</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># res object</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">res_de_macrophage</span>, package <span class="op">=</span> <span class="st">"GeneTonic"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">res_de_macrophage</span>, package <span class="op">=</span> <span class="st">"GeneTonic"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">res_de</span> <span class="op">&lt;-</span> <span class="va">res_macrophage_IFNg_vs_naive</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># res_enrich object</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">res_enrich_macrophage</span>, package <span class="op">=</span> <span class="st">"GeneTonic"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">res_enrich_macrophage</span>, package <span class="op">=</span> <span class="st">"GeneTonic"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">res_enrich</span> <span class="op">&lt;-</span> <span class="fu"><a href="shake_topGOtableResult.html">shake_topGOtableResult</a></span><span class="op">(</span><span class="va">topgoDE_macrophage_IFNg_vs_naive</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Found 500 gene sets in `topGOtableResult` object.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Converting for usage in GeneTonic...</span>
 <span class="r-in"><span class="va">res_enrich</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_aggrscores.html">get_aggrscores</a></span><span class="op">(</span><span class="va">res_enrich</span>, <span class="va">res_de</span>, <span class="va">anno_df</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">gs_volcano</span><span class="op">(</span><span class="va">res_enrich</span><span class="op">)</span></span>
-<span class="r-plt"><img src="gs_volcano-1.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="gs_volcano-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

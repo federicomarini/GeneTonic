@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.0</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/federicomarini/GeneTonic">
+  <a href="https://github.com/federicomarini/GeneTonic" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -61,7 +61,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Convert the output of fgsea</h1>
-    <small class="dont-index">Source: <a href="https://github.com/federicomarini/GeneTonic/blob/master/R/gs_shaker.R"><code>R/gs_shaker.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/federicomarini/GeneTonic/blob/HEAD/R/gs_shaker.R" class="external-link"><code>R/gs_shaker.R</code></a></small>
     <div class="hidden name"><code>shake_fgseaResult.Rd</code></div>
     </div>
 
@@ -71,14 +71,18 @@
 
     <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">shake_fgseaResult</span><span class="op">(</span><span class="va">fgsea_output</span><span class="op">)</span></code></pre></div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>fgsea_output</th>
-      <td><p>A data.frame with the output of <code>fgsea()</code> in <code>fgsea</code>.</p></td>
-    </tr></table><h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
+    <div id="ref-sections">
+    <div id="arguments">
+    <h2>Arguments</h2>
+    <dl><dt>fgsea_output</dt>
+<dd><p>A data.frame with the output of <code>fgsea()</code> in <code>fgsea</code>.</p></dd>
+</dl></div>
+    <div id="value">
+    <h2>Value</h2>
     <p>A <code>data.frame</code> compatible for use in <code><a href="GeneTonic.html">GeneTonic()</a></code> as <code>res_enrich</code></p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
+    </div>
+    <div id="see-also">
+    <h2>See also</h2>
     <div class="dont-index"><p>Other shakers: 
 <code><a href="shake_davidResult.html">shake_davidResult</a>()</code>,
 <code><a href="shake_enrichResult.html">shake_enrichResult</a>()</code>,
@@ -86,9 +90,12 @@
 <code><a href="shake_gprofilerResult.html">shake_gprofilerResult</a>()</code>,
 <code><a href="shake_gsenrichResult.html">shake_gsenrichResult</a>()</code>,
 <code><a href="shake_topGOtableResult.html">shake_topGOtableResult</a>()</code></p></div>
+    </div>
+    </div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">fgseaRes</span>, package <span class="op">=</span> <span class="st">"GeneTonic"</span><span class="op">)</span></span>
+    <div id="examples">
+    <h2>Examples</h2>
+    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">fgseaRes</span>, package <span class="op">=</span> <span class="st">"GeneTonic"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">res_from_fgsea</span> <span class="op">&lt;-</span> <span class="fu">shake_fgseaResult</span><span class="op">(</span><span class="va">fgseaRes</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Found 7341 gene sets in the file output from Enrichr of which 102 are significant (p-value &lt;= 0.05).</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Converting for usage in GeneTonic...</span>
@@ -99,6 +106,7 @@
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> fgsea is commonly returning no identifier for the gene sets used. Please consider editing the 'gs_id' field manually according to the gene set you provided</span>
 </code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

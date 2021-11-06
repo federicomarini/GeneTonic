@@ -19,7 +19,7 @@ enrichment results"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/aj
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.0</span>
       </span>
     </div>
 
@@ -48,7 +48,7 @@ enrichment results"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/aj
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/federicomarini/GeneTonic">
+  <a href="https://github.com/federicomarini/GeneTonic" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -63,7 +63,7 @@ enrichment results"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/aj
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Compute fuzzy clusters of gene sets</h1>
-    <small class="dont-index">Source: <a href="https://github.com/federicomarini/GeneTonic/blob/master/R/gs_fuzzy.R"><code>R/gs_fuzzy.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/federicomarini/GeneTonic/blob/HEAD/R/gs_fuzzy.R" class="external-link"><code>R/gs_fuzzy.R</code></a></small>
     <div class="hidden name"><code>gs_fuzzyclustering.Rd</code></div>
     </div>
 
@@ -76,7 +76,7 @@ enrichment results</p>
     <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">gs_fuzzyclustering</span><span class="op">(</span>
   <span class="va">res_enrich</span>,
   gtl <span class="op">=</span> <span class="cn">NULL</span>,
-  n_gs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/Bimap-toTable.html">nrow</a></span><span class="op">(</span><span class="va">res_enrich</span><span class="op">)</span>,
+  n_gs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/Bimap-toTable.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">res_enrich</span><span class="op">)</span>,
   gs_ids <span class="op">=</span> <span class="cn">NULL</span>,
   similarity_matrix <span class="op">=</span> <span class="cn">NULL</span>,
   similarity_threshold <span class="op">=</span> <span class="fl">0.35</span>,
@@ -84,45 +84,48 @@ enrichment results</p>
   fuzzy_multilinkage_rule <span class="op">=</span> <span class="fl">0.5</span>
 <span class="op">)</span></code></pre></div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>res_enrich</th>
-      <td><p>A <code>data.frame</code> object, storing the result of the functional
+    <div id="ref-sections">
+    <div id="arguments">
+    <h2>Arguments</h2>
+    <dl><dt>res_enrich</dt>
+<dd><p>A <code>data.frame</code> object, storing the result of the functional
 enrichment analysis. See more in the main function, <code><a href="GeneTonic.html">GeneTonic()</a></code>, to check the
-formatting requirements (a minimal set of columns should be present).</p></td>
-    </tr><tr><th>gtl</th>
-      <td><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
+formatting requirements (a minimal set of columns should be present).</p></dd>
+<dt>gtl</dt>
+<dd><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
 specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
-of the list <em>must</em> be specified following the content they are expecting</p></td>
-    </tr><tr><th>n_gs</th>
-      <td><p>Integer value, corresponding to the maximal number of gene sets to
-be displayed</p></td>
-    </tr><tr><th>gs_ids</th>
-      <td><p>Character vector, containing a subset of <code>gs_id</code> as they are
-available in <code>res_enrich</code>. Lists the gene sets to be displayed.</p></td>
-    </tr><tr><th>similarity_matrix</th>
-      <td><p>A similarity matrix between gene sets. Can be e.g.
+of the list <em>must</em> be specified following the content they are expecting</p></dd>
+<dt>n_gs</dt>
+<dd><p>Integer value, corresponding to the maximal number of gene sets to
+be displayed</p></dd>
+<dt>gs_ids</dt>
+<dd><p>Character vector, containing a subset of <code>gs_id</code> as they are
+available in <code>res_enrich</code>. Lists the gene sets to be displayed.</p></dd>
+<dt>similarity_matrix</dt>
+<dd><p>A similarity matrix between gene sets. Can be e.g.
 computed with <code><a href="create_kappa_matrix.html">create_kappa_matrix()</a></code> or <code><a href="create_jaccard_matrix.html">create_jaccard_matrix()</a></code> or a similar
 function, returning a symmetric matrix with numeric values (max = 1). If not
-provided, this will be computed on the fly with <code><a href="create_kappa_matrix.html">create_kappa_matrix()</a></code></p></td>
-    </tr><tr><th>similarity_threshold</th>
-      <td><p>A numeric value for the similarity matrix, used to
+provided, this will be computed on the fly with <code><a href="create_kappa_matrix.html">create_kappa_matrix()</a></code></p></dd>
+<dt>similarity_threshold</dt>
+<dd><p>A numeric value for the similarity matrix, used to
 determine the initial seeds as in the implementation of DAVID. Higher values
 will lead to more genesets being initially unclustered, leading to a  functional
 classification result with fewer groups and fewer geneset members. Defaults to 0.35,
-recommended to not go below 0.3 (see DAVID help pages)</p></td>
-    </tr><tr><th>fuzzy_seeding_initial_neighbors</th>
-      <td><p>Integer value, corresponding to the minimum
+recommended to not go below 0.3 (see DAVID help pages)</p></dd>
+<dt>fuzzy_seeding_initial_neighbors</dt>
+<dd><p>Integer value, corresponding to the minimum
 geneset number in a seeding group. Lower values will lead to the inclusion of more
 genesets in the functional groups, and may generate a lot of small size groups.
-Defaults to 3</p></td>
-    </tr><tr><th>fuzzy_multilinkage_rule</th>
-      <td><p>Numeric value, comprised between 0 and 1. This
+Defaults to 3</p></dd>
+<dt>fuzzy_multilinkage_rule</dt>
+<dd><p>Numeric value, comprised between 0 and 1. This
 parameter will determine how the seeding groups merge with each other, by specifying
 the percentage of shared genesets required to merge the two subsets into one
 group. Higher values will give sharper separation between the groups of genesets.
-Defaults to 0.5 (50%)</p></td>
-    </tr></table><h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
+Defaults to 0.5 (50%)</p></dd>
+</dl></div>
+    <div id="value">
+    <h2>Value</h2>
     <p>A data frame, shaped in a similar way as the originally provided
 <code>res_enrich</code> object, containing two extra columns: <code>gs_fuzzycluster</code>, to specify
 the identifier of the fuzzy cluster of genesets, and <code>gs_cluster_status</code>, which
@@ -130,13 +133,17 @@ can specify whether the geneset is the "Representative" for that cluster or
 a simple "Member".
 Notably, the number of rows in the returned object can be higher than the
 original number of rows in <code>res_enrich</code>.</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
+    </div>
+    <div id="references">
+    <h2>References</h2>
     <p>See https://david.ncifcrf.gov/helps/functional_classification.html#clustering
 for details on the original implementation</p>
+    </div>
+    </div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">res_enrich_macrophage</span>, package <span class="op">=</span> <span class="st">"GeneTonic"</span><span class="op">)</span></span>
+    <div id="examples">
+    <h2>Examples</h2>
+    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">res_enrich_macrophage</span>, package <span class="op">=</span> <span class="st">"GeneTonic"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">res_enrich</span> <span class="op">&lt;-</span> <span class="fu"><a href="shake_topGOtableResult.html">shake_topGOtableResult</a></span><span class="op">(</span><span class="va">topgoDE_macrophage_IFNg_vs_naive</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Found 500 gene sets in `topGOtableResult` object.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Converting for usage in GeneTonic...</span>
@@ -145,7 +152,7 @@ for details on the original implementation</p>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">fuzzy_subset</span> <span class="op">&lt;-</span> <span class="fu">gs_fuzzyclustering</span><span class="op">(</span></span>
 <span class="r-in">  res_enrich <span class="op">=</span> <span class="va">res_enrich_subset</span>,</span>
-<span class="r-in">  n_gs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/Bimap-toTable.html">nrow</a></span><span class="op">(</span><span class="va">res_enrich_subset</span><span class="op">)</span>,</span>
+<span class="r-in">  n_gs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/Bimap-toTable.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">res_enrich_subset</span><span class="op">)</span>,</span>
 <span class="r-in">  gs_ids <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span class="r-in">  similarity_matrix <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span class="r-in">  similarity_threshold <span class="op">=</span> <span class="fl">0.35</span>,</span>
@@ -178,7 +185,7 @@ for details on the original implementation</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> GO:0019221         111         656    36.42               1            Member</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># list only the representative clusters</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">fuzzy_subset</span><span class="op">[</span><span class="va">fuzzy_subset</span><span class="op">$</span><span class="va">gs_cluster_status</span> <span class="op">==</span> <span class="st">"Representative"</span>, <span class="op">]</span>, <span class="fl">10</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fuzzy_subset</span><span class="op">[</span><span class="va">fuzzy_subset</span><span class="op">$</span><span class="va">gs_cluster_status</span> <span class="op">==</span> <span class="st">"Representative"</span>, <span class="op">]</span>, <span class="fl">10</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 gs_id</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> GO:0060333 GO:0060333</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> GO:0019885 GO:0019885</span>
@@ -235,6 +242,7 @@ for details on the original implementation</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> GO:0045124           7          32     1.78               9    Representative</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> GO:0002250          89         323    17.93              10    Representative</span>
 </code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

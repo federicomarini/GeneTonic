@@ -41,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.0</span>
       </span>
     </div>
 
@@ -75,7 +75,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/federicomarini/GeneTonic">
+  <a href="https://github.com/federicomarini/GeneTonic" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -95,27 +95,27 @@
 
 <p><img src="inst/www/GeneTonic.png" align="right" alt="" width="120"></p>
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-<div id="genetonic" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#genetonic" class="anchor" aria-hidden="true"></a>GeneTonic</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="genetonic">GeneTonic<a class="anchor" aria-label="anchor" href="#genetonic"></a>
+</h1></div>
 <!-- badges: start -->
 
 <p>The goal of GeneTonic is to analyze and integrate the results from Differential Expression analysis and functional enrichment analysis.</p>
 <p>This package provides a Shiny application that aims to combine at different levels the existing pieces of the transcriptome data and results, in a way that makes it easier to generate insightful observations and hypothesis - combining the benefits of interactivity and reproducibility, e.g. by capturing the features and gene sets of interest highlighted during the live session, and creating an HTML report as an artifact where text, code, and output coexist.</p>
 <p>GeneTonic can be found on Bioconductor (<a href="https://www.bioconductor.org/packages/GeneTonic" class="external-link uri">https://www.bioconductor.org/packages/GeneTonic</a>).</p>
-<p>A preprint :page_facing_up: on GeneTonic is now available on bioRxiv at <a href="https://www.biorxiv.org/content/10.1101/2021.05.19.444862v1" class="external-link uri">https://www.biorxiv.org/content/10.1101/2021.05.19.444862v1</a>.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor" aria-hidden="true"></a>Installation</h2>
+<p>A preprint <span class="emoji" data-emoji="page_facing_up">📄</span> on GeneTonic is now available on bioRxiv at <a href="https://www.biorxiv.org/content/10.1101/2021.05.19.444862v1" class="external-link uri">https://www.biorxiv.org/content/10.1101/2021.05.19.444862v1</a>.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>You can install the development version of GeneTonic from GitHub with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://remotes.r-lib.org" class="external-link">"remotes"</a></span><span class="op">)</span>
 <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"federicomarini/GeneTonic"</span>, 
                         dependencies <span class="op">=</span> <span class="cn">TRUE</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="example" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example" class="anchor" aria-hidden="true"></a>Example</h2>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
 <p>This is a basic example which shows you how to use <code>GeneTonic</code> on a demo dataset (the one included in the <code>macrophage</code> package).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/federicomarini/GeneTonic" class="external-link">"GeneTonic"</a></span><span class="op">)</span>
@@ -158,29 +158,29 @@
           annotation_obj <span class="op">=</span> <span class="va">anno_df</span>,
           project_id <span class="op">=</span> <span class="st">"my_first_genetonic"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="usage-overview" class="section level2">
-<h2 class="hasAnchor">
-<a href="#usage-overview" class="anchor" aria-hidden="true"></a>Usage overview</h2>
+<div class="section level2">
+<h2 id="usage-overview">Usage overview<a class="anchor" aria-label="anchor" href="#usage-overview"></a>
+</h2>
 <p>You can find the rendered version of the documentation of <code>GeneTonic</code> at the project website <a href="https://federicomarini.github.io/GeneTonic" class="external-link uri">https://federicomarini.github.io/GeneTonic</a>, created with <code>pkgdown</code>.</p>
 </div>
-<div id="sneak-peek" class="section level2">
-<h2 class="hasAnchor">
-<a href="#sneak-peek" class="anchor" aria-hidden="true"></a>Sneak peek?</h2>
+<div class="section level2">
+<h2 id="sneak-peek">Sneak peek?<a class="anchor" aria-label="anchor" href="#sneak-peek"></a>
+</h2>
 <p>Please visit <a href="http://shiny.imbei.uni-mainz.de:3838/GeneTonic/" class="external-link uri">http://shiny.imbei.uni-mainz.de:3838/GeneTonic/</a> to see a small demo instance running, on the <code>macrophage</code> dataset.</p>
 </div>
-<div id="development" class="section level2">
-<h2 class="hasAnchor">
-<a href="#development" class="anchor" aria-hidden="true"></a>Development</h2>
+<div class="section level2">
+<h2 id="development">Development<a class="anchor" aria-label="anchor" href="#development"></a>
+</h2>
 <p>If you encounter a bug, have usage questions, or want to share ideas and functionality to make this package better, feel free to file an <a href="https://github.com/federicomarini/GeneTonic/issues" class="external-link">issue</a>.</p>
 </div>
-<div id="code-of-conduct" class="section level2">
-<h2 class="hasAnchor">
-<a href="#code-of-conduct" class="anchor" aria-hidden="true"></a>Code of Conduct</h2>
-<p>Please note that the <code>GeneTonic</code> project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+<div class="section level2">
+<h2 id="code-of-conduct">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>
+</h2>
+<p>Please note that the GeneTonic project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
-<div id="license" class="section level2">
-<h2 class="hasAnchor">
-<a href="#license" class="anchor" aria-hidden="true"></a>License</h2>
+<div class="section level2">
+<h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
+</h2>
 <p>MIT © Federico Marini</p>
 </div>
 </div>
@@ -191,12 +191,9 @@
     <div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from BIOC at <br><a href="https://www.bioconductor.org/packages/GeneTonic">https://​www.bioconductor.org/​packages/​GeneTonic</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/federicomarini/GeneTonic/">https://​github.com/​federicomarini/​GeneTonic/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/federicomarini/GeneTonic/issues">https://​github.com/​federicomarini/​GeneTonic/​issues</a>
-</li>
+<li><a href="https://www.bioconductor.org/packages/GeneTonic" class="external-link">View on Bioconductor</a></li>
+<li><a href="https://github.com/federicomarini/GeneTonic/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/federicomarini/GeneTonic/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -204,7 +201,7 @@
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
 
@@ -226,8 +223,8 @@
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>
-<a href="https://federicomarini.github.io">Federico Marini</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-3252-7758" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Annekathrin Ludt <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-2475-4945" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<a href="https://federicomarini.github.io" class="external-link">Federico Marini</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-3252-7758" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Annekathrin Ludt <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-2475-4945" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
 

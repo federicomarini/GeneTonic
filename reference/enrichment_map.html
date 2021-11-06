@@ -20,7 +20,7 @@ visNetwork::visIgraph()"><!-- mathjax --><script src="https://cdnjs.cloudflare.c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.0</span>
       </span>
     </div>
 
@@ -49,7 +49,7 @@ visNetwork::visIgraph()"><!-- mathjax --><script src="https://cdnjs.cloudflare.c
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/federicomarini/GeneTonic">
+  <a href="https://github.com/federicomarini/GeneTonic" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -64,15 +64,15 @@ visNetwork::visIgraph()"><!-- mathjax --><script src="https://cdnjs.cloudflare.c
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Creates an enrichment map for the results of functional enrichment</h1>
-    <small class="dont-index">Source: <a href="https://github.com/federicomarini/GeneTonic/blob/master/R/enrichment_map.R"><code>R/enrichment_map.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/federicomarini/GeneTonic/blob/HEAD/R/enrichment_map.R" class="external-link"><code>R/enrichment_map.R</code></a></small>
     <div class="hidden name"><code>enrichment_map.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>Generates a graph for the enrichment map, combining information from <code>res_enrich</code>
 and <code>res_de</code>. This object can be further plotted, e.g. statically via
-<code><a href="https://rdrr.io/pkg/igraph/man/plot.igraph.html">igraph::plot.igraph()</a></code>, or dynamically via
-<a href="https://rdrr.io/pkg/visNetwork/man/visNetwork-igraph.html">visNetwork::visIgraph()</a></p>
+<code><a href="https://rdrr.io/pkg/igraph/man/plot.igraph.html" class="external-link">igraph::plot.igraph()</a></code>, or dynamically via
+<a href="https://rdrr.io/pkg/visNetwork/man/visNetwork-igraph.html" class="external-link">visNetwork::visIgraph()</a></p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">enrichment_map</span><span class="op">(</span>
@@ -88,80 +88,87 @@ and <code>res_de</code>. This object can be further plotted, e.g. statically via
   color_by <span class="op">=</span> <span class="st">"gs_pvalue"</span>
 <span class="op">)</span></code></pre></div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>res_enrich</th>
-      <td><p>A <code>data.frame</code> object, storing the result of the functional
+    <div id="ref-sections">
+    <div id="arguments">
+    <h2>Arguments</h2>
+    <dl><dt>res_enrich</dt>
+<dd><p>A <code>data.frame</code> object, storing the result of the functional
 enrichment analysis. See more in the main function, <code><a href="GeneTonic.html">GeneTonic()</a></code>, to check the
-formatting requirements (a minimal set of columns should be present).</p></td>
-    </tr><tr><th>res_de</th>
-      <td><p>A <code>DESeqResults</code> object.</p></td>
-    </tr><tr><th>annotation_obj</th>
-      <td><p>A <code>data.frame</code> object with the feature annotation
-information, with at least two columns, <code>gene_id</code> and <code>gene_name</code>.</p></td>
-    </tr><tr><th>gtl</th>
-      <td><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
+formatting requirements (a minimal set of columns should be present).</p></dd>
+<dt>res_de</dt>
+<dd><p>A <code>DESeqResults</code> object.</p></dd>
+<dt>annotation_obj</dt>
+<dd><p>A <code>data.frame</code> object with the feature annotation
+information, with at least two columns, <code>gene_id</code> and <code>gene_name</code>.</p></dd>
+<dt>gtl</dt>
+<dd><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
 specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
-of the list <em>must</em> be specified following the content they are expecting</p></td>
-    </tr><tr><th>n_gs</th>
-      <td><p>Integer value, corresponding to the maximal number of gene sets to
-be displayed</p></td>
-    </tr><tr><th>gs_ids</th>
-      <td><p>Character vector, containing a subset of <code>gs_id</code> as they are
-available in <code>res_enrich</code>. Lists the gene sets to be displayed.</p></td>
-    </tr><tr><th>overlap_threshold</th>
-      <td><p>Numeric value, between 0 and 1. Defines the threshold
+of the list <em>must</em> be specified following the content they are expecting</p></dd>
+<dt>n_gs</dt>
+<dd><p>Integer value, corresponding to the maximal number of gene sets to
+be displayed</p></dd>
+<dt>gs_ids</dt>
+<dd><p>Character vector, containing a subset of <code>gs_id</code> as they are
+available in <code>res_enrich</code>. Lists the gene sets to be displayed.</p></dd>
+<dt>overlap_threshold</dt>
+<dd><p>Numeric value, between 0 and 1. Defines the threshold
 to be used for removing edges in the enrichment map - edges below this value
-will be excluded from the final graph. Defaults to 0.1.</p></td>
-    </tr><tr><th>scale_edges_width</th>
-      <td><p>A numeric value, to define the scaling factor for the
+will be excluded from the final graph. Defaults to 0.1.</p></dd>
+<dt>scale_edges_width</dt>
+<dd><p>A numeric value, to define the scaling factor for the
 edges between nodes. Defaults to 200 (works well chained to <code>visNetwork</code>
-functions).</p></td>
-    </tr><tr><th>scale_nodes_size</th>
-      <td><p>A numeric value, to define the scaling factor for the
-node sizes. Defaults to 5 - works well chained to <code>visNetwork</code> functions.</p></td>
-    </tr><tr><th>color_by</th>
-      <td><p>Character, specifying the column of <code>res_enrich</code> to be used
-for coloring the plotted gene sets. Defaults to <code>gs_pvalue</code>.</p></td>
-    </tr></table><h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
+functions).</p></dd>
+<dt>scale_nodes_size</dt>
+<dd><p>A numeric value, to define the scaling factor for the
+node sizes. Defaults to 5 - works well chained to <code>visNetwork</code> functions.</p></dd>
+<dt>color_by</dt>
+<dd><p>Character, specifying the column of <code>res_enrich</code> to be used
+for coloring the plotted gene sets. Defaults to <code>gs_pvalue</code>.</p></dd>
+</dl></div>
+    <div id="value">
+    <h2>Value</h2>
     <p>An <code>igraph</code> object to be further manipulated or processed/plotted</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
+    </div>
+    <div id="see-also">
+    <h2>See also</h2>
     <div class="dont-index"><p><code><a href="GeneTonic.html">GeneTonic()</a></code> embeds an interactive visualization for the enrichment map</p></div>
+    </div>
+    </div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st">"macrophage"</span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/mikelove/DESeq2">"DESeq2"</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st">"org.Hs.eg.db"</span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://bioconductor.org/packages/AnnotationDbi">"AnnotationDbi"</a></span><span class="op">)</span></span>
+    <div id="examples">
+    <h2>Examples</h2>
+    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"macrophage"</span><span class="op">)</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/mikelove/DESeq2" class="external-link">"DESeq2"</a></span><span class="op">)</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"org.Hs.eg.db"</span><span class="op">)</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://bioconductor.org/packages/AnnotationDbi" class="external-link">"AnnotationDbi"</a></span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># dds object</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"gse"</span>, package <span class="op">=</span> <span class="st">"macrophage"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">dds_macrophage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html">DESeqDataSet</a></span><span class="op">(</span><span class="va">gse</span>, design <span class="op">=</span> <span class="op">~</span> <span class="va">line</span> <span class="op">+</span> <span class="va">condition</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"gse"</span>, package <span class="op">=</span> <span class="st">"macrophage"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">dds_macrophage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html" class="external-link">DESeqDataSet</a></span><span class="op">(</span><span class="va">gse</span>, design <span class="op">=</span> <span class="op">~</span> <span class="va">line</span> <span class="op">+</span> <span class="va">condition</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> using counts and average transcript lengths from tximeta</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html">substr</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>, <span class="fl">1</span>, <span class="fl">15</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">dds_macrophage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/dge.html">estimateSizeFactors</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>, <span class="fl">1</span>, <span class="fl">15</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">dds_macrophage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/dge.html" class="external-link">estimateSizeFactors</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> using 'avgTxLength' from assays(dds), correcting for library size</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># annotation object</span></span>
-<span class="r-in"><span class="va">anno_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
-<span class="r-in">  gene_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>,</span>
-<span class="r-in">  gene_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/AnnotationDb-class.html">mapIds</a></span><span class="op">(</span><span class="va">org.Hs.eg.db</span>,</span>
-<span class="r-in">    keys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>,</span>
+<span class="r-in"><span class="va">anno_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span class="r-in">  gene_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>,</span>
+<span class="r-in">  gene_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/AnnotationDb-class.html" class="external-link">mapIds</a></span><span class="op">(</span><span class="va">org.Hs.eg.db</span>,</span>
+<span class="r-in">    keys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>,</span>
 <span class="r-in">    column <span class="op">=</span> <span class="st">"SYMBOL"</span>,</span>
 <span class="r-in">    keytype <span class="op">=</span> <span class="st">"ENSEMBL"</span></span>
 <span class="r-in">  <span class="op">)</span>,</span>
 <span class="r-in">  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">  row.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span></span>
+<span class="r-in">  row.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 'select()' returned 1:many mapping between keys and columns</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># res object</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">res_de_macrophage</span>, package <span class="op">=</span> <span class="st">"GeneTonic"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">res_de_macrophage</span>, package <span class="op">=</span> <span class="st">"GeneTonic"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">res_de</span> <span class="op">&lt;-</span> <span class="va">res_macrophage_IFNg_vs_naive</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># res_enrich object</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">res_enrich_macrophage</span>, package <span class="op">=</span> <span class="st">"GeneTonic"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">res_enrich_macrophage</span>, package <span class="op">=</span> <span class="st">"GeneTonic"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">res_enrich</span> <span class="op">&lt;-</span> <span class="fu"><a href="shake_topGOtableResult.html">shake_topGOtableResult</a></span><span class="op">(</span><span class="va">topgoDE_macrophage_IFNg_vs_naive</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Found 500 gene sets in `topGOtableResult` object.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Converting for usage in GeneTonic...</span>
@@ -174,11 +181,11 @@ for coloring the plotted gene sets. Defaults to <code>gs_pvalue</code>.</p></td>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">em</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH 6b29820 UN-- 20 54 -- </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH 1cb79cb UN-- 20 54 -- </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> + attr: name (v/c), size (v/n), original_size (v/n), color.background</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> | (v/c), color.highlight (v/c), color.hover (v/c), color.border (v/c),</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> | width (e/n), color (e/c)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from 6b29820 (vertex names):</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from 1cb79cb (vertex names):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] adaptive immune response--interferon-gamma-mediated signaling pathway                                      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2] adaptive immune response--antigen processing and presentation of endogenous peptide antigen via MHC class I</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3] adaptive immune response--positive regulation of T cell mediated cytotoxicity                              </span>
@@ -195,6 +202,7 @@ for coloring the plotted gene sets. Defaults to <code>gs_pvalue</code>.</p></td>
 <span class="r-in"><span class="co">#                                      hover = TRUE),</span></span>
 <span class="r-in"><span class="co">#             nodesIdSelection = TRUE)</span></span>
 </code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.0</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/federicomarini/GeneTonic">
+  <a href="https://github.com/federicomarini/GeneTonic" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -61,7 +61,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Information on a gene</h1>
-    <small class="dont-index">Source: <a href="https://github.com/federicomarini/GeneTonic/blob/master/R/GeneTonic-extras.R"><code>R/GeneTonic-extras.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/federicomarini/GeneTonic/blob/HEAD/R/GeneTonic-extras.R" class="external-link"><code>R/GeneTonic-extras.R</code></a></small>
     <div class="hidden name"><code>geneinfo_2_html.Rd</code></div>
     </div>
 
@@ -71,30 +71,38 @@
 
     <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">geneinfo_2_html</span><span class="op">(</span><span class="va">gene_id</span>, res_de <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>gene_id</th>
-      <td><p>Character specifying the gene identifier for which to retrieve
-information</p></td>
-    </tr><tr><th>res_de</th>
-      <td><p>A <code>DESeqResults</code> object, storing the result of the differential
+    <div id="ref-sections">
+    <div id="arguments">
+    <h2>Arguments</h2>
+    <dl><dt>gene_id</dt>
+<dd><p>Character specifying the gene identifier for which to retrieve
+information</p></dd>
+<dt>res_de</dt>
+<dd><p>A <code>DESeqResults</code> object, storing the result of the differential
 expression analysis. If not provided, the experiment-related information is not
 shown, and only some generic info on the identifier is displayed.
 The information about the gene is retrieved by matching on the <code>SYMBOL</code> column,
-which should be provided in <code>res_de</code>.</p></td>
-    </tr></table><h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
+which should be provided in <code>res_de</code>.</p></dd>
+</dl></div>
+    <div id="value">
+    <h2>Value</h2>
     <p>HTML content related to a gene identifier, to be displayed in
 web applications (or inserted in Rmd documents)</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
+    </div>
+    <div id="details">
+    <h2>Details</h2>
     <p>Creates links to the NCBI and the GeneCards databases</p>
+    </div>
+    </div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <div id="examples">
+    <h2>Examples</h2>
     <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">geneinfo_2_html</span><span class="op">(</span><span class="st">"ACTB"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;b&gt;ACTB&lt;/b&gt;&lt;br/&gt;Link to the NCBI Gene database: &lt;a href = "http://www.ncbi.nlm.nih.gov/gene/?term=ACTB[sym]" target = "_blank" class = "btn btn-primary" style = "color: #ffffff; background-color: #0092AC"&gt;ACTB&lt;/a&gt;&lt;br/&gt;Link to the GeneCards database: &lt;a href = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=ACTB" target = "_blank" class = "btn btn-primary" style = "color: #ffffff; background-color: #0092AC"&gt;ACTB&lt;/a&gt;&lt;br/&gt;Link to the GTEx Portal: &lt;a href = "https://www.gtexportal.org/home/gene/ACTB" target = "_blank" class = "btn btn-primary" style = "color: #ffffff; background-color: #0092AC"&gt;&lt;i class="fa fa-dna"&gt;&lt;/i&gt;ACTB&lt;/a&gt;&lt;br/&gt;</span>
 <span class="r-in"><span class="fu">geneinfo_2_html</span><span class="op">(</span><span class="st">"Pf4"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;b&gt;Pf4&lt;/b&gt;&lt;br/&gt;Link to the NCBI Gene database: &lt;a href = "http://www.ncbi.nlm.nih.gov/gene/?term=Pf4[sym]" target = "_blank" class = "btn btn-primary" style = "color: #ffffff; background-color: #0092AC"&gt;Pf4&lt;/a&gt;&lt;br/&gt;Link to the GeneCards database: &lt;a href = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=Pf4" target = "_blank" class = "btn btn-primary" style = "color: #ffffff; background-color: #0092AC"&gt;Pf4&lt;/a&gt;&lt;br/&gt;Link to the GTEx Portal: &lt;a href = "https://www.gtexportal.org/home/gene/Pf4" target = "_blank" class = "btn btn-primary" style = "color: #ffffff; background-color: #0092AC"&gt;&lt;i class="fa fa-dna"&gt;&lt;/i&gt;Pf4&lt;/a&gt;&lt;br/&gt;</span>
 </code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

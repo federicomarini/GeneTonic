@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.0</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/federicomarini/GeneTonic">
+  <a href="https://github.com/federicomarini/GeneTonic" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -61,7 +61,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Generate a table from the <code>DESeq2</code> results</h1>
-    <small class="dont-index">Source: <a href="https://github.com/federicomarini/GeneTonic/blob/master/R/GeneTonic-extras.R"><code>R/GeneTonic-extras.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/federicomarini/GeneTonic/blob/HEAD/R/GeneTonic-extras.R" class="external-link"><code>R/GeneTonic-extras.R</code></a></small>
     <div class="hidden name"><code>deseqresult2df.Rd</code></div>
     </div>
 
@@ -71,22 +71,28 @@
 
     <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">deseqresult2df</span><span class="op">(</span><span class="va">res_de</span>, FDR <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>res_de</th>
-      <td><p>A <code>DESeqResults</code> object.</p></td>
-    </tr><tr><th>FDR</th>
-      <td><p>Numeric value, specifying the significance level for thresholding
+    <div id="ref-sections">
+    <div id="arguments">
+    <h2>Arguments</h2>
+    <dl><dt>res_de</dt>
+<dd><p>A <code>DESeqResults</code> object.</p></dd>
+<dt>FDR</dt>
+<dd><p>Numeric value, specifying the significance level for thresholding
 adjusted p-values. Defaults to NULL, which would return the full set of results
-without performing any subsetting based on FDR.</p></td>
-    </tr></table><h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
+without performing any subsetting based on FDR.</p></dd>
+</dl></div>
+    <div id="value">
+    <h2>Value</h2>
     <p>A tidy <code>data.frame</code> with the results from differential expression,
 sorted by adjusted p-value. If FDR is specified, the table contains only genes
 with adjusted p-value smaller than the value.</p>
+    </div>
+    </div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">res_de_macrophage</span>, package <span class="op">=</span> <span class="st">"GeneTonic"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">res_macrophage_IFNg_vs_naive</span><span class="op">)</span></span>
+    <div id="examples">
+    <h2>Examples</h2>
+    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">res_de_macrophage</span>, package <span class="op">=</span> <span class="st">"GeneTonic"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res_macrophage_IFNg_vs_naive</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> log2 fold change (MLE): condition IFNg vs naive </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Wald test p-value: condition IFNg vs naive </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> DataFrame with 6 rows and 7 columns</span>
@@ -107,7 +113,7 @@ with adjusted p-value smaller than the value.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ENSG00000000938 1.00000e+00         FGR</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ENSG00000000971 1.37057e-13         CFH</span>
 <span class="r-in"><span class="va">res_df</span> <span class="op">&lt;-</span> <span class="fu">deseqresult2df</span><span class="op">(</span><span class="va">res_macrophage_IFNg_vs_naive</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">res_df</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res_df</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                              id   baseMean log2FoldChange     lfcSE     stat</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ENSG00000125347 ENSG00000125347 30585.0749       5.560124 0.2182663 20.89248</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ENSG00000162645 ENSG00000162645 36790.5921       6.665804 0.2865732 19.77088</span>
@@ -123,6 +129,7 @@ with adjusted p-value smaller than the value.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ENSG00000100336 9.530829e-75 3.394119e-71   APOL4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ENSG00000145365 3.853076e-70 1.143465e-66    TIFA</span>
 </code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
