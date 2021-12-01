@@ -75,7 +75,7 @@ and <code>res_de</code>. This object can be further plotted, e.g. statically via
 <a href="https://rdrr.io/pkg/visNetwork/man/visNetwork-igraph.html" class="external-link">visNetwork::visIgraph()</a></p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">enrichment_map</span><span class="op">(</span>
+    <div id="ref-usage">Usage,<div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">enrichment_map</span><span class="op">(</span>
   <span class="va">res_enrich</span>,
   <span class="va">res_de</span>,
   <span class="va">annotation_obj</span>,
@@ -86,9 +86,8 @@ and <code>res_de</code>. This object can be further plotted, e.g. statically via
   scale_edges_width <span class="op">=</span> <span class="fl">200</span>,
   scale_nodes_size <span class="op">=</span> <span class="fl">5</span>,
   color_by <span class="op">=</span> <span class="st">"gs_pvalue"</span>
-<span class="op">)</span></code></pre></div>
+<span class="op">)</span></code></pre></div></div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>res_enrich</dt>
@@ -133,11 +132,10 @@ for coloring the plotted gene sets. Defaults to <code>gs_pvalue</code>.</p></dd>
     <h2>See also</h2>
     <div class="dont-index"><p><code><a href="GeneTonic.html">GeneTonic()</a></code> embeds an interactive visualization for the enrichment map</p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"macrophage"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"macrophage"</span><span class="op">)</span></span>
 <span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/mikelove/DESeq2" class="external-link">"DESeq2"</a></span><span class="op">)</span></span>
 <span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"org.Hs.eg.db"</span><span class="op">)</span></span>
 <span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://bioconductor.org/packages/AnnotationDbi" class="external-link">"AnnotationDbi"</a></span><span class="op">)</span></span>
@@ -181,11 +179,11 @@ for coloring the plotted gene sets. Defaults to <code>gs_pvalue</code>.</p></dd>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">em</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH 1cb79cb UN-- 20 54 -- </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH 3ed70f8 UN-- 20 54 -- </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> + attr: name (v/c), size (v/n), original_size (v/n), color.background</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> | (v/c), color.highlight (v/c), color.hover (v/c), color.border (v/c),</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> | width (e/n), color (e/c)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from 1cb79cb (vertex names):</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from 3ed70f8 (vertex names):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] adaptive immune response--interferon-gamma-mediated signaling pathway                                      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2] adaptive immune response--antigen processing and presentation of endogenous peptide antigen via MHC class I</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3] adaptive immune response--positive regulation of T cell mediated cytotoxicity                              </span>
@@ -215,7 +213,7 @@ for coloring the plotted gene sets. Defaults to <code>gs_pvalue</code>.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.9000.</p>
 </div>
 
       </footer></div>
