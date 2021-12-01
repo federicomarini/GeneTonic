@@ -207,7 +207,7 @@ GeneTonic <- function(dds,
       skin = "dark",
       status = "gray-dark",
       border = FALSE,
-      controlbarIcon = icon("gears"),
+      controlbarIcon = icon("cogs"),
       fixed = TRUE # ,
       # leftUi =
       # rightUi =
