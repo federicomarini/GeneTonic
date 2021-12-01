@@ -126,7 +126,7 @@ gene_plot <- function(dds,
     theme_bw()
 
   # for connected handling of jittered points AND labels
-  jit_pos <- position_jitter(width = 0.2, height = 0)
+  jit_pos <- position_jitter(width = 0.2, height = 0, seed = 42)
 
   # somewhat following the recommendations here
   # https://www.embopress.org/doi/full/10.15252/embj.201694659
