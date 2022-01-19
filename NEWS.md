@@ -1,3 +1,14 @@
+# GeneTonic 1.8.0
+
+## New features
+
+* 
+
+## Other notes
+
+* The manuscript about `GeneTonic` is now published on BMC Bioinformatics at https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-021-04461-5 - the citation item has been updated accordingly
+* The jittered position in the `gene_plot` is now completely reproducible, by setting a seed internally in the jitter generating function
+
 # GeneTonic 1.6.0
 
 ## New features
