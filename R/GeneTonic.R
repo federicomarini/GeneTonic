@@ -29,6 +29,9 @@
 #' @param project_id  A character string, which can be considered as an identifier
 #' for the set/session, and will be e.g. used in the title of the report created
 #' via [happy_hour()]
+#' @param size_gtl Numeric value, specifying the maximal size in MB for the 
+#' accepted GeneTonicList object - this applies when uploading the dataset at 
+#' runtime
 #'
 #' @return A Shiny app object is returned, for interactive data exploration
 #' @export
