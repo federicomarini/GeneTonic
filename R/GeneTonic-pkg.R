@@ -26,6 +26,7 @@
 #' @importFrom colorspace rainbow_hcl
 #' @importFrom colourpicker colourInput
 #' @importFrom ComplexHeatmap Heatmap HeatmapAnnotation draw
+#' @importFrom ComplexUpset upset intersection_matrix intersection_size
 #' @importFrom dendextend branches_attr_by_clusters set
 #' @importFrom DESeq2 vst counts estimateSizeFactors normalizationFactors sizeFactors
 #' @importFrom dplyr arrange desc group_by mutate pull slice select "%>%"
