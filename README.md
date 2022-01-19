@@ -31,7 +31,13 @@ report as an artifact where text, code, and output coexist.
 GeneTonic can be found on Bioconductor
 (<https://www.bioconductor.org/packages/GeneTonic>).
 
-A preprint :page_facing_up: on GeneTonic is now available on bioRxiv at
+If you use GeneTonic in your work, please refer to the original
+publication :page_facing_up: on BMC Bioinformatics
+(<https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-021-04461-5>,
+doi:
+[10.1186/s12859-021-04461-5](https://doi.org/10.1186/s12859-021-04461-5)).
+
+A preprint :page_facing_up: on GeneTonic is available on bioRxiv at
 <https://www.biorxiv.org/content/10.1101/2021.05.19.444862v1>.
 
 ## Installation
