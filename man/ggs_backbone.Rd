@@ -12,7 +12,7 @@ ggs_backbone(
   n_gs = 15,
   gs_ids = NULL,
   bb_on = c("genesets", "features"),
-  bb_method = c("sdsm", "fdsm", "hyperg"),
+  bb_method = c("sdsm", "fdsm", "fixedrow"),
   bb_extract_alpha = 0.05,
   bb_extract_fwer = c("none", "bonferroni", "holm"),
   bb_fullinfo = FALSE,
