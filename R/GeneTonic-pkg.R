@@ -15,7 +15,7 @@
 #' @author Federico Marini \email{marinif@@uni-mainz.de}
 #'
 #' @importFrom AnnotationDbi Definition GOID Ontology Secondary Synonym Term
-#' @importFrom backbone backbone.extract fdsm hyperg sdsm universal
+#' @importFrom backbone backbone.extract fdsm fixedrow sdsm universal
 #' @importFrom bs4Dash bs4Card bs4DashBody bs4DashControlbar
 #' bs4DashFooter bs4DashNavbar bs4DashPage bs4DashSidebar
 #' bs4InfoBox bs4InfoBoxOutput bs4SidebarMenu

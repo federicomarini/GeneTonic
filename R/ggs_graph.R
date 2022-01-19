@@ -329,7 +329,7 @@ ggs_backbone <- function(res_enrich,
                          n_gs = 15,
                          gs_ids = NULL,
                          bb_on = c("genesets", "features"),
-                         bb_method = c("sdsm", "fdsm", "hyperg"),
+                         bb_method = c("sdsm", "fdsm", "fixedrow"),
                          bb_extract_alpha = 0.05,
                          bb_extract_fwer = c("none", "bonferroni", "holm"),
                          bb_fullinfo = FALSE,
@@ -350,7 +350,7 @@ ggs_backbone <- function(res_enrich,
   stopifnot(is.logical(bb_remove_singletons))
   stopifnot(is.logical(color_graph))
 
-  bb_method <- match.arg(bb_method, c("sdsm", "fdsm", "hyperg"))
+  bb_method <- match.arg(bb_method, c("sdsm", "fdsm", "fixedrow"))
   bb_extract_fwer <- match.arg(bb_extract_fwer, c("none", "bonferroni", "holm"))
   bb_on <- match.arg(bb_on, c("genesets", "features"))
 
@@ -405,7 +405,7 @@ ggs_backbone <- function(res_enrich,
   } else if (bb_method == "fixedrow") {
     bbobj <- backbone::fixedrow(bpm_for_backbone, alpha = NULL)
   }
-
+  
   bbextracted <- backbone::backbone.extract(bbobj,
     alpha = bb_extract_alpha,
     mtc = bb_extract_fwer

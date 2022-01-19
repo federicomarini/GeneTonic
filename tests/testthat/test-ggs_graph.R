@@ -89,7 +89,7 @@ test_that("Backbone functionality up and running", {
     annotation_obj = anno_df,
     n_gs = 20,
     bb_on = "features",
-    bb_method = "hyperg",
+    bb_method = "fixedrow",
     bb_remove_singletons = FALSE,
     bb_fullinfo = TRUE
   )
