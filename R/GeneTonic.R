@@ -90,12 +90,13 @@
 #'   annotation_obj = anno_df
 #' )
 #' # GeneTonic(gtl = gtl_macrophage)
-GeneTonic <- function(dds,
-                      res_de,
-                      res_enrich,
-                      annotation_obj,
+GeneTonic <- function(dds = NULL,
+                      res_de = NULL,
+                      res_enrich = NULL,
+                      annotation_obj = NULL,
                       gtl = NULL,
-                      project_id = "") {
+                      project_id = "",
+                      size_gtl = 50) {
 
   # https://projects.lukehaas.me/css-loaders/
   # or even think of https://cran.r-project.org/web/packages/shinycustomloader/README.html
@@ -104,30 +105,6 @@ GeneTonic <- function(dds,
   on.exit(options(oopt))
 
   usage_mode <- "shiny_mode"
-
-  if (!is.null(gtl)) {
-    checkup_gtl(gtl)
-    dds <- gtl$dds
-    res_de <- gtl$res_de
-    res_enrich <- gtl$res_enrich
-    annotation_obj <- gtl$annotation_obj
-  }
-
-  # checks on the objects provided
-  checkup_GeneTonic(
-    dds,
-    res_de,
-    res_enrich,
-    annotation_obj
-  )
-
-  # clean up the result object, e.g. removing the NAs in the relevant columns
-  removed_genes <- is.na(res_de$log2FoldChange)
-  message(
-    "Removing ", sum(removed_genes),
-    "/", nrow(res_de), " rows from the DE `res_de` object - log2FC values detected as NA"
-  )
-  res_de <- res_de[!removed_genes, ]
 
   # UI definition -----------------------------------------------------------
 
@@ -313,7 +290,11 @@ GeneTonic <- function(dds,
         # ui panel welcome -----------------------------------------------------------
         bs4TabItem(
           tabName = "tab_welcome",
-          uiOutput("ui_panel_welcome")
+          tagList(
+            uiOutput("ui_uploadgtl"),
+            uiOutput("ui_panel_welcome")
+          ),
+          verbatimTextOutput("uploadedgtl")
         ),
 
         # ui panel geneset-gene ---------------------------------------------------
@@ -350,25 +331,7 @@ GeneTonic <- function(dds,
     # controlbar definition ---------------------------------------------------
     controlbar = bs4Dash::bs4DashControlbar(
       collapsed = TRUE,
-      numericInput(
-        inputId = "de_fdr",
-        label = "False Discovery Rate (FDR) for DE",
-        value = 0.05, min = 0.0001, max = 1, step = 0.01
-      ),
-      numericInput(
-        inputId = "n_genesets",
-        label = "Number of genesets",
-        value = 15, min = 1, max = nrow(res_enrich)
-      ),
-      selectInput("exp_condition",
-        label = "Group/color by: ",
-        choices = c(NULL, names(colData(dds))), selected = NULL, multiple = TRUE
-      ),
-      colourInput("col", "Select colour for volcano plot", "#1a81c2",
-        returnName = TRUE,
-        allowTransparent = TRUE
-      ),
-      checkboxInput("labels", label = "Display all labels", value = FALSE)
+      uiOutput("ui_controlbar")
     ),
 
     # footer definition -------------------------------------------------------
@@ -378,34 +341,151 @@ GeneTonic <- function(dds,
     )
   )
 
-  options(shiny.maxRequestSize = 15 * 1024^2)
+  options(shiny.maxRequestSize = size_gtl * 1024^2)
 
   # nocov start
   genetonic_server <- function(input, output, session) {
-
-    # reactive objects and setup commands -------------------------------------
+    
+    # initializing reactives --------------------------------------------------
+    
     reactive_values <- reactiveValues()
-
-    reactive_values$mygenes <- c()
-    reactive_values$mygenesets <- c()
-
-    myvst <- vst(dds)
-
-    res_enhanced <- get_aggrscores(
-      res_enrich = res_enrich,
-      res_de = res_de,
-      annotation_obj = annotation_obj
-    )
+    
+    all_components_provided <- 
+      !is.null(dds) & !is.null(res_de) & !is.null(res_enrich) & !is.null(annotation_obj) 
+    
+    if (!is.null(gtl)) {
+      message("gtl provided")
+      # reactive_values$dds <- gtl$dds
+      # reactive_values$res_de <- gtl$res_de
+      # reactive_values$res_enrich <- gtl$res_enrich
+      # reactive_values$annotation_obj <- gtl$annotation_obj
+      reactive_values$gtl <- gtl
+      reactive_values$dds <- gtl$dds
+      reactive_values$res_de <- gtl$res_de
+      reactive_values$res_enrich <- gtl$res_enrich
+      reactive_values$annotation_obj <- gtl$annotation_obj
+    } else if (all_components_provided){
+      reactive_values$dds <- dds
+      reactive_values$res_de <- res_de
+      reactive_values$res_enrich <- res_enrich
+      reactive_values$annotation_obj <- annotation_obj
+      reactive_values$gtl <- GeneTonic_list(
+        dds = dds,
+        res_de = res_de,
+        res_enrich = res_enrich,
+        annotation_obj = annotation_obj
+      )
+    } else {
+      # TODO
+      # will need to adjust defaults for this and have it as possibility at all!
+      reactive_values$dds <- NULL
+      reactive_values$res_de <- NULL
+      reactive_values$res_enrich <- NULL
+      reactive_values$annotation_obj <- NULL
+    }
+    
+    
+    
+    
+    # TODO: defining the logic of the data provided
+    # 
+    # if( gtl is provided) {
+    #   assign gtl components to the dds, res_de, res_enrich, and annotation
+    #   ready to go
+    #   don't display upload gtl button
+    # } else if (all components provided) {
+    #   ready to go
+    #   don't display upload gtl button
+    # } else {
+    #   display upload gtl button
+    #   upon uploading, check and assign gtl components to the dds, res_de, res_enrich, and annotation
+    #   ready to go
+    # 
+    # }
+    
+    # initial checks ----------------------------------------------------------
+    
+    if (!is.null(gtl)) {
+      checkup_gtl(gtl)
+      dds <- gtl$dds
+      res_de <- gtl$res_de
+      res_enrich <- gtl$res_enrich
+      annotation_obj <- gtl$annotation_obj
+      
+      provided_gtl <- TRUE
+    }
+    
+    # checks on the objects provided
+    if (all_components_provided | !is.null(gtl)) {
+      checkup_GeneTonic(
+        dds,
+        res_de,
+        res_enrich,
+        annotation_obj
+      )
+      
+      # clean up the result object, e.g. removing the NAs in the relevant columns
+      removed_genes <- is.na(res_de$log2FoldChange)
+      message(
+        "Removing ", sum(removed_genes),
+        "/", nrow(res_de), " rows from the DE `res_de` object - log2FC values detected as NA"
+      )
+      res_de <- res_de[!removed_genes, ]
+      
+      
+      # reactive objects and setup commands -------------------------------------
+      reactive_values$mygenes <- c()
+      reactive_values$mygenesets <- c()
+      
+      myvst <- vst(dds)
+      
+      res_enhanced <- get_aggrscores(
+        res_enrich = res_enrich,
+        res_de = res_de,
+        annotation_obj = annotation_obj
+      )
+    }
+    
+    
 
     # output$ui_exp_condition <- renderUI({
     # selectInput("exp_condition", label = "Group/color by: ",
     # choices = c(NULL, poss_covars), selected = NULL, multiple = TRUE)
     # })
-
-
+    
+    
     # panel Welcome -----------------------------------------------------------
 
+    output$ui_uploadgtl <- renderUI({
+      validate(
+        need(is.null(gtl), message = "")
+      )
+      tagList(
+        fluidRow(
+          column(
+            width = 8,
+            img(src = "GeneTonic/GeneTonic.png", height = "350px"),
+            fileInput("uploadgtl", 
+                      label = "Upload a GeneTonicList serialized object")
+          )
+        )
+      )
+    })
+    
+    output$uploadedgtl <- renderText({
+      validate(
+        need(
+          !is.null(reactive_values$in_gtl), message = "rprprp"
+        )
+      )
+      describe_gtl(reactive_values$in_gtl)
+      nrow(reactive_values$in_gtl$res_enrich)
+    })
+    
     output$ui_panel_welcome <- renderUI({
+      validate(
+        need(!is.null(reactive_values$gtl) , message = "Provide a gtl or its components")
+      )
       tagList(
         fluidRow(
           column(
@@ -475,11 +555,12 @@ GeneTonic <- function(dds,
       
     output$overview_dds <- DT::renderDataTable({
       DT::datatable(
-        counts(dds),
+        counts(reactive_values$dds),
         options = list(scrollX = TRUE, scrollY = "400px")
       )
     })
     output$overview_res_de <- DT::renderDataTable({
+      res_de <- reactive_values$res_de
       res_de <- res_de[order(res_de$padj), ]
       DT::datatable(
         as.data.frame(res_de),
@@ -508,7 +589,7 @@ GeneTonic <- function(dds,
 
     output$overview_res_enrich <- DT::renderDataTable({
       DT::datatable(
-        res_enrich,
+        reactive_values$res_enrich,
         options = list(scrollX = TRUE, scrollY = "400px")
       )
     })
@@ -551,7 +632,7 @@ GeneTonic <- function(dds,
     output$infobox_resde <- renderbs4ValueBox({
       bs4ValueBox(
         value = paste0(
-          nrow(deseqresult2df(res_de, FDR = input$de_fdr)),
+          nrow(deseqresult2df(reactive_values$res_de, FDR = input$de_fdr)),
           " DE genes"
         ),
         subtitle = "res object",
@@ -1834,6 +1915,31 @@ GeneTonic <- function(dds,
       sessionInfo()
     })
 
+    # controlbar --------------------------------------------------------------
+    
+    output$ui_controlbar <- renderUI({
+      tagList(
+        numericInput(
+          inputId = "de_fdr",
+          label = "False Discovery Rate (FDR) for DE",
+          value = 0.05, min = 0.0001, max = 1, step = 0.01
+        ),
+        numericInput(
+          inputId = "n_genesets",
+          label = "Number of genesets",
+          value = 15, min = 1, max = nrow(res_enrich)
+        ),
+        selectInput("exp_condition",
+                    label = "Group/color by: ",
+                    choices = c(NULL, names(colData(dds))), selected = NULL, multiple = TRUE
+        ),
+        colourInput("col", "Select colour for volcano plot", "#1a81c2",
+                    returnName = TRUE,
+                    allowTransparent = TRUE
+        ),
+        checkboxInput("labels", label = "Display all labels", value = FALSE)
+      )
+    })
 
     # observers ---------------------------------------------------------------
 
@@ -1951,6 +2057,15 @@ GeneTonic <- function(dds,
           visNetworkOutput("distill_graph")
         )
       )
+    })
+    
+    observeEvent(input$uploadgtl, {
+      reactive_values$in_gtl <- readRDS(input$uploadgtl$datapath)
+      reactive_values$gtl <- reactive_values$in_gtl
+      reactive_values$dds <- reactive_values$in_gtl$dds
+      reactive_values$res_de <- reactive_values$in_gtl$res_de
+      reactive_values$res_enrich <- reactive_values$in_gtl$res_enrich
+      reactive_values$annotation_obj <- reactive_values$in_gtl$annotation_obj
     })
 
 
