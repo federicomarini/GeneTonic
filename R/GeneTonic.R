@@ -310,615 +310,37 @@ GeneTonic <- function(dds,
         # ui panel welcome -----------------------------------------------------------
         bs4TabItem(
           tabName = "tab_welcome",
-          fluidRow(
-            column(
-              width = 11
-            ),
-            column(
-              width = 1,
-              actionButton(
-                "tour_firststeps",
-                label = "", icon = icon("question-circle"),
-                style = .helpbutton_biocstyle
-              )
-            )
-          ),
-          fluidRow(
-            h2("Overview on the provided input")
-          ),
-          fluidRow(
-            bs4Dash::bs4Card(
-              width = 6,
-              id = "card_em",
-              title = "Expression Matrix",
-              status = "danger",
-              solidHeader = TRUE,
-              collapsible = TRUE,
-              collapsed = TRUE,
-              closable = FALSE,
-              DT::dataTableOutput("overview_dds")
-            ),
-            bs4Dash::bs4Card(
-              width = 6,
-              id = "card_de",
-              title = "DE results",
-              status = "warning",
-              solidHeader = TRUE,
-              collapsible = TRUE,
-              collapsed = TRUE,
-              closable = FALSE,
-              DT::dataTableOutput("overview_res_de")
-            ),
-            bs4Dash::bs4Card(
-              width = 6,
-              id = "card_enrich",
-              title = "Functional analysis results",
-              status = "success",
-              solidHeader = TRUE,
-              collapsible = TRUE,
-              collapsed = TRUE,
-              closable = FALSE,
-              DT::dataTableOutput("overview_res_enrich")
-            ),
-            bs4Dash::bs4Card(
-              width = 6,
-              id = "card_anno",
-              title = "Annotation info",
-              status = "info",
-              solidHeader = TRUE,
-              collapsible = TRUE,
-              collapsed = TRUE,
-              closable = FALSE,
-              DT::dataTableOutput("overview_annotation")
-            )
-          ),
-          uiOutput("ui_infoboxes")
+          uiOutput("ui_panel_welcome")
         ),
 
         # ui panel geneset-gene ---------------------------------------------------
         bs4TabItem(
           tabName = "tab_ggs",
-          fluidRow(
-            column(
-              width = 11
-            ),
-            column(
-              width = 1,
-              actionButton(
-                "tour_ggs",
-                label = "", icon = icon("question-circle"),
-                style = .helpbutton_biocstyle
-              )
-            )
-          ),
-          fluidRow(
-            column(
-              width = 8,
-              withSpinner(
-                visNetworkOutput("ggsnetwork",
-                  height = "700px",
-                  width = "100%"
-                )
-              ),
-              fluidRow(
-                column(
-                  width = 1,
-                  tippy::tippy(
-                    actionButton(inputId = "coder_ggsnetwork",
-                                 label = "",
-                                 style = .helpbutton_biocstyle,
-                                 icon = icon("user-edit")),
-                    "Show the code for this plot",
-                    placement = "right"
-                  )
-                )
-              )
-            ),
-            column(
-              width = 4,
-              bs4Card(
-                title = "Geneset Box",
-                width = 12,
-                closable = FALSE,
-                uiOutput("ui_ggs_genesetbox")
-              ),
-              # box(),
-              hr(),
-              bs4Card(
-                title = "Gene Box",
-                width = 12,
-                closable = FALSE,
-                uiOutput("ui_ggs_genebox")
-              )
-            )
-          ),
-          fluidRow(
-            bs4Dash::bs4Card(
-              width = 12,
-              id = "card_ggsbackbone",
-              title = "Gene-geneset graph summaries",
-              status = "info",
-              solidHeader = TRUE,
-              collapsible = TRUE,
-              collapsed = TRUE,
-              closable = FALSE,
-              fluidRow(
-                column(
-                  width = 8,
-                  uiOutput("ui_backbone_launch"),
-                  radioButtons(
-                    inputId = "backbone_on",
-                    label = "Compute the backbone on",
-                    choices = c("genesets", "features"),
-                    selected = "genesets",
-                    inline = TRUE
-                  ),
-                  withSpinner(
-                    visNetworkOutput("backbone_graph")
-                  )
-                ),
-                column(
-                  width = 4,
-                  uiOutput("ui_graph_summary")
-                )
-              )
-            )
-          )
+          uiOutput("ui_panel_ggs")
         ),
 
         # ui panel enrichment map -------------------------------------------------
         bs4TabItem(
           tabName = "tab_emap",
-          fluidRow(
-            column(
-              width = 11
-            ),
-            column(
-              width = 1,
-              actionButton(
-                "tour_emap",
-                label = "", icon = icon("question-circle"),
-                style = .helpbutton_biocstyle
-              )
-            )
-          ),
-          fluidRow(
-            column(
-              width = 8,
-              withSpinner(
-                tagList(
-                  selectInput(
-                    inputId = "emap_colorby",
-                    label = "Color enrichment map by",
-                    choices = colnames(res_enrich)[unlist(lapply(res_enrich, is.numeric))],
-                    selected = "gs_pvalue"
-                  ),
-                  visNetworkOutput("emap_visnet",
-                    height = "700px",
-                    width = "100%"
-                  ),
-                  fluidRow(
-                    column(
-                      width = 1,
-                      tippy::tippy(
-                        actionButton(inputId = "coder_emap_visnet",
-                                     label = "",
-                                     style = .helpbutton_biocstyle,
-                                     icon = icon("user-edit")),
-                        "Show the code for this plot",
-                        placement = "right"
-                      )
-                    )
-                  )
-                )
-              )
-            ),
-            column(
-              width = 4,
-              bs4Card(
-                title = "Geneset Box",
-                width = 12,
-                closable = FALSE,
-                uiOutput("ui_emap_sidecontent")
-              )
-            )
-          ),
-          fluidRow(
-            bs4Dash::bs4Card(
-              width = 12,
-              id = "card_distillery",
-              title = "Geneset distillery",
-              status = "info",
-              solidHeader = TRUE,
-              collapsible = TRUE,
-              collapsed = TRUE,
-              closable = FALSE,
-              fluidRow(
-                column(
-                  width = 8,
-                  withSpinner(
-                    DT::dataTableOutput("dt_distill")
-                  ),
-                  uiOutput("distill_launch"),
-                  numericInput(
-                    inputId = "n_genesets_distill",
-                    label = "Number of genesets",
-                    value = min(50, nrow(res_enrich)), min = 1, max = nrow(res_enrich)
-                  )
-                ),
-                column(
-                  width = 4,
-                  bs4Card(
-                    title = "Meta-geneset Box",
-                    width = 12,
-                    closable = FALSE,
-                    uiOutput("ui_metags_sidecontent")
-                  )
-                )
-              )
-            )
-          )
+          uiOutput("ui_panel_em")
         ),
 
         # ui panel overview --------------------------------------------------------
         bs4TabItem(
           tabName = "tab_overview",
-          fluidRow(
-            column(
-              width = 11
-            ),
-            column(
-              width = 1,
-              actionButton(
-                "tour_overview",
-                label = "", icon = icon("question-circle"),
-                style = .helpbutton_biocstyle
-              )
-            )
-          ),
-          fluidRow(
-            bs4Dash::column(
-              width = 11,
-              offset = 0,
-              bs4Dash::bs4Card(
-                id = "tabcard_deview",
-                # selected = "Geneset Volcano",
-                title = "Overview",
-                # side = "right",
-                elevation = 2,
-                width = 12,
-                closable = FALSE,
-                bs4Dash::tabsetPanel(
-                  id = "tsp1",
-                  type = "pills",
-                  selected = "Geneset Volcano",
-                  side = "right",
-                  tabPanel(
-                    title = "Geneset Volcano",
-                    withSpinner(
-                      plotOutput("gs_volcano",
-                                 height = "650px")
-                    ),
-                    fluidRow(
-                      column(
-                        width = 1,
-                        tippy::tippy(
-                          actionButton(inputId = "coder_gs_volcano",
-                                       label = "",
-                                       style = .helpbutton_biocstyle,
-                                       icon = icon("user-edit")),
-                          "Show the code for this plot",
-                          placement = "right"
-                        )
-                      )
-                    )
-                  ),
-                  shiny::tabPanel(
-                    title = "Geneset Volcano - simplified",
-                    numericInput(
-                      inputId = "gs_overlap",
-                      label = "Gene Set overlap",
-                      value = 0.6, min = 0, max = 1, step = 0.05,
-                      width = "30%"
-                    ),
-                    withSpinner(
-                      plotOutput("gs_volcano_simplified",
-                                 height = "650px")
-                    ),
-                    fluidRow(
-                      column(
-                        width = 1,
-                        tippy::tippy(
-                          actionButton(inputId = "coder_gs_volcano_simplified",
-                                       label = "",
-                                       style = .helpbutton_biocstyle,
-                                       icon = icon("user-edit")),
-                          "Show the code for this plot",
-                          placement = "right"
-                        )
-                      )
-                    )
-                  ),
-                  shiny::tabPanel(
-                    title = "Enhanced Table",
-                    withSpinner(
-                      plotOutput("enriched_funcres",
-                                 height = "650px")
-                    ),
-                    fluidRow(
-                      column(
-                        width = 1,
-                        tippy::tippy(
-                          actionButton(inputId = "coder_gs_enhancedtable",
-                                       label = "",
-                                       style = .helpbutton_biocstyle,
-                                       icon = icon("user-edit")),
-                          "Show the code for this plot",
-                          placement = "right"
-                        )
-                      )
-                    )
-                  ),
-                  shiny::tabPanel(
-                    title = "Enhanced Table - interactive",
-                    withSpinner(
-                      plotlyOutput("enriched_funcres_plotly",
-                                   height = "650px")
-                    ),
-                    fluidRow(
-                      column(
-                        width = 1,
-                        tippy::tippy(
-                          actionButton(inputId = "coder_gs_enhancedtableinteractive",
-                                       label = "",
-                                       style = .helpbutton_biocstyle,
-                                       icon = icon("user-edit")),
-                          "Show the code for this plot",
-                          placement = "right"
-                        )
-                      )
-                    )
-                  )
-                )
-              )
-            )
-          )
+          uiOutput("ui_panel_overview")
         ),
 
         # ui panel GSViz ------------------------------------------------------
         bs4TabItem(
           tabName = "tab_gsviz",
-          fluidRow(
-            column(
-              width = 11
-            ),
-            column(
-              width = 1,
-              actionButton(
-                "tour_gsviz",
-                label = "", icon = icon("question-circle"),
-                style = .helpbutton_biocstyle
-              )
-            )
-          ),
-          fluidRow(
-            bs4Dash::column(
-              width = 11,
-              offset = 0,
-              bs4Dash::bs4Card(
-                id = "tabcard_genesets",
-                title = "GSViz",
-                # side = "right",
-                elevation = 2,
-                width = 12,
-                closable = FALSE,
-                bs4Dash::tabsetPanel(
-                  id = "tsp2",
-                  type = "pills",
-                  selected = "Scores Heatmap",
-                  side = "right",
-                  shiny::tabPanel(
-                    title = "Scores Heatmap",
-                    withSpinner(
-                      plotOutput("gsscores_heatmap",
-                                 height = "650px")
-                    ),
-                    fluidRow(
-                      column(
-                        width = 1,
-                        tippy::tippy(
-                          actionButton(inputId = "coder_gsscores_heatmap",
-                                       label = "",
-                                       style = .helpbutton_biocstyle,
-                                       icon = icon("user-edit")),
-                          "Show the code for this plot",
-                          placement = "right"
-                        )
-                      )
-                    )
-                  ),
-                  shiny::tabPanel(
-                    title = "Alluvial Plot",
-                    withSpinner(
-                      plotlyOutput("alluvial_genesets",
-                                   height = "650px")
-                    ),
-                    fluidRow(
-                      column(
-                        width = 1,
-                        tippy::tippy(
-                          actionButton(inputId = "coder_alluvial_genesets",
-                                       label = "",
-                                       style = .helpbutton_biocstyle,
-                                       icon = icon("user-edit")),
-                          "Show the code for this plot",
-                          placement = "right"
-                        )
-                      )
-                    )
-                  ),
-                  shiny::tabPanel(
-                    title = "Summary Heatmap",
-                    withSpinner(
-                      plotOutput("gs_summaryheat",
-                                 height = "650px")
-                    ),
-                    fluidRow(
-                      column(
-                        width = 1,
-                        tippy::tippy(
-                          actionButton(inputId = "coder_gs_summaryheat",
-                                       label = "",
-                                       style = .helpbutton_biocstyle,
-                                       icon = icon("user-edit")),
-                          "Show the code for this plot",
-                          placement = "right"
-                        )
-                      )
-                    )
-                  ),
-                  shiny::tabPanel(
-                    title = "Geneset MDS",
-                    withSpinner(
-                      plotOutput("mds_genesets",
-                                 height = "650px")
-                    ),
-                    fluidRow(
-                      column(
-                        width = 1,
-                        tippy::tippy(
-                          actionButton(inputId = "coder_mds_genesets",
-                                       label = "",
-                                       style = .helpbutton_biocstyle,
-                                       icon = icon("user-edit")),
-                          "Show the code for this plot",
-                          placement = "right"
-                        )
-                      )
-                    )
-                  ),
-                  shiny::tabPanel(
-                    title = "Summary Overview",
-                    withSpinner(
-                      plotOutput("gs_summaryoverview",
-                                 height = "650px")
-                    ),
-                    fluidRow(
-                      column(
-                        width = 1,
-                        tippy::tippy(
-                          actionButton(inputId = "coder_gs_summaryoverview",
-                                       label = "",
-                                       style = .helpbutton_biocstyle,
-                                       icon = icon("user-edit")),
-                          "Show the code for this plot",
-                          placement = "right"
-                        )
-                      )
-                    )
-                  ),
-                  shiny::tabPanel(
-                    title = "Geneset Radar",
-                    withSpinner(
-                      plotlyOutput("gs_summaryradar",
-                                   height = "650px")
-                    ),
-                    fluidRow(
-                      column(
-                        width = 1,
-                        tippy::tippy(
-                          actionButton(inputId = "coder_gs_summaryradar",
-                                       label = "",
-                                       style = .helpbutton_biocstyle,
-                                       icon = icon("user-edit")),
-                          "Show the code for this plot",
-                          placement = "right"
-                        )
-                      )
-                    )
-                  ),
-                  shiny::tabPanel(
-                    title = "Geneset Dendrogram",
-                    withSpinner(
-                      plotOutput("gs_dendro",
-                                 height = "650px")
-                    ),
-                    fluidRow(
-                      column(
-                        width = 1,
-                        tippy::tippy(
-                          actionButton(inputId = "coder_gs_dendro",
-                                       label = "",
-                                       style = .helpbutton_biocstyle,
-                                       icon = icon("user-edit")),
-                          "Show the code for this plot",
-                          placement = "right"
-                        )
-                      )
-                    )
-                  )
-                )
-              )
-            )
-          )
+          uiOutput("ui_panel_gsviz")
         ),
 
         # ui panel bookmark ------------------------------------------------------
         bs4TabItem(
           tabName = "tab_bookmarks",
-          fluidRow(
-            column(
-              width = 11
-            ),
-            column(
-              width = 1,
-              actionButton(
-                "tour_bookmarks",
-                label = "", icon = icon("question-circle"),
-                style = .helpbutton_biocstyle
-              )
-            )
-          ),
-          fluidRow(
-            column(
-              width = 12,
-              uiOutput("ui_bookmarks")
-            )
-          ),
-          fluidRow(
-            bs4Dash::column(
-              width = 8,
-              offset = 2,
-              br(), br(),
-              gt_downloadButton(
-                "start_happyhour",
-                "Start the happy hour!",
-                class = "biocdlbutton",
-                icon = "cocktail"
-              ) # magic?
-            )
-          ),
-          hr(),
-          br(), br(), br(),
-          fluidRow(
-            column(
-              width = 4,
-              textInput(
-                "se_export_name",
-                label = "Choose a filename for the serialized .rds object",
-                value = "se_GeneTonic_toiSEE.rds"
-              )
-            ),
-            column(
-              width = 4,
-              gt_downloadButton(
-                "button_iSEEexport",
-                label = "Export as serialized SummarizedExperiment",
-                class = "biocdlbutton",
-                icon = "glasses"
-              )
-            )
-          )
+          uiOutput("ui_panel_bookmark")
         )
       )
     ),
@@ -980,6 +402,74 @@ GeneTonic <- function(dds,
 
     # panel Welcome -----------------------------------------------------------
 
+    output$ui_panel_welcome <- renderUI({
+      tagList(
+        fluidRow(
+          column(
+            width = 11
+          ),
+          column(
+            width = 1,
+            actionButton(
+              "tour_firststeps",
+              label = "", icon = icon("question-circle"),
+              style = .helpbutton_biocstyle
+            )
+          )
+        ),
+        fluidRow(
+          h2("Overview on the provided input")
+        ),
+        fluidRow(
+          bs4Dash::bs4Card(
+            width = 6,
+            id = "card_em",
+            title = "Expression Matrix",
+            status = "danger",
+            solidHeader = TRUE,
+            collapsible = TRUE,
+            collapsed = TRUE,
+            closable = FALSE,
+            DT::dataTableOutput("overview_dds")
+          ),
+          bs4Dash::bs4Card(
+            width = 6,
+            id = "card_de",
+            title = "DE results",
+            status = "warning",
+            solidHeader = TRUE,
+            collapsible = TRUE,
+            collapsed = TRUE,
+            closable = FALSE,
+            DT::dataTableOutput("overview_res_de")
+          ),
+          bs4Dash::bs4Card(
+            width = 6,
+            id = "card_enrich",
+            title = "Functional analysis results",
+            status = "success",
+            solidHeader = TRUE,
+            collapsible = TRUE,
+            collapsed = TRUE,
+            closable = FALSE,
+            DT::dataTableOutput("overview_res_enrich")
+          ),
+          bs4Dash::bs4Card(
+            width = 6,
+            id = "card_anno",
+            title = "Annotation info",
+            status = "info",
+            solidHeader = TRUE,
+            collapsible = TRUE,
+            collapsed = TRUE,
+            closable = FALSE,
+            DT::dataTableOutput("overview_annotation")
+          )
+        ),
+        uiOutput("ui_infoboxes")
+      )
+    })
+      
     output$overview_dds <- DT::renderDataTable({
       DT::datatable(
         counts(dds),
@@ -1092,6 +582,98 @@ GeneTonic <- function(dds,
     })
 
     # panel GeneSet-Gene ------------------------------------------------------
+    
+    output$ui_panel_ggs <- renderUI({
+      tagList(
+        fluidRow(
+          column(
+            width = 11
+          ),
+          column(
+            width = 1,
+            actionButton(
+              "tour_ggs",
+              label = "", icon = icon("question-circle"),
+              style = .helpbutton_biocstyle
+            )
+          )
+        ),
+        fluidRow(
+          column(
+            width = 8,
+            withSpinner(
+              visNetworkOutput("ggsnetwork",
+                               height = "700px",
+                               width = "100%"
+              )
+            ),
+            fluidRow(
+              column(
+                width = 1,
+                tippy::tippy(
+                  actionButton(inputId = "coder_ggsnetwork",
+                               label = "",
+                               style = .helpbutton_biocstyle,
+                               icon = icon("user-edit")),
+                  "Show the code for this plot",
+                  placement = "right"
+                )
+              )
+            )
+          ),
+          column(
+            width = 4,
+            bs4Card(
+              title = "Geneset Box",
+              width = 12,
+              closable = FALSE,
+              uiOutput("ui_ggs_genesetbox")
+            ),
+            # box(),
+            hr(),
+            bs4Card(
+              title = "Gene Box",
+              width = 12,
+              closable = FALSE,
+              uiOutput("ui_ggs_genebox")
+            )
+          )
+        ),
+        fluidRow(
+          bs4Dash::bs4Card(
+            width = 12,
+            id = "card_ggsbackbone",
+            title = "Gene-geneset graph summaries",
+            status = "info",
+            solidHeader = TRUE,
+            collapsible = TRUE,
+            collapsed = TRUE,
+            closable = FALSE,
+            fluidRow(
+              column(
+                width = 8,
+                uiOutput("ui_backbone_launch"),
+                radioButtons(
+                  inputId = "backbone_on",
+                  label = "Compute the backbone on",
+                  choices = c("genesets", "features"),
+                  selected = "genesets",
+                  inline = TRUE
+                ),
+                withSpinner(
+                  visNetworkOutput("backbone_graph")
+                )
+              ),
+              column(
+                width = 4,
+                uiOutput("ui_graph_summary")
+              )
+            )
+          )
+        )
+      )
+    })
+    
     reactive_values$ggs_graph <- reactive({
       g <- ggs_graph(
         res_enrich = res_enrich,
@@ -1340,6 +922,101 @@ GeneTonic <- function(dds,
 
 
     # panel EnrichmentMap -----------------------------------------------------
+    
+    output$ui_panel_em <- renderUI({
+      tagList(
+        fluidRow(
+          column(
+            width = 11
+          ),
+          column(
+            width = 1,
+            actionButton(
+              "tour_emap",
+              label = "", icon = icon("question-circle"),
+              style = .helpbutton_biocstyle
+            )
+          )
+        ),
+        fluidRow(
+          column(
+            width = 8,
+            withSpinner(
+              tagList(
+                selectInput(
+                  inputId = "emap_colorby",
+                  label = "Color enrichment map by",
+                  choices = colnames(res_enrich)[unlist(lapply(res_enrich, is.numeric))],
+                  selected = "gs_pvalue"
+                ),
+                visNetworkOutput("emap_visnet",
+                                 height = "700px",
+                                 width = "100%"
+                ),
+                fluidRow(
+                  column(
+                    width = 1,
+                    tippy::tippy(
+                      actionButton(inputId = "coder_emap_visnet",
+                                   label = "",
+                                   style = .helpbutton_biocstyle,
+                                   icon = icon("user-edit")),
+                      "Show the code for this plot",
+                      placement = "right"
+                    )
+                  )
+                )
+              )
+            )
+          ),
+          column(
+            width = 4,
+            bs4Card(
+              title = "Geneset Box",
+              width = 12,
+              closable = FALSE,
+              uiOutput("ui_emap_sidecontent")
+            )
+          )
+        ),
+        fluidRow(
+          bs4Dash::bs4Card(
+            width = 12,
+            id = "card_distillery",
+            title = "Geneset distillery",
+            status = "info",
+            solidHeader = TRUE,
+            collapsible = TRUE,
+            collapsed = TRUE,
+            closable = FALSE,
+            fluidRow(
+              column(
+                width = 8,
+                withSpinner(
+                  DT::dataTableOutput("dt_distill")
+                ),
+                uiOutput("distill_launch"),
+                numericInput(
+                  inputId = "n_genesets_distill",
+                  label = "Number of genesets",
+                  value = min(50, nrow(res_enrich)), min = 1, max = nrow(res_enrich)
+                )
+              ),
+              column(
+                width = 4,
+                bs4Card(
+                  title = "Meta-geneset Box",
+                  width = 12,
+                  closable = FALSE,
+                  uiOutput("ui_metags_sidecontent")
+                )
+              )
+            )
+          )
+        )
+      )
+    })
+        
     emap_graph <- reactive({
       emg <- enrichment_map(
         res_enrich = res_enrich,
@@ -1567,6 +1244,131 @@ GeneTonic <- function(dds,
 
     # panel Overview ------------------------------------------------------------
 
+    output$ui_panel_overview <- renderUI({
+      tagList(
+        fluidRow(
+          column(
+            width = 11
+          ),
+          column(
+            width = 1,
+            actionButton(
+              "tour_overview",
+              label = "", icon = icon("question-circle"),
+              style = .helpbutton_biocstyle
+            )
+          )
+        ),
+        fluidRow(
+          bs4Dash::column(
+            width = 11,
+            offset = 0,
+            bs4Dash::bs4Card(
+              id = "tabcard_deview",
+              # selected = "Geneset Volcano",
+              title = "Overview",
+              # side = "right",
+              elevation = 2,
+              width = 12,
+              closable = FALSE,
+              bs4Dash::tabsetPanel(
+                id = "tsp1",
+                type = "pills",
+                selected = "Geneset Volcano",
+                side = "right",
+                tabPanel(
+                  title = "Geneset Volcano",
+                  withSpinner(
+                    plotOutput("gs_volcano",
+                               height = "650px")
+                  ),
+                  fluidRow(
+                    column(
+                      width = 1,
+                      tippy::tippy(
+                        actionButton(inputId = "coder_gs_volcano",
+                                     label = "",
+                                     style = .helpbutton_biocstyle,
+                                     icon = icon("user-edit")),
+                        "Show the code for this plot",
+                        placement = "right"
+                      )
+                    )
+                  )
+                ),
+                shiny::tabPanel(
+                  title = "Geneset Volcano - simplified",
+                  numericInput(
+                    inputId = "gs_overlap",
+                    label = "Gene Set overlap",
+                    value = 0.6, min = 0, max = 1, step = 0.05,
+                    width = "30%"
+                  ),
+                  withSpinner(
+                    plotOutput("gs_volcano_simplified",
+                               height = "650px")
+                  ),
+                  fluidRow(
+                    column(
+                      width = 1,
+                      tippy::tippy(
+                        actionButton(inputId = "coder_gs_volcano_simplified",
+                                     label = "",
+                                     style = .helpbutton_biocstyle,
+                                     icon = icon("user-edit")),
+                        "Show the code for this plot",
+                        placement = "right"
+                      )
+                    )
+                  )
+                ),
+                shiny::tabPanel(
+                  title = "Enhanced Table",
+                  withSpinner(
+                    plotOutput("enriched_funcres",
+                               height = "650px")
+                  ),
+                  fluidRow(
+                    column(
+                      width = 1,
+                      tippy::tippy(
+                        actionButton(inputId = "coder_gs_enhancedtable",
+                                     label = "",
+                                     style = .helpbutton_biocstyle,
+                                     icon = icon("user-edit")),
+                        "Show the code for this plot",
+                        placement = "right"
+                      )
+                    )
+                  )
+                ),
+                shiny::tabPanel(
+                  title = "Enhanced Table - interactive",
+                  withSpinner(
+                    plotlyOutput("enriched_funcres_plotly",
+                                 height = "650px")
+                  ),
+                  fluidRow(
+                    column(
+                      width = 1,
+                      tippy::tippy(
+                        actionButton(inputId = "coder_gs_enhancedtableinteractive",
+                                     label = "",
+                                     style = .helpbutton_biocstyle,
+                                     icon = icon("user-edit")),
+                        "Show the code for this plot",
+                        placement = "right"
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    })
+    
     output$enriched_funcres <- renderPlot({
       enhance_table(res_enrich, res_de,
         annotation_obj = annotation_obj,
@@ -1605,6 +1407,184 @@ GeneTonic <- function(dds,
 
     # panel GSViz -----------------------------------------------------
 
+    output$ui_panel_gsviz <- renderUI({
+      tagList(
+        fluidRow(
+          column(
+            width = 11
+          ),
+          column(
+            width = 1,
+            actionButton(
+              "tour_gsviz",
+              label = "", icon = icon("question-circle"),
+              style = .helpbutton_biocstyle
+            )
+          )
+        ),
+        fluidRow(
+          bs4Dash::column(
+            width = 11,
+            offset = 0,
+            bs4Dash::bs4Card(
+              id = "tabcard_genesets",
+              title = "GSViz",
+              # side = "right",
+              elevation = 2,
+              width = 12,
+              closable = FALSE,
+              bs4Dash::tabsetPanel(
+                id = "tsp2",
+                type = "pills",
+                selected = "Scores Heatmap",
+                side = "right",
+                shiny::tabPanel(
+                  title = "Scores Heatmap",
+                  withSpinner(
+                    plotOutput("gsscores_heatmap",
+                               height = "650px")
+                  ),
+                  fluidRow(
+                    column(
+                      width = 1,
+                      tippy::tippy(
+                        actionButton(inputId = "coder_gsscores_heatmap",
+                                     label = "",
+                                     style = .helpbutton_biocstyle,
+                                     icon = icon("user-edit")),
+                        "Show the code for this plot",
+                        placement = "right"
+                      )
+                    )
+                  )
+                ),
+                shiny::tabPanel(
+                  title = "Alluvial Plot",
+                  withSpinner(
+                    plotlyOutput("alluvial_genesets",
+                                 height = "650px")
+                  ),
+                  fluidRow(
+                    column(
+                      width = 1,
+                      tippy::tippy(
+                        actionButton(inputId = "coder_alluvial_genesets",
+                                     label = "",
+                                     style = .helpbutton_biocstyle,
+                                     icon = icon("user-edit")),
+                        "Show the code for this plot",
+                        placement = "right"
+                      )
+                    )
+                  )
+                ),
+                shiny::tabPanel(
+                  title = "Summary Heatmap",
+                  withSpinner(
+                    plotOutput("gs_summaryheat",
+                               height = "650px")
+                  ),
+                  fluidRow(
+                    column(
+                      width = 1,
+                      tippy::tippy(
+                        actionButton(inputId = "coder_gs_summaryheat",
+                                     label = "",
+                                     style = .helpbutton_biocstyle,
+                                     icon = icon("user-edit")),
+                        "Show the code for this plot",
+                        placement = "right"
+                      )
+                    )
+                  )
+                ),
+                shiny::tabPanel(
+                  title = "Geneset MDS",
+                  withSpinner(
+                    plotOutput("mds_genesets",
+                               height = "650px")
+                  ),
+                  fluidRow(
+                    column(
+                      width = 1,
+                      tippy::tippy(
+                        actionButton(inputId = "coder_mds_genesets",
+                                     label = "",
+                                     style = .helpbutton_biocstyle,
+                                     icon = icon("user-edit")),
+                        "Show the code for this plot",
+                        placement = "right"
+                      )
+                    )
+                  )
+                ),
+                shiny::tabPanel(
+                  title = "Summary Overview",
+                  withSpinner(
+                    plotOutput("gs_summaryoverview",
+                               height = "650px")
+                  ),
+                  fluidRow(
+                    column(
+                      width = 1,
+                      tippy::tippy(
+                        actionButton(inputId = "coder_gs_summaryoverview",
+                                     label = "",
+                                     style = .helpbutton_biocstyle,
+                                     icon = icon("user-edit")),
+                        "Show the code for this plot",
+                        placement = "right"
+                      )
+                    )
+                  )
+                ),
+                shiny::tabPanel(
+                  title = "Geneset Radar",
+                  withSpinner(
+                    plotlyOutput("gs_summaryradar",
+                                 height = "650px")
+                  ),
+                  fluidRow(
+                    column(
+                      width = 1,
+                      tippy::tippy(
+                        actionButton(inputId = "coder_gs_summaryradar",
+                                     label = "",
+                                     style = .helpbutton_biocstyle,
+                                     icon = icon("user-edit")),
+                        "Show the code for this plot",
+                        placement = "right"
+                      )
+                    )
+                  )
+                ),
+                shiny::tabPanel(
+                  title = "Geneset Dendrogram",
+                  withSpinner(
+                    plotOutput("gs_dendro",
+                               height = "650px")
+                  ),
+                  fluidRow(
+                    column(
+                      width = 1,
+                      tippy::tippy(
+                        actionButton(inputId = "coder_gs_dendro",
+                                     label = "",
+                                     style = .helpbutton_biocstyle,
+                                     icon = icon("user-edit")),
+                        "Show the code for this plot",
+                        placement = "right"
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    })
+    
     gss_mat <- reactive({
       gs_scores(
         se = myvst,
@@ -1676,6 +1656,64 @@ GeneTonic <- function(dds,
 
     # panel Bookmarks ---------------------------------------------------------
 
+    output$ui_panel_bookmarks <- renderUI({
+      tagList(
+        fluidRow(
+          column(
+            width = 11
+          ),
+          column(
+            width = 1,
+            actionButton(
+              "tour_bookmarks",
+              label = "", icon = icon("question-circle"),
+              style = .helpbutton_biocstyle
+            )
+          )
+        ),
+        fluidRow(
+          column(
+            width = 12,
+            uiOutput("ui_bookmarks")
+          )
+        ),
+        fluidRow(
+          bs4Dash::column(
+            width = 8,
+            offset = 2,
+            br(), br(),
+            gt_downloadButton(
+              "start_happyhour",
+              "Start the happy hour!",
+              class = "biocdlbutton",
+              icon = "cocktail"
+            ) # magic?
+          )
+        ),
+        hr(),
+        br(), br(), br(),
+        fluidRow(
+          column(
+            width = 4,
+            textInput(
+              "se_export_name",
+              label = "Choose a filename for the serialized .rds object",
+              value = "se_GeneTonic_toiSEE.rds"
+            )
+          ),
+          column(
+            width = 4,
+            gt_downloadButton(
+              "button_iSEEexport",
+              label = "Export as serialized SummarizedExperiment",
+              class = "biocdlbutton",
+              icon = "glasses"
+            )
+          )
+        )
+      )
+    })
+    
     output$ui_bookmarks <- renderUI({
       tagList(
         fluidRow(
