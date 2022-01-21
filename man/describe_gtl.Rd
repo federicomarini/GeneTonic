@@ -11,8 +11,8 @@ describe_gtl(gtl)
 \code{dds}, \code{res_de}, \code{res_enrich}, and \code{annotation_obj}}
 }
 \value{
-Invisible NULL - the information is displayed as a message in the
-console
+A character string, that can further be processed (e.g. by \code{message()}
+or \code{cat()}, or easily rendered inside Shiny's \code{renderText} elements)
 }
 \description{
 Obtain a quick textual overview of the essential features of the components
