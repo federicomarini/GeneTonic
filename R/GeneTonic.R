@@ -324,7 +324,7 @@ GeneTonic <- function(dds = NULL,
         # ui panel bookmark ------------------------------------------------------
         bs4TabItem(
           tabName = "tab_bookmarks",
-          uiOutput("ui_panel_bookmark")
+          uiOutput("ui_panel_bookmarks")
         )
       )
     ),
