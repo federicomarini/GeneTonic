@@ -99,7 +99,7 @@ GeneTonic_list <- function(dds,
     annotation_obj = annotation_obj
   )
 
-  describe_gtl(gtl)
+  message(describe_gtl(gtl))
 
   return(gtl)
 }
@@ -115,63 +115,53 @@ GeneTonic_list <- function(dds,
 #' 
 #' @export
 #'
-#' @return Invisible NULL - the information is displayed as a message in the
-#' console
+#' @return A character string, that can further be processed (e.g. by `message()`
+#' or `cat()`, or easily rendered inside Shiny's `renderText` elements)
 describe_gtl <- function(gtl) {
   dds <- gtl$dds
   res_de <- gtl$res_de
   res_enrich <- gtl$res_enrich
   annotation_obj <- gtl$annotation_obj
-
+  
   # extracting relevant info
   n_features <- nrow(dds)
   n_samples <- ncol(dds)
-
+  
   n_tested <- nrow(res_de)
   n_upDE <- sum(res_de$log2FoldChange < 0 & res_de$padj < 0.05, na.rm = TRUE)
   n_downDE <- sum(res_de$log2FoldChange > 0 & res_de$padj < 0.05, na.rm = TRUE)
   n_DE <- n_upDE + n_downDE
-
+  
   n_genesets <- nrow(res_enrich)
-
+  
   n_featanno <- nrow(annotation_obj)
   n_featids <- ncol(annotation_obj)
-
-  message("---------------------------------")
-  message("----- GeneTonic list object -----")
-  message("---------------------------------")
-  message("\n----- dds object -----")
-  message(
+  
+  to_print <- c(
+    "---------------------------------\n",
+    "----- GeneTonic list object -----\n",
+    "---------------------------------\n",
+    "\n----- dds object -----\n",
     sprintf(
-      "Providing an expression object (as DESeqDataset) of %d features over %d samples",
+      "Providing an expression object (as DESeqDataset) of %d features over %d samples\n",
       n_features, n_samples
-    )
-  )
-  message("\n----- res_de object -----")
-  message(
+    ),
+    "\n----- res_de object -----\n",
     sprintf(
-      "Providing a DE result object (as DESeqResults), %d features tested, %d found as DE",
+      "Providing a DE result object (as DESeqResults), %d features tested, %d found as DE\n",
       n_tested, n_DE
-    )
-  )
-  message(sprintf("Upregulated:     %d", n_upDE))
-  message(sprintf("Downregulated:   %d", n_downDE))
-
-
-  message("\n----- res_enrich object -----")
-  message(
-    sprintf("Providing an enrichment result object, %d reported", n_genesets)
-  )
-
-  message("\n----- annotation_obj object -----")
-  message(
+    ),
+    sprintf("Upregulated:     %d\n", n_upDE),
+    sprintf("Downregulated:   %d\n", n_downDE),
+    "\n----- res_enrich object -----\n",
+    sprintf("Providing an enrichment result object, %d reported\n", n_genesets),
+    "\n----- annotation_obj object -----\n",
     sprintf(
-      "Providing an annotation object of %d features with information on %d identifier types",
+      "Providing an annotation object of %d features with information on %d identifier types\n",
       n_featanno, n_featids
     )
   )
-
-  return(invisible(NULL))
+  return(to_print)
 }
 
 
@@ -756,7 +746,7 @@ gt_downloadButton <- function(outputId,
   "# you can read it in from a serialized object",
   "# gtl <- readRDS('path/to/GeneTonicList.rds')",
   "# get a quick overview on the object",
-  "describe_gtl(gtl)",
+  "message(describe_gtl(gtl))",
   "",
   "# setup the individual elements for the explicit call",
   "dds <- gtl$dds",
