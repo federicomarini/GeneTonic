@@ -736,6 +736,7 @@ gt_downloadButton <- function(outputId,
     icon(icon),
     label
   )
+  return(aTag)
 }
 
 
