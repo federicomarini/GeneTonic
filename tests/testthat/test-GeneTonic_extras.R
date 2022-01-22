@@ -127,17 +127,27 @@ test_that("Retrieving info on gene", {
   expect_true(grepl("not found", out3))
 })
 
-test_that("'Linking to AmiGO database", {
+test_that("Linking to AmiGO database", {
   out <- .link2amigo("GO:0032729")
   expect_is(out, "character")
 })
 
-test_that("'Linking to NCBI database", {
+test_that("Linking to NCBI database", {
   out <- .link2ncbi("Actb")
   expect_is(out, "character")
 })
 
-test_that("'Linking to GeneCards database", {
+test_that("Linking to GeneCards database", {
   out <- .link2genecards("Gapdh")
   expect_is(out, "character")
+})
+
+test_that("Button correctly created", {
+  out <- gt_downloadButton(
+    "start_happyhour",
+    "Start the happy hour!",
+    class = "biocdlbutton",
+    icon = "cocktail"
+  )
+  expect_is(out, "shiny.tag")
 })
