@@ -661,7 +661,7 @@ GeneTonic <- function(dds = NULL,
     })
     output$overview_annotation <- DT::renderDataTable({
       DT::datatable(
-        annotation_obj,
+        reactive_values$annotation_obj,
         options = list(scrollX = TRUE, scrollY = "400px")
       )
     })
@@ -687,7 +687,7 @@ GeneTonic <- function(dds = NULL,
 
     output$infobox_dds <- renderbs4ValueBox({
       bs4ValueBox(
-        value = paste0(nrow(dds), " genes x ", ncol(dds), " samples"),
+        value = paste0(nrow(reactive_values$dds), " genes x ", ncol(reactive_values$dds), " samples"),
         subtitle = "dds object",
         icon = icon("table"),
         color = "danger",
@@ -711,7 +711,7 @@ GeneTonic <- function(dds = NULL,
     output$infobox_resenrich <- renderbs4ValueBox({
       bs4ValueBox(
         value = paste0(
-          nrow(res_enrich),
+          nrow(reactive_values$res_enrich),
           " functional categories"
         ),
         subtitle = "func enrich object",
@@ -723,7 +723,7 @@ GeneTonic <- function(dds = NULL,
 
     output$infobox_annotation <- renderbs4ValueBox({
       bs4ValueBox(
-        value = paste0(ncol(annotation_obj), " feature identifiers for ", nrow(dds), " features"),
+        value = paste0(ncol(reactive_values$annotation_obj), " feature identifiers for ", nrow(reactive_values$dds), " features"),
         subtitle = "annotation object",
         icon = icon("table"),
         color = "info",
@@ -734,6 +734,11 @@ GeneTonic <- function(dds = NULL,
     # panel GeneSet-Gene ------------------------------------------------------
     
     output$ui_panel_ggs <- renderUI({
+      validate(
+        need(!is.null(reactive_values$gtl) , 
+             message = "Gene-Geneset Panel\n\n\n\nPlease provide a GeneTonicList or its components to display the content of this tab.")
+      )
+      
       tagList(
         fluidRow(
           column(
@@ -826,9 +831,9 @@ GeneTonic <- function(dds = NULL,
     
     reactive_values$ggs_graph <- reactive({
       g <- ggs_graph(
-        res_enrich = res_enrich,
-        res_de = res_de,
-        annotation_obj = annotation_obj,
+        res_enrich = reactive_values$res_enrich,
+        res_de = reactive_values$res_de,
+        annotation_obj = reactive_values$annotation_obj,
         n_gs = input$n_genesets,
         prettify = TRUE,
         geneset_graph_color = "gold"
@@ -865,7 +870,7 @@ GeneTonic <- function(dds = NULL,
       cur_node <- match(cur_sel, V(g)$name)
       cur_nodetype <- V(g)$nodetype[cur_node]
 
-      cur_gsid <- res_enrich$gs_id[match(cur_sel, res_enrich$gs_description)]
+      cur_gsid <- reactive_values$res_enrich$gs_id[match(cur_sel, reactive_values$res_enrich$gs_description)]
 
       paste0("I'm selecting ", input$ggsnetwork_selected, ", which has index ", cur_node, " and is of type ", cur_nodetype, "this is from set", cur_gsid)
     })
@@ -902,14 +907,14 @@ GeneTonic <- function(dds = NULL,
       validate(need(cur_nodetype == "GeneSet",
         message = "Please select a gene set from the Gene-Geneset Graph."
       ))
-      cur_gsid <- res_enrich$gs_id[match(input$ggsnetwork_selected, res_enrich$gs_description)]
-
+      cur_gsid <- reactive_values$res_enrich$gs_id[match(input$ggsnetwork_selected, reactive_values$res_enrich$gs_description)]
+      
       if (!is.null(input$exp_condition)) {
         gs_heatmap(
-          myvst,
-          res_de,
-          res_enrich,
-          annotation_obj = annotation_obj,
+          reactive_values$myvst(),
+          reactive_values$res_de,
+          reactive_values$res_enrich,
+          annotation_obj = reactive_values$annotation_obj,
           geneset_id = cur_gsid,
           FDR = input$de_fdr,
           de_only = FALSE,
@@ -921,10 +926,10 @@ GeneTonic <- function(dds = NULL,
         )
       } else {
         gs_heatmap(
-          myvst,
-          res_de,
-          res_enrich,
-          annotation_obj = annotation_obj,
+          reactive_values$myvst(),
+          reactive_values$res_de,
+          reactive_values$res_enrich,
+          annotation_obj = reactive_values$annotation_obj,
           geneset_id = cur_gsid,
           FDR = input$de_fdr,
           de_only = FALSE,
@@ -944,13 +949,18 @@ GeneTonic <- function(dds = NULL,
       validate(need(cur_nodetype == "GeneSet",
         message = ""
       ))
-      cur_gsid <- res_enrich$gs_id[match(input$ggsnetwork_selected, res_enrich$gs_description)]
+      cur_gsid <- reactive_values$res_enrich$gs_id[match(input$ggsnetwork_selected, reactive_values$res_enrich$gs_description)]
+      
+      # if (input$box_geneset$collapsed) 
+      #   bs4Dash::updatebs4Card("box_geneset", action = "toggle")
+      # if (!input$box_gene$collapsed) 
+      #   bs4Dash::updatebs4Card("box_gene", action = "toggle")
 
       if (input$labels) {
         signature_volcano(
-          res_de,
-          res_enrich,
-          annotation_obj = annotation_obj,
+          reactive_values$res_de,
+          reactive_values$res_enrich,
+          annotation_obj = reactive_values$annotation_obj,
           geneset_id = cur_gsid,
           FDR = input$de_fdr,
           color = input$col,
@@ -958,9 +968,9 @@ GeneTonic <- function(dds = NULL,
         )
       } else {
         signature_volcano(
-          res_de,
-          res_enrich,
-          annotation_obj = annotation_obj,
+          reactive_values$res_de,
+          reactive_values$res_enrich,
+          annotation_obj = reactive_values$annotation_obj,
           geneset_id = cur_gsid,
           FDR = input$de_fdr,
           color = input$col
@@ -976,7 +986,7 @@ GeneTonic <- function(dds = NULL,
       validate(need(cur_nodetype == "GeneSet",
         message = "" # "Please select a gene set."
       ))
-      cur_gsid <- res_enrich$gs_id[match(input$ggsnetwork_selected, res_enrich$gs_description)]
+      cur_gsid <- reactive_values$res_enrich$gs_id[match(input$ggsnetwork_selected, reactive_values$res_enrich$gs_description)]
 
       go_2_html(cur_gsid, res_enrich)
     })
@@ -997,13 +1007,14 @@ GeneTonic <- function(dds = NULL,
         message = "Please select a gene/feature."
       ))
 
-      cur_geneid <- annotation_obj$gene_id[match(cur_sel, annotation_obj$gene_name)]
-
-      # mycontent <- HTML(paste0(
-      #   cur_geneid, "<br>", "<b>", cur_sel, "</b>"
-      # ))
-
-      geneinfo_2_html(cur_sel, res_de)
+      cur_geneid <- reactive_values$annotation_obj$gene_id[match(cur_sel, reactive_values$annotation_obj$gene_name)]
+      
+      # if (input$box_gene$collapsed) 
+      #   bs4Dash::updatebs4Card("box_gene", action = "toggle")
+      # if (!input$box_geneset$collapsed) 
+      #   bs4Dash::updatebs4Card("box_geneset", action = "toggle")
+      
+      geneinfo_2_html(cur_sel, reactive_values$res_de)
     })
 
     output$ggs_geneplot <- renderPlot({
@@ -1018,11 +1029,11 @@ GeneTonic <- function(dds = NULL,
         message = "Please select a group for the experimental condition."
       ))
 
-      cur_geneid <- annotation_obj$gene_id[match(cur_sel, annotation_obj$gene_name)]
-      gene_plot(dds,
+      cur_geneid <- reactive_values$annotation_obj$gene_id[match(cur_sel, reactive_values$annotation_obj$gene_name)]
+      gene_plot(reactive_values$dds,
         gene = cur_geneid,
         intgroup = input$exp_condition,
-        annotation_obj = annotation_obj
+        annotation_obj = reactive_values$annotation_obj
       )
     })
 
@@ -1031,9 +1042,9 @@ GeneTonic <- function(dds = NULL,
       showNotification(not_msg)
 
       bbg <- ggs_backbone(
-        res_enrich = res_enrich,
-        res_de = res_de,
-        annotation_obj = annotation_obj,
+        res_enrich = reactive_values$res_enrich,
+        res_de = reactive_values$res_de,
+        annotation_obj = reactive_values$annotation_obj,
         n_gs = input$n_genesets,
         bb_on = input$backbone_on
         # prettify = TRUE,
@@ -1096,7 +1107,7 @@ GeneTonic <- function(dds = NULL,
                 selectInput(
                   inputId = "emap_colorby",
                   label = "Color enrichment map by",
-                  choices = colnames(res_enrich)[unlist(lapply(res_enrich, is.numeric))],
+                  choices = colnames(reactive_values$res_enrich)[unlist(lapply(reactive_values$res_enrich, is.numeric))],
                   selected = "gs_pvalue"
                 ),
                 visNetworkOutput("emap_visnet",
@@ -1128,7 +1139,9 @@ GeneTonic <- function(dds = NULL,
               uiOutput("ui_emap_sidecontent")
             )
           )
-        ),
+        )
+        
+        ,
         fluidRow(
           bs4Dash::bs4Card(
             width = 12,
@@ -1149,7 +1162,7 @@ GeneTonic <- function(dds = NULL,
                 numericInput(
                   inputId = "n_genesets_distill",
                   label = "Number of genesets",
-                  value = min(50, nrow(res_enrich)), min = 1, max = nrow(res_enrich)
+                  value = min(50, nrow(reactive_values$res_enrich)), min = 1, max = nrow(reactive_values$res_enrich)
                 )
               ),
               column(
@@ -1169,9 +1182,9 @@ GeneTonic <- function(dds = NULL,
         
     emap_graph <- reactive({
       emg <- enrichment_map(
-        res_enrich = res_enrich,
-        res_de = res_de,
-        annotation_obj = annotation_obj,
+        res_enrich = reactive_values$res_enrich,
+        res_de = reactive_values$res_de,
+        annotation_obj = reactive_values$annotation_obj,
         n_gs = input$n_genesets,
         overlap_threshold = 0.1,
         scale_edges_width = 200,
@@ -1207,14 +1220,14 @@ GeneTonic <- function(dds = NULL,
     })
 
     output$emap_geneset_info <- renderUI({
-      cur_gsid <- res_enrich$gs_id[match(input$emap_visnet_selected, res_enrich$gs_description)]
+      cur_gsid <- reactive_values$res_enrich$gs_id[match(input$emap_visnet_selected, reactive_values$res_enrich$gs_description)]
       validate(need(!is.na(cur_gsid),
         message = ""
       ))
 
       # message(cur_gsid)
       # GOTERM[[cur_gsid]]
-      go_2_html(cur_gsid, res_enrich)
+      go_2_html(cur_gsid, reactive_values$res_enrich)
     })
 
     output$emap_sigheatplot <- renderPlot({
@@ -1225,19 +1238,18 @@ GeneTonic <- function(dds = NULL,
       # validate(need(cur_nodetype == "GeneSet",
       #               message = "Please select a gene set."
       # ))
-      cur_gsid <- res_enrich$gs_id[match(input$emap_visnet_selected, res_enrich$gs_description)]
+      cur_gsid <- reactive_values$res_enrich$gs_id[match(input$emap_visnet_selected, reactive_values$res_enrich$gs_description)]
       validate(need(!is.na(cur_gsid),
         message = "Please select a gene set from the Enrichment Map."
       ))
 
-
       if (!is.null(input$exp_condition)) {
         # message(cur_gsid)
         gs_heatmap(
-          myvst,
-          res_de,
-          res_enrich,
-          annotation_obj = annotation_obj,
+          reactive_values$myvst(),
+          reactive_values$res_de,
+          reactive_values$res_enrich,
+          annotation_obj = reactive_values$annotation_obj,
           geneset_id = cur_gsid,
           FDR = input$de_fdr,
           de_only = FALSE,
@@ -1249,10 +1261,10 @@ GeneTonic <- function(dds = NULL,
         )
       } else {
         gs_heatmap(
-          myvst,
-          res_de,
-          res_enrich,
-          annotation_obj = annotation_obj,
+          reactive_values$myvst(),
+          reactive_values$res_de,
+          reactive_values$res_enrich,
+          annotation_obj = reactive_values$annotation_obj,
           geneset_id = cur_gsid,
           FDR = input$de_fdr,
           de_only = FALSE,
@@ -1268,9 +1280,9 @@ GeneTonic <- function(dds = NULL,
     # geneset distillery
     reactive_values$distillat <- reactive({
       distillat <- distill_enrichment(
-        res_enrich = res_enrich,
-        res_de = res_de,
-        annotation_obj = annotation_obj,
+        res_enrich = reactive_values$res_enrich,
+        res_de = reactive_values$res_de,
+        annotation_obj = reactive_values$annotation_obj,
         n_gs = input$n_genesets_distill
       )
       return(distillat)
@@ -1327,15 +1339,15 @@ GeneTonic <- function(dds = NULL,
 
       sel_genes <- strsplit(dist_table[s, ]$metags_genes, ",")[[1]]
       # message(length(sel_genes))
-      sel_genes_id <- annotation_obj$gene_id[match(sel_genes, annotation_obj$gene_name)]
+      sel_genes_id <- reactive_values$annotation_obj$gene_id[match(sel_genes, reactive_values$annotation_obj$gene_name)]
       # message(length(sel_genes_id))
 
       if (!is.null(input$exp_condition)) {
         gs_heatmap(
-          myvst,
-          res_de,
-          res_enrich,
-          annotation_obj = annotation_obj,
+          reactive_values$myvst(),
+          reactive_values$res_de,
+          reactive_values$res_enrich,
+          annotation_obj = reactive_values$annotation_obj,
           genelist = sel_genes_id,
           FDR = input$de_fdr,
           de_only = FALSE,
@@ -1348,10 +1360,10 @@ GeneTonic <- function(dds = NULL,
         )
       } else {
         gs_heatmap(
-          myvst,
-          res_de,
-          res_enrich,
-          annotation_obj = annotation_obj,
+          reactive_values$myvst(),
+          reactive_values$res_de,
+          reactive_values$res_enrich,
+          annotation_obj = reactive_values$annotation_obj,
           genelist = sel_genes_id,
           FDR = input$de_fdr,
           de_only = FALSE,
@@ -1520,17 +1532,18 @@ GeneTonic <- function(dds = NULL,
     })
     
     output$enriched_funcres <- renderPlot({
-      enhance_table(res_enrich, res_de,
-        annotation_obj = annotation_obj,
-        n_gs = input$n_genesets
+      enhance_table(reactive_values$res_enrich, 
+                    reactive_values$res_de,
+                    annotation_obj = reactive_values$annotation_obj,
+                    n_gs = input$n_genesets
       )
     })
 
     output$gs_volcano <- renderPlot({
       gs_volcano(
-        get_aggrscores(res_enrich,
-          res_de,
-          annotation_obj = annotation_obj
+        get_aggrscores(reactive_values$res_enrich,
+                       reactive_values$res_de,
+                       annotation_obj = reactive_values$annotation_obj
         ),
         volcano_labels = input$n_genesets
       )
@@ -1538,19 +1551,19 @@ GeneTonic <- function(dds = NULL,
 
     output$gs_volcano_simplified <- renderPlot({
       gs_volcano(
-        get_aggrscores(gs_simplify(res_enrich, gs_overlap = input$gs_overlap),
-          res_de,
-          annotation_obj = annotation_obj
+        get_aggrscores(gs_simplify(reactive_values$res_enrich, gs_overlap = input$gs_overlap),
+                       reactive_values$res_de,
+                       annotation_obj = reactive_values$annotation_obj
         ),
         volcano_labels = input$n_genesets
       )
     })
 
     output$enriched_funcres_plotly <- renderPlotly({
-      ggplotly(enhance_table(res_enrich,
-        res_de,
-        annotation_obj = annotation_obj,
-        n_gs = input$n_genesets
+      ggplotly(enhance_table(reactive_values$res_enrich,
+                             reactive_values$res_de,
+                             annotation_obj = reactive_values$annotation_obj,
+                             n_gs = input$n_genesets
       ))
     })
 
@@ -1558,6 +1571,11 @@ GeneTonic <- function(dds = NULL,
     # panel GSViz -----------------------------------------------------
 
     output$ui_panel_gsviz <- renderUI({
+      validate(
+        need(!is.null(reactive_values$gtl) , 
+             message = "GSViz Panel\n\n\n\nPlease provide a GeneTonicList or its components to display the content of this tab.")
+      )
+      
       tagList(
         fluidRow(
           column(
@@ -1737,10 +1755,10 @@ GeneTonic <- function(dds = NULL,
     
     gss_mat <- reactive({
       gs_scores(
-        se = myvst,
-        res_de = res_de,
-        res_enrich = res_enrich,
-        annotation_obj = annotation_obj
+        se = reactive_values$myvst(),
+        res_de = reactive_values$res_de,
+        res_enrich = reactive_values$res_enrich,
+        annotation_obj = reactive_values$annotation_obj
       )
     })
     output$gsscores_heatmap <- renderPlot({
@@ -1751,53 +1769,59 @@ GeneTonic <- function(dds = NULL,
     })
 
     output$alluvial_genesets <- renderPlotly({
-      gs_alluvial(res_enrich, res_de, annotation_obj, n_gs = input$n_genesets)
+      gs_alluvial(reactive_values$res_enrich, 
+                  reactive_values$res_de, 
+                  reactive_values$annotation_obj, 
+                  n_gs = input$n_genesets)
     })
 
     output$mds_genesets <- renderPlot({
-      gs_mds(res_enrich, res_de, annotation_obj,
-        mds_colorby = "z_score",
-        mds_labels = input$n_genesets
+      gs_mds(reactive_values$res_enrich, 
+             reactive_values$res_de, reactive_values$annotation_obj,
+             mds_colorby = "z_score",
+             mds_labels = input$n_genesets
       )
     })
 
     output$gs_summaryheat <- renderPlot({
-      gs_summary_heat(res_enrich, res_de, annotation_obj,
+      gs_summary_heat(reactive_values$res_enrich, 
+                      reactive_values$res_de, 
+                      reactive_values$annotation_obj,
         n_gs = input$n_genesets
       )
     })
 
     output$gs_summaryoverview <- renderPlot({
       gs_summary_overview(
-        res_enrich = res_enhanced,
+        res_enrich = reactive_values$res_enhanced,
         n_gs = input$n_genesets
       )
     })
 
     output$gs_summaryoverview_pair <- renderPlot({
       gs_summary_overview_pair(
-        res_enrich = res_enhanced,
+        res_enrich = reactive_values$res_enhanced,
         n_gs = input$n_genesets
       )
     })
 
     output$gs_summaryhorizon <- renderPlot({
       gs_horizon(
-        res_enrich = res_enhanced,
+        res_enrich = reactive_values$res_enhanced,
         n_gs = input$n_genesets
       )
     })
 
     output$gs_summaryradar <- renderPlotly({
       gs_radar(
-        res_enrich = res_enhanced,
+        res_enrich = reactive_values$res_enhanced,
         n_gs = input$n_genesets
       )
     })
 
     output$gs_dendro <- renderPlot({
       gs_dendro(
-        res_enrich = res_enhanced,
+        res_enrich = reactive_values$res_enhanced,
         n_gs = input$n_genesets
       )
     })
@@ -1807,6 +1831,11 @@ GeneTonic <- function(dds = NULL,
     # panel Bookmarks ---------------------------------------------------------
 
     output$ui_panel_bookmarks <- renderUI({
+      validate(
+        need(!is.null(reactive_values$gtl) , 
+             message = "Bookmarks Panel\n\n\n\nPlease provide a GeneTonicList or its components to display the content of this tab.")
+      )
+      
       tagList(
         fluidRow(
           column(
@@ -1915,11 +1944,11 @@ GeneTonic <- function(dds = NULL,
     })
 
     output$bookmarks_genes <- DT::renderDataTable({
-      book_df_genes <- annotation_obj[reactive_values$mygenes, ]
+      book_df_genes <- reactive_values$annotation_obj[reactive_values$mygenes, ]
       datatable(book_df_genes, rownames = FALSE)
     })
     output$bookmarks_genesets <- DT::renderDataTable({
-      book_df_genesets <- res_enrich[reactive_values$mygenesets, c("gs_id", "gs_description")]
+      book_df_genesets <- reactive_values$res_enrich[reactive_values$mygenesets, c("gs_id", "gs_description")]
       datatable(book_df_genesets, rownames = FALSE)
     })
 
@@ -1972,7 +2001,7 @@ GeneTonic <- function(dds = NULL,
       filename = function() {
         input$se_export_name
       }, content = function(file) {
-        se <- export_for_iSEE(dds, res_de)
+        se <- export_for_iSEE(reactive_values$dds, reactive_values$res_de)
         saveRDS(se, file = file)
       }
     )
@@ -2127,11 +2156,45 @@ GeneTonic <- function(dds = NULL,
     
     observeEvent(input$uploadgtl, {
       reactive_values$in_gtl <- readRDS(input$uploadgtl$datapath)
-      reactive_values$gtl <- reactive_values$in_gtl
-      reactive_values$dds <- reactive_values$in_gtl$dds
-      reactive_values$res_de <- reactive_values$in_gtl$res_de
-      reactive_values$res_enrich <- reactive_values$in_gtl$res_enrich
-      reactive_values$annotation_obj <- reactive_values$in_gtl$annotation_obj
+      
+      if (is.null(checkup_gtl(reactive_values$in_gtl))) {
+        reactive_values$gtl <- reactive_values$in_gtl
+        reactive_values$dds <- reactive_values$in_gtl$dds
+        reactive_values$res_de <- reactive_values$in_gtl$res_de
+        reactive_values$res_enrich <- reactive_values$in_gtl$res_enrich
+        reactive_values$annotation_obj <- reactive_values$in_gtl$annotation_obj
+        
+        showNotification(
+          ui = "Upload complete! Re-open the 'File Upload' collapsible box if you want to upload another gtl object.",
+          type = "message"
+        )
+        
+        
+        removed_genes <- is.na(reactive_values$res_de$log2FoldChange)
+        message(
+          "Removing ", sum(removed_genes),
+          "/", nrow(reactive_values$res_de), " rows from the DE `res_de` object - log2FC values detected as NA"
+        )
+        reactive_values$res_de <- reactive_values$res_de[!removed_genes, ]
+        
+        
+        reactive_values$myvst <- reactive({
+          vst(reactive_values$dds)
+        })
+        
+        reactive_values$res_enhanced <- reactive({
+          get_aggrscores(
+            res_enrich = reactive_values$res_enrich,
+            res_de = reactive_values$res_de,
+            annotation_obj = reactive_values$annotation_obj
+          )
+        })
+        
+        bs4Dash::updateBox("box_upload", action = "toggle")
+      } else {
+        showNotification("wrong file format, TODO!")
+      }
+      
     })
 
 
@@ -2149,7 +2212,7 @@ GeneTonic <- function(dds = NULL,
           cur_nodetype <- V(g)$nodetype[cur_node]
 
           if (cur_nodetype == "Feature") {
-            cur_sel_id <- annotation_obj$gene_id[match(cur_sel, annotation_obj$gene_name)]
+            cur_sel_id <- reactive_values$annotation_obj$gene_id[match(cur_sel, reactive_values$annotation_obj$gene_name)]
             if (cur_sel_id %in% reactive_values$mygenes) {
               showNotification(sprintf("The selected gene %s (%s) is already in the set of the bookmarked genes.", cur_sel, cur_sel_id), type = "default")
             } else {
@@ -2158,7 +2221,7 @@ GeneTonic <- function(dds = NULL,
               showNotification(sprintf("Added %s (%s) to the bookmarked genes. The list contains now %d elements", cur_sel, cur_sel_id, length(reactive_values$mygenes)), type = "message")
             }
           } else if (cur_nodetype == "GeneSet") {
-            cur_sel_id <- res_enrich$gs_id[match(cur_sel, res_enrich$gs_description)]
+            cur_sel_id <- reactive_values$res_enrich$gs_id[match(cur_sel, reactive_values$res_enrich$gs_description)]
             if (cur_sel_id %in% reactive_values$mygenesets) {
               showNotification(sprintf("The selected gene set %s (%s) is already in the set of the bookmarked genesets.", cur_sel, cur_sel_id), type = "default")
             } else {
@@ -2174,7 +2237,7 @@ GeneTonic <- function(dds = NULL,
       else if (input$gt_tabs == "tab_emap") {
         g <- reactive_values$ggs_graph()
         cur_sel <- input$emap_visnet_selected
-        cur_sel_id <- res_enrich$gs_id[match(cur_sel, res_enrich$gs_description)]
+        cur_sel_id <- reactive_values$res_enrich$gs_id[match(cur_sel, reactive_values$res_enrich$gs_description)]
 
         if (cur_sel == "") {
           showNotification("Select a node in the network to bookmark it", type = "warning")
