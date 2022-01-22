@@ -779,6 +779,7 @@ GeneTonic <- function(dds = NULL,
           column(
             width = 4,
             bs4Card(
+              id = "box_geneset",
               title = "Geneset Box",
               width = 12,
               closable = FALSE,
@@ -787,6 +788,7 @@ GeneTonic <- function(dds = NULL,
             # box(),
             hr(),
             bs4Card(
+              id = "box_gene",
               title = "Gene Box",
               width = 12,
               closable = FALSE,
@@ -1085,6 +1087,11 @@ GeneTonic <- function(dds = NULL,
     # panel EnrichmentMap -----------------------------------------------------
     
     output$ui_panel_em <- renderUI({
+      validate(
+        need(!is.null(reactive_values$gtl) , 
+             message = "Enrichment Map Panel\n\n\n\nPlease provide a GeneTonicList or its components to display the content of this tab.")
+      )
+      
       tagList(
         fluidRow(
           column(
@@ -1407,6 +1414,11 @@ GeneTonic <- function(dds = NULL,
     # panel Overview ------------------------------------------------------------
 
     output$ui_panel_overview <- renderUI({
+      validate(
+        need(!is.null(reactive_values$gtl) , 
+             message = "Overview Panel\n\n\n\nPlease provide a GeneTonicList or its components to display the content of this tab.")
+      )
+      
       tagList(
         fluidRow(
           column(
@@ -2013,6 +2025,13 @@ GeneTonic <- function(dds = NULL,
     # controlbar --------------------------------------------------------------
     
     output$ui_controlbar <- renderUI({
+      validate(
+        need(!is.null(reactive_values$gtl) , 
+             message = "\n\n\nPlease provide a GeneTonicList or its components to display the content of the control bar.")
+      )
+      
+      # message(nrow(reactive_values$res_enrich))
+      
       tagList(
         numericInput(
           inputId = "de_fdr",
@@ -2022,11 +2041,11 @@ GeneTonic <- function(dds = NULL,
         numericInput(
           inputId = "n_genesets",
           label = "Number of genesets",
-          value = 15, min = 1, max = nrow(res_enrich)
+          value = 15, min = 1, max = nrow(reactive_values$res_enrich)
         ),
         selectInput("exp_condition",
                     label = "Group/color by: ",
-                    choices = c(NULL, names(colData(dds))), selected = NULL, multiple = TRUE
+                    choices = c(NULL, names(colData(reactive_values$dds))), selected = NULL, multiple = TRUE
         ),
         colourInput("col", "Select colour for volcano plot", "#1a81c2",
                     returnName = TRUE,
@@ -2035,6 +2054,8 @@ GeneTonic <- function(dds = NULL,
         checkboxInput("labels", label = "Display all labels", value = FALSE)
       )
     })
+    
+    outputOptions(output, "ui_controlbar", suspendWhenHidden = FALSE)
 
     # observers ---------------------------------------------------------------
 
