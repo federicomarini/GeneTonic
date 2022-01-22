@@ -105,6 +105,25 @@ GeneTonic <- function(dds = NULL,
   on.exit(options(oopt))
 
   usage_mode <- "shiny_mode"
+  
+  all_components_provided <- 
+    !is.null(dds) & !is.null(res_de) & !is.null(res_enrich) & !is.null(annotation_obj) 
+  
+  if (all_components_provided) {
+    message("Checks, all components TODO")
+    checkup_GeneTonic(
+      dds,
+      res_de,
+      res_enrich,
+      annotation_obj
+    )
+  }
+  
+  if (!is.null(gtl)) {
+    message("Checks, gtl TODO")
+    
+    checkup_gtl(gtl)
+  }
 
   # UI definition -----------------------------------------------------------
 
@@ -293,8 +312,9 @@ GeneTonic <- function(dds = NULL,
           tagList(
             uiOutput("ui_uploadgtl"),
             uiOutput("ui_panel_welcome")
-          ),
-          verbatimTextOutput("uploadedgtl")
+          )
+          # ,
+          # verbatimTextOutput("gtl_described")
         ),
 
         # ui panel geneset-gene ---------------------------------------------------
@@ -347,44 +367,93 @@ GeneTonic <- function(dds = NULL,
   genetonic_server <- function(input, output, session) {
     
     # initializing reactives --------------------------------------------------
-    
     reactive_values <- reactiveValues()
     
-    all_components_provided <- 
-      !is.null(dds) & !is.null(res_de) & !is.null(res_enrich) & !is.null(annotation_obj) 
+    # for the usage in the bookmarks
+    reactive_values$mygenes <- c()
+    reactive_values$mygenesets <- c()
     
     if (!is.null(gtl)) {
-      message("gtl provided")
-      # reactive_values$dds <- gtl$dds
-      # reactive_values$res_de <- gtl$res_de
-      # reactive_values$res_enrich <- gtl$res_enrich
-      # reactive_values$annotation_obj <- gtl$annotation_obj
+      message("GeneTonic info: gtl object provided")
+      
+      checkup_gtl(gtl)
+      
       reactive_values$gtl <- gtl
       reactive_values$dds <- gtl$dds
       reactive_values$res_de <- gtl$res_de
       reactive_values$res_enrich <- gtl$res_enrich
       reactive_values$annotation_obj <- gtl$annotation_obj
+      
+      # clean up the result object, e.g. removing the NAs in the relevant columns
+      removed_genes <- is.na(gtl$res_de$log2FoldChange)
+      message(
+        "Removing ", sum(removed_genes),
+        "/", nrow(gtl$res_de), " rows from the DE `res_de` object - log2FC values detected as NA"
+      )
+      reactive_values$res_de <- gtl$res_de[!removed_genes, ]
+      
+      reactive_values$myvst <- reactive({
+        vst(reactive_values$dds)
+      })
+      
+      reactive_values$res_enhanced <- reactive({
+        get_aggrscores(
+          res_enrich = reactive_values$res_enrich,
+          res_de = reactive_values$res_de,
+          annotation_obj = reactive_values$annotation_obj
+        )
+      })
+      
     } else if (all_components_provided){
+      message("GeneTonic info: all components provided")
+      
+      checkup_GeneTonic(dds = dds,
+                        res_de = res_de,
+                        res_enrich= res_enrich,
+                        annotation_obj = annotation_obj)
+      
       reactive_values$dds <- dds
       reactive_values$res_de <- res_de
       reactive_values$res_enrich <- res_enrich
       reactive_values$annotation_obj <- annotation_obj
+      # also creating the gtl reactive object
       reactive_values$gtl <- GeneTonic_list(
         dds = dds,
         res_de = res_de,
         res_enrich = res_enrich,
         annotation_obj = annotation_obj
       )
+      
+      # clean up the result object, e.g. removing the NAs in the relevant columns
+      removed_genes <- is.na(res_de$log2FoldChange)
+      message(
+        "Removing ", sum(removed_genes),
+        "/", nrow(res_de), " rows from the DE `res_de` object - log2FC values detected as NA"
+      )
+      reactive_values$res_de <- res_de[!removed_genes, ]
+      
+      reactive_values$myvst <- reactive({
+        vst(reactive_values$dds)
+      })
+      
+      reactive_values$res_enhanced <- reactive({
+        get_aggrscores(
+          res_enrich = reactive_values$res_enrich,
+          res_de = reactive_values$res_de,
+          annotation_obj = reactive_values$annotation_obj
+        )
+      })
+      
     } else {
-      # TODO
-      # will need to adjust defaults for this and have it as possibility at all!
+      message("GeneTonic info: no input data provided, upload at runtime expected")
+
       reactive_values$dds <- NULL
       reactive_values$res_de <- NULL
       reactive_values$res_enrich <- NULL
       reactive_values$annotation_obj <- NULL
+      
+      reactive_values$upload_active <- TRUE
     }
-    
-    
     
     
     # TODO: defining the logic of the data provided
