@@ -471,89 +471,86 @@ GeneTonic <- function(dds = NULL,
     #   ready to go
     # 
     # }
-    
-    # initial checks ----------------------------------------------------------
-    
-    if (!is.null(gtl)) {
-      checkup_gtl(gtl)
-      dds <- gtl$dds
-      res_de <- gtl$res_de
-      res_enrich <- gtl$res_enrich
-      annotation_obj <- gtl$annotation_obj
-      
-      provided_gtl <- TRUE
-    }
-    
-    # checks on the objects provided
-    if (all_components_provided | !is.null(gtl)) {
-      checkup_GeneTonic(
-        dds,
-        res_de,
-        res_enrich,
-        annotation_obj
-      )
-      
-      # clean up the result object, e.g. removing the NAs in the relevant columns
-      removed_genes <- is.na(res_de$log2FoldChange)
-      message(
-        "Removing ", sum(removed_genes),
-        "/", nrow(res_de), " rows from the DE `res_de` object - log2FC values detected as NA"
-      )
-      res_de <- res_de[!removed_genes, ]
-      
-      
-      # reactive objects and setup commands -------------------------------------
-      reactive_values$mygenes <- c()
-      reactive_values$mygenesets <- c()
-      
-      myvst <- vst(dds)
-      
-      res_enhanced <- get_aggrscores(
-        res_enrich = res_enrich,
-        res_de = res_de,
-        annotation_obj = annotation_obj
-      )
-    }
-    
-    
 
-    # output$ui_exp_condition <- renderUI({
-    # selectInput("exp_condition", label = "Group/color by: ",
-    # choices = c(NULL, poss_covars), selected = NULL, multiple = TRUE)
-    # })
-    
     
     # panel Welcome -----------------------------------------------------------
 
     output$ui_uploadgtl <- renderUI({
       validate(
-        need(is.null(gtl), message = "")
+        need(reactive_values$upload_active, message = "")
       )
+      
       tagList(
         fluidRow(
           column(
-            width = 8,
-            img(src = "GeneTonic/GeneTonic.png", height = "350px"),
-            fileInput("uploadgtl", 
-                      label = "Upload a GeneTonicList serialized object")
+            width = 10,
+            offset = 1,
+            bs4Dash::box(
+              title = "Upload your data as a GeneTonicList",
+              id = "box_upload",
+              width = 12,
+              collapsible = TRUE,
+              collapsed = FALSE,
+              closable = FALSE,
+              fluidRow(
+                column(
+                  width = 6,
+                  img(src = "GeneTonic/GeneTonic.png", height = "150px"),
+                  fileInput(inputId = "uploadgtl", 
+                            label = "Upload a GeneTonicList serialized object")
+                ),
+                column(
+                  width = 6,
+                  tags$details(
+                    tags$summary("What is a GeneTonicList object?"),
+                    includeMarkdown(system.file("extdata", "help_gtl.md", package = "GeneTonic")),
+                    h4("Help on format, markdown"),
+                    p("TODO some description and/or a link to how this format works")
+                  ),
+                  uiOutput("ui_describegtl")
+                )
+              )
+            )
           )
         )
+        
       )
     })
     
-    output$uploadedgtl <- renderText({
+    output$ui_describegtl <- renderUI({
       validate(
         need(
-          !is.null(reactive_values$in_gtl), message = "rprprp"
+          !is.null(reactive_values$in_gtl), message = ""
         )
       )
+      
+      tags$details(
+        tags$summary("What's in my GeneTonicList object?"),
+        p("This is the output of the `describe_gtl` function on the provided object:"),
+        verbatimTextOutput("gtl_described")
+      )
+      
+      # TODO: once not required, remove this and replace with a collapsible
+      # element that contains the text output
+      # nrow(reactive_values$in_gtl$res_enrich)
+    })
+    
+    
+    # TODO: maybe do it for ANY gtl, either provided as param or uploaded
+    output$gtl_described <- renderText({
+      validate(
+        need(
+          !is.null(reactive_values$in_gtl), message = "No gtl file uploaded"
+        )
+      )
+      
       describe_gtl(reactive_values$in_gtl)
-      nrow(reactive_values$in_gtl$res_enrich)
     })
     
     output$ui_panel_welcome <- renderUI({
       validate(
-        need(!is.null(reactive_values$gtl) , message = "Provide a gtl or its components")
+        need(!is.null(reactive_values$gtl) , 
+             message = "Please provide a GeneTonicList (e.g. via the 'Upload your data as a GeneTonicList' box) or its components (possible if you are calling GeneTonic from the command line).\n\n\nAll the content of this tab will be displayed upon providing this object")
       )
       tagList(
         fluidRow(
