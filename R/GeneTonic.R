@@ -2203,20 +2203,6 @@ GeneTonic <- function(dds = NULL,
       )
     })
 
-    observeEvent(input$btn_save_gtl, {
-      # saving as gtl - useful if input provided as 4-components
-      if (!is.null(reactive_values$gtl)) {
-        # gtl is in
-        showNotification("ready to save", type = "message")
-        saveRDS(reactive_values$gtl, 
-                file = paste0("exportedGTL_", Sys.Date(), ".rds"))
-        showNotification("Done!", type = "message")
-      } else{
-        # need to provide the data yet
-        showNotification("no file provided", type = "warning")
-      } 
-    })
-
     observeEvent(input$btn_show_emap_distilled, {
       showModal(
         modalDialog(
