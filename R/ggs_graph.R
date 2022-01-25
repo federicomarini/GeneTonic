@@ -329,7 +329,7 @@ ggs_backbone <- function(res_enrich,
                          n_gs = 15,
                          gs_ids = NULL,
                          bb_on = c("genesets", "features"),
-                         bb_method = c("sdsm", "fdsm", "hyperg"),
+                         bb_method = c("sdsm", "fdsm", "fixedrow"),
                          bb_extract_alpha = 0.05,
                          bb_extract_fwer = c("none", "bonferroni", "holm"),
                          bb_fullinfo = FALSE,
@@ -350,7 +350,7 @@ ggs_backbone <- function(res_enrich,
   stopifnot(is.logical(bb_remove_singletons))
   stopifnot(is.logical(color_graph))
 
-  bb_method <- match.arg(bb_method, c("sdsm", "fdsm", "hyperg"))
+  bb_method <- match.arg(bb_method, c("sdsm", "fdsm", "fixedrow"))
   bb_extract_fwer <- match.arg(bb_extract_fwer, c("none", "bonferroni", "holm"))
   bb_on <- match.arg(bb_on, c("genesets", "features"))
 
@@ -402,8 +402,8 @@ ggs_backbone <- function(res_enrich,
     bbobj <- backbone::sdsm(bpm_for_backbone)
   } else if (bb_method == "fdsm") {
     bbobj <- backbone::fdsm(bpm_for_backbone, trials = 1000)
-  } else if (bb_method == "hyperg") {
-    bbobj <- backbone::hyperg(bpm_for_backbone)
+  } else if (bb_method == "fixedrow") {
+    bbobj <- backbone::fixedrow(bpm_for_backbone)
   }
 
   bbextracted <- backbone::backbone.extract(bbobj,
