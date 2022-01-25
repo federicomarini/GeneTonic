@@ -110,7 +110,7 @@ GeneTonic <- function(dds = NULL,
     !is.null(dds) & !is.null(res_de) & !is.null(res_enrich) & !is.null(annotation_obj) 
   
   if (all_components_provided) {
-    message("Checks, all components TODO")
+    # throw error early if not correctly provided
     checkup_GeneTonic(
       dds,
       res_de,
@@ -120,8 +120,7 @@ GeneTonic <- function(dds = NULL,
   }
   
   if (!is.null(gtl)) {
-    message("Checks, gtl TODO")
-    
+    # throw error early if not correctly provided
     checkup_gtl(gtl)
   }
 
@@ -206,11 +205,6 @@ GeneTonic <- function(dds = NULL,
           right = TRUE,
           tooltip = shinyWidgets::tooltipOptions(title = "Save the gtl object!"),
           tags$h5("Save data as gtl object"),
-          # actionButton(
-          #   inputId = "btn_save_gtl",
-          #   icon = icon("gift"),
-          #   label = "Save as gtl serialized object TODO", style = .actionbutton_biocstyle
-          # )
           uiOutput("ui_gtl_download")
         )
       ),
