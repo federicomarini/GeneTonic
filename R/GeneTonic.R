@@ -456,7 +456,7 @@ GeneTonic <- function(dds = NULL,
       })
       
     } else {
-      message("GeneTonic info: no input data provided, upload at runtime expected")
+      message("GeneTonicInfo: no input data provided, upload at runtime expected")
 
       reactive_values$dds <- NULL
       reactive_values$res_de <- NULL
@@ -466,10 +466,9 @@ GeneTonic <- function(dds = NULL,
       reactive_values$upload_active <- TRUE
     }
     
-    
     # TODO: defining the logic of the data provided
     # 
-    # if( gtl is provided) {
+    # if (gtl is provided) {
     #   assign gtl components to the dds, res_de, res_enrich, and annotation
     #   ready to go
     #   don't display upload gtl button
@@ -480,10 +479,8 @@ GeneTonic <- function(dds = NULL,
     #   display upload gtl button
     #   upon uploading, check and assign gtl components to the dds, res_de, res_enrich, and annotation
     #   ready to go
-    # 
     # }
 
-    
     # panel Welcome -----------------------------------------------------------
 
     output$ui_uploadgtl <- renderUI({
@@ -541,13 +538,8 @@ GeneTonic <- function(dds = NULL,
         verbatimTextOutput("gtl_described")
       )
       
-      # TODO: once not required, remove this and replace with a collapsible
-      # element that contains the text output
-      # nrow(reactive_values$in_gtl$res_enrich)
     })
     
-    
-    # TODO: maybe do it for ANY gtl, either provided as param or uploaded
     output$gtl_described <- renderText({
       validate(
         need(
@@ -890,7 +882,6 @@ GeneTonic <- function(dds = NULL,
 
     output$ui_graph_summary <- renderUI({
       tagList(
-        # TODO: if other UI elements should be in, we can place them here
         h4("Highly connected genes"),
         DT::dataTableOutput("table_graph_summary")
       )
@@ -2245,7 +2236,8 @@ GeneTonic <- function(dds = NULL,
         
         bs4Dash::updateBox("box_upload", action = "toggle")
       } else {
-        showNotification("wrong file format, TODO!")
+        # TODO: probably need to handle this with a try-error mechanism
+        showNotification("Warning! You are providing the data to GeneTonic in an unexpected/wrong file format, please check this offline...", type = "error")
       }
       
     })
