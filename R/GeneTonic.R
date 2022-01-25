@@ -153,7 +153,7 @@ GeneTonic <- function(dds = NULL,
           width = "300px",
           size = "xs",
           right = TRUE,
-          tooltip = shinyWidgets::tooltipOptions(title = "More documentation"),
+          tooltip = shinyWidgets::tooltipOptions(title = "More documentation on GeneTonic"),
           tags$h5("Documentation"),
           actionButton(
             inputId = "btn_docs_vignette",
@@ -182,7 +182,7 @@ GeneTonic <- function(dds = NULL,
           width = "300px",
           size = "xs",
           right = TRUE,
-          tooltip = shinyWidgets::tooltipOptions(title = "More info!"),
+          tooltip = shinyWidgets::tooltipOptions(title = "More info on GeneTonic and on the current session"),
           tags$h5("Additional information"),
           actionButton(
             inputId = "btn_info_session",
@@ -203,8 +203,8 @@ GeneTonic <- function(dds = NULL,
           width = "300px",
           size = "xs",
           right = TRUE,
-          tooltip = shinyWidgets::tooltipOptions(title = "Save the gtl object!"),
-          tags$h5("Save data as gtl object"),
+          tooltip = shinyWidgets::tooltipOptions(title = "Exporting the data as GeneTonicList"),
+          tags$h5("Export current dataset"),
           uiOutput("ui_gtl_download")
         )
       ),
@@ -385,7 +385,7 @@ GeneTonic <- function(dds = NULL,
     reactive_values$mygenesets <- c()
     
     if (!is.null(gtl)) {
-      message("GeneTonic info: gtl object provided")
+      message("GeneTonicInfo: gtl object provided")
       
       checkup_gtl(gtl)
       
@@ -416,7 +416,7 @@ GeneTonic <- function(dds = NULL,
       })
       
     } else if (all_components_provided){
-      message("GeneTonic info: all components provided")
+      message("GeneTonicInfo: all components provided")
       
       checkup_GeneTonic(dds = dds,
                         res_de = res_de,
@@ -2031,11 +2031,11 @@ GeneTonic <- function(dds = NULL,
     
     output$ui_gtl_download <- renderUI({
       validate(
-        need(!is.null(reactive_values$gtl), "provide GTL TODO")
+        need(!is.null(reactive_values$gtl), "Please provide/upload your data as GeneTonicList or by its components")
       )
       gt_downloadButton(
         "btn_download_gtl",
-        "Save as gtl serialized object TODO",
+        "Save as GeneTonicList serialized object",
         class = "biocdlbutton",
         icon = "gift"
       )
@@ -2045,9 +2045,9 @@ GeneTonic <- function(dds = NULL,
       filename = function() {
         "exported_gtl.RDS"
       }, content = function(file) {
-        showNotification("Saving... TODO", type = "default")
+        showNotification("Saving current dataset as GeneTonicList serialized object...", type = "default")
         saveRDS(reactive_values$gtl, file = file)
-        showNotification("Done! TODO", type = "message")
+        showNotification("Done saving!", type = "message")
       }
     )
 
