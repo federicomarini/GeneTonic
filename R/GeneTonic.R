@@ -195,6 +195,23 @@ GeneTonic <- function(dds = NULL,
             icon = icon("heart"),
             label = "About GeneTonic", style = .actionbutton_biocstyle
           )
+        ),
+        shinyWidgets::dropdownButton(
+          inputId = "ddbtn_savegtl",
+          circle = FALSE,
+          status = "info",
+          icon = icon("save"),
+          width = "300px",
+          size = "xs",
+          right = TRUE,
+          tooltip = shinyWidgets::tooltipOptions(title = "Save the gtl object!"),
+          tags$h5("Save data as gtl object"),
+          # actionButton(
+          #   inputId = "btn_save_gtl",
+          #   icon = icon("gift"),
+          #   label = "Save as gtl serialized object TODO", style = .actionbutton_biocstyle
+          # )
+          uiOutput("ui_gtl_download")
         )
       ),
       title = bs4Dash::bs4DashBrand(
@@ -2017,6 +2034,28 @@ GeneTonic <- function(dds = NULL,
         saveRDS(se, file = file)
       }
     )
+    
+    output$ui_gtl_download <- renderUI({
+      validate(
+        need(!is.null(reactive_values$gtl), "provide GTL TODO")
+      )
+      gt_downloadButton(
+        "btn_download_gtl",
+        "Save as gtl serialized object TODO",
+        class = "biocdlbutton",
+        icon = "gift"
+      )
+    })
+    
+    output$btn_download_gtl <- downloadHandler(
+      filename = function() {
+        "exported_gtl.RDS"
+      }, content = function(file) {
+        showNotification("Saving... TODO", type = "default")
+        saveRDS(reactive_values$gtl, file = file)
+        showNotification("Done! TODO", type = "message")
+      }
+    )
 
     output$sessioninfo <- renderPrint({
       sessionInfo()
@@ -2164,6 +2203,19 @@ GeneTonic <- function(dds = NULL,
       )
     })
 
+    observeEvent(input$btn_save_gtl, {
+      # saving as gtl - useful if input provided as 4-components
+      if (!is.null(reactive_values$gtl)) {
+        # gtl is in
+        showNotification("ready to save", type = "message")
+        saveRDS(reactive_values$gtl, 
+                file = paste0("exportedGTL_", Sys.Date(), ".rds"))
+        showNotification("Done!", type = "message")
+      } else{
+        # need to provide the data yet
+        showNotification("no file provided", type = "warning")
+      } 
+    })
 
     observeEvent(input$btn_show_emap_distilled, {
       showModal(
