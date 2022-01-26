@@ -2335,10 +2335,15 @@ GeneTonic <- function(dds = NULL,
         
       new_genes <- .convert_text_to_names(input$editor_bookmarked_genes)
       
+      invalid_idx <- !new_genes %in% reactive_values$annotation_obj$gene_id & nzchar(new_genes)
+      new_genes[invalid_idx] <- paste0("# ", new_genes[invalid_idx])
+      
       new_genes_checked <- intersect(new_genes, 
                                      reactive_values$annotation_obj$gene_id)
       new_genes_not_in_anno <- setdiff(new_genes,
                                        reactive_values$annotation_obj$gene_id)
+      
+      newcontent_editor_genes <- paste0(new_genes, collapse = "\n")
       
       if (length(new_genes_not_in_anno) > 0)
         showNotification("Some gene identifiers provided are not found in the annotation object, please review the content of the editor", 
