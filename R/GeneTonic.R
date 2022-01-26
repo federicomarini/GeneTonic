@@ -1920,7 +1920,7 @@ GeneTonic <- function(dds = NULL,
             downloadButton("btn_export_genes", label = "", class = "biocdlbutton"),
             
             bs4Dash::box(
-              title = "Upload bookmarked genes",
+              title = "Manually add genes to bookmarks",
               collapsible = TRUE, 
               collapsed = TRUE,
               id = "box_bm_genes",
@@ -1956,7 +1956,7 @@ GeneTonic <- function(dds = NULL,
             downloadButton("btn_export_genesets", label = "", class = "biocdlbutton"),
             
             bs4Dash::box(
-              title = "Upload bookmarked genesets",
+              title = "Manually add genesets to bookmarks",
               collapsible = TRUE, 
               collapsed = TRUE,
               id = "box_bm_genesets",
