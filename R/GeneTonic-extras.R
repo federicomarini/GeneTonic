@@ -682,6 +682,14 @@ export_to_sif <- function(g, sif_file = "", edge_label = "relates_to") {
   return(invisible(sif_file))
 }
 
+
+.convert_text_to_names <- function(txt) {
+  rn <- strsplit(txt, split="\n")[[1]]
+  rn <- sub("#.*", "", rn)
+  rn <- sub("^ +", "", rn)
+  sub(" +$", "", rn)
+}
+
 GeneTonic_footer <- fluidRow(
   column(
     width = 1,
