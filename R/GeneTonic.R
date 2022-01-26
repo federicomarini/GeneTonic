@@ -1945,7 +1945,6 @@ GeneTonic <- function(dds = NULL,
                            label = "Upload genes",
                            style = .helpbutton_biocstyle)
             )
-            # ideally completed by a function/param to upload them
           ),
           column(
             width = 6,
@@ -1954,7 +1953,35 @@ GeneTonic <- function(dds = NULL,
             ),
             h5("Bookmarked genesets"),
             DT::dataTableOutput("bookmarks_genesets"),
-            downloadButton("btn_export_genesets", label = "", class = "biocdlbutton")
+            downloadButton("btn_export_genesets", label = "", class = "biocdlbutton"),
+            
+            bs4Dash::box(
+              title = "Upload bookmarked genesets",
+              collapsible = TRUE, 
+              collapsed = TRUE,
+              id = "box_bm_genesets",
+              width = 12,
+              shinyAce::aceEditor(
+                "editor_bookmarked_genesets",
+                theme = "solarized_light",
+                height = "200px",
+                readOnly = FALSE,
+                wordWrap = TRUE,
+                placeholder = paste(
+                  c(
+                    "Enter some geneset identifiers, as they are ",
+                    "provided in the `gs_id` column of the ",
+                    "res_enrich object. For example:",
+                    head(reactive_values$res_enrich$gs_id, 3)
+                  ),
+                  collapse = "\n"
+                )
+              ),
+              actionButton("load_bookmarked_genesets",
+                           label = "Upload genesets",
+                           style = .helpbutton_biocstyle)
+            )
+            # ideally completed by a function/param to upload them
           )
         )
       )
@@ -2330,8 +2357,6 @@ GeneTonic <- function(dds = NULL,
     
     observeEvent(input$load_bookmarked_genes, {
       showNotification("Loading genes from editor...", type = "default")
-      # message(input$editor_bookmarked_genes)
-      # message(class(input$editor_bookmarked_genes))
         
       new_genes <- .convert_text_to_names(input$editor_bookmarked_genes)
       
@@ -2373,9 +2398,54 @@ GeneTonic <- function(dds = NULL,
         )
       }
       
-      # message(reactive_values$annotation_obj[reactive_values$mygenes, "gene_id"])
-      # message(length(reactive_values$mygenes))
+      shinyAce::updateAceEditor(session, editorId = "editor_bookmarked_genes", value = newcontent_editor_genes)
       
+    })
+    
+    observeEvent(input$load_bookmarked_genesets, {
+      showNotification("Loading genesets from editor...", type = "default")
+      
+      new_genesets <- .convert_text_to_names(input$editor_bookmarked_genesets)
+      
+      invalid_idx <- !new_genesets %in% reactive_values$res_enrich$gs_id & nzchar(new_genesets)
+      new_genesets[invalid_idx] <- paste0("# ", new_genesets[invalid_idx])
+      
+      new_genesets_checked <- intersect(new_genesets, 
+                                        reactive_values$res_enrich$gs_id)
+      new_genesets_not_in_re <- setdiff(new_genesets,
+                                          reactive_values$res_enrich$gs_id)
+      
+      newcontent_editor_genesets <- paste0(new_genesets, collapse = "\n")
+      
+      if (length(new_genesets_not_in_re) > 0)
+        showNotification("Some geneset identifiers provided are not found in the res_enrich object, please review the content of the editor", 
+                         type = "warning")
+      
+      nr_bookmarked_genesets_pre <- length(reactive_values$mygenesets)
+      nr_bookmarked_genesets_post <- length(unique(c(reactive_values$mygenesets, new_genesets_checked)))
+      
+      if (length(new_genesets_checked) > 0)
+        showNotification(
+          ui = sprintf("Found %d valid geneset identifiers in the editor", length(new_genesets_checked)),
+          type = "message"
+        )
+      
+      reactive_values$mygenesets <- unique(c(reactive_values$mygenesets, new_genesets_checked))
+      
+      if (nr_bookmarked_genesets_post > nr_bookmarked_genesets_pre) {
+        showNotification(
+          ui = sprintf("Added %d valid geneset identifiers to the bookmarked genesets", 
+                       nr_bookmarked_genesets_post - nr_bookmarked_genesets_pre),
+          type = "message"
+        )
+      } else {
+        showNotification(
+          ui = "All geneset identifiers are already among the bookmarked genesets!",
+          type = "default"
+        )
+      }
+      
+      shinyAce::updateAceEditor(session, editorId = "editor_bookmarked_genesets", value = newcontent_editor_genesets)
     })
 
 
