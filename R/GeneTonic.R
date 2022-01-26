@@ -1917,7 +1917,34 @@ GeneTonic <- function(dds = NULL,
             ),
             h5("Bookmarked genes"),
             DT::dataTableOutput("bookmarks_genes"),
-            downloadButton("btn_export_genes", label = "", class = "biocdlbutton")
+            downloadButton("btn_export_genes", label = "", class = "biocdlbutton"),
+            
+            bs4Dash::box(
+              title = "Upload bookmarked genes",
+              collapsible = TRUE, 
+              collapsed = TRUE,
+              id = "box_bm_genes",
+              width = 12,
+              shinyAce::aceEditor(
+                "editor_bookmarked_genes",
+                theme = "solarized_light",
+                height = "200px",
+                readOnly = FALSE,
+                wordWrap = TRUE,
+                placeholder = paste(
+                  c(
+                    "Enter some gene identifiers, as they are ",
+                    "provided in the `gene_id` column of the ",
+                    "annotation object. For example:",
+                    head(reactive_values$annotation_obj$gene_id, 3)
+                  ),
+                  collapse = "\n"
+                )
+              ),
+              actionButton("load_bookmarked_genes",
+                           label = "Upload genes",
+                           style = .helpbutton_biocstyle)
+            )
             # ideally completed by a function/param to upload them
           ),
           column(
@@ -2299,6 +2326,51 @@ GeneTonic <- function(dds = NULL,
       else if (input$gt_tabs == "tab_bookmarks") {
         showNotification("You are already in the Bookmarks tab...")
       }
+    })
+    
+    observeEvent(input$load_bookmarked_genes, {
+      showNotification("Loading genes from editor...", type = "default")
+      # message(input$editor_bookmarked_genes)
+      # message(class(input$editor_bookmarked_genes))
+        
+      new_genes <- .convert_text_to_names(input$editor_bookmarked_genes)
+      
+      new_genes_checked <- intersect(new_genes, 
+                                     reactive_values$annotation_obj$gene_id)
+      new_genes_not_in_anno <- setdiff(new_genes,
+                                       reactive_values$annotation_obj$gene_id)
+      
+      if (length(new_genes_not_in_anno) > 0)
+        showNotification("Some gene identifiers provided are not found in the annotation object, please review the content of the editor", 
+                         type = "warning")
+      
+      nr_bookmarked_genes_pre <- length(reactive_values$mygenes)
+      nr_bookmarked_genes_post <- length(unique(c(reactive_values$mygenes, new_genes_checked)))
+      
+      if (length(new_genes_checked) > 0)
+        showNotification(
+          ui = sprintf("Found %d valid gene identifiers in the editor", length(new_genes_checked)),
+          type = "message"
+        )
+      
+      reactive_values$mygenes <- unique(c(reactive_values$mygenes, new_genes_checked))
+      
+      if (nr_bookmarked_genes_post > nr_bookmarked_genes_pre) {
+        showNotification(
+          ui = sprintf("Added %d valid gene identifiers to the bookmarked genes", 
+                       nr_bookmarked_genes_post - nr_bookmarked_genes_pre),
+          type = "message"
+        )
+      } else {
+        showNotification(
+          ui = "All gene identifiers are already among the bookmarked features!",
+          type = "default"
+        )
+      }
+      
+      # message(reactive_values$annotation_obj[reactive_values$mygenes, "gene_id"])
+      # message(length(reactive_values$mygenes))
+      
     })
 
 
