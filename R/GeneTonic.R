@@ -2359,18 +2359,22 @@ GeneTonic <- function(dds = NULL,
       showNotification("Loading genes from editor...", type = "default")
         
       new_genes <- .convert_text_to_names(input$editor_bookmarked_genes)
-      
-      invalid_idx <- !new_genes %in% reactive_values$annotation_obj$gene_id & nzchar(new_genes)
-      new_genes[invalid_idx] <- paste0("# ", new_genes[invalid_idx])
-      
       new_genes_checked <- intersect(new_genes, 
                                      reactive_values$annotation_obj$gene_id)
       new_genes_not_in_anno <- setdiff(new_genes,
                                        reactive_values$annotation_obj$gene_id)
       
+      # trying to rescue as they could be provided as gene names
+      new_genes_rescued <- 
+        na.omit(reactive_values$annotation_obj[match(new_genes_not_in_anno, reactive_values$annotation_obj$gene_name), "gene_id"])
+      new_genes_checked <- c(new_genes_checked, new_genes_rescued)
+      
+      invalid_idx <- !new_genes %in% reactive_values$annotation_obj$gene_id & nzchar(new_genes)
+      invalid_idx_names <- !new_genes %in% reactive_values$annotation_obj$gene_name & nzchar(new_genes)
+      new_genes[invalid_idx & invalid_idx_names] <- paste0("# ", new_genes[invalid_idx & invalid_idx_names])
       newcontent_editor_genes <- paste0(new_genes, collapse = "\n")
       
-      if (length(new_genes_not_in_anno) > 0)
+      if (sum(invalid_idx & invalid_idx_names) > 0)
         showNotification("Some gene identifiers provided are not found in the annotation object, please review the content of the editor", 
                          type = "warning")
       
