@@ -2410,18 +2410,22 @@ GeneTonic <- function(dds = NULL,
       showNotification("Loading genesets from editor...", type = "default")
       
       new_genesets <- .convert_text_to_names(input$editor_bookmarked_genesets)
-      
-      invalid_idx <- !new_genesets %in% reactive_values$res_enrich$gs_id & nzchar(new_genesets)
-      new_genesets[invalid_idx] <- paste0("# ", new_genesets[invalid_idx])
-      
       new_genesets_checked <- intersect(new_genesets, 
                                         reactive_values$res_enrich$gs_id)
       new_genesets_not_in_re <- setdiff(new_genesets,
-                                          reactive_values$res_enrich$gs_id)
+                                        reactive_values$res_enrich$gs_id)
       
+      # trying to rescue as they could be provided as geneset descriptions
+      new_genesets_rescued <- 
+        na.omit(reactive_values$res_enrich[match(new_genesets_not_in_re, reactive_values$res_enrich$gs_description), "gs_id"])
+      new_genesets_checked <- c(new_genesets_checked, new_genesets_rescued)
+      
+      invalid_idx <- !new_genesets %in% reactive_values$res_enrich$gs_id & nzchar(new_genesets)
+      invalid_idx_names <- !new_genesets %in% reactive_values$res_enrich$gs_description & nzchar(new_genesets)
+      new_genesets[invalid_idx & invalid_idx_names] <- paste0("# ", new_genesets[invalid_idx & invalid_idx_names])
       newcontent_editor_genesets <- paste0(new_genesets, collapse = "\n")
       
-      if (length(new_genesets_not_in_re) > 0)
+      if (sum(invalid_idx & invalid_idx_names) > 0)
         showNotification("Some geneset identifiers provided are not found in the res_enrich object, please review the content of the editor", 
                          type = "warning")
       
