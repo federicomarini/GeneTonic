@@ -2257,6 +2257,7 @@ GeneTonic <- function(dds = NULL,
       )
     })
 
+    # gtl upload --------------------------------------------------------------
     observeEvent(input$uploadgtl, {
       reactive_values$in_gtl <- readRDS(input$uploadgtl$datapath)
 
@@ -2292,7 +2293,27 @@ GeneTonic <- function(dds = NULL,
             annotation_obj = reactive_values$annotation_obj
           )
         })
-
+        
+        # updating the bookmarks, in case coming from a previous sessions and
+        # these are still loaded - can be interesting to have them kept in if 
+        # identifiers are found in the newly provided gtl
+        if (length(reactive_values$mygenes) > 0) {
+          showNotification("Updating genes bookmarks, checking in the new gtl object")
+          message("Checking bookmarked genes...")
+          reactive_values$mygenes <- intersect(
+            reactive_values$mygenes,
+            reactive_values$annotation_obj$gene_id
+          )
+        }
+        if (length(reactive_values$mygenesets) > 0) {
+          showNotification("Updating genesets bookmarks, checking in the new gtl object")
+          message("Checking bookmarked genesets...")
+          reactive_values$mygenesets <- intersect(
+            reactive_values$mygenesets,
+            reactive_values$res_enrich$gs_id
+          )
+        }
+        
         bs4Dash::updateBox("box_upload", action = "toggle")
       } else {
         # TODO: probably need to handle this with a try-error mechanism
