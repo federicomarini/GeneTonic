@@ -29,8 +29,8 @@
 #' @param project_id  A character string, which can be considered as an identifier
 #' for the set/session, and will be e.g. used in the title of the report created
 #' via [happy_hour()]
-#' @param size_gtl Numeric value, specifying the maximal size in MB for the 
-#' accepted GeneTonicList object - this applies when uploading the dataset at 
+#' @param size_gtl Numeric value, specifying the maximal size in MB for the
+#' accepted GeneTonicList object - this applies when uploading the dataset at
 #' runtime
 #'
 #' @return A Shiny app object is returned, for interactive data exploration
@@ -105,10 +105,10 @@ GeneTonic <- function(dds = NULL,
   on.exit(options(oopt))
 
   usage_mode <- "shiny_mode"
-  
-  all_components_provided <- 
-    !is.null(dds) & !is.null(res_de) & !is.null(res_enrich) & !is.null(annotation_obj) 
-  
+
+  all_components_provided <-
+    !is.null(dds) & !is.null(res_de) & !is.null(res_enrich) & !is.null(annotation_obj)
+
   if (all_components_provided) {
     # throw error early if not correctly provided
     checkup_GeneTonic(
@@ -118,7 +118,7 @@ GeneTonic <- function(dds = NULL,
       annotation_obj
     )
   }
-  
+
   if (!is.null(gtl)) {
     # throw error early if not correctly provided
     checkup_gtl(gtl)
@@ -376,25 +376,25 @@ GeneTonic <- function(dds = NULL,
 
   # nocov start
   genetonic_server <- function(input, output, session) {
-    
+
     # initializing reactives --------------------------------------------------
     reactive_values <- reactiveValues()
-    
+
     # for the usage in the bookmarks
     reactive_values$mygenes <- c()
     reactive_values$mygenesets <- c()
-    
+
     if (!is.null(gtl)) {
       message("GeneTonicInfo: gtl object provided")
-      
+
       checkup_gtl(gtl)
-      
+
       reactive_values$gtl <- gtl
       reactive_values$dds <- gtl$dds
       reactive_values$res_de <- gtl$res_de
       reactive_values$res_enrich <- gtl$res_enrich
       reactive_values$annotation_obj <- gtl$annotation_obj
-      
+
       # clean up the result object, e.g. removing the NAs in the relevant columns
       removed_genes <- is.na(gtl$res_de$log2FoldChange)
       message(
@@ -402,11 +402,11 @@ GeneTonic <- function(dds = NULL,
         "/", nrow(gtl$res_de), " rows from the DE `res_de` object - log2FC values detected as NA"
       )
       reactive_values$res_de <- gtl$res_de[!removed_genes, ]
-      
+
       reactive_values$myvst <- reactive({
         vst(reactive_values$dds)
       })
-      
+
       reactive_values$res_enhanced <- reactive({
         get_aggrscores(
           res_enrich = reactive_values$res_enrich,
@@ -414,15 +414,15 @@ GeneTonic <- function(dds = NULL,
           annotation_obj = reactive_values$annotation_obj
         )
       })
-      
+
     } else if (all_components_provided){
       message("GeneTonicInfo: all components provided")
-      
+
       checkup_GeneTonic(dds = dds,
                         res_de = res_de,
                         res_enrich= res_enrich,
                         annotation_obj = annotation_obj)
-      
+
       reactive_values$dds <- dds
       reactive_values$res_de <- res_de
       reactive_values$res_enrich <- res_enrich
@@ -434,7 +434,7 @@ GeneTonic <- function(dds = NULL,
         res_enrich = res_enrich,
         annotation_obj = annotation_obj
       )
-      
+
       # clean up the result object, e.g. removing the NAs in the relevant columns
       removed_genes <- is.na(res_de$log2FoldChange)
       message(
@@ -442,11 +442,11 @@ GeneTonic <- function(dds = NULL,
         "/", nrow(res_de), " rows from the DE `res_de` object - log2FC values detected as NA"
       )
       reactive_values$res_de <- res_de[!removed_genes, ]
-      
+
       reactive_values$myvst <- reactive({
         vst(reactive_values$dds)
       })
-      
+
       reactive_values$res_enhanced <- reactive({
         get_aggrscores(
           res_enrich = reactive_values$res_enrich,
@@ -454,7 +454,7 @@ GeneTonic <- function(dds = NULL,
           annotation_obj = reactive_values$annotation_obj
         )
       })
-      
+
     } else {
       message("GeneTonicInfo: no input data provided, upload at runtime expected")
 
@@ -462,12 +462,12 @@ GeneTonic <- function(dds = NULL,
       reactive_values$res_de <- NULL
       reactive_values$res_enrich <- NULL
       reactive_values$annotation_obj <- NULL
-      
+
       reactive_values$upload_active <- TRUE
     }
-    
+
     # TODO: defining the logic of the data provided
-    # 
+    #
     # if (gtl is provided) {
     #   assign gtl components to the dds, res_de, res_enrich, and annotation
     #   ready to go
@@ -487,7 +487,7 @@ GeneTonic <- function(dds = NULL,
       validate(
         need(reactive_values$upload_active, message = "")
       )
-      
+
       tagList(
         fluidRow(
           column(
@@ -504,7 +504,7 @@ GeneTonic <- function(dds = NULL,
                 column(
                   width = 6,
                   img(src = "GeneTonic/GeneTonic.png", height = "150px"),
-                  fileInput(inputId = "uploadgtl", 
+                  fileInput(inputId = "uploadgtl",
                             label = "Upload a GeneTonicList serialized object")
                 ),
                 column(
@@ -521,38 +521,38 @@ GeneTonic <- function(dds = NULL,
             )
           )
         )
-        
+
       )
     })
-    
+
     output$ui_describegtl <- renderUI({
       validate(
         need(
           !is.null(reactive_values$in_gtl), message = ""
         )
       )
-      
+
       tags$details(
         tags$summary("What's in my GeneTonicList object?"),
         p("This is the output of the `describe_gtl` function on the provided object:"),
         verbatimTextOutput("gtl_described")
       )
-      
+
     })
-    
+
     output$gtl_described <- renderText({
       validate(
         need(
           !is.null(reactive_values$in_gtl), message = "No gtl file uploaded"
         )
       )
-      
+
       describe_gtl(reactive_values$in_gtl)
     })
-    
+
     output$ui_panel_welcome <- renderUI({
       validate(
-        need(!is.null(reactive_values$gtl) , 
+        need(!is.null(reactive_values$gtl) ,
              message = "Please provide a GeneTonicList (e.g. via the 'Upload your data as a GeneTonicList' box) or its components (possible if you are calling GeneTonic from the command line).\n\n\nAll the content of this tab will be displayed upon providing this object")
       )
       tagList(
@@ -621,7 +621,7 @@ GeneTonic <- function(dds = NULL,
         uiOutput("ui_infoboxes")
       )
     })
-      
+
     output$overview_dds <- DT::renderDataTable({
       DT::datatable(
         counts(reactive_values$dds),
@@ -735,13 +735,13 @@ GeneTonic <- function(dds = NULL,
     })
 
     # panel GeneSet-Gene ------------------------------------------------------
-    
+
     output$ui_panel_ggs <- renderUI({
       validate(
-        need(!is.null(reactive_values$gtl) , 
+        need(!is.null(reactive_values$gtl) ,
              message = "Gene-Geneset Panel\n\n\n\nPlease provide a GeneTonicList or its components to display the content of this tab.")
       )
-      
+
       tagList(
         fluidRow(
           column(
@@ -833,7 +833,7 @@ GeneTonic <- function(dds = NULL,
         )
       )
     })
-    
+
     reactive_values$ggs_graph <- reactive({
       g <- ggs_graph(
         res_enrich = reactive_values$res_enrich,
@@ -912,7 +912,7 @@ GeneTonic <- function(dds = NULL,
         message = "Please select a gene set from the Gene-Geneset Graph."
       ))
       cur_gsid <- reactive_values$res_enrich$gs_id[match(input$ggsnetwork_selected, reactive_values$res_enrich$gs_description)]
-      
+
       if (!is.null(input$exp_condition)) {
         gs_heatmap(
           reactive_values$myvst(),
@@ -954,10 +954,10 @@ GeneTonic <- function(dds = NULL,
         message = ""
       ))
       cur_gsid <- reactive_values$res_enrich$gs_id[match(input$ggsnetwork_selected, reactive_values$res_enrich$gs_description)]
-      
-      # if (input$box_geneset$collapsed) 
+
+      # if (input$box_geneset$collapsed)
       #   bs4Dash::updatebs4Card("box_geneset", action = "toggle")
-      # if (!input$box_gene$collapsed) 
+      # if (!input$box_gene$collapsed)
       #   bs4Dash::updatebs4Card("box_gene", action = "toggle")
 
       if (input$labels) {
@@ -1012,12 +1012,12 @@ GeneTonic <- function(dds = NULL,
       ))
 
       cur_geneid <- reactive_values$annotation_obj$gene_id[match(cur_sel, reactive_values$annotation_obj$gene_name)]
-      
-      # if (input$box_gene$collapsed) 
+
+      # if (input$box_gene$collapsed)
       #   bs4Dash::updatebs4Card("box_gene", action = "toggle")
-      # if (!input$box_geneset$collapsed) 
+      # if (!input$box_geneset$collapsed)
       #   bs4Dash::updatebs4Card("box_geneset", action = "toggle")
-      
+
       geneinfo_2_html(cur_sel, reactive_values$res_de)
     })
 
@@ -1087,13 +1087,13 @@ GeneTonic <- function(dds = NULL,
 
 
     # panel EnrichmentMap -----------------------------------------------------
-    
+
     output$ui_panel_em <- renderUI({
       validate(
-        need(!is.null(reactive_values$gtl) , 
+        need(!is.null(reactive_values$gtl) ,
              message = "Enrichment Map Panel\n\n\n\nPlease provide a GeneTonicList or its components to display the content of this tab.")
       )
-      
+
       tagList(
         fluidRow(
           column(
@@ -1149,7 +1149,7 @@ GeneTonic <- function(dds = NULL,
             )
           )
         )
-        
+
         ,
         fluidRow(
           bs4Dash::bs4Card(
@@ -1188,7 +1188,7 @@ GeneTonic <- function(dds = NULL,
         )
       )
     })
-        
+
     emap_graph <- reactive({
       emg <- enrichment_map(
         res_enrich = reactive_values$res_enrich,
@@ -1417,10 +1417,10 @@ GeneTonic <- function(dds = NULL,
 
     output$ui_panel_overview <- renderUI({
       validate(
-        need(!is.null(reactive_values$gtl) , 
+        need(!is.null(reactive_values$gtl) ,
              message = "Overview Panel\n\n\n\nPlease provide a GeneTonicList or its components to display the content of this tab.")
       )
-      
+
       tagList(
         fluidRow(
           column(
@@ -1544,9 +1544,9 @@ GeneTonic <- function(dds = NULL,
         )
       )
     })
-    
+
     output$enriched_funcres <- renderPlot({
-      enhance_table(reactive_values$res_enrich, 
+      enhance_table(reactive_values$res_enrich,
                     reactive_values$res_de,
                     annotation_obj = reactive_values$annotation_obj,
                     n_gs = input$n_genesets
@@ -1586,10 +1586,10 @@ GeneTonic <- function(dds = NULL,
 
     output$ui_panel_gsviz <- renderUI({
       validate(
-        need(!is.null(reactive_values$gtl) , 
+        need(!is.null(reactive_values$gtl) ,
              message = "GSViz Panel\n\n\n\nPlease provide a GeneTonicList or its components to display the content of this tab.")
       )
-      
+
       tagList(
         fluidRow(
           column(
@@ -1766,7 +1766,7 @@ GeneTonic <- function(dds = NULL,
         )
       )
     })
-    
+
     gss_mat <- reactive({
       gs_scores(
         se = reactive_values$myvst(),
@@ -1783,14 +1783,14 @@ GeneTonic <- function(dds = NULL,
     })
 
     output$alluvial_genesets <- renderPlotly({
-      gs_alluvial(reactive_values$res_enrich, 
-                  reactive_values$res_de, 
-                  reactive_values$annotation_obj, 
+      gs_alluvial(reactive_values$res_enrich,
+                  reactive_values$res_de,
+                  reactive_values$annotation_obj,
                   n_gs = input$n_genesets)
     })
 
     output$mds_genesets <- renderPlot({
-      gs_mds(reactive_values$res_enrich, 
+      gs_mds(reactive_values$res_enrich,
              reactive_values$res_de, reactive_values$annotation_obj,
              mds_colorby = "z_score",
              mds_labels = input$n_genesets
@@ -1798,8 +1798,8 @@ GeneTonic <- function(dds = NULL,
     })
 
     output$gs_summaryheat <- renderPlot({
-      gs_summary_heat(reactive_values$res_enrich, 
-                      reactive_values$res_de, 
+      gs_summary_heat(reactive_values$res_enrich,
+                      reactive_values$res_de,
                       reactive_values$annotation_obj,
         n_gs = input$n_genesets
       )
@@ -1846,10 +1846,10 @@ GeneTonic <- function(dds = NULL,
 
     output$ui_panel_bookmarks <- renderUI({
       validate(
-        need(!is.null(reactive_values$gtl) , 
+        need(!is.null(reactive_values$gtl) ,
              message = "Bookmarks Panel\n\n\n\nPlease provide a GeneTonicList or its components to display the content of this tab.")
       )
-      
+
       tagList(
         fluidRow(
           column(
@@ -1906,7 +1906,7 @@ GeneTonic <- function(dds = NULL,
         )
       )
     })
-    
+
     output$ui_bookmarks <- renderUI({
       tagList(
         fluidRow(
@@ -1918,10 +1918,10 @@ GeneTonic <- function(dds = NULL,
             h5("Bookmarked genes"),
             DT::dataTableOutput("bookmarks_genes"),
             downloadButton("btn_export_genes", label = "", class = "biocdlbutton"),
-            
+
             bs4Dash::box(
               title = "Manually add genes to bookmarks",
-              collapsible = TRUE, 
+              collapsible = TRUE,
               collapsed = TRUE,
               id = "box_bm_genes",
               width = 12,
@@ -1933,10 +1933,12 @@ GeneTonic <- function(dds = NULL,
                 wordWrap = TRUE,
                 placeholder = paste(
                   c(
-                    "Enter some gene identifiers, as they are ",
-                    "provided in the `gene_id` column of the ",
-                    "annotation object. For example:",
-                    head(reactive_values$annotation_obj$gene_id, 3)
+                    "Enter some gene identifiers or gene names, ",
+                    "as they are provided in the `gene_id` and ",
+                    "`gene_name` columns of the annotation object. ",
+                    "For example:",
+                    head(reactive_values$annotation_obj$gene_id, 3),
+                    na.omit(reactive_values$annotation_obj$gene_name[c(4,5)])
                   ),
                   collapse = "\n"
                 )
@@ -1954,10 +1956,10 @@ GeneTonic <- function(dds = NULL,
             h5("Bookmarked genesets"),
             DT::dataTableOutput("bookmarks_genesets"),
             downloadButton("btn_export_genesets", label = "", class = "biocdlbutton"),
-            
+
             bs4Dash::box(
               title = "Manually add genesets to bookmarks",
-              collapsible = TRUE, 
+              collapsible = TRUE,
               collapsed = TRUE,
               id = "box_bm_genesets",
               width = 12,
@@ -1971,8 +1973,11 @@ GeneTonic <- function(dds = NULL,
                   c(
                     "Enter some geneset identifiers, as they are ",
                     "provided in the `gs_id` column of the ",
-                    "res_enrich object. For example:",
-                    head(reactive_values$res_enrich$gs_id, 3)
+                    "res_enrich object. You can also use the ",
+                    "values in the `gs_description` field. ",
+                    "For example:",
+                    head(reactive_values$res_enrich$gs_id, 3),
+                    reactive_values$res_enrich$gs_description[c(4,5)]
                   ),
                   collapse = "\n"
                 )
@@ -2073,7 +2078,7 @@ GeneTonic <- function(dds = NULL,
         saveRDS(se, file = file)
       }
     )
-    
+
     output$ui_gtl_download <- renderUI({
       validate(
         need(!is.null(reactive_values$gtl), "Please provide/upload your data as GeneTonicList or by its components")
@@ -2085,7 +2090,7 @@ GeneTonic <- function(dds = NULL,
         icon = "gift"
       )
     })
-    
+
     output$btn_download_gtl <- downloadHandler(
       filename = function() {
         "exported_gtl.RDS"
@@ -2101,15 +2106,15 @@ GeneTonic <- function(dds = NULL,
     })
 
     # controlbar --------------------------------------------------------------
-    
+
     output$ui_controlbar <- renderUI({
       validate(
-        need(!is.null(reactive_values$gtl) , 
+        need(!is.null(reactive_values$gtl) ,
              message = "\n\n\nPlease provide a GeneTonicList or its components to display the content of the control bar.")
       )
-      
+
       # message(nrow(reactive_values$res_enrich))
-      
+
       tagList(
         numericInput(
           inputId = "de_fdr",
@@ -2132,7 +2137,7 @@ GeneTonic <- function(dds = NULL,
         checkboxInput("labels", label = "Display all labels", value = FALSE)
       )
     })
-    
+
     outputOptions(output, "ui_controlbar", suspendWhenHidden = FALSE)
 
     # observers ---------------------------------------------------------------
@@ -2251,35 +2256,35 @@ GeneTonic <- function(dds = NULL,
         )
       )
     })
-    
+
     observeEvent(input$uploadgtl, {
       reactive_values$in_gtl <- readRDS(input$uploadgtl$datapath)
-      
+
       if (is.null(checkup_gtl(reactive_values$in_gtl))) {
         reactive_values$gtl <- reactive_values$in_gtl
         reactive_values$dds <- reactive_values$in_gtl$dds
         reactive_values$res_de <- reactive_values$in_gtl$res_de
         reactive_values$res_enrich <- reactive_values$in_gtl$res_enrich
         reactive_values$annotation_obj <- reactive_values$in_gtl$annotation_obj
-        
+
         showNotification(
           ui = "Upload complete! Re-open the 'File Upload' collapsible box if you want to upload another gtl object.",
           type = "message"
         )
-        
-        
+
+
         removed_genes <- is.na(reactive_values$res_de$log2FoldChange)
         message(
           "Removing ", sum(removed_genes),
           "/", nrow(reactive_values$res_de), " rows from the DE `res_de` object - log2FC values detected as NA"
         )
         reactive_values$res_de <- reactive_values$res_de[!removed_genes, ]
-        
-        
+
+
         reactive_values$myvst <- reactive({
           vst(reactive_values$dds)
         })
-        
+
         reactive_values$res_enhanced <- reactive({
           get_aggrscores(
             res_enrich = reactive_values$res_enrich,
@@ -2287,13 +2292,13 @@ GeneTonic <- function(dds = NULL,
             annotation_obj = reactive_values$annotation_obj
           )
         })
-        
+
         bs4Dash::updateBox("box_upload", action = "toggle")
       } else {
         # TODO: probably need to handle this with a try-error mechanism
         showNotification("Warning! You are providing the data to GeneTonic in an unexpected/wrong file format, please check this offline...", type = "error")
       }
-      
+
     })
 
 
@@ -2354,44 +2359,44 @@ GeneTonic <- function(dds = NULL,
         showNotification("You are already in the Bookmarks tab...")
       }
     })
-    
+
     observeEvent(input$load_bookmarked_genes, {
       showNotification("Loading genes from editor...", type = "default")
-        
-      new_genes <- .convert_text_to_names(input$editor_bookmarked_genes)
-      new_genes_checked <- intersect(new_genes, 
+
+      new_genes <- editor_to_vector_sanitized(input$editor_bookmarked_genes)
+      new_genes_checked <- intersect(new_genes,
                                      reactive_values$annotation_obj$gene_id)
       new_genes_not_in_anno <- setdiff(new_genes,
                                        reactive_values$annotation_obj$gene_id)
-      
+
       # trying to rescue as they could be provided as gene names
-      new_genes_rescued <- 
+      new_genes_rescued <-
         na.omit(reactive_values$annotation_obj[match(new_genes_not_in_anno, reactive_values$annotation_obj$gene_name), "gene_id"])
       new_genes_checked <- c(new_genes_checked, new_genes_rescued)
-      
+
       invalid_idx <- !new_genes %in% reactive_values$annotation_obj$gene_id & nzchar(new_genes)
       invalid_idx_names <- !new_genes %in% reactive_values$annotation_obj$gene_name & nzchar(new_genes)
       new_genes[invalid_idx & invalid_idx_names] <- paste0("# ", new_genes[invalid_idx & invalid_idx_names])
       newcontent_editor_genes <- paste0(new_genes, collapse = "\n")
-      
+
       if (sum(invalid_idx & invalid_idx_names) > 0)
-        showNotification("Some gene identifiers provided are not found in the annotation object, please review the content of the editor", 
+        showNotification("Some gene identifiers provided are not found in the annotation object, please review the content of the editor",
                          type = "warning")
-      
+
       nr_bookmarked_genes_pre <- length(reactive_values$mygenes)
       nr_bookmarked_genes_post <- length(unique(c(reactive_values$mygenes, new_genes_checked)))
-      
+
       if (length(new_genes_checked) > 0)
         showNotification(
           ui = sprintf("Found %d valid gene identifiers in the editor", length(new_genes_checked)),
           type = "message"
         )
-      
+
       reactive_values$mygenes <- unique(c(reactive_values$mygenes, new_genes_checked))
-      
+
       if (nr_bookmarked_genes_post > nr_bookmarked_genes_pre) {
         showNotification(
-          ui = sprintf("Added %d valid gene identifiers to the bookmarked genes", 
+          ui = sprintf("Added %d valid gene identifiers to the bookmarked genes",
                        nr_bookmarked_genes_post - nr_bookmarked_genes_pre),
           type = "message"
         )
@@ -2401,48 +2406,48 @@ GeneTonic <- function(dds = NULL,
           type = "default"
         )
       }
-      
+
       shinyAce::updateAceEditor(session, editorId = "editor_bookmarked_genes", value = newcontent_editor_genes)
-      
+
     })
-    
+
     observeEvent(input$load_bookmarked_genesets, {
       showNotification("Loading genesets from editor...", type = "default")
-      
-      new_genesets <- .convert_text_to_names(input$editor_bookmarked_genesets)
-      new_genesets_checked <- intersect(new_genesets, 
+
+      new_genesets <- editor_to_vector_sanitized(input$editor_bookmarked_genesets)
+      new_genesets_checked <- intersect(new_genesets,
                                         reactive_values$res_enrich$gs_id)
       new_genesets_not_in_re <- setdiff(new_genesets,
                                         reactive_values$res_enrich$gs_id)
-      
+
       # trying to rescue as they could be provided as geneset descriptions
-      new_genesets_rescued <- 
+      new_genesets_rescued <-
         na.omit(reactive_values$res_enrich[match(new_genesets_not_in_re, reactive_values$res_enrich$gs_description), "gs_id"])
       new_genesets_checked <- c(new_genesets_checked, new_genesets_rescued)
-      
+
       invalid_idx <- !new_genesets %in% reactive_values$res_enrich$gs_id & nzchar(new_genesets)
       invalid_idx_names <- !new_genesets %in% reactive_values$res_enrich$gs_description & nzchar(new_genesets)
       new_genesets[invalid_idx & invalid_idx_names] <- paste0("# ", new_genesets[invalid_idx & invalid_idx_names])
       newcontent_editor_genesets <- paste0(new_genesets, collapse = "\n")
-      
+
       if (sum(invalid_idx & invalid_idx_names) > 0)
-        showNotification("Some geneset identifiers provided are not found in the res_enrich object, please review the content of the editor", 
+        showNotification("Some geneset identifiers provided are not found in the res_enrich object, please review the content of the editor",
                          type = "warning")
-      
+
       nr_bookmarked_genesets_pre <- length(reactive_values$mygenesets)
       nr_bookmarked_genesets_post <- length(unique(c(reactive_values$mygenesets, new_genesets_checked)))
-      
+
       if (length(new_genesets_checked) > 0)
         showNotification(
           ui = sprintf("Found %d valid geneset identifiers in the editor", length(new_genesets_checked)),
           type = "message"
         )
-      
+
       reactive_values$mygenesets <- unique(c(reactive_values$mygenesets, new_genesets_checked))
-      
+
       if (nr_bookmarked_genesets_post > nr_bookmarked_genesets_pre) {
         showNotification(
-          ui = sprintf("Added %d valid geneset identifiers to the bookmarked genesets", 
+          ui = sprintf("Added %d valid geneset identifiers to the bookmarked genesets",
                        nr_bookmarked_genesets_post - nr_bookmarked_genesets_pre),
           type = "message"
         )
@@ -2452,7 +2457,7 @@ GeneTonic <- function(dds = NULL,
           type = "default"
         )
       }
-      
+
       shinyAce::updateAceEditor(session, editorId = "editor_bookmarked_genesets", value = newcontent_editor_genesets)
     })
 
