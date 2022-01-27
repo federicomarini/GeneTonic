@@ -112,7 +112,7 @@ GeneTonic_list <- function(dds,
 #'
 #' @param gtl A `GeneTonic`-list object, containing in its named slots the required
 #' `dds`, `res_de`, `res_enrich`, and `annotation_obj`
-#' 
+#'
 #' @export
 #'
 #' @return A character string, that can further be processed (e.g. by `message()`
@@ -122,21 +122,21 @@ describe_gtl <- function(gtl) {
   res_de <- gtl$res_de
   res_enrich <- gtl$res_enrich
   annotation_obj <- gtl$annotation_obj
-  
+
   # extracting relevant info
   n_features <- nrow(dds)
   n_samples <- ncol(dds)
-  
+
   n_tested <- nrow(res_de)
   n_upDE <- sum(res_de$log2FoldChange < 0 & res_de$padj < 0.05, na.rm = TRUE)
   n_downDE <- sum(res_de$log2FoldChange > 0 & res_de$padj < 0.05, na.rm = TRUE)
   n_DE <- n_upDE + n_downDE
-  
+
   n_genesets <- nrow(res_enrich)
-  
+
   n_featanno <- nrow(annotation_obj)
   n_featids <- ncol(annotation_obj)
-  
+
   to_print <- c(
     "---------------------------------\n",
     "----- GeneTonic list object -----\n",
@@ -682,8 +682,16 @@ export_to_sif <- function(g, sif_file = "", edge_label = "relates_to") {
   return(invisible(sif_file))
 }
 
-
-.convert_text_to_names <- function(txt) {
+#' Extract vectors from editor content
+#'
+#' Extract vectors from the shinyAce editor content, also removing comments
+#' and whitespaces from text.
+#'
+#' @param txt A single character text input.
+#'
+#' @return A character vector representing valid lines in the text input of the
+#' editor.
+editor_to_vector_sanitized <- function(txt) {
   rn <- strsplit(txt, split="\n")[[1]]
   rn <- sub("#.*", "", rn)
   rn <- sub("^ +", "", rn)
@@ -769,7 +777,7 @@ gt_downloadButton <- function(outputId,
 .gt_code_closeup <- c(
   "",
   "# this is a ggplot object, so you can save it with a call to `ggsave()`",
-  "# ggsave('plot_filename.png')    # you can change the extension"  
+  "# ggsave('plot_filename.png')    # you can change the extension"
 )
 
 
