@@ -52,17 +52,18 @@
 #' @importFrom rmarkdown render
 #' @importFrom S4Vectors mcols
 #' @importFrom scales alpha muted
-#' @importFrom stats var dist hclust as.dendrogram as.dist cmdscale median
-#' order.dendrogram runif
 #' @rawNamespace import(shiny, except = c(renderDataTable, dataTableOutput))
 #' @importFrom shinyAce aceEditor
 #' @importFrom shinycssloaders withSpinner
 #' @importFrom shinyWidgets dropdownButton tooltipOptions
+#' @importFrom stats var dist hclust as.dendrogram as.dist cmdscale median
+#' order.dendrogram runif na.omit
 #' @import SummarizedExperiment
 #' @importFrom tidyr separate_rows pivot_longer
 #' @importFrom tippy tippy
 #' @importFrom tools file_ext file_path_sans_ext
 #' @importFrom utils read.delim sessionInfo browseURL citation data write.table
+#' head
 #' @importFrom visNetwork renderVisNetwork visExport visIgraph visNetworkOutput
 #' visOptions
 #' @importFrom viridis viridis
