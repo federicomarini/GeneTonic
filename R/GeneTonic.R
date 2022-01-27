@@ -1918,6 +1918,10 @@ GeneTonic <- function(dds = NULL,
             h5("Bookmarked genes"),
             DT::dataTableOutput("bookmarks_genes"),
             downloadButton("btn_export_genes", label = "", class = "biocdlbutton"),
+            actionButton("btn_reset_genes", 
+                         label ="", 
+                         icon = icon("trash"),
+                         style = .actionbutton_biocstyle),
 
             bs4Dash::box(
               title = "Manually add genes to bookmarks",
@@ -1945,7 +1949,8 @@ GeneTonic <- function(dds = NULL,
               ),
               actionButton("load_bookmarked_genes",
                            label = "Upload genes",
-                           style = .helpbutton_biocstyle)
+                           icon = icon("upload"),
+                           style = .actionbutton_biocstyle)
             )
           ),
           column(
@@ -1956,6 +1961,10 @@ GeneTonic <- function(dds = NULL,
             h5("Bookmarked genesets"),
             DT::dataTableOutput("bookmarks_genesets"),
             downloadButton("btn_export_genesets", label = "", class = "biocdlbutton"),
+            actionButton("btn_reset_genesets", 
+                         label ="", 
+                         icon = icon("trash"),
+                         style = .actionbutton_biocstyle),
 
             bs4Dash::box(
               title = "Manually add genesets to bookmarks",
@@ -1984,7 +1993,8 @@ GeneTonic <- function(dds = NULL,
               ),
               actionButton("load_bookmarked_genesets",
                            label = "Upload genesets",
-                           style = .helpbutton_biocstyle)
+                           icon = icon("upload"),
+                           style = .actionbutton_biocstyle)
             )
             # ideally completed by a function/param to upload them
           )
@@ -2482,7 +2492,16 @@ GeneTonic <- function(dds = NULL,
       shinyAce::updateAceEditor(session, editorId = "editor_bookmarked_genesets", value = newcontent_editor_genesets)
     })
 
-
+    observeEvent(input$btn_reset_genes, {
+      reactive_values$mygenes <- c()
+      showNotification("Resetting list of bookmarked genes...")
+    })
+    
+    observeEvent(input$btn_reset_genesets, {
+      reactive_values$mygenesets <- c()
+      showNotification("Resetting list of bookmarked genesets...")
+    })
+    
     # code popups -------------------------------------------------------------
     observeEvent(input$coder_gs_volcano, {
       mycode <- c(
