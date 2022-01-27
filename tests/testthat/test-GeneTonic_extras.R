@@ -151,3 +151,9 @@ test_that("Button correctly created", {
   )
   expect_is(out, "shiny.tag")
 })
+
+test_that("Content from the editor is converted to vector", {
+  in_editor <- "a\nb  \nc\nd"
+  out_vector <- editor_to_vector_sanitized(in_editor)
+  expect_equal(out_vector, c("a", "b", "c", "d"))
+})
