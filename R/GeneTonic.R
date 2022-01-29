@@ -673,11 +673,15 @@ GeneTonic <- function(dds = NULL,
       tagList(
         fluidRow(
           column(
-            width = 12,
-            bs4ValueBoxOutput("infobox_dds"),
-            bs4ValueBoxOutput("infobox_resde"),
-            bs4ValueBoxOutput("infobox_resenrich"),
-            bs4ValueBoxOutput("infobox_annotation")
+            width = 6,
+            bs4ValueBoxOutput("infobox_dds", width = 8),
+            bs4ValueBoxOutput("infobox_resde", width = 8),
+            bs4ValueBoxOutput("infobox_resenrich", width = 8),
+            bs4ValueBoxOutput("infobox_annotation", width = 8)
+          ),
+          column(
+            width = 6,
+            uiOutput("ui_genespector")
           )
           # ,
           # column(
