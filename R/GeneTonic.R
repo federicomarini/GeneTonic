@@ -570,7 +570,7 @@ GeneTonic <- function(dds = NULL,
           )
         ),
         fluidRow(
-          h2("Overview on the provided input")
+          h2("Overview on the provided input data")
         ),
         fluidRow(
           bs4Dash::bs4Card(
@@ -736,6 +736,47 @@ GeneTonic <- function(dds = NULL,
         color = "info",
         width = NULL
       )
+    })
+    
+    output$ui_genespector <- renderUI({
+      # to speed up population of the input element
+      all_featurenames <- reactive_values$annotation_obj$gene_name
+      updateSelectizeInput(session, 'gene_genespector', choices = all_featurenames, server = TRUE)
+      
+      tagList(
+        bs4Dash::box(
+          title = "GeneSpector",
+          width = 12,
+          icon = icon("search-plus"),
+          collapsible = TRUE,
+          collapsed = TRUE,
+          tagList(
+            selectizeInput(
+              "gene_genespector",
+              label = "Select a gene to inspect",
+              width = "50%",
+              choices = NULL
+            ),
+            plotOutput("plot_genespector")
+          )
+        )
+        
+      )
+    })
+    
+    output$plot_genespector <- renderPlot({
+      validate(
+        need(input$exp_condition != "",
+             message = "Please select a group for the experimental condition.")
+      )
+      sel_gene_name <- input$gene_genespector
+      corr_gene_id <- reactive_values$annotation_obj$gene_id[
+        match(sel_gene_name, reactive_values$annotation_obj$gene_name)]
+      gene_plot(reactive_values$dds,
+                gene = corr_gene_id,
+                intgroup = input$exp_condition,
+                annotation_obj = reactive_values$annotation_obj)
+      
     })
 
     # panel GeneSet-Gene ------------------------------------------------------
