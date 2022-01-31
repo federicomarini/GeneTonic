@@ -737,12 +737,12 @@ GeneTonic <- function(dds = NULL,
         width = NULL
       )
     })
-    
+
     output$ui_genespector <- renderUI({
       # to speed up population of the input element
-      all_featurenames <- reactive_values$annotation_obj$gene_name
+      all_featurenames <- c("", reactive_values$annotation_obj$gene_name)
       updateSelectizeInput(session, 'gene_genespector', choices = all_featurenames, server = TRUE)
-      
+
       tagList(
         bs4Dash::box(
           title = "GeneSpector",
@@ -755,20 +755,35 @@ GeneTonic <- function(dds = NULL,
               "gene_genespector",
               label = "Select a gene to inspect",
               width = "50%",
-              choices = NULL
+              choices = NULL,
+              selected = ""
             ),
             plotOutput("plot_genespector")
           )
         )
-        
+
       )
     })
-    
+
     output$plot_genespector <- renderPlot({
       validate(
-        need(input$exp_condition != "",
-             message = "Please select a group for the experimental condition.")
+        need(input$gene_genespector != "",
+             message = paste0(
+               "Please select a gene from the dropdown menu.\n",
+               "Autocompletion is supported, so you can simply start typing, and ",
+               "select the gene of interest once it shows up.")
+        )
       )
+
+      validate(
+        need(input$exp_condition != "",
+             message = paste0(
+               "Please select a group for the experimental condition. \n\n ",
+               "This can be done from the control bar on the right. \nClick on the cogs icon ",
+               "in the top right corner, and select a value for the 'Group/color by:' field.")
+        )
+      )
+
       sel_gene_name <- input$gene_genespector
       corr_gene_id <- reactive_values$annotation_obj$gene_id[
         match(sel_gene_name, reactive_values$annotation_obj$gene_name)]
@@ -776,7 +791,7 @@ GeneTonic <- function(dds = NULL,
                 gene = corr_gene_id,
                 intgroup = input$exp_condition,
                 annotation_obj = reactive_values$annotation_obj)
-      
+
     })
 
     # panel GeneSet-Gene ------------------------------------------------------
@@ -1963,8 +1978,8 @@ GeneTonic <- function(dds = NULL,
             h5("Bookmarked genes"),
             DT::dataTableOutput("bookmarks_genes"),
             downloadButton("btn_export_genes", label = "", class = "biocdlbutton"),
-            actionButton("btn_reset_genes", 
-                         label ="", 
+            actionButton("btn_reset_genes",
+                         label ="",
                          icon = icon("trash"),
                          style = .actionbutton_biocstyle),
 
@@ -2006,8 +2021,8 @@ GeneTonic <- function(dds = NULL,
             h5("Bookmarked genesets"),
             DT::dataTableOutput("bookmarks_genesets"),
             downloadButton("btn_export_genesets", label = "", class = "biocdlbutton"),
-            actionButton("btn_reset_genesets", 
-                         label ="", 
+            actionButton("btn_reset_genesets",
+                         label ="",
                          icon = icon("trash"),
                          style = .actionbutton_biocstyle),
 
@@ -2348,9 +2363,9 @@ GeneTonic <- function(dds = NULL,
             annotation_obj = reactive_values$annotation_obj
           )
         })
-        
+
         # updating the bookmarks, in case coming from a previous sessions and
-        # these are still loaded - can be interesting to have them kept in if 
+        # these are still loaded - can be interesting to have them kept in if
         # identifiers are found in the newly provided gtl
         if (length(reactive_values$mygenes) > 0) {
           showNotification("Updating genes bookmarks, checking in the new gtl object")
@@ -2368,7 +2383,7 @@ GeneTonic <- function(dds = NULL,
             reactive_values$res_enrich$gs_id
           )
         }
-        
+
         bs4Dash::updateBox("box_upload", action = "toggle")
       } else {
         # TODO: probably need to handle this with a try-error mechanism
@@ -2541,12 +2556,12 @@ GeneTonic <- function(dds = NULL,
       reactive_values$mygenes <- c()
       showNotification("Resetting list of bookmarked genes...")
     })
-    
+
     observeEvent(input$btn_reset_genesets, {
       reactive_values$mygenesets <- c()
       showNotification("Resetting list of bookmarked genesets...")
     })
-    
+
     # code popups -------------------------------------------------------------
     observeEvent(input$coder_gs_volcano, {
       mycode <- c(
