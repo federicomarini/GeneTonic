@@ -60,18 +60,19 @@ if (usage_mode == "shiny_mode") {
   selected_genesets <- reactive_values$mygenesets
   selected_genes <- reactive_values$mygenes
   
-  intgroup <- input$exp_condition
-  # checking that a group is provided
-  if (is.null(intgroup)) {
-    # defaults to first column name in the colData
-    intgroup <- colnames(colData(dds))[1]
-  }
   
   # picking from the reactive values
   dds <- reactive_values$dds
   res_de <- reactive_values$res_de
   res_enrich <- reactive_values$res_enrich
   annotation_obj <- reactive_values$annotation_obj
+  
+  intgroup <- input$exp_condition
+  # checking that a group is provided
+  if (is.null(input$exp_condition)) {
+    # defaults to first column name in the colData
+    intgroup <- colnames(colData(dds))[1]
+  }
   
 } else if (usage_mode == "batch_mode"){
   selected_genesets <- mygenesets
