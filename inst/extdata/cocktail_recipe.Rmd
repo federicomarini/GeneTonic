@@ -29,28 +29,17 @@ knitr::opts_chunk$set(
 ```
 
 
-# Intro
+# Introduction - the input data
 
- <!-- this is the file that gets used in rendering the many outputs via happyhour -->
+<!-- ideas: -->
 
-ideas:
+<!-- - differentiate the content based on batch running vs generated at runtime? -->
+<!-- - print out the values of input$... objects. So one can just repeat them ;) -->
 
-- differentiate the content based on batch running vs generated at runtime?
-- print out the values of input$... objects. So one can just repeat them ;)
-
-These are the provided objects
+This is an overview on the provided objects:
 
 ```{r echo = TRUE}
 library(GeneTonic)
-```
-
-
-```{r echo = TRUE}
-dds
-res_de
-head(res_enrich)
-head(annotation_obj)
-res_enrich <- get_aggrscores(res_enrich, res_de, annotation_obj)
 ```
 
 
@@ -70,29 +59,107 @@ res_enrich <- get_aggrscores(res_enrich, res_de, annotation_obj)
 if (usage_mode == "shiny_mode") {
   selected_genesets <- reactive_values$mygenesets
   selected_genes <- reactive_values$mygenes
+  
+  intgroup <- input$exp_condition
+  # checking that a group is provided
+  if (is.null(intgroup)) {
+    # defaults to first column name in the colData
+    intgroup <- colnames(colData(dds))[1]
+  }
+  
+  # picking from the reactive values
+  dds <- reactive_values$dds
+  res_de <- reactive_values$res_de
+  res_enrich <- reactive_values$res_enrich
+  annotation_obj <- reactive_values$annotation_obj
+  
 } else if (usage_mode == "batch_mode"){
   selected_genesets <- mygenesets
   selected_genes <- mygenes
+  intgroup <- mygroup
 }
 
 selected_genesets
 selected_genes
+intgroup
+```
+
+If provided as a gtl object:
+
+```{r}
+if (!is.null(gtl)) {
+  cat(describe_gtl(gtl))
+}
+```
+
+Otherwise, these are the individual components as provided:
+
+```{r echo = TRUE}
+dds
+res_de
+head(res_enrich)
+head(annotation_obj)
+res_enrich <- get_aggrscores(res_enrich, res_de, annotation_obj)
+```
+
+## Parameter settings 
+
+If running from shiny, it might be relevant to keep track of the parameters currently selected in the app, as they determine the look and content of what is displayed.
+
+```{r}
+if (usage_mode == "shiny_mode") {
+  input$exp_condition
+  input$n_genesets
+  input$emap_colorby
+  
+  # print(shiny::reactiveValuesToList(input))
+  # print(shiny::reactiveValuesToList(reactive_values))
+} 
+```
+
+# A quick overview on the enrichment results
+
+```{r}
+library("visNetwork")
+library("magrittr")
+emap_graph <- enrichment_map(
+        res_enrich = res_enrich,
+        res_de = res_de,
+        annotation_obj = annotation_obj,
+        n_gs = 50,
+        overlap_threshold = 0.1,
+        scale_edges_width = 200,
+        color_by = "z_score"
+)
+emap_graph
+
+visNetwork::visIgraph(emap_graph) %>%
+        visOptions(
+          highlightNearest = list(
+            enabled = TRUE,
+            degree = 1,
+            hover = TRUE
+          ),
+          nodesIdSelection = TRUE
+        ) %>%
+        visExport(
+          name = "emap_network",
+          type = "png",
+          label = "Save enrichment map"
+        )
 ```
 
 
-```{r}
-# myids <- annotation_obj$gene_id[match(selected_genes ,annotation_obj$gene_name)]
-myids <- selected_genes
-```
 
+# Content for the selected genes
 
 ```{r}
-lapply(myids, function(arg) {
-  GeneTonic::gene_plot(dds,gene = arg,intgroup = "condition", 
+lapply(selected_genes, function(arg) {
+  GeneTonic::gene_plot(dds,gene = arg,intgroup = intgroup, 
                        annotation_obj = annotation_obj)})
 ```
 
-# Something for the selected genesets
+# Content for the selected genesets
 
 ```{r}
 # corresponding_gs_ids <- res_enrich$gs_id[res_enrich$gs_description %in% selected_genesets]
@@ -103,7 +170,7 @@ gs_mds(res_enrich, res_de, annotation_obj, gs_labels = corresponding_gs_ids)
 gs_volcano(res_enrich, volcano_labels = corresponding_gs_ids)
 ```
 
-# Geneset content, tabbed! {.tabset .tabset-fade}
+## Geneset content, tabbed! {.tabset .tabset-fade}
 
 Here is a heatmap for each bookmarked set
 
@@ -112,7 +179,7 @@ vst_data <- DESeq2::vst(dds) # or also have it passed as param
 
 for (gs in selected_genesets) {
   corresponding_gs_desc <- res_enrich[gs, "gs_description"]
-  cat("## ", corresponding_gs_desc, " {-}\n")
+  cat("### ", corresponding_gs_desc, " {-}\n")
   
   gs_heatmap(vst_data, 
              res_de, 
@@ -128,6 +195,8 @@ for (gs in selected_genesets) {
 
 
 # Session info {-}
+
+This is the output of the `sessionInfo()` command, reported for improving the reproducibility of the analysis.
 
 ```{r}
 sessionInfo()
