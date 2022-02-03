@@ -13,6 +13,7 @@ happy_hour(
   project_id,
   mygenesets,
   mygenes,
+  mygroup = NULL,
   usage_mode = "batch_mode",
   input_rmd = NULL,
   output_file = "my_first_GeneTonic_happyhour.html",
@@ -47,9 +48,16 @@ of the list \emph{must} be specified following the content they are expecting}
 for the set/session, and will be e.g. used in the title of the report created
 via \code{\link[=happy_hour]{happy_hour()}}}
 
-\item{mygenesets}{A vector of character strings, containing...}
+\item{mygenesets}{A vector of character strings, containing the genesets to
+focus on in the report - for each geneset, e.g. a signature heatmap can be
+created.}
 
-\item{mygenes}{A vector of character strings, containing...}
+\item{mygenes}{A vector of character strings, containing the genes to focus on
+in the report - for each gene, the plot of the expression values is included.}
+
+\item{mygroup}{A character string, or a vector thereof. Contains the experimental
+variables to be used to split into groups the expression data, and color
+accordingly.}
 
 \item{usage_mode}{A character string, which controls the behavior of the Rmd
 document, based on whether the rendering is triggered while using the app
@@ -149,6 +157,8 @@ happy_hour(
   res_enrich = res_enrich,
   annotation_obj = anno_df,
   project_id = "examplerun",
+  mygroup = "condition",
+  # mygroup = "line",   # alternatively
   mygenesets = res_enrich$gs_id[c(1:5, 11, 31)],
   mygenes = c(
     "ENSG00000125347",
