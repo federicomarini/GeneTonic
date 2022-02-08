@@ -120,6 +120,8 @@ if (usage_mode == "shiny_mode") {
 
 # A quick overview on the enrichment results
 
+This section reports an interactive enrichment map for the results from the enrichment analysis, as an overview.
+
 ```{r}
 library("visNetwork")
 library("magrittr")
@@ -154,6 +156,14 @@ visNetwork::visIgraph(emap_graph) %>%
 
 # Content for the selected genes
 
+The following genes were reported as bookmarked in the call to this report, either in batch or in the shiny usage mode.
+
+```{r}
+DT::datatable(annotation_obj[annotation_obj$gene_id %in% selected_genes, ])
+```
+
+For each of them, a plot for the expression values is displayed in the content that follows.
+
 ```{r}
 lapply(selected_genes, function(arg) {
   GeneTonic::gene_plot(dds,gene = arg,intgroup = intgroup, 
@@ -162,18 +172,24 @@ lapply(selected_genes, function(arg) {
 
 # Content for the selected genesets
 
+The following genesets were reported as bookmarked in the call to this report, either in batch or in the shiny usage mode.
+
 ```{r}
-# corresponding_gs_ids <- res_enrich$gs_id[res_enrich$gs_description %in% selected_genesets]
-corresponding_gs_ids <- selected_genesets
+DT::datatable(res_enrich[res_enrich$gs_id %in% selected_genesets, ])
+```
 
-gs_mds(res_enrich, res_de, annotation_obj, gs_labels = corresponding_gs_ids)
+Some general visualization, with a focus on the genesets specified above, is displayed as a result of the following chunk.
 
-gs_volcano(res_enrich, volcano_labels = corresponding_gs_ids)
+```{r}
+gs_mds(res_enrich, res_de, annotation_obj, gs_labels = selected_genesets)
+
+gs_volcano(res_enrich, volcano_labels = selected_genesets)
 ```
 
 ## Geneset content, tabbed! {.tabset .tabset-fade}
 
-Here is a heatmap for each bookmarked set
+Here is a heatmap for each bookmarked set.
+Click on the tabset labels to navigate among each of the elements.
 
 ```{r echo = TRUE, results="asis"}
 vst_data <- DESeq2::vst(dds) # or also have it passed as param
@@ -192,6 +208,19 @@ for (gs in selected_genesets) {
   cat(go_2_html(gs, res_enrich))
   cat("\n\n")
 }
+```
+
+
+# About this report
+
+This report has been generated via the `happy_hour()` function from the GeneTonic package.
+
+You can extend and modify the template provided in the package, and provide the location of the custom version as a parameter to the call to `happy_hour()` (specifically, `input_rmd`).
+
+If you use this report in your scientific work, please cite GeneTonic:
+
+```{r}
+citation("GeneTonic")
 ```
 
 
