@@ -307,6 +307,8 @@ happy_hour <- function(dds,
   if (open_after_creating) {
     browseURL(output_file)
   }
+  
+  message("Report created in ", output_file)
 
   invisible(output_file)
 }
