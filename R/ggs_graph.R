@@ -399,16 +399,16 @@ ggs_backbone <- function(res_enrich,
   }
 
   if (bb_method == "sdsm") {
-    bbobj <- backbone::sdsm(bpm_for_backbone)
+    bbobj <- backbone::sdsm(bpm_for_backbone, alpha = NULL)
   } else if (bb_method == "fdsm") {
-    bbobj <- backbone::fdsm(bpm_for_backbone, trials = 1000)
+    bbobj <- backbone::fdsm(bpm_for_backbone, trials = 1000, alpha = NULL)
   } else if (bb_method == "fixedrow") {
-    bbobj <- backbone::fixedrow(bpm_for_backbone)
+    bbobj <- backbone::fixedrow(bpm_for_backbone, alpha = NULL)
   }
 
   bbextracted <- backbone::backbone.extract(bbobj,
     alpha = bb_extract_alpha,
-    fwer = bb_extract_fwer
+    mtc = bb_extract_fwer
   )
 
   bbgraph <- igraph::graph_from_adjacency_matrix(bbextracted, mode = "undirected")
