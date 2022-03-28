@@ -466,7 +466,7 @@ GeneTonic <- function(dds = NULL,
       reactive_values$upload_active <- TRUE
     }
 
-    # TODO: defining the logic of the data provided
+    ### defining the logic of the data provided
     #
     # if (gtl is provided) {
     #   assign gtl components to the dds, res_de, res_enrich, and annotation
@@ -2340,67 +2340,77 @@ GeneTonic <- function(dds = NULL,
 
     # gtl upload --------------------------------------------------------------
     observeEvent(input$uploadgtl, {
-      reactive_values$in_gtl <- readRDS(input$uploadgtl$datapath)
-
-      if (is.null(checkup_gtl(reactive_values$in_gtl))) {
-        reactive_values$gtl <- reactive_values$in_gtl
-        reactive_values$dds <- reactive_values$in_gtl$dds
-        reactive_values$res_de <- reactive_values$in_gtl$res_de
-        reactive_values$res_enrich <- reactive_values$in_gtl$res_enrich
-        reactive_values$annotation_obj <- reactive_values$in_gtl$annotation_obj
-
-        showNotification(
-          ui = "Upload complete! Re-open the 'File Upload' collapsible box if you want to upload another gtl object.",
-          type = "message"
-        )
-
-
-        removed_genes <- is.na(reactive_values$res_de$log2FoldChange)
-        message(
-          "Removing ", sum(removed_genes),
-          "/", nrow(reactive_values$res_de), " rows from the DE `res_de` object - log2FC values detected as NA"
-        )
-        reactive_values$res_de <- reactive_values$res_de[!removed_genes, ]
-
-
-        reactive_values$myvst <- reactive({
-          vst(reactive_values$dds)
-        })
-
-        reactive_values$res_enhanced <- reactive({
-          get_aggrscores(
-            res_enrich = reactive_values$res_enrich,
-            res_de = reactive_values$res_de,
-            annotation_obj = reactive_values$annotation_obj
+      tryCatch(
+        {
+          showNotification(
+            "Trying to upload GeneTonicList as an RDS file...", 
+            id = "upload_try"
           )
-        })
-
-        # updating the bookmarks, in case coming from a previous sessions and
-        # these are still loaded - can be interesting to have them kept in if
-        # identifiers are found in the newly provided gtl
-        if (length(reactive_values$mygenes) > 0) {
-          showNotification("Updating genes bookmarks, checking in the new gtl object")
-          message("Checking bookmarked genes...")
-          reactive_values$mygenes <- intersect(
-            reactive_values$mygenes,
-            reactive_values$annotation_obj$gene_id
+          
+          reactive_values$in_gtl <- readRDS(input$uploadgtl$datapath)
+          
+          if (is.null(checkup_gtl(reactive_values$in_gtl))) {
+            reactive_values$gtl <- reactive_values$in_gtl
+            reactive_values$dds <- reactive_values$in_gtl$dds
+            reactive_values$res_de <- reactive_values$in_gtl$res_de
+            reactive_values$res_enrich <- reactive_values$in_gtl$res_enrich
+            reactive_values$annotation_obj <- reactive_values$in_gtl$annotation_obj
+            
+            showNotification(
+              ui = "Upload complete, enjoy exploring your dataset with GeneTonic! You can re-open the 'File Upload' collapsible box if you want to upload another gtl object.",
+              type = "message"
+            )
+            
+            removed_genes <- is.na(reactive_values$res_de$log2FoldChange)
+            message(
+              "Removing ", sum(removed_genes),
+              "/", nrow(reactive_values$res_de), " rows from the DE `res_de` object - log2FC values detected as NA"
+            )
+            reactive_values$res_de <- reactive_values$res_de[!removed_genes, ]
+            
+            
+            reactive_values$myvst <- reactive({
+              vst(reactive_values$dds)
+            })
+            
+            reactive_values$res_enhanced <- reactive({
+              get_aggrscores(
+                res_enrich = reactive_values$res_enrich,
+                res_de = reactive_values$res_de,
+                annotation_obj = reactive_values$annotation_obj
+              )
+            })
+            
+            # updating the bookmarks, in case coming from a previous sessions and
+            # these are still loaded - can be interesting to have them kept in if
+            # identifiers are found in the newly provided gtl
+            if (length(reactive_values$mygenes) > 0) {
+              showNotification("Updating genes bookmarks, checking in the new gtl object")
+              message("Checking bookmarked genes...")
+              reactive_values$mygenes <- intersect(
+                reactive_values$mygenes,
+                reactive_values$annotation_obj$gene_id
+              )
+            }
+            if (length(reactive_values$mygenesets) > 0) {
+              showNotification("Updating genesets bookmarks, checking in the new gtl object")
+              message("Checking bookmarked genesets...")
+              reactive_values$mygenesets <- intersect(
+                reactive_values$mygenesets,
+                reactive_values$res_enrich$gs_id
+              )
+            }
+            
+            bs4Dash::updateBox("box_upload", action = "toggle")
+          } 
+        },
+        error = function(e) {
+          showNotification(
+            "Wrong/unexpected file format uploaded! Please check the content of your RDS file to be a GeneTonicList.",
+            type = "error"
           )
         }
-        if (length(reactive_values$mygenesets) > 0) {
-          showNotification("Updating genesets bookmarks, checking in the new gtl object")
-          message("Checking bookmarked genesets...")
-          reactive_values$mygenesets <- intersect(
-            reactive_values$mygenesets,
-            reactive_values$res_enrich$gs_id
-          )
-        }
-
-        bs4Dash::updateBox("box_upload", action = "toggle")
-      } else {
-        # TODO: probably need to handle this with a try-error mechanism
-        showNotification("Warning! You are providing the data to GeneTonic in an unexpected/wrong file format, please check this offline...", type = "error")
-      }
-
+      )
     })
 
 
