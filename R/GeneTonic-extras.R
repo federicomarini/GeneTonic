@@ -1,10 +1,12 @@
-#' Create a list for GeneTonic
+#' Create a GeneTonicList object
 #'
 #' Create a list for GeneTonic from the single required components.
 #'
-#' Having this dedicated function saves the pain of remembering which names
+#' @details Having this dedicated function saves the pain of remembering which names
 #' the components of the list should have.
-#'
+#' For backwards compatibility, the `GeneTonic_list` function is still provided
+#' as a synonim, and will likely be deprecated in the upcoming release cycles.
+#' 
 #' @param dds A `DESeqDataSet` object, normally obtained after running your data
 #' through the `DESeq2` framework.
 #' @param res_de A `DESeqResults` object. As for the `dds` parameter, this is
@@ -70,7 +72,7 @@
 #' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 #' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 #'
-#' gtl_macrophage <- GeneTonic_list(
+#' gtl_macrophage <- GeneTonicList(
 #'   dds = dds_macrophage,
 #'   res_de = res_de,
 #'   res_enrich = res_enrich,
@@ -81,7 +83,7 @@
 #' if (interactive()) {
 #'   GeneTonic(gtl = gtl_macrophage)
 #' }
-GeneTonic_list <- function(dds,
+GeneTonicList <- function(dds,
                            res_de,
                            res_enrich,
                            annotation_obj) {
@@ -104,6 +106,9 @@ GeneTonic_list <- function(dds,
   return(gtl)
 }
 
+#' @rdname GeneTonicList
+#' @export
+GeneTonic_list <- GeneTonicList
 
 #' Describe a GeneTonic list
 #'
@@ -139,7 +144,7 @@ describe_gtl <- function(gtl) {
 
   to_print <- c(
     "---------------------------------\n",
-    "----- GeneTonic list object -----\n",
+    "----- GeneTonicList object ------\n",
     "---------------------------------\n",
     "\n----- dds object -----\n",
     sprintf(
