@@ -1,8 +1,9 @@
-# GeneTonic 1.8.0
+# GeneTonic 2.0.0
 
 ## New features
 
-* 
+* `GeneTonic` now offers the possibility to upload a `GeneTonicList` at runtime. This makes it possible to use the app as a server-like dashboard, which runs by default on no dataset provided, and populates its components upon successfully providing the data as expected
+* The `GeneSpector` functionality in the Welcome panel provides a means to explore any gene in the expression set, coloring and grouping by any experimental covariate of interest
 
 ## Other notes
 
