@@ -105,7 +105,7 @@ if (interactive()) {
   )
 }
 # alternatively...
-gtl_macrophage <- GeneTonic_list(
+gtl_macrophage <- GeneTonicList(
   dds = dds_macrophage,
   res_de = res_de,
   res_enrich = res_enrich,

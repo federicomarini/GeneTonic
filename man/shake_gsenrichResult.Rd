@@ -51,7 +51,7 @@ gsego_IFNg_vs_naive <- gseGO(
 
 res_enrich <- shake_gsenrichResult(gsego_IFNg_vs_naive)
 head(res_enrich)
-gtl_macrophage <- GeneTonic_list(
+gtl_macrophage <- GeneTonicList(
   dds = dds_macrophage,
   res_de = res_macrophage_IFNg_vs_naive,
   res_enrich = res_enrich,
