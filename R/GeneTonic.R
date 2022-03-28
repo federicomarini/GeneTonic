@@ -503,17 +503,28 @@ GeneTonic <- function(dds = NULL,
               fluidRow(
                 column(
                   width = 6,
-                  img(src = "GeneTonic/GeneTonic.png", height = "150px"),
+                  p(
+                    img(src = "GeneTonic/GeneTonic.png", height = "50px"), 
+                    align = "center"
+                  ),
                   fileInput(inputId = "uploadgtl",
                             label = "Upload a GeneTonicList serialized object")
                 ),
                 column(
                   width = 6,
                   tags$details(
-                    tags$summary("What is a GeneTonicList object?"),
-                    includeMarkdown(system.file("extdata", "help_gtl.md", package = "GeneTonic")),
-                    h4("Help on format, markdown"),
-                    p("TODO some description and/or a link to how this format works")
+                    tags$summary(
+                      HTML(
+                        paste0(
+                          "What is a ",
+                          tags$code("GeneTonicList"),
+                          " object?"
+                        )
+                      )
+                    ),
+                    includeMarkdown(
+                      system.file("extdata", "help_gtl.md", package = "GeneTonic")
+                    )
                   ),
                   uiOutput("ui_describegtl")
                 )
@@ -553,7 +564,7 @@ GeneTonic <- function(dds = NULL,
     output$ui_panel_welcome <- renderUI({
       validate(
         need(!is.null(reactive_values$gtl) ,
-             message = "Please provide a GeneTonicList (e.g. via the 'Upload your data as a GeneTonicList' box) or its components (possible if you are calling GeneTonic from the command line).\n\n\nAll the content of this tab will be displayed upon providing this object")
+             message = "Please provide a GeneTonicList (e.g. via the 'Upload your data as a GeneTonicList' box) or its components (this is possible if you are calling GeneTonic from the command line).\n\n\nAll the content of this tab will be displayed upon providing this object")
       )
       tagList(
         fluidRow(
