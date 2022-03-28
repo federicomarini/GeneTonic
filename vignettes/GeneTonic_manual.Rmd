@@ -261,6 +261,19 @@ if (interactive()) {
 }
 ```
 
+From version 2.0.0 onwards, `GeneTonic` offers the possibility to upload the `GeneTonicList` objects at runtime - these need to be provided as serialized RDS objects (which can be generated when calling `saveRDS()`, or alternatively exported from within the `GeneTonic` app).  
+This means it is possible to use `GeneTonic` also as a server-like application for internal deployment. An exemplary `app.R` file to be used on a Shiny Server could be as simple as 
+
+```
+max_gtl_size <- 250  ## the max size in Megabytes for the gtl object to be uploaded
+library("GeneTonic")
+GeneTonic(size_gtl = max_gtl_size)
+```
+
+```{r, fig.cap="Screenshot of the `GeneTonic` application, when launched as a server where users can directly upload `GeneTonicList` objects. Information on the format and content for this object type are provided in the collapsible element on the right side of the dashboard body.", echo=FALSE}
+knitr::include_graphics("upload_gtl.png")
+```
+
 # Description of the `GeneTonic` user interface {#userinterface}
 
 The `GeneTonic` app is built with `r BiocStyle::CRANpkg("shiny")`, and its layout is built around the components of `r BiocStyle::CRANpkg("bs4Dash")`, a modern looking dashboard based on Bootstrap 4.
@@ -310,6 +323,9 @@ Collapsible elements, colored each by the typology of data it refers to, contain
 
 The tables are rendered with `DT::datatable`, which provides a practical interface for exploring, sorting, and filtering.
 This framework is also extendable, for example as we do for the `log2FoldChange` column in the `res_de` object, where the values are also visually encoded as diverging bars of different color based on the expression change direction.
+
+In the Welcome panel, the GeneSpector box will also enable users to explore a gene expression plot for any of the genes in the `dds` object, irrespective of them being members or not of any geneset.  
+To do so, select a gene from the dropdown menu (autocompletion is supported), and a covariate from the "Group/color by" selector in the control menu on the right (opened by clicking on the cogs icon).
 
 ## The Gene-Geneset panel
 
