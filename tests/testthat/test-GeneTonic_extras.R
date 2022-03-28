@@ -1,7 +1,7 @@
 context("Testing extra functions/helpers for GeneTonic")
 
 test_that("Creating and describing gtl", {
-  gtl_macrophage <- GeneTonic_list(
+  gtl_macrophage <- GeneTonicList(
     dds = dds_macrophage,
     res_de = res_macrophage_IFNg_vs_naive,
     res_enrich = res_enrich_IFNg_vs_naive,
@@ -10,7 +10,7 @@ test_that("Creating and describing gtl", {
   expect_is(gtl_macrophage, "list")
 
   expect_message({
-    GeneTonic_list(
+    GeneTonicList(
       dds = dds_macrophage,
       res_de = res_macrophage_IFNg_vs_naive,
       res_enrich = res_enrich_IFNg_vs_naive,

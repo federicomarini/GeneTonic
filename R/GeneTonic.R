@@ -83,7 +83,7 @@
 #'   )
 #' }
 #' # alternatively...
-#' gtl_macrophage <- GeneTonic_list(
+#' gtl_macrophage <- GeneTonicList(
 #'   dds = dds_macrophage,
 #'   res_de = res_de,
 #'   res_enrich = res_enrich,
@@ -428,7 +428,7 @@ GeneTonic <- function(dds = NULL,
       reactive_values$res_enrich <- res_enrich
       reactive_values$annotation_obj <- annotation_obj
       # also creating the gtl reactive object
-      reactive_values$gtl <- GeneTonic_list(
+      reactive_values$gtl <- GeneTonicList(
         dds = dds,
         res_de = res_de,
         res_enrich = res_enrich,

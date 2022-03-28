@@ -28,7 +28,7 @@ test_that("Geneset signature volcano is created", {
   )
   expect_is(p3, "gg")
 
-  gtl_macrophage <- GeneTonic_list(
+  gtl_macrophage <- GeneTonicList(
     dds = dds_macrophage,
     res_de = res_macrophage_IFNg_vs_naive,
     res_enrich = res_enrich_IFNg_vs_naive,

@@ -246,7 +246,7 @@ Alternatively (this applies from version >= 1.3.0), it is possible to provide a 
 Please note that the arguments should be named as specified in the example below.
 
 ```{r}
-gtl <- GeneTonic_list(
+gtl <- GeneTonicList(
   dds = DESeq2::estimateSizeFactors(dds_macrophage),
   res_de = res_macrophage_IFNg_vs_naive,
   res_enrich = res_enrich_macrophage,

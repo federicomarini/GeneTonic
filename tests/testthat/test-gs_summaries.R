@@ -9,7 +9,7 @@ test_that("summary_heat plot is generated", {
   )
   expect_is(p, "gg")
 
-  gtl_macrophage <- GeneTonic_list(
+  gtl_macrophage <- GeneTonicList(
     dds = dds_macrophage,
     res_de = res_macrophage_IFNg_vs_naive,
     res_enrich = res_enrich_IFNg_vs_naive,
@@ -32,7 +32,7 @@ test_that("summary plots are generated", {
     aggrfun = mean
   )
   
-  gtl_macrophage <- GeneTonic_list(
+  gtl_macrophage <- GeneTonicList(
     dds = dds_macrophage,
     res_de = res_macrophage_IFNg_vs_naive,
     res_enrich = res_enrich_withscores[1:200, ],
