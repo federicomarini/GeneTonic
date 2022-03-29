@@ -4,6 +4,8 @@
 
 * `GeneTonic` now offers the possibility to upload a `GeneTonicList` at runtime. This makes it possible to use the app as a server-like dashboard, which runs by default on no dataset provided, and populates its components upon successfully providing the data as expected
 * The `GeneSpector` functionality in the Welcome panel provides a means to explore any gene in the expression set, coloring and grouping by any experimental covariate of interest
+* It is possible to enter a set of genes and genesets in the Bookmarks panel, and these can be doubled checked against the available features of the current `GeneTonicList` - this, combined to the upload functionality, makes it possible to easily compare different `gtl` objects
+* The `GeneTonic` app has a button to export the currently provided dataset - regardless of the input format - as a `GeneTonicList`. This is especially useful if one is providing the individual components (`dds`, `res_de`, `res_enrich`, `annotation_obj`) and would like to obtain the correct serialized object 
 
 ## Other notes
 
