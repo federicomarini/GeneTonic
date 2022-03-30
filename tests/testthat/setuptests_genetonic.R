@@ -82,8 +82,8 @@ ego_IFNg_vs_naive <- enrichGO(
 
 message("--- Running gseGO...")
 sorted_genes <- sort(
-  setNames(res_macrophage_IFNg_vs_naive$log2FoldChange, 
-           res_macrophage_IFNg_vs_naive$SYMBOL), 
+  setNames(res_macrophage_IFNg_vs_naive$log2FoldChange,
+           res_macrophage_IFNg_vs_naive$SYMBOL),
   decreasing = TRUE
 )
 
@@ -107,5 +107,13 @@ dds_unnormalized <- dds_macrophage
 assays(dds_unnormalized)[["normalizationFactors"]] <- NULL
 res_enrich_IFNg_vs_naive <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)[1:200, ]
 message("- Done!")
+
+# also creating the gtl container...
+gtl_macrophage <- GeneTonic_list(
+  dds = dds_macrophage,
+  res_de = res_macrophage_IFNg_vs_naive,
+  res_enrich = res_enrich_IFNg_vs_naive,
+  annotation_obj = anno_df
+)
 
 message("--- Test setup script completed!")
