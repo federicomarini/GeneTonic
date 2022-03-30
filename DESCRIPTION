@@ -31,6 +31,7 @@ Imports:
     colorspace,
 	  colourpicker,
     ComplexHeatmap,
+    ComplexUpset,
     dendextend,
     DESeq2,
     dplyr,
