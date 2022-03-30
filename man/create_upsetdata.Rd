@@ -25,7 +25,6 @@ Create a data frame that can be fed to the upset function
 # res_enrich object
 data(res_enrich_macrophage, package = "GeneTonic")
 res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
-res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 
 create_upsetdata(res_enrich[1:20, ])
 dim(create_upsetdata(res_enrich[1:20, ]))
