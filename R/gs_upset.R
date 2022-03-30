@@ -124,11 +124,14 @@ create_upsetdata <- function(res_enrich, use_ids = FALSE) {
 #' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 #' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 #' gs_upset(res_enrich,
-#'          n_gs = 10)
+#'   n_gs = 10
+#' )
 #'
-#' gs_upset(res_enrich, res_de = res_de, annotation_obj = anno_df,
-#'          n_gs = 8,
-#'          add_de_direction = TRUE, add_de_gsgenes = TRUE)
+#' gs_upset(res_enrich,
+#'   res_de = res_de, annotation_obj = anno_df,
+#'   n_gs = 8,
+#'   add_de_direction = TRUE, add_de_gsgenes = TRUE
+#' )
 #'
 #' # or using the practical gtl (GeneTonicList)
 #' gtl_macrophage <- GeneTonic_list(
@@ -138,9 +141,11 @@ create_upsetdata <- function(res_enrich, use_ids = FALSE) {
 #'   annotation_obj = anno_df
 #' )
 #'
-#' gs_upset(gtl = gtl_macrophage,
-#'          n_gs = 15,
-#'          add_de_direction = TRUE, add_de_gsgenes = TRUE)
+#' gs_upset(
+#'   gtl = gtl_macrophage,
+#'   n_gs = 15,
+#'   add_de_direction = TRUE, add_de_gsgenes = TRUE
+#' )
 gs_upset <- function(res_enrich,
                      res_de = NULL,
                      annotation_obj = NULL,
@@ -153,7 +158,6 @@ gs_upset <- function(res_enrich,
                      col_downDE = "#377EB8",
                      upset_geom = geom_point(size = 2),
                      return_upsetgsg = FALSE) {
-
   if (!is.null(gtl)) {
     checkup_gtl(gtl)
     # dds <- gtl$dds
@@ -178,36 +182,41 @@ gs_upset <- function(res_enrich,
   upgsg <- create_upsetdata(re)
 
   if (add_de_direction) {
-    if (is.null(res_de) | is.null(annotation_obj))
+    if (is.null(res_de) | is.null(annotation_obj)) {
       stop("DE results and annotation required if `add_de_direction` is TRUE, please provide them as `res_de` and `annotation_obj`")
+    }
     upgsg$logFC <- res_de[annotation_obj$gene_id[
-      match(rownames(upgsg), annotation_obj$gene_name)], "log2FoldChange"]
+      match(rownames(upgsg), annotation_obj$gene_name)
+    ], "log2FoldChange"]
     upgsg$logFCsign <- upgsg$logFC >= 0
 
     param_upset_baseanno <- list(
-      'Intersection size' = intersection_size(
+      "Intersection size" = intersection_size(
         counts = FALSE,
         mapping = aes_string(fill = "logFCsign")
       ) +
         scale_fill_manual(
-          values=c('FALSE' = col_downDE, 'TRUE' = col_upDE),
+          values = c("FALSE" = col_downDE, "TRUE" = col_upDE),
           labels = c("logFC<0", "logFC>0"),
-          name = "") +
-        theme(legend.position="bottom")
+          name = ""
+        ) +
+        theme(legend.position = "bottom")
     )
   } else {
     param_upset_baseanno <- "auto"
   }
 
-  if (add_de_gsgenes){
-    if (is.null(res_de) | is.null(annotation_obj))
+  if (add_de_gsgenes) {
+    if (is.null(res_de) | is.null(annotation_obj)) {
       stop("DE results and annotation required if `add_de_gsgenes` is TRUE, please provide them as `res_de` and `annotation_obj`")
+    }
     upgsg$logFC <- res_de[annotation_obj$gene_id[
-      match(rownames(upgsg), annotation_obj$gene_name)], "log2FoldChange"]
+      match(rownames(upgsg), annotation_obj$gene_name)
+    ], "log2FoldChange"]
     upgsg$logFCsign <- upgsg$logFC >= 0
 
     param_upset_anno <- list(
-      'logFC' = (
+      "logFC" = (
         ggplot(mapping = aes_string(x = "intersection", y = "logFC")) +
           geom_jitter(aes_string(color = "logFC"), na.rm = TRUE) +
           # geom_violin(alpha = 0.5, na.rm = TRUE) +
@@ -231,12 +240,9 @@ gs_upset <- function(res_enrich,
     name = "gsg upset",
     matrix = intersection_matrix(
       geom = upset_geom
-    ) + scale_y_discrete(position="right"),
+    ) + scale_y_discrete(position = "right"),
     base_annotations = param_upset_baseanno,
     annotations = param_upset_anno,
-    width_ratio=0.1
+    width_ratio = 0.1
   )
-
 }
-
-
