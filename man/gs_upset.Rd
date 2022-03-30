@@ -99,11 +99,14 @@ data(res_enrich_macrophage, package = "GeneTonic")
 res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 gs_upset(res_enrich,
-         n_gs = 10)
+  n_gs = 10
+)
 
-gs_upset(res_enrich, res_de = res_de, annotation_obj = anno_df,
-         n_gs = 8,
-         add_de_direction = TRUE, add_de_gsgenes = TRUE)
+gs_upset(res_enrich,
+  res_de = res_de, annotation_obj = anno_df,
+  n_gs = 8,
+  add_de_direction = TRUE, add_de_gsgenes = TRUE
+)
 
 # or using the practical gtl (GeneTonicList)
 gtl_macrophage <- GeneTonic_list(
@@ -113,7 +116,9 @@ gtl_macrophage <- GeneTonic_list(
   annotation_obj = anno_df
 )
 
-gs_upset(gtl = gtl_macrophage,
-         n_gs = 15,
-         add_de_direction = TRUE, add_de_gsgenes = TRUE)
+gs_upset(
+  gtl = gtl_macrophage,
+  n_gs = 15,
+  add_de_direction = TRUE, add_de_gsgenes = TRUE
+)
 }
