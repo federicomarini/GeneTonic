@@ -35,7 +35,7 @@ bibliography: GeneTonic.bib
 
 **Compiled date**: `r Sys.Date()`
 
-**Last edited**: 2020-01-23
+**Last edited**: 2022-04-04
 
 **License**: `r packageDescription("GeneTonic")[["License"]]`
 
@@ -270,6 +270,10 @@ library("GeneTonic")
 GeneTonic(size_gtl = max_gtl_size)
 ```
 
+To upload your `GeneTonicList` object, click on the "Browse" widget and select the specific RDS file from the explorer window that will open up.  
+If the upload was successful, `GeneTonic` will make all the panels available, ready to be interactively explored.
+If providing the data in a wrong or unexpected format, the app should be able to recognize this and notify the users in the lower right corner.
+
 ```{r, fig.cap="Screenshot of the `GeneTonic` application, when launched as a server where users can directly upload `GeneTonicList` objects. Information on the format and content for this object type are provided in the collapsible element on the right side of the dashboard body.", echo=FALSE}
 knitr::include_graphics("upload_gtl.png")
 ```
@@ -326,6 +330,9 @@ This framework is also extendable, for example as we do for the `log2FoldChange`
 
 In the Welcome panel, the GeneSpector box will also enable users to explore a gene expression plot for any of the genes in the `dds` object, irrespective of them being members or not of any geneset.  
 To do so, select a gene from the dropdown menu (autocompletion is supported), and a covariate from the "Group/color by" selector in the control menu on the right (opened by clicking on the cogs icon).
+
+If launched without providing input data (as individual components, or as `GeneTonicList` object), `GeneTonic` offers the possibility to upload the `GeneTonicList` objects at runtime.  
+The upload functionality is showing in this panel, and enables `GeneTonic` being used also as a server-like application for internal deployment.
 
 ## The Gene-Geneset panel
 
