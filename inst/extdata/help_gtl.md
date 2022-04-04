@@ -1,9 +1,9 @@
-`GeneTonic` requires you to provide as input a `GeneTonicList`, i.e. a list-like object, storing four essential components, based on the widely used `DESeq2` framework - if you are using alternative workflows, you might need to convert them beforehand.  
+`GeneTonic` requires you to provide as input a `GeneTonicList`, i.e. a list-like object, storing four essential components, based on the widely used `DESeq2` framework. If you are using alternative workflows, you might need to convert them beforehand.  
 A `GeneTonicList` contains these named slots:
 
-1. `dds`, a `DESeqDataSet` object stoging all the information related to the expression matrix.
+1. `dds`, a `DESeqDataSet` object storing all the information related to the expression matrix.
 2. `res_de`, the `DESeqResults` object with the results of Differential Expression analysis.
-3. `res_enrich`, a simple data frame with the results from functional enrichment analysis tools (see the documentation to find out which tools are supported via the `shaker_` functions). Column names must follow some specific requirements to guarantee interoperability within `GeneTonic`.
+3. `res_enrich`, a simple data frame with the results from functional enrichment analysis tools (see the documentation to find out which tools are supported via the `shaker_*` functions). Column names must follow some specific requirements to guarantee interoperability within `GeneTonic`.
 4. `annotation_obj`, the annotation data frame, composed at least of two columns, `gene_id`, with a set of unambiguous identifiers (e.g. ENSEMBL ids) corresponding to the row names of the `dds` object, and `gene_name`, containing e.g. HGNC-based gene symbols. 
 
 You can create a `GeneTonicList` by calling
