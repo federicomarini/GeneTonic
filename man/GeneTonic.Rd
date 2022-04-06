@@ -112,6 +112,11 @@ gtl_macrophage <- GeneTonicList(
   annotation_obj = anno_df
 )
 # GeneTonic(gtl = gtl_macrophage)
+
+# if running it "as a server", without input data specified:
+if (interactive()) {
+  GeneTonic(size_gtl = 300)   # for fairly large gtl objects
+}
 }
 \author{
 Federico Marini
