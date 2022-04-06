@@ -50,7 +50,7 @@
 
 * `gs_heatmap()` has now the possibility to set the arguments to the call to heatmap generating function, via ellipsis
 * `gs_heatmap()` handles the colors in a consistent way over the different executions, without relying on the random palettes provided by the `Heatmap`'s annotation functionality - could have been misleading if encountering too similar hues are randomly picked
-* the plots obtained via `gs_mds()` and `gs_volcano()` now always display the line segments for the data points to be labeled (increasing the readability - as "matching back the label to the drawed circle" - thanks for the suggestion!)
+* the plots obtained via `gs_mds()` and `gs_volcano()` now always display the line segments for the data points to be labeled (increasing the readability - as "matching back the label to the drawn circle" - thanks for the suggestion!)
 
 # GeneTonic 1.2.0
 
