@@ -22,7 +22,7 @@ test_that("Basic gene plot is generated", {
   )
   expect_is(p2_noanno_normallabels_untransformed, "gg")
 
-  gtl_macrophage <- GeneTonic_list(
+  gtl_macrophage <- GeneTonicList(
     dds = dds_macrophage,
     res_de = res_macrophage_IFNg_vs_naive,
     res_enrich = res_enrich_IFNg_vs_naive,
@@ -118,7 +118,7 @@ test_that("Extraction of expression values works", {
   )
   expect_is(df_simple, "data.frame")
   
-  gtl_macrophage <- GeneTonic_list(
+  gtl_macrophage <- GeneTonicList(
     dds = dds_macrophage,
     res_de = res_macrophage_IFNg_vs_naive,
     res_enrich = res_enrich_IFNg_vs_naive[1:200, ],

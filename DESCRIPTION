@@ -1,8 +1,8 @@
 Package: GeneTonic
 Title: Enjoy Analyzing And Integrating The Results From Differential Expression 
     Analysis And Functional Enrichment Analysis
-Version: 1.7.4
-Date: 2022-03-21
+Version: 1.99.3
+Date: 2022-04-06
 Authors@R: 
     c(
         person(
@@ -29,8 +29,9 @@ Imports:
     bs4Dash (>= 2.0.0),
     circlize,
     colorspace,
-	colourpicker,
+	  colourpicker,
     ComplexHeatmap,
+    ComplexUpset,
     dendextend,
     DESeq2,
     dplyr,

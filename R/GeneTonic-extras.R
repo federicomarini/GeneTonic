@@ -1,10 +1,12 @@
-#' Create a list for GeneTonic
+#' Create a GeneTonicList object
 #'
 #' Create a list for GeneTonic from the single required components.
 #'
-#' Having this dedicated function saves the pain of remembering which names
+#' @details Having this dedicated function saves the pain of remembering which names
 #' the components of the list should have.
-#'
+#' For backwards compatibility, the `GeneTonic_list` function is still provided
+#' as a synonim, and will likely be deprecated in the upcoming release cycles.
+#' 
 #' @param dds A `DESeqDataSet` object, normally obtained after running your data
 #' through the `DESeq2` framework.
 #' @param res_de A `DESeqResults` object. As for the `dds` parameter, this is
@@ -70,7 +72,7 @@
 #' res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 #' res_enrich <- get_aggrscores(res_enrich, res_de, anno_df)
 #'
-#' gtl_macrophage <- GeneTonic_list(
+#' gtl_macrophage <- GeneTonicList(
 #'   dds = dds_macrophage,
 #'   res_de = res_de,
 #'   res_enrich = res_enrich,
@@ -81,7 +83,7 @@
 #' if (interactive()) {
 #'   GeneTonic(gtl = gtl_macrophage)
 #' }
-GeneTonic_list <- function(dds,
+GeneTonicList <- function(dds,
                            res_de,
                            res_enrich,
                            annotation_obj) {
@@ -99,11 +101,14 @@ GeneTonic_list <- function(dds,
     annotation_obj = annotation_obj
   )
 
-  describe_gtl(gtl)
+  message(describe_gtl(gtl))
 
   return(gtl)
 }
 
+#' @rdname GeneTonicList
+#' @export
+GeneTonic_list <- GeneTonicList
 
 #' Describe a GeneTonic list
 #'
@@ -112,11 +117,11 @@ GeneTonic_list <- function(dds,
 #'
 #' @param gtl A `GeneTonic`-list object, containing in its named slots the required
 #' `dds`, `res_de`, `res_enrich`, and `annotation_obj`
-#' 
+#'
 #' @export
 #'
-#' @return Invisible NULL - the information is displayed as a message in the
-#' console
+#' @return A character string, that can further be processed (e.g. by `message()`
+#' or `cat()`, or easily rendered inside Shiny's `renderText` elements)
 describe_gtl <- function(gtl) {
   dds <- gtl$dds
   res_de <- gtl$res_de
@@ -137,41 +142,31 @@ describe_gtl <- function(gtl) {
   n_featanno <- nrow(annotation_obj)
   n_featids <- ncol(annotation_obj)
 
-  message("---------------------------------")
-  message("----- GeneTonic list object -----")
-  message("---------------------------------")
-  message("\n----- dds object -----")
-  message(
+  to_print <- c(
+    "---------------------------------\n",
+    "----- GeneTonicList object ------\n",
+    "---------------------------------\n",
+    "\n----- dds object -----\n",
     sprintf(
-      "Providing an expression object (as DESeqDataset) of %d features over %d samples",
+      "Providing an expression object (as DESeqDataset) of %d features over %d samples\n",
       n_features, n_samples
-    )
-  )
-  message("\n----- res_de object -----")
-  message(
+    ),
+    "\n----- res_de object -----\n",
     sprintf(
-      "Providing a DE result object (as DESeqResults), %d features tested, %d found as DE",
+      "Providing a DE result object (as DESeqResults), %d features tested, %d found as DE\n",
       n_tested, n_DE
-    )
-  )
-  message(sprintf("Upregulated:     %d", n_upDE))
-  message(sprintf("Downregulated:   %d", n_downDE))
-
-
-  message("\n----- res_enrich object -----")
-  message(
-    sprintf("Providing an enrichment result object, %d reported", n_genesets)
-  )
-
-  message("\n----- annotation_obj object -----")
-  message(
+    ),
+    sprintf("Upregulated:     %d\n", n_upDE),
+    sprintf("Downregulated:   %d\n", n_downDE),
+    "\n----- res_enrich object -----\n",
+    sprintf("Providing an enrichment result object, %d reported\n", n_genesets),
+    "\n----- annotation_obj object -----\n",
     sprintf(
-      "Providing an annotation object of %d features with information on %d identifier types",
+      "Providing an annotation object of %d features with information on %d identifier types\n",
       n_featanno, n_featids
     )
   )
-
-  return(invisible(NULL))
+  return(to_print)
 }
 
 
@@ -692,6 +687,22 @@ export_to_sif <- function(g, sif_file = "", edge_label = "relates_to") {
   return(invisible(sif_file))
 }
 
+#' Extract vectors from editor content
+#'
+#' Extract vectors from the shinyAce editor content, also removing comments
+#' and whitespaces from text.
+#'
+#' @param txt A single character text input.
+#'
+#' @return A character vector representing valid lines in the text input of the
+#' editor.
+editor_to_vector_sanitized <- function(txt) {
+  rn <- strsplit(txt, split="\n")[[1]]
+  rn <- sub("#.*", "", rn)
+  rn <- sub("^ +", "", rn)
+  sub(" +$", "", rn)
+}
+
 GeneTonic_footer <- fluidRow(
   column(
     width = 1,
@@ -746,6 +757,7 @@ gt_downloadButton <- function(outputId,
     icon(icon),
     label
   )
+  return(aTag)
 }
 
 
@@ -756,7 +768,7 @@ gt_downloadButton <- function(outputId,
   "# you can read it in from a serialized object",
   "# gtl <- readRDS('path/to/GeneTonicList.rds')",
   "# get a quick overview on the object",
-  "describe_gtl(gtl)",
+  "message(describe_gtl(gtl))",
   "",
   "# setup the individual elements for the explicit call",
   "dds <- gtl$dds",
@@ -770,7 +782,7 @@ gt_downloadButton <- function(outputId,
 .gt_code_closeup <- c(
   "",
   "# this is a ggplot object, so you can save it with a call to `ggsave()`",
-  "# ggsave('plot_filename.png')    # you can change the extension"  
+  "# ggsave('plot_filename.png')    # you can change the extension"
 )
 
 

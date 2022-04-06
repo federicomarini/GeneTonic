@@ -1,7 +1,7 @@
 context("Testing extra functions/helpers for GeneTonic")
 
 test_that("Creating and describing gtl", {
-  gtl_macrophage <- GeneTonic_list(
+  gtl_macrophage <- GeneTonicList(
     dds = dds_macrophage,
     res_de = res_macrophage_IFNg_vs_naive,
     res_enrich = res_enrich_IFNg_vs_naive,
@@ -10,7 +10,7 @@ test_that("Creating and describing gtl", {
   expect_is(gtl_macrophage, "list")
 
   expect_message({
-    GeneTonic_list(
+    GeneTonicList(
       dds = dds_macrophage,
       res_de = res_macrophage_IFNg_vs_naive,
       res_enrich = res_enrich_IFNg_vs_naive,
@@ -127,17 +127,33 @@ test_that("Retrieving info on gene", {
   expect_true(grepl("not found", out3))
 })
 
-test_that("'Linking to AmiGO database", {
+test_that("Linking to AmiGO database", {
   out <- .link2amigo("GO:0032729")
   expect_is(out, "character")
 })
 
-test_that("'Linking to NCBI database", {
+test_that("Linking to NCBI database", {
   out <- .link2ncbi("Actb")
   expect_is(out, "character")
 })
 
-test_that("'Linking to GeneCards database", {
+test_that("Linking to GeneCards database", {
   out <- .link2genecards("Gapdh")
   expect_is(out, "character")
+})
+
+test_that("Button correctly created", {
+  out <- gt_downloadButton(
+    "start_happyhour",
+    "Start the happy hour!",
+    class = "biocdlbutton",
+    icon = "cocktail"
+  )
+  expect_is(out, "shiny.tag")
+})
+
+test_that("Content from the editor is converted to vector", {
+  in_editor <- "a\nb  \nc\nd"
+  out_vector <- editor_to_vector_sanitized(in_editor)
+  expect_equal(out_vector, c("a", "b", "c", "d"))
 })

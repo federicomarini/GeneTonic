@@ -4,7 +4,7 @@
 #' graphical user interface for streamlining the interpretation of RNA-seq data
 #'
 #' `GeneTonic` simplifies and optimizes the integration of all components of
-#' Diffeential Expression analysis, with functional enrichment analyis and the
+#' Differential Expression analysis, with functional enrichment analysis and the
 #' original expression quantifications.
 #' It does so in a way that makes it easier to generate insightful observations
 #' and hypothesis - combining the benefits of interactivity and reproducibility,
@@ -26,6 +26,7 @@
 #' @importFrom colorspace rainbow_hcl
 #' @importFrom colourpicker colourInput
 #' @importFrom ComplexHeatmap Heatmap HeatmapAnnotation draw
+#' @importFrom ComplexUpset upset intersection_matrix intersection_size
 #' @importFrom dendextend branches_attr_by_clusters set
 #' @importFrom DESeq2 vst counts estimateSizeFactors normalizationFactors sizeFactors
 #' @importFrom dplyr arrange desc group_by mutate pull slice select "%>%"
@@ -52,17 +53,18 @@
 #' @importFrom rmarkdown render
 #' @importFrom S4Vectors mcols
 #' @importFrom scales alpha muted
-#' @importFrom stats var dist hclust as.dendrogram as.dist cmdscale median
-#' order.dendrogram runif
 #' @rawNamespace import(shiny, except = c(renderDataTable, dataTableOutput))
 #' @importFrom shinyAce aceEditor
 #' @importFrom shinycssloaders withSpinner
 #' @importFrom shinyWidgets dropdownButton tooltipOptions
+#' @importFrom stats var dist hclust as.dendrogram as.dist cmdscale median
+#' order.dendrogram runif na.omit
 #' @import SummarizedExperiment
 #' @importFrom tidyr separate_rows pivot_longer
 #' @importFrom tippy tippy
 #' @importFrom tools file_ext file_path_sans_ext
 #' @importFrom utils read.delim sessionInfo browseURL citation data write.table
+#' head
 #' @importFrom visNetwork renderVisNetwork visExport visIgraph visNetworkOutput
 #' visOptions
 #' @importFrom viridis viridis

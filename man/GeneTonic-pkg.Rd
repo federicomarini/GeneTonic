@@ -10,7 +10,7 @@ graphical user interface for streamlining the interpretation of RNA-seq data
 }
 \details{
 \code{GeneTonic} simplifies and optimizes the integration of all components of
-Diffeential Expression analysis, with functional enrichment analyis and the
+Differential Expression analysis, with functional enrichment analysis and the
 original expression quantifications.
 It does so in a way that makes it easier to generate insightful observations
 and hypothesis - combining the benefits of interactivity and reproducibility,

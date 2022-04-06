@@ -18,5 +18,8 @@ element;intro
 #n_genesets;Here you can control the number of gene sets to be displayed in the different components of the other tabs. You will learn more on this in the tours for the other sections.
 #exp_condition + .selectize-control;This is the widget that contains the column names of the <code>colData</code> slot for the provided <code>dds</code> object you provided - you can use this to control the aspect of some output widgets, e.g. in the <b>Genes-Geneset Network</b>.
 #controlbar-toggle;You can click again on the toggle button to hide the controlbar, please do so now.
+#ui_genespector;The GeneSpector box can help you inspect every gene included in the expression dataset, visualizing the normalized values split by any combination of experimental variables (defined in the control sidebar on the right). Click on the plus on the collapsed header to expand its content before moving to the next tour step.
+#gene_genespector + .selectize-control;You can select the gene of interest in this widget. Start typing any name, and you'll be assisted by the autocompletion feature.
+#plot_genespector;Once a gene is selected and so is any experimental variable, a plot of the expression values will appear in the plot output element of the user interface.
 #tour_firststeps;This is how you started the tour you are taking now. If you want to get shown around again through the main components of <code>GeneTonic</code>, you can click here.<br><br>All other tabs of <code>GeneTonic</code> have a similar button in the same position of the page, with a dedicated tour for each section.
 #Thanks;Thank you for taking the first tour of <code>GeneTonic</code>!

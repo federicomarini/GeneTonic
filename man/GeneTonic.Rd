@@ -4,7 +4,15 @@
 \alias{GeneTonic}
 \title{GeneTonic}
 \usage{
-GeneTonic(dds, res_de, res_enrich, annotation_obj, gtl = NULL, project_id = "")
+GeneTonic(
+  dds = NULL,
+  res_de = NULL,
+  res_enrich = NULL,
+  annotation_obj = NULL,
+  gtl = NULL,
+  project_id = "",
+  size_gtl = 50
+)
 }
 \arguments{
 \item{dds}{A \code{DESeqDataSet} object, normally obtained after running your data
@@ -41,6 +49,10 @@ of the list \emph{must} be specified following the content they are expecting}
 \item{project_id}{A character string, which can be considered as an identifier
 for the set/session, and will be e.g. used in the title of the report created
 via \code{\link[=happy_hour]{happy_hour()}}}
+
+\item{size_gtl}{Numeric value, specifying the maximal size in MB for the
+accepted GeneTonicList object - this applies when uploading the dataset at
+runtime}
 }
 \value{
 A Shiny app object is returned, for interactive data exploration
@@ -93,13 +105,18 @@ if (interactive()) {
   )
 }
 # alternatively...
-gtl_macrophage <- GeneTonic_list(
+gtl_macrophage <- GeneTonicList(
   dds = dds_macrophage,
   res_de = res_de,
   res_enrich = res_enrich,
   annotation_obj = anno_df
 )
 # GeneTonic(gtl = gtl_macrophage)
+
+# if running it "as a server", without input data specified:
+if (interactive()) {
+  GeneTonic(size_gtl = 300)   # for fairly large gtl objects
+}
 }
 \author{
 Federico Marini

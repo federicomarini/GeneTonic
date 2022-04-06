@@ -29,6 +29,9 @@
 #' @param project_id  A character string, which can be considered as an identifier
 #' for the set/session, and will be e.g. used in the title of the report created
 #' via [happy_hour()]
+#' @param size_gtl Numeric value, specifying the maximal size in MB for the
+#' accepted GeneTonicList object - this applies when uploading the dataset at
+#' runtime
 #'
 #' @return A Shiny app object is returned, for interactive data exploration
 #' @export
@@ -80,19 +83,25 @@
 #'   )
 #' }
 #' # alternatively...
-#' gtl_macrophage <- GeneTonic_list(
+#' gtl_macrophage <- GeneTonicList(
 #'   dds = dds_macrophage,
 #'   res_de = res_de,
 #'   res_enrich = res_enrich,
 #'   annotation_obj = anno_df
 #' )
 #' # GeneTonic(gtl = gtl_macrophage)
-GeneTonic <- function(dds,
-                      res_de,
-                      res_enrich,
-                      annotation_obj,
+#' 
+#' # if running it "as a server", without input data specified:
+#' if (interactive()) {
+#'   GeneTonic(size_gtl = 300)   # for fairly large gtl objects
+#' }
+GeneTonic <- function(dds = NULL,
+                      res_de = NULL,
+                      res_enrich = NULL,
+                      annotation_obj = NULL,
                       gtl = NULL,
-                      project_id = "") {
+                      project_id = "",
+                      size_gtl = 50) {
 
   # https://projects.lukehaas.me/css-loaders/
   # or even think of https://cran.r-project.org/web/packages/shinycustomloader/README.html
@@ -102,29 +111,23 @@ GeneTonic <- function(dds,
 
   usage_mode <- "shiny_mode"
 
-  if (!is.null(gtl)) {
-    checkup_gtl(gtl)
-    dds <- gtl$dds
-    res_de <- gtl$res_de
-    res_enrich <- gtl$res_enrich
-    annotation_obj <- gtl$annotation_obj
+  all_components_provided <-
+    !is.null(dds) & !is.null(res_de) & !is.null(res_enrich) & !is.null(annotation_obj)
+
+  if (all_components_provided) {
+    # throw error early if not correctly provided
+    checkup_GeneTonic(
+      dds,
+      res_de,
+      res_enrich,
+      annotation_obj
+    )
   }
 
-  # checks on the objects provided
-  checkup_GeneTonic(
-    dds,
-    res_de,
-    res_enrich,
-    annotation_obj
-  )
-
-  # clean up the result object, e.g. removing the NAs in the relevant columns
-  removed_genes <- is.na(res_de$log2FoldChange)
-  message(
-    "Removing ", sum(removed_genes),
-    "/", nrow(res_de), " rows from the DE `res_de` object - log2FC values detected as NA"
-  )
-  res_de <- res_de[!removed_genes, ]
+  if (!is.null(gtl)) {
+    # throw error early if not correctly provided
+    checkup_gtl(gtl)
+  }
 
   # UI definition -----------------------------------------------------------
 
@@ -155,7 +158,7 @@ GeneTonic <- function(dds,
           width = "300px",
           size = "xs",
           right = TRUE,
-          tooltip = shinyWidgets::tooltipOptions(title = "More documentation"),
+          tooltip = shinyWidgets::tooltipOptions(title = "More documentation on GeneTonic"),
           tags$h5("Documentation"),
           actionButton(
             inputId = "btn_docs_vignette",
@@ -184,7 +187,7 @@ GeneTonic <- function(dds,
           width = "300px",
           size = "xs",
           right = TRUE,
-          tooltip = shinyWidgets::tooltipOptions(title = "More info!"),
+          tooltip = shinyWidgets::tooltipOptions(title = "More info on GeneTonic and on the current session"),
           tags$h5("Additional information"),
           actionButton(
             inputId = "btn_info_session",
@@ -196,6 +199,18 @@ GeneTonic <- function(dds,
             icon = icon("heart"),
             label = "About GeneTonic", style = .actionbutton_biocstyle
           )
+        ),
+        shinyWidgets::dropdownButton(
+          inputId = "ddbtn_savegtl",
+          circle = FALSE,
+          status = "info",
+          icon = icon("save"),
+          width = "300px",
+          size = "xs",
+          right = TRUE,
+          tooltip = shinyWidgets::tooltipOptions(title = "Exporting the data as GeneTonicList"),
+          tags$h5("Export current dataset"),
+          uiOutput("ui_gtl_download")
         )
       ),
       title = bs4Dash::bs4DashBrand(
@@ -310,640 +325,49 @@ GeneTonic <- function(dds,
         # ui panel welcome -----------------------------------------------------------
         bs4TabItem(
           tabName = "tab_welcome",
-          fluidRow(
-            column(
-              width = 11
-            ),
-            column(
-              width = 1,
-              actionButton(
-                "tour_firststeps",
-                label = "", icon = icon("question-circle"),
-                style = .helpbutton_biocstyle
-              )
-            )
-          ),
-          fluidRow(
-            h2("Overview on the provided input")
-          ),
-          fluidRow(
-            bs4Dash::bs4Card(
-              width = 6,
-              id = "card_em",
-              title = "Expression Matrix",
-              status = "danger",
-              solidHeader = TRUE,
-              collapsible = TRUE,
-              collapsed = TRUE,
-              closable = FALSE,
-              DT::dataTableOutput("overview_dds")
-            ),
-            bs4Dash::bs4Card(
-              width = 6,
-              id = "card_de",
-              title = "DE results",
-              status = "warning",
-              solidHeader = TRUE,
-              collapsible = TRUE,
-              collapsed = TRUE,
-              closable = FALSE,
-              DT::dataTableOutput("overview_res_de")
-            ),
-            bs4Dash::bs4Card(
-              width = 6,
-              id = "card_enrich",
-              title = "Functional analysis results",
-              status = "success",
-              solidHeader = TRUE,
-              collapsible = TRUE,
-              collapsed = TRUE,
-              closable = FALSE,
-              DT::dataTableOutput("overview_res_enrich")
-            ),
-            bs4Dash::bs4Card(
-              width = 6,
-              id = "card_anno",
-              title = "Annotation info",
-              status = "info",
-              solidHeader = TRUE,
-              collapsible = TRUE,
-              collapsed = TRUE,
-              closable = FALSE,
-              DT::dataTableOutput("overview_annotation")
-            )
-          ),
-          uiOutput("ui_infoboxes")
+          tagList(
+            uiOutput("ui_uploadgtl"),
+            uiOutput("ui_panel_welcome")
+          )
+          # ,
+          # verbatimTextOutput("gtl_described")
         ),
 
         # ui panel geneset-gene ---------------------------------------------------
         bs4TabItem(
           tabName = "tab_ggs",
-          fluidRow(
-            column(
-              width = 11
-            ),
-            column(
-              width = 1,
-              actionButton(
-                "tour_ggs",
-                label = "", icon = icon("question-circle"),
-                style = .helpbutton_biocstyle
-              )
-            )
-          ),
-          fluidRow(
-            column(
-              width = 8,
-              withSpinner(
-                visNetworkOutput("ggsnetwork",
-                  height = "700px",
-                  width = "100%"
-                )
-              ),
-              fluidRow(
-                column(
-                  width = 1,
-                  tippy::tippy(
-                    actionButton(inputId = "coder_ggsnetwork",
-                                 label = "",
-                                 style = .helpbutton_biocstyle,
-                                 icon = icon("user-edit")),
-                    "Show the code for this plot",
-                    placement = "right"
-                  )
-                )
-              )
-            ),
-            column(
-              width = 4,
-              bs4Card(
-                title = "Geneset Box",
-                width = 12,
-                closable = FALSE,
-                uiOutput("ui_ggs_genesetbox")
-              ),
-              # box(),
-              hr(),
-              bs4Card(
-                title = "Gene Box",
-                width = 12,
-                closable = FALSE,
-                uiOutput("ui_ggs_genebox")
-              )
-            )
-          ),
-          fluidRow(
-            bs4Dash::bs4Card(
-              width = 12,
-              id = "card_ggsbackbone",
-              title = "Gene-geneset graph summaries",
-              status = "info",
-              solidHeader = TRUE,
-              collapsible = TRUE,
-              collapsed = TRUE,
-              closable = FALSE,
-              fluidRow(
-                column(
-                  width = 8,
-                  uiOutput("ui_backbone_launch"),
-                  radioButtons(
-                    inputId = "backbone_on",
-                    label = "Compute the backbone on",
-                    choices = c("genesets", "features"),
-                    selected = "genesets",
-                    inline = TRUE
-                  ),
-                  withSpinner(
-                    visNetworkOutput("backbone_graph")
-                  )
-                ),
-                column(
-                  width = 4,
-                  uiOutput("ui_graph_summary")
-                )
-              )
-            )
-          )
+          uiOutput("ui_panel_ggs")
         ),
 
         # ui panel enrichment map -------------------------------------------------
         bs4TabItem(
           tabName = "tab_emap",
-          fluidRow(
-            column(
-              width = 11
-            ),
-            column(
-              width = 1,
-              actionButton(
-                "tour_emap",
-                label = "", icon = icon("question-circle"),
-                style = .helpbutton_biocstyle
-              )
-            )
-          ),
-          fluidRow(
-            column(
-              width = 8,
-              withSpinner(
-                tagList(
-                  selectInput(
-                    inputId = "emap_colorby",
-                    label = "Color enrichment map by",
-                    choices = colnames(res_enrich)[unlist(lapply(res_enrich, is.numeric))],
-                    selected = "gs_pvalue"
-                  ),
-                  visNetworkOutput("emap_visnet",
-                    height = "700px",
-                    width = "100%"
-                  ),
-                  fluidRow(
-                    column(
-                      width = 1,
-                      tippy::tippy(
-                        actionButton(inputId = "coder_emap_visnet",
-                                     label = "",
-                                     style = .helpbutton_biocstyle,
-                                     icon = icon("user-edit")),
-                        "Show the code for this plot",
-                        placement = "right"
-                      )
-                    )
-                  )
-                )
-              )
-            ),
-            column(
-              width = 4,
-              bs4Card(
-                title = "Geneset Box",
-                width = 12,
-                closable = FALSE,
-                uiOutput("ui_emap_sidecontent")
-              )
-            )
-          ),
-          fluidRow(
-            bs4Dash::bs4Card(
-              width = 12,
-              id = "card_distillery",
-              title = "Geneset distillery",
-              status = "info",
-              solidHeader = TRUE,
-              collapsible = TRUE,
-              collapsed = TRUE,
-              closable = FALSE,
-              fluidRow(
-                column(
-                  width = 8,
-                  withSpinner(
-                    DT::dataTableOutput("dt_distill")
-                  ),
-                  uiOutput("distill_launch"),
-                  numericInput(
-                    inputId = "n_genesets_distill",
-                    label = "Number of genesets",
-                    value = min(50, nrow(res_enrich)), min = 1, max = nrow(res_enrich)
-                  )
-                ),
-                column(
-                  width = 4,
-                  bs4Card(
-                    title = "Meta-geneset Box",
-                    width = 12,
-                    closable = FALSE,
-                    uiOutput("ui_metags_sidecontent")
-                  )
-                )
-              )
-            )
-          )
+          uiOutput("ui_panel_em")
         ),
 
         # ui panel overview --------------------------------------------------------
         bs4TabItem(
           tabName = "tab_overview",
-          fluidRow(
-            column(
-              width = 11
-            ),
-            column(
-              width = 1,
-              actionButton(
-                "tour_overview",
-                label = "", icon = icon("question-circle"),
-                style = .helpbutton_biocstyle
-              )
-            )
-          ),
-          fluidRow(
-            bs4Dash::column(
-              width = 11,
-              offset = 0,
-              bs4Dash::bs4Card(
-                id = "tabcard_deview",
-                # selected = "Geneset Volcano",
-                title = "Overview",
-                # side = "right",
-                elevation = 2,
-                width = 12,
-                closable = FALSE,
-                bs4Dash::tabsetPanel(
-                  id = "tsp1",
-                  type = "pills",
-                  selected = "Geneset Volcano",
-                  side = "right",
-                  tabPanel(
-                    title = "Geneset Volcano",
-                    withSpinner(
-                      plotOutput("gs_volcano",
-                                 height = "650px")
-                    ),
-                    fluidRow(
-                      column(
-                        width = 1,
-                        tippy::tippy(
-                          actionButton(inputId = "coder_gs_volcano",
-                                       label = "",
-                                       style = .helpbutton_biocstyle,
-                                       icon = icon("user-edit")),
-                          "Show the code for this plot",
-                          placement = "right"
-                        )
-                      )
-                    )
-                  ),
-                  shiny::tabPanel(
-                    title = "Geneset Volcano - simplified",
-                    numericInput(
-                      inputId = "gs_overlap",
-                      label = "Gene Set overlap",
-                      value = 0.6, min = 0, max = 1, step = 0.05,
-                      width = "30%"
-                    ),
-                    withSpinner(
-                      plotOutput("gs_volcano_simplified",
-                                 height = "650px")
-                    ),
-                    fluidRow(
-                      column(
-                        width = 1,
-                        tippy::tippy(
-                          actionButton(inputId = "coder_gs_volcano_simplified",
-                                       label = "",
-                                       style = .helpbutton_biocstyle,
-                                       icon = icon("user-edit")),
-                          "Show the code for this plot",
-                          placement = "right"
-                        )
-                      )
-                    )
-                  ),
-                  shiny::tabPanel(
-                    title = "Enhanced Table",
-                    withSpinner(
-                      plotOutput("enriched_funcres",
-                                 height = "650px")
-                    ),
-                    fluidRow(
-                      column(
-                        width = 1,
-                        tippy::tippy(
-                          actionButton(inputId = "coder_gs_enhancedtable",
-                                       label = "",
-                                       style = .helpbutton_biocstyle,
-                                       icon = icon("user-edit")),
-                          "Show the code for this plot",
-                          placement = "right"
-                        )
-                      )
-                    )
-                  ),
-                  shiny::tabPanel(
-                    title = "Enhanced Table - interactive",
-                    withSpinner(
-                      plotlyOutput("enriched_funcres_plotly",
-                                   height = "650px")
-                    ),
-                    fluidRow(
-                      column(
-                        width = 1,
-                        tippy::tippy(
-                          actionButton(inputId = "coder_gs_enhancedtableinteractive",
-                                       label = "",
-                                       style = .helpbutton_biocstyle,
-                                       icon = icon("user-edit")),
-                          "Show the code for this plot",
-                          placement = "right"
-                        )
-                      )
-                    )
-                  )
-                )
-              )
-            )
-          )
+          uiOutput("ui_panel_overview")
         ),
 
         # ui panel GSViz ------------------------------------------------------
         bs4TabItem(
           tabName = "tab_gsviz",
-          fluidRow(
-            column(
-              width = 11
-            ),
-            column(
-              width = 1,
-              actionButton(
-                "tour_gsviz",
-                label = "", icon = icon("question-circle"),
-                style = .helpbutton_biocstyle
-              )
-            )
-          ),
-          fluidRow(
-            bs4Dash::column(
-              width = 11,
-              offset = 0,
-              bs4Dash::bs4Card(
-                id = "tabcard_genesets",
-                title = "GSViz",
-                # side = "right",
-                elevation = 2,
-                width = 12,
-                closable = FALSE,
-                bs4Dash::tabsetPanel(
-                  id = "tsp2",
-                  type = "pills",
-                  selected = "Scores Heatmap",
-                  side = "right",
-                  shiny::tabPanel(
-                    title = "Scores Heatmap",
-                    withSpinner(
-                      plotOutput("gsscores_heatmap",
-                                 height = "650px")
-                    ),
-                    fluidRow(
-                      column(
-                        width = 1,
-                        tippy::tippy(
-                          actionButton(inputId = "coder_gsscores_heatmap",
-                                       label = "",
-                                       style = .helpbutton_biocstyle,
-                                       icon = icon("user-edit")),
-                          "Show the code for this plot",
-                          placement = "right"
-                        )
-                      )
-                    )
-                  ),
-                  shiny::tabPanel(
-                    title = "Alluvial Plot",
-                    withSpinner(
-                      plotlyOutput("alluvial_genesets",
-                                   height = "650px")
-                    ),
-                    fluidRow(
-                      column(
-                        width = 1,
-                        tippy::tippy(
-                          actionButton(inputId = "coder_alluvial_genesets",
-                                       label = "",
-                                       style = .helpbutton_biocstyle,
-                                       icon = icon("user-edit")),
-                          "Show the code for this plot",
-                          placement = "right"
-                        )
-                      )
-                    )
-                  ),
-                  shiny::tabPanel(
-                    title = "Summary Heatmap",
-                    withSpinner(
-                      plotOutput("gs_summaryheat",
-                                 height = "650px")
-                    ),
-                    fluidRow(
-                      column(
-                        width = 1,
-                        tippy::tippy(
-                          actionButton(inputId = "coder_gs_summaryheat",
-                                       label = "",
-                                       style = .helpbutton_biocstyle,
-                                       icon = icon("user-edit")),
-                          "Show the code for this plot",
-                          placement = "right"
-                        )
-                      )
-                    )
-                  ),
-                  shiny::tabPanel(
-                    title = "Geneset MDS",
-                    withSpinner(
-                      plotOutput("mds_genesets",
-                                 height = "650px")
-                    ),
-                    fluidRow(
-                      column(
-                        width = 1,
-                        tippy::tippy(
-                          actionButton(inputId = "coder_mds_genesets",
-                                       label = "",
-                                       style = .helpbutton_biocstyle,
-                                       icon = icon("user-edit")),
-                          "Show the code for this plot",
-                          placement = "right"
-                        )
-                      )
-                    )
-                  ),
-                  shiny::tabPanel(
-                    title = "Summary Overview",
-                    withSpinner(
-                      plotOutput("gs_summaryoverview",
-                                 height = "650px")
-                    ),
-                    fluidRow(
-                      column(
-                        width = 1,
-                        tippy::tippy(
-                          actionButton(inputId = "coder_gs_summaryoverview",
-                                       label = "",
-                                       style = .helpbutton_biocstyle,
-                                       icon = icon("user-edit")),
-                          "Show the code for this plot",
-                          placement = "right"
-                        )
-                      )
-                    )
-                  ),
-                  shiny::tabPanel(
-                    title = "Geneset Radar",
-                    withSpinner(
-                      plotlyOutput("gs_summaryradar",
-                                   height = "650px")
-                    ),
-                    fluidRow(
-                      column(
-                        width = 1,
-                        tippy::tippy(
-                          actionButton(inputId = "coder_gs_summaryradar",
-                                       label = "",
-                                       style = .helpbutton_biocstyle,
-                                       icon = icon("user-edit")),
-                          "Show the code for this plot",
-                          placement = "right"
-                        )
-                      )
-                    )
-                  ),
-                  shiny::tabPanel(
-                    title = "Geneset Dendrogram",
-                    withSpinner(
-                      plotOutput("gs_dendro",
-                                 height = "650px")
-                    ),
-                    fluidRow(
-                      column(
-                        width = 1,
-                        tippy::tippy(
-                          actionButton(inputId = "coder_gs_dendro",
-                                       label = "",
-                                       style = .helpbutton_biocstyle,
-                                       icon = icon("user-edit")),
-                          "Show the code for this plot",
-                          placement = "right"
-                        )
-                      )
-                    )
-                  )
-                )
-              )
-            )
-          )
+          uiOutput("ui_panel_gsviz")
         ),
 
         # ui panel bookmark ------------------------------------------------------
         bs4TabItem(
           tabName = "tab_bookmarks",
-          fluidRow(
-            column(
-              width = 11
-            ),
-            column(
-              width = 1,
-              actionButton(
-                "tour_bookmarks",
-                label = "", icon = icon("question-circle"),
-                style = .helpbutton_biocstyle
-              )
-            )
-          ),
-          fluidRow(
-            column(
-              width = 12,
-              uiOutput("ui_bookmarks")
-            )
-          ),
-          fluidRow(
-            bs4Dash::column(
-              width = 8,
-              offset = 2,
-              br(), br(),
-              gt_downloadButton(
-                "start_happyhour",
-                "Start the happy hour!",
-                class = "biocdlbutton",
-                icon = "cocktail"
-              ) # magic?
-            )
-          ),
-          hr(),
-          br(), br(), br(),
-          fluidRow(
-            column(
-              width = 4,
-              textInput(
-                "se_export_name",
-                label = "Choose a filename for the serialized .rds object",
-                value = "se_GeneTonic_toiSEE.rds"
-              )
-            ),
-            column(
-              width = 4,
-              gt_downloadButton(
-                "button_iSEEexport",
-                label = "Export as serialized SummarizedExperiment",
-                class = "biocdlbutton",
-                icon = "glasses"
-              )
-            )
-          )
+          uiOutput("ui_panel_bookmarks")
         )
       )
     ),
     # controlbar definition ---------------------------------------------------
     controlbar = bs4Dash::bs4DashControlbar(
       collapsed = TRUE,
-      numericInput(
-        inputId = "de_fdr",
-        label = "False Discovery Rate (FDR) for DE",
-        value = 0.05, min = 0.0001, max = 1, step = 0.01
-      ),
-      numericInput(
-        inputId = "n_genesets",
-        label = "Number of genesets",
-        value = 15, min = 1, max = nrow(res_enrich)
-      ),
-      selectInput("exp_condition",
-        label = "Group/color by: ",
-        choices = c(NULL, names(colData(dds))), selected = NULL, multiple = TRUE
-      ),
-      colourInput("col", "Select colour for volcano plot", "#1a81c2",
-        returnName = TRUE,
-        allowTransparent = TRUE
-      ),
-      checkboxInput("labels", label = "Display all labels", value = FALSE)
+      uiOutput("ui_controlbar")
     ),
 
     # footer definition -------------------------------------------------------
@@ -953,40 +377,275 @@ GeneTonic <- function(dds,
     )
   )
 
-  options(shiny.maxRequestSize = 15 * 1024^2)
+  options(shiny.maxRequestSize = size_gtl * 1024^2)
 
   # nocov start
   genetonic_server <- function(input, output, session) {
 
-    # reactive objects and setup commands -------------------------------------
+    # initializing reactives --------------------------------------------------
     reactive_values <- reactiveValues()
 
+    # for the usage in the bookmarks
     reactive_values$mygenes <- c()
     reactive_values$mygenesets <- c()
 
-    myvst <- vst(dds)
+    if (!is.null(gtl)) {
+      message("GeneTonicInfo: gtl object provided")
 
-    res_enhanced <- get_aggrscores(
-      res_enrich = res_enrich,
-      res_de = res_de,
-      annotation_obj = annotation_obj
-    )
+      checkup_gtl(gtl)
 
-    # output$ui_exp_condition <- renderUI({
-    # selectInput("exp_condition", label = "Group/color by: ",
-    # choices = c(NULL, poss_covars), selected = NULL, multiple = TRUE)
-    # })
+      reactive_values$gtl <- gtl
+      reactive_values$dds <- gtl$dds
+      reactive_values$res_de <- gtl$res_de
+      reactive_values$res_enrich <- gtl$res_enrich
+      reactive_values$annotation_obj <- gtl$annotation_obj
 
+      # clean up the result object, e.g. removing the NAs in the relevant columns
+      removed_genes <- is.na(gtl$res_de$log2FoldChange)
+      message(
+        "Removing ", sum(removed_genes),
+        "/", nrow(gtl$res_de), " rows from the DE `res_de` object - log2FC values detected as NA"
+      )
+      reactive_values$res_de <- gtl$res_de[!removed_genes, ]
+
+      reactive_values$myvst <- reactive({
+        vst(reactive_values$dds)
+      })
+
+      reactive_values$res_enhanced <- reactive({
+        get_aggrscores(
+          res_enrich = reactive_values$res_enrich,
+          res_de = reactive_values$res_de,
+          annotation_obj = reactive_values$annotation_obj
+        )
+      })
+
+    } else if (all_components_provided){
+      message("GeneTonicInfo: all components provided")
+
+      checkup_GeneTonic(dds = dds,
+                        res_de = res_de,
+                        res_enrich= res_enrich,
+                        annotation_obj = annotation_obj)
+
+      reactive_values$dds <- dds
+      reactive_values$res_de <- res_de
+      reactive_values$res_enrich <- res_enrich
+      reactive_values$annotation_obj <- annotation_obj
+      # also creating the gtl reactive object
+      reactive_values$gtl <- GeneTonicList(
+        dds = dds,
+        res_de = res_de,
+        res_enrich = res_enrich,
+        annotation_obj = annotation_obj
+      )
+
+      # clean up the result object, e.g. removing the NAs in the relevant columns
+      removed_genes <- is.na(res_de$log2FoldChange)
+      message(
+        "Removing ", sum(removed_genes),
+        "/", nrow(res_de), " rows from the DE `res_de` object - log2FC values detected as NA"
+      )
+      reactive_values$res_de <- res_de[!removed_genes, ]
+
+      reactive_values$myvst <- reactive({
+        vst(reactive_values$dds)
+      })
+
+      reactive_values$res_enhanced <- reactive({
+        get_aggrscores(
+          res_enrich = reactive_values$res_enrich,
+          res_de = reactive_values$res_de,
+          annotation_obj = reactive_values$annotation_obj
+        )
+      })
+
+    } else {
+      message("GeneTonicInfo: no input data provided, upload at runtime expected")
+
+      reactive_values$dds <- NULL
+      reactive_values$res_de <- NULL
+      reactive_values$res_enrich <- NULL
+      reactive_values$annotation_obj <- NULL
+
+      reactive_values$upload_active <- TRUE
+    }
+
+    ### defining the logic of the data provided
+    #
+    # if (gtl is provided) {
+    #   assign gtl components to the dds, res_de, res_enrich, and annotation
+    #   ready to go
+    #   don't display upload gtl button
+    # } else if (all components provided) {
+    #   ready to go
+    #   don't display upload gtl button
+    # } else {
+    #   display upload gtl button
+    #   upon uploading, check and assign gtl components to the dds, res_de, res_enrich, and annotation
+    #   ready to go
+    # }
 
     # panel Welcome -----------------------------------------------------------
 
+    output$ui_uploadgtl <- renderUI({
+      validate(
+        need(reactive_values$upload_active, message = "")
+      )
+
+      tagList(
+        fluidRow(
+          column(
+            width = 10,
+            offset = 1,
+            bs4Dash::box(
+              title = "Upload your data as a GeneTonicList",
+              id = "box_upload",
+              width = 12,
+              collapsible = TRUE,
+              collapsed = FALSE,
+              closable = FALSE,
+              fluidRow(
+                column(
+                  width = 6,
+                  p(
+                    img(src = "GeneTonic/GeneTonic.png", height = "50px"), 
+                    align = "center"
+                  ),
+                  fileInput(inputId = "uploadgtl",
+                            label = "Upload a GeneTonicList serialized object")
+                ),
+                column(
+                  width = 6,
+                  tags$details(
+                    tags$summary(
+                      HTML(
+                        paste0(
+                          "What is a ",
+                          tags$code("GeneTonicList"),
+                          " object?"
+                        )
+                      )
+                    ),
+                    includeMarkdown(
+                      system.file("extdata", "help_gtl.md", package = "GeneTonic")
+                    )
+                  ),
+                  uiOutput("ui_describegtl")
+                )
+              )
+            )
+          )
+        )
+
+      )
+    })
+
+    output$ui_describegtl <- renderUI({
+      validate(
+        need(
+          !is.null(reactive_values$in_gtl), message = ""
+        )
+      )
+
+      tags$details(
+        tags$summary("What's in my GeneTonicList object?"),
+        p("This is the output of the `describe_gtl` function on the provided object:"),
+        verbatimTextOutput("gtl_described")
+      )
+
+    })
+
+    output$gtl_described <- renderText({
+      validate(
+        need(
+          !is.null(reactive_values$in_gtl), message = "No gtl file uploaded"
+        )
+      )
+
+      describe_gtl(reactive_values$in_gtl)
+    })
+
+    output$ui_panel_welcome <- renderUI({
+      validate(
+        need(!is.null(reactive_values$gtl) ,
+             message = "Please provide a GeneTonicList (e.g. via the 'Upload your data as a GeneTonicList' box) or its components (this is possible if you are calling GeneTonic from the command line).\n\n\nAll the content of this tab will be displayed upon providing this object")
+      )
+      tagList(
+        fluidRow(
+          column(
+            width = 11
+          ),
+          column(
+            width = 1,
+            actionButton(
+              "tour_firststeps",
+              label = "", icon = icon("question-circle"),
+              style = .helpbutton_biocstyle
+            )
+          )
+        ),
+        fluidRow(
+          h2("Overview on the provided input data")
+        ),
+        fluidRow(
+          bs4Dash::bs4Card(
+            width = 6,
+            id = "card_em",
+            title = "Expression Matrix",
+            status = "danger",
+            solidHeader = TRUE,
+            collapsible = TRUE,
+            collapsed = TRUE,
+            closable = FALSE,
+            DT::dataTableOutput("overview_dds")
+          ),
+          bs4Dash::bs4Card(
+            width = 6,
+            id = "card_de",
+            title = "DE results",
+            status = "warning",
+            solidHeader = TRUE,
+            collapsible = TRUE,
+            collapsed = TRUE,
+            closable = FALSE,
+            DT::dataTableOutput("overview_res_de")
+          ),
+          bs4Dash::bs4Card(
+            width = 6,
+            id = "card_enrich",
+            title = "Functional analysis results",
+            status = "success",
+            solidHeader = TRUE,
+            collapsible = TRUE,
+            collapsed = TRUE,
+            closable = FALSE,
+            DT::dataTableOutput("overview_res_enrich")
+          ),
+          bs4Dash::bs4Card(
+            width = 6,
+            id = "card_anno",
+            title = "Annotation info",
+            status = "info",
+            solidHeader = TRUE,
+            collapsible = TRUE,
+            collapsed = TRUE,
+            closable = FALSE,
+            DT::dataTableOutput("overview_annotation")
+          )
+        ),
+        uiOutput("ui_infoboxes")
+      )
+    })
+
     output$overview_dds <- DT::renderDataTable({
       DT::datatable(
-        counts(dds),
+        counts(reactive_values$dds),
         options = list(scrollX = TRUE, scrollY = "400px")
       )
     })
     output$overview_res_de <- DT::renderDataTable({
+      res_de <- reactive_values$res_de
       res_de <- res_de[order(res_de$padj), ]
       DT::datatable(
         as.data.frame(res_de),
@@ -1015,13 +674,13 @@ GeneTonic <- function(dds,
 
     output$overview_res_enrich <- DT::renderDataTable({
       DT::datatable(
-        res_enrich,
+        reactive_values$res_enrich,
         options = list(scrollX = TRUE, scrollY = "400px")
       )
     })
     output$overview_annotation <- DT::renderDataTable({
       DT::datatable(
-        annotation_obj,
+        reactive_values$annotation_obj,
         options = list(scrollX = TRUE, scrollY = "400px")
       )
     })
@@ -1030,11 +689,15 @@ GeneTonic <- function(dds,
       tagList(
         fluidRow(
           column(
-            width = 12,
-            bs4ValueBoxOutput("infobox_dds"),
-            bs4ValueBoxOutput("infobox_resde"),
-            bs4ValueBoxOutput("infobox_resenrich"),
-            bs4ValueBoxOutput("infobox_annotation")
+            width = 6,
+            bs4ValueBoxOutput("infobox_dds", width = 8),
+            bs4ValueBoxOutput("infobox_resde", width = 8),
+            bs4ValueBoxOutput("infobox_resenrich", width = 8),
+            bs4ValueBoxOutput("infobox_annotation", width = 8)
+          ),
+          column(
+            width = 6,
+            uiOutput("ui_genespector")
           )
           # ,
           # column(
@@ -1047,7 +710,7 @@ GeneTonic <- function(dds,
 
     output$infobox_dds <- renderbs4ValueBox({
       bs4ValueBox(
-        value = paste0(nrow(dds), " genes x ", ncol(dds), " samples"),
+        value = paste0(nrow(reactive_values$dds), " genes x ", ncol(reactive_values$dds), " samples"),
         subtitle = "dds object",
         icon = icon("table"),
         color = "danger",
@@ -1058,7 +721,7 @@ GeneTonic <- function(dds,
     output$infobox_resde <- renderbs4ValueBox({
       bs4ValueBox(
         value = paste0(
-          nrow(deseqresult2df(res_de, FDR = input$de_fdr)),
+          nrow(deseqresult2df(reactive_values$res_de, FDR = input$de_fdr)),
           " DE genes"
         ),
         subtitle = "res object",
@@ -1071,7 +734,7 @@ GeneTonic <- function(dds,
     output$infobox_resenrich <- renderbs4ValueBox({
       bs4ValueBox(
         value = paste0(
-          nrow(res_enrich),
+          nrow(reactive_values$res_enrich),
           " functional categories"
         ),
         subtitle = "func enrich object",
@@ -1083,7 +746,7 @@ GeneTonic <- function(dds,
 
     output$infobox_annotation <- renderbs4ValueBox({
       bs4ValueBox(
-        value = paste0(ncol(annotation_obj), " feature identifiers for ", nrow(dds), " features"),
+        value = paste0(ncol(reactive_values$annotation_obj), " feature identifiers for ", nrow(reactive_values$dds), " features"),
         subtitle = "annotation object",
         icon = icon("table"),
         color = "info",
@@ -1091,12 +754,167 @@ GeneTonic <- function(dds,
       )
     })
 
+    output$ui_genespector <- renderUI({
+      # to speed up population of the input element
+      all_featurenames <- c("", reactive_values$annotation_obj$gene_name)
+      updateSelectizeInput(session, 'gene_genespector', choices = all_featurenames, server = TRUE)
+
+      tagList(
+        bs4Dash::box(
+          title = "GeneSpector",
+          width = 12,
+          icon = icon("search-plus"),
+          collapsible = TRUE,
+          collapsed = TRUE,
+          tagList(
+            selectizeInput(
+              "gene_genespector",
+              label = "Select a gene to inspect",
+              width = "50%",
+              choices = NULL,
+              selected = ""
+            ),
+            plotOutput("plot_genespector")
+          )
+        )
+
+      )
+    })
+
+    output$plot_genespector <- renderPlot({
+      validate(
+        need(input$gene_genespector != "",
+             message = paste0(
+               "Please select a gene from the dropdown menu.\n",
+               "Autocompletion is supported, so you can simply start typing, and ",
+               "select the gene of interest once it shows up.")
+        )
+      )
+
+      validate(
+        need(input$exp_condition != "",
+             message = paste0(
+               "Please select a group for the experimental condition. \n\n ",
+               "This can be done from the control bar on the right. \nClick on the cogs icon ",
+               "in the top right corner, and select a value for the 'Group/color by:' field.")
+        )
+      )
+
+      sel_gene_name <- input$gene_genespector
+      corr_gene_id <- reactive_values$annotation_obj$gene_id[
+        match(sel_gene_name, reactive_values$annotation_obj$gene_name)]
+      gene_plot(reactive_values$dds,
+                gene = corr_gene_id,
+                intgroup = input$exp_condition,
+                annotation_obj = reactive_values$annotation_obj)
+
+    })
+
     # panel GeneSet-Gene ------------------------------------------------------
+
+    output$ui_panel_ggs <- renderUI({
+      validate(
+        need(!is.null(reactive_values$gtl) ,
+             message = "Gene-Geneset Panel\n\n\n\nPlease provide a GeneTonicList or its components to display the content of this tab.")
+      )
+
+      tagList(
+        fluidRow(
+          column(
+            width = 11
+          ),
+          column(
+            width = 1,
+            actionButton(
+              "tour_ggs",
+              label = "", icon = icon("question-circle"),
+              style = .helpbutton_biocstyle
+            )
+          )
+        ),
+        fluidRow(
+          column(
+            width = 8,
+            withSpinner(
+              visNetworkOutput("ggsnetwork",
+                               height = "700px",
+                               width = "100%"
+              )
+            ),
+            fluidRow(
+              column(
+                width = 1,
+                tippy::tippy(
+                  actionButton(inputId = "coder_ggsnetwork",
+                               label = "",
+                               style = .helpbutton_biocstyle,
+                               icon = icon("user-edit")),
+                  "Show the code for this plot",
+                  placement = "right"
+                )
+              )
+            )
+          ),
+          column(
+            width = 4,
+            bs4Card(
+              id = "box_geneset",
+              title = "Geneset Box",
+              width = 12,
+              closable = FALSE,
+              uiOutput("ui_ggs_genesetbox")
+            ),
+            # box(),
+            hr(),
+            bs4Card(
+              id = "box_gene",
+              title = "Gene Box",
+              width = 12,
+              closable = FALSE,
+              uiOutput("ui_ggs_genebox")
+            )
+          )
+        ),
+        fluidRow(
+          bs4Dash::bs4Card(
+            width = 12,
+            id = "card_ggsbackbone",
+            title = "Gene-geneset graph summaries",
+            status = "info",
+            solidHeader = TRUE,
+            collapsible = TRUE,
+            collapsed = TRUE,
+            closable = FALSE,
+            fluidRow(
+              column(
+                width = 8,
+                uiOutput("ui_backbone_launch"),
+                radioButtons(
+                  inputId = "backbone_on",
+                  label = "Compute the backbone on",
+                  choices = c("genesets", "features"),
+                  selected = "genesets",
+                  inline = TRUE
+                ),
+                withSpinner(
+                  visNetworkOutput("backbone_graph")
+                )
+              ),
+              column(
+                width = 4,
+                uiOutput("ui_graph_summary")
+              )
+            )
+          )
+        )
+      )
+    })
+
     reactive_values$ggs_graph <- reactive({
       g <- ggs_graph(
-        res_enrich = res_enrich,
-        res_de = res_de,
-        annotation_obj = annotation_obj,
+        res_enrich = reactive_values$res_enrich,
+        res_de = reactive_values$res_de,
+        annotation_obj = reactive_values$annotation_obj,
         n_gs = input$n_genesets,
         prettify = TRUE,
         geneset_graph_color = "gold"
@@ -1133,14 +951,13 @@ GeneTonic <- function(dds,
       cur_node <- match(cur_sel, V(g)$name)
       cur_nodetype <- V(g)$nodetype[cur_node]
 
-      cur_gsid <- res_enrich$gs_id[match(cur_sel, res_enrich$gs_description)]
+      cur_gsid <- reactive_values$res_enrich$gs_id[match(cur_sel, reactive_values$res_enrich$gs_description)]
 
       paste0("I'm selecting ", input$ggsnetwork_selected, ", which has index ", cur_node, " and is of type ", cur_nodetype, "this is from set", cur_gsid)
     })
 
     output$ui_graph_summary <- renderUI({
       tagList(
-        # TODO: if other UI elements should be in, we can place them here
         h4("Highly connected genes"),
         DT::dataTableOutput("table_graph_summary")
       )
@@ -1170,14 +987,14 @@ GeneTonic <- function(dds,
       validate(need(cur_nodetype == "GeneSet",
         message = "Please select a gene set from the Gene-Geneset Graph."
       ))
-      cur_gsid <- res_enrich$gs_id[match(input$ggsnetwork_selected, res_enrich$gs_description)]
+      cur_gsid <- reactive_values$res_enrich$gs_id[match(input$ggsnetwork_selected, reactive_values$res_enrich$gs_description)]
 
       if (!is.null(input$exp_condition)) {
         gs_heatmap(
-          myvst,
-          res_de,
-          res_enrich,
-          annotation_obj = annotation_obj,
+          reactive_values$myvst(),
+          reactive_values$res_de,
+          reactive_values$res_enrich,
+          annotation_obj = reactive_values$annotation_obj,
           geneset_id = cur_gsid,
           FDR = input$de_fdr,
           de_only = FALSE,
@@ -1189,10 +1006,10 @@ GeneTonic <- function(dds,
         )
       } else {
         gs_heatmap(
-          myvst,
-          res_de,
-          res_enrich,
-          annotation_obj = annotation_obj,
+          reactive_values$myvst(),
+          reactive_values$res_de,
+          reactive_values$res_enrich,
+          annotation_obj = reactive_values$annotation_obj,
           geneset_id = cur_gsid,
           FDR = input$de_fdr,
           de_only = FALSE,
@@ -1212,13 +1029,18 @@ GeneTonic <- function(dds,
       validate(need(cur_nodetype == "GeneSet",
         message = ""
       ))
-      cur_gsid <- res_enrich$gs_id[match(input$ggsnetwork_selected, res_enrich$gs_description)]
+      cur_gsid <- reactive_values$res_enrich$gs_id[match(input$ggsnetwork_selected, reactive_values$res_enrich$gs_description)]
+
+      # if (input$box_geneset$collapsed)
+      #   bs4Dash::updatebs4Card("box_geneset", action = "toggle")
+      # if (!input$box_gene$collapsed)
+      #   bs4Dash::updatebs4Card("box_gene", action = "toggle")
 
       if (input$labels) {
         signature_volcano(
-          res_de,
-          res_enrich,
-          annotation_obj = annotation_obj,
+          reactive_values$res_de,
+          reactive_values$res_enrich,
+          annotation_obj = reactive_values$annotation_obj,
           geneset_id = cur_gsid,
           FDR = input$de_fdr,
           color = input$col,
@@ -1226,9 +1048,9 @@ GeneTonic <- function(dds,
         )
       } else {
         signature_volcano(
-          res_de,
-          res_enrich,
-          annotation_obj = annotation_obj,
+          reactive_values$res_de,
+          reactive_values$res_enrich,
+          annotation_obj = reactive_values$annotation_obj,
           geneset_id = cur_gsid,
           FDR = input$de_fdr,
           color = input$col
@@ -1244,7 +1066,7 @@ GeneTonic <- function(dds,
       validate(need(cur_nodetype == "GeneSet",
         message = "" # "Please select a gene set."
       ))
-      cur_gsid <- res_enrich$gs_id[match(input$ggsnetwork_selected, res_enrich$gs_description)]
+      cur_gsid <- reactive_values$res_enrich$gs_id[match(input$ggsnetwork_selected, reactive_values$res_enrich$gs_description)]
 
       go_2_html(cur_gsid, res_enrich)
     })
@@ -1265,13 +1087,14 @@ GeneTonic <- function(dds,
         message = "Please select a gene/feature."
       ))
 
-      cur_geneid <- annotation_obj$gene_id[match(cur_sel, annotation_obj$gene_name)]
+      cur_geneid <- reactive_values$annotation_obj$gene_id[match(cur_sel, reactive_values$annotation_obj$gene_name)]
 
-      # mycontent <- HTML(paste0(
-      #   cur_geneid, "<br>", "<b>", cur_sel, "</b>"
-      # ))
+      # if (input$box_gene$collapsed)
+      #   bs4Dash::updatebs4Card("box_gene", action = "toggle")
+      # if (!input$box_geneset$collapsed)
+      #   bs4Dash::updatebs4Card("box_geneset", action = "toggle")
 
-      geneinfo_2_html(cur_sel, res_de)
+      geneinfo_2_html(cur_sel, reactive_values$res_de)
     })
 
     output$ggs_geneplot <- renderPlot({
@@ -1286,11 +1109,11 @@ GeneTonic <- function(dds,
         message = "Please select a group for the experimental condition."
       ))
 
-      cur_geneid <- annotation_obj$gene_id[match(cur_sel, annotation_obj$gene_name)]
-      gene_plot(dds,
+      cur_geneid <- reactive_values$annotation_obj$gene_id[match(cur_sel, reactive_values$annotation_obj$gene_name)]
+      gene_plot(reactive_values$dds,
         gene = cur_geneid,
         intgroup = input$exp_condition,
-        annotation_obj = annotation_obj
+        annotation_obj = reactive_values$annotation_obj
       )
     })
 
@@ -1299,9 +1122,9 @@ GeneTonic <- function(dds,
       showNotification(not_msg)
 
       bbg <- ggs_backbone(
-        res_enrich = res_enrich,
-        res_de = res_de,
-        annotation_obj = annotation_obj,
+        res_enrich = reactive_values$res_enrich,
+        res_de = reactive_values$res_de,
+        annotation_obj = reactive_values$annotation_obj,
         n_gs = input$n_genesets,
         bb_on = input$backbone_on
         # prettify = TRUE,
@@ -1340,11 +1163,113 @@ GeneTonic <- function(dds,
 
 
     # panel EnrichmentMap -----------------------------------------------------
+
+    output$ui_panel_em <- renderUI({
+      validate(
+        need(!is.null(reactive_values$gtl) ,
+             message = "Enrichment Map Panel\n\n\n\nPlease provide a GeneTonicList or its components to display the content of this tab.")
+      )
+
+      tagList(
+        fluidRow(
+          column(
+            width = 11
+          ),
+          column(
+            width = 1,
+            actionButton(
+              "tour_emap",
+              label = "", icon = icon("question-circle"),
+              style = .helpbutton_biocstyle
+            )
+          )
+        ),
+        fluidRow(
+          column(
+            width = 8,
+            withSpinner(
+              tagList(
+                selectInput(
+                  inputId = "emap_colorby",
+                  label = "Color enrichment map by",
+                  choices = colnames(reactive_values$res_enrich)[unlist(lapply(reactive_values$res_enrich, is.numeric))],
+                  selected = "gs_pvalue"
+                ),
+                visNetworkOutput("emap_visnet",
+                                 height = "700px",
+                                 width = "100%"
+                ),
+                fluidRow(
+                  column(
+                    width = 1,
+                    tippy::tippy(
+                      actionButton(inputId = "coder_emap_visnet",
+                                   label = "",
+                                   style = .helpbutton_biocstyle,
+                                   icon = icon("user-edit")),
+                      "Show the code for this plot",
+                      placement = "right"
+                    )
+                  )
+                )
+              )
+            )
+          ),
+          column(
+            width = 4,
+            bs4Card(
+              title = "Geneset Box",
+              width = 12,
+              closable = FALSE,
+              uiOutput("ui_emap_sidecontent")
+            )
+          )
+        )
+
+        ,
+        fluidRow(
+          bs4Dash::bs4Card(
+            width = 12,
+            id = "card_distillery",
+            title = "Geneset distillery",
+            status = "info",
+            solidHeader = TRUE,
+            collapsible = TRUE,
+            collapsed = TRUE,
+            closable = FALSE,
+            fluidRow(
+              column(
+                width = 8,
+                withSpinner(
+                  DT::dataTableOutput("dt_distill")
+                ),
+                uiOutput("distill_launch"),
+                numericInput(
+                  inputId = "n_genesets_distill",
+                  label = "Number of genesets",
+                  value = min(50, nrow(reactive_values$res_enrich)), min = 1, max = nrow(reactive_values$res_enrich)
+                )
+              ),
+              column(
+                width = 4,
+                bs4Card(
+                  title = "Meta-geneset Box",
+                  width = 12,
+                  closable = FALSE,
+                  uiOutput("ui_metags_sidecontent")
+                )
+              )
+            )
+          )
+        )
+      )
+    })
+
     emap_graph <- reactive({
       emg <- enrichment_map(
-        res_enrich = res_enrich,
-        res_de = res_de,
-        annotation_obj = annotation_obj,
+        res_enrich = reactive_values$res_enrich,
+        res_de = reactive_values$res_de,
+        annotation_obj = reactive_values$annotation_obj,
         n_gs = input$n_genesets,
         overlap_threshold = 0.1,
         scale_edges_width = 200,
@@ -1380,14 +1305,14 @@ GeneTonic <- function(dds,
     })
 
     output$emap_geneset_info <- renderUI({
-      cur_gsid <- res_enrich$gs_id[match(input$emap_visnet_selected, res_enrich$gs_description)]
+      cur_gsid <- reactive_values$res_enrich$gs_id[match(input$emap_visnet_selected, reactive_values$res_enrich$gs_description)]
       validate(need(!is.na(cur_gsid),
         message = ""
       ))
 
       # message(cur_gsid)
       # GOTERM[[cur_gsid]]
-      go_2_html(cur_gsid, res_enrich)
+      go_2_html(cur_gsid, reactive_values$res_enrich)
     })
 
     output$emap_sigheatplot <- renderPlot({
@@ -1398,19 +1323,18 @@ GeneTonic <- function(dds,
       # validate(need(cur_nodetype == "GeneSet",
       #               message = "Please select a gene set."
       # ))
-      cur_gsid <- res_enrich$gs_id[match(input$emap_visnet_selected, res_enrich$gs_description)]
+      cur_gsid <- reactive_values$res_enrich$gs_id[match(input$emap_visnet_selected, reactive_values$res_enrich$gs_description)]
       validate(need(!is.na(cur_gsid),
         message = "Please select a gene set from the Enrichment Map."
       ))
 
-
       if (!is.null(input$exp_condition)) {
         # message(cur_gsid)
         gs_heatmap(
-          myvst,
-          res_de,
-          res_enrich,
-          annotation_obj = annotation_obj,
+          reactive_values$myvst(),
+          reactive_values$res_de,
+          reactive_values$res_enrich,
+          annotation_obj = reactive_values$annotation_obj,
           geneset_id = cur_gsid,
           FDR = input$de_fdr,
           de_only = FALSE,
@@ -1422,10 +1346,10 @@ GeneTonic <- function(dds,
         )
       } else {
         gs_heatmap(
-          myvst,
-          res_de,
-          res_enrich,
-          annotation_obj = annotation_obj,
+          reactive_values$myvst(),
+          reactive_values$res_de,
+          reactive_values$res_enrich,
+          annotation_obj = reactive_values$annotation_obj,
           geneset_id = cur_gsid,
           FDR = input$de_fdr,
           de_only = FALSE,
@@ -1441,9 +1365,9 @@ GeneTonic <- function(dds,
     # geneset distillery
     reactive_values$distillat <- reactive({
       distillat <- distill_enrichment(
-        res_enrich = res_enrich,
-        res_de = res_de,
-        annotation_obj = annotation_obj,
+        res_enrich = reactive_values$res_enrich,
+        res_de = reactive_values$res_de,
+        annotation_obj = reactive_values$annotation_obj,
         n_gs = input$n_genesets_distill
       )
       return(distillat)
@@ -1500,15 +1424,15 @@ GeneTonic <- function(dds,
 
       sel_genes <- strsplit(dist_table[s, ]$metags_genes, ",")[[1]]
       # message(length(sel_genes))
-      sel_genes_id <- annotation_obj$gene_id[match(sel_genes, annotation_obj$gene_name)]
+      sel_genes_id <- reactive_values$annotation_obj$gene_id[match(sel_genes, reactive_values$annotation_obj$gene_name)]
       # message(length(sel_genes_id))
 
       if (!is.null(input$exp_condition)) {
         gs_heatmap(
-          myvst,
-          res_de,
-          res_enrich,
-          annotation_obj = annotation_obj,
+          reactive_values$myvst(),
+          reactive_values$res_de,
+          reactive_values$res_enrich,
+          annotation_obj = reactive_values$annotation_obj,
           genelist = sel_genes_id,
           FDR = input$de_fdr,
           de_only = FALSE,
@@ -1521,10 +1445,10 @@ GeneTonic <- function(dds,
         )
       } else {
         gs_heatmap(
-          myvst,
-          res_de,
-          res_enrich,
-          annotation_obj = annotation_obj,
+          reactive_values$myvst(),
+          reactive_values$res_de,
+          reactive_values$res_enrich,
+          annotation_obj = reactive_values$annotation_obj,
           genelist = sel_genes_id,
           FDR = input$de_fdr,
           de_only = FALSE,
@@ -1567,18 +1491,149 @@ GeneTonic <- function(dds,
 
     # panel Overview ------------------------------------------------------------
 
+    output$ui_panel_overview <- renderUI({
+      validate(
+        need(!is.null(reactive_values$gtl) ,
+             message = "Overview Panel\n\n\n\nPlease provide a GeneTonicList or its components to display the content of this tab.")
+      )
+
+      tagList(
+        fluidRow(
+          column(
+            width = 11
+          ),
+          column(
+            width = 1,
+            actionButton(
+              "tour_overview",
+              label = "", icon = icon("question-circle"),
+              style = .helpbutton_biocstyle
+            )
+          )
+        ),
+        fluidRow(
+          bs4Dash::column(
+            width = 11,
+            offset = 0,
+            bs4Dash::bs4Card(
+              id = "tabcard_deview",
+              # selected = "Geneset Volcano",
+              title = "Overview",
+              # side = "right",
+              elevation = 2,
+              width = 12,
+              closable = FALSE,
+              bs4Dash::tabsetPanel(
+                id = "tsp1",
+                type = "pills",
+                selected = "Geneset Volcano",
+                side = "right",
+                tabPanel(
+                  title = "Geneset Volcano",
+                  withSpinner(
+                    plotOutput("gs_volcano",
+                               height = "650px")
+                  ),
+                  fluidRow(
+                    column(
+                      width = 1,
+                      tippy::tippy(
+                        actionButton(inputId = "coder_gs_volcano",
+                                     label = "",
+                                     style = .helpbutton_biocstyle,
+                                     icon = icon("user-edit")),
+                        "Show the code for this plot",
+                        placement = "right"
+                      )
+                    )
+                  )
+                ),
+                shiny::tabPanel(
+                  title = "Geneset Volcano - simplified",
+                  numericInput(
+                    inputId = "gs_overlap",
+                    label = "Gene Set overlap",
+                    value = 0.6, min = 0, max = 1, step = 0.05,
+                    width = "30%"
+                  ),
+                  withSpinner(
+                    plotOutput("gs_volcano_simplified",
+                               height = "650px")
+                  ),
+                  fluidRow(
+                    column(
+                      width = 1,
+                      tippy::tippy(
+                        actionButton(inputId = "coder_gs_volcano_simplified",
+                                     label = "",
+                                     style = .helpbutton_biocstyle,
+                                     icon = icon("user-edit")),
+                        "Show the code for this plot",
+                        placement = "right"
+                      )
+                    )
+                  )
+                ),
+                shiny::tabPanel(
+                  title = "Enhanced Table",
+                  withSpinner(
+                    plotOutput("enriched_funcres",
+                               height = "650px")
+                  ),
+                  fluidRow(
+                    column(
+                      width = 1,
+                      tippy::tippy(
+                        actionButton(inputId = "coder_gs_enhancedtable",
+                                     label = "",
+                                     style = .helpbutton_biocstyle,
+                                     icon = icon("user-edit")),
+                        "Show the code for this plot",
+                        placement = "right"
+                      )
+                    )
+                  )
+                ),
+                shiny::tabPanel(
+                  title = "Enhanced Table - interactive",
+                  withSpinner(
+                    plotlyOutput("enriched_funcres_plotly",
+                                 height = "650px")
+                  ),
+                  fluidRow(
+                    column(
+                      width = 1,
+                      tippy::tippy(
+                        actionButton(inputId = "coder_gs_enhancedtableinteractive",
+                                     label = "",
+                                     style = .helpbutton_biocstyle,
+                                     icon = icon("user-edit")),
+                        "Show the code for this plot",
+                        placement = "right"
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    })
+
     output$enriched_funcres <- renderPlot({
-      enhance_table(res_enrich, res_de,
-        annotation_obj = annotation_obj,
-        n_gs = input$n_genesets
+      enhance_table(reactive_values$res_enrich,
+                    reactive_values$res_de,
+                    annotation_obj = reactive_values$annotation_obj,
+                    n_gs = input$n_genesets
       )
     })
 
     output$gs_volcano <- renderPlot({
       gs_volcano(
-        get_aggrscores(res_enrich,
-          res_de,
-          annotation_obj = annotation_obj
+        get_aggrscores(reactive_values$res_enrich,
+                       reactive_values$res_de,
+                       annotation_obj = reactive_values$annotation_obj
         ),
         volcano_labels = input$n_genesets
       )
@@ -1586,31 +1641,214 @@ GeneTonic <- function(dds,
 
     output$gs_volcano_simplified <- renderPlot({
       gs_volcano(
-        get_aggrscores(gs_simplify(res_enrich, gs_overlap = input$gs_overlap),
-          res_de,
-          annotation_obj = annotation_obj
+        get_aggrscores(gs_simplify(reactive_values$res_enrich, gs_overlap = input$gs_overlap),
+                       reactive_values$res_de,
+                       annotation_obj = reactive_values$annotation_obj
         ),
         volcano_labels = input$n_genesets
       )
     })
 
     output$enriched_funcres_plotly <- renderPlotly({
-      ggplotly(enhance_table(res_enrich,
-        res_de,
-        annotation_obj = annotation_obj,
-        n_gs = input$n_genesets
+      ggplotly(enhance_table(reactive_values$res_enrich,
+                             reactive_values$res_de,
+                             annotation_obj = reactive_values$annotation_obj,
+                             n_gs = input$n_genesets
       ))
     })
 
 
     # panel GSViz -----------------------------------------------------
 
+    output$ui_panel_gsviz <- renderUI({
+      validate(
+        need(!is.null(reactive_values$gtl) ,
+             message = "GSViz Panel\n\n\n\nPlease provide a GeneTonicList or its components to display the content of this tab.")
+      )
+
+      tagList(
+        fluidRow(
+          column(
+            width = 11
+          ),
+          column(
+            width = 1,
+            actionButton(
+              "tour_gsviz",
+              label = "", icon = icon("question-circle"),
+              style = .helpbutton_biocstyle
+            )
+          )
+        ),
+        fluidRow(
+          bs4Dash::column(
+            width = 11,
+            offset = 0,
+            bs4Dash::bs4Card(
+              id = "tabcard_genesets",
+              title = "GSViz",
+              # side = "right",
+              elevation = 2,
+              width = 12,
+              closable = FALSE,
+              bs4Dash::tabsetPanel(
+                id = "tsp2",
+                type = "pills",
+                selected = "Scores Heatmap",
+                side = "right",
+                shiny::tabPanel(
+                  title = "Scores Heatmap",
+                  withSpinner(
+                    plotOutput("gsscores_heatmap",
+                               height = "650px")
+                  ),
+                  fluidRow(
+                    column(
+                      width = 1,
+                      tippy::tippy(
+                        actionButton(inputId = "coder_gsscores_heatmap",
+                                     label = "",
+                                     style = .helpbutton_biocstyle,
+                                     icon = icon("user-edit")),
+                        "Show the code for this plot",
+                        placement = "right"
+                      )
+                    )
+                  )
+                ),
+                shiny::tabPanel(
+                  title = "Alluvial Plot",
+                  withSpinner(
+                    plotlyOutput("alluvial_genesets",
+                                 height = "650px")
+                  ),
+                  fluidRow(
+                    column(
+                      width = 1,
+                      tippy::tippy(
+                        actionButton(inputId = "coder_alluvial_genesets",
+                                     label = "",
+                                     style = .helpbutton_biocstyle,
+                                     icon = icon("user-edit")),
+                        "Show the code for this plot",
+                        placement = "right"
+                      )
+                    )
+                  )
+                ),
+                shiny::tabPanel(
+                  title = "Summary Heatmap",
+                  withSpinner(
+                    plotOutput("gs_summaryheat",
+                               height = "650px")
+                  ),
+                  fluidRow(
+                    column(
+                      width = 1,
+                      tippy::tippy(
+                        actionButton(inputId = "coder_gs_summaryheat",
+                                     label = "",
+                                     style = .helpbutton_biocstyle,
+                                     icon = icon("user-edit")),
+                        "Show the code for this plot",
+                        placement = "right"
+                      )
+                    )
+                  )
+                ),
+                shiny::tabPanel(
+                  title = "Geneset MDS",
+                  withSpinner(
+                    plotOutput("mds_genesets",
+                               height = "650px")
+                  ),
+                  fluidRow(
+                    column(
+                      width = 1,
+                      tippy::tippy(
+                        actionButton(inputId = "coder_mds_genesets",
+                                     label = "",
+                                     style = .helpbutton_biocstyle,
+                                     icon = icon("user-edit")),
+                        "Show the code for this plot",
+                        placement = "right"
+                      )
+                    )
+                  )
+                ),
+                shiny::tabPanel(
+                  title = "Summary Overview",
+                  withSpinner(
+                    plotOutput("gs_summaryoverview",
+                               height = "650px")
+                  ),
+                  fluidRow(
+                    column(
+                      width = 1,
+                      tippy::tippy(
+                        actionButton(inputId = "coder_gs_summaryoverview",
+                                     label = "",
+                                     style = .helpbutton_biocstyle,
+                                     icon = icon("user-edit")),
+                        "Show the code for this plot",
+                        placement = "right"
+                      )
+                    )
+                  )
+                ),
+                shiny::tabPanel(
+                  title = "Geneset Radar",
+                  withSpinner(
+                    plotlyOutput("gs_summaryradar",
+                                 height = "650px")
+                  ),
+                  fluidRow(
+                    column(
+                      width = 1,
+                      tippy::tippy(
+                        actionButton(inputId = "coder_gs_summaryradar",
+                                     label = "",
+                                     style = .helpbutton_biocstyle,
+                                     icon = icon("user-edit")),
+                        "Show the code for this plot",
+                        placement = "right"
+                      )
+                    )
+                  )
+                ),
+                shiny::tabPanel(
+                  title = "Geneset Dendrogram",
+                  withSpinner(
+                    plotOutput("gs_dendro",
+                               height = "650px")
+                  ),
+                  fluidRow(
+                    column(
+                      width = 1,
+                      tippy::tippy(
+                        actionButton(inputId = "coder_gs_dendro",
+                                     label = "",
+                                     style = .helpbutton_biocstyle,
+                                     icon = icon("user-edit")),
+                        "Show the code for this plot",
+                        placement = "right"
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    })
+
     gss_mat <- reactive({
       gs_scores(
-        se = myvst,
-        res_de = res_de,
-        res_enrich = res_enrich,
-        annotation_obj = annotation_obj
+        se = reactive_values$myvst(),
+        res_de = reactive_values$res_de,
+        res_enrich = reactive_values$res_enrich,
+        annotation_obj = reactive_values$annotation_obj
       )
     })
     output$gsscores_heatmap <- renderPlot({
@@ -1621,53 +1859,59 @@ GeneTonic <- function(dds,
     })
 
     output$alluvial_genesets <- renderPlotly({
-      gs_alluvial(res_enrich, res_de, annotation_obj, n_gs = input$n_genesets)
+      gs_alluvial(reactive_values$res_enrich,
+                  reactive_values$res_de,
+                  reactive_values$annotation_obj,
+                  n_gs = input$n_genesets)
     })
 
     output$mds_genesets <- renderPlot({
-      gs_mds(res_enrich, res_de, annotation_obj,
-        mds_colorby = "z_score",
-        mds_labels = input$n_genesets
+      gs_mds(reactive_values$res_enrich,
+             reactive_values$res_de, reactive_values$annotation_obj,
+             mds_colorby = "z_score",
+             mds_labels = input$n_genesets
       )
     })
 
     output$gs_summaryheat <- renderPlot({
-      gs_summary_heat(res_enrich, res_de, annotation_obj,
+      gs_summary_heat(reactive_values$res_enrich,
+                      reactive_values$res_de,
+                      reactive_values$annotation_obj,
         n_gs = input$n_genesets
       )
     })
 
     output$gs_summaryoverview <- renderPlot({
       gs_summary_overview(
-        res_enrich = res_enhanced,
+        res_enrich = reactive_values$res_enhanced,
         n_gs = input$n_genesets
       )
     })
 
     output$gs_summaryoverview_pair <- renderPlot({
       gs_summary_overview_pair(
-        res_enrich = res_enhanced,
+        res_enrich = reactive_values$res_enhanced,
         n_gs = input$n_genesets
       )
     })
 
     output$gs_summaryhorizon <- renderPlot({
       gs_horizon(
-        res_enrich = res_enhanced,
+        res_enrich = reactive_values$res_enhanced,
         n_gs = input$n_genesets
       )
     })
 
     output$gs_summaryradar <- renderPlotly({
       gs_radar(
-        res_enrich = res_enhanced,
+        res_enrich = reactive_values$res_enhanced,
         n_gs = input$n_genesets
       )
     })
 
     output$gs_dendro <- renderPlot({
       gs_dendro(
-        res_enrich = res_enhanced,
+        res_enrich = reactive_values$res_enhanced,
         n_gs = input$n_genesets
       )
     })
@@ -1675,6 +1919,69 @@ GeneTonic <- function(dds,
 
 
     # panel Bookmarks ---------------------------------------------------------
+
+    output$ui_panel_bookmarks <- renderUI({
+      validate(
+        need(!is.null(reactive_values$gtl) ,
+             message = "Bookmarks Panel\n\n\n\nPlease provide a GeneTonicList or its components to display the content of this tab.")
+      )
+
+      tagList(
+        fluidRow(
+          column(
+            width = 11
+          ),
+          column(
+            width = 1,
+            actionButton(
+              "tour_bookmarks",
+              label = "", icon = icon("question-circle"),
+              style = .helpbutton_biocstyle
+            )
+          )
+        ),
+        fluidRow(
+          column(
+            width = 12,
+            uiOutput("ui_bookmarks")
+          )
+        ),
+        fluidRow(
+          bs4Dash::column(
+            width = 8,
+            offset = 2,
+            br(), br(),
+            gt_downloadButton(
+              "start_happyhour",
+              "Start the happy hour!",
+              class = "biocdlbutton",
+              icon = "cocktail"
+            ) # magic?
+          )
+        ),
+        hr(),
+        br(), br(), br(),
+        fluidRow(
+          column(
+            width = 4,
+            textInput(
+              "se_export_name",
+              label = "Choose a filename for the serialized .rds object",
+              value = "se_GeneTonic_toiSEE.rds"
+            )
+          ),
+          column(
+            width = 4,
+            gt_downloadButton(
+              "button_iSEEexport",
+              label = "Export as serialized SummarizedExperiment",
+              class = "biocdlbutton",
+              icon = "glasses"
+            )
+          )
+        )
+      )
+    })
 
     output$ui_bookmarks <- renderUI({
       tagList(
@@ -1686,8 +1993,41 @@ GeneTonic <- function(dds,
             ),
             h5("Bookmarked genes"),
             DT::dataTableOutput("bookmarks_genes"),
-            downloadButton("btn_export_genes", label = "", class = "biocdlbutton")
-            # ideally completed by a function/param to upload them
+            downloadButton("btn_export_genes", label = "", class = "biocdlbutton"),
+            actionButton("btn_reset_genes",
+                         label ="",
+                         icon = icon("trash"),
+                         style = .actionbutton_biocstyle),
+
+            bs4Dash::box(
+              title = "Manually add genes to bookmarks",
+              collapsible = TRUE,
+              collapsed = TRUE,
+              id = "box_bm_genes",
+              width = 12,
+              shinyAce::aceEditor(
+                "editor_bookmarked_genes",
+                theme = "solarized_light",
+                height = "200px",
+                readOnly = FALSE,
+                wordWrap = TRUE,
+                placeholder = paste(
+                  c(
+                    "Enter some gene identifiers or gene names, ",
+                    "as they are provided in the `gene_id` and ",
+                    "`gene_name` columns of the annotation object. ",
+                    "For example:",
+                    head(reactive_values$annotation_obj$gene_id, 3),
+                    na.omit(reactive_values$annotation_obj$gene_name[c(4,5)])
+                  ),
+                  collapse = "\n"
+                )
+              ),
+              actionButton("load_bookmarked_genes",
+                           label = "Upload genes",
+                           icon = icon("upload"),
+                           style = .actionbutton_biocstyle)
+            )
           ),
           column(
             width = 6,
@@ -1696,7 +2036,43 @@ GeneTonic <- function(dds,
             ),
             h5("Bookmarked genesets"),
             DT::dataTableOutput("bookmarks_genesets"),
-            downloadButton("btn_export_genesets", label = "", class = "biocdlbutton")
+            downloadButton("btn_export_genesets", label = "", class = "biocdlbutton"),
+            actionButton("btn_reset_genesets",
+                         label ="",
+                         icon = icon("trash"),
+                         style = .actionbutton_biocstyle),
+
+            bs4Dash::box(
+              title = "Manually add genesets to bookmarks",
+              collapsible = TRUE,
+              collapsed = TRUE,
+              id = "box_bm_genesets",
+              width = 12,
+              shinyAce::aceEditor(
+                "editor_bookmarked_genesets",
+                theme = "solarized_light",
+                height = "200px",
+                readOnly = FALSE,
+                wordWrap = TRUE,
+                placeholder = paste(
+                  c(
+                    "Enter some geneset identifiers, as they are ",
+                    "provided in the `gs_id` column of the ",
+                    "res_enrich object. You can also use the ",
+                    "values in the `gs_description` field. ",
+                    "For example:",
+                    head(reactive_values$res_enrich$gs_id, 3),
+                    reactive_values$res_enrich$gs_description[c(4,5)]
+                  ),
+                  collapse = "\n"
+                )
+              ),
+              actionButton("load_bookmarked_genesets",
+                           label = "Upload genesets",
+                           icon = icon("upload"),
+                           style = .actionbutton_biocstyle)
+            )
+            # ideally completed by a function/param to upload them
           )
         )
       )
@@ -1727,11 +2103,11 @@ GeneTonic <- function(dds,
     })
 
     output$bookmarks_genes <- DT::renderDataTable({
-      book_df_genes <- annotation_obj[reactive_values$mygenes, ]
+      book_df_genes <- reactive_values$annotation_obj[reactive_values$mygenes, ]
       datatable(book_df_genes, rownames = FALSE)
     })
     output$bookmarks_genesets <- DT::renderDataTable({
-      book_df_genesets <- res_enrich[reactive_values$mygenesets, c("gs_id", "gs_description")]
+      book_df_genesets <- reactive_values$res_enrich[reactive_values$mygenesets, c("gs_id", "gs_description")]
       datatable(book_df_genesets, rownames = FALSE)
     })
 
@@ -1784,8 +2160,30 @@ GeneTonic <- function(dds,
       filename = function() {
         input$se_export_name
       }, content = function(file) {
-        se <- export_for_iSEE(dds, res_de)
+        se <- export_for_iSEE(reactive_values$dds, reactive_values$res_de)
         saveRDS(se, file = file)
+      }
+    )
+
+    output$ui_gtl_download <- renderUI({
+      validate(
+        need(!is.null(reactive_values$gtl), "Please provide/upload your data as GeneTonicList or by its components")
+      )
+      gt_downloadButton(
+        "btn_download_gtl",
+        "Save as GeneTonicList serialized object",
+        class = "biocdlbutton",
+        icon = "gift"
+      )
+    })
+
+    output$btn_download_gtl <- downloadHandler(
+      filename = function() {
+        "exported_gtl.RDS"
+      }, content = function(file) {
+        showNotification("Saving current dataset as GeneTonicList serialized object...", type = "default")
+        saveRDS(reactive_values$gtl, file = file)
+        showNotification("Done saving!", type = "message")
       }
     )
 
@@ -1793,6 +2191,40 @@ GeneTonic <- function(dds,
       sessionInfo()
     })
 
+    # controlbar --------------------------------------------------------------
+
+    output$ui_controlbar <- renderUI({
+      validate(
+        need(!is.null(reactive_values$gtl) ,
+             message = "\n\n\nPlease provide a GeneTonicList or its components to display the content of the control bar.")
+      )
+
+      # message(nrow(reactive_values$res_enrich))
+
+      tagList(
+        numericInput(
+          inputId = "de_fdr",
+          label = "False Discovery Rate (FDR) for DE",
+          value = 0.05, min = 0.0001, max = 1, step = 0.01
+        ),
+        numericInput(
+          inputId = "n_genesets",
+          label = "Number of genesets",
+          value = 15, min = 1, max = nrow(reactive_values$res_enrich)
+        ),
+        selectInput("exp_condition",
+                    label = "Group/color by: ",
+                    choices = c(NULL, names(colData(reactive_values$dds))), selected = NULL, multiple = TRUE
+        ),
+        colourInput("col", "Select colour for volcano plot", "#1a81c2",
+                    returnName = TRUE,
+                    allowTransparent = TRUE
+        ),
+        checkboxInput("labels", label = "Display all labels", value = FALSE)
+      )
+    })
+
+    outputOptions(output, "ui_controlbar", suspendWhenHidden = FALSE)
 
     # observers ---------------------------------------------------------------
 
@@ -1901,7 +2333,6 @@ GeneTonic <- function(dds,
       )
     })
 
-
     observeEvent(input$btn_show_emap_distilled, {
       showModal(
         modalDialog(
@@ -1909,6 +2340,81 @@ GeneTonic <- function(dds,
           footer = NULL, easyClose = TRUE,
           visNetworkOutput("distill_graph")
         )
+      )
+    })
+
+    # gtl upload --------------------------------------------------------------
+    observeEvent(input$uploadgtl, {
+      tryCatch(
+        {
+          showNotification(
+            "Trying to upload GeneTonicList as an RDS file...", 
+            id = "upload_try"
+          )
+          
+          reactive_values$in_gtl <- readRDS(input$uploadgtl$datapath)
+          
+          if (is.null(checkup_gtl(reactive_values$in_gtl))) {
+            reactive_values$gtl <- reactive_values$in_gtl
+            reactive_values$dds <- reactive_values$in_gtl$dds
+            reactive_values$res_de <- reactive_values$in_gtl$res_de
+            reactive_values$res_enrich <- reactive_values$in_gtl$res_enrich
+            reactive_values$annotation_obj <- reactive_values$in_gtl$annotation_obj
+            
+            showNotification(
+              ui = "Upload complete, enjoy exploring your dataset with GeneTonic! You can re-open the 'File Upload' collapsible box if you want to upload another gtl object.",
+              type = "message"
+            )
+            
+            removed_genes <- is.na(reactive_values$res_de$log2FoldChange)
+            message(
+              "Removing ", sum(removed_genes),
+              "/", nrow(reactive_values$res_de), " rows from the DE `res_de` object - log2FC values detected as NA"
+            )
+            reactive_values$res_de <- reactive_values$res_de[!removed_genes, ]
+            
+            
+            reactive_values$myvst <- reactive({
+              vst(reactive_values$dds)
+            })
+            
+            reactive_values$res_enhanced <- reactive({
+              get_aggrscores(
+                res_enrich = reactive_values$res_enrich,
+                res_de = reactive_values$res_de,
+                annotation_obj = reactive_values$annotation_obj
+              )
+            })
+            
+            # updating the bookmarks, in case coming from a previous sessions and
+            # these are still loaded - can be interesting to have them kept in if
+            # identifiers are found in the newly provided gtl
+            if (length(reactive_values$mygenes) > 0) {
+              showNotification("Updating genes bookmarks, checking in the new gtl object")
+              message("Checking bookmarked genes...")
+              reactive_values$mygenes <- intersect(
+                reactive_values$mygenes,
+                reactive_values$annotation_obj$gene_id
+              )
+            }
+            if (length(reactive_values$mygenesets) > 0) {
+              showNotification("Updating genesets bookmarks, checking in the new gtl object")
+              message("Checking bookmarked genesets...")
+              reactive_values$mygenesets <- intersect(
+                reactive_values$mygenesets,
+                reactive_values$res_enrich$gs_id
+              )
+            }
+            
+            bs4Dash::updateBox("box_upload", action = "toggle")
+          } 
+        },
+        error = function(e) {
+          showNotification(
+            "Wrong/unexpected file format uploaded! Please check the content of your RDS file to be a GeneTonicList.",
+            type = "error"
+          )
+        }
       )
     })
 
@@ -1927,7 +2433,7 @@ GeneTonic <- function(dds,
           cur_nodetype <- V(g)$nodetype[cur_node]
 
           if (cur_nodetype == "Feature") {
-            cur_sel_id <- annotation_obj$gene_id[match(cur_sel, annotation_obj$gene_name)]
+            cur_sel_id <- reactive_values$annotation_obj$gene_id[match(cur_sel, reactive_values$annotation_obj$gene_name)]
             if (cur_sel_id %in% reactive_values$mygenes) {
               showNotification(sprintf("The selected gene %s (%s) is already in the set of the bookmarked genes.", cur_sel, cur_sel_id), type = "default")
             } else {
@@ -1936,7 +2442,7 @@ GeneTonic <- function(dds,
               showNotification(sprintf("Added %s (%s) to the bookmarked genes. The list contains now %d elements", cur_sel, cur_sel_id, length(reactive_values$mygenes)), type = "message")
             }
           } else if (cur_nodetype == "GeneSet") {
-            cur_sel_id <- res_enrich$gs_id[match(cur_sel, res_enrich$gs_description)]
+            cur_sel_id <- reactive_values$res_enrich$gs_id[match(cur_sel, reactive_values$res_enrich$gs_description)]
             if (cur_sel_id %in% reactive_values$mygenesets) {
               showNotification(sprintf("The selected gene set %s (%s) is already in the set of the bookmarked genesets.", cur_sel, cur_sel_id), type = "default")
             } else {
@@ -1952,7 +2458,7 @@ GeneTonic <- function(dds,
       else if (input$gt_tabs == "tab_emap") {
         g <- reactive_values$ggs_graph()
         cur_sel <- input$emap_visnet_selected
-        cur_sel_id <- res_enrich$gs_id[match(cur_sel, res_enrich$gs_description)]
+        cur_sel_id <- reactive_values$res_enrich$gs_id[match(cur_sel, reactive_values$res_enrich$gs_description)]
 
         if (cur_sel == "") {
           showNotification("Select a node in the network to bookmark it", type = "warning")
@@ -1971,6 +2477,116 @@ GeneTonic <- function(dds,
       }
     })
 
+    observeEvent(input$load_bookmarked_genes, {
+      showNotification("Loading genes from editor...", type = "default")
+
+      new_genes <- editor_to_vector_sanitized(input$editor_bookmarked_genes)
+      new_genes_checked <- intersect(new_genes,
+                                     reactive_values$annotation_obj$gene_id)
+      new_genes_not_in_anno <- setdiff(new_genes,
+                                       reactive_values$annotation_obj$gene_id)
+
+      # trying to rescue as they could be provided as gene names
+      new_genes_rescued <-
+        na.omit(reactive_values$annotation_obj[match(new_genes_not_in_anno, reactive_values$annotation_obj$gene_name), "gene_id"])
+      new_genes_checked <- c(new_genes_checked, new_genes_rescued)
+
+      invalid_idx <- !new_genes %in% reactive_values$annotation_obj$gene_id & nzchar(new_genes)
+      invalid_idx_names <- !new_genes %in% reactive_values$annotation_obj$gene_name & nzchar(new_genes)
+      new_genes[invalid_idx & invalid_idx_names] <- paste0("# ", new_genes[invalid_idx & invalid_idx_names])
+      newcontent_editor_genes <- paste0(new_genes, collapse = "\n")
+
+      if (sum(invalid_idx & invalid_idx_names) > 0)
+        showNotification("Some gene identifiers provided are not found in the annotation object, please review the content of the editor",
+                         type = "warning")
+
+      nr_bookmarked_genes_pre <- length(reactive_values$mygenes)
+      nr_bookmarked_genes_post <- length(unique(c(reactive_values$mygenes, new_genes_checked)))
+
+      if (length(new_genes_checked) > 0)
+        showNotification(
+          ui = sprintf("Found %d valid gene identifiers in the editor", length(new_genes_checked)),
+          type = "message"
+        )
+
+      reactive_values$mygenes <- unique(c(reactive_values$mygenes, new_genes_checked))
+
+      if (nr_bookmarked_genes_post > nr_bookmarked_genes_pre) {
+        showNotification(
+          ui = sprintf("Added %d valid gene identifiers to the bookmarked genes",
+                       nr_bookmarked_genes_post - nr_bookmarked_genes_pre),
+          type = "message"
+        )
+      } else {
+        showNotification(
+          ui = "All gene identifiers are already among the bookmarked features!",
+          type = "default"
+        )
+      }
+
+      shinyAce::updateAceEditor(session, editorId = "editor_bookmarked_genes", value = newcontent_editor_genes)
+
+    })
+
+    observeEvent(input$load_bookmarked_genesets, {
+      showNotification("Loading genesets from editor...", type = "default")
+
+      new_genesets <- editor_to_vector_sanitized(input$editor_bookmarked_genesets)
+      new_genesets_checked <- intersect(new_genesets,
+                                        reactive_values$res_enrich$gs_id)
+      new_genesets_not_in_re <- setdiff(new_genesets,
+                                        reactive_values$res_enrich$gs_id)
+
+      # trying to rescue as they could be provided as geneset descriptions
+      new_genesets_rescued <-
+        na.omit(reactive_values$res_enrich[match(new_genesets_not_in_re, reactive_values$res_enrich$gs_description), "gs_id"])
+      new_genesets_checked <- c(new_genesets_checked, new_genesets_rescued)
+
+      invalid_idx <- !new_genesets %in% reactive_values$res_enrich$gs_id & nzchar(new_genesets)
+      invalid_idx_names <- !new_genesets %in% reactive_values$res_enrich$gs_description & nzchar(new_genesets)
+      new_genesets[invalid_idx & invalid_idx_names] <- paste0("# ", new_genesets[invalid_idx & invalid_idx_names])
+      newcontent_editor_genesets <- paste0(new_genesets, collapse = "\n")
+
+      if (sum(invalid_idx & invalid_idx_names) > 0)
+        showNotification("Some geneset identifiers provided are not found in the res_enrich object, please review the content of the editor",
+                         type = "warning")
+
+      nr_bookmarked_genesets_pre <- length(reactive_values$mygenesets)
+      nr_bookmarked_genesets_post <- length(unique(c(reactive_values$mygenesets, new_genesets_checked)))
+
+      if (length(new_genesets_checked) > 0)
+        showNotification(
+          ui = sprintf("Found %d valid geneset identifiers in the editor", length(new_genesets_checked)),
+          type = "message"
+        )
+
+      reactive_values$mygenesets <- unique(c(reactive_values$mygenesets, new_genesets_checked))
+
+      if (nr_bookmarked_genesets_post > nr_bookmarked_genesets_pre) {
+        showNotification(
+          ui = sprintf("Added %d valid geneset identifiers to the bookmarked genesets",
+                       nr_bookmarked_genesets_post - nr_bookmarked_genesets_pre),
+          type = "message"
+        )
+      } else {
+        showNotification(
+          ui = "All geneset identifiers are already among the bookmarked genesets!",
+          type = "default"
+        )
+      }
+
+      shinyAce::updateAceEditor(session, editorId = "editor_bookmarked_genesets", value = newcontent_editor_genesets)
+    })
+
+    observeEvent(input$btn_reset_genes, {
+      reactive_values$mygenes <- c()
+      showNotification("Resetting list of bookmarked genes...")
+    })
+
+    observeEvent(input$btn_reset_genesets, {
+      reactive_values$mygenesets <- c()
+      showNotification("Resetting list of bookmarked genesets...")
+    })
 
     # code popups -------------------------------------------------------------
     observeEvent(input$coder_gs_volcano, {

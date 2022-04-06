@@ -1,8 +1,12 @@
-# GeneTonic 1.8.0
+# GeneTonic 2.0.0
 
 ## New features
 
-* 
+* `GeneTonic` now offers the possibility to upload a `GeneTonicList` at runtime. This makes it possible to use the app as a server-like dashboard, which runs by default on no dataset provided, and populates its components upon successfully providing the data as expected
+* The `GeneSpector` functionality in the Welcome panel provides a means to explore any gene in the expression set, coloring and grouping by any experimental covariate of interest
+* It is possible to enter a set of genes and genesets in the Bookmarks panel, and these can be doubled checked against the available features of the current `GeneTonicList` - this, combined to the upload functionality, makes it possible to easily compare different `gtl` objects
+* The `GeneTonic` app has a button to export the currently provided dataset - regardless of the input format - as a `GeneTonicList`. This is especially useful if one is providing the individual components (`dds`, `res_de`, `res_enrich`, `annotation_obj`) and would like to obtain the correct serialized object 
+* `gs_upset` adds the possibility to represent the results of enrichment analyses as upset plots, with the option to decorate them with DE-related information
 
 ## Other notes
 
@@ -46,7 +50,7 @@
 
 * `gs_heatmap()` has now the possibility to set the arguments to the call to heatmap generating function, via ellipsis
 * `gs_heatmap()` handles the colors in a consistent way over the different executions, without relying on the random palettes provided by the `Heatmap`'s annotation functionality - could have been misleading if encountering too similar hues are randomly picked
-* the plots obtained via `gs_mds()` and `gs_volcano()` now always display the line segments for the data points to be labeled (increasing the readability - as "matching back the label to the drawed circle" - thanks for the suggestion!)
+* the plots obtained via `gs_mds()` and `gs_volcano()` now always display the line segments for the data points to be labeled (increasing the readability - as "matching back the label to the drawn circle" - thanks for the suggestion!)
 
 # GeneTonic 1.2.0
 

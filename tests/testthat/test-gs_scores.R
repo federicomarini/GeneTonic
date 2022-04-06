@@ -11,7 +11,7 @@ test_that("Scores are calculated and plotted", {
   p <- gs_scoresheat(gss_mat)
   expect_is(p, "gg")
 
-  gtl_macrophage <- GeneTonic_list(
+  gtl_macrophage <- GeneTonicList(
     dds = dds_macrophage,
     res_de = res_macrophage_IFNg_vs_naive,
     res_enrich = res_enrich_IFNg_vs_naive[1:20, ],
