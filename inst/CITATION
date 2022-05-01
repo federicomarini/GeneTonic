@@ -1,4 +1,4 @@
-citHeader("To cite the package 'GeneTonic' in publications use:")
+citHeader("Please cite the articles below for the 'GeneTonic' software itself, or its usage in combined workflows with the 'pcaExplorer' or 'ideal' software packages:")
 
 citEntry(
   entry        = "Article",
@@ -8,13 +8,40 @@ citEntry(
                    as.person("Annekathrin Ludt"),
                    as.person("Jan Linke"),
                    as.person("Konstantin Strauch")),
+  volume       = "22",
+  pages        = "610",
 	year         = "2021",
 	doi          = "10.1186/s12859-021-04461-5",
   url          = "https://bioconductor.org/packages/GeneTonic/",
 
   textVersion  =
   paste("Federico Marini, Annekathrin Ludt, Jan Linke, Konstantin Strauch (2021).",
-        "GeneTonic: an R/Bioconductor package for streamlining the interpretation of RNA-seq data\n",
-        " - URL: https://bioconductor.org/packages/GeneTonic/",
-        " - doi: 10.1186/s12859-021-04461-5")
+        "GeneTonic: an R/Bioconductor package for streamlining the interpretation of RNA-seq data.",
+        "BMC Bioinformatics, 22, 610,",
+        "<doi:10.1186/s12859-021-04461-5> <doi:10.18129/B9.bioc.GeneTonic>.")
+)
+
+citEntry(
+  entry        = "Article",
+  title        = "Interactive and Reproducible Workflows for Exploring and Modeling RNA-seq Data with pcaExplorer, ideal, and GeneTonic",
+  journal      = "Current Protocols",
+  author       = personList(
+                   as.person("Annekathrin Ludt"),
+                   as.person("Arsenij Ustjanzew"),
+                   as.person("Harald Binder"),
+                   as.person("Konstantin Strauch"),
+                   as.person("Federico Marini")
+                   ),
+  volume       = "2",
+	number       = "4",
+	pages        = "e411",
+	year         = "2022",
+	month        = "Apr",
+	doi          = "10.1002/cpz1.411",
+
+  textVersion  =
+  paste("Annekathrin Ludt, Arsenij Ustjanzew, Harald Binder, Konstantin Strauch, Federico Marini (2022).",
+        "Interactive and Reproducible Workflows for Exploring and Modeling RNA-seq Data with pcaExplorer, ideal, and GeneTonic.",
+        "Current Protocols, 2 (4), e411,",
+        "<doi:10.1002/cpz1.411>.")
 )
