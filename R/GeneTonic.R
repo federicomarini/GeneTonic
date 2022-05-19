@@ -330,7 +330,7 @@ GeneTonic <- function(dds = NULL,
             uiOutput("ui_panel_welcome")
           )
           # ,
-          # verbatimTextOutput("gtl_described")
+          # verbatimTextOutput("gtl_debug")
         ),
 
         # ui panel geneset-gene ---------------------------------------------------
@@ -566,6 +566,10 @@ GeneTonic <- function(dds = NULL,
       describe_gtl(reactive_values$in_gtl)
     })
 
+    # output$gtl_debug <- renderPrint({
+    #   head(reactive_values$res_enhanced())
+    # })
+    
     output$ui_panel_welcome <- renderUI({
       validate(
         need(!is.null(reactive_values$gtl) ,
@@ -1883,14 +1887,7 @@ GeneTonic <- function(dds = NULL,
 
     output$gs_summaryoverview <- renderPlot({
       gs_summary_overview(
-        res_enrich = reactive_values$res_enhanced,
-        n_gs = input$n_genesets
-      )
-    })
-
-    output$gs_summaryoverview_pair <- renderPlot({
-      gs_summary_overview_pair(
-        res_enrich = reactive_values$res_enhanced,
+        res_enrich = reactive_values$res_enhanced(),
         n_gs = input$n_genesets
       )
     })
@@ -1904,14 +1901,14 @@ GeneTonic <- function(dds = NULL,
 
     output$gs_summaryradar <- renderPlotly({
       gs_radar(
-        res_enrich = reactive_values$res_enhanced,
+        res_enrich = reactive_values$res_enhanced(),
         n_gs = input$n_genesets
       )
     })
 
     output$gs_dendro <- renderPlot({
       gs_dendro(
-        res_enrich = reactive_values$res_enhanced,
+        res_enrich = reactive_values$res_enhanced(),
         n_gs = input$n_genesets
       )
     })
