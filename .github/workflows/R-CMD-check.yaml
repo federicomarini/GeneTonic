@@ -13,17 +13,17 @@ jobs:
     runs-on: ${{ matrix.config.os }}
     container: ${{ matrix.config.image }}
 
-    name: ${{ matrix.config.os }} (${{ matrix.config.r }} - ${{ matrix.config.bioc }} - ${{ matrix.config.image }})
+    name: ${{ matrix.config.os }} (${{ matrix.config.bioc }} - ${{ matrix.config.image }})
 
     strategy:
       fail-fast: false
       matrix:
         config:
-        - { os: windows-latest, r: 'devel', bioc: 'devel'}
-        - { os: macOS-latest, r: 'devel', bioc: 'devel', curlConfigPath: '/usr/bin/'}
-        - { os: ubuntu-latest, r: 'devel', bioc: 'devel'}
-        # - { os: ubuntu-latest, r: 'devel', bioc: 'devel', cran: "https://demo.rstudiopm.com/all/__linux__/xenial/latest"}
-        - { os: ubuntu-latest, r: 'devel', image: 'bioconductor/bioconductor_docker:devel'}
+        - { os: windows-latest, bioc: 'devel'}
+        - { os: macOS-latest, bioc: 'devel', curlConfigPath: '/usr/bin/'}
+        - { os: ubuntu-latest, bioc: 'devel'}
+        # - { os: ubuntu-latest, bioc: 'devel', cran: "https://demo.rstudiopm.com/all/__linux__/xenial/latest"}
+        - { os: ubuntu-latest, image: 'bioconductor/bioconductor_docker:devel'}
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -31,16 +31,16 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       CURL_CONFIG: ${{ matrix.config.curlConfigPath }}curl-config
-      
+
     steps:
       - name: Check out repo
         uses: actions/checkout@v2
 
-      - name: Set up R
-        uses: r-lib/actions/setup-r@master
+      - name: Set up R and install BiocManager
+        uses: grimbough/bioc-actions/setup-bioc@v1
         if: matrix.config.image == null
         with:
-          r-version: ${{ matrix.config.r }}
+          bioc-version: ${{ matrix.config.bioc }}
 
       - name: Set up pandoc
         uses: r-lib/actions/setup-pandoc@master
@@ -49,13 +49,6 @@ jobs:
       - name: Install remotes
         run: |
           install.packages('remotes')
-        shell: Rscript {0}
-
-      - name: Set BiocManager version
-        if: matrix.config.image == null
-        run: |
-          install.packages('BiocManager')
-          BiocManager::install(version = "${{ matrix.config.bioc }}", ask = FALSE)
         shell: Rscript {0}
 
       - name: Query dependencies
@@ -68,8 +61,8 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-r-${{ matrix.config.r }}-bioc-${{ matrix.config.bioc }}-${{ hashFiles('depends.Rds') }}
-          restore-keys: ${{ runner.os }}-r-${{ matrix.config.r }}-bioc-${{ matrix.config.bioc }}-
+          key: ${{ runner.os }}-bioc-${{ matrix.config.bioc }}-${{ hashFiles('depends.Rds') }}
+          restore-keys: ${{ runner.os }}-bioc-${{ matrix.config.bioc }}-
 
       - name: Install system dependencies
         if: runner.os == 'Linux'
@@ -79,7 +72,7 @@ jobs:
           Rscript -e "remotes::install_github('r-hub/sysreqs')"
           sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
           sudo -s eval "$sysreqs"
-          sudo apt-get update && sudo apt-get -y install libcurl4-openssl-dev
+          sudo apt-get update && sudo apt-get -y install libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev
 
       - name: Install system dependencies (macOS)
         if: runner.os == 'macOS'
@@ -89,7 +82,7 @@ jobs:
           brew install harfbuzz
           brew install fribidi
           brew install fftw
-          
+
       - name: Set up gfortran symlinks (macOS)
         if: runner.os == 'macOS'
         run: |
@@ -113,22 +106,21 @@ jobs:
           sessioninfo::session_info(pkgs, include_base = TRUE)
         shell: Rscript {0}
 
-      - name: Check
-        run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error", check_dir = "check")
-        shell: Rscript {0}
+      - name: Build, Install, Check
+        uses: grimbough/bioc-actions/build-install-check@v1
 
-      - name: BiocCheck
-        run: |
-          BiocManager::install("BiocCheck")
-          BiocCheck::BiocCheck(".")
-        shell: Rscript {0}
-
-      - name: Upload check results
-        if: failure()
-        uses: actions/upload-artifact@master
+      - name: Run BiocCheck
+        uses: grimbough/bioc-actions/run-BiocCheck@v1
         with:
-          name: ${{ runner.os }}-r${{ matrix.config.r }}-results
-          path: check
+          arguments: '--no-check-bioc-views --no-check-bioc-help'
+          error-on: 'error'
+
+      # - name: Upload check results
+      #   if: failure()
+      #   uses: actions/upload-artifact@master
+      #   with:
+      #     name: ${{ runner.os }}-r${{ matrix.config.r }}-results
+      #     path: check
 
       - name: Show testthat output
         if: always()
@@ -139,11 +131,11 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@master
         with:
-          name: ${{ runner.os }}-r${{ matrix.config.r }}-bioc-${{ matrix.config.bioc }}-results
+          name: ${{ runner.os }}-bioc-${{ matrix.config.bioc }}-results
           path: check
 
       - name: Test coverage
-        if: matrix.config.os == 'macOS-latest' && matrix.config.r == 'devel'
+        if: matrix.config.os == 'macOS-latest'
         run: |
           install.packages("covr")
           covr::codecov(token = "${{secrets.CODECOV_TOKEN}}")
