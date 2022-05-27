@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.2</span>
       </span>
     </div>
 
@@ -70,7 +70,15 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">GeneTonic</span><span class="op">(</span><span class="va">dds</span>, <span class="va">res_de</span>, <span class="va">res_enrich</span>, <span class="va">annotation_obj</span>, gtl <span class="op">=</span> <span class="cn">NULL</span>, project_id <span class="op">=</span> <span class="st">""</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">GeneTonic</span><span class="op">(</span>
+  dds <span class="op">=</span> <span class="cn">NULL</span>,
+  res_de <span class="op">=</span> <span class="cn">NULL</span>,
+  res_enrich <span class="op">=</span> <span class="cn">NULL</span>,
+  annotation_obj <span class="op">=</span> <span class="cn">NULL</span>,
+  gtl <span class="op">=</span> <span class="cn">NULL</span>,
+  project_id <span class="op">=</span> <span class="st">""</span>,
+  size_gtl <span class="op">=</span> <span class="fl">50</span>
+<span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -108,6 +116,10 @@ of the list <em>must</em> be specified following the content they are expecting<
 <dd><p>A character string, which can be considered as an identifier
 for the set/session, and will be e.g. used in the title of the report created
 via <code><a href="happy_hour.html">happy_hour()</a></code></p></dd>
+<dt>size_gtl</dt>
+<dd><p>Numeric value, specifying the maximal size in MB for the
+accepted GeneTonicList object - this applies when uploading the dataset at
+runtime</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -230,14 +242,14 @@ via <code><a href="happy_hour.html">happy_hour()</a></code></p></dd>
 <span class="r-in">  <span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 <span class="r-in"><span class="co"># alternatively...</span></span>
-<span class="r-in"><span class="va">gtl_macrophage</span> <span class="op">&lt;-</span> <span class="fu"><a href="GeneTonic_list.html">GeneTonic_list</a></span><span class="op">(</span></span>
+<span class="r-in"><span class="va">gtl_macrophage</span> <span class="op">&lt;-</span> <span class="fu"><a href="GeneTonicList.html">GeneTonicList</a></span><span class="op">(</span></span>
 <span class="r-in">  dds <span class="op">=</span> <span class="va">dds_macrophage</span>,</span>
 <span class="r-in">  res_de <span class="op">=</span> <span class="va">res_de</span>,</span>
 <span class="r-in">  res_enrich <span class="op">=</span> <span class="va">res_enrich</span>,</span>
 <span class="r-in">  annotation_obj <span class="op">=</span> <span class="va">anno_df</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ---------------------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ----- GeneTonic list object -----</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ----- GeneTonicList object ------</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ---------------------------------</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ----- dds object -----</span>
@@ -254,6 +266,11 @@ via <code><a href="happy_hour.html">happy_hour()</a></code></p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ----- annotation_obj object -----</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Providing an annotation object of 58294 features with information on 2 identifier types</span>
 <span class="r-in"><span class="co"># GeneTonic(gtl = gtl_macrophage)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># if running it "as a server", without input data specified:</span></span>
+<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in">  <span class="fu">GeneTonic</span><span class="op">(</span>size_gtl <span class="op">=</span> <span class="fl">300</span><span class="op">)</span>   <span class="co"># for fairly large gtl objects</span></span>
+<span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
     </div>
   </div>
@@ -268,7 +285,7 @@ via <code><a href="happy_hour.html">happy_hour()</a></code></p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
 </div>
 
       </footer></div>

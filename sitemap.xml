@@ -34,7 +34,7 @@
     <loc>/reference/GeneTonic.html</loc>
   </url>
   <url>
-    <loc>/reference/GeneTonic_list.html</loc>
+    <loc>/reference/GeneTonicList.html</loc>
   </url>
   <url>
     <loc>/reference/check_colors.html</loc>
@@ -55,6 +55,9 @@
     <loc>/reference/create_kappa_matrix.html</loc>
   </url>
   <url>
+    <loc>/reference/create_upsetdata.html</loc>
+  </url>
+  <url>
     <loc>/reference/describe_gtl.html</loc>
   </url>
   <url>
@@ -65,6 +68,9 @@
   </url>
   <url>
     <loc>/reference/dot-check_pandoc.html</loc>
+  </url>
+  <url>
+    <loc>/reference/editor_to_vector_sanitized.html</loc>
   </url>
   <url>
     <loc>/reference/enhance_table.html</loc>
@@ -146,6 +152,9 @@
   </url>
   <url>
     <loc>/reference/gs_summary_overview_pair.html</loc>
+  </url>
+  <url>
+    <loc>/reference/gs_upset.html</loc>
   </url>
   <url>
     <loc>/reference/gs_volcano.html</loc>

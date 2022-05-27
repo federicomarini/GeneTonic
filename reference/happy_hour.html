@@ -18,7 +18,7 @@ derived from the provided objects."><!-- mathjax --><script src="https://cdnjs.c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.2</span>
       </span>
     </div>
 
@@ -81,6 +81,7 @@ derived from the provided objects.</p>
   <span class="va">project_id</span>,
   <span class="va">mygenesets</span>,
   <span class="va">mygenes</span>,
+  mygroup <span class="op">=</span> <span class="cn">NULL</span>,
   usage_mode <span class="op">=</span> <span class="st">"batch_mode"</span>,
   input_rmd <span class="op">=</span> <span class="cn">NULL</span>,
   output_file <span class="op">=</span> <span class="st">"my_first_GeneTonic_happyhour.html"</span>,
@@ -118,9 +119,16 @@ of the list <em>must</em> be specified following the content they are expecting<
 for the set/session, and will be e.g. used in the title of the report created
 via <code>happy_hour()</code></p></dd>
 <dt>mygenesets</dt>
-<dd><p>A vector of character strings, containing...</p></dd>
+<dd><p>A vector of character strings, containing the genesets to
+focus on in the report - for each geneset, e.g. a signature heatmap can be
+created.</p></dd>
 <dt>mygenes</dt>
-<dd><p>A vector of character strings, containing...</p></dd>
+<dd><p>A vector of character strings, containing the genes to focus on
+in the report - for each gene, the plot of the expression values is included.</p></dd>
+<dt>mygroup</dt>
+<dd><p>A character string, or a vector thereof. Contains the experimental
+variables to be used to split into groups the expression data, and color
+accordingly.</p></dd>
 <dt>usage_mode</dt>
 <dd><p>A character string, which controls the behavior of the Rmd
 document, based on whether the rendering is triggered while using the app
@@ -226,6 +234,8 @@ upon which this function is <strong>heavily</strong> inspired.</p>
 <span class="r-in">  res_enrich <span class="op">=</span> <span class="va">res_enrich</span>,</span>
 <span class="r-in">  annotation_obj <span class="op">=</span> <span class="va">anno_df</span>,</span>
 <span class="r-in">  project_id <span class="op">=</span> <span class="st">"examplerun"</span>,</span>
+<span class="r-in">  mygroup <span class="op">=</span> <span class="st">"condition"</span>,</span>
+<span class="r-in">  <span class="co"># mygroup = "line",   # alternatively</span></span>
 <span class="r-in">  mygenesets <span class="op">=</span> <span class="va">res_enrich</span><span class="op">$</span><span class="va">gs_id</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">11</span>, <span class="fl">31</span><span class="op">)</span><span class="op">]</span>,</span>
 <span class="r-in">  mygenes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span class="r-in">    <span class="st">"ENSG00000125347"</span>,</span>
@@ -248,7 +258,7 @@ upon which this function is <strong>heavily</strong> inspired.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
 </div>
 
       </footer></div>
