@@ -1,3 +1,9 @@
+# GeneTonic 2.2.0
+
+## Other notes
+
+* Fixed the behavior of the reactive elements after uploading the `GeneTonicList` object at runtime. 
+
 # GeneTonic 2.0.0
 
 ## New features
