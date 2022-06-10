@@ -77,16 +77,23 @@
     <h2>Arguments</h2>
     <dl><dt>g</dt>
 <dd><p>An <code>igraph</code> object</p></dd>
+
+
 <dt>sif_file</dt>
 <dd><p>Character string, the path to the file where to save the exported
 graph as .sif file</p></dd>
+
+
 <dt>edge_label</dt>
 <dd><p>Character string, defining the name of the interaction type.
 Defaults here to "relates_to"</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Returns the path to the exported file, invisibly</p>
+    
+
+<p>Returns the path to the exported file, invisibly</p>
     </div>
 
     <div id="ref-examples">
@@ -95,7 +102,7 @@ Defaults here to "relates_to"</p></dd>
 <span class="r-in"><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/igraph/man/make_full_graph.html" class="external-link">make_full_graph</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/igraph/man/disjoint_union.html" class="external-link">%du%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/igraph/man/make_full_graph.html" class="external-link">make_full_graph</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/igraph/man/disjoint_union.html" class="external-link">%du%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/igraph/man/make_full_graph.html" class="external-link">make_full_graph</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/igraph/man/add_edges.html" class="external-link">add_edges</a></span><span class="op">(</span><span class="va">g</span>, <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">6</span>, <span class="fl">1</span>, <span class="fl">11</span>, <span class="fl">6</span>, <span class="fl">11</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">export_to_sif</span><span class="op">(</span><span class="va">g</span>, <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Saving the file to /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpT1HVe8/file9a5d50c0da81</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Saving the file to /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpUbvr1J/file27c07e7b3710</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Done!</span>
 </code></pre></div>
     </div>
@@ -111,7 +118,7 @@ Defaults here to "relates_to"</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
 </div>
 
       </footer></div>

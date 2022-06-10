@@ -89,33 +89,52 @@ structure, in an analogous way to other existing algorithms in <code>igraph</cod
     <h2>Arguments</h2>
     <dl><dt>g</dt>
 <dd><p>The input graph object</p></dd>
+
+
 <dt>add_self_loops</dt>
 <dd><p>Logical, whether to add self-loops to the matrix by
 setting the diagonal to <code>loop_value</code></p></dd>
+
+
 <dt>loop_value</dt>
 <dd><p>Numeric, the value to use for self-loops</p></dd>
+
+
 <dt>mcl_expansion</dt>
 <dd><p>Numeric, cluster expansion factor for the Markov clustering
 iteration - defaults to 2</p></dd>
+
+
 <dt>mcl_inflation</dt>
 <dd><p>Numeric, cluster inflation factor for the Markov clustering
 iteration - defaults to 2</p></dd>
+
+
 <dt>allow_singletons</dt>
 <dd><p>Logical; if <code>TRUE</code>, single isolated vertices are allowed
 to form their own cluster. If set to <code>FALSE</code>, all clusters of size = 1 are
 grouped in one cluster (to be interpreted as background noise).</p></dd>
+
+
 <dt>max_iter</dt>
 <dd><p>Numeric value for the maximum number of iterations for the
 Markov clustering</p></dd>
+
+
 <dt>return_node_names</dt>
 <dd><p>Logical, if the graph is named and set to <code>TRUE</code>, returns
 the node names.</p></dd>
+
+
 <dt>return_esm</dt>
 <dd><p>Logical, controlling whether the equilibrium state matrix should be returned</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>This function returns a <code>communities</code> object, containing the numbers of
+    
+
+<p>This function returns a <code>communities</code> object, containing the numbers of
 the assigned membership (in the slot <code>membership</code>). Please see the
 <code><a href="https://rdrr.io/pkg/igraph/man/communities.html" class="external-link">igraph::communities()</a></code> manual page for additional details</p>
     </div>
@@ -190,7 +209,7 @@ Issue 7, 1 April 2002, Pages 1575–1584, https://doi.org/10.1093/nar/30.7.1575<
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
 </div>
 
       </footer></div>

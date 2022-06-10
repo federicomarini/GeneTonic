@@ -97,54 +97,87 @@
 such as a <code>DESeqTransform</code> object (variance stabilized transformed data, or
 regularized logarithm transformed), in where the transformation has been applied
 to make the data more homoscedastic and thus a better fit for visualization.</p></dd>
+
+
 <dt>res_de</dt>
 <dd><p>A <code>DESeqResults</code> object.</p></dd>
+
+
 <dt>res_enrich</dt>
 <dd><p>A <code>data.frame</code> object, storing the result of the functional
 enrichment analysis. See more in the main function, <code><a href="GeneTonic.html">GeneTonic()</a></code>, to check the
 formatting requirements (a minimal set of columns should be present).</p></dd>
+
+
 <dt>annotation_obj</dt>
 <dd><p>A <code>data.frame</code> object with the feature annotation
 information, with at least two columns, <code>gene_id</code> and <code>gene_name</code>.</p></dd>
+
+
 <dt>gtl</dt>
 <dd><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
 specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
 of the list <em>must</em> be specified following the content they are expecting</p></dd>
+
+
 <dt>geneset_id</dt>
 <dd><p>Character specifying the gene set identifier to be plotted</p></dd>
+
+
 <dt>genelist</dt>
 <dd><p>A vector of character strings, specifying the identifiers
 contained in the row names of the <code>se</code> input object.</p></dd>
+
+
 <dt>FDR</dt>
 <dd><p>Numeric value, specifying the significance level for thresholding
 adjusted p-values. Defaults to 0.05.</p></dd>
+
+
 <dt>de_only</dt>
 <dd><p>Logical, whether to include only differentially expressed genes
 in the plot</p></dd>
+
+
 <dt>cluster_rows</dt>
 <dd><p>Logical, determining if rows should be clustered, as
 specified by <code><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html" class="external-link">ComplexHeatmap::Heatmap()</a></code></p></dd>
+
+
 <dt>cluster_columns</dt>
 <dd><p>Logical, determining if columns should be clustered, as
 specified by <code><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html" class="external-link">ComplexHeatmap::Heatmap()</a></code></p></dd>
+
+
 <dt>center_mean</dt>
 <dd><p>Logical, whether to perform mean centering on the row-wise</p></dd>
+
+
 <dt>scale_row</dt>
 <dd><p>Logical, whether to standardize by row the expression values</p></dd>
+
+
 <dt>anno_col_info</dt>
 <dd><p>A character vector of names in <code>colData(dds)</code> to use for
 decorating the heatmap as annotation.</p></dd>
+
+
 <dt>plot_title</dt>
 <dd><p>Character string, to specify the title of the plot,
 displayed over the heatmap. If left to <code>NULL</code> as by default, it tries to use
 the information on the geneset identifier provided</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional arguments passed to other methods, e.g. in the call to
 <code><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html" class="external-link">ComplexHeatmap::Heatmap()</a></code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A plot returned by the <code><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html" class="external-link">ComplexHeatmap::Heatmap()</a></code> function</p>
+    
+
+<p>A plot returned by the <code><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html" class="external-link">ComplexHeatmap::Heatmap()</a></code> function</p>
     </div>
 
     <div id="ref-examples">
@@ -211,7 +244,7 @@ the information on the geneset identifier provided</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
 </div>
 
       </footer></div>

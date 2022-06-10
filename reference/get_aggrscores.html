@@ -81,25 +81,38 @@ score (using the log2FoldChange values, provided in the <code>res_de</code>)</p>
 <dd><p>A <code>data.frame</code> object, storing the result of the functional
 enrichment analysis. See more in the main function, <code><a href="GeneTonic.html">GeneTonic()</a></code>, to check the
 formatting requirements (a minimal set of columns should be present).</p></dd>
+
+
 <dt>res_de</dt>
 <dd><p>A <code>DESeqResults</code> object.</p></dd>
+
+
 <dt>annotation_obj</dt>
 <dd><p>A <code>data.frame</code> object with the feature annotation
 information, with at least two columns, <code>gene_id</code> and <code>gene_name</code>.</p></dd>
+
+
 <dt>gtl</dt>
 <dd><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
 specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
 of the list <em>must</em> be specified following the content they are expecting</p></dd>
+
+
 <dt>aggrfun</dt>
 <dd><p>Specifies the function to use for aggregating the scores for
 each term. Common values could be <code>mean</code> or <code>median</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code>data.frame</code> with the same columns as provided in the input, with
+    
+
+<p>A <code>data.frame</code> with the same columns as provided in the input, with
 additional information on the <code>z_score</code> and the <code>aggr_score</code> for each gene set.
 This information is used by other functions such as <code><a href="gs_volcano.html">gs_volcano()</a></code> or
 <code><a href="enrichment_map.html">enrichment_map()</a></code></p>
+
+
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -165,7 +178,7 @@ aggregated scores</p></div>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
 </div>
 
       </footer></div>

@@ -89,34 +89,49 @@ sets of results</p>
 <dd><p>A <code>data.frame</code> object, storing the result of the functional
 enrichment analysis. See more in the main function, <code><a href="GeneTonic.html">GeneTonic()</a></code>, to check the
 formatting requirements (a minimal set of columns should be present).</p></dd>
+
+
 <dt>compared_res_enrich_list</dt>
 <dd><p>A named list, where each element is a <code>data.frame</code>
 formatted like the standard <code>res_enrich</code> objects used by <code>GeneTonic</code>. The
 names of the list are the names of the scenarios.</p></dd>
+
+
 <dt>n_gs</dt>
 <dd><p>Integer value, corresponding to the maximal number of gene sets to
 be displayed</p></dd>
+
+
 <dt>p_value_column</dt>
 <dd><p>Character string, specifying the column of <code>res_enrich</code>
 where the p-value to be represented is specified. Defaults to <code>gs_pvalue</code>
 (it could have other values, in case more than one p-value - or an adjusted
 p-value - have been specified).</p></dd>
+
+
 <dt>color_by</dt>
 <dd><p>Character, specifying the column of <code>res_enrich</code> to be used
 for coloring the plotted gene sets. Defaults sensibly to <code>z_score</code>.</p></dd>
+
+
 <dt>ref_name</dt>
 <dd><p>Character, defining the name of the scenario to compare
 against (the one in <code>res_enrich</code>) - defaults to "ref_scenario".</p></dd>
+
+
 <dt>sort_by</dt>
 <dd><p>Character string, either "clustered", or "first_set". This
 controls the sorting order of the included terms in the final plot.
 "clustered" presents the terms grouped by the scenario where they assume the
 highest values. "first_set" sorts the terms by the significance value in the
 reference scenario.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code>ggplot</code> object</p>
+    
+
+<p>A <code>ggplot</code> object</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -226,7 +241,7 @@ scenarios included in <code>res_enrich</code> and the elements of <code>compared
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
 </div>
 
       </footer></div>

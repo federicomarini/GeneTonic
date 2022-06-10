@@ -86,28 +86,41 @@
 <dd><p>A <code>data.frame</code> object, storing the result of the functional
 enrichment analysis. See more in the main function, <code><a href="GeneTonic.html">GeneTonic()</a></code>, to check the
 formatting requirements (a minimal set of columns should be present).</p></dd>
+
+
 <dt>gtl</dt>
 <dd><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
 specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
 of the list <em>must</em> be specified following the content they are expecting</p></dd>
+
+
 <dt>n_gs</dt>
 <dd><p>Integer value, corresponding to the maximal number of gene sets to
 be displayed</p></dd>
+
+
 <dt>p_value_column</dt>
 <dd><p>Character string, specifying the column of <code>res_enrich</code>
 where the p-value to be represented is specified. Defaults to <code>gs_pvalue</code>
 (it could have other values, in case more than one p-value - or an adjusted
 p-value - have been specified).</p></dd>
+
+
 <dt>color_by</dt>
 <dd><p>Character, specifying the column of <code>res_enrich</code> to be used
 for coloring the plotted gene sets. Defaults sensibly to <code>z_score</code>.</p></dd>
+
+
 <dt>return_barchart</dt>
 <dd><p>Logical, whether to return a barchart (instead of the
 default dot-segment plot); defaults to FALSE.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code>ggplot</code> object</p>
+    
+
+<p>A <code>ggplot</code> object</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -175,7 +188,7 @@ default dot-segment plot); defaults to FALSE.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
 </div>
 
       </footer></div>

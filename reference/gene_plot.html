@@ -93,48 +93,73 @@ by experimental group(s) of interest</p>
     <dl><dt>dds</dt>
 <dd><p>A <code>DESeqDataSet</code> object, normally obtained after running your data
 through the <code>DESeq2</code> framework.</p></dd>
+
+
 <dt>gene</dt>
 <dd><p>Character, specifies the identifier of the feature (gene) to be
 plotted</p></dd>
+
+
 <dt>intgroup</dt>
 <dd><p>A character vector of names in <code>colData(dds)</code> to use for grouping.
 Note: the vector components should be categorical variables.</p></dd>
+
+
 <dt>assay</dt>
 <dd><p>Character, specifies with assay of the <code>dds</code> object to use for
 reading out the expression values. Defaults to "counts".</p></dd>
+
+
 <dt>annotation_obj</dt>
 <dd><p>A <code>data.frame</code> object with the feature annotation
 information, with at least two columns, <code>gene_id</code> and <code>gene_name</code>.</p></dd>
+
+
 <dt>normalized</dt>
 <dd><p>Logical value, whether the expression values should be
 normalized by their size factor. Defaults to TRUE, applies when <code>assay</code> is
 "counts"</p></dd>
+
+
 <dt>transform</dt>
 <dd><p>Logical value, corresponding whether to have log scale y-axis
 or not. Defaults to TRUE.</p></dd>
+
+
 <dt>labels_display</dt>
 <dd><p>Logical value. Whether to display the labels of samples,
 defaults to TRUE.</p></dd>
+
+
 <dt>labels_repel</dt>
 <dd><p>Logical value. Whether to use <code>ggrepel</code>'s functions to
 place labels; defaults to TRUE</p></dd>
+
+
 <dt>plot_type</dt>
 <dd><p>Character, one of "auto", "jitteronly", "boxplot", "violin",
 or "sina". Defines the type of <code>geom_</code> to be used for plotting. Defaults to
 <code>auto</code>, which in turn chooses one of the layers according to the number of
 samples in the smallest group defined via <code>intgroup</code></p></dd>
+
+
 <dt>return_data</dt>
 <dd><p>Logical, whether the function should just return the
 data.frame of expression values and covariates for custom plotting. Defaults
 to FALSE.</p></dd>
+
+
 <dt>gtl</dt>
 <dd><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
 specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
 of the list <em>must</em> be specified following the content they are expecting</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code>ggplot</code> object</p>
+    
+
+<p>A <code>ggplot</code> object</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -189,7 +214,7 @@ for interactive visualization, instead of the static <code>ggplot</code> viz.</p
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
 </div>
 
       </footer></div>

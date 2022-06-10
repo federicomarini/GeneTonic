@@ -80,9 +80,13 @@
     <dl><dt>dds</dt>
 <dd><p>A <code>DESeqDataSet</code> object, normally obtained after running your data
 through the <code>DESeq2</code> framework.</p></dd>
+
+
 <dt>res_de</dt>
 <dd><p>A <code>DESeqResults</code> object. As for the <code>dds</code> parameter, this is
 also commonly used in the <code>DESeq2</code> framework.</p></dd>
+
+
 <dt>res_enrich</dt>
 <dd><p>A <code>data.frame</code> object, storing the result of the functional
 enrichment analysis. Required columns for enjoying the full functionality of
@@ -96,19 +100,26 @@ expressed (<code>gs_de_count</code>), or in the background set of genes (<code>g
 See <code><a href="shake_topGOtableResult.html">shake_topGOtableResult()</a></code> or <code><a href="shake_enrichResult.html">shake_enrichResult()</a></code> for examples of such
 formatting helpers</p></li>
 </ul></dd>
+
+
 <dt>annotation_obj</dt>
 <dd><p>A <code>data.frame</code> object, containing two columns, <code>gene_id</code>
 with a set of unambiguous identifiers (e.g. ENSEMBL ids) and <code>gene_name</code>,
 containing e.g. HGNC-based gene symbols. This object can be constructed via
 the <code>org.eg.XX.db</code> packages, e.g. with convenience functions such as
 <code>pcaExplorer::get_annotation_orgdb()</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code>GeneTonic</code>-list object, containing in its named slots the arguments
+    
+
+<p>A <code>GeneTonic</code>-list object, containing in its named slots the arguments
 specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
 of the list are specified following the requirements for using it as single
 input to <code><a href="GeneTonic.html">GeneTonic()</a></code></p>
+
+
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -204,7 +215,7 @@ as a synonim, and will likely be deprecated in the upcoming release cycles.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
 </div>
 
       </footer></div>

@@ -92,42 +92,59 @@ enrichment results</p>
 <dd><p>A <code>data.frame</code> object, storing the result of the functional
 enrichment analysis. See more in the main function, <code><a href="GeneTonic.html">GeneTonic()</a></code>, to check the
 formatting requirements (a minimal set of columns should be present).</p></dd>
+
+
 <dt>gtl</dt>
 <dd><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
 specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
 of the list <em>must</em> be specified following the content they are expecting</p></dd>
+
+
 <dt>n_gs</dt>
 <dd><p>Integer value, corresponding to the maximal number of gene sets to
 be displayed</p></dd>
+
+
 <dt>gs_ids</dt>
 <dd><p>Character vector, containing a subset of <code>gs_id</code> as they are
 available in <code>res_enrich</code>. Lists the gene sets to be displayed.</p></dd>
+
+
 <dt>similarity_matrix</dt>
 <dd><p>A similarity matrix between gene sets. Can be e.g.
 computed with <code><a href="create_kappa_matrix.html">create_kappa_matrix()</a></code> or <code><a href="create_jaccard_matrix.html">create_jaccard_matrix()</a></code> or a similar
 function, returning a symmetric matrix with numeric values (max = 1). If not
 provided, this will be computed on the fly with <code><a href="create_kappa_matrix.html">create_kappa_matrix()</a></code></p></dd>
+
+
 <dt>similarity_threshold</dt>
 <dd><p>A numeric value for the similarity matrix, used to
 determine the initial seeds as in the implementation of DAVID. Higher values
 will lead to more genesets being initially unclustered, leading to a  functional
 classification result with fewer groups and fewer geneset members. Defaults to 0.35,
 recommended to not go below 0.3 (see DAVID help pages)</p></dd>
+
+
 <dt>fuzzy_seeding_initial_neighbors</dt>
 <dd><p>Integer value, corresponding to the minimum
 geneset number in a seeding group. Lower values will lead to the inclusion of more
 genesets in the functional groups, and may generate a lot of small size groups.
 Defaults to 3</p></dd>
+
+
 <dt>fuzzy_multilinkage_rule</dt>
 <dd><p>Numeric value, comprised between 0 and 1. This
 parameter will determine how the seeding groups merge with each other, by specifying
 the percentage of shared genesets required to merge the two subsets into one
 group. Higher values will give sharper separation between the groups of genesets.
 Defaults to 0.5 (50%)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A data frame, shaped in a similar way as the originally provided
+    
+
+<p>A data frame, shaped in a similar way as the originally provided
 <code>res_enrich</code> object, containing two extra columns: <code>gs_fuzzycluster</code>, to specify
 the identifier of the fuzzy cluster of genesets, and <code>gs_cluster_status</code>, which
 can specify whether the geneset is the "Representative" for that cluster or
@@ -255,7 +272,7 @@ for details on the original implementation</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
 </div>
 
       </footer></div>

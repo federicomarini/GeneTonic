@@ -95,49 +95,76 @@ object</p>
 <dd><p>A <code>data.frame</code> object, storing the result of the functional
 enrichment analysis. See more in the main function, <code><a href="GeneTonic.html">GeneTonic()</a></code>, to check the
 formatting requirements (a minimal set of columns should be present).</p></dd>
+
+
 <dt>res_de</dt>
 <dd><p>A <code>DESeqResults</code> object.</p></dd>
+
+
 <dt>annotation_obj</dt>
 <dd><p>A <code>data.frame</code> object with the feature annotation
 information, with at least two columns, <code>gene_id</code> and <code>gene_name</code>.</p></dd>
+
+
 <dt>gtl</dt>
 <dd><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
 specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
 of the list <em>must</em> be specified following the content they are expecting</p></dd>
+
+
 <dt>n_gs</dt>
 <dd><p>Integer value, corresponding to the maximal number of gene sets to
 be included (from the top ranked ones). Defaults to the number of rows of
 <code>res_enrich</code></p></dd>
+
+
 <dt>gs_ids</dt>
 <dd><p>Character vector, containing a subset of <code>gs_id</code> as they are
 available in <code>res_enrich</code>. Lists the gene sets to be included, additionally to
 the ones specified via <code>n_gs</code>. Defaults to NULL.</p></dd>
+
+
 <dt>similarity_measure</dt>
 <dd><p>Character, currently defaults to <code>kappa_matrix</code>, to
 specify how to compute the similarity measure between gene sets</p></dd>
+
+
 <dt>mds_k</dt>
 <dd><p>Integer value, number of dimensions to compute in the multi
 dimensional scaling procedure</p></dd>
+
+
 <dt>mds_labels</dt>
 <dd><p>Integer, defines the number of labels to be plotted on top
 of the scatter plot for the provided gene sets.</p></dd>
+
+
 <dt>mds_colorby</dt>
 <dd><p>Character specifying the column of <code>res_enrich</code> to be used
 for coloring the plotted gene sets. Defaults sensibly to <code>z_score</code>.</p></dd>
+
+
 <dt>gs_labels</dt>
 <dd><p>Character vector, containing a subset of <code>gs_id</code> as they are
 available in <code>res_enrich</code>. Lists the gene sets to be labeled.</p></dd>
+
+
 <dt>plot_title</dt>
 <dd><p>Character string, used as title for the plot. If left <code>NULL</code>,
 it defaults to a general description of the plot and of the DE contrast</p></dd>
+
+
 <dt>return_data</dt>
 <dd><p>Logical, whether the function should just return the
 data.frame of the MDS coordinates, related to the original <code>res_enrich</code>
 object. Defaults to FALSE.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code>ggplot</code> object</p>
+    
+
+<p>A <code>ggplot</code> object</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -206,7 +233,7 @@ gene sets</p></div>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
 </div>
 
       </footer></div>

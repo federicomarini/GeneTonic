@@ -92,31 +92,48 @@ in the contrast of interest</p>
 <dd><p>A <code>data.frame</code> object, storing the result of the functional
 enrichment analysis. See more in the main function, <code><a href="GeneTonic.html">GeneTonic()</a></code>, to check the
 formatting requirements (a minimal set of columns should be present).</p></dd>
+
+
 <dt>res_de</dt>
 <dd><p>A <code>DESeqResults</code> object.</p></dd>
+
+
 <dt>annotation_obj</dt>
 <dd><p>A <code>data.frame</code> object with the feature annotation.
 information, with at least two columns, <code>gene_id</code> and <code>gene_name</code>.</p></dd>
+
+
 <dt>gtl</dt>
 <dd><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
 specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
 of the list <em>must</em> be specified following the content they are expecting</p></dd>
+
+
 <dt>n_gs</dt>
 <dd><p>Integer value, corresponding to the maximal number of gene sets to
 be displayed.</p></dd>
+
+
 <dt>gs_ids</dt>
 <dd><p>Character vector, containing a subset of <code>gs_id</code> as they are
 available in <code>res_enrich</code>. Lists the gene sets to be displayed.</p></dd>
+
+
 <dt>chars_limit</dt>
 <dd><p>Integer, number of characters to be displayed for each
 geneset name.</p></dd>
+
+
 <dt>plot_title</dt>
 <dd><p>Character string, used as title for the plot. If left <code>NULL</code>,
 it defaults to a general description of the plot and of the DE contrast</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code>ggplot</code> object</p>
+    
+
+<p>A <code>ggplot</code> object</p>
     </div>
 
     <div id="ref-examples">
@@ -178,7 +195,7 @@ it defaults to a general description of the plot and of the DE contrast</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
 </div>
 
       </footer></div>

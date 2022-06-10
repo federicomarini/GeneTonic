@@ -96,39 +96,60 @@ and <code>res_de</code>. This object can be further plotted, e.g. statically via
 <dd><p>A <code>data.frame</code> object, storing the result of the functional
 enrichment analysis. See more in the main function, <code><a href="GeneTonic.html">GeneTonic()</a></code>, to check the
 formatting requirements (a minimal set of columns should be present).</p></dd>
+
+
 <dt>res_de</dt>
 <dd><p>A <code>DESeqResults</code> object.</p></dd>
+
+
 <dt>annotation_obj</dt>
 <dd><p>A <code>data.frame</code> object with the feature annotation
 information, with at least two columns, <code>gene_id</code> and <code>gene_name</code>.</p></dd>
+
+
 <dt>gtl</dt>
 <dd><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
 specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
 of the list <em>must</em> be specified following the content they are expecting</p></dd>
+
+
 <dt>n_gs</dt>
 <dd><p>Integer value, corresponding to the maximal number of gene sets to
 be displayed</p></dd>
+
+
 <dt>gs_ids</dt>
 <dd><p>Character vector, containing a subset of <code>gs_id</code> as they are
 available in <code>res_enrich</code>. Lists the gene sets to be displayed.</p></dd>
+
+
 <dt>overlap_threshold</dt>
 <dd><p>Numeric value, between 0 and 1. Defines the threshold
 to be used for removing edges in the enrichment map - edges below this value
 will be excluded from the final graph. Defaults to 0.1.</p></dd>
+
+
 <dt>scale_edges_width</dt>
 <dd><p>A numeric value, to define the scaling factor for the
 edges between nodes. Defaults to 200 (works well chained to <code>visNetwork</code>
 functions).</p></dd>
+
+
 <dt>scale_nodes_size</dt>
 <dd><p>A numeric value, to define the scaling factor for the
 node sizes. Defaults to 5 - works well chained to <code>visNetwork</code> functions.</p></dd>
+
+
 <dt>color_by</dt>
 <dd><p>Character, specifying the column of <code>res_enrich</code> to be used
 for coloring the plotted gene sets. Defaults to <code>gs_pvalue</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An <code>igraph</code> object to be further manipulated or processed/plotted</p>
+    
+
+<p>An <code>igraph</code> object to be further manipulated or processed/plotted</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -181,11 +202,11 @@ for coloring the plotted gene sets. Defaults to <code>gs_pvalue</code>.</p></dd>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">em</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH c3143ff UN-- 20 54 -- </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH fefdaaa UN-- 20 54 -- </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> + attr: name (v/c), size (v/n), original_size (v/n), color.background</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> | (v/c), color.highlight (v/c), color.hover (v/c), color.border (v/c),</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> | width (e/n), color (e/c)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from c3143ff (vertex names):</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from fefdaaa (vertex names):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] adaptive immune response--interferon-gamma-mediated signaling pathway                                      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2] adaptive immune response--antigen processing and presentation of endogenous peptide antigen via MHC class I</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3] adaptive immune response--positive regulation of T cell mediated cytotoxicity                              </span>
@@ -215,7 +236,7 @@ for coloring the plotted gene sets. Defaults to <code>gs_pvalue</code>.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
 </div>
 
       </footer></div>

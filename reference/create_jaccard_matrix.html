@@ -87,25 +87,36 @@ between each pair of sets</p>
 <dd><p>A <code>data.frame</code> object, storing the result of the functional
 enrichment analysis. See more in the main function, <code><a href="GeneTonic.html">GeneTonic()</a></code>, to see the
 formatting requirements.</p></dd>
+
+
 <dt>gtl</dt>
 <dd><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
 specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
 of the list <em>must</em> be specified following the content they are expecting</p></dd>
+
+
 <dt>n_gs</dt>
 <dd><p>Integer value, corresponding to the maximal number of gene sets to
 be included (from the top ranked ones). Defaults to the number of rows of
 <code>res_enrich</code></p></dd>
+
+
 <dt>gs_ids</dt>
 <dd><p>Character vector, containing a subset of <code>gs_id</code> as they are
 available in <code>res_enrich</code>. Lists the gene sets to be included, additionally to
 the ones specified via <code>n_gs</code>. Defaults to NULL.</p></dd>
+
+
 <dt>return_sym</dt>
 <dd><p>Logical, whether to return the symmetrical matrix or just the
 upper triangular - as needed by <code><a href="enrichment_map.html">enrichment_map()</a></code>, for example.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A matrix with the kappa scores between gene sets</p>
+    
+
+<p>A matrix with the kappa scores between gene sets</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -138,7 +149,7 @@ upper triangular - as needed by <code><a href="enrichment_map.html">enrichment_m
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
 </div>
 
       </footer></div>

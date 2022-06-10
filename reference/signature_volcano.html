@@ -90,39 +90,60 @@ genes as shaded dots in the background of the plot.</p>
     <h2>Arguments</h2>
     <dl><dt>res_de</dt>
 <dd><p>A <code>DESeqResults</code> object.</p></dd>
+
+
 <dt>res_enrich</dt>
 <dd><p>A <code>data.frame</code> object, storing the result of the functional
 enrichment analysis. See more in the main function, <code><a href="GeneTonic.html">GeneTonic()</a></code>, to check the
 formatting requirements (a minimal set of columns should be present).</p></dd>
+
+
 <dt>annotation_obj</dt>
 <dd><p>A <code>data.frame</code> object with the feature annotation
 information, with at least two columns, <code>gene_id</code> and <code>gene_name</code>.</p></dd>
+
+
 <dt>gtl</dt>
 <dd><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
 specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
 of the list <em>must</em> be specified following the content they are expecting.</p></dd>
+
+
 <dt>geneset_id</dt>
 <dd><p>Character specifying the gene set identifier to be plotted.</p></dd>
+
+
 <dt>genelist</dt>
 <dd><p>A vector of character strings, specifying the identifiers
 contained in the <code>rownames</code> of the <code>res_de</code> input object.</p></dd>
+
+
 <dt>FDR</dt>
 <dd><p>Numeric value, specifying the significance level for thresholding
 adjusted p-values. Defaults to 0.05.</p></dd>
+
+
 <dt>color</dt>
 <dd><p>Character string to specify color of filtered points in the plot.
 Defaults to #1a81c2 (shade of blue).</p></dd>
+
+
 <dt>volcano_labels</dt>
 <dd><p>Integer, maximum number of labels for the gene sets to be
 plotted as labels on the volcano scatter plot. Defaults to 25.</p></dd>
+
+
 <dt>plot_title</dt>
 <dd><p>Character string, to specify the title of the plot,
 displayed over the volcano plot. If left to <code>NULL</code> as by default, it tries to use
 the information on the geneset identifier provided.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A plot returned by the <code>ggplot()</code> function</p>
+    
+
+<p>A plot returned by the <code>ggplot()</code> function</p>
     </div>
 
     <div id="ref-examples">
@@ -204,7 +225,7 @@ the information on the geneset identifier provided.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
 </div>
 
       </footer></div>

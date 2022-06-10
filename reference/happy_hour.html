@@ -100,72 +100,111 @@ derived from the provided objects.</p>
     <dl><dt>dds</dt>
 <dd><p>A <code>DESeqDataSet</code> object, normally obtained after running your data
 through the <code>DESeq2</code> framework.</p></dd>
+
+
 <dt>res_de</dt>
 <dd><p>A <code>DESeqResults</code> object. As for the <code>dds</code> parameter, this is
 also commonly used in the <code>DESeq2</code> framework.</p></dd>
+
+
 <dt>res_enrich</dt>
 <dd><p>A <code>data.frame</code> object, storing the result of the functional
 enrichment analysis. See <code><a href="GeneTonic.html">GeneTonic()</a></code> for the formatting requirements.</p></dd>
+
+
 <dt>annotation_obj</dt>
 <dd><p>A <code>data.frame</code> object with the feature annotation
 information, with at least two columns, <code>gene_id</code> and <code>gene_name</code>. See
 <code><a href="GeneTonic.html">GeneTonic()</a></code> for the formatting requirements.</p></dd>
+
+
 <dt>gtl</dt>
 <dd><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
 specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
 of the list <em>must</em> be specified following the content they are expecting</p></dd>
+
+
 <dt>project_id</dt>
 <dd><p>A character string, which can be considered as an identifier
 for the set/session, and will be e.g. used in the title of the report created
 via <code>happy_hour()</code></p></dd>
+
+
 <dt>mygenesets</dt>
 <dd><p>A vector of character strings, containing the genesets to
 focus on in the report - for each geneset, e.g. a signature heatmap can be
 created.</p></dd>
+
+
 <dt>mygenes</dt>
 <dd><p>A vector of character strings, containing the genes to focus on
 in the report - for each gene, the plot of the expression values is included.</p></dd>
+
+
 <dt>mygroup</dt>
 <dd><p>A character string, or a vector thereof. Contains the experimental
 variables to be used to split into groups the expression data, and color
 accordingly.</p></dd>
+
+
 <dt>usage_mode</dt>
 <dd><p>A character string, which controls the behavior of the Rmd
 document, based on whether the rendering is triggered while using the app
 ("shiny_mode"), or offline, in batch mode. Defaults to "batch_mode".</p></dd>
+
+
 <dt>input_rmd</dt>
 <dd><p>Character string with the path to the RMarkdown (.Rmd) file
 that will be used as the template for generating the report. Defaults to NULL,
 which will then use the one provided with the <code>GeneTonic</code> package.</p></dd>
+
+
 <dt>output_file</dt>
 <dd><p>Character string, specifying the file name of the output
 report. The file name extension must be either <code>.html</code> or <code>.pdf</code>, and consistent
 with the value of <code>output_format</code>.</p></dd>
+
+
 <dt>output_dir</dt>
 <dd><p>Character, defining the path to the output directory where
 the report will be generated. Defaults to the temp directory (<code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code>).</p></dd>
+
+
 <dt>output_format</dt>
 <dd><p>The format of the output report. Either <code>html_document</code>
 or <code>pdf_document</code>. The file name extension of <code>output_file</code> must be consistent
 with this choice. Can also be left empty and determined accordingly.</p></dd>
+
+
 <dt>force_overwrite</dt>
 <dd><p>Logical, whether to force overwrite an existing report
 with the same name in the output directory. Defaults to FALSE.</p></dd>
+
+
 <dt>knitr_show_progress</dt>
 <dd><p>Logical, whether to display the progress of <code>knitr</code>
 while generating the report. Defaults to FALSE.</p></dd>
+
+
 <dt>ignore_pandoc</dt>
 <dd><p>Logical, controlling how the report generation function
 will behave if <code>pandoc</code> or <code>pandoc-citeproc</code> are missing.</p></dd>
+
+
 <dt>open_after_creating</dt>
 <dd><p>Logical, whether to open the report in the default
 browser after being generated. Defaults to TRUE.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Other arguments that will be passed to <code><a href="https://pkgs.rstudio.com/rmarkdown/reference/render.html" class="external-link">rmarkdown::render()</a></code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Generates a fully fledged report in the <code>output_dir</code> directory, called
+    
+
+<p>Generates a fully fledged report in the <code>output_dir</code> directory, called
 <code>output_file</code> and returns (invisibly) the name of the generated report.</p>
     </div>
     <div id="details">
@@ -258,7 +297,7 @@ upon which this function is <strong>heavily</strong> inspired.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
 </div>
 
       </footer></div>

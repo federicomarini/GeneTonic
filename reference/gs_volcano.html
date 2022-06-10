@@ -92,32 +92,49 @@ enrichment analysis. See more in the main function, <code><a href="GeneTonic.htm
 formatting requirements (a minimal set of columns should be present).
 This object needs to be processed first by a function such as <code><a href="get_aggrscores.html">get_aggrscores()</a></code>
 to compute the term-wise <code>z_score</code> or <code>aggr_score</code>, which will be used for plotting</p></dd>
+
+
 <dt>gtl</dt>
 <dd><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
 specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
 of the list <em>must</em> be specified following the content they are expecting</p></dd>
+
+
 <dt>p_threshold</dt>
 <dd><p>Numeric, defines the threshold to be used for filtering the
 gene sets to display. Defaults to 0.05</p></dd>
+
+
 <dt>color_by</dt>
 <dd><p>Character specifying the column of <code>res_enrich</code> to be used
 for coloring the plotted gene sets. Defaults to <code>aggr_score</code>.</p></dd>
+
+
 <dt>volcano_labels</dt>
 <dd><p>Integer, maximum number of labels for the gene sets to be
 plotted as labels on the volcano scatter plot.</p></dd>
+
+
 <dt>scale_circles</dt>
 <dd><p>A numeric value, to define the scaling factor for the
 circle sizes. Defaults to 1.</p></dd>
+
+
 <dt>gs_ids</dt>
 <dd><p>Character vector, containing a subset of <code>gs_id</code> as they are
 available in <code>res_enrich</code>. Lists the gene sets to be labeled.</p></dd>
+
+
 <dt>plot_title</dt>
 <dd><p>Character string, used as title for the plot. If left <code>NULL</code>,
 it defaults to a general description of the plot and of the DE contrast</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code>ggplot</code> object</p>
+    
+
+<p>A <code>ggplot</code> object</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -186,7 +203,7 @@ the redundancy of the displayed gene sets</p></div>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
 </div>
 
       </footer></div>
