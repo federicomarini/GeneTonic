@@ -1,8 +1,8 @@
 Package: GeneTonic
 Title: Enjoy Analyzing And Integrating The Results From Differential Expression 
     Analysis And Functional Enrichment Analysis
-Version: 2.0.0
-Date: 2022-04-06
+Version: 2.0.1
+Date: 2022-06-10
 Authors@R: 
     c(
         person(
