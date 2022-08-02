@@ -213,7 +213,7 @@ gs_heatmap <- function(se,
       rect_gp = gpar(col = "white", lwd = 0.5),
       cluster_rows = cluster_rows,
       cluster_columns = cluster_columns,
-      row_labels = annotation_obj[rownames(mydata_sig), ]$gene_name,
+      row_labels = annotation_obj$gene_name[match(rownames(mydata_sig), annotation_obj$gene_id)],
       ...
     )
   } else {
@@ -269,7 +269,7 @@ gs_heatmap <- function(se,
       rect_gp = gpar(col = "white", lwd = 0.5),
       cluster_rows = cluster_rows,
       cluster_columns = cluster_columns,
-      row_labels = annotation_obj[rownames(mydata_sig), ]$gene_name,
+      row_labels = annotation_obj$gene_name[match(rownames(mydata_sig), annotation_obj$gene_id)],
       top_annotation = deco_ha,
       ...
     )
