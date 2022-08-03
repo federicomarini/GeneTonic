@@ -3,6 +3,7 @@
 ## Other notes
 
 * Fixed the behavior of the reactive elements after uploading the `GeneTonicList` object at runtime. 
+* Fixed the label namings for the `gs_heatmap` function
 
 # GeneTonic 2.0.0
 
