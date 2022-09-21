@@ -1,5 +1,9 @@
 # GeneTonic 2.2.0
 
+## New features
+
+* `gs_heatmap` gains the `winsorize_threshold` parameter, to control the behavior of the geneset heatmap in presence of extreme values, either negative or positive ones. If not specified, the heatmap is not introducing any winsorization.
+
 ## Other notes
 
 * Fixed the behavior of the reactive elements after uploading the `GeneTonicList` object at runtime. 
