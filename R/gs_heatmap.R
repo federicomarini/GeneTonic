@@ -30,7 +30,9 @@
 #' @param scale_row Logical, whether to standardize by row the expression values
 #' @param winsorize_threshold Numeric value, to be applied as value to winsorize 
 #' the extreme values of the heatmap. Should be a positive number. Defaults to 
-#' NULL, which corresponds to not applying any winsorization.
+#' NULL, which corresponds to not applying any winsorization. Suggested values: 
+#' enter 2 or 3 if using row-standardized values (`scale_row` is TRUE), or visually
+#' inspect the range of the values if using simply mean centered values.
 #' @param anno_col_info A character vector of names in `colData(dds)` to use for
 #' decorating the heatmap as annotation.
 #' @param plot_title Character string, to specify the title of the plot,

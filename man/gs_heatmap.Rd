@@ -66,7 +66,9 @@ specified by \code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Heatmap()}}}
 
 \item{winsorize_threshold}{Numeric value, to be applied as value to winsorize
 the extreme values of the heatmap. Should be a positive number. Defaults to
-NULL, which corresponds to not applying any winsorization.}
+NULL, which corresponds to not applying any winsorization. Suggested values:
+enter 2 or 3 if using row-standardized values (\code{scale_row} is TRUE), or visually
+inspect the range of the values if using simply mean centered values.}
 
 \item{anno_col_info}{A character vector of names in \code{colData(dds)} to use for
 decorating the heatmap as annotation.}
