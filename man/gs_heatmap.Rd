@@ -18,6 +18,7 @@ gs_heatmap(
   cluster_columns = FALSE,
   center_mean = TRUE,
   scale_row = FALSE,
+  winsorize_threshold = NULL,
   anno_col_info = NULL,
   plot_title = NULL,
   ...
@@ -62,6 +63,10 @@ specified by \code{\link[ComplexHeatmap:Heatmap]{ComplexHeatmap::Heatmap()}}}
 \item{center_mean}{Logical, whether to perform mean centering on the row-wise}
 
 \item{scale_row}{Logical, whether to standardize by row the expression values}
+
+\item{winsorize_threshold}{Numeric value, to be applied as value to winsorize
+the extreme values of the heatmap. Should be a positive number. Defaults to
+NULL, which corresponds to not applying any winsorization.}
 
 \item{anno_col_info}{A character vector of names in \code{colData(dds)} to use for
 decorating the heatmap as annotation.}
