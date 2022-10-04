@@ -9,7 +9,7 @@ Authors@R:
             given = "Federico", family = "Marini", role = c("aut", "cre"), 
             email = "marinif@uni-mainz.de", comment = c(ORCID = "0000-0003-3252-7758")
         ),
-		person(
+		    person(
             given = "Annekathrin", family = "Ludt", role = c("aut"), 
             email = "anneludt@uni-mainz.de", comment = c(ORCID = "0000-0002-2475-4945")
         )
