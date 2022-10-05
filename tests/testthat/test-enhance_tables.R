@@ -28,14 +28,30 @@ test_that("Enhanced table is created", {
   with_scores <- get_aggrscores(gtl = gtl_macrophage)
   expect_is(with_scores, "data.frame")
 
-  p2 <- enhance_table(res_enrich_IFNg_vs_naive,
+  p2 <- enhance_table(with_scores,
     res_macrophage_IFNg_vs_naive,
     annotation_obj = anno_df,
     n_gs = 5,
     chars_limit = 60,
-    plot_title = "My custom title"
+    plot_title = "My custom title - with scores"
   )
   expect_is(p2, "gg")
+  
+  re_modified <- res_enrich_IFNg_vs_naive
+  # patching up some letters to mess up the name of a gene
+  re_modified$gs_genes[1] <- 
+    paste0(re_modified$gs_genes[1], "AAAAAAAA")
+  
+  expect_message({
+    p3 <- enhance_table(re_modified,
+                        res_macrophage_IFNg_vs_naive,
+                        annotation_obj = anno_df,
+                        n_gs = 5,
+                        chars_limit = 60,
+                        plot_title = "After modifying the genes assigned to gs1"
+    )
+  })
+  expect_is(p3, "gg")
 })
 
 test_that("The distillery is up and running", {
