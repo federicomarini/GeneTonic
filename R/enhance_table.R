@@ -94,18 +94,32 @@ enhance_table <- function(res_enrich,
     genes_thisset <- unlist(strsplit(genes_thisset, ","))
 
     genesid_thisset <- annotation_obj$gene_id[match(genes_thisset, annotation_obj$gene_name)]
-
-    res_thissubset <- res_de[genesid_thisset, ]
+    
+    # removing the genes not finding a match in the annotation
+    no_anno_match <- is.na(genesid_thisset)
+    genes_thisset_anno <- genes_thisset[!no_anno_match]
+    genesid_thisset_anno <- genesid_thisset[!no_anno_match]
+    # ... and informing on which genes might be troublesome
+    if (any(no_anno_match)) {
+      message("Could not find a match in the annotation for some genes. ",
+              "Please inspect your results in detail for geneset ",
+              gs,
+              " the gene(s) named: ",
+              paste0(genes_thisset[no_anno_match], collapse = ", "))
+    }
+    
+    res_thissubset <- res_de[genesid_thisset_anno, ]
 
     res_thissubset <- as.data.frame(res_thissubset)
 
-    res_thissubset$gene_name <- genes_thisset
+    res_thissubset$gene_name <- genes_thisset_anno
     res_thissubset$gs_desc <- as.factor(res_enrich[gs, "gs_description"])
     res_thissubset$gs_id <- res_enrich[gs, "gs_id"]
     # return(as.data.frame(res_thissubset))
     return(res_thissubset)
   })
   gs_fulllist <- do.call(rbind, gs_fulllist)
+  # message(dim(gs_fulllist)[1])
 
   this_contrast <- (sub(".*p-value: (.*)", "\\1", mcols(res_de, use.names = TRUE)["pvalue", "description"]))
 
