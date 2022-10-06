@@ -8,6 +8,7 @@
 
 * Fixed the behavior of the reactive elements after uploading the `GeneTonicList` object at runtime. 
 * Fixed the label namings for the `gs_heatmap` function
+* The `enhance_table()` function can handle the case where a gene is in the enrichment results table but not present in the annotation (e.g. annotations are updated, so some correspondences might get lost). It also presents an informative message on which genesets/genes are potentially responsible for the behavior. 
 
 # GeneTonic 2.0.0
 
