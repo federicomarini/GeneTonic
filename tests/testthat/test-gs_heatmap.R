@@ -47,6 +47,7 @@ test_that("Geneset heatmap is created", {
     cluster_columns = TRUE,
     center_mean = TRUE,
     scale_row = TRUE,
+    winsorize_threshold = 2,
     anno_col_info = c(
       "condition_char",
       "some_numbers",
@@ -88,6 +89,24 @@ test_that("Geneset heatmap is created", {
       cluster_columns = TRUE,
       center_mean = TRUE,
       scale_row = TRUE,
+      anno_col_info = "condition"
+    )
+  )
+  
+  expect_error(
+    p5 <- gs_heatmap(
+      se = vst_macrophage,
+      res_de = res_macrophage_IFNg_vs_naive,
+      res_enrich = res_enrich_IFNg_vs_naive,
+      annotation_obj = anno_df,
+      genelist = mycustomlist,
+      FDR = 0.05,
+      de_only = FALSE,
+      cluster_rows = TRUE,
+      cluster_columns = TRUE,
+      center_mean = TRUE,
+      scale_row = TRUE,
+      winsorize_threshold = -3,
       anno_col_info = "condition"
     )
   )

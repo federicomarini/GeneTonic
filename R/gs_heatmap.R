@@ -28,6 +28,11 @@
 #' specified by [ComplexHeatmap::Heatmap()]
 #' @param center_mean Logical, whether to perform mean centering on the row-wise
 #' @param scale_row Logical, whether to standardize by row the expression values
+#' @param winsorize_threshold Numeric value, to be applied as value to winsorize 
+#' the extreme values of the heatmap. Should be a positive number. Defaults to 
+#' NULL, which corresponds to not applying any winsorization. Suggested values: 
+#' enter 2 or 3 if using row-standardized values (`scale_row` is TRUE), or visually
+#' inspect the range of the values if using simply mean centered values.
 #' @param anno_col_info A character vector of names in `colData(dds)` to use for
 #' decorating the heatmap as annotation.
 #' @param plot_title Character string, to specify the title of the plot,
@@ -95,6 +100,7 @@ gs_heatmap <- function(se,
                        cluster_columns = FALSE,
                        center_mean = TRUE,
                        scale_row = FALSE,
+                       winsorize_threshold = NULL,
                        anno_col_info = NULL,
                        plot_title = NULL,
                        ...) {
@@ -104,6 +110,11 @@ gs_heatmap <- function(se,
     res_de <- gtl$res_de
     res_enrich <- gtl$res_enrich
     annotation_obj <- gtl$annotation_obj
+  }
+  
+  if (!is.null(winsorize_threshold)) {
+    stopifnot(is.numeric(winsorize_threshold))
+    stopifnot(winsorize_threshold >= 0)
   }
 
   # check that the data would ideally be a DST, so that it is not the counts/normalized?
@@ -165,6 +176,12 @@ gs_heatmap <- function(se,
     mydata_sig <- mydata_sig[de_to_keep, , drop = FALSE]
   }
 
+  extreme_value <- max(abs(range(mydata_sig)))
+  if (!is.null(winsorize_threshold)) {
+    # do the winsoring
+    mydata_sig[mydata_sig < -winsorize_threshold] <- -winsorize_threshold
+    mydata_sig[mydata_sig > winsorize_threshold] <- winsorize_threshold
+  } 
   # dim(mydata_sig)
 
   if (is.null(plot_title)) {
