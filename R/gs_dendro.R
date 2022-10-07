@@ -152,7 +152,7 @@ gs_dendro <- function(res_enrich,
       
     } else {
       # e.g. using z_score or aggregated value
-      if (prod(range(col_var)) >= 0) {
+      if (prod(range(na.omit(col_var))) >= 0) {
         # gradient palette
         mypal <- (scales::alpha(
           colorRampPalette(RColorBrewer::brewer.pal(name = "Oranges", 9))(50), 0.8
