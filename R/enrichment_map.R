@@ -175,6 +175,10 @@ enrichment_map <- function(res_enrich,
     V(emg)$color.background <- map2color(col_var, mypal, symmetric = FALSE, limits = range(col_var))
     V(emg)$color.highlight <- map2color(col_var, mypal_select, symmetric = FALSE, limits = range(col_var))
     V(emg)$color.hover <- map2color(col_var, mypal_hover, symmetric = FALSE, limits = range(col_var))
+    
+    V(emg)$color.background[is.na(V(emg)$color.background)] <- "lightgrey"
+    V(emg)$color.highlight[is.na(V(emg)$color.highlight)] <- "lightgrey"
+    V(emg)$color.hover[is.na(V(emg)$color.hover)] <- "lightgrey"
   } else {
     # e.g. using z_score or aggregated value
     if (prod(range(na.omit(col_var))) >= 0) {
@@ -196,6 +200,10 @@ enrichment_map <- function(res_enrich,
                                           limits = range(na.omit(col_var)))
       V(emg)$color.hover <- map2color(col_var, mypal_hover, symmetric = FALSE, 
                                       limits = range(na.omit(col_var)))
+      V(emg)$color.background[is.na(V(emg)$color.background)] <- "lightgrey"
+      V(emg)$color.highlight[is.na(V(emg)$color.highlight)] <- "lightgrey"
+      V(emg)$color.hover[is.na(V(emg)$color.hover)] <- "lightgrey"
+      
     } else {
       # divergent palette to be used
       mypal <- rev(scales::alpha(
@@ -215,6 +223,10 @@ enrichment_map <- function(res_enrich,
                                           limits = range(na.omit(col_var)))
       V(emg)$color.hover <- map2color(col_var, mypal_hover, symmetric = TRUE, 
                                       limits = range(na.omit(col_var)))
+      
+      V(emg)$color.background[is.na(V(emg)$color.background)] <- "lightgrey"
+      V(emg)$color.highlight[is.na(V(emg)$color.highlight)] <- "lightgrey"
+      V(emg)$color.hover[is.na(V(emg)$color.hover)] <- "lightgrey"
     }
   }
 
