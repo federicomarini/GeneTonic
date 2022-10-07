@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.5</span>
       </span>
     </div>
 
@@ -70,7 +70,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">deseqresult2df</span><span class="op">(</span><span class="va">res_de</span>, FDR <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">deseqresult2df</span><span class="op">(</span><span class="va">res_de</span>, FDR <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -96,8 +96,8 @@ with adjusted p-value smaller than the value.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">res_de_macrophage</span>, package <span class="op">=</span> <span class="st">"GeneTonic"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res_macrophage_IFNg_vs_naive</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">res_de_macrophage</span>, package <span class="op">=</span> <span class="st">"GeneTonic"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res_macrophage_IFNg_vs_naive</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> log2 fold change (MLE): condition IFNg vs naive </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Wald test p-value: condition IFNg vs naive </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> DataFrame with 6 rows and 7 columns</span>
@@ -117,8 +117,8 @@ with adjusted p-value smaller than the value.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ENSG00000000460 4.09728e-01    C1orf112</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ENSG00000000938 1.00000e+00         FGR</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ENSG00000000971 1.37057e-13         CFH</span>
-<span class="r-in"><span class="va">res_df</span> <span class="op">&lt;-</span> <span class="fu">deseqresult2df</span><span class="op">(</span><span class="va">res_macrophage_IFNg_vs_naive</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res_df</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">res_df</span> <span class="op">&lt;-</span> <span class="fu">deseqresult2df</span><span class="op">(</span><span class="va">res_macrophage_IFNg_vs_naive</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res_df</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                              id   baseMean log2FoldChange     lfcSE     stat</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ENSG00000125347 ENSG00000125347 30585.0749       5.560124 0.2182663 20.89248</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ENSG00000162645 ENSG00000162645 36790.5921       6.665804 0.2865732 19.77088</span>
@@ -147,7 +147,7 @@ with adjusted p-value smaller than the value.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

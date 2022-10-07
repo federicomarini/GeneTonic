@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.5</span>
       </span>
     </div>
 
@@ -70,7 +70,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">check_colors</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">check_colors</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -93,17 +93,17 @@ the color is specified correctly</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># simple case</span></span>
-<span class="r-in"><span class="va">mypal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"steelblue"</span>, <span class="st">"#FF1100"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">check_colors</span><span class="op">(</span><span class="va">mypal</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># simple case</span></span></span>
+<span class="r-in"><span><span class="va">mypal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"steelblue"</span>, <span class="st">"#FF1100"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">check_colors</span><span class="op">(</span><span class="va">mypal</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> steelblue   #FF1100 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      TRUE      TRUE </span>
-<span class="r-in"><span class="va">mypal2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">rev</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/alpha.html" class="external-link">alpha</a></span><span class="op">(</span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">colorRampPalette</a></span><span class="op">(</span><span class="fu">RColorBrewer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html" class="external-link">brewer.pal</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"RdYlBu"</span>, <span class="fl">11</span><span class="op">)</span><span class="op">)</span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>, <span class="fl">0.4</span></span>
-<span class="r-in">  <span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="fu">check_colors</span><span class="op">(</span><span class="va">mypal2</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">mypal2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">rev</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/alpha.html" class="external-link">alpha</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">colorRampPalette</a></span><span class="op">(</span><span class="fu">RColorBrewer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html" class="external-link">brewer.pal</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"RdYlBu"</span>, <span class="fl">11</span><span class="op">)</span><span class="op">)</span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>, <span class="fl">0.4</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">check_colors</span><span class="op">(</span><span class="va">mypal2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> #31369566 #35429B66 #394FA166 #3D5CA766 #4169AE66 #4576B466 #4F81BA66 #598DC066 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> #6298C666 #6CA3CC66 #76AED166 #81B7D666 #8CC0DB66 #97C9E066 #A3D2E566 #AEDAE966 </span>
@@ -118,8 +118,8 @@ the color is specified correctly</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> #AF092666 #A5002666 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      TRUE      TRUE </span>
-<span class="r-in"><span class="co"># useful with long vectors to check at once if all cols are fine</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="fu">check_colors</span><span class="op">(</span><span class="va">mypal2</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># useful with long vectors to check at once if all cols are fine</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="fu">check_colors</span><span class="op">(</span><span class="va">mypal2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 </code></pre></div>
     </div>
@@ -135,7 +135,7 @@ the color is specified correctly</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>
