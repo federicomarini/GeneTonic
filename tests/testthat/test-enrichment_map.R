@@ -34,7 +34,7 @@ test_that("Graph is generated", {
   )
   expect_is(g2, "igraph")
 
-  res_pos_z <- res_enrich_withscores[res_enrich_withscores$z_score >= 0, ]
+  res_pos_z <- na.omit(res_enrich_withscores[res_enrich_withscores$z_score >= 0, ])
   g3 <- enrichment_map(
     res_enrich = res_pos_z,
     res_de = res_macrophage_IFNg_vs_naive,
