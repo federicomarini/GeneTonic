@@ -170,7 +170,6 @@ gs_dendro <- function(res_enrich,
         
       }
     }
-    # leaves_col <- map2color(col_var, mypal, limits = range(na.omit(col_var)))[dend_idx]
     
     # set NA values to light grey to prevent errors in assigning colors
     leaves_col[is.na(leaves_col)] <- "lightgrey"

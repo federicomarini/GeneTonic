@@ -171,10 +171,12 @@ enrichment_map <- function(res_enrich,
       colorRampPalette(RColorBrewer::brewer.pal(name = "YlOrRd", 9))(50), 1
     ))
     
-    # V(g)$color <- map2color(colVar,mypal,limits = range(colVar))
-    V(emg)$color.background <- map2color(col_var, mypal, symmetric = FALSE, limits = range(col_var))
-    V(emg)$color.highlight <- map2color(col_var, mypal_select, symmetric = FALSE, limits = range(col_var))
-    V(emg)$color.hover <- map2color(col_var, mypal_hover, symmetric = FALSE, limits = range(col_var))
+    V(emg)$color.background <- map2color(col_var, mypal, symmetric = FALSE, 
+                                         limits = range(na.omit(col_var)))
+    V(emg)$color.highlight <- map2color(col_var, mypal_select, symmetric = FALSE, 
+                                        limits = range(na.omit(col_var)))
+    V(emg)$color.hover <- map2color(col_var, mypal_hover, symmetric = FALSE, 
+                                    limits = range(na.omit(col_var)))
     
     V(emg)$color.background[is.na(V(emg)$color.background)] <- "lightgrey"
     V(emg)$color.highlight[is.na(V(emg)$color.highlight)] <- "lightgrey"
@@ -193,7 +195,6 @@ enrichment_map <- function(res_enrich,
         colorRampPalette(RColorBrewer::brewer.pal(name = "Oranges", 9))(50), 1
       ))
       
-      # V(g)$color <- map2color(colVar,mypal,limits = range(colVar))
       V(emg)$color.background <- map2color(col_var, mypal, symmetric = FALSE, 
                                            limits = range(na.omit(col_var)))
       V(emg)$color.highlight <- map2color(col_var, mypal_select, symmetric = FALSE, 
@@ -216,7 +217,6 @@ enrichment_map <- function(res_enrich,
         colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 1
       ))
       
-      # V(g)$color <- map2color(colVar,mypal,limits = range(colVar))
       V(emg)$color.background <- map2color(col_var, mypal, symmetric = TRUE, 
                                            limits = range(na.omit(col_var)))
       V(emg)$color.highlight <- map2color(col_var, mypal_select, symmetric = TRUE, 
@@ -229,11 +229,6 @@ enrichment_map <- function(res_enrich,
       V(emg)$color.hover[is.na(V(emg)$color.hover)] <- "lightgrey"
     }
   }
-
-  # # V(g)$color <- map2color(colVar,mypal,limits = range(colVar))
-  # V(emg)$color.background <- map2color(col_var, mypal, limits = range(col_var))
-  # V(emg)$color.highlight <- map2color(col_var, mypal_select, limits = range(col_var))
-  # V(emg)$color.hover <- map2color(col_var, mypal_hover, limits = range(col_var))
 
   V(emg)$color.border <- "black"
 
