@@ -4,7 +4,7 @@
 \alias{map2color}
 \title{Maps numeric values to color values}
 \usage{
-map2color(x, pal, limits = NULL)
+map2color(x, pal, symmetric = TRUE, limits = NULL)
 }
 \arguments{
 \item{x}{A character vector of numeric values (e.g. log2FoldChange values) to
@@ -12,6 +12,10 @@ be converted to a vector of colors}
 
 \item{pal}{A vector of characters specifying the definition of colors for the
 palette, e.g. obtained via \code{\link{brewer.pal}}}
+
+\item{symmetric}{Logical value, whether to return a palette which is symmetrical
+with respect to the minimum and maximum values - "respecting" the zero.
+Defaults to \code{TRUE}.}
 
 \item{limits}{A vector containing the limits of the values to be mapped. If
 not specified, defaults to the range of values in the \code{x} vector.}
