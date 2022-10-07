@@ -3,13 +3,15 @@
 ## New features
 
 * `gs_heatmap` gains the `winsorize_threshold` parameter, to control the behavior of the geneset heatmap in presence of extreme values, either negative or positive ones. If not specified, the heatmap is not introducing any winsorization.
+* `map2color()` has a behavior that better accounts for asymmetric ranges of values. This propagates to some of the functions that use it for mapping to colors, such as `enrichment_map()`, or `ggs_backbone()`.
 
 ## Other notes
 
 * Fixed the behavior of the reactive elements after uploading the `GeneTonicList` object at runtime. 
 * Fixed the label namings for the `gs_heatmap` function
 * The `enhance_table()` function can handle the case where a gene is in the enrichment results table but not present in the annotation (e.g. annotations are updated, so some correspondences might get lost). It also presents an informative message on which genesets/genes are potentially responsible for the behavior. 
-
+* Some additional checks are in place for controlling the cases where the `z_score` of a geneset is detected as NA (e.g. because there was a mismatch between gene names and identifiers in the annotation).
+ 
 # GeneTonic 2.0.0
 
 ## New features
