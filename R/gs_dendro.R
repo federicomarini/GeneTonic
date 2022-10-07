@@ -141,8 +141,40 @@ gs_dendro <- function(res_enrich,
     # setup color
     mypal <- rev(scales::alpha(colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 1))
     col_var <- res_enrich[gs_to_use, color_leaves_by]
-    leaves_col <- map2color(col_var, mypal, limits = range(col_var))[dend_idx]
-
+    
+    if (all(col_var <= 1) & all(col_var > 0)) { # likely p-values...
+      col_var <- -log10(col_var)
+      mypal <- (scales::alpha(
+        colorRampPalette(RColorBrewer::brewer.pal(name = "YlOrRd", 9))(50), 0.8
+      ))
+      leaves_col <- map2color(col_var, mypal, symmetric = FALSE,
+                              limits = range(na.omit(col_var)))[dend_idx]
+      
+    } else {
+      # e.g. using z_score or aggregated value
+      if (prod(range(col_var)) >= 0) {
+        # gradient palette
+        mypal <- (scales::alpha(
+          colorRampPalette(RColorBrewer::brewer.pal(name = "Oranges", 9))(50), 0.8
+        ))
+        leaves_col <- map2color(col_var, mypal, symmetric = FALSE,
+                                limits = range(na.omit(col_var)))[dend_idx]
+        
+      } else {
+        # divergent palette to be used
+        mypal <- rev(scales::alpha(
+          colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.8
+        ))
+        leaves_col <- map2color(col_var, mypal, symmetric = TRUE,
+                                limits = range(na.omit(col_var)))[dend_idx]
+        
+      }
+    }
+    # leaves_col <- map2color(col_var, mypal, limits = range(na.omit(col_var)))[dend_idx]
+    
+    # set NA values to light grey to prevent errors in assigning colors
+    leaves_col[is.na(leaves_col)] <- "lightgrey"
+    
     my_dend <- set(my_dend, "leaves_col", leaves_col)
   }
 
