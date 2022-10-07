@@ -54,7 +54,7 @@ stopifnot(requireNamespace("htmltools"))
 htmltools::tagList(rmarkdown::html_dependency_font_awesome())
 ```
 
----
+<hr>
 
 # Introduction {#introduction}
 
@@ -499,6 +499,7 @@ Plot an enrichment map of the enrichment results, where you can choose with `n_g
 em <- enrichment_map(res_enrich_macrophage,
                      res_macrophage_IFNg_vs_naive,
                      n_gs = 30,
+                     color_by = "z_score",
                      anno_df)
 library("igraph")
 library("visNetwork")

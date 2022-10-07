@@ -437,9 +437,16 @@ ggs_backbone <- function(res_enrich,
           colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 1
         ))
 
-        V(bbgraph)$color.background <- map2color(col_var, mypal, limits = range(col_var))
-        V(bbgraph)$color.highlight <- map2color(col_var, mypal_select, limits = range(col_var))
-        V(bbgraph)$color.hover <- map2color(col_var, mypal_hover, limits = range(col_var))
+        V(bbgraph)$color.background <- map2color(col_var, mypal, symmetric = TRUE,
+                                                 limits = range(na.omit(col_var)))
+        V(bbgraph)$color.highlight <- map2color(col_var, mypal_select, symmetric = TRUE,
+                                                limits = range(na.omit(col_var)))
+        V(bbgraph)$color.hover <- map2color(col_var, mypal_hover, symmetric = TRUE,
+                                            limits = range(na.omit(col_var)))
+        
+        V(bbgraph)$color.background[is.na(V(bbgraph)$color.background)] <- "lightgrey"
+        V(bbgraph)$color.highlight[is.na(V(bbgraph)$color.highlight)] <- "lightgrey"
+        V(bbgraph)$color.hover[is.na(V(bbgraph)$color.hover)] <- "lightgrey"
 
         V(bbgraph)$color.border <- "black"
 
@@ -461,10 +468,17 @@ ggs_backbone <- function(res_enrich,
           colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 1
         ))
 
-        V(bbgraph)$color.background <- map2color(col_var, mypal, limits = range(col_var))
-        V(bbgraph)$color.highlight <- map2color(col_var, mypal_select, limits = range(col_var))
-        V(bbgraph)$color.hover <- map2color(col_var, mypal_hover, limits = range(col_var))
+        V(bbgraph)$color.background <- map2color(col_var, mypal, 
+                                                 limits = range(na.omit(col_var)))
+        V(bbgraph)$color.highlight <- map2color(col_var, mypal_select, 
+                                                limits = range(na.omit(col_var)))
+        V(bbgraph)$color.hover <- map2color(col_var, mypal_hover, 
+                                            limits = range(na.omit(col_var)))
 
+        V(bbgraph)$color.background[is.na(V(bbgraph)$color.background)] <- "lightgrey"
+        V(bbgraph)$color.highlight[is.na(V(bbgraph)$color.highlight)] <- "lightgrey"
+        V(bbgraph)$color.hover[is.na(V(bbgraph)$color.hover)] <- "lightgrey"
+        
         V(bbgraph)$color.border <- "black"
 
         # additional specification of edge colors
