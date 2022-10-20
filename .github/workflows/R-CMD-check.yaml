@@ -43,7 +43,7 @@ jobs:
           r-version: ${{ matrix.config.r }}
 
       - name: Set up pandoc
-        uses: r-lib/actions/setup-pandoc@master
+        uses: r-lib/actions/setup-pandoc@v2
         if: matrix.config.image == null
 
       - name: Install remotes
