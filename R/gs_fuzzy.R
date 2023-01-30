@@ -223,7 +223,7 @@ gs_fuzzyclustering <- function(res_enrich,
     group_by(.data$gs_fuzzycluster) %>%
     arrange(.data$gs_pvalue) %>%
     slice(1) %>%
-    select(.data$gs_id, .data$gs_fuzzycluster)
+    select("gs_id", "gs_fuzzycluster")
   # handling this with tuple to account where the gene set is most representative
   gs_mostsig_tuple <- paste0(gs_mostsig$gs_id, "|", gs_mostsig$gs_fuzzycluster)
 
