@@ -19,9 +19,14 @@
 #' available in `res_enrich`. Lists the gene sets to be displayed.
 #' @param chars_limit Integer, number of characters to be displayed for each
 #' geneset name.
+#' @param plot_style Character value, one of "point" or "ridgeline". Defines the 
+#' style of the plot to summarize visually the table.
+#' @param ridge_color Character value, one of "gs_id" or "gs_score", controls the
+#' fill color of the ridge lines. If selecting "gs_score", the `z_score` column
+#' must be present in the enrichment results table - see `get_aggrscores()` to do
+#' that.
 #' @param plot_title Character string, used as title for the plot. If left `NULL`,
-#' it defaults to a general description of the plot and of the DE contrast
-#'
+#' it defaults to a general description of the plot and of the DE contrast.
 #'
 #' @return A `ggplot` object
 #' @export
@@ -64,6 +69,20 @@
 #'   anno_df,
 #'   n_gs = 10
 #' )
+#' 
+#' # using the ridge line as a style, also coloring by the Z score
+#' res_enrich_withscores <- get_aggrscores(
+#'   res_enrich,
+#'   res_de,
+#'   anno_df
+#' )
+#' enhance_table(res_enrich_withscores,
+#'   res_de,
+#'   anno_df,
+#'   n_gs = 10, 
+#'   plot_style = "ridgeline",
+#'   ridge_color = "gs_score"
+#' )
 enhance_table <- function(res_enrich,
                           res_de,
                           annotation_obj,
@@ -71,6 +90,8 @@ enhance_table <- function(res_enrich,
                           n_gs = 50,
                           gs_ids = NULL,
                           chars_limit = 70,
+                          plot_style = c("point", "ridgeline"),
+                          ridge_color = c("gs_id", "gs_score"),
                           plot_title = NULL) {
   if (!is.null(gtl)) {
     checkup_gtl(gtl)
@@ -79,7 +100,10 @@ enhance_table <- function(res_enrich,
     res_enrich <- gtl$res_enrich
     annotation_obj <- gtl$annotation_obj
   }
-
+  
+  plot_style <- match.arg(plot_style, c("point", "ridgeline"))
+  ridge_color <- match.arg(ridge_color, c("gs_id", "gs_score"))
+  
   n_gs <- min(n_gs, nrow(res_enrich))
 
   gs_to_use <- unique(
@@ -128,27 +152,89 @@ enhance_table <- function(res_enrich,
   gs_fulllist$gs_desc <- factor(gs_fulllist$gs_desc, levels = rev(levels(gs_fulllist$gs_desc)))
   max_lfc <- max(abs(range(gs_fulllist$log2FoldChange)))
 
-  p <- ggplot(
-    gs_fulllist, aes_string(
-      x = "log2FoldChange",
-      y = "gs_desc",
-      fill = "gs_id",
-      text = "gene_name"
-    )
-  ) +
-    scale_x_continuous(limits = c(-max_lfc, max_lfc)) +
-    geom_point(alpha = 0.7, shape = 21, size = 2) +
-    theme_minimal() +
-    geom_vline(aes(xintercept = 0), col = "steelblue", alpha = 0.4) +
-    theme(legend.position = "none") +
-    scale_y_discrete(
-      name = "",
-      labels = paste0(
-        substr(as.character(unique(gs_fulllist$gs_desc)), 1, chars_limit),
-        " | ", unique(gs_fulllist$gs_id)
+  # common elements here
+  gs_labels <- paste0(
+    substr(as.character(unique(gs_fulllist$gs_desc)), 1, chars_limit),
+    " | ", unique(gs_fulllist$gs_id)
+  )
+  
+  if (plot_style == "point") {
+    p <- ggplot(
+      gs_fulllist, aes_string(
+        x = "log2FoldChange",
+        y = "gs_desc",
+        fill = "gs_id",
+        text = "gene_name"
       )
     ) +
-    labs(x = "log2 Fold Change")
+      scale_x_continuous(limits = c(-max_lfc, max_lfc)) +
+      geom_point(alpha = 0.7, shape = 21, size = 2) +
+      theme_minimal() +
+      geom_vline(aes(xintercept = 0), col = "steelblue", alpha = 0.4) +
+      theme(legend.position = "none") +
+      scale_y_discrete(
+        name = "",
+        labels = gs_labels
+      ) +
+      labs(x = "log2 Fold Change")
+    
+  } else if (plot_style == "ridgeline") {
+    
+    if (ridge_color == "gs_score" & is.null(res_enrich$z_score)) {
+      message("Fallback to plotting the ridgelines according to geneset id (Z score required)")
+      ridge_color <- "gs_id"
+    }  
+    
+    if (ridge_color == "gs_score") {
+      gs_fulllist$gs_zscore <- res_enrich$z_score[match(gs_fulllist$gs_id, res_enrich$gs_id)]
+      p <- ggplot(
+        gs_fulllist, aes_string(
+          x = "log2FoldChange",
+          y = "gs_desc",
+          fill = "gs_zscore"
+        )
+      ) +
+        scale_x_continuous(limits = c(-max_lfc, max_lfc)) + 
+        scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") + 
+        ggridges::geom_density_ridges(
+          aes_string(group = "gs_id"),
+          point_color = "#00000066",
+          jittered_points = TRUE, scale = .95, rel_min_height = .01,
+          point_shape = "|", point_size = 3, size = 0.25,
+          position = ggridges::position_points_jitter(height = 0)) +
+        theme_minimal() +
+        geom_vline(aes(xintercept = 0), col = "steelblue", alpha = 0.4) +
+        scale_y_discrete(
+          name = "",
+          labels = gs_labels
+        ) +
+        labs(x = "log2 Fold Change")
+    }
+    else if (ridge_color == "gs_id") {
+      p <- ggplot(
+        gs_fulllist, aes_string(
+          x = "log2FoldChange",
+          y = "gs_desc",
+          fill = "gs_id"
+        )
+      ) +
+        scale_x_continuous(limits = c(-max_lfc, max_lfc)) + 
+        ggridges::geom_density_ridges(
+          aes_string(group = "gs_id"),
+          point_color = "#00000066",
+          jittered_points = TRUE, scale = .95, rel_min_height = .01,
+          point_shape = "|", point_size = 3, size = 0.25,
+          position = ggridges::position_points_jitter(height = 0)) +
+        theme_minimal() +
+        geom_vline(aes(xintercept = 0), col = "steelblue", alpha = 0.4) +
+        theme(legend.position = "none") +
+        scale_y_discrete(
+          name = "",
+          labels = gs_labels
+        ) +
+        labs(x = "log2 Fold Change")
+    }
+  }
 
   if (is.null(plot_title)) {
     p <- p + ggtitle(paste0("Enrichment overview - ", this_contrast))
