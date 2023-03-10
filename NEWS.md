@@ -1,3 +1,9 @@
+# GeneTonic 2.4.0
+
+## New features
+
+* `enhance_table()` has now the possibility to plot the visual summaries as ridge lines
+
 # GeneTonic 2.2.0
 
 ## New features
