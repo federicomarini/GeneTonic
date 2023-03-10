@@ -94,6 +94,13 @@ gene_plot <- function(dds,
     res_enrich <- gtl$res_enrich
     annotation_obj <- gtl$annotation_obj
   }
+  
+  if (!intgroup %in% colnames(colData(dds))) {
+    stop("`intgroup` not found in the colData slot of the dds object",
+         "\nPlease specify one of the following: \n",
+         paste0(colnames(colData(dds)), collapse = ", ")
+         )
+  }
 
   df <- get_expression_values(
     dds = dds,
