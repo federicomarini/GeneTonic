@@ -4,6 +4,10 @@
 
 * `enhance_table()` has now the possibility to plot the visual summaries as ridge lines
 
+## Other notes
+
+* Fortified the behavior of `gene_plot()` to fail early when providing an invalid value to the `intgroup` parameter
+
 # GeneTonic 2.2.0
 
 ## New features
