@@ -37,6 +37,32 @@ test_that("Enhanced table is created", {
   )
   expect_is(p2, "gg")
   
+  p_ridge <- enhance_table(with_scores,
+    res_macrophage_IFNg_vs_naive,
+    annotation_obj = anno_df,
+    n_gs = 5,
+    plot_style = "ridgeline"
+  )
+  expect_is(p_ridge, "gg")
+  
+  p_ridge_zscorecol <- enhance_table(with_scores,
+    res_macrophage_IFNg_vs_naive,
+    annotation_obj = anno_df,
+    n_gs = 5,
+    plot_style = "ridgeline",
+    ridge_color = "gs_score"
+  )
+  expect_is(p_ridge_zscorecol, "gg")
+  
+  expect_message({
+    p_ridge_fallback <- enhance_table(
+      gtl = gtl_macrophage,
+      n_gs = 5,
+      plot_style = "ridgeline",
+      ridge_color = "gs_score")
+  })
+  
+  
   re_modified <- res_enrich_IFNg_vs_naive
   # patching up some letters to mess up the name of a gene
   re_modified$gs_genes[1] <- 

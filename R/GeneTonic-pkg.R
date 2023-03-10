@@ -37,6 +37,7 @@
 #' @importFrom ggforce geom_sina
 #' @import ggplot2
 #' @importFrom ggrepel geom_label_repel geom_text_repel
+#' @importFrom ggridges geom_density_ridges position_points_jitter
 #' @import GO.db
 #' @importFrom graphics par plot
 #' @importFrom grDevices colorRampPalette rgb col2rgb

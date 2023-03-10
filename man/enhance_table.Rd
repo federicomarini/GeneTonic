@@ -12,6 +12,8 @@ enhance_table(
   n_gs = 50,
   gs_ids = NULL,
   chars_limit = 70,
+  plot_style = c("point", "ridgeline"),
+  ridge_color = c("gs_id", "gs_score"),
   plot_title = NULL
 )
 }
@@ -38,8 +40,16 @@ available in \code{res_enrich}. Lists the gene sets to be displayed.}
 \item{chars_limit}{Integer, number of characters to be displayed for each
 geneset name.}
 
+\item{plot_style}{Character value, one of "point" or "ridgeline". Defines the
+style of the plot to summarize visually the table.}
+
+\item{ridge_color}{Character value, one of "gs_id" or "gs_score", controls the
+fill color of the ridge lines. If selecting "gs_score", the \code{z_score} column
+must be present in the enrichment results table - see \code{get_aggrscores()} to do
+that.}
+
 \item{plot_title}{Character string, used as title for the plot. If left \code{NULL},
-it defaults to a general description of the plot and of the DE contrast}
+it defaults to a general description of the plot and of the DE contrast.}
 }
 \value{
 A \code{ggplot} object
@@ -86,5 +96,19 @@ enhance_table(res_enrich,
   res_de,
   anno_df,
   n_gs = 10
+)
+
+# using the ridge line as a style, also coloring by the Z score
+res_enrich_withscores <- get_aggrscores(
+  res_enrich,
+  res_de,
+  anno_df
+)
+enhance_table(res_enrich_withscores,
+  res_de,
+  anno_df,
+  n_gs = 10, 
+  plot_style = "ridgeline",
+  ridge_color = "gs_score"
 )
 }
