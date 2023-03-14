@@ -33,6 +33,18 @@ test_that("Basic gene plot is generated", {
     gene = "ENSG00000285982"
   )
   expect_is(p3_gtl, "gg")
+  
+  expect_error({
+    gene_plot(
+      dds = dds_macrophage,
+      gene = "ENSG00000285982",
+      assay = "counts",
+      intgroup = "factor_not_there",
+      annotation_obj = anno_df,
+      transform = TRUE,
+      labels_repe
+    )
+  })
 })
 
 test_that("Enforcing plot types", {
