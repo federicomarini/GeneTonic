@@ -1078,6 +1078,9 @@ GeneTonic <- function(dds = NULL,
     output$ui_ggs_genebox <- renderUI({
       tagList(
         uiOutput("ggs_gene_info"),
+        checkboxInput("gp_displaylabels",
+                      label = "Display sample labels",
+                      value = TRUE),
         plotOutput("ggs_geneplot")
       )
     })
@@ -1117,7 +1120,8 @@ GeneTonic <- function(dds = NULL,
       gene_plot(reactive_values$dds,
         gene = cur_geneid,
         intgroup = input$exp_condition,
-        annotation_obj = reactive_values$annotation_obj
+        annotation_obj = reactive_values$annotation_obj,
+        labels_display = input$gp_displaylabels
       )
     })
 
