@@ -2,11 +2,12 @@
 
 ## New features
 
-* `enhance_table()` has now the possibility to plot the visual summaries as ridge lines
+* `enhance_table()` has now the possibility to plot the visual summaries as ridge lines.
+* When plotting the gene expression for the selected features in the gene-geneset-graph box, it is now possible to disable the labels from being displayed (could lead to unnecessary clutter sometimes).
 
 ## Other notes
 
-* Fortified the behavior of `gene_plot()` to fail early when providing an invalid value to the `intgroup` parameter
+* Fortified the behavior of `gene_plot()` to fail early when providing an invalid value to the `intgroup` parameter.
 
 # GeneTonic 2.2.0
 
