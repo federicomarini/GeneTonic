@@ -14,13 +14,15 @@ Authors@R:
             email = "anneludt@uni-mainz.de", comment = c(ORCID = "0000-0002-2475-4945")
         )
     )
-Description: This package provides a Shiny application that aims to combine at 
-    different levels the existing pieces of the transcriptome data and results, 
-    in a way that makes it easier to generate insightful observations and 
-    hypothesis - combining the benefits of interactivity and reproducibility, 
+Description: This package provides functionality to combine the existing pieces 
+    of the transcriptome data and results, making it easier to generate 
+    insightful observations and hypothesis. Its usage is made easy with a Shiny 
+    application, combining the benefits of interactivity and reproducibility
     e.g. by capturing the features and gene sets of interest highlighted during 
     the live session, and creating an HTML report as an artifact where text, 
-    code, and output coexist.
+    code, and output coexist. Using the GeneTonicList as a standardized container
+    for all the required components, it is possible to simplify the generation 
+    of multiple visualizations and summaries.
 Depends:
     R (>= 4.0.0)
 Imports:
