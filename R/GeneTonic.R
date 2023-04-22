@@ -848,7 +848,7 @@ GeneTonic <- function(dds = NULL,
             fluidRow(
               column(
                 width = 1,
-                tippy::tippy(
+                tippy::with_tippy(
                   actionButton(inputId = "coder_ggsnetwork",
                                label = "",
                                style = .helpbutton_biocstyle,
@@ -1206,7 +1206,7 @@ GeneTonic <- function(dds = NULL,
                 fluidRow(
                   column(
                     width = 1,
-                    tippy::tippy(
+                    tippy::with_tippy(
                       actionButton(inputId = "coder_emap_visnet",
                                    label = "",
                                    style = .helpbutton_biocstyle,
@@ -1541,7 +1541,7 @@ GeneTonic <- function(dds = NULL,
                   fluidRow(
                     column(
                       width = 1,
-                      tippy::tippy(
+                      tippy::with_tippy(
                         actionButton(inputId = "coder_gs_volcano",
                                      label = "",
                                      style = .helpbutton_biocstyle,
@@ -1567,7 +1567,7 @@ GeneTonic <- function(dds = NULL,
                   fluidRow(
                     column(
                       width = 1,
-                      tippy::tippy(
+                      tippy::with_tippy(
                         actionButton(inputId = "coder_gs_volcano_simplified",
                                      label = "",
                                      style = .helpbutton_biocstyle,
@@ -1587,7 +1587,7 @@ GeneTonic <- function(dds = NULL,
                   fluidRow(
                     column(
                       width = 1,
-                      tippy::tippy(
+                      tippy::with_tippy(
                         actionButton(inputId = "coder_gs_enhancedtable",
                                      label = "",
                                      style = .helpbutton_biocstyle,
@@ -1607,7 +1607,7 @@ GeneTonic <- function(dds = NULL,
                   fluidRow(
                     column(
                       width = 1,
-                      tippy::tippy(
+                      tippy::with_tippy(
                         actionButton(inputId = "coder_gs_enhancedtableinteractive",
                                      label = "",
                                      style = .helpbutton_biocstyle,
@@ -1709,7 +1709,7 @@ GeneTonic <- function(dds = NULL,
                   fluidRow(
                     column(
                       width = 1,
-                      tippy::tippy(
+                      tippy::with_tippy(
                         actionButton(inputId = "coder_gsscores_heatmap",
                                      label = "",
                                      style = .helpbutton_biocstyle,
@@ -1729,7 +1729,7 @@ GeneTonic <- function(dds = NULL,
                   fluidRow(
                     column(
                       width = 1,
-                      tippy::tippy(
+                      tippy::with_tippy(
                         actionButton(inputId = "coder_alluvial_genesets",
                                      label = "",
                                      style = .helpbutton_biocstyle,
@@ -1749,7 +1749,7 @@ GeneTonic <- function(dds = NULL,
                   fluidRow(
                     column(
                       width = 1,
-                      tippy::tippy(
+                      tippy::with_tippy(
                         actionButton(inputId = "coder_gs_summaryheat",
                                      label = "",
                                      style = .helpbutton_biocstyle,
@@ -1769,7 +1769,7 @@ GeneTonic <- function(dds = NULL,
                   fluidRow(
                     column(
                       width = 1,
-                      tippy::tippy(
+                      tippy::with_tippy(
                         actionButton(inputId = "coder_mds_genesets",
                                      label = "",
                                      style = .helpbutton_biocstyle,
@@ -1789,7 +1789,7 @@ GeneTonic <- function(dds = NULL,
                   fluidRow(
                     column(
                       width = 1,
-                      tippy::tippy(
+                      tippy::with_tippy(
                         actionButton(inputId = "coder_gs_summaryoverview",
                                      label = "",
                                      style = .helpbutton_biocstyle,
@@ -1809,7 +1809,7 @@ GeneTonic <- function(dds = NULL,
                   fluidRow(
                     column(
                       width = 1,
-                      tippy::tippy(
+                      tippy::with_tippy(
                         actionButton(inputId = "coder_gs_summaryradar",
                                      label = "",
                                      style = .helpbutton_biocstyle,
@@ -1829,7 +1829,7 @@ GeneTonic <- function(dds = NULL,
                   fluidRow(
                     column(
                       width = 1,
-                      tippy::tippy(
+                      tippy::with_tippy(
                         actionButton(inputId = "coder_gs_dendro",
                                      label = "",
                                      style = .helpbutton_biocstyle,
