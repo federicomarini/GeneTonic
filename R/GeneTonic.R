@@ -778,6 +778,9 @@ GeneTonic <- function(dds = NULL,
               choices = NULL,
               selected = ""
             ),
+            checkboxInput("genespector_displaylabels",
+                          label = "Display sample labels",
+                          value = TRUE),
             plotOutput("plot_genespector")
           )
         )
@@ -810,7 +813,8 @@ GeneTonic <- function(dds = NULL,
       gene_plot(reactive_values$dds,
                 gene = corr_gene_id,
                 intgroup = input$exp_condition,
-                annotation_obj = reactive_values$annotation_obj)
+                annotation_obj = reactive_values$annotation_obj,
+                labels_display = input$genespector_displaylabels)
 
     })
 
