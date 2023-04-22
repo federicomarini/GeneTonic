@@ -62,7 +62,7 @@
 #' order.dendrogram runif na.omit
 #' @import SummarizedExperiment
 #' @importFrom tidyr separate_rows pivot_longer
-#' @importFrom tippy tippy
+#' @importFrom tippy with_tippy
 #' @importFrom tools file_ext file_path_sans_ext
 #' @importFrom utils read.delim sessionInfo browseURL citation data write.table
 #' head
