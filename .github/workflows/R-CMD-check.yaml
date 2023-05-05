@@ -83,12 +83,12 @@ jobs:
           brew install fribidi
           brew install fftw
 
-      - name: Set up gfortran symlinks (macOS)
-        if: runner.os == 'macOS'
-        run: |
-          set -x
-          sudo ln -s /usr/local/Cellar/gcc@11/*/lib/gcc/11 /usr/local/gfortran/lib
-          gfortran --version
+      # - name: Set up gfortran symlinks (macOS)
+      #   if: runner.os == 'macOS'
+      #   run: |
+      #     set -x
+      #     sudo ln -s /usr/local/Cellar/gcc@11/*/lib/gcc/11 /usr/local/gfortran/lib
+      #     gfortran --version
 
       - name: Install dependencies
         run: |
