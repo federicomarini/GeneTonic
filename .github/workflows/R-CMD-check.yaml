@@ -87,7 +87,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           set -x
-          sudo ln -s /usr/local/Cellar/gcc@8/8.4.0_2/lib/gcc/8 /usr/local/gfortran/lib
+          sudo ln -s /usr/local/Cellar/gcc@11/*/lib/gcc/11 /usr/local/gfortran/lib
           gfortran --version
 
       - name: Install dependencies
