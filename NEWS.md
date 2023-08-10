@@ -1,3 +1,9 @@
+# GeneTonic 2.6.0
+
+## Bug fixes
+
+* `describe_gtl()` correctly extracts the number of up and down regulated genes from the DE results 
+
 # GeneTonic 2.4.0
 
 ## New features
