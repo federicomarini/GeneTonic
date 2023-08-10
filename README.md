@@ -1,9 +1,12 @@
 
-<img src="inst/www/GeneTonic.png" align="right" alt="" width="120" />
+<img src="man/figures/GeneTonic.png" align="right" alt="" width="120" />
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # GeneTonic
+
+<a href="https://doi.org/10.1186/s12859-021-04461-5"><img src="https://img.shields.io/badge/doi-GeneTonic-blue.svg"><a>
+<a href="https://doi.org/10.1002/cpz1.411"><img src="https://img.shields.io/badge/doi-GeneTonic_protocol-blue.svg"><a>
 
 <!-- badges: start -->
 
