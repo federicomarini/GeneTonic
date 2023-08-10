@@ -133,8 +133,8 @@ describe_gtl <- function(gtl) {
   n_samples <- ncol(dds)
 
   n_tested <- nrow(res_de)
-  n_upDE <- sum(res_de$log2FoldChange < 0 & res_de$padj < 0.05, na.rm = TRUE)
-  n_downDE <- sum(res_de$log2FoldChange > 0 & res_de$padj < 0.05, na.rm = TRUE)
+  n_upDE <- sum(res_de$log2FoldChange > 0 & res_de$padj < 0.05, na.rm = TRUE)
+  n_downDE <- sum(res_de$log2FoldChange < 0 & res_de$padj < 0.05, na.rm = TRUE)
   n_DE <- n_upDE + n_downDE
 
   n_genesets <- nrow(res_enrich)
