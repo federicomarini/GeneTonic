@@ -2,7 +2,9 @@
 
 ## Bug fixes
 
-* `describe_gtl()` correctly extracts the number of up and down regulated genes from the DE results 
+* `describe_gtl()` correctly extracts the number of up and down regulated genes from the DE results
+* Fortified the behavior of `gs_scores()` to handle cases where only one gene would be included in the
+signature to plot
 
 # GeneTonic 2.4.0
 

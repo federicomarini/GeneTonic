@@ -396,7 +396,7 @@ gs_scores <- function(se,
     thisset_members_ids <- annotation_obj$gene_id[match(thisset_members, annotation_obj$gene_name)]
 
     thisset_members_ids <- thisset_members_ids[thisset_members_ids %in% rownames(se)]
-    thisset_zs <- mydata_z[thisset_members_ids, ]
+    thisset_zs <- mydata_z[thisset_members_ids, , drop = FALSE]
     thisset_mean_zs <- colMeans(thisset_zs)
 
     gss_mat[i, ] <- thisset_mean_zs
