@@ -200,7 +200,7 @@ enhance_table <- function(res_enrich,
           aes_string(group = "gs_id"),
           point_color = "#00000066",
           jittered_points = TRUE, scale = .95, rel_min_height = .01,
-          point_shape = "|", point_size = 3, size = 0.25,
+          point_shape = "|", point_size = 3, linewidth = 0.25,
           position = ggridges::position_points_jitter(height = 0)) +
         theme_minimal() +
         geom_vline(aes(xintercept = 0), col = "steelblue", alpha = 0.4) +
@@ -223,7 +223,7 @@ enhance_table <- function(res_enrich,
           aes_string(group = "gs_id"),
           point_color = "#00000066",
           jittered_points = TRUE, scale = .95, rel_min_height = .01,
-          point_shape = "|", point_size = 3, size = 0.25,
+          point_shape = "|", point_size = 3, linewidth = 0.25,
           position = ggridges::position_points_jitter(height = 0)) +
         theme_minimal() +
         geom_vline(aes(xintercept = 0), col = "steelblue", alpha = 0.4) +
