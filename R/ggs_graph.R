@@ -390,7 +390,7 @@ ggs_backbone <- function(res_enrich,
   # for making this a formal bipartite graph
   V(ggs)$type <- V(ggs)$nodetype == "GeneSet"
 
-  bpm <- igraph::as_incidence_matrix(ggs)
+  bpm <- igraph::as_biadjacency_matrix(ggs)
 
   if (bb_on == "features") {
     bpm_for_backbone <- bpm
