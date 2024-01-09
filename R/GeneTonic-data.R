@@ -100,6 +100,8 @@ NULL
 #' by analyzing downstream the differentially expressed genes
 #' when comparing IFNg treated samples vs naive samples, accounting
 #' for the different cell lines included.
+#' 
+#' @family pathway-analysis-results
 #'
 #' Details on how this object has been created are included in the `create_gt_data.R`
 #' script, included in the `scripts` folder of the `GeneTonic` package.
