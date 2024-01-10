@@ -1,3 +1,9 @@
+# GeneTonic 2.8.0
+
+## Other notes
+
+* Updated functions used from other packages to reflect changes in their API/nomenclature
+
 # GeneTonic 2.6.0
 
 ## Bug fixes
