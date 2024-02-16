@@ -30,7 +30,7 @@ test_that("Gene set dendrogram is created", {
   expect_is(my_dend_pval, "dendrogram")
   
   re_subset <- res_enrich_withscores[res_enrich_withscores[1:12, ]$z_score >= 0, ]
-  my_dend_subset <- gs_dendro(re_subset, n_gs = 12, color_leaves_by = "z_score")
+  my_dend_subset <- gs_dendro(re_subset, n_gs = 18, color_leaves_by = "z_score")
   expect_is(my_dend_subset, "dendrogram")
 
   expect_warning(gs_dendro(res_enrich_withscores,
