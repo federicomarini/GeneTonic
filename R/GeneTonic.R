@@ -930,7 +930,7 @@ GeneTonic <- function(dds = NULL,
       # rank_gs <- rank(V(g)$name[V(g)$nodetype == "GeneSet"])
       # rank_feats <- rank(V(g)$name[V(g)$nodetype == "Feature"]) +
       #   length(rank_gs) # to keep the GeneSets first
-      # g <- permute.vertices(g, c(rank_gs, rank_feats))
+      # g <- permute(g, c(rank_gs, rank_feats))
       # return(g)
     })
 
@@ -1288,7 +1288,7 @@ GeneTonic <- function(dds = NULL,
         color_by = input$emap_colorby
       )
       # rank_gs <- rank(V(emg)$name)
-      # emg <- permute.vertices(emg, rank_gs)
+      # emg <- permute(emg, rank_gs)
       return(emg)
     })
 

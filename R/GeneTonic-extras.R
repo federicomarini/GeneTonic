@@ -683,7 +683,7 @@ export_to_sif <- function(g, sif_file = "", edge_label = "relates_to") {
   sif_file <- normalizePath(sif_file, mustWork = FALSE)
   stopifnot(is.character(edge_label) && length(edge_label) == 1)
 
-  el <- get.edgelist(g)
+  el <- as_edgelist(g)
   sif_df <- data.frame(
     n1 = el[, 1],
     edge_label = edge_label,

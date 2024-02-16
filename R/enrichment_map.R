@@ -144,10 +144,10 @@ enrichment_map <- function(res_enrich,
   # omm <- omm[!is.na(omm$value), ]
 
   # use this to construct the graph
-  emg <- graph.data.frame(omm[, c(1, 2)], directed = FALSE)
+  emg <- graph_from_data_frame(omm[, c(1, 2)], directed = FALSE)
 
   E(emg)$width <- sqrt(omm$value * scale_edges_width)
-  emg <- delete.edges(emg, E(emg)[omm$value < overlap_threshold])
+  emg <- delete_edges(emg, E(emg)[omm$value < overlap_threshold])
 
   idx <- match(V(emg)$name, res_enrich$gs_description)
 
@@ -237,7 +237,7 @@ enrichment_map <- function(res_enrich,
 
   # re-sorting the vertices alphabetically
   rank_gs <- rank(V(emg)$name)
-  emg <- permute.vertices(emg, rank_gs)
+  emg <- permute(emg, rank_gs)
 
   return(emg)
 }

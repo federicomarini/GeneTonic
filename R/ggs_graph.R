@@ -157,7 +157,7 @@ ggs_graph <- function(res_enrich,
   })
   list2df <- do.call("rbind", list2df)
 
-  g <- graph.data.frame(list2df, directed = FALSE)
+  g <- graph_from_data_frame(list2df, directed = FALSE)
 
   nodeIDs_gs <- which(names(V(g)) %in% enriched_gsnames)
   nodeIDs_genes <- which(!(names(V(g)) %in% enriched_gsnames))
@@ -212,7 +212,7 @@ ggs_graph <- function(res_enrich,
   rank_gs <- rank(V(g)$name[V(g)$nodetype == "GeneSet"])
   rank_feats <- rank(V(g)$name[V(g)$nodetype == "Feature"]) +
     length(rank_gs) # to keep the GeneSets first
-  g <- permute.vertices(g, c(rank_gs, rank_feats))
+  g <- permute(g, c(rank_gs, rank_feats))
 
   return(g)
 }

@@ -41,8 +41,8 @@
 #' @importFrom grDevices colorRampPalette rgb col2rgb
 #' @importFrom grid gpar
 #' @importFrom igraph add_edges as_adjacency_matrix as_biadjacency_matrix degree
-#' delete.edges delete_vertices "%du%" E "E<-" graph.data.frame induced_subgraph
-#' make_full_graph permute.vertices strength V "V<-" vcount get.edgelist
+#' delete_edges delete_vertices "%du%" E "E<-" graph_from_data_frame induced_subgraph
+#' make_full_graph permute strength V "V<-" vcount as_edgelist
 #' @importFrom matrixStats rowSds
 #' @importFrom methods is
 #' @importFrom plotly ggplotly plotlyOutput renderPlotly plot_ly layout add_trace
