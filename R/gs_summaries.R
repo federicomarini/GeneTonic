@@ -99,7 +99,7 @@ gs_summary_overview <- function(res_enrich,
     mutate(gs_description = factor(.data$gs_description, .data$gs_description))
 
   if (return_barchart) {
-    p <- ggplot(re_sorted, (aes_string(x = "gs_description", y = "logp10")))
+    p <- ggplot(re_sorted, (aes(x = .data$gs_description, y = .data$logp10)))
 
     if (is.null(color_by)) {
       p <- p + geom_col()
@@ -117,12 +117,12 @@ gs_summary_overview <- function(res_enrich,
       ) +
       theme_minimal()
   } else {
-    p <- ggplot(re_sorted, (aes_string(x = "gs_description", y = "logp10"))) +
-      geom_segment(aes_string(
-        x = "gs_description",
-        xend = "gs_description",
+    p <- ggplot(re_sorted, (aes(x = .data$gs_description, y = .data$logp10))) +
+      geom_segment(aes(
+        x = .data$gs_description,
+        xend = .data$gs_description,
         y = 0,
-        yend = "logp10"
+        yend = .data$logp10
       ), color = "grey")
 
     if (is.null(color_by)) {
@@ -265,10 +265,13 @@ gs_summary_overview_pair <- function(res_enrich,
     arrange(.data$logp10) %>%
     mutate(gs_description = factor(.data$gs_description, .data$gs_description))
 
-  p <- ggplot(re_both_sorted, aes_string(x = "gs_description", y = "logp10")) +
-    geom_segment(aes_string(x = "gs_description", xend = "gs_description", y = "logp10_2", yend = "logp10"), color = "grey") +
+  p <- ggplot(re_both_sorted, aes(x = .data$gs_description, y = .data$logp10)) +
+    geom_segment(aes(x = .data$gs_description, 
+                     xend = .data$gs_description, 
+                     y = .data$logp10_2, 
+                     yend = .data$logp10), color = "grey") +
     geom_point(aes(fill = .data[[color_by]]), size = 4, pch = 21) +
-    geom_point(aes_string(y = "logp10_2", col = paste0(color_by, "_2")),
+    geom_point(aes(y = .data$logp10_2, col = .data[[paste0(color_by, "_2")]]),
       size = 4, alpha = alpha_set2
     ) +
     scale_color_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026", name = paste0(color_by, " set 2")) +
@@ -518,9 +521,9 @@ gs_horizon <- function(res_enrich,
     p <- merged_res_enh %>%
       mutate(gs_description = factor(.data$gs_description, rev(unique(.data$gs_description)))) %>%
       arrange((.data$logp10)) %>%
-      ggplot(aes_string(x = "gs_description", y = "logp10")) +
-      geom_line(aes_string(group = "scenario", col = "scenario"), linewidth = 3, alpha = 0.7) +
-      geom_point(aes_string(fill = "z_score"), size = 4, pch = 21) +
+      ggplot(aes(x = .data$gs_description, y = .data$logp10)) +
+      geom_line(aes(group = .data$scenario, col = .data$scenario), linewidth = 3, alpha = 0.7) +
+      geom_point(aes(fill = .data$z_score), size = 4, pch = 21) +
       scale_color_brewer(palette = "Set2") +
       scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
       ylim(c(0, NA)) +
@@ -541,10 +544,10 @@ gs_horizon <- function(res_enrich,
       # mutate(gs_description=factor(gs_description, unique(gs_description))) %>%
       mutate(gs_description = factor(.data$gs_description, rev(unique(nicerorder_terms)))) %>%
       arrange(desc(.data$logp10)) %>%
-      ggplot(aes_string(x = "gs_description", y = "logp10")) +
-      geom_line(aes_string(group = "scenario", col = "scenario"), linewidth = 3, alpha = 0.7) +
+      ggplot(aes(x = .data$gs_description, y = .data$logp10)) +
+      geom_line(aes(group = .data$scenario, col = .data$scenario), linewidth = 3, alpha = 0.7) +
       scale_color_brewer(palette = "Set2") +
-      geom_point(aes_string(fill = "z_score"), size = 4, pch = 21) +
+      geom_point(aes(fill = .data$z_score), size = 4, pch = 21) +
       scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
       ylim(c(0, NA)) +
       coord_flip() +
@@ -653,9 +656,9 @@ gs_summary_heat <- function(res_enrich,
 
   p <- ggplot(
     gs_expanded,
-    aes_string(x = "gs_genes", y = "gs_description")
+    aes(x = .data$gs_genes, y = .data$gs_description)
   ) +
-    geom_tile(aes_string(fill = "log2FoldChange"),
+    geom_tile(aes(fill = .data$log2FoldChange),
       color = "white"
     ) +
     scale_fill_gradient2(

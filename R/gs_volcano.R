@@ -121,9 +121,9 @@ gs_volcano <- function(res_enrich,
 
   p <- ggplot(
     volcano_df,
-    aes_string(x = "z_score", y = "logpval", size = "`set members`", text = "gs_name")
+    aes(x = .data$z_score, y = .data$logpval, size = .data$`set members`, text = .data$gs_name)
   ) +
-    geom_point(aes_string(col = color_by), shape = 20, alpha = 1) +
+    geom_point(aes(col = .data[[color_by]]), shape = 20, alpha = 1) +
     labs(
       x = "geneset Z score",
       y = "-log10 p-value",
@@ -141,7 +141,7 @@ gs_volcano <- function(res_enrich,
     df_gs_labels <- volcano_df[volcano_df$gs_id %in% gs_to_use, ]
 
     p <- p + geom_label_repel(
-      aes_string(label = "gs_name"),
+      aes(label = .data$gs_name),
       data = df_gs_labels,
       size = 4,
       min.segment.length = 0

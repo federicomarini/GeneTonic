@@ -162,14 +162,14 @@ gs_mds <- function(res_enrich,
 
   this_contrast <- (sub(".*p-value: (.*)", "\\1", mcols(res_de, use.names = TRUE)["pvalue", "description"]))
 
-  p <- ggplot(mds_gs_df, aes_string(
-    x = "dim1",
-    y = "dim2",
-    text = "gs_text"
+  p <- ggplot(mds_gs_df, aes(
+    x = .data$dim1,
+    y = .data$dim2,
+    text = .data$gs_text
   )) +
-    geom_point(aes_string(
-      color = "gs_colby",
-      size = "gs_DEcount"
+    geom_point(aes(
+      color = .data$gs_colby,
+      size = .data$gs_DEcount
     )) +
     scale_color_gradient2(
       limit = limit,
@@ -203,7 +203,7 @@ gs_mds <- function(res_enrich,
   df_gs_labels <- mds_gs_df[mds_gs_df$gs_id %in% unique(c(label_these, label_those)), ]
 
   p <- p + geom_label_repel(
-    aes_string(label = "gs_name"),
+    aes(label = .data$gs_name),
     data = df_gs_labels,
     size = 3,
     min.segment.length = 0

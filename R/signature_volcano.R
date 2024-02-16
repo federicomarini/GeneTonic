@@ -174,11 +174,11 @@ signature_volcano <- function(res_de,
   # Plot data
   p <- ggplot(
     volcano_df_complete,
-    aes_string(x = "log2FoldChange", y = "logTransformedpvalue")
+    aes(x = .data$log2FoldChange, y = .data$logTransformedpvalue)
   ) +
-    geom_point(aes_string(
-      color = "significant",
-      alpha = "belonging"
+    geom_point(aes(
+      color = .data$significant,
+      alpha = .data$belonging
     )) +
     labs(
       x = "log2 Fold Change",
@@ -205,7 +205,7 @@ signature_volcano <- function(res_de,
   # adding labels to the significant points of the geneset
   p <- p + geom_text_repel(
     data = subset(volcano_df_complete, filter_info_complete),
-    aes_string(label = "genes_name"),
+    aes(label = .data$genes_name),
     size = 4,
     max.overlaps = volcano_labels
   )
