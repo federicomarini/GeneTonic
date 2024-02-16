@@ -1,8 +1,8 @@
 Package: GeneTonic
 Title: Enjoy Analyzing And Integrating The Results From Differential Expression 
     Analysis And Functional Enrichment Analysis
-Version: 2.7.1
-Date: 2024-01-10
+Version: 2.7.2
+Date: 2024-02-16
 Authors@R: 
     c(
         person(
@@ -84,7 +84,7 @@ Encoding: UTF-8
 VignetteBuilder: knitr
 URL: https://github.com/federicomarini/GeneTonic
 BugReports: https://github.com/federicomarini/GeneTonic/issues
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Roxygen: list(markdown = TRUE)
 biocViews:
     GUI, GeneExpression, Software, Transcription, Transcriptomics, Visualization,

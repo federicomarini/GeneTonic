@@ -3,6 +3,8 @@
 ## Other notes
 
 * Updated functions used from other packages to reflect changes in their API/nomenclature
+* Adapted the internal code of functions to the latest version of `igraph` - no changes happening 
+for the end user
 
 # GeneTonic 2.6.0
 
