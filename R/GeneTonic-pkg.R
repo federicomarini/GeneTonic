@@ -12,8 +12,6 @@
 #' the live session, and creating an HTML report as an artifact where text,
 #' code, and output coexist.
 #'
-#' @author Federico Marini \email{marinif@@uni-mainz.de}
-#'
 #' @importFrom AnnotationDbi Definition GOID Ontology Secondary Synonym Term
 #' @importFrom backbone backbone.extract fdsm fixedrow sdsm
 #' @importFrom bs4Dash bs4Card bs4DashBody bs4DashControlbar
@@ -71,5 +69,5 @@
 #' @importFrom viridis viridis
 #'
 #' @name GeneTonic-pkg
-#' @docType package
-NULL
+#' @keywords internal
+"_PACKAGE"

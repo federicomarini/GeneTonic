@@ -2,6 +2,7 @@
 % Please edit documentation in R/GeneTonic-pkg.R
 \docType{package}
 \name{GeneTonic-pkg}
+\alias{GeneTonic-package}
 \alias{GeneTonic-pkg}
 \title{GeneTonic}
 \description{
@@ -18,6 +19,21 @@ e.g. by capturing the features and gene sets of interest highlighted during
 the live session, and creating an HTML report as an artifact where text,
 code, and output coexist.
 }
-\author{
-Federico Marini \email{marinif@uni-mainz.de}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/federicomarini/GeneTonic}
+  \item Report bugs at \url{https://github.com/federicomarini/GeneTonic/issues}
 }
+
+}
+\author{
+\strong{Maintainer}: Federico Marini \email{marinif@uni-mainz.de} (\href{https://orcid.org/0000-0003-3252-7758}{ORCID})
+
+Authors:
+\itemize{
+  \item Annekathrin Ludt \email{anneludt@uni-mainz.de} (\href{https://orcid.org/0000-0002-2475-4945}{ORCID})
+}
+
+}
+\keyword{internal}
