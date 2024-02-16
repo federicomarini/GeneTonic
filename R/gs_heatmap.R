@@ -524,8 +524,8 @@ gs_scoresheat <- function(mat,
   score_df <- cbind(score_df, scores)
   colnames(score_df) <- c("GeneSet", "Sample", "Value")
 
-  p <- ggplot(score_df, aes_string(x = "Sample", y = "GeneSet")) +
-    geom_tile(aes_string(fill = "Value"), color = "white") +
+  p <- ggplot(score_df, aes(x = .data$Sample, y = .data$GeneSet)) +
+    geom_tile(aes(fill = .data$Value), color = "white") +
     # from brewer.pal(n = 11, name = 'RdYlBu') and brewer.pal(n = 11, name = 'YlGn') - or Spectal, 11?
     scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
     theme(

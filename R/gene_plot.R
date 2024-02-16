@@ -127,7 +127,9 @@ gene_plot <- function(dds,
     return(df)
   }
 
-  p <- ggplot(df, aes_string(x = "plotby", y = "exp_value", col = "plotby")) +
+  p <- ggplot(df, aes(x = .data$plotby, 
+                      y = .data$exp_value, 
+                      col = .data$plotby)) +
     scale_x_discrete(name = "") +
     scale_color_discrete(name = "Experimental\ngroup") +
     theme_bw()
@@ -139,18 +141,21 @@ gene_plot <- function(dds,
   # https://www.embopress.org/doi/full/10.15252/embj.201694659
   if (plot_type == "jitteronly" || (plot_type == "auto" & min_by_groups <= 3)) {
     p <- p +
-      geom_point(aes_string(x = "plotby", y = "exp_value"),
+      geom_point(aes(x = .data$plotby, 
+                     y = .data$exp_value),
         position = jit_pos
       )
     # do nothing - or add a line for the median?
   } else if (plot_type == "boxplot" || (plot_type == "auto" & (min_by_groups > 3 & min_by_groups < 10))) {
     p <- p +
       geom_boxplot(outlier.shape = NA) +
-      geom_point(aes_string(x = "plotby", y = "exp_value"), position = jit_pos)
+      geom_point(aes(x = .data$plotby, 
+                     y = .data$exp_value), position = jit_pos)
   } else if (plot_type == "violin" || (plot_type == "auto" & (min_by_groups >= 11 & min_by_groups < 40))) {
     p <- p +
       geom_violin() +
-      geom_point(aes_string(x = "plotby", y = "exp_value"), position = jit_pos) +
+      geom_point(aes(x = .data$plotby, 
+                     y = .data$exp_value), position = jit_pos) +
       stat_summary(
         fun = median, fun.min = median, fun.max = median,
         geom = "crossbar", width = 0.3
@@ -167,13 +172,13 @@ gene_plot <- function(dds,
   # handling the labels
   if (labels_display) {
     if (labels_repel) {
-      p <- p + ggrepel::geom_text_repel(aes_string(label = "sample_id"),
+      p <- p + ggrepel::geom_text_repel(aes(label = .data$sample_id),
         min.segment.length = 0,
         position = jit_pos
       )
     }
     else {
-      p <- p + geom_text(aes_string(label = "sample_id"),
+      p <- p + geom_text(aes(label = .data$sample_id),
         hjust = -0.1, vjust = 0.1,
         position = jit_pos
       )

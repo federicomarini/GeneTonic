@@ -193,7 +193,7 @@ gs_upset <- function(res_enrich,
     param_upset_baseanno <- list(
       "Intersection size" = intersection_size(
         counts = FALSE,
-        mapping = aes_string(fill = "logFCsign")
+        mapping = aes(fill = .data$logFCsign)
       ) +
         scale_fill_manual(
           values = c("FALSE" = col_downDE, "TRUE" = col_upDE),
@@ -217,8 +217,8 @@ gs_upset <- function(res_enrich,
 
     param_upset_anno <- list(
       "logFC" = (
-        ggplot(mapping = aes_string(x = "intersection", y = "logFC")) +
-          geom_jitter(aes_string(color = "logFC"), na.rm = TRUE) +
+        ggplot(mapping = aes(x = .data$intersection, y = .data$logFC)) +
+          geom_jitter(aes(color = .data$logFC), na.rm = TRUE) +
           # geom_violin(alpha = 0.5, na.rm = TRUE) +
           theme(legend.position = "none") +
           scale_colour_gradient2(low = col_downDE, high = col_upDE)

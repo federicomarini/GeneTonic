@@ -160,11 +160,11 @@ enhance_table <- function(res_enrich,
   
   if (plot_style == "point") {
     p <- ggplot(
-      gs_fulllist, aes_string(
-        x = "log2FoldChange",
-        y = "gs_desc",
-        fill = "gs_id",
-        text = "gene_name"
+      gs_fulllist, aes(
+        x = .data$log2FoldChange,
+        y = .data$gs_desc,
+        fill = .data$gs_id,
+        text = .data$gene_name
       )
     ) +
       scale_x_continuous(limits = c(-max_lfc, max_lfc)) +
@@ -188,16 +188,16 @@ enhance_table <- function(res_enrich,
     if (ridge_color == "gs_score") {
       gs_fulllist$gs_zscore <- res_enrich$z_score[match(gs_fulllist$gs_id, res_enrich$gs_id)]
       p <- ggplot(
-        gs_fulllist, aes_string(
-          x = "log2FoldChange",
-          y = "gs_desc",
-          fill = "gs_zscore"
+        gs_fulllist, aes(
+          x = .data$log2FoldChange,
+          y = .data$gs_desc,
+          fill = .data$gs_zscore
         )
       ) +
         scale_x_continuous(limits = c(-max_lfc, max_lfc)) + 
         scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") + 
         ggridges::geom_density_ridges(
-          aes_string(group = "gs_id"),
+          aes(group = .data$gs_id),
           point_color = "#00000066",
           jittered_points = TRUE, scale = .95, rel_min_height = .01,
           point_shape = "|", point_size = 3, linewidth = 0.25,
@@ -212,15 +212,15 @@ enhance_table <- function(res_enrich,
     }
     else if (ridge_color == "gs_id") {
       p <- ggplot(
-        gs_fulllist, aes_string(
-          x = "log2FoldChange",
-          y = "gs_desc",
-          fill = "gs_id"
+        gs_fulllist, aes(
+          x = .data$log2FoldChange,
+          y = .data$gs_desc,
+          fill = .data$gs_id
         )
       ) +
         scale_x_continuous(limits = c(-max_lfc, max_lfc)) + 
         ggridges::geom_density_ridges(
-          aes_string(group = "gs_id"),
+          aes(group = .data$gs_id),
           point_color = "#00000066",
           jittered_points = TRUE, scale = .95, rel_min_height = .01,
           point_shape = "|", point_size = 3, linewidth = 0.25,
