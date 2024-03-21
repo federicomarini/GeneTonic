@@ -136,6 +136,7 @@ GeneTonic <- function(dds = NULL,
     # enable_preloader = TRUE,
     title = "GeneTonic",
     dark = NULL,
+    help = NULL,
     # navbar definition -------------------------------------------------------
     header = bs4Dash::bs4DashNavbar(
       # older leftUi elements
