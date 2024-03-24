@@ -96,6 +96,7 @@ jobs:
           deps <- remotes::dev_package_deps(dependencies = TRUE, repos = BiocManager::repositories())
           BiocManager::install(local_deps[local_deps %in% deps$package[deps$diff != 0]], Ncpu = 2L)
           BiocManager::install(c("GenomeInfoDbData", "GO.db"), Ncpu = 2L)
+          remotes::install_github("krassowski/complex-upset")
           remotes::install_cran('rcmdcheck', Ncpu = 2L)
         shell: Rscript {0}
 
