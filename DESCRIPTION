@@ -41,7 +41,7 @@ Imports:
     dynamicTreeCut,
     expm,
     ggforce,
-    ggplot2,
+    ggplot2 (>= 3.5.0),
     ggrepel,
     ggridges,
     GO.db,
