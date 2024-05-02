@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.9.0</span>
       </span>
     </div>
 
@@ -93,72 +93,72 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>se</dt>
+    <dl><dt id="arg-se">se<a class="anchor" aria-label="anchor" href="#arg-se"></a></dt>
 <dd><p>A <code>SummarizedExperiment</code> object, or an object derived from this class,
 such as a <code>DESeqTransform</code> object (variance stabilized transformed data, or
 regularized logarithm transformed), in where the transformation has been applied
 to make the data more homoscedastic and thus a better fit for visualization.</p></dd>
 
 
-<dt>res_de</dt>
+<dt id="arg-res-de">res_de<a class="anchor" aria-label="anchor" href="#arg-res-de"></a></dt>
 <dd><p>A <code>DESeqResults</code> object.</p></dd>
 
 
-<dt>res_enrich</dt>
+<dt id="arg-res-enrich">res_enrich<a class="anchor" aria-label="anchor" href="#arg-res-enrich"></a></dt>
 <dd><p>A <code>data.frame</code> object, storing the result of the functional
 enrichment analysis. See more in the main function, <code><a href="GeneTonic.html">GeneTonic()</a></code>, to check the
 formatting requirements (a minimal set of columns should be present).</p></dd>
 
 
-<dt>annotation_obj</dt>
+<dt id="arg-annotation-obj">annotation_obj<a class="anchor" aria-label="anchor" href="#arg-annotation-obj"></a></dt>
 <dd><p>A <code>data.frame</code> object with the feature annotation
 information, with at least two columns, <code>gene_id</code> and <code>gene_name</code>.</p></dd>
 
 
-<dt>gtl</dt>
+<dt id="arg-gtl">gtl<a class="anchor" aria-label="anchor" href="#arg-gtl"></a></dt>
 <dd><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
 specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
 of the list <em>must</em> be specified following the content they are expecting</p></dd>
 
 
-<dt>geneset_id</dt>
+<dt id="arg-geneset-id">geneset_id<a class="anchor" aria-label="anchor" href="#arg-geneset-id"></a></dt>
 <dd><p>Character specifying the gene set identifier to be plotted</p></dd>
 
 
-<dt>genelist</dt>
+<dt id="arg-genelist">genelist<a class="anchor" aria-label="anchor" href="#arg-genelist"></a></dt>
 <dd><p>A vector of character strings, specifying the identifiers
 contained in the row names of the <code>se</code> input object.</p></dd>
 
 
-<dt>FDR</dt>
+<dt id="arg-fdr">FDR<a class="anchor" aria-label="anchor" href="#arg-fdr"></a></dt>
 <dd><p>Numeric value, specifying the significance level for thresholding
 adjusted p-values. Defaults to 0.05.</p></dd>
 
 
-<dt>de_only</dt>
+<dt id="arg-de-only">de_only<a class="anchor" aria-label="anchor" href="#arg-de-only"></a></dt>
 <dd><p>Logical, whether to include only differentially expressed genes
 in the plot</p></dd>
 
 
-<dt>cluster_rows</dt>
+<dt id="arg-cluster-rows">cluster_rows<a class="anchor" aria-label="anchor" href="#arg-cluster-rows"></a></dt>
 <dd><p>Logical, determining if rows should be clustered, as
 specified by <code><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html" class="external-link">ComplexHeatmap::Heatmap()</a></code></p></dd>
 
 
-<dt>cluster_columns</dt>
+<dt id="arg-cluster-columns">cluster_columns<a class="anchor" aria-label="anchor" href="#arg-cluster-columns"></a></dt>
 <dd><p>Logical, determining if columns should be clustered, as
 specified by <code><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html" class="external-link">ComplexHeatmap::Heatmap()</a></code></p></dd>
 
 
-<dt>center_mean</dt>
+<dt id="arg-center-mean">center_mean<a class="anchor" aria-label="anchor" href="#arg-center-mean"></a></dt>
 <dd><p>Logical, whether to perform mean centering on the row-wise</p></dd>
 
 
-<dt>scale_row</dt>
+<dt id="arg-scale-row">scale_row<a class="anchor" aria-label="anchor" href="#arg-scale-row"></a></dt>
 <dd><p>Logical, whether to standardize by row the expression values</p></dd>
 
 
-<dt>winsorize_threshold</dt>
+<dt id="arg-winsorize-threshold">winsorize_threshold<a class="anchor" aria-label="anchor" href="#arg-winsorize-threshold"></a></dt>
 <dd><p>Numeric value, to be applied as value to winsorize
 the extreme values of the heatmap. Should be a positive number. Defaults to
 NULL, which corresponds to not applying any winsorization. Suggested values:
@@ -166,18 +166,18 @@ enter 2 or 3 if using row-standardized values (<code>scale_row</code> is TRUE), 
 inspect the range of the values if using simply mean centered values.</p></dd>
 
 
-<dt>anno_col_info</dt>
+<dt id="arg-anno-col-info">anno_col_info<a class="anchor" aria-label="anchor" href="#arg-anno-col-info"></a></dt>
 <dd><p>A character vector of names in <code>colData(dds)</code> to use for
 decorating the heatmap as annotation.</p></dd>
 
 
-<dt>plot_title</dt>
+<dt id="arg-plot-title">plot_title<a class="anchor" aria-label="anchor" href="#arg-plot-title"></a></dt>
 <dd><p>Character string, to specify the title of the plot,
 displayed over the heatmap. If left to <code>NULL</code> as by default, it tries to use
 the information on the geneset identifier provided</p></dd>
 
 
-<dt>...</dt>
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Additional arguments passed to other methods, e.g. in the call to
 <code><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html" class="external-link">ComplexHeatmap::Heatmap()</a></code></p></dd>
 
@@ -253,7 +253,7 @@ the information on the geneset identifier provided</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
 
       </footer></div>

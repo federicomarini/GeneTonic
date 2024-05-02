@@ -18,7 +18,7 @@ from constructing an enrichment map"><!-- mathjax --><script src="https://cdnjs.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.9.0</span>
       </span>
     </div>
 
@@ -84,34 +84,34 @@ from constructing an enrichment map</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>res_enrich</dt>
+    <dl><dt id="arg-res-enrich">res_enrich<a class="anchor" aria-label="anchor" href="#arg-res-enrich"></a></dt>
 <dd><p>A <code>data.frame</code> object, storing the result of the functional
 enrichment analysis.</p></dd>
 
 
-<dt>res_de</dt>
+<dt id="arg-res-de">res_de<a class="anchor" aria-label="anchor" href="#arg-res-de"></a></dt>
 <dd><p>A <code>DESeqResults</code> object. As for the <code>dds</code> parameter, this is
 also commonly used in the <code>DESeq2</code> framework.</p></dd>
 
 
-<dt>annotation_obj</dt>
+<dt id="arg-annotation-obj">annotation_obj<a class="anchor" aria-label="anchor" href="#arg-annotation-obj"></a></dt>
 <dd><p>A <code>data.frame</code> object, containing two columns, <code>gene_id</code>
 with a set of unambiguous identifiers (e.g. ENSEMBL ids) and <code>gene_name</code>,
 containing e.g. HGNC-based gene symbols.</p></dd>
 
 
-<dt>gtl</dt>
+<dt id="arg-gtl">gtl<a class="anchor" aria-label="anchor" href="#arg-gtl"></a></dt>
 <dd><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
 specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
 of the list <em>must</em> be specified following the content they are expecting</p></dd>
 
 
-<dt>n_gs</dt>
+<dt id="arg-n-gs">n_gs<a class="anchor" aria-label="anchor" href="#arg-n-gs"></a></dt>
 <dd><p>Integer value, corresponding to the maximal number of gene sets to
 be used.</p></dd>
 
 
-<dt>cluster_fun</dt>
+<dt id="arg-cluster-fun">cluster_fun<a class="anchor" aria-label="anchor" href="#arg-cluster-fun"></a></dt>
 <dd><p>Character, referring to the name of the function used for
 the community detection in the enrichment map graph. Could be one of "cluster_markov",
 "cluster_louvain", or "cluster_walktrap", as they all return a <code>communities</code>
@@ -181,11 +181,11 @@ related to the meta-genesets</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4] "metags_n_genes"    "metags_gsidlist"   "metags_gsdesclist"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [7] "metags_msgs"       "metags_mcgs"      </span>
 <span class="r-in"><span><span class="va">distilled</span><span class="op">$</span><span class="va">distilled_em</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH af613d4 UN-- 100 553 -- </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH 1ca94af UN-- 100 553 -- </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> + attr: name (v/c), size (v/n), original_size (v/n), color.background</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> | (v/c), color.highlight (v/c), color.hover (v/c), color.border (v/c),</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> | membership (v/n), color (v/n), width (e/n), color (e/c)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from af613d4 (vertex names):</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from 1ca94af (vertex names):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] adaptive immune response--interferon-gamma-mediated signaling pathway                                      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2] adaptive immune response--antigen processing and presentation of endogenous peptide antigen via MHC class I</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3] adaptive immune response--positive regulation of T cell mediated cytotoxicity                              </span>
@@ -205,7 +205,7 @@ related to the meta-genesets</p></li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
 
       </footer></div>

@@ -18,7 +18,7 @@ genes as shaded dots in the background of the plot."><!-- mathjax --><script src
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.9.0</span>
       </span>
     </div>
 
@@ -88,52 +88,52 @@ genes as shaded dots in the background of the plot.</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>res_de</dt>
+    <dl><dt id="arg-res-de">res_de<a class="anchor" aria-label="anchor" href="#arg-res-de"></a></dt>
 <dd><p>A <code>DESeqResults</code> object.</p></dd>
 
 
-<dt>res_enrich</dt>
+<dt id="arg-res-enrich">res_enrich<a class="anchor" aria-label="anchor" href="#arg-res-enrich"></a></dt>
 <dd><p>A <code>data.frame</code> object, storing the result of the functional
 enrichment analysis. See more in the main function, <code><a href="GeneTonic.html">GeneTonic()</a></code>, to check the
 formatting requirements (a minimal set of columns should be present).</p></dd>
 
 
-<dt>annotation_obj</dt>
+<dt id="arg-annotation-obj">annotation_obj<a class="anchor" aria-label="anchor" href="#arg-annotation-obj"></a></dt>
 <dd><p>A <code>data.frame</code> object with the feature annotation
 information, with at least two columns, <code>gene_id</code> and <code>gene_name</code>.</p></dd>
 
 
-<dt>gtl</dt>
+<dt id="arg-gtl">gtl<a class="anchor" aria-label="anchor" href="#arg-gtl"></a></dt>
 <dd><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
 specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
 of the list <em>must</em> be specified following the content they are expecting.</p></dd>
 
 
-<dt>geneset_id</dt>
+<dt id="arg-geneset-id">geneset_id<a class="anchor" aria-label="anchor" href="#arg-geneset-id"></a></dt>
 <dd><p>Character specifying the gene set identifier to be plotted.</p></dd>
 
 
-<dt>genelist</dt>
+<dt id="arg-genelist">genelist<a class="anchor" aria-label="anchor" href="#arg-genelist"></a></dt>
 <dd><p>A vector of character strings, specifying the identifiers
 contained in the <code>rownames</code> of the <code>res_de</code> input object.</p></dd>
 
 
-<dt>FDR</dt>
+<dt id="arg-fdr">FDR<a class="anchor" aria-label="anchor" href="#arg-fdr"></a></dt>
 <dd><p>Numeric value, specifying the significance level for thresholding
 adjusted p-values. Defaults to 0.05.</p></dd>
 
 
-<dt>color</dt>
+<dt id="arg-color">color<a class="anchor" aria-label="anchor" href="#arg-color"></a></dt>
 <dd><p>Character string to specify color of filtered points in the plot.
 Defaults to #1a81c2 (shade of blue).</p></dd>
 
 
-<dt>volcano_labels</dt>
+<dt id="arg-volcano-labels">volcano_labels<a class="anchor" aria-label="anchor" href="#arg-volcano-labels"></a></dt>
 <dd><p>Integer, maximum number of labels for the gene sets to be
 plotted as labels on the volcano scatter plot. Defaults to 25.</p></dd>
 
 
-<dt>plot_title</dt>
+<dt id="arg-plot-title">plot_title<a class="anchor" aria-label="anchor" href="#arg-plot-title"></a></dt>
 <dd><p>Character string, to specify the title of the plot,
 displayed over the volcano plot. If left to <code>NULL</code> as by default, it tries to use
 the information on the geneset identifier provided.</p></dd>
@@ -225,7 +225,7 @@ the information on the geneset identifier provided.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
 
       </footer></div>

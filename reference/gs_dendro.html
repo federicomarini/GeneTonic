@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.9.0</span>
       </span>
     </div>
 
@@ -86,59 +86,59 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>res_enrich</dt>
+    <dl><dt id="arg-res-enrich">res_enrich<a class="anchor" aria-label="anchor" href="#arg-res-enrich"></a></dt>
 <dd><p>A <code>data.frame</code> object, storing the result of the functional
 enrichment analysis. See more in the main function, <code><a href="GeneTonic.html">GeneTonic()</a></code>, to see the
 formatting requirements.</p></dd>
 
 
-<dt>gtl</dt>
+<dt id="arg-gtl">gtl<a class="anchor" aria-label="anchor" href="#arg-gtl"></a></dt>
 <dd><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
 specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
 of the list <em>must</em> be specified following the content they are expecting</p></dd>
 
 
-<dt>n_gs</dt>
+<dt id="arg-n-gs">n_gs<a class="anchor" aria-label="anchor" href="#arg-n-gs"></a></dt>
 <dd><p>Integer value, corresponding to the maximal number of gene sets to
 be included (from the top ranked ones). Defaults to the number of rows of
 <code>res_enrich</code></p></dd>
 
 
-<dt>gs_ids</dt>
+<dt id="arg-gs-ids">gs_ids<a class="anchor" aria-label="anchor" href="#arg-gs-ids"></a></dt>
 <dd><p>Character vector, containing a subset of <code>gs_id</code> as they are
 available in <code>res_enrich</code>. Lists the gene sets to be included, additionally to
 the ones specified via <code>n_gs</code>. Defaults to NULL.</p></dd>
 
 
-<dt>gs_dist_type</dt>
+<dt id="arg-gs-dist-type">gs_dist_type<a class="anchor" aria-label="anchor" href="#arg-gs-dist-type"></a></dt>
 <dd><p>Character string, specifying which type of similarity (and
 therefore distance measure) will be used. Defaults to <code>kappa</code>, which uses
 <code><a href="create_kappa_matrix.html">create_kappa_matrix()</a></code></p></dd>
 
 
-<dt>clust_method</dt>
+<dt id="arg-clust-method">clust_method<a class="anchor" aria-label="anchor" href="#arg-clust-method"></a></dt>
 <dd><p>Character string defining the agglomeration method to be
 used for the hierarchical clustering. See <code><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">stats::hclust()</a></code> for details, defaults
 to <code>ward.D2</code></p></dd>
 
 
-<dt>color_leaves_by</dt>
+<dt id="arg-color-leaves-by">color_leaves_by<a class="anchor" aria-label="anchor" href="#arg-color-leaves-by"></a></dt>
 <dd><p>Character string, which columns of <code>res_enrich</code> will
 define the color of the leaves. Defaults to <code>z_score</code></p></dd>
 
 
-<dt>size_leaves_by</dt>
+<dt id="arg-size-leaves-by">size_leaves_by<a class="anchor" aria-label="anchor" href="#arg-size-leaves-by"></a></dt>
 <dd><p>Character string, which columns of <code>res_enrich</code> will
 define the size of the leaves. Defaults to the <code>gs_pvalue</code></p></dd>
 
 
-<dt>color_branches_by</dt>
+<dt id="arg-color-branches-by">color_branches_by<a class="anchor" aria-label="anchor" href="#arg-color-branches-by"></a></dt>
 <dd><p>Character string, which columns of <code>res_enrich</code> will
 define the color of the branches. Defaults to <code>clusters</code>, which calls
 <code><a href="https://rdrr.io/pkg/dynamicTreeCut/man/cutreeDynamic.html" class="external-link">dynamicTreeCut::cutreeDynamic()</a></code> to define the clusters</p></dd>
 
 
-<dt>create_plot</dt>
+<dt id="arg-create-plot">create_plot<a class="anchor" aria-label="anchor" href="#arg-create-plot"></a></dt>
 <dd><p>Logical, whether to create the plot as well.</p></dd>
 
 </dl></div>
@@ -211,7 +211,7 @@ as well on that object.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
 
       </footer></div>

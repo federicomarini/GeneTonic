@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.9.0</span>
       </span>
     </div>
 
@@ -75,16 +75,16 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>g</dt>
+    <dl><dt id="arg-g">g<a class="anchor" aria-label="anchor" href="#arg-g"></a></dt>
 <dd><p>An <code>igraph</code> object</p></dd>
 
 
-<dt>sif_file</dt>
+<dt id="arg-sif-file">sif_file<a class="anchor" aria-label="anchor" href="#arg-sif-file"></a></dt>
 <dd><p>Character string, the path to the file where to save the exported
 graph as .sif file</p></dd>
 
 
-<dt>edge_label</dt>
+<dt id="arg-edge-label">edge_label<a class="anchor" aria-label="anchor" href="#arg-edge-label"></a></dt>
 <dd><p>Character string, defining the name of the interaction type.
 Defaults here to "relates_to"</p></dd>
 
@@ -102,7 +102,7 @@ Defaults here to "relates_to"</p></dd>
 <span class="r-in"><span><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r.igraph.org/reference/make_full_graph.html" class="external-link">make_full_graph</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://r.igraph.org/reference/disjoint_union.html" class="external-link">%du%</a></span> <span class="fu"><a href="https://r.igraph.org/reference/make_full_graph.html" class="external-link">make_full_graph</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://r.igraph.org/reference/disjoint_union.html" class="external-link">%du%</a></span> <span class="fu"><a href="https://r.igraph.org/reference/make_full_graph.html" class="external-link">make_full_graph</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r.igraph.org/reference/add_edges.html" class="external-link">add_edges</a></span><span class="op">(</span><span class="va">g</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">6</span>, <span class="fl">1</span>, <span class="fl">11</span>, <span class="fl">6</span>, <span class="fl">11</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">export_to_sif</span><span class="op">(</span><span class="va">g</span>, <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Saving the file to /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpIdF8nw/fileb1fa3101376c</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Saving the file to /var/folders/3m/p59k4qdj0f17st0gn2cmj3640000gn/T//RtmpeDIIUM/file6a6a27686021</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Done!</span>
 </code></pre></div>
     </div>
@@ -118,7 +118,7 @@ Defaults here to "relates_to"</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
 
       </footer></div>

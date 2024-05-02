@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.9.0</span>
       </span>
     </div>
 
@@ -83,17 +83,17 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>dds</dt>
+    <dl><dt id="arg-dds">dds<a class="anchor" aria-label="anchor" href="#arg-dds"></a></dt>
 <dd><p>A <code>DESeqDataSet</code> object, normally obtained after running your data
 through the <code>DESeq2</code> framework.</p></dd>
 
 
-<dt>res_de</dt>
+<dt id="arg-res-de">res_de<a class="anchor" aria-label="anchor" href="#arg-res-de"></a></dt>
 <dd><p>A <code>DESeqResults</code> object. As for the <code>dds</code> parameter, this is
 also commonly used in the <code>DESeq2</code> framework.</p></dd>
 
 
-<dt>res_enrich</dt>
+<dt id="arg-res-enrich">res_enrich<a class="anchor" aria-label="anchor" href="#arg-res-enrich"></a></dt>
 <dd><p>A <code>data.frame</code> object, storing the result of the functional
 enrichment analysis. Required columns for enjoying the full functionality of
 <code>GeneTonic()</code> include:</p><ul><li><p>a gene set identifier (e.g. GeneOntology id, <code>gs_id</code>) and its term description
@@ -108,7 +108,7 @@ formatting helpers</p></li>
 </ul></dd>
 
 
-<dt>annotation_obj</dt>
+<dt id="arg-annotation-obj">annotation_obj<a class="anchor" aria-label="anchor" href="#arg-annotation-obj"></a></dt>
 <dd><p>A <code>data.frame</code> object, containing two columns, <code>gene_id</code>
 with a set of unambiguous identifiers (e.g. ENSEMBL ids) and <code>gene_name</code>,
 containing e.g. HGNC-based gene symbols. This object can be constructed via
@@ -116,19 +116,19 @@ the <code>org.eg.XX.db</code> packages, e.g. with convenience functions such as
 <code>pcaExplorer::get_annotation_orgdb()</code>.</p></dd>
 
 
-<dt>gtl</dt>
+<dt id="arg-gtl">gtl<a class="anchor" aria-label="anchor" href="#arg-gtl"></a></dt>
 <dd><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
 specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
 of the list <em>must</em> be specified following the content they are expecting</p></dd>
 
 
-<dt>project_id</dt>
+<dt id="arg-project-id">project_id<a class="anchor" aria-label="anchor" href="#arg-project-id"></a></dt>
 <dd><p>A character string, which can be considered as an identifier
 for the set/session, and will be e.g. used in the title of the report created
 via <code><a href="happy_hour.html">happy_hour()</a></code></p></dd>
 
 
-<dt>size_gtl</dt>
+<dt id="arg-size-gtl">size_gtl<a class="anchor" aria-label="anchor" href="#arg-size-gtl"></a></dt>
 <dd><p>Numeric value, specifying the maximal size in MB for the
 accepted GeneTonicList object - this applies when uploading the dataset at
 runtime</p></dd>
@@ -303,7 +303,7 @@ runtime</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
 
       </footer></div>

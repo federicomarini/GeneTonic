@@ -18,7 +18,7 @@ analysis"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/ma
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.9.0</span>
       </span>
     </div>
 
@@ -87,50 +87,50 @@ analysis</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>res_enrich</dt>
+    <dl><dt id="arg-res-enrich">res_enrich<a class="anchor" aria-label="anchor" href="#arg-res-enrich"></a></dt>
 <dd><p>A <code>data.frame</code> object, storing the result of the functional
 enrichment analysis. See more in the main function, <code><a href="GeneTonic.html">GeneTonic()</a></code>, to check the
 formatting requirements (a minimal set of columns should be present).</p></dd>
 
 
-<dt>res_de</dt>
+<dt id="arg-res-de">res_de<a class="anchor" aria-label="anchor" href="#arg-res-de"></a></dt>
 <dd><p>A <code>DESeqResults</code> object.</p></dd>
 
 
-<dt>annotation_obj</dt>
+<dt id="arg-annotation-obj">annotation_obj<a class="anchor" aria-label="anchor" href="#arg-annotation-obj"></a></dt>
 <dd><p>A <code>data.frame</code> object with the feature annotation
 information, with at least two columns, <code>gene_id</code> and <code>gene_name</code>.</p></dd>
 
 
-<dt>gtl</dt>
+<dt id="arg-gtl">gtl<a class="anchor" aria-label="anchor" href="#arg-gtl"></a></dt>
 <dd><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
 specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
 of the list <em>must</em> be specified following the content they are expecting</p></dd>
 
 
-<dt>n_gs</dt>
+<dt id="arg-n-gs">n_gs<a class="anchor" aria-label="anchor" href="#arg-n-gs"></a></dt>
 <dd><p>Integer value, corresponding to the maximal number of gene sets to
 be included</p></dd>
 
 
-<dt>gs_ids</dt>
+<dt id="arg-gs-ids">gs_ids<a class="anchor" aria-label="anchor" href="#arg-gs-ids"></a></dt>
 <dd><p>Character vector, containing a subset of <code>gs_id</code> as they are
 available in <code>res_enrich</code>. Lists the gene sets to be included in addition to
 the top ones (via <code>n_gs</code>)</p></dd>
 
 
-<dt>prettify</dt>
+<dt id="arg-prettify">prettify<a class="anchor" aria-label="anchor" href="#arg-prettify"></a></dt>
 <dd><p>Logical, controlling the aspect of the returned graph object.
 If TRUE (default value), different shapes of the nodes are returned, based on
 the node type</p></dd>
 
 
-<dt>geneset_graph_color</dt>
+<dt id="arg-geneset-graph-color">geneset_graph_color<a class="anchor" aria-label="anchor" href="#arg-geneset-graph-color"></a></dt>
 <dd><p>Character value, specifying which color should be
 used for the fill of the shapes related to the gene sets.</p></dd>
 
 
-<dt>genes_graph_colpal</dt>
+<dt id="arg-genes-graph-colpal">genes_graph_colpal<a class="anchor" aria-label="anchor" href="#arg-genes-graph-colpal"></a></dt>
 <dd><p>A vector of colors, also provided with their hex
 string, to be used as a palette for coloring the gene nodes. If unspecified,
 defaults to a color ramp palette interpolating from blue through yellow to red.</p></dd>
@@ -192,10 +192,10 @@ via <code><a href="https://r.igraph.org/reference/plot.igraph.html" class="exter
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">ggs</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH 659da42 UN-- 253 569 -- </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH 61803b8 UN-- 253 569 -- </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> + attr: name (v/c), nodetype (v/c), shape (v/c), color (v/c), title</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> | (v/c)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from 659da42 (vertex names):</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from 61803b8 (vertex names):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] adaptive immune response--B2M    adaptive immune response--BCL6  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [3] adaptive immune response--BTN3A1 adaptive immune response--BTN3A2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [5] adaptive immune response--BTN3A3 adaptive immune response--C1QB  </span>
@@ -228,7 +228,7 @@ via <code><a href="https://r.igraph.org/reference/plot.igraph.html" class="exter
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
 
       </footer></div>

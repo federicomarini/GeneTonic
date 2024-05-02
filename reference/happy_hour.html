@@ -18,7 +18,7 @@ derived from the provided objects."><!-- mathjax --><script src="https://cdnjs.c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.9.0</span>
       </span>
     </div>
 
@@ -97,106 +97,106 @@ derived from the provided objects.</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>dds</dt>
+    <dl><dt id="arg-dds">dds<a class="anchor" aria-label="anchor" href="#arg-dds"></a></dt>
 <dd><p>A <code>DESeqDataSet</code> object, normally obtained after running your data
 through the <code>DESeq2</code> framework.</p></dd>
 
 
-<dt>res_de</dt>
+<dt id="arg-res-de">res_de<a class="anchor" aria-label="anchor" href="#arg-res-de"></a></dt>
 <dd><p>A <code>DESeqResults</code> object. As for the <code>dds</code> parameter, this is
 also commonly used in the <code>DESeq2</code> framework.</p></dd>
 
 
-<dt>res_enrich</dt>
+<dt id="arg-res-enrich">res_enrich<a class="anchor" aria-label="anchor" href="#arg-res-enrich"></a></dt>
 <dd><p>A <code>data.frame</code> object, storing the result of the functional
 enrichment analysis. See <code><a href="GeneTonic.html">GeneTonic()</a></code> for the formatting requirements.</p></dd>
 
 
-<dt>annotation_obj</dt>
+<dt id="arg-annotation-obj">annotation_obj<a class="anchor" aria-label="anchor" href="#arg-annotation-obj"></a></dt>
 <dd><p>A <code>data.frame</code> object with the feature annotation
 information, with at least two columns, <code>gene_id</code> and <code>gene_name</code>. See
 <code><a href="GeneTonic.html">GeneTonic()</a></code> for the formatting requirements.</p></dd>
 
 
-<dt>gtl</dt>
+<dt id="arg-gtl">gtl<a class="anchor" aria-label="anchor" href="#arg-gtl"></a></dt>
 <dd><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
 specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
 of the list <em>must</em> be specified following the content they are expecting</p></dd>
 
 
-<dt>project_id</dt>
+<dt id="arg-project-id">project_id<a class="anchor" aria-label="anchor" href="#arg-project-id"></a></dt>
 <dd><p>A character string, which can be considered as an identifier
 for the set/session, and will be e.g. used in the title of the report created
 via <code>happy_hour()</code></p></dd>
 
 
-<dt>mygenesets</dt>
+<dt id="arg-mygenesets">mygenesets<a class="anchor" aria-label="anchor" href="#arg-mygenesets"></a></dt>
 <dd><p>A vector of character strings, containing the genesets to
 focus on in the report - for each geneset, e.g. a signature heatmap can be
 created.</p></dd>
 
 
-<dt>mygenes</dt>
+<dt id="arg-mygenes">mygenes<a class="anchor" aria-label="anchor" href="#arg-mygenes"></a></dt>
 <dd><p>A vector of character strings, containing the genes to focus on
 in the report - for each gene, the plot of the expression values is included.</p></dd>
 
 
-<dt>mygroup</dt>
+<dt id="arg-mygroup">mygroup<a class="anchor" aria-label="anchor" href="#arg-mygroup"></a></dt>
 <dd><p>A character string, or a vector thereof. Contains the experimental
 variables to be used to split into groups the expression data, and color
 accordingly.</p></dd>
 
 
-<dt>usage_mode</dt>
+<dt id="arg-usage-mode">usage_mode<a class="anchor" aria-label="anchor" href="#arg-usage-mode"></a></dt>
 <dd><p>A character string, which controls the behavior of the Rmd
 document, based on whether the rendering is triggered while using the app
 ("shiny_mode"), or offline, in batch mode. Defaults to "batch_mode".</p></dd>
 
 
-<dt>input_rmd</dt>
+<dt id="arg-input-rmd">input_rmd<a class="anchor" aria-label="anchor" href="#arg-input-rmd"></a></dt>
 <dd><p>Character string with the path to the RMarkdown (.Rmd) file
 that will be used as the template for generating the report. Defaults to NULL,
 which will then use the one provided with the <code>GeneTonic</code> package.</p></dd>
 
 
-<dt>output_file</dt>
+<dt id="arg-output-file">output_file<a class="anchor" aria-label="anchor" href="#arg-output-file"></a></dt>
 <dd><p>Character string, specifying the file name of the output
 report. The file name extension must be either <code>.html</code> or <code>.pdf</code>, and consistent
 with the value of <code>output_format</code>.</p></dd>
 
 
-<dt>output_dir</dt>
+<dt id="arg-output-dir">output_dir<a class="anchor" aria-label="anchor" href="#arg-output-dir"></a></dt>
 <dd><p>Character, defining the path to the output directory where
 the report will be generated. Defaults to the temp directory (<code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code>).</p></dd>
 
 
-<dt>output_format</dt>
+<dt id="arg-output-format">output_format<a class="anchor" aria-label="anchor" href="#arg-output-format"></a></dt>
 <dd><p>The format of the output report. Either <code>html_document</code>
 or <code>pdf_document</code>. The file name extension of <code>output_file</code> must be consistent
 with this choice. Can also be left empty and determined accordingly.</p></dd>
 
 
-<dt>force_overwrite</dt>
+<dt id="arg-force-overwrite">force_overwrite<a class="anchor" aria-label="anchor" href="#arg-force-overwrite"></a></dt>
 <dd><p>Logical, whether to force overwrite an existing report
 with the same name in the output directory. Defaults to FALSE.</p></dd>
 
 
-<dt>knitr_show_progress</dt>
+<dt id="arg-knitr-show-progress">knitr_show_progress<a class="anchor" aria-label="anchor" href="#arg-knitr-show-progress"></a></dt>
 <dd><p>Logical, whether to display the progress of <code>knitr</code>
 while generating the report. Defaults to FALSE.</p></dd>
 
 
-<dt>ignore_pandoc</dt>
+<dt id="arg-ignore-pandoc">ignore_pandoc<a class="anchor" aria-label="anchor" href="#arg-ignore-pandoc"></a></dt>
 <dd><p>Logical, controlling how the report generation function
 will behave if <code>pandoc</code> or <code>pandoc-citeproc</code> are missing.</p></dd>
 
 
-<dt>open_after_creating</dt>
+<dt id="arg-open-after-creating">open_after_creating<a class="anchor" aria-label="anchor" href="#arg-open-after-creating"></a></dt>
 <dd><p>Logical, whether to open the report in the default
 browser after being generated. Defaults to TRUE.</p></dd>
 
 
-<dt>...</dt>
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Other arguments that will be passed to <code><a href="https://pkgs.rstudio.com/rmarkdown/reference/render.html" class="external-link">rmarkdown::render()</a></code>.</p></dd>
 
 </dl></div>
@@ -297,7 +297,7 @@ upon which this function is <strong>heavily</strong> inspired.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
 
       </footer></div>

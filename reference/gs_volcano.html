@@ -18,7 +18,7 @@ results"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mat
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.7.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.9.0</span>
       </span>
     </div>
 
@@ -86,7 +86,7 @@ results</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>res_enrich</dt>
+    <dl><dt id="arg-res-enrich">res_enrich<a class="anchor" aria-label="anchor" href="#arg-res-enrich"></a></dt>
 <dd><p>A <code>data.frame</code> object, storing the result of the functional
 enrichment analysis. See more in the main function, <code><a href="GeneTonic.html">GeneTonic()</a></code>, to check the
 formatting requirements (a minimal set of columns should be present).
@@ -94,38 +94,38 @@ This object needs to be processed first by a function such as <code><a href="get
 to compute the term-wise <code>z_score</code> or <code>aggr_score</code>, which will be used for plotting</p></dd>
 
 
-<dt>gtl</dt>
+<dt id="arg-gtl">gtl<a class="anchor" aria-label="anchor" href="#arg-gtl"></a></dt>
 <dd><p>A <code>GeneTonic</code>-list object, containing in its slots the arguments
 specified above: <code>dds</code>, <code>res_de</code>, <code>res_enrich</code>, and <code>annotation_obj</code> - the names
 of the list <em>must</em> be specified following the content they are expecting</p></dd>
 
 
-<dt>p_threshold</dt>
+<dt id="arg-p-threshold">p_threshold<a class="anchor" aria-label="anchor" href="#arg-p-threshold"></a></dt>
 <dd><p>Numeric, defines the threshold to be used for filtering the
 gene sets to display. Defaults to 0.05</p></dd>
 
 
-<dt>color_by</dt>
+<dt id="arg-color-by">color_by<a class="anchor" aria-label="anchor" href="#arg-color-by"></a></dt>
 <dd><p>Character specifying the column of <code>res_enrich</code> to be used
 for coloring the plotted gene sets. Defaults to <code>aggr_score</code>.</p></dd>
 
 
-<dt>volcano_labels</dt>
+<dt id="arg-volcano-labels">volcano_labels<a class="anchor" aria-label="anchor" href="#arg-volcano-labels"></a></dt>
 <dd><p>Integer, maximum number of labels for the gene sets to be
 plotted as labels on the volcano scatter plot.</p></dd>
 
 
-<dt>scale_circles</dt>
+<dt id="arg-scale-circles">scale_circles<a class="anchor" aria-label="anchor" href="#arg-scale-circles"></a></dt>
 <dd><p>A numeric value, to define the scaling factor for the
 circle sizes. Defaults to 1.</p></dd>
 
 
-<dt>gs_ids</dt>
+<dt id="arg-gs-ids">gs_ids<a class="anchor" aria-label="anchor" href="#arg-gs-ids"></a></dt>
 <dd><p>Character vector, containing a subset of <code>gs_id</code> as they are
 available in <code>res_enrich</code>. Lists the gene sets to be labeled.</p></dd>
 
 
-<dt>plot_title</dt>
+<dt id="arg-plot-title">plot_title<a class="anchor" aria-label="anchor" href="#arg-plot-title"></a></dt>
 <dd><p>Character string, used as title for the plot. If left <code>NULL</code>,
 it defaults to a general description of the plot and of the DE contrast</p></dd>
 
@@ -188,7 +188,7 @@ the redundancy of the displayed gene sets</p></div>
 <span class="r-in"><span><span class="va">res_enrich</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_aggrscores.html">get_aggrscores</a></span><span class="op">(</span><span class="va">res_enrich</span>, <span class="va">res_de</span>, <span class="va">anno_df</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">gs_volcano</span><span class="op">(</span><span class="va">res_enrich</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 16 rows containing missing values or values outside the scale range</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 17 rows containing missing values or values outside the scale range</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> (`geom_point()`).</span>
 <span class="r-plt img"><img src="gs_volcano-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
@@ -205,7 +205,7 @@ the redundancy of the displayed gene sets</p></div>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
 
       </footer></div>
