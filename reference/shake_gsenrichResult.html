@@ -3,7 +3,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -25,7 +25,7 @@
       <ul class="nav navbar-nav"><li>
   <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
-     
+
   </a>
 </li>
 <li>
@@ -34,7 +34,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
@@ -48,20 +48,20 @@
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/federicomarini/GeneTonic" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Convert a gseaResult object</h1>
-    <small class="dont-index">Source: <a href="https://github.com/federicomarini/GeneTonic/blob/HEAD/R/gs_shaker.R" class="external-link"><code>R/gs_shaker.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/federicomarini/GeneTonic/blob/devel/R/gs_shaker.R" class="external-link"><code>R/gs_shaker.R</code></a></small>
     <div class="hidden name"><code>shake_gsenrichResult.Rd</code></div>
     </div>
 
@@ -75,17 +75,15 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt id="arg-obj">obj<a class="anchor" aria-label="anchor" href="#arg-obj"></a></dt>
+
+
+<dl><dt id="arg-obj">obj<a class="anchor" aria-label="anchor" href="#arg-obj"></a></dt>
 <dd><p>A <code>gseaResult</code> object, obtained via <code>clusterProfiler</code></p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>A <code>data.frame</code> compatible for use in <code><a href="GeneTonic.html">GeneTonic()</a></code> as <code>res_enrich</code></p>
-
-
+    <p>A <code>data.frame</code> compatible for use in <code><a href="GeneTonic.html">GeneTonic()</a></code> as <code>res_enrich</code></p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -95,7 +93,7 @@ contains the information required to create correctly a <code>res_enrich</code> 
     </div>
     <div id="see-also">
     <h2>See also</h2>
-    <div class="dont-index"><p>Other shakers: 
+    <div class="dont-index"><p>Other shakers:
 <code><a href="shake_davidResult.html">shake_davidResult</a>()</code>,
 <code><a href="shake_enrichResult.html">shake_enrichResult</a>()</code>,
 <code><a href="shake_enrichrResult.html">shake_enrichrResult</a>()</code>,
@@ -121,8 +119,8 @@ contains the information required to create correctly a <code>res_enrich</code> 
 <span class="r-in"><span>           <span class="va">res_macrophage_IFNg_vs_naive</span><span class="op">$</span><span class="va">SYMBOL</span><span class="op">)</span>, </span></span>
 <span class="r-in"><span>  decreasing <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://yulab-smu.top/biomedical-knowledge-mining-book/" class="external-link">"clusterProfiler"</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://yulab-smu.top/contribution-knowledge-mining/" class="external-link">"clusterProfiler"</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"org.Hs.eg.db"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">gsego_IFNg_vs_naive</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/clusterProfiler/man/gseGO.html" class="external-link">gseGO</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  geneList <span class="op">=</span> <span class="va">sorted_genes</span>,</span></span>
@@ -143,7 +141,7 @@ contains the information required to create correctly a <code>res_enrich</code> 
 <span class="r-in"><span>  res_enrich <span class="op">=</span> <span class="va">res_enrich</span>,</span></span>
 <span class="r-in"><span>  annotation_obj <span class="op">=</span> <span class="va">anno_df</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -158,15 +156,15 @@ contains the information required to create correctly a <code>res_enrich</code> 
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.9000.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 

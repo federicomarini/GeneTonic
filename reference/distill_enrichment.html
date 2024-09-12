@@ -4,7 +4,7 @@ from constructing an enrichment map"><!-- mathjax --><script src="https://cdnjs.
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -26,7 +26,7 @@ from constructing an enrichment map"><!-- mathjax --><script src="https://cdnjs.
       <ul class="nav navbar-nav"><li>
   <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
-     
+
   </a>
 </li>
 <li>
@@ -35,7 +35,7 @@ from constructing an enrichment map"><!-- mathjax --><script src="https://cdnjs.
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
@@ -49,20 +49,20 @@ from constructing an enrichment map"><!-- mathjax --><script src="https://cdnjs.
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/federicomarini/GeneTonic" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Distill enrichment results</h1>
-    <small class="dont-index">Source: <a href="https://github.com/federicomarini/GeneTonic/blob/HEAD/R/enhance_table.R" class="external-link"><code>R/enhance_table.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/federicomarini/GeneTonic/blob/devel/R/enhance_table.R" class="external-link"><code>R/enhance_table.R</code></a></small>
     <div class="hidden name"><code>distill_enrichment.Rd</code></div>
     </div>
 
@@ -84,7 +84,9 @@ from constructing an enrichment map</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt id="arg-res-enrich">res_enrich<a class="anchor" aria-label="anchor" href="#arg-res-enrich"></a></dt>
+
+
+<dl><dt id="arg-res-enrich">res_enrich<a class="anchor" aria-label="anchor" href="#arg-res-enrich"></a></dt>
 <dd><p>A <code>data.frame</code> object, storing the result of the functional
 enrichment analysis.</p></dd>
 
@@ -120,9 +122,7 @@ object.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>A list containing three objects:</p><ul><li><p>the distilled table of enrichment, <code>distilled_table</code>, where the new meta-genesets
+    <p>A list containing three objects:</p><ul><li><p>the distilled table of enrichment, <code>distilled_table</code>, where the new meta-genesets
 are identified and defined, specifying e.g. the names of each component, and the
 genes associated to these.</p></li>
 <li><p>the distilled graph for the enrichment map, <code>distilled_em</code>, with the information
@@ -181,11 +181,11 @@ related to the meta-genesets</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4] "metags_n_genes"    "metags_gsidlist"   "metags_gsdesclist"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [7] "metags_msgs"       "metags_mcgs"      </span>
 <span class="r-in"><span><span class="va">distilled</span><span class="op">$</span><span class="va">distilled_em</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH 1ca94af UN-- 100 553 -- </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH d08dad9 UN-- 100 553 -- </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> + attr: name (v/c), size (v/n), original_size (v/n), color.background</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> | (v/c), color.highlight (v/c), color.hover (v/c), color.border (v/c),</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> | membership (v/n), color (v/n), width (e/n), color (e/c)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from 1ca94af (vertex names):</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from d08dad9 (vertex names):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] adaptive immune response--interferon-gamma-mediated signaling pathway                                      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2] adaptive immune response--antigen processing and presentation of endogenous peptide antigen via MHC class I</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3] adaptive immune response--positive regulation of T cell mediated cytotoxicity                              </span>
@@ -205,15 +205,15 @@ related to the meta-genesets</p></li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.9000.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 
