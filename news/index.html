@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.9.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.99.0</span>
       </span>
     </div>
 
@@ -64,6 +64,20 @@
       <small>Source: <a href="https://github.com/federicomarini/GeneTonic/blob/devel/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="2.99.0" id="genetonic-2990">GeneTonic 2.99.0<a class="anchor" aria-label="anchor" href="#genetonic-2990"></a></h2>
+<div class="section level3">
+<h3 id="other-notes-2-99-0">Other notes<a class="anchor" aria-label="anchor" href="#other-notes-2-99-0"></a></h3>
+<ul><li>The transition to the functions available in the <code>mosdef</code> Bioconductor is complete, with the original functions now being deprecated. This applies to <code>goseqTable()</code> (now replaced by <code><a href="https://rdrr.io/pkg/mosdef/man/run_goseq.html" class="external-link">mosdef::run_goseq()</a></code>), which has now been made faster and more robust in its functionality and in the ways it can be executed</li>
+<li>The gene plot widgets now also use the <code><a href="../reference/gene_plot.html">gene_plot()</a></code> function from <code>mosdef</code>, instead of the previous <code>ggplotCounts()</code> function - <code><a href="../reference/gene_plot.html">gene_plot()</a></code> is more flexible and has more options to control the behavior of the final plot object</li>
+<li>The <code>deseqresult2tbl()</code> and <code>deseqresult2DEgenes()</code> are now replaced by the more flexible <code><a href="https://rdrr.io/pkg/mosdef/man/deresult_to_df.html" class="external-link">mosdef::deresult_to_df()</a></code>
+</li>
+<li>The internally defined <code>createLinkENS()</code>, <code>createLinkGeneSymbol()</code>, and <code>createLinkGO()</code> are now replaced by the equivalent functions in <code>mosdef</code>
+</li>
+<li>The Roxygen-based documentation now supports markdown. No visible changes should appear to the user, as the content should have stayed fairly the same</li>
+<li>Although no visible changes for the end user are expected, the incoming major version bump will reflect the change in the dependency graph, ensuring that this is noticed at least at the version numbering level</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="2.8.0" id="genetonic-280">GeneTonic 2.8.0<a class="anchor" aria-label="anchor" href="#genetonic-280"></a></h2>
 <div class="section level3">
@@ -356,7 +370,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.9000.</p>
 </div>
 
       </footer></div>
