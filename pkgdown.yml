@@ -1,6 +1,6 @@
 pandoc: 3.1.11
 pkgdown: 2.1.1.9000
-pkgdown_sha: 0cb9d38d1dc25946f01ee7500be9665985d8784e
+pkgdown_sha: 5c03b7444923f7c797b8b283e175f8eed63797a7
 articles:
   GeneTonic_manual: GeneTonic_manual.html
-last_built: 2024-10-06T14:05Z
+last_built: 2024-12-16T18:57Z
