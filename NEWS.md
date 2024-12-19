@@ -1,3 +1,9 @@
+# GeneTonic 3.2.0
+
+## Other notes
+
+* `gene_plot()` defaults now to NULL in the `intgroup` parameter, which translates into using the first `colData` item
+
 # GeneTonic 2.99.0
 
 ## Other notes
