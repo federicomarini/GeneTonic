@@ -14,7 +14,8 @@
 #' @param gene Character, specifies the identifier of the feature (gene) to be
 #' plotted
 #' @param intgroup A character vector of names in `colData(dds)` to use for grouping.
-#' Note: the vector components should be categorical variables.
+#' Note: the vector components should be categorical variables. Defaults
+#' to NULL, which which would then select the first column of the `colData` slot.
 #' @param assay Character, specifies with assay of the `dds` object to use for
 #' reading out the expression values. Defaults to "counts".
 #' @param annotation_obj A `data.frame` object with the feature annotation
@@ -72,7 +73,7 @@
 #' )
 gene_plot <- function(dds,
                       gene,
-                      intgroup = "condition",
+                      intgroup = NULL,
                       assay = "counts",
                       annotation_obj = NULL,
                       normalized = TRUE,
