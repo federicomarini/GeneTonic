@@ -25,7 +25,7 @@
 #' displayed over the volcano plot. If left to `NULL` as by default, it tries to use
 #' the information on the geneset identifier provided.
 #'
-#' @return A plot returned by the [ggplot()] function
+#' @return A `ggplot` object
 #' @export
 #'
 #' @examples

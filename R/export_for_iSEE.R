@@ -8,8 +8,8 @@
 #' A typical usage would be after running the DESeq2 pipeline and/or after exploring
 #' the functional enrichment results with [GeneTonic()]
 #'
-#' @param dds A \code{\link{DESeqDataSet}} object.
-#' @param res_de A \code{\link{DESeqResults}} object.
+#' @param dds A [DESeq2::DESeqDataSet()] object.
+#' @param res_de A [DESeq2::DESeqResults()] object.
 #' @param gtl A `GeneTonic`-list object, containing in its slots the arguments
 #' specified above: `dds`, `res_de`, `res_enrich`, and `annotation_obj` - the names
 #' of the list _must_ be specified following the content they are expecting
