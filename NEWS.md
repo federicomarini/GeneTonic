@@ -1,5 +1,9 @@
 # GeneTonic 3.2.0
 
+## Bug fixes
+
+* The tooltip functionality in visualizing the `ggs_graph()` output now handles correctly the text for the geneset description. Thanks to @thomas-keller for spotting this and for the fix!
+
 ## Other notes
 
 * `gene_plot()` defaults now to NULL in the `intgroup` parameter, which translates into using the first `colData` item
