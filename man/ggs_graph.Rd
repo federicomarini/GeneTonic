@@ -99,7 +99,7 @@ ggs <- ggs_graph(
 
 ggs
 
-#' # could be viewed interactively with
+# could be viewed interactively with
 # library(visNetwork)
 # library(magrittr)
 # ggs \%>\%
