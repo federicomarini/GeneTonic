@@ -124,8 +124,8 @@ shake_enrichResult <- function(obj) {
 #' # res object
 #' data(res_de_macrophage, package = "GeneTonic")
 #' sorted_genes <- sort(
-#'   setNames(res_macrophage_IFNg_vs_naive$log2FoldChange, 
-#'            res_macrophage_IFNg_vs_naive$SYMBOL), 
+#'   setNames(res_macrophage_IFNg_vs_naive$log2FoldChange,
+#'            res_macrophage_IFNg_vs_naive$SYMBOL),
 #'   decreasing = TRUE
 #' )
 #' \dontrun{
@@ -155,23 +155,23 @@ shake_gsenrichResult <- function(obj) {
   if (!is(obj, "gseaResult")) {
     stop("Provided object must be of class `gseaResult`")
   }
-  
+
   if (is.null(obj@result$core_enrichment)) {
     stop(
       "You are providing an object where the `core_enrichment` is not specified, ",
       "this is required for running GeneTonic properly."
     )
   }
-  
+
   message(
     "Using the content of the 'core_enrichment' column to generate the 'gs_genes' for GeneTonic...",
     " If you have that information available directly, please adjust the content accordingly.",
     "\n\nUsing the set of the 'core_enrichment' size to compute the 'gs_de_count'"
   )
-  
+
   message("Found ", nrow(obj@result), " gene sets in `gseaResult` object, of which ", nrow(as.data.frame(obj)), " are significant.")
   message("Converting for usage in GeneTonic...")
-  
+
   fullresults <- obj@result
 
   mydf <- data.frame(
@@ -189,7 +189,7 @@ shake_gsenrichResult <- function(obj) {
   )
 
   rownames(mydf) <- mydf$gs_id
-  
+
   return(mydf)
 }
 
@@ -601,4 +601,46 @@ shake_fgseaResult <- function(fgsea_output) {
 
 
   return(mydf)
+}
+
+#' prepare gsva results (after limma DE) for downstream genetonic
+#'
+#' @param obj limma toptable with gsva as input
+#' @param res_de DE dataframe with ensembl ids
+#' @param m_df annotations from msigdbr
+#' @param gset genesets from gsva results (geneSets(gsva_res))
+#' @param anno_df dataframe with ensembl to symbol mapping
+#'
+#' @return dataframe with standardized names for downstream genetonic
+#' @export
+#'
+#' @examples TODO
+shake_gsvaResult<-function(obj,res_de,m_df,gset,anno_df){
+  m_dfu=m_df[!duplicated(m_df$gs_name),c("gs_name","gs_id","gs_description")]
+  m_dfu=m_dfu[match(rownames(obj),m_dfu$gs_name),]
+  anno_df2=anno_df[match(res_de$id,anno_df$gene_id),]
+
+  gset2=gset[match(m_dfu$gs_name,names(gset))]
+  gcomb=sapply(gset2,function(x) paste(anno_df2$gene_name[anno_df2$gene_name %in% x],collapse=','))
+  gbg=sapply(gset2,function(x) length(x))
+  gsde=sapply(gset2,function(x) sum(anno_df2$gene_name %in% x))
+
+
+  mydf <- data.frame(
+    gs_id = m_dfu$gs_id,
+    gs_description = m_dfu$gs_name,
+    gs_fulldesc=m_dfu$gs_description,
+    gs_pvalue = obj$P.Value,
+    gs_genes = gcomb,
+    gs_de_count = gsde,
+    gs_bg_count = gbg,
+    gs_logFC = obj$logFC,
+    gs_p.adjust = obj$adj.P.Val,
+    stringsAsFactors = FALSE
+  )
+
+  rownames(mydf) <- mydf$gs_id
+
+  return(mydf)
+
 }
