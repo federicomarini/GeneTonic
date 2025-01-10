@@ -124,6 +124,9 @@ ggs_graph <- function(res_enrich,
 
   enriched_gsids <- res_enrich[["gs_id"]]
   enriched_gsnames <- res_enrich[["gs_description"]]
+  if("gs_fulldesc" %in% colnames(res_enrich)){
+    enriched_gsdescs <- res_enrich[['gs_fulldesc']]
+  } else{
   enriched_gsdescs <- vapply(
     enriched_gsids,
     function(arg) {
@@ -133,7 +136,7 @@ ggs_graph <- function(res_enrich,
       )
     },
     character(1)
-  )
+  )}
 
   gs_to_use <- unique(
     c(
@@ -193,9 +196,19 @@ ggs_graph <- function(res_enrich,
 
     # title for tooltips
     V(g)$title <- NA
+    #not sure best way to test for GO vs other database - also link only works if msig
+    #could have link as an optional column like gs_fulldesc in res_enrich?
+    if("gs_fulldesc" %in% colnames(res_enrich)){
+      link_gs<- sprintf('<a href="https://www.gsea-msigdb.org/gsea/msigdb/human/geneset/%s.html" target="_blank">%s</a>',
+                       enriched_gsnames[nodeIDs_gs], enriched_gsids[nodeIDs_gs])
+    } else{
+      link_gs <- sprintf('<a href="http://amigo.geneontology.org/amigo/term/%s" target="_blank">%s</a>',
+                        enriched_gsids[nodeIDs_gs], enriched_gsids[nodeIDs_gs])
+    }
+
     V(g)$title[nodeIDs_gs] <- paste0(
       "<h4>",
-      sprintf('<a href="http://amigo.geneontology.org/amigo/term/%s" target="_blank">%s</a>', enriched_gsids[nodeIDs_gs], enriched_gsids[nodeIDs_gs]), "</h4><br>",
+      link_gs, "</h4><br>",
       V(g)$name[nodeIDs_gs], "<br><br>",
       sapply(enriched_gsdescs[nodeIDs_gs],
              function(x) paste0(strwrap(x, 50), collapse='<br>'))
@@ -444,7 +457,7 @@ ggs_backbone <- function(res_enrich,
                                                 limits = range(na.omit(col_var)))
         V(bbgraph)$color.hover <- mosdef::map_to_color(col_var, mypal_hover, symmetric = TRUE,
                                             limits = range(na.omit(col_var)))
-        
+
         V(bbgraph)$color.background[is.na(V(bbgraph)$color.background)] <- "lightgrey"
         V(bbgraph)$color.highlight[is.na(V(bbgraph)$color.highlight)] <- "lightgrey"
         V(bbgraph)$color.hover[is.na(V(bbgraph)$color.hover)] <- "lightgrey"
@@ -469,17 +482,17 @@ ggs_backbone <- function(res_enrich,
           colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 1
         ))
 
-        V(bbgraph)$color.background <- mosdef::map_to_color(col_var, mypal, 
+        V(bbgraph)$color.background <- mosdef::map_to_color(col_var, mypal,
                                                  limits = range(na.omit(col_var)))
-        V(bbgraph)$color.highlight <- mosdef::map_to_color(col_var, mypal_select, 
+        V(bbgraph)$color.highlight <- mosdef::map_to_color(col_var, mypal_select,
                                                 limits = range(na.omit(col_var)))
-        V(bbgraph)$color.hover <- mosdef::map_to_color(col_var, mypal_hover, 
+        V(bbgraph)$color.hover <- mosdef::map_to_color(col_var, mypal_hover,
                                             limits = range(na.omit(col_var)))
 
         V(bbgraph)$color.background[is.na(V(bbgraph)$color.background)] <- "lightgrey"
         V(bbgraph)$color.highlight[is.na(V(bbgraph)$color.highlight)] <- "lightgrey"
         V(bbgraph)$color.hover[is.na(V(bbgraph)$color.hover)] <- "lightgrey"
-        
+
         V(bbgraph)$color.border <- "black"
 
         # additional specification of edge colors
