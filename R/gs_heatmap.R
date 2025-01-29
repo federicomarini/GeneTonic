@@ -144,7 +144,7 @@ gs_heatmap <- function(se,
         "\nNot found: ", not_there
       )
     }
-    thisset_members_ids <- intersect(rownames(se), genelist)
+    thisset_members_ids <- intersect(genelist, rownames(se))
     thisset_name <- "Custom list"
   }
 

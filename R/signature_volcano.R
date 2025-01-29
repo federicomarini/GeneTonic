@@ -119,7 +119,7 @@ signature_volcano <- function(res_de,
         not_there
       )
     }
-    thisset_members_ids <- intersect(rownames(res_de), genelist)
+    thisset_members_ids <- intersect(genelist, rownames(res_de))
     thisset_name <- "Custom list"
   }
 
