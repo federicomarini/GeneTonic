@@ -45,6 +45,20 @@ test_that("Basic gene plot is generated", {
       labels_repe
     )
   })
+  
+  expect_warning({
+    expect_message({
+      gene_plot(
+        dds = dds_macrophage,
+        gene = "ENSG00000285982",
+        assay = "counts",
+        intgroup = NULL,
+        annotation_obj = anno_df,
+        transform = TRUE,
+        labels_repel =  FALSE
+      )
+    }, "Defaulting to")
+  }, "Please use")
 })
 
 test_that("Enforcing plot types", {

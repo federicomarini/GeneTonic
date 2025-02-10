@@ -25,7 +25,7 @@
 #' displayed over the volcano plot. If left to `NULL` as by default, it tries to use
 #' the information on the geneset identifier provided.
 #'
-#' @return A plot returned by the [ggplot()] function
+#' @return A `ggplot` object
 #' @export
 #'
 #' @examples
@@ -119,7 +119,7 @@ signature_volcano <- function(res_de,
         not_there
       )
     }
-    thisset_members_ids <- intersect(rownames(res_de), genelist)
+    thisset_members_ids <- intersect(genelist, rownames(res_de))
     thisset_name <- "Custom list"
   }
 

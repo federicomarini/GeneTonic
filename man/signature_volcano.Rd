@@ -50,7 +50,7 @@ displayed over the volcano plot. If left to \code{NULL} as by default, it tries 
 the information on the geneset identifier provided.}
 }
 \value{
-A plot returned by the \code{\link[=ggplot]{ggplot()}} function
+A \code{ggplot} object
 }
 \description{
 Plot a volcano plot for the geneset of the provided data, with the remaining

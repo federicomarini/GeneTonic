@@ -73,7 +73,7 @@
 #'
 #' ggs
 #'
-#' #' # could be viewed interactively with
+#' # could be viewed interactively with
 #' # library(visNetwork)
 #' # library(magrittr)
 #' # ggs %>%
@@ -197,7 +197,8 @@ ggs_graph <- function(res_enrich,
       "<h4>",
       sprintf('<a href="http://amigo.geneontology.org/amigo/term/%s" target="_blank">%s</a>', enriched_gsids[nodeIDs_gs], enriched_gsids[nodeIDs_gs]), "</h4><br>",
       V(g)$name[nodeIDs_gs], "<br><br>",
-      paste0(strwrap(enriched_gsdescs[nodeIDs_gs], 50), collapse = "<br>")
+      sapply(enriched_gsdescs[nodeIDs_gs],
+             function(x) paste0(strwrap(x, 50), collapse='<br>'))
     )
     V(g)$title[nodeIDs_genes] <- paste0(
       "<h4>", V(g)$name[nodeIDs_genes], "</h4><br>",

@@ -488,7 +488,7 @@ styleColorBar_divergent <- function(data,
 #' @param x A character vector of numeric values (e.g. log2FoldChange values) to
 #' be converted to a vector of colors
 #' @param pal A vector of characters specifying the definition of colors for the
-#' palette, e.g. obtained via \code{\link{brewer.pal}}
+#' palette, e.g. obtained via [RColorBrewer::brewer.pal()]
 #' @param symmetric Logical value, whether to return a palette which is symmetrical
 #' with respect to the minimum and maximum values - "respecting" the zero.
 #' Defaults to `TRUE`.

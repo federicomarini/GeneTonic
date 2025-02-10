@@ -7,9 +7,9 @@
 export_for_iSEE(dds, res_de, gtl = NULL)
 }
 \arguments{
-\item{dds}{A \code{\link{DESeqDataSet}} object.}
+\item{dds}{A \code{\link[DESeq2:DESeqDataSet]{DESeq2::DESeqDataSet()}} object.}
 
-\item{res_de}{A \code{\link{DESeqResults}} object.}
+\item{res_de}{A \code{\link[DESeq2:DESeqResults]{DESeq2::DESeqResults()}} object.}
 
 \item{gtl}{A \code{GeneTonic}-list object, containing in its slots the arguments
 specified above: \code{dds}, \code{res_de}, \code{res_enrich}, and \code{annotation_obj} - the names
