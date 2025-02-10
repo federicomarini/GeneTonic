@@ -115,7 +115,7 @@ test_that("Geneset heatmap is created", {
   res_enrich_IFNg_vs_naive_mod <- res_enrich_IFNg_vs_naive
   res_enrich_IFNg_vs_naive_mod$gs_genes[2] <- unlist(strsplit(res_enrich_IFNg_vs_naive[2, "gs_genes"], ","))[[1]]
   
-  expect_error(
+  expect_warning(
     p6 <- gs_heatmap(
       se = vst_macrophage,
       res_de = res_macrophage_IFNg_vs_naive,
@@ -128,8 +128,7 @@ test_that("Geneset heatmap is created", {
       cluster_columns = TRUE,
       center_mean = TRUE,
       scale_row = TRUE
-    ),
-    "Not enough genes to plot"
+    )
   )
   rm(res_enrich_IFNg_vs_naive_mod)
   

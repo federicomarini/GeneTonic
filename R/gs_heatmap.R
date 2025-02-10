@@ -151,15 +151,14 @@ gs_heatmap <- function(se,
   sig_to_keep <- (thisset_members_ids %in% rownames(se)) #
   thisset_members_ids_available <- thisset_members_ids[sig_to_keep]
 
-  mydata_sig <- mydata[thisset_members_ids_available, ]
-
-  # to avoid problems later, remove the ones non-expressed and with variance = 0
-  if(!is.null(dim(mydata_sig))) {
-    to_remove <- apply(mydata_sig, 1, var) == 0
-    mydata_sig <- mydata_sig[!to_remove, ]
-  }
-  if (is.null(dim(mydata_sig))) stop(paste0("Not enough genes to plot"))
+  mydata_sig <- mydata[thisset_members_ids_available, , drop = FALSE]
   
+  # to avoid problems later, remove the ones non-expressed and with variance = 0
+  to_remove <- apply(mydata_sig, 1, var) == 0
+  mydata_sig <- mydata_sig[!to_remove, , drop = FALSE]
+  
+  if (nrow(mydata_sig) < 2) warning("Creating a heatmp with only one gene. ")
+
   hm_name <- "Expression \nvalues"
 
   if (center_mean) {
