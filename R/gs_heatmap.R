@@ -154,9 +154,12 @@ gs_heatmap <- function(se,
   mydata_sig <- mydata[thisset_members_ids_available, ]
 
   # to avoid problems later, remove the ones non-expressed and with variance = 0
-  to_remove <- apply(mydata_sig, 1, var) == 0
-  mydata_sig <- mydata_sig[!to_remove, ]
-
+  if(!is.null(dim(mydata_sig))) {
+    to_remove <- apply(mydata_sig, 1, var) == 0
+    mydata_sig <- mydata_sig[!to_remove, ]
+  }
+  if (is.null(dim(mydata_sig))) stop(paste0("Not enough genes to plot"))
+  
   hm_name <- "Expression \nvalues"
 
   if (center_mean) {

@@ -111,5 +111,23 @@ test_that("Geneset heatmap is created", {
     )
   )
 
+  cur_gsid_onegene <- res_enrich_IFNg_vs_naive$gs_id[2]
+  res_enrich_IFNg_vs_naive$gs_genes[2] <- unlist(strsplit(res_enrich_IFNg_vs_naive[2, "gs_genes"], ","))[[1]]
+  
+  expect_error(
+    p6 <- gs_heatmap(
+      se = vst_macrophage,
+      res_de = res_macrophage_IFNg_vs_naive,
+      res_enrich = res_enrich_IFNg_vs_naive,
+      annotation_obj = anno_df,
+      geneset_id = cur_gsid_onegene,
+      FDR = 0.05,
+      de_only = TRUE,
+      cluster_rows = TRUE,
+      cluster_columns = TRUE,
+      center_mean = TRUE,
+      scale_row = TRUE
+    )
+  )
   file.remove("Rplots.pdf")
 })
