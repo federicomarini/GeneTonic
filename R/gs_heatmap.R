@@ -157,7 +157,8 @@ gs_heatmap <- function(se,
   to_remove <- apply(mydata_sig, 1, var) == 0
   mydata_sig <- mydata_sig[!to_remove, , drop = FALSE]
   
-  if (nrow(mydata_sig) < 2) warning("Creating a heatmp with only one gene. ")
+  if (nrow(mydata_sig) < 2) 
+    warning("Creating a heatmap with only one gene...")
 
   hm_name <- "Expression \nvalues"
 
