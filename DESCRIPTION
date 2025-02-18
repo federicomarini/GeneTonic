@@ -12,6 +12,10 @@ Authors@R:
 		    person(
             given = "Annekathrin", family = "Nedwed", role = c("aut"), 
             email = "anneludt@uni-mainz.de", comment = c(ORCID = "0000-0002-2475-4945")
+        ),
+        person(
+            given = "Edoardo", family = "Filippi", role = c("ctb"), 
+            email = "edoardo.filippi@uni-mainz.de")
         )
     )
 Description: This package provides functionality to combine the existing pieces 
