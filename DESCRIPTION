@@ -15,7 +15,7 @@ Authors@R:
         ),
         person(
             given = "Edoardo", family = "Filippi", role = c("ctb"), 
-            email = "edoardo.filippi@uni-mainz.de")
+            email = "edoardo.filippi@uni-mainz.de"
         )
     )
 Description: This package provides functionality to combine the existing pieces 
