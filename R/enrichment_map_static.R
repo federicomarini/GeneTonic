@@ -85,7 +85,7 @@
 #' #                                      degree = 1,
 #' #                                      hover = TRUE),
 #' #             nodesIdSelection = TRUE)
-enrichment_map <- function(res_enrich,
+enrichment_map_static <- function(res_enrich,
                            res_de,
                            annotation_obj,
                            gtl = NULL,
@@ -93,8 +93,15 @@ enrichment_map <- function(res_enrich,
                            gs_ids = NULL,
                            overlap_threshold = 0.1,
                            scale_edges_width = 200,
-                           scale_nodes_size = 5,
-                           color_by = "gs_pvalue") {
+                           scale_nodes_size = 1,
+                           color_by = "gs_pvalue",
+                           cluster_fun = "cluster_markov") {
+
+  cluster_fun <- match.arg(
+    cluster_fun, c("cluster_markov", "cluster_louvain", "cluster_walktrap")
+  )
+  cluster_fun <- match.fun(cluster_fun)
+
   if (!is.null(gtl)) {
     checkup_gtl(gtl)
     dds <- gtl$dds
@@ -120,7 +127,7 @@ enrichment_map <- function(res_enrich,
       gs_ids[gs_ids %in% res_enrich$gs_id] # the ones specified from the custom list
     )
   )
-
+  
   overlap_matrix <- create_jaccard_matrix(res_enrich,
     n_gs = n_gs,
     gs_ids = gs_ids,
@@ -146,8 +153,15 @@ enrichment_map <- function(res_enrich,
   # use this to construct the graph
   emg <- graph_from_data_frame(omm[, c(1, 2)], directed = FALSE)
 
+  # add the edges, delete the ones that are under the threshold
   E(emg)$width <- sqrt(omm$value * scale_edges_width)
   emg <- delete_edges(emg, E(emg)[omm$value < overlap_threshold])
+
+  # Find communities for layout
+  gs_communities <- cluster_fun(emg)
+  res_enrich$gs_membership <- factor(gs_communities$membership)
+  V(emg)$membership <- gs_communities$membership
+  # V(emg)$color <- gs_communities$membership
 
   idx <- match(V(emg)$name, res_enrich$gs_description)
 
@@ -156,77 +170,35 @@ enrichment_map <- function(res_enrich,
   V(emg)$size <- scale_nodes_size * sqrt(gs_size)
   V(emg)$original_size <- gs_size
 
+  # questo non mi serve perché li coloro in base al membership? oppure mi serve
   col_var <- res_enrich[idx, color_by]
+
   # the palette changes if it is z_score VS pvalue
   if (all(col_var <= 1) & all(col_var > 0)) { # likely p-values...
     col_var <- -log10(col_var)
-    # V(g)$color <- colVar
-    mypal <- (scales::alpha(
-      colorRampPalette(RColorBrewer::brewer.pal(name = "YlOrRd", 9))(50), 0.8
-    ))
-    mypal_hover <- (scales::alpha(
-      colorRampPalette(RColorBrewer::brewer.pal(name = "YlOrRd", 9))(50), 0.5
-    ))
-    mypal_select <- (scales::alpha(
-      colorRampPalette(RColorBrewer::brewer.pal(name = "YlOrRd", 9))(50), 1
-    ))
-    
-    V(emg)$color.background <- mosdef::map_to_color(col_var, mypal, symmetric = FALSE, 
+    mypal <- colorRampPalette(RColorBrewer::brewer.pal(name = "YlOrRd", 9))(50)
+
+    V(emg)$color <- mosdef::map_to_color(col_var, mypal, symmetric = FALSE, 
                                          limits = range(na.omit(col_var)))
-    V(emg)$color.highlight <- mosdef::map_to_color(col_var, mypal_select, symmetric = FALSE, 
-                                        limits = range(na.omit(col_var)))
-    V(emg)$color.hover <- mosdef::map_to_color(col_var, mypal_hover, symmetric = FALSE, 
-                                    limits = range(na.omit(col_var)))
-    
-    V(emg)$color.background[is.na(V(emg)$color.background)] <- "lightgrey"
-    V(emg)$color.highlight[is.na(V(emg)$color.highlight)] <- "lightgrey"
-    V(emg)$color.hover[is.na(V(emg)$color.hover)] <- "lightgrey"
+   
+    V(emg)$color[is.na(V(emg)$color)] <- "lightgrey"
+  
   } else {
     # e.g. using z_score or aggregated value
     if (prod(range(na.omit(col_var))) >= 0) {
       # gradient palette
-      mypal <- (scales::alpha(
-        colorRampPalette(RColorBrewer::brewer.pal(name = "Oranges", 9))(50), 0.8
-      ))
-      mypal_hover <- (scales::alpha(
-        colorRampPalette(RColorBrewer::brewer.pal(name = "Oranges", 9))(50), 0.5
-      ))
-      mypal_select <- (scales::alpha(
-        colorRampPalette(RColorBrewer::brewer.pal(name = "Oranges", 9))(50), 1
-      ))
-      
-      V(emg)$color.background <- mosdef::map_to_color(col_var, mypal, symmetric = FALSE, 
+      mypal <- colorRampPalette(RColorBrewer::brewer.pal(name = "Oranges", 9))(50)
+
+      V(emg)$color <- mosdef::map_to_color(col_var, mypal, symmetric = FALSE, 
                                            limits = range(na.omit(col_var)))
-      V(emg)$color.highlight <- mosdef::map_to_color(col_var, mypal_select, symmetric = FALSE, 
-                                          limits = range(na.omit(col_var)))
-      V(emg)$color.hover <- mosdef::map_to_color(col_var, mypal_hover, symmetric = FALSE, 
-                                      limits = range(na.omit(col_var)))
-      V(emg)$color.background[is.na(V(emg)$color.background)] <- "lightgrey"
-      V(emg)$color.highlight[is.na(V(emg)$color.highlight)] <- "lightgrey"
-      V(emg)$color.hover[is.na(V(emg)$color.hover)] <- "lightgrey"
       
+      V(emg)$color[is.na(V(emg)$color)] <- "lightgrey"
     } else {
       # divergent palette to be used
-      mypal <- rev(scales::alpha(
-        colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.8
-      ))
-      mypal_hover <- rev(scales::alpha(
-        colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 0.5
-      ))
-      mypal_select <- rev(scales::alpha(
-        colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50), 1
-      ))
-      
-      V(emg)$color.background <- mosdef::map_to_color(col_var, mypal, symmetric = TRUE, 
+      mypal <- rev(colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50))
+      V(emg)$color <- mosdef::map_to_color(col_var, mypal, symmetric = TRUE, 
                                            limits = range(na.omit(col_var)))
-      V(emg)$color.highlight <- mosdef::map_to_color(col_var, mypal_select, symmetric = TRUE, 
-                                          limits = range(na.omit(col_var)))
-      V(emg)$color.hover <- mosdef::map_to_color(col_var, mypal_hover, symmetric = TRUE, 
-                                      limits = range(na.omit(col_var)))
-      
-      V(emg)$color.background[is.na(V(emg)$color.background)] <- "lightgrey"
-      V(emg)$color.highlight[is.na(V(emg)$color.highlight)] <- "lightgrey"
-      V(emg)$color.hover[is.na(V(emg)$color.hover)] <- "lightgrey"
+      V(emg)$color[is.na(V(emg)$color)] <- "lightgrey"
     }
   }
 
@@ -239,5 +211,100 @@ enrichment_map <- function(res_enrich,
   rank_gs <- rank(V(emg)$name)
   emg <- permute(emg, rank_gs)
 
+
+  ground_truth = igraph::make_clusters(emg,V(emg)$membership)
+  # plot(ground_truth,emg)
+  # we need to change the layout
+  emg_layout <- emg
+  # emg_original <- emg
+
+  browser()
+
+  E(emg_layout)$weight <- apply(igraph::as_edgelist(emg_layout), 1, function(row) {
+    weight.community(as.character(row), igraph::membership(gs_communities), 20, 1)
+  })
+
+  emg_layout$layout=igraph::layout_with_fr(emg_layout,weights=E(emg_layout)$weight)
+  emg$layout=igraph::layout_with_fr(emg_layout,weights=E(emg_layout)$weight)
+  
+  cluster_centers <- sapply(igraph::groups(gs_communities), function(nodes) {
+    node_indices <- match(nodes, V(emg_layout)$name) 
+    centroid <- colMeans(igraph::layout_with_fr(emg_layout)[node_indices, , drop = FALSE])
+    return(centroid)
+  })
+
+  cluster_labels <- add_cluster_names(gs_communities)
+  V(emg)$label <- NA
+
+  plot(emg, 
+    mark.groups = igraph::communities(gs_communities)) 
+  # Add word cloud labels at cluster centroids
+  text(
+    cluster_centers[, 1], 
+    cluster_centers[, 2], 
+    abels = cluster_labels, 
+    col = "black", cex = 1.2, font = 2)
+
+  # # add backbone links as edge attribute
+  # plot(emg_layout)
+  # plot(emg_layout, vertex.color = V(emg)$color, vertex.size = V(emg)$size, edge.width = E(emg)$width, edge.color = E(emg)$color)
+  # plot(gs_communities, emg, 
+  #   vertex.color = V(emg)$color, 
+  #   vertex.size = V(emg)$size, 
+  #   edge.width = E(emg)$width, 
+  #   edge.color = E(emg)$color, 
+  #   mark.groups = igraph::communities(gs_communities))
+ 
+
+
+
+  # plot(emg_original)
+  #  # E(g)$col <- FALSE
+  # # E(g)$col[bb$backbone] <- TRUE
+  # g_tbl <- tidygraph::as_tbl_graph(emg)
+  # g_tbl <- g_tbl %>% mutate(cluster = igraph::membership(gs_communities))
+  # cluster_centers$cluster <- seq_len(nrow(cluster_centers))  # Add cluster IDs
+
+  # ggraph::ggraph(g_tbl, layout = "fr") +
+  #   ggraph::geom_edge_link(aes(alpha = 0.5), color = "gray") +  # Edges
+  #   ggraph::geom_node_point(aes(color = as.factor(cluster)), size = 6) +  # Nodes colored by cluster
+  #   ggplot2::geom_text(aes(x = X1, y = X2, label = paste0("Cluster ", cluster)), 
+  #             data = cluster_centers, size = 6, fontface = "bold", color = "black") +  # Cluster labels
+  #   ggplot2::theme_void() + 
+  #   ggplot2::theme(legend.position = "none")
+
   return(emg)
+}
+
+weight.community <- function(row,membership,weigth.within,weight.between){
+  if(as.numeric(membership[which(names(membership)==row[1])]) == 
+    as.numeric(membership[which(names(membership)==row[2])])){
+    weight=weigth.within
+  }else{
+    weight=weight.between
+  }
+  return(weight)
+}
+
+
+add_cluster_names <- function(gs_communities, n_words = 3) {
+
+    # Extract node names for each community
+  community_texts <- lapply(groups(gs_communities), function(nodes) {
+    sentences <- V(g)$name[match(nodes, V(g)$name)]  # Ensure correct matching
+    paste(sentences, collapse = " ")  # Combine all node names into one string per cluster
+  })
+
+  # Tokenize words and count frequency
+  word_counts <- lapply(community_texts, function(text) {
+    data.frame(word = unlist(str_split(text, "\\s+"))) %>% 
+      count(word, sort = TRUE) %>%
+      filter(!word %in% stop_words$word)  # Remove common stop words
+  })
+
+  # Generate cluster labels (top 3 words)
+  cluster_labels <- sapply(word_counts, function(df) {
+    paste(head(df$word, n_words), collapse = " ")  # Take the top 3 words
+  })
+
 }
