@@ -32,7 +32,12 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Annekathrin Ludt \email{anneludt@uni-mainz.de} (\href{https://orcid.org/0000-0002-2475-4945}{ORCID})
+  \item Annekathrin Nedwed \email{anneludt@uni-mainz.de} (\href{https://orcid.org/0000-0002-2475-4945}{ORCID})
+}
+
+Other contributors:
+\itemize{
+  \item Edoardo Filippi \email{edoardo.filippi@uni-mainz.de} [contributor]
 }
 
 }
