@@ -5,7 +5,7 @@ test_that("Graph is generated", {
     res_enrich = res_enrich_IFNg_vs_naive,
     res_de = res_macrophage_IFNg_vs_naive,
     annotation_obj = anno_df,
-    n_gs = 50
+    n_gs = 100
   )
   expect_is(g, "igraph")
 

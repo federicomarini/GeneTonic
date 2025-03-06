@@ -216,25 +216,83 @@ enrichment_map_static <- function(res_enrich,
   # plot(ground_truth,emg)
   # we need to change the layout
   emg_layout <- emg
+  emg_for_gggraph <- emg
   # emg_original <- emg
 
-  browser()
+  # browser()
 
   E(emg_layout)$weight <- apply(igraph::as_edgelist(emg_layout), 1, function(row) {
     weight.community(as.character(row), igraph::membership(gs_communities), 20, 1)
   })
 
-  emg_layout$layout=igraph::layout_with_fr(emg_layout,weights=E(emg_layout)$weight)
-  emg$layout=igraph::layout_with_fr(emg_layout,weights=E(emg_layout)$weight)
-  
+  emg_layout$layout <- igraph::layout_with_fr(emg_layout,weights=E(emg_layout)$weight)
+  emg$layout <- igraph::layout_with_fr(emg_layout,weights=E(emg_layout)$weight)
+
+  layout <- igraph::layout_with_fr(emg_layout,weights=E(emg_layout)$weight)
+
   cluster_centers <- sapply(igraph::groups(gs_communities), function(nodes) {
     node_indices <- match(nodes, V(emg_layout)$name) 
     centroid <- colMeans(igraph::layout_with_fr(emg_layout)[node_indices, , drop = FALSE])
     return(centroid)
   })
 
-  cluster_labels <- add_cluster_names(gs_communities)
-  V(emg)$label <- NA
+  browser()
+
+  V(emg_for_gggraph)$membership <- as.factor(as.character(V(emg_for_gggraph)$membership))
+
+  cluster_labels <- add_cluster_names(emg ,gs_communities)
+  V(emg_for_gggraph)$cluster_label <- cluster_labels[match(V(emg)$membership, names(cluster_labels))]
+  # cluster_labels <- names(igraph::groups(gs_communities))
+  V(emg_for_gggraph)$label <- NA
+
+  # community_colors <- rainbow(length(igraph::groups(gs_communities)))
+  # centroid_df <- data.frame(
+  #   x = cluster_centers[1, ],
+  #   y = cluster_centers[2, ],
+  #   cluster_label = cluster_labels[match(colnames(cluster_centers), names(cluster_labels))]
+  # )
+
+  ggraph::ggraph(emg_for_gggraph,
+       layout = "manual",
+       x = layout[, 1],
+       y = layout[, 2]) +
+  ggraph::geom_edge_link0(aes(edge_width = width), edge_colour = "lightgrey") +
+  ggraph::geom_node_point(aes(fill = color), shape = 21, size = 3) + 
+  ggforce::geom_mark_hull(
+    aes(x, y, fill = cluster_label),
+    concavity = 10,
+    expand = unit(3, "mm"),
+    alpha = 0.25
+  ) + 
+  ggplot2::theme(legend.position = "none")
+  # ggplot2::geom_text(
+  #   data = centroid_df,  # Add the centroids as a data source
+  #   aes(label = cluster_label, x = x, y = y),
+  #   fontface = "bold", size = 3, vjust = 1.5, hjust = 0.5  # Adjust label positioning
+  # )
+
+  # ggplot2::scale_color_brewer(palette = "Set1") +
+  # ggplot2::scale_fill_brewer(palette = "Set1") +
+  # ggraph::scale_edge_color_manual(values = c(rgb(0, 0, 0, 0.3), rgb(0, 0, 0, 1))) +
+  # ggraph::theme_graph() +
+  # ggplot2::theme(legend.position = "none")
+
+  # Here and under is the part that needs to work, convverting the object to gggraph and then plotting it!
+
+  # Convert igraph  object to tidygraph object
+  # g_tbl <- tidygraph::as_tbl_graph(emg)
+
+  # # Add cluster membership as a node attribute
+  # g_tbl <- g_tbl %>% mutate(cluster = igraph::membership(gs_communities))
+
+  # # Create a gggraph plot
+  # ggraph::ggraph(g_tbl, layout = "fr") +
+  #   ggraph::geom_edge_link(aes(alpha = 0.5), color = "gray") +  # Edges
+  #   ggraph::geom_node_point(aes(color = as.factor(cluster)), size = 6) +  # Nodes colored by cluster
+  #   ggplot2::geom_text(aes(x = cluster_centers[1, ], y = cluster_centers[2, ], label = cluster_labels), 
+  #   #           size = 6, fontface = "bold", color = "black") +  # Cluster labels
+  #   ggplot2::theme_void() + 
+  #   ggplot2::theme(legend.position = "none")
 
   plot(emg, 
     mark.groups = igraph::communities(gs_communities)) 
@@ -242,9 +300,17 @@ enrichment_map_static <- function(res_enrich,
   text(
     cluster_centers[, 1], 
     cluster_centers[, 2], 
-    abels = cluster_labels, 
+    labels = cluster_labels, 
     col = "black", cex = 1.2, font = 2)
+  # Add legend for community colors
 
+  # legend("topright",  # Position of the legend
+  #       legend = cluster_labels,  # Community labels
+  #       fill = community_colors,  # Colors corresponding to the communities
+  #       border = "black",  # Border color for the legend boxes
+  #       bty = "n",  # No box around the legend
+  #       title = "Communities",  # Legend title
+  #       cex = 0.8)  # Adjust legend text size
   # # add backbone links as edge attribute
   # plot(emg_layout)
   # plot(emg_layout, vertex.color = V(emg)$color, vertex.size = V(emg)$size, edge.width = E(emg)$width, edge.color = E(emg)$color)
@@ -287,20 +353,35 @@ weight.community <- function(row,membership,weigth.within,weight.between){
 }
 
 
-add_cluster_names <- function(gs_communities, n_words = 3) {
+add_cluster_names <- function(emg, gs_communities, n_words = 4) {
 
-    # Extract node names for each community
-  community_texts <- lapply(groups(gs_communities), function(nodes) {
-    sentences <- V(g)$name[match(nodes, V(g)$name)]  # Ensure correct matching
+  stop_words <- c("the", "and", "is", "in", "to", "of", "it", "that", "on", "for", "with", 
+                  "as", "this", "was", "but", "be", "by", "or", "not", "are", "at", "an")
+  # Extract node names for each community
+  community_texts <- lapply(igraph::groups(gs_communities), function(nodes) {
+    sentences <- igraph::V(emg)$name[match(nodes, igraph::V(emg)$name)]  # Ensure correct matching
     paste(sentences, collapse = " ")  # Combine all node names into one string per cluster
   })
 
   # Tokenize words and count frequency
   word_counts <- lapply(community_texts, function(text) {
-    data.frame(word = unlist(str_split(text, "\\s+"))) %>% 
-      count(word, sort = TRUE) %>%
-      filter(!word %in% stop_words$word)  # Remove common stop words
-  })
+    # dplyr::tibble(word = as.character(unlist(strsplit(text, "\\s+")))) %>% 
+    #       dplyr::count(word, sort = TRUE) %>%
+    #       dplyr::filter(!word %in% tidytext::stop_words$word)  # Remove common stop words
+    
+    words <- unlist(strsplit(text, "\\s+"))  # Split text into words
+    # words <- words[!(words %in% tidytext::stop_words$word)]  # Remove stop words
+    words <- words[!(words %in% stop_words)]  # Remove stop words
+    
+    # Create frequency table
+    word_freq <- table(words)
+    word_freq <- sort(word_freq, decreasing = TRUE)  # Sort by frequency
+    
+    # Convert to data frame
+    df <- data.frame(word = names(word_freq), freq = as.numeric(word_freq), stringsAsFactors = FALSE)
+    
+    return(df)
+})
 
   # Generate cluster labels (top 3 words)
   cluster_labels <- sapply(word_counts, function(df) {
