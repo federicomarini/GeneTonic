@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.1.5</span>
       </span>
     </div>
 
@@ -69,6 +69,8 @@
 <div class="section level3">
 <h3 id="bug-fixes-3-2-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-3-2-0"></a></h3>
 <ul><li>The tooltip functionality in visualizing the <code><a href="../reference/ggs_graph.html">ggs_graph()</a></code> output now handles correctly the text for the geneset description. Thanks to <a href="https://github.com/thomas-keller" class="external-link">@thomas-keller</a> for spotting this and for the fix!</li>
+<li>
+<code><a href="../reference/gs_heatmap.html">gs_heatmap()</a></code> now correctly handles the (odd, but possible) case where a geneset has a single gene annotated to it. Thanks to <a href="https://github.com/edo98811" class="external-link">@edo98811</a> for the fix!</li>
 </ul></div>
 <div class="section level3">
 <h3 id="other-notes-3-2-0">Other notes<a class="anchor" aria-label="anchor" href="#other-notes-3-2-0"></a></h3>
@@ -378,7 +380,7 @@
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by <a href="https://federicomarini.github.io" class="external-link">Federico Marini</a>, Annekathrin Ludt.</p>
+  <p></p><p>Developed by <a href="https://federicomarini.github.io" class="external-link">Federico Marini</a>, Annekathrin Nedwed.</p>
 </div>
 
 <div class="pkgdown">
