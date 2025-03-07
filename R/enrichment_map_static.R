@@ -92,8 +92,8 @@ enrichment_map_static <- function(res_enrich,
                            n_gs = 50,
                            gs_ids = NULL,
                            overlap_threshold = 0.1,
-                           scale_edges_width = 200,
-                           scale_nodes_size = 1,
+                           scale_edges_width = 20,
+                           scale_nodes_size = 10,
                            color_by = "gs_pvalue",
                            cluster_fun = "cluster_markov") {
 
@@ -154,6 +154,7 @@ enrichment_map_static <- function(res_enrich,
   emg <- graph_from_data_frame(omm[, c(1, 2)], directed = FALSE)
 
   # add the edges, delete the ones that are under the threshold
+ #  E(emg)$width <- sqrt(omm$value * scale_edges_width)
   E(emg)$width <- sqrt(omm$value * scale_edges_width)
   emg <- delete_edges(emg, E(emg)[omm$value < overlap_threshold])
 
@@ -215,14 +216,19 @@ enrichment_map_static <- function(res_enrich,
   ground_truth = igraph::make_clusters(emg,V(emg)$membership)
   # plot(ground_truth,emg)
   # we need to change the layout
+  small_clusters <- which(igraph::sizes(gs_communities) <= 2)
+  nodes_to_remove <- unlist(igraph::groups(gs_communities)[small_clusters])
+  emg <- delete_vertices(emg, nodes_to_remove)
+
   emg_layout <- emg
   emg_for_gggraph <- emg
   # emg_original <- emg
 
   # browser()
 
+
   E(emg_layout)$weight <- apply(igraph::as_edgelist(emg_layout), 1, function(row) {
-    weight.community(as.character(row), igraph::membership(gs_communities), 20, 1)
+    weight.community(as.character(row), igraph::membership(gs_communities), 10, 1)
   })
 
   emg_layout$layout <- igraph::layout_with_fr(emg_layout,weights=E(emg_layout)$weight)
@@ -230,41 +236,55 @@ enrichment_map_static <- function(res_enrich,
 
   layout <- igraph::layout_with_fr(emg_layout,weights=E(emg_layout)$weight)
 
-  cluster_centers <- sapply(igraph::groups(gs_communities), function(nodes) {
-    node_indices <- match(nodes, V(emg_layout)$name) 
-    centroid <- colMeans(igraph::layout_with_fr(emg_layout)[node_indices, , drop = FALSE])
-    return(centroid)
-  })
 
-  browser()
+
 
   V(emg_for_gggraph)$membership <- as.factor(as.character(V(emg_for_gggraph)$membership))
 
   cluster_labels <- add_cluster_names(emg ,gs_communities)
-  V(emg_for_gggraph)$cluster_label <- cluster_labels[match(V(emg)$membership, names(cluster_labels))]
+  V(emg_for_gggraph)$cluster_label <- as.factor(cluster_labels[match(V(emg)$membership, names(cluster_labels))])
   # cluster_labels <- names(igraph::groups(gs_communities))
   V(emg_for_gggraph)$label <- NA
 
+  
+  cluster_centers <- data.frame(t(sapply(igraph::groups(gs_communities), function(nodes) {
+    node_indices <- match(nodes, V(emg_layout)$name) 
+    centroid <- colMeans(layout[node_indices, , drop = FALSE])
+    return(centroid)
+  })))
+  cluster_annotation <- merge(cluster_centers, as.data.frame(cluster_labels), by.x = "row.names", by.y = "row.names")
+
+  browser()
   # community_colors <- rainbow(length(igraph::groups(gs_communities)))
   # centroid_df <- data.frame(
   #   x = cluster_centers[1, ],
   #   y = cluster_centers[2, ],
   #   cluster_label = cluster_labels[match(colnames(cluster_centers), names(cluster_labels))]
   # )
+  # Remove clusters with 2 or fewer nodes
 
   ggraph::ggraph(emg_for_gggraph,
        layout = "manual",
        x = layout[, 1],
        y = layout[, 2]) +
   ggraph::geom_edge_link0(aes(edge_width = width), edge_colour = "lightgrey") +
-  ggraph::geom_node_point(aes(fill = color), shape = 21, size = 3) + 
+  ggraph::geom_node_point(aes(size = size, fill = I(V(emg_for_gggraph)$color)), shape = 21, color = "black") + # I(V(emg_for_gggraph)$ # Adjust border thickness) +  # Use `I()` to prevent scaling
+ # ggplot2::scale_fill_identity() +
+  ggplot2::scale_size_continuous(range = c(7, 25)) +  # Adjust min and max sizes  # Use colors directly
   ggforce::geom_mark_hull(
-    aes(x, y, fill = cluster_label),
+    aes(x, y, fill = cluster_label, color = "black", label = cluster_label),
     concavity = 10,
-    expand = unit(3, "mm"),
-    alpha = 0.25
+    expand = unit(7, "mm"),
+    alpha = 0.15
   ) + 
+  # ggrepel::geom_label_repel(data = cluster_centers, 
+  #                     aes(x = X1, y = X2, label = cluster_labels),
+  #                     size = 5, fontface = "bold", 
+  #                     color = "black", fill = alpha("white", .15), 
+  #                     label.size = 0.5,  # Border thickness
+  #                     label.padding = unit(0.2, "lines"))+
   ggplot2::theme(legend.position = "none")
+
   # ggplot2::geom_text(
   #   data = centroid_df,  # Add the centroids as a data source
   #   aes(label = cluster_label, x = x, y = y),
@@ -294,14 +314,14 @@ enrichment_map_static <- function(res_enrich,
   #   ggplot2::theme_void() + 
   #   ggplot2::theme(legend.position = "none")
 
-  plot(emg, 
-    mark.groups = igraph::communities(gs_communities)) 
-  # Add word cloud labels at cluster centroids
-  text(
-    cluster_centers[, 1], 
-    cluster_centers[, 2], 
-    labels = cluster_labels, 
-    col = "black", cex = 1.2, font = 2)
+  # plot(emg, 
+  #   mark.groups = igraph::communities(gs_communities)) 
+  # # Add word cloud labels at cluster centroids
+  # text(
+  #   cluster_centers[, 1], 
+  #   cluster_centers[, 2], 
+  #   labels = cluster_labels, 
+  #   col = "black", cex = 1.2, font = 2)
   # Add legend for community colors
 
   # legend("topright",  # Position of the legend
@@ -385,7 +405,7 @@ add_cluster_names <- function(emg, gs_communities, n_words = 4) {
 
   # Generate cluster labels (top 3 words)
   cluster_labels <- sapply(word_counts, function(df) {
-    paste(head(df$word, n_words), collapse = " ")  # Take the top 3 words
+    paste(head(df$word, n_words), collapse = "\n")  # Take the top 3 words
   })
 
 }
