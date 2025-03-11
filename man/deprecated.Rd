@@ -42,7 +42,7 @@ no visible changes for the end user
 \code{.link2genecards()} and \code{.link2gtex()} are now replaced by the equivalent
 functions in \code{mosdef}:
 \code{\link[mosdef:create_link_GO]{mosdef::create_link_GO()}}, \code{\link[mosdef:create_link_NCBI]{mosdef::create_link_NCBI()}},
-\code{\link[mosdef:create_link_GeneCards]{mosdef::create_link_GeneCards()}} and \code{\link[mosdef:create_link_GO]{mosdef::create_link_GO()}}.
+\code{\link[mosdef:create_link_genecards]{mosdef::create_link_GeneCards()}} and \code{\link[mosdef:create_link_GO]{mosdef::create_link_GO()}}.
 Notably, the \code{mosdef} package expanded on the
 concept of automatically generated buttons, taking this to the extreme of
 efficiency with the \code{\link[mosdef:buttonifier]{mosdef::buttonifier()}} function
