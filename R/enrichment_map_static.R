@@ -30,6 +30,9 @@
 #' for coloring the plotted gene sets. Defaults to `gs_pvalue`.
 #'
 #' @return An `igraph` object to be further manipulated or processed/plotted
+#' 
+#' @importFrom ggraph ggraph
+#' @importFrom ggforce geom_mark_hull
 #'
 #' @seealso [GeneTonic()] embeds an interactive visualization for the enrichment map
 #'

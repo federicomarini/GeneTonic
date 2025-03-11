@@ -12,9 +12,10 @@ enrichment_map_static(
   n_gs = 50,
   gs_ids = NULL,
   overlap_threshold = 0.1,
-  scale_edges_width = 200,
-  scale_nodes_size = 5,
-  color_by = "gs_pvalue"
+  scale_edges_width = 5,
+  scale_nodes_size = 10,
+  color_by = "gs_pvalue",
+  cluster_fun = "cluster_markov"
 )
 }
 \arguments{
