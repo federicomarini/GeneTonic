@@ -100,11 +100,6 @@ enrichment_map_static <- function(res_enrich,
                            color_by = "gs_pvalue",
                            cluster_fun = "cluster_markov") {
 
-  cluster_fun <- match.arg(
-    cluster_fun, c("cluster_markov", "cluster_louvain", "cluster_walktrap")
-  )
-  cluster_fun <- match.fun(cluster_fun)
-
   if (!is.null(gtl)) {
     checkup_gtl(gtl)
     dds <- gtl$dds
@@ -156,29 +151,17 @@ enrichment_map_static <- function(res_enrich,
   # use this to construct the graph
   emg <- graph_from_data_frame(omm[, c(1, 2)], directed = FALSE)
 
-  # add the edges, delete the ones that are under the threshold
- #  E(emg)$width <- sqrt(omm$value * scale_edges_width)
   E(emg)$width <- sqrt(omm$value * scale_edges_width)
-  E(emg)$width_not_scaled <- omm$value * scale_edges_width
   emg <- delete_edges(emg, E(emg)[omm$value < overlap_threshold])
-
-  # Find communities for layout
-  gs_communities <- cluster_fun(emg)
-  res_enrich$gs_membership <- factor(gs_communities$membership)
-  V(emg)$membership <- gs_communities$membership
-  # V(emg)$color <- gs_communities$membership
 
   idx <- match(V(emg)$name, res_enrich$gs_description)
 
   gs_size <- res_enrich$gs_de_count[idx]
 
   V(emg)$size <- scale_nodes_size * sqrt(gs_size)
-  V(emg)$weight <- gs_size
   V(emg)$original_size <- gs_size
 
-  # questo non mi serve perché li coloro in base al membership? oppure mi serve
   col_var <- res_enrich[idx, color_by]
-
   # the palette changes if it is z_score VS pvalue
   if (all(col_var <= 1) & all(col_var > 0)) { # likely p-values...
     col_var <- -log10(col_var)
@@ -217,64 +200,46 @@ enrichment_map_static <- function(res_enrich,
   rank_gs <- rank(V(emg)$name)
   emg <- permute(emg, rank_gs)
 
+  ## Until here it is the same as emapplot (so yes it could really be an extension of emaplot not static) 
 
-  # ground_truth = igraph::make_clusters(emg,V(emg)$membership)
-  # plot(ground_truth,emg)
-  # we need to change the layout
-  small_clusters <- which(igraph::sizes(gs_communities) <= 2)
+  # The weights are not scaled in the same way (this can also be improved)
+  V(emg)$weight <- gs_size
+  E(emg)$width_not_scaled <- omm$value * scale_edges_width
+
+  # Moved here to highlight the difference between the emapplot static and not emapplot
+  cluster_fun <- match.arg(
+    cluster_fun, c("cluster_markov", "cluster_louvain", "cluster_walktrap")
+  )
+  cluster_fun <- match.fun(cluster_fun)
+
+  # Find the clusters to update the layout, add it to the graph
+  gs_communities <- cluster_fun(emg)
+  res_enrich$gs_membership <- factor(gs_communities$membership)
+  V(emg)$membership <- gs_communities$membership
+
+  # There is a bug in hull function: if there is a cluster of 1 element it crashes, i delete the clusters of only one element
+  # They can be added to the graph without hull. (todo)
+  small_clusters <- which(igraph::sizes(gs_communities) < 2)
   nodes_to_remove <- unlist(igraph::groups(gs_communities)[small_clusters])
   emg <- delete_vertices(emg, nodes_to_remove)
 
+  # We create a layout dummy object to use artifcially created 
   emg_layout <- emg
-  # emg_for_gggraph <- emg
-  # emg_original <- emg
-
-  # browser()
-
   E(emg_layout)$weight <- apply(igraph::as_edgelist(emg_layout), 1, function(row) {
     weight.community(as.character(row), igraph::membership(gs_communities), 10, 1)
   })
 
-  # emg_layout$layout <- igraph::layout_with_fr(emg_layout,weights=E(emg_layout)$weight)
-  # emg$layout <- igraph::layout_with_fr(emg_layout,weights=E(emg_layout)$weight)
-
-  # layout <- igraph::layout_with_fr(emg_layout,weights=E(emg_layout)$weight)
-
-
-  # V(emg_for_gggraph)$membership <- as.factor(as.character(V(emg_for_gggraph)$membership))
-
-  # cluster_labels <- add_cluster_names(emg ,gs_communities)
-  # V(emg_for_gggraph)$cluster_label <- as.factor(cluster_labels[match(V(emg)$membership, names(cluster_labels))])
-  # # cluster_labels <- names(igraph::groups(gs_communities))
-  # V(emg_for_gggraph)$label <- NA
-
+  # A dataframe with the annotation of each cluster is created 
+  # annotation -> merge all gesets name from cluster, count words, delete connection words, take first 4
   cluster_labels <- add_cluster_names(emg ,gs_communities)
+
+  # The membership is added to the graph as factor
   V(emg)$membership <- as.factor(as.character(V(emg)$membership))
   V(emg)$cluster_label <- as.factor(cluster_labels[match(V(emg)$membership, names(cluster_labels))])
-  V(emg)$label <- NA
-
-  
-  # cluster_centers <- data.frame(t(sapply(igraph::groups(gs_communities), function(nodes) {
-  #   node_indices <- match(nodes, V(emg_layout)$name) 
-  #   centroid <- colMeans(layout[node_indices, , drop = FALSE])
-  #   return(centroid)
-  # })))
-
-  # cluster_annotation <- merge(cluster_centers, as.data.frame(cluster_labels), by.x = "row.names", by.y = "row.names")
-  # igraph::vertex_attr_names(emg)
-
 
   mem.df <- data.frame(names = V(emg)$name,membership = as.numeric(V(emg)$membership))
-  # community_colors <- rainbow(length(igraph::groups(gs_communities)))
-  # centroid_df <- data.frame(
-  #   x = cluster_centers[1, ],
-  #   y = cluster_centers[2, ],
-  #   cluster_label = cluster_labels[match(colnames(cluster_centers), names(cluster_labels))]
-  # )
-  # Remove clusters with 2 or fewer nodes
-  # lay <-BioNAR::layoutByCluster(emg, mem.df, layout = igraph::layout_with_kk)
   lay <-BioNAR::layoutByCluster(emg_layout, mem.df, layout = igraph::layout_with_kk)
-  # community_graph <- igraph::groups(gs_communities)
+
   ggraph::ggraph(emg,
        layout = "manual",
        x = lay[, 1],
@@ -296,6 +261,84 @@ enrichment_map_static <- function(res_enrich,
   #                     label.size = 0.5,  # Border thickness
   #                     label.padding = unit(0.2, "lines"))+
   ggplot2::theme(legend.position = "none")
+}
+
+weight.community <- function(row,membership,weigth.within,weight.between){
+  if(as.numeric(membership[which(names(membership)==row[1])]) == 
+    as.numeric(membership[which(names(membership)==row[2])])){
+    weight=weigth.within
+  }else{
+    weight=weight.between
+  }
+  return(weight)
+}
+
+
+add_cluster_names <- function(emg, gs_communities, n_words = 4) {
+
+  stop_words <- c("the", "and", "is", "in", "to", "of", "it", "that", "on", "for", "with", 
+                  "as", "this", "was", "but", "be", "by", "or", "not", "are", "at", "an")
+  # Extract node names for each community
+  community_texts <- lapply(igraph::groups(gs_communities), function(nodes) {
+    sentences <- igraph::V(emg)$name[match(nodes, igraph::V(emg)$name)]  # Ensure correct matching
+    paste(sentences, collapse = " ")  # Combine all node names into one string per cluster
+  })
+
+  # Tokenize words and count frequency
+  word_counts <- lapply(community_texts, function(text) {
+    # dplyr::tibble(word = as.character(unlist(strsplit(text, "\\s+")))) %>% 
+    #       dplyr::count(word, sort = TRUE) %>%
+    #       dplyr::filter(!word %in% tidytext::stop_words$word)  # Remove common stop words
+    
+    words <- unlist(strsplit(text, "\\s+"))  # Split text into words
+    # words <- words[!(words %in% tidytext::stop_words$word)]  # Remove stop words
+    words <- words[!(words %in% stop_words)]  # Remove stop words
+    
+    # Create frequency table
+    word_freq <- table(words)
+    word_freq <- sort(word_freq, decreasing = TRUE)  # Sort by frequency
+    
+    # Convert to data frame
+    df <- data.frame(word = names(word_freq), freq = as.numeric(word_freq), stringsAsFactors = FALSE)
+    
+    return(df)
+})
+
+  # Generate cluster labels (top 3 words)
+  cluster_labels <- sapply(word_counts, function(df) {
+    paste(head(df$word, n_words), collapse = "\n")  # Take the top 3 words
+  })
+
+}
+
+  # emg_layout$layout <- igraph::layout_with_fr(emg_layout,weights=E(emg_layout)$weight)
+  # emg$layout <- igraph::layout_with_fr(emg_layout,weights=E(emg_layout)$weight)
+
+  # layout <- igraph::layout_with_fr(emg_layout,weights=E(emg_layout)$weight)
+
+
+  # V(emg_for_gggraph)$membership <- as.factor(as.character(V(emg_for_gggraph)$membership))
+
+  # cluster_labels <- add_cluster_names(emg ,gs_communities)
+  # V(emg_for_gggraph)$cluster_label <- as.factor(cluster_labels[match(V(emg)$membership, names(cluster_labels))])
+  # # cluster_labels <- names(igraph::groups(gs_communities))
+  # V(emg_for_gggraph)$label <- NA
+  # cluster_centers <- data.frame(t(sapply(igraph::groups(gs_communities), function(nodes) {
+  #   node_indices <- match(nodes, V(emg_layout)$name) 
+  #   centroid <- colMeans(layout[node_indices, , drop = FALSE])
+  #   return(centroid)
+  # })))
+
+  # cluster_annotation <- merge(cluster_centers, as.data.frame(cluster_labels), by.x = "row.names", by.y = "row.names")
+  # igraph::vertex_attr_names(emg)
+  # community_colors <- rainbow(length(igraph::groups(gs_communities)))
+  # centroid_df <- data.frame(
+  #   x = cluster_centers[1, ],
+  #   y = cluster_centers[2, ],
+  #   cluster_label = cluster_labels[match(colnames(cluster_centers), names(cluster_labels))]
+  # )
+  # Remove clusters with 2 or fewer nodes
+  # lay <-BioNAR::layoutByCluster(emg, mem.df, layout = igraph::layout_with_kk)
 
   # ggplot2::geom_text(
   #   data = centroid_df,  # Add the centroids as a data source
@@ -371,52 +414,4 @@ enrichment_map_static <- function(res_enrich,
   #   ggplot2::theme_void() + 
   #   ggplot2::theme(legend.position = "none")
 
-}
-
-weight.community <- function(row,membership,weigth.within,weight.between){
-  if(as.numeric(membership[which(names(membership)==row[1])]) == 
-    as.numeric(membership[which(names(membership)==row[2])])){
-    weight=weigth.within
-  }else{
-    weight=weight.between
-  }
-  return(weight)
-}
-
-
-add_cluster_names <- function(emg, gs_communities, n_words = 4) {
-
-  stop_words <- c("the", "and", "is", "in", "to", "of", "it", "that", "on", "for", "with", 
-                  "as", "this", "was", "but", "be", "by", "or", "not", "are", "at", "an")
-  # Extract node names for each community
-  community_texts <- lapply(igraph::groups(gs_communities), function(nodes) {
-    sentences <- igraph::V(emg)$name[match(nodes, igraph::V(emg)$name)]  # Ensure correct matching
-    paste(sentences, collapse = " ")  # Combine all node names into one string per cluster
-  })
-
-  # Tokenize words and count frequency
-  word_counts <- lapply(community_texts, function(text) {
-    # dplyr::tibble(word = as.character(unlist(strsplit(text, "\\s+")))) %>% 
-    #       dplyr::count(word, sort = TRUE) %>%
-    #       dplyr::filter(!word %in% tidytext::stop_words$word)  # Remove common stop words
-    
-    words <- unlist(strsplit(text, "\\s+"))  # Split text into words
-    # words <- words[!(words %in% tidytext::stop_words$word)]  # Remove stop words
-    words <- words[!(words %in% stop_words)]  # Remove stop words
-    
-    # Create frequency table
-    word_freq <- table(words)
-    word_freq <- sort(word_freq, decreasing = TRUE)  # Sort by frequency
-    
-    # Convert to data frame
-    df <- data.frame(word = names(word_freq), freq = as.numeric(word_freq), stringsAsFactors = FALSE)
-    
-    return(df)
-})
-
-  # Generate cluster labels (top 3 words)
-  cluster_labels <- sapply(word_counts, function(df) {
-    paste(head(df$word, n_words), collapse = "\n")  # Take the top 3 words
-  })
-
-}
+  # community_graph <- igraph::groups(gs_communities)
