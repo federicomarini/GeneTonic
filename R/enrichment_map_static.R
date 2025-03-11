@@ -92,7 +92,7 @@ enrichment_map_static <- function(res_enrich,
                            n_gs = 50,
                            gs_ids = NULL,
                            overlap_threshold = 0.1,
-                           scale_edges_width = 20,
+                           scale_edges_width = 5,
                            scale_nodes_size = 10,
                            color_by = "gs_pvalue",
                            cluster_fun = "cluster_markov") {
@@ -156,6 +156,7 @@ enrichment_map_static <- function(res_enrich,
   # add the edges, delete the ones that are under the threshold
  #  E(emg)$width <- sqrt(omm$value * scale_edges_width)
   E(emg)$width <- sqrt(omm$value * scale_edges_width)
+  E(emg)$width_not_scaled <- omm$value * scale_edges_width
   emg <- delete_edges(emg, E(emg)[omm$value < overlap_threshold])
 
   # Find communities for layout
@@ -169,6 +170,7 @@ enrichment_map_static <- function(res_enrich,
   gs_size <- res_enrich$gs_de_count[idx]
 
   V(emg)$size <- scale_nodes_size * sqrt(gs_size)
+  V(emg)$weight <- gs_size
   V(emg)$original_size <- gs_size
 
   # questo non mi serve perché li coloro in base al membership? oppure mi serve
@@ -203,7 +205,7 @@ enrichment_map_static <- function(res_enrich,
     }
   }
 
-  V(emg)$color.border <- "black"
+  # V(emg)$color.border <- "black"
 
   # additional specification of edge colors
   E(emg)$color <- "lightgrey"
@@ -213,7 +215,7 @@ enrichment_map_static <- function(res_enrich,
   emg <- permute(emg, rank_gs)
 
 
-  ground_truth = igraph::make_clusters(emg,V(emg)$membership)
+  # ground_truth = igraph::make_clusters(emg,V(emg)$membership)
   # plot(ground_truth,emg)
   # we need to change the layout
   small_clusters <- which(igraph::sizes(gs_communities) <= 2)
@@ -221,40 +223,45 @@ enrichment_map_static <- function(res_enrich,
   emg <- delete_vertices(emg, nodes_to_remove)
 
   emg_layout <- emg
-  emg_for_gggraph <- emg
+  # emg_for_gggraph <- emg
   # emg_original <- emg
 
   # browser()
-
 
   E(emg_layout)$weight <- apply(igraph::as_edgelist(emg_layout), 1, function(row) {
     weight.community(as.character(row), igraph::membership(gs_communities), 10, 1)
   })
 
-  emg_layout$layout <- igraph::layout_with_fr(emg_layout,weights=E(emg_layout)$weight)
-  emg$layout <- igraph::layout_with_fr(emg_layout,weights=E(emg_layout)$weight)
+  # emg_layout$layout <- igraph::layout_with_fr(emg_layout,weights=E(emg_layout)$weight)
+  # emg$layout <- igraph::layout_with_fr(emg_layout,weights=E(emg_layout)$weight)
 
-  layout <- igraph::layout_with_fr(emg_layout,weights=E(emg_layout)$weight)
-
-
+  # layout <- igraph::layout_with_fr(emg_layout,weights=E(emg_layout)$weight)
 
 
-  V(emg_for_gggraph)$membership <- as.factor(as.character(V(emg_for_gggraph)$membership))
+  # V(emg_for_gggraph)$membership <- as.factor(as.character(V(emg_for_gggraph)$membership))
+
+  # cluster_labels <- add_cluster_names(emg ,gs_communities)
+  # V(emg_for_gggraph)$cluster_label <- as.factor(cluster_labels[match(V(emg)$membership, names(cluster_labels))])
+  # # cluster_labels <- names(igraph::groups(gs_communities))
+  # V(emg_for_gggraph)$label <- NA
 
   cluster_labels <- add_cluster_names(emg ,gs_communities)
-  V(emg_for_gggraph)$cluster_label <- as.factor(cluster_labels[match(V(emg)$membership, names(cluster_labels))])
-  # cluster_labels <- names(igraph::groups(gs_communities))
-  V(emg_for_gggraph)$label <- NA
+  V(emg)$membership <- as.factor(as.character(V(emg)$membership))
+  V(emg)$cluster_label <- as.factor(cluster_labels[match(V(emg)$membership, names(cluster_labels))])
+  V(emg)$label <- NA
 
   
-  cluster_centers <- data.frame(t(sapply(igraph::groups(gs_communities), function(nodes) {
-    node_indices <- match(nodes, V(emg_layout)$name) 
-    centroid <- colMeans(layout[node_indices, , drop = FALSE])
-    return(centroid)
-  })))
-  cluster_annotation <- merge(cluster_centers, as.data.frame(cluster_labels), by.x = "row.names", by.y = "row.names")
+  # cluster_centers <- data.frame(t(sapply(igraph::groups(gs_communities), function(nodes) {
+  #   node_indices <- match(nodes, V(emg_layout)$name) 
+  #   centroid <- colMeans(layout[node_indices, , drop = FALSE])
+  #   return(centroid)
+  # })))
 
-  browser()
+  # cluster_annotation <- merge(cluster_centers, as.data.frame(cluster_labels), by.x = "row.names", by.y = "row.names")
+  # igraph::vertex_attr_names(emg)
+
+
+  mem.df <- data.frame(names = V(emg)$name,membership = as.numeric(V(emg)$membership))
   # community_colors <- rainbow(length(igraph::groups(gs_communities)))
   # centroid_df <- data.frame(
   #   x = cluster_centers[1, ],
@@ -262,15 +269,17 @@ enrichment_map_static <- function(res_enrich,
   #   cluster_label = cluster_labels[match(colnames(cluster_centers), names(cluster_labels))]
   # )
   # Remove clusters with 2 or fewer nodes
-
-  ggraph::ggraph(emg_for_gggraph,
+  # lay <-BioNAR::layoutByCluster(emg, mem.df, layout = igraph::layout_with_kk)
+  lay <-BioNAR::layoutByCluster(emg_layout, mem.df, layout = igraph::layout_with_kk)
+  # community_graph <- igraph::groups(gs_communities)
+  ggraph::ggraph(emg,
        layout = "manual",
-       x = layout[, 1],
-       y = layout[, 2]) +
-  ggraph::geom_edge_link0(aes(edge_width = width), edge_colour = "lightgrey") +
-  ggraph::geom_node_point(aes(size = size, fill = I(V(emg_for_gggraph)$color)), shape = 21, color = "black") + # I(V(emg_for_gggraph)$ # Adjust border thickness) +  # Use `I()` to prevent scaling
- # ggplot2::scale_fill_identity() +
-  ggplot2::scale_size_continuous(range = c(7, 25)) +  # Adjust min and max sizes  # Use colors directly
+       x = lay[, 1],
+       y = lay[, 2]) +
+  ggraph::geom_edge_link0(aes(edge_width = width_not_scaled), edge_colour = "lightgrey") +
+  ggraph::geom_node_point(aes(size = size, fill = I(V(emg)$color)), shape = 21, color = "black") + # I(V(emg_for_gggraph)$ # Adjust border thickness) +  # Use `I()` to prevent scaling
+  # ggplot2::scale_fill_identity() +
+  ggplot2::scale_size_continuous(range = c(7, 25)) +  # Adjust min and max sizes  
   ggforce::geom_mark_hull(
     aes(x, y, fill = cluster_label, color = "black", label = cluster_label),
     concavity = 10,
@@ -359,7 +368,6 @@ enrichment_map_static <- function(res_enrich,
   #   ggplot2::theme_void() + 
   #   ggplot2::theme(legend.position = "none")
 
-  return(emg)
 }
 
 weight.community <- function(row,membership,weigth.within,weight.between){
