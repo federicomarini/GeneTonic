@@ -3,6 +3,7 @@
 ## Bug fixes
 
 * The tooltip functionality in visualizing the `ggs_graph()` output now handles correctly the text for the geneset description. Thanks to @thomas-keller for spotting this and for the fix!
+* `gs_heatmap()` now correctly handles the (odd, but possible) case where a geneset has a single gene annotated to it. Thanks to @edo98811 for the fix!
 
 ## Other notes
 

@@ -403,9 +403,12 @@ GeneTonic <- function(dds = NULL,
 
       # clean up the result object, e.g. removing the NAs in the relevant columns
       removed_genes <- is.na(gtl$res_de$log2FoldChange)
+      nr_removed_genes <- sum(removed_genes)
+      nr_kept_genes <- nrow(gtl$res_de) - nr_removed_genes
       message(
-        "Removing ", sum(removed_genes),
-        "/", nrow(gtl$res_de), " rows from the DE `res_de` object - log2FC values detected as NA"
+        "GeneTonicInfo: Keeping ", nr_kept_genes,
+        "/", nrow(gtl$res_de), " rows from the DE `res_de` object.\nGeneTonicInfo: log2FC values detected as NA for ",
+        nr_removed_genes, " rows."
       )
       reactive_values$res_de <- gtl$res_de[!removed_genes, ]
 
@@ -443,9 +446,12 @@ GeneTonic <- function(dds = NULL,
 
       # clean up the result object, e.g. removing the NAs in the relevant columns
       removed_genes <- is.na(res_de$log2FoldChange)
+      nr_removed_genes <- sum(removed_genes)
+      nr_kept_genes <- nrow(res_de) - nr_removed_genes
       message(
-        "Removing ", sum(removed_genes),
-        "/", nrow(res_de), " rows from the DE `res_de` object - log2FC values detected as NA"
+        "GeneTonicInfo: Keeping ", nr_kept_genes,
+        "/", nrow(res_de), " rows from the DE `res_de` object.\nGeneTonicInfo: log2FC values detected as NA for ",
+        nr_removed_genes, " rows."
       )
       reactive_values$res_de <- res_de[!removed_genes, ]
 
@@ -2373,10 +2379,14 @@ GeneTonic <- function(dds = NULL,
             )
             
             removed_genes <- is.na(reactive_values$res_de$log2FoldChange)
+            nr_removed_genes <- sum(removed_genes)
+            nr_kept_genes <- nrow(reactive_values$res_de) - nr_removed_genes
             message(
-              "Removing ", sum(removed_genes),
-              "/", nrow(reactive_values$res_de), " rows from the DE `res_de` object - log2FC values detected as NA"
+              "GeneTonicInfo: Keeping ", nr_kept_genes,
+              "/", nrow(reactive_values$res_de), " rows from the DE `res_de` object.\nGeneTonicInfo: log2FC values detected as NA for ",
+              nr_removed_genes, " rows."
             )
+            
             reactive_values$res_de <- reactive_values$res_de[!removed_genes, ]
             
             

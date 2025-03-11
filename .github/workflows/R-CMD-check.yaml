@@ -58,7 +58,7 @@ jobs:
 
       - name: Cache R packages
         if: runner.os != 'Windows' && matrix.config.image == null
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-bioc-${{ matrix.config.bioc }}-${{ hashFiles('depends.Rds') }}
