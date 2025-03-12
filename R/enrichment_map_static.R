@@ -247,7 +247,7 @@ enrichment_map_static <- function(res_enrich,
   # We create a layout dummy object to use artifcially created 
   emg_layout <- emg
   E(emg_layout)$weight <- apply(igraph::as_edgelist(emg_layout), 1, function(row) {
-    weight.community(as.character(row), igraph::membership(gs_communities), 10, 1)
+    weight.community(as.character(row), igraph::membership(gs_communities), 3, 1)
   })
 
   # A dataframe with the annotation of each cluster is created 
