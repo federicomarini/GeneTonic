@@ -109,132 +109,31 @@
 #' #                                      degree = 1,
 #' #                                      hover = TRUE),
 #' #             nodesIdSelection = TRUE)
-enrichment_map_static <- function(res_enrich,
-                           res_de,
-                           annotation_obj,
-                           gtl = NULL,
-                           n_gs = 50,
-                           gs_ids = NULL,
-                           overlap_threshold = 0.1,
-                           scale_edges_width = 5,
-                           scale_nodes_size = 10,
-                           color_by = "gs_pvalue",
-                           cluster_fun = "cluster_markov") {
+plot_emap_static <- function(emg,
+                             scale_edges_width = 5,
+                             scale_nodes_size = 10,
+                             cluster_fun = "cluster_markov") {
 
-  if (!is.null(gtl)) {
-    checkup_gtl(gtl)
-    dds <- gtl$dds
-    res_de <- gtl$res_de
-    res_enrich <- gtl$res_enrich
-    annotation_obj <- gtl$annotation_obj
-  }
-
-  if (!color_by %in% colnames(res_enrich)) {
-    stop(
-      "Your res_enrich object does not contain the ",
-      color_by,
-      " column.\n",
-      "Compute this first or select another column to use for the color."
-    )
-  }
-
-  n_gs <- min(n_gs, nrow(res_enrich))
-
-  gs_to_use <- unique(
-    c(
-      res_enrich$gs_id[seq_len(n_gs)], # the ones from the top
-      gs_ids[gs_ids %in% res_enrich$gs_id] # the ones specified from the custom list
-    )
-  )
+  stopifnot(is(emg, "igraph"))
   
-  overlap_matrix <- create_jaccard_matrix(res_enrich,
-    n_gs = n_gs,
-    gs_ids = gs_ids,
-    return_sym = FALSE
-  )
-
-  rownames(overlap_matrix) <- colnames(overlap_matrix) <- res_enrich[rownames(overlap_matrix), "gs_description"]
-
-  om_df <- as.data.frame(overlap_matrix)
-  om_df$id <- rownames(om_df)
-
-  omm <- pivot_longer(om_df, seq_len(length(gs_to_use)))
-  colnames(omm) <- c("gs_1", "gs_2", "value")
-  # eliminate rows of diagonal...
-  omm <- omm[omm$gs_1 != omm$gs_2, ]
-  # ... and the ones from the other triangular portion
-  omm <- omm[!is.na(omm$value), ]
-
-  # omm <- reshape2::melt(overlap_matrix)
-  # omm <- omm[omm$Var1 != omm$Var2, ]
-  # omm <- omm[!is.na(omm$value), ]
-
-  # use this to construct the graph
-  emg <- graph_from_data_frame(omm[, c(1, 2)], directed = FALSE)
-
-  E(emg)$width <- sqrt(omm$value * scale_edges_width)
-  emg <- delete_edges(emg, E(emg)[omm$value < overlap_threshold])
-
-  idx <- match(V(emg)$name, res_enrich$gs_description)
-
-  gs_size <- res_enrich$gs_de_count[idx]
-
-  V(emg)$size <- scale_nodes_size * sqrt(gs_size)
-  V(emg)$original_size <- gs_size
-
-  col_var <- res_enrich[idx, color_by]
-  # the palette changes if it is z_score VS pvalue
-  if (all(col_var <= 1) & all(col_var > 0)) { # likely p-values...
-    col_var <- -log10(col_var)
-    mypal <- colorRampPalette(RColorBrewer::brewer.pal(name = "YlOrRd", 9))(50)
-
-    V(emg)$color <- mosdef::map_to_color(col_var, mypal, symmetric = FALSE, 
-                                         limits = range(na.omit(col_var)))
-   
-    V(emg)$color[is.na(V(emg)$color)] <- "lightgrey"
-  
-  } else {
-    # e.g. using z_score or aggregated value
-    if (prod(range(na.omit(col_var))) >= 0) {
-      # gradient palette
-      mypal <- colorRampPalette(RColorBrewer::brewer.pal(name = "Oranges", 9))(50)
-
-      V(emg)$color <- mosdef::map_to_color(col_var, mypal, symmetric = FALSE, 
-                                           limits = range(na.omit(col_var)))
-      
-      V(emg)$color[is.na(V(emg)$color)] <- "lightgrey"
-    } else {
-      # divergent palette to be used
-      mypal <- rev(colorRampPalette(RColorBrewer::brewer.pal(name = "RdYlBu", 11))(50))
-      V(emg)$color <- mosdef::map_to_color(col_var, mypal, symmetric = TRUE, 
-                                           limits = range(na.omit(col_var)))
-      V(emg)$color[is.na(V(emg)$color)] <- "lightgrey"
-    }
-  }
-
-  # V(emg)$color.border <- "black"
-
-  # additional specification of edge colors
-  E(emg)$color <- "lightgrey"
-
-  # re-sorting the vertices alphabetically
-  rank_gs <- rank(V(emg)$name)
-  emg <- permute(emg, rank_gs)
-
-  ## Until here it is the same as emapplot (so yes it could really be an extension of emaplot not static) 
+  what_attrs_are_in <- vertex_attr_names(emg)
   
   
   ## TODO: We would ideally need to start from here, possibly "just transferring the"
   ## colors from the "interactive schemes"
 
   # The weights are not scaled in the same way (this can also be improved)
-  V(emg)$weight <- gs_size
+  V(emg)$weight <- V(emg)$original_size
+  
+  V(emg)$color <- V(emg)$color.highlight
   
   
   ## TODO: this would ideally require a different number of values?
   ## TODO: in the example, E(emg) is 199 edges, but omm$value is 
   #### E(emg)$width_not_scaled <- omm$value * scale_edges_width
-  E(emg)$width_not_scaled <- E(emg)$width * 2
+  edge_attrs <- igraph::edge_attr_names(emg)
+  
+  E(emg)$width_not_scaled <- E(emg)$width * 0.5
   
   # Moved here to highlight the difference between the emapplot static and not emapplot
   cluster_fun <- match.arg(
@@ -244,14 +143,14 @@ enrichment_map_static <- function(res_enrich,
 
   # Find the clusters to update the layout, add it to the graph
   gs_communities <- cluster_fun(emg)
-  res_enrich$gs_membership <- factor(gs_communities$membership)
   V(emg)$membership <- gs_communities$membership
 
   # There is a bug in hull function: if there is a cluster of 1 element it crashes, i delete the clusters of only one element
   # They can be added to the graph without hull. (todo)
-  small_clusters <- which(igraph::sizes(gs_communities) < 2)
+  ## TODO: this part will be removed once v0.5.0 of ggforce hits CRAN
+  small_clusters <- which(igraph::sizes(gs_communities) <= 2)
   nodes_to_remove <- unlist(igraph::groups(gs_communities)[small_clusters])
-  emg <- delete_vertices(emg, nodes_to_remove)
+  emg <- igraph::delete_vertices(emg, nodes_to_remove)
 
   # We create a layout dummy object to use artifcially created 
   emg_layout <- emg
@@ -261,14 +160,15 @@ enrichment_map_static <- function(res_enrich,
 
   # A dataframe with the annotation of each cluster is created 
   # annotation -> merge all gesets name from cluster, count words, delete connection words, take first 4
-  cluster_labels <- add_cluster_names(emg ,gs_communities)
+  cluster_labels <- add_cluster_names(emg, gs_communities)
 
   # The membership is added to the graph as factor
   V(emg)$membership <- as.factor(as.character(V(emg)$membership))
-  V(emg)$cluster_label <- as.factor(cluster_labels[match(V(emg)$membership, names(cluster_labels))])
+  V(emg)$cluster_label <- 
+    as.factor(cluster_labels[match(V(emg)$membership, names(cluster_labels))])
 
   mem.df <- data.frame(names = V(emg)$name,membership = as.numeric(V(emg)$membership))
-  lay <-BioNAR::layoutByCluster(emg_layout, mem.df, layout = igraph::layout_with_kk)
+  lay <- BioNAR::layoutByCluster(emg_layout, mem.df, layout = igraph::layout_with_kk)
 
   message("GeneTonicInfo: found ", length(table(mem.df$membership)),
           " clusters of genesets")
@@ -279,11 +179,13 @@ enrichment_map_static <- function(res_enrich,
        layout = "manual",
        x = lay[, 1],
        y = lay[, 2]) +
+    
     ## edges first, so they don't cover anything
     ggraph::geom_edge_link0(
       aes(edge_width = width_not_scaled), 
       ## adding some transparency here
       edge_colour = scales::alpha("lightgrey", 0.7)) +
+    
     ## hull on top, so that the nodes still are in the "native color"
     ggforce::geom_mark_hull(
       aes(x, y,
@@ -291,57 +193,58 @@ enrichment_map_static <- function(res_enrich,
           ## why not having the border of the hull too "colored in sync"
           color = cluster_label,
           label = cluster_label),
-      label.fill = scales::alpha("white", 1),
+      label.fill = scales::alpha("white", 0.1),
       concavity = 10,
       expand = unit(7, "mm"),
       alpha = 0.15
     ) +
     
+    ## handling the individual nodes at the end
     ggraph::geom_node_point(aes(size = size, fill = I(V(emg)$color)), shape = 21, color = "black") + # I(V(emg_for_gggraph)$ # Adjust border thickness) +  # Use `I()` to prevent scaling
     # ggplot2::scale_fill_identity() +
     ggplot2::scale_size_continuous(range = c(7, 25)) +  # Adjust min and max sizes  
     
-    ## TODO: we need this back in again...
-    ###### ggforce::geom_mark_hull(
-    ######   aes(x, y, fill = cluster_label, color = "black", label = cluster_label),
-    ######   concavity = 10,
-    ######   expand = unit(7, "mm"),
-    ######   alpha = 0.15
-    ###### ) + 
+    ## background as clean as possible
     ggraph::theme_graph() + 
-
+    ## possibly to be done optional?
+    ggplot2::theme(legend.position = "none")
+  
     # ggrepel::geom_label_repel(data = cluster_centers, 
     #                     aes(x = X1, y = X2, label = cluster_labels),
     #                     size = 5, fontface = "bold", 
     #                     color = "black", fill = alpha("white", .15), 
     #                     label.size = 0.5,  # Border thickness
     #                     label.padding = unit(0.2, "lines"))+
-    ggplot2::theme(legend.position = "none")
+  
   
   return(gp)
 }
 
-weight.community <- function(row,membership,weigth.within,weight.between){
-  if(as.numeric(membership[which(names(membership)==row[1])]) == 
-    as.numeric(membership[which(names(membership)==row[2])])){
-    weight=weigth.within
+weight.community <- function(row, membership, weigth.within, weight.between) {
+  if(as.numeric(membership[which(names(membership) == row[1])]) == 
+     as.numeric(membership[which(names(membership) == row[2])])){
+    weight <- weigth.within
   }else{
-    weight=weight.between
+    weight <- weight.between
   }
+  
   return(weight)
 }
 
 
 add_cluster_names <- function(emg, gs_communities, n_words = 4) {
 
-  stop_words <- c("the", "and", "is", "in", "to", "of", "it", "that", "on", "for", "with", 
-                  "as", "this", "was", "but", "be", "by", "or", "not", "are", "at", "an")
+  stop_words <- c("the", "and", "is", "in", "to", "of", 
+                  "it", "that", "on", "for", "with", 
+                  "as", "this", "was", "but", "be", 
+                  "by", "or", "not", "are", "at", "an")
+  
   # Extract node names for each community
   community_texts <- lapply(igraph::groups(gs_communities), function(nodes) {
     sentences <- igraph::V(emg)$name[match(nodes, igraph::V(emg)$name)]  # Ensure correct matching
     paste(sentences, collapse = " ")  # Combine all node names into one string per cluster
   })
-
+  
   # Tokenize words and count frequency
   word_counts <- lapply(community_texts, function(text) {
     # dplyr::tibble(word = as.character(unlist(strsplit(text, "\\s+")))) %>% 
