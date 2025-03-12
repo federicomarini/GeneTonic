@@ -213,11 +213,20 @@ enrichment_map_static <- function(res_enrich,
   emg <- permute(emg, rank_gs)
 
   ## Until here it is the same as emapplot (so yes it could really be an extension of emaplot not static) 
+  
+  
+  ## TODO: We would ideally need to start from here, possibly "just transferring the"
+  ## colors from the "interactive schemes"
 
   # The weights are not scaled in the same way (this can also be improved)
   V(emg)$weight <- gs_size
-  E(emg)$width_not_scaled <- omm$value * scale_edges_width
-
+  
+  
+  ## TODO: this would ideally require a different number of values?
+  ## TODO: in the example, E(emg) is 199 edges, but omm$value is 
+  #### E(emg)$width_not_scaled <- omm$value * scale_edges_width
+  E(emg)$width_not_scaled <- E(emg)$width * 2
+  
   # Moved here to highlight the difference between the emapplot static and not emapplot
   cluster_fun <- match.arg(
     cluster_fun, c("cluster_markov", "cluster_louvain", "cluster_walktrap")
