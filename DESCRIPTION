@@ -82,6 +82,7 @@ Suggests:
     BiocStyle,
     htmltools,
     clusterProfiler,
+    concaveman,
     macrophage,
     org.Hs.eg.db,
     magrittr,
