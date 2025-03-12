@@ -262,6 +262,9 @@ enrichment_map_static <- function(res_enrich,
   lay <-BioNAR::layoutByCluster(emg_layout, mem.df, layout = igraph::layout_with_kk)
 
   ggraph::ggraph(emg,
+  message("GeneTonicInfo: found ", length(table(mem.df$membership)),
+          " clusters of genesets")
+  
        layout = "manual",
        x = lay[, 1],
        y = lay[, 2]) +
