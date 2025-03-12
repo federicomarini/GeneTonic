@@ -81,6 +81,12 @@
 #'   anno_df,
 #'   n_gs = 50
 #' )
+#' 
+#' em2 <- enrichment_map(res_enrich,
+#'   res_de,
+#'   anno_df, color_by = "z_score",
+#'   n_gs = 50
+#' )
 #'
 #' em
 #' 
@@ -89,12 +95,10 @@
 #'                      res_de = res_macrophage_IFNg_vs_naive, 
 #'                      res_enrich = res_enrich, 
 #'                      annotation_obj = anno_df)
-#' enrichment_map_static(gtl = gtl, cluster_fun = "cluster_louvain")
+#' ### enrichment_map_static(gtl = gtl, cluster_fun = "cluster_louvain")
 #'                      
 #' ## TODO: this should work with (for example)
-#' #### enrichment_map_static(em,
-#' ####                       cluster_fun = "cluster_markov"
-#' ####                      )
+#' plot_emap_static(em, cluster_fun = "cluster_markov")
 #'
 #' # could be viewed interactively with
 #' # library("visNetwork")
