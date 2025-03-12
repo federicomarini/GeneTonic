@@ -33,7 +33,12 @@
 #' 
 #' @importFrom ggraph ggraph
 #' @importFrom ggforce geom_mark_hull
-#'
+#' @importFrom igraph edge_attr_names vertex_attr_names cluster_louvain
+#' cluster_walktrap sizes groups delete_vertices as_edgelist membership
+#' layout_with_kk
+#' @importFrom scales alpha
+#' @importFrom BioNAR layoutByCluster
+#' 
 #' @seealso [GeneTonic()] embeds an interactive visualization for the enrichment map
 #'
 #' @export
