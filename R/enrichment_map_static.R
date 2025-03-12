@@ -261,30 +261,55 @@ enrichment_map_static <- function(res_enrich,
   mem.df <- data.frame(names = V(emg)$name,membership = as.numeric(V(emg)$membership))
   lay <-BioNAR::layoutByCluster(emg_layout, mem.df, layout = igraph::layout_with_kk)
 
-  ggraph::ggraph(emg,
   message("GeneTonicInfo: found ", length(table(mem.df$membership)),
           " clusters of genesets")
   
+  # lay <- igraph::layout_with_fr(emg_layout,weights=E(emg_layout)$weight)
+  
+  gp <- ggraph::ggraph(emg,
        layout = "manual",
        x = lay[, 1],
        y = lay[, 2]) +
-  ggraph::geom_edge_link0(aes(edge_width = width_not_scaled), edge_colour = "lightgrey") +
-  ggraph::geom_node_point(aes(size = size, fill = I(V(emg)$color)), shape = 21, color = "black") + # I(V(emg_for_gggraph)$ # Adjust border thickness) +  # Use `I()` to prevent scaling
-  # ggplot2::scale_fill_identity() +
-  ggplot2::scale_size_continuous(range = c(7, 25)) +  # Adjust min and max sizes  
-  ggforce::geom_mark_hull(
-    aes(x, y, fill = cluster_label, color = "black", label = cluster_label),
-    concavity = 10,
-    expand = unit(7, "mm"),
-    alpha = 0.15
-  ) + 
-  # ggrepel::geom_label_repel(data = cluster_centers, 
-  #                     aes(x = X1, y = X2, label = cluster_labels),
-  #                     size = 5, fontface = "bold", 
-  #                     color = "black", fill = alpha("white", .15), 
-  #                     label.size = 0.5,  # Border thickness
-  #                     label.padding = unit(0.2, "lines"))+
-  ggplot2::theme(legend.position = "none")
+    ## edges first, so they don't cover anything
+    ggraph::geom_edge_link0(
+      aes(edge_width = width_not_scaled), 
+      ## adding some transparency here
+      edge_colour = scales::alpha("lightgrey", 0.7)) +
+    ## hull on top, so that the nodes still are in the "native color"
+    ggforce::geom_mark_hull(
+      aes(x, y,
+          fill= cluster_label,
+          ## why not having the border of the hull too "colored in sync"
+          color = cluster_label,
+          label = cluster_label),
+      label.fill = scales::alpha("white", 1),
+      concavity = 10,
+      expand = unit(7, "mm"),
+      alpha = 0.15
+    ) +
+    
+    ggraph::geom_node_point(aes(size = size, fill = I(V(emg)$color)), shape = 21, color = "black") + # I(V(emg_for_gggraph)$ # Adjust border thickness) +  # Use `I()` to prevent scaling
+    # ggplot2::scale_fill_identity() +
+    ggplot2::scale_size_continuous(range = c(7, 25)) +  # Adjust min and max sizes  
+    
+    ## TODO: we need this back in again...
+    ###### ggforce::geom_mark_hull(
+    ######   aes(x, y, fill = cluster_label, color = "black", label = cluster_label),
+    ######   concavity = 10,
+    ######   expand = unit(7, "mm"),
+    ######   alpha = 0.15
+    ###### ) + 
+    ggraph::theme_graph() + 
+
+    # ggrepel::geom_label_repel(data = cluster_centers, 
+    #                     aes(x = X1, y = X2, label = cluster_labels),
+    #                     size = 5, fontface = "bold", 
+    #                     color = "black", fill = alpha("white", .15), 
+    #                     label.size = 0.5,  # Border thickness
+    #                     label.padding = unit(0.2, "lines"))+
+    ggplot2::theme(legend.position = "none")
+  
+  return(gp)
 }
 
 weight.community <- function(row,membership,weigth.within,weight.between){
