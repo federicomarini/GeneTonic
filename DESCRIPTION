@@ -32,6 +32,7 @@ Depends:
 Imports:
     AnnotationDbi,
     backbone,
+    BioNAR,
     bs4Dash (>= 2.0.0),
     circlize,
     colorspace,
@@ -46,6 +47,7 @@ Imports:
     expm,
     ggforce,
     ggplot2 (>= 3.5.0),
+    ggraph,
     ggrepel,
     ggridges,
     GO.db,
