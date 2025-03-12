@@ -360,13 +360,14 @@ add_cluster_names <- function(emg, gs_communities, n_words = 4) {
     df <- data.frame(word = names(word_freq), freq = as.numeric(word_freq), stringsAsFactors = FALSE)
     
     return(df)
-})
-
+  })
+  
   # Generate cluster labels (top 3 words)
   cluster_labels <- sapply(word_counts, function(df) {
     paste(head(df$word, n_words), collapse = "\n")  # Take the top 3 words
   })
 
+  return(cluster_labels)
 }
 
   # emg_layout$layout <- igraph::layout_with_fr(emg_layout,weights=E(emg_layout)$weight)
