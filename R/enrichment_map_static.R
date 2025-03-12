@@ -182,17 +182,17 @@ plot_emap_static <- function(emg,
     
     ## edges first, so they don't cover anything
     ggraph::geom_edge_link0(
-      aes(edge_width = width_not_scaled), 
+      aes(edge_width = .data$width_not_scaled), 
       ## adding some transparency here
       edge_colour = scales::alpha("lightgrey", 0.7)) +
     
     ## hull on top, so that the nodes still are in the "native color"
     ggforce::geom_mark_hull(
-      aes(x, y,
-          fill= cluster_label,
+      aes(.data$x, .data$y,
+          fill= .data$cluster_label,
           ## why not having the border of the hull too "colored in sync"
-          color = cluster_label,
-          label = cluster_label),
+          color = .data$cluster_label,
+          label = .data$cluster_label),
       label.fill = scales::alpha("white", 0.1),
       concavity = 10,
       expand = unit(7, "mm"),
@@ -200,7 +200,7 @@ plot_emap_static <- function(emg,
     ) +
     
     ## handling the individual nodes at the end
-    ggraph::geom_node_point(aes(size = size, fill = I(V(emg)$color)), shape = 21, color = "black") + # I(V(emg_for_gggraph)$ # Adjust border thickness) +  # Use `I()` to prevent scaling
+    ggraph::geom_node_point(aes(size = .data$size, fill = I(V(emg)$color)), shape = 21, color = "black") + # I(V(emg_for_gggraph)$ # Adjust border thickness) +  # Use `I()` to prevent scaling
     # ggplot2::scale_fill_identity() +
     ggplot2::scale_size_continuous(range = c(7, 25)) +  # Adjust min and max sizes  
     
