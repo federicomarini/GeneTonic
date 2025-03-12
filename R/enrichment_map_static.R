@@ -1,35 +1,19 @@
-#' Creates an enrichment map for the results of functional enrichment
+#' Creates the plot of the enrichment map graph
 #'
-#' Generates a graph for the enrichment map, combining information from `res_enrich`
-#' and `res_de`. This object can be further plotted, e.g. statically via
-#' [igraph::plot.igraph()], or dynamically via
-#' [visNetwork::visIgraph()][visNetwork::visNetwork-igraph]
+#' Generates a graph plot for the enrichment map, as created within `GeneTonic`
+#' via `enrichment_map()`.
 #'
-#' @param res_enrich A `data.frame` object, storing the result of the functional
-#' enrichment analysis. See more in the main function, [GeneTonic()], to check the
-#' formatting requirements (a minimal set of columns should be present).
-#' @param res_de A `DESeqResults` object.
-#' @param annotation_obj A `data.frame` object with the feature annotation
-#' information, with at least two columns, `gene_id` and `gene_name`.
-#' @param gtl A `GeneTonic`-list object, containing in its slots the arguments
-#' specified above: `dds`, `res_de`, `res_enrich`, and `annotation_obj` - the names
-#' of the list _must_ be specified following the content they are expecting
-#' @param n_gs Integer value, corresponding to the maximal number of gene sets to
-#' be displayed
-#' @param gs_ids Character vector, containing a subset of `gs_id` as they are
-#' available in `res_enrich`. Lists the gene sets to be displayed.
-#' @param overlap_threshold Numeric value, between 0 and 1. Defines the threshold
-#' to be used for removing edges in the enrichment map - edges below this value
-#' will be excluded from the final graph. Defaults to 0.1.
+#' @param emg An `igraph` object, ideally generated via `enrichment_map()` 
+#' @param cluster_fun Character string, containing the name of the function
+#' to be used for clustering the graph of the geneset similarities. Defaults to
+#' "cluster_markov".
 #' @param scale_edges_width A numeric value, to define the scaling factor for the
 #' edges between nodes. Defaults to 200 (works well chained to `visNetwork`
 #' functions).
 #' @param scale_nodes_size A numeric value, to define the scaling factor for the
-#' node sizes. Defaults to 5 - works well chained to `visNetwork` functions.
-#' @param color_by Character, specifying the column of `res_enrich` to be used
-#' for coloring the plotted gene sets. Defaults to `gs_pvalue`.
-#'
-#' @return An `igraph` object to be further manipulated or processed/plotted
+#' within GeneTonic
+#' @return A `ggraph` object with the static representation of the enrichment 
+#' map graph.
 #' 
 #' @importFrom ggraph ggraph
 #' @importFrom ggforce geom_mark_hull
@@ -39,7 +23,9 @@
 #' @importFrom scales alpha
 #' @importFrom BioNAR layoutByCluster
 #' 
-#' @seealso [GeneTonic()] embeds an interactive visualization for the enrichment map
+#' @seealso [enrichment_map()] is used to generate the input igraph object.
+#' Also, [GeneTonic()] embeds an interactive visualization for the enrichment 
+#' map (based on the `VisNetwork` package)
 #'
 #' @export
 #'

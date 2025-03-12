@@ -2,7 +2,7 @@
 % Please edit documentation in R/enrichment_map_static.R
 \name{plot_emap_static}
 \alias{plot_emap_static}
-\title{Creates an enrichment map for the results of functional enrichment}
+\title{Creates the plot of the enrichment map graph}
 \usage{
 plot_emap_static(
   emg,
@@ -12,47 +12,26 @@ plot_emap_static(
 )
 }
 \arguments{
+\item{emg}{An \code{igraph} object, ideally generated via \code{enrichment_map()}}
+
 \item{scale_edges_width}{A numeric value, to define the scaling factor for the
 edges between nodes. Defaults to 200 (works well chained to \code{visNetwork}
 functions).}
 
 \item{scale_nodes_size}{A numeric value, to define the scaling factor for the
-node sizes. Defaults to 5 - works well chained to \code{visNetwork} functions.}
+within GeneTonic}
 
-\item{res_enrich}{A \code{data.frame} object, storing the result of the functional
-enrichment analysis. See more in the main function, \code{\link[=GeneTonic]{GeneTonic()}}, to check the
-formatting requirements (a minimal set of columns should be present).}
-
-\item{res_de}{A \code{DESeqResults} object.}
-
-\item{annotation_obj}{A \code{data.frame} object with the feature annotation
-information, with at least two columns, \code{gene_id} and \code{gene_name}.}
-
-\item{gtl}{A \code{GeneTonic}-list object, containing in its slots the arguments
-specified above: \code{dds}, \code{res_de}, \code{res_enrich}, and \code{annotation_obj} - the names
-of the list \emph{must} be specified following the content they are expecting}
-
-\item{n_gs}{Integer value, corresponding to the maximal number of gene sets to
-be displayed}
-
-\item{gs_ids}{Character vector, containing a subset of \code{gs_id} as they are
-available in \code{res_enrich}. Lists the gene sets to be displayed.}
-
-\item{overlap_threshold}{Numeric value, between 0 and 1. Defines the threshold
-to be used for removing edges in the enrichment map - edges below this value
-will be excluded from the final graph. Defaults to 0.1.}
-
-\item{color_by}{Character, specifying the column of \code{res_enrich} to be used
-for coloring the plotted gene sets. Defaults to \code{gs_pvalue}.}
+\item{cluster_fun}{Character string, containing the name of the function
+to be used for clustering the graph of the geneset similarities. Defaults to
+"cluster_markov".}
 }
 \value{
-An \code{igraph} object to be further manipulated or processed/plotted
+A \code{ggraph} object with the static representation of the enrichment
+map graph.
 }
 \description{
-Generates a graph for the enrichment map, combining information from \code{res_enrich}
-and \code{res_de}. This object can be further plotted, e.g. statically via
-\code{\link[igraph:plot.igraph]{igraph::plot.igraph()}}, or dynamically via
-\link[visNetwork:visNetwork-igraph]{visNetwork::visIgraph()}
+Generates a graph plot for the enrichment map, as created within \code{GeneTonic}
+via \code{enrichment_map()}.
 }
 \examples{
 library("macrophage")
@@ -122,5 +101,7 @@ plot_emap_static(em, cluster_fun = "cluster_markov")
 #             nodesIdSelection = TRUE)
 }
 \seealso{
-\code{\link[=GeneTonic]{GeneTonic()}} embeds an interactive visualization for the enrichment map
+\code{\link[=enrichment_map]{enrichment_map()}} is used to generate the input igraph object.
+Also, \code{\link[=GeneTonic]{GeneTonic()}} embeds an interactive visualization for the enrichment
+map (based on the \code{VisNetwork} package)
 }
