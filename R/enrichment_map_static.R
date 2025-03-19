@@ -21,7 +21,6 @@
 #' cluster_walktrap sizes groups delete_vertices as_edgelist membership
 #' layout_with_kk
 #' @importFrom scales alpha
-#' @importFrom BioNAR layoutByCluster
 #' 
 #' @seealso [enrichment_map()] is used to generate the input igraph object.
 #' Also, [GeneTonic()] embeds an interactive visualization for the enrichment 
@@ -103,8 +102,7 @@ plot_emap_static <- function(emg,
   stopifnot(is(emg, "igraph"))
   
   what_attrs_are_in <- vertex_attr_names(emg)
-  
-  
+
   ## TODO: We would ideally need to start from here, possibly "just transferring the"
   ## colors from the "interactive schemes"
 
@@ -113,12 +111,10 @@ plot_emap_static <- function(emg,
   
   V(emg)$color <- V(emg)$color.highlight
   
-  
   ## TODO: this would ideally require a different number of values?
   ## TODO: in the example, E(emg) is 199 edges, but omm$value is 
   #### E(emg)$width_not_scaled <- omm$value * scale_edges_width
-  edge_attrs <- igraph::edge_attr_names(emg)
-  
+  # edge_attrs <- igraph::edge_attr_names(emg)
   E(emg)$width_not_scaled <- E(emg)$width * 0.5
   
   # Moved here to highlight the difference between the emapplot static and not emapplot
@@ -141,7 +137,7 @@ plot_emap_static <- function(emg,
   # We create a layout dummy object to use artifcially created 
   emg_layout <- emg
   E(emg_layout)$weight <- apply(igraph::as_edgelist(emg_layout), 1, function(row) {
-    weight.community(as.character(row), igraph::membership(gs_communities), 3, 1)
+    weight_community(as.character(row), igraph::membership(gs_communities), 5, 2)
   })
 
   # A dataframe with the annotation of each cluster is created 
@@ -153,15 +149,49 @@ plot_emap_static <- function(emg,
   V(emg)$cluster_label <- 
     as.factor(cluster_labels[match(V(emg)$membership, names(cluster_labels))])
 
+  print(names(igraph::vertex_attr(emg)))
+  print(names(igraph::edge_attr(emg)))
+
   mem.df <- data.frame(names = V(emg)$name,membership = as.numeric(V(emg)$membership))
-  lay <- BioNAR::layoutByCluster(emg_layout, mem.df, layout = igraph::layout_with_kk)
 
   message("GeneTonicInfo: found ", length(table(mem.df$membership)),
           " clusters of genesets")
+
+
+  #### Layout experiments
+  # browser()
+  E(emg_layout)$weigth_to_use_for_layout <- log(E(emg_layout)$width) * E(emg_layout)$weight
+
+  # hist((E(emg_layout)$weigth_to_use))
+  # lay <- layout_by_cluster(emg_layout, mem.df, layout = igraph::layout_with_fr)
+  lay <- layout_by_cluster(emg_layout, mem.df, layout = igraph::layout_with_kk)
+  # lay <- layout_by_cluster(emg_layout, mem.df, layout = igraph::layout_with_graphopt)
+  # lay <- layout_by_cluster(emg, mem.df, layout = igraph::layout_with_graphopt)
+  # lay <- igraph::layout_with_fr(emg_layout) # ,weights=E(emg_layout)$weight)
+  # lay <- igraph::layout_with_graphopt(emg_layout)
+  # lay <- igraph::layout_with_kk(emg)
+  # lay <- igraph::component_wise(lay)
+  # lay <- igraph::layout_(emg, igraph::layout_with_kk(), igraph::component_wise()) # Source? https://igraph.org/r/html/1.3.0/layout_.html
   
-  # lay <- igraph::layout_with_fr(emg_layout,weights=E(emg_layout)$weight)
   
-  gp <- ggraph::ggraph(emg,
+  #### Artifical labels for the clusters
+  # cluster_centers <- data.frame(t(sapply(igraph::groups(gs_communities), function(nodes) {
+  #   node_indices <- match(nodes, V(emg_layout)$name) 
+  #   centroid <- colMeans(lay[node_indices, , drop = FALSE])
+  #   return(centroid)
+  # })))
+
+  # cluster_annotation <- merge(cluster_centers, as.data.frame(cluster_labels), by.x = "row.names", by.y = "row.names")
+  # igraph::vertex_attr_names(emg)
+  # community_colors <- rainbow(length(igraph::groups(gs_communities)))
+  # centroid_df <- data.frame(
+  #   x = cluster_centers[1, ],
+  #   y = cluster_centers[2, ],
+  #   cluster_label = cluster_labels[match(colnames(cluster_centers), names(cluster_labels))]
+  # )
+
+  gp <- 
+    ggraph::ggraph(emg,
        layout = "manual",
        x = lay[, 1],
        y = lay[, 2]) +
@@ -177,16 +207,17 @@ plot_emap_static <- function(emg,
       aes(.data$x, .data$y,
           fill= .data$cluster_label,
           ## why not having the border of the hull too "colored in sync"
-          color = .data$cluster_label,
-          label = .data$cluster_label),
+          color = .data$cluster_label, 
+          label = .data$cluster_label
+          ),
       label.fill = scales::alpha("white", 0.1),
-      concavity = 10,
-      expand = unit(7, "mm"),
+      concavity = 1000,
+      expand = unit(3, "mm"),
       alpha = 0.15
     ) +
     
     ## handling the individual nodes at the end
-    ggraph::geom_node_point(aes(size = .data$size, fill = I(V(emg)$color)), shape = 21, color = "black") + # I(V(emg_for_gggraph)$ # Adjust border thickness) +  # Use `I()` to prevent scaling
+    ggraph::geom_node_point(aes(size = .data$original_size, fill = I(V(emg)$color)), shape = 21, color = "black") + # I(V(emg_for_gggraph)$ # Adjust border thickness) +  # Use `I()` to prevent scaling
     # ggplot2::scale_fill_identity() +
     ggplot2::scale_size_continuous(range = c(7, 25)) +  # Adjust min and max sizes  
     
@@ -197,27 +228,32 @@ plot_emap_static <- function(emg,
   
     # ggrepel::geom_label_repel(data = cluster_centers, 
     #                     aes(x = X1, y = X2, label = cluster_labels),
-    #                     size = 5, fontface = "bold", 
+    #                     size = 2, 
     #                     color = "black", fill = alpha("white", .15), 
     #                     label.size = 0.5,  # Border thickness
-    #                     label.padding = unit(0.2, "lines"))+
-  
+    #                     label.padding = unit(0.2, "lines"))
+      # ggplot2::geom_text(data = cluster_centers, 
+      #       aes(x = X1, y = X2, label = cluster_labels),
+      #       size = 3, 
+      #       color = "black", 
+      #       fontface = "bold")
   
   return(gp)
 }
 
-weight.community <- function(row, membership, weigth.within, weight.between) {
+# To create the artificial weights
+weight_community <- function(row, membership, weigth_within, weight_between) {
   if(as.numeric(membership[which(names(membership) == row[1])]) == 
      as.numeric(membership[which(names(membership) == row[2])])){
-    weight <- weigth.within
+    weight <- weigth_within
   }else{
-    weight <- weight.between
+    weight <- weight_between
   }
   
   return(weight)
 }
 
-
+# To create the names of the clusters
 add_cluster_names <- function(emg, gs_communities, n_words = 4) {
 
   stop_words <- c("the", "and", "is", "in", "to", "of", 
@@ -259,6 +295,40 @@ add_cluster_names <- function(emg, gs_communities, n_words = 4) {
   return(cluster_labels)
 }
 
+# Layout by cluster (copied from BioNAR)
+# For this also component_wise from igraph seems to be useful? but i could not make it work.https://igraph.org/r/html/1.3.0/component_wise.html
+layout_by_cluster <- function (gg, mem, layout_to_use = igraph::layout_with_kk) 
+{
+
+    get_cluster_subgraph_by_id <- function (clID, gg, mem) 
+    {
+        idx <- which(mem == clID)
+        sg <- igraph::induced_subgraph(gg, V(gg)[idx], impl = "auto")
+        return(sg)
+    }
+
+
+    Cn <- table(mem$membership)
+
+    sgraphs <- lapply(names(Cn), get_cluster_subgraph_by_id, 
+      gg = gg, 
+      mem = mem$membership)
+
+    layouts <- lapply(sgraphs, function(sg) {
+      if ((identical(layout_to_use, igraph::layout_with_fr) || identical(layout_to_use, igraph::layout_with_kk)) && "weight_to_use_for_layout" %in% E(sg)) {
+      layout_to_use(sg, weights = E(sg)$weigth_to_use_for_layout)
+      } else {
+      layout_to_use(sg)
+      }
+    })
+
+    lay <- igraph::merge_coords(sgraphs, layouts)
+    ug <- igraph::disjoint_union(sgraphs)
+    idx <- match(V(gg)$name, V(ug)$name)
+    lay <- lay[idx, ]
+    return(lay)
+}
+
   # emg_layout$layout <- igraph::layout_with_fr(emg_layout,weights=E(emg_layout)$weight)
   # emg$layout <- igraph::layout_with_fr(emg_layout,weights=E(emg_layout)$weight)
 
@@ -286,7 +356,7 @@ add_cluster_names <- function(emg, gs_communities, n_words = 4) {
   #   cluster_label = cluster_labels[match(colnames(cluster_centers), names(cluster_labels))]
   # )
   # Remove clusters with 2 or fewer nodes
-  # lay <-BioNAR::layoutByCluster(emg, mem.df, layout = igraph::layout_with_kk)
+  # lay <-BioNAR::layout_by_cluster(emg, mem.df, layout = igraph::layout_with_kk)
 
   # ggplot2::geom_text(
   #   data = centroid_df,  # Add the centroids as a data source
