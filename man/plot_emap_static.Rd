@@ -75,7 +75,7 @@ em <- enrichment_map(res_enrich,
 em2 <- enrichment_map(res_enrich,
   res_de,
   anno_df, color_by = "z_score",
-  n_gs = 50
+  n_gs = 100
 )
 
 em

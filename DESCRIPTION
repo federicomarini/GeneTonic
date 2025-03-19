@@ -32,7 +32,6 @@ Depends:
 Imports:
     AnnotationDbi,
     backbone,
-    BioNAR,
     bs4Dash (>= 2.0.0),
     circlize,
     colorspace,
