@@ -157,6 +157,8 @@ enrichment_map <- function(res_enrich,
   V(emg)$original_size <- gs_size
 
   col_var <- res_enrich[idx, color_by]
+  V(emg)$color_by_variable <- col_var
+  
   # the palette changes if it is z_score VS pvalue
   if (all(col_var <= 1) & all(col_var > 0)) { # likely p-values...
     col_var <- -log10(col_var)
