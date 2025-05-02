@@ -1,3 +1,9 @@
+# GeneTonic 3.4.0
+
+## Other notes
+
+* The `enrichment_map()` function now also stores as attribute the original values of the property used to encode the color for the nodes. This change has been made to simplify the transfer of information to any gg-based visual representation where the value-to-color encoding is best left handled in an automated manner (i.e. without enforcing a color-centric attribute, as it is needed within `visNetwork`)
+
 # GeneTonic 3.2.0
 
 ## Bug fixes
