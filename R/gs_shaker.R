@@ -124,8 +124,8 @@ shake_enrichResult <- function(obj) {
 #' # res object
 #' data(res_de_macrophage, package = "GeneTonic")
 #' sorted_genes <- sort(
-#'   setNames(res_macrophage_IFNg_vs_naive$log2FoldChange, 
-#'            res_macrophage_IFNg_vs_naive$SYMBOL), 
+#'   setNames(res_macrophage_IFNg_vs_naive$log2FoldChange,
+#'            res_macrophage_IFNg_vs_naive$SYMBOL),
 #'   decreasing = TRUE
 #' )
 #' \dontrun{
@@ -155,23 +155,23 @@ shake_gsenrichResult <- function(obj) {
   if (!is(obj, "gseaResult")) {
     stop("Provided object must be of class `gseaResult`")
   }
-  
+
   if (is.null(obj@result$core_enrichment)) {
     stop(
       "You are providing an object where the `core_enrichment` is not specified, ",
       "this is required for running GeneTonic properly."
     )
   }
-  
+
   message(
     "Using the content of the 'core_enrichment' column to generate the 'gs_genes' for GeneTonic...",
     " If you have that information available directly, please adjust the content accordingly.",
     "\n\nUsing the set of the 'core_enrichment' size to compute the 'gs_de_count'"
   )
-  
+
   message("Found ", nrow(obj@result), " gene sets in `gseaResult` object, of which ", nrow(as.data.frame(obj)), " are significant.")
   message("Converting for usage in GeneTonic...")
-  
+
   fullresults <- obj@result
 
   mydf <- data.frame(
@@ -189,7 +189,7 @@ shake_gsenrichResult <- function(obj) {
   )
 
   rownames(mydf) <- mydf$gs_id
-  
+
   return(mydf)
 }
 
@@ -470,7 +470,7 @@ shake_gprofilerResult <- function(gprofiler_output_file,
       )
     }
 
-    message("Found ", nrow(gprofiler_output), " gene sets in the file output from Enrichr of which ", sum(gprofiler_output$adjusted_p_value <= 0.05), " are significant (p-value <= 0.05).")
+    message("Found ", nrow(gprofiler_output), " gene sets in the file output from g:Profiler of which ", sum(gprofiler_output$adjusted_p_value <= 0.05), " are significant (p-value <= 0.05).")
     message("Converting for usage in GeneTonic...")
 
     mydf <- data.frame(
@@ -509,7 +509,7 @@ shake_gprofilerResult <- function(gprofiler_output_file,
       )
     }
 
-    message("Found ", nrow(gprofiler_output), " gene sets in the file output from Enrichr of which ", sum(gprofiler_output$p_value <= 0.05), " are significant (p-value <= 0.05).")
+    message("Found ", nrow(gprofiler_output), " gene sets in the file output from g:Profiler of which ", sum(gprofiler_output$p_value <= 0.05), " are significant (p-value <= 0.05).")
     message("Converting for usage in GeneTonic...")
 
     mydf <- data.frame(
@@ -565,7 +565,7 @@ shake_fgseaResult <- function(fgsea_output) {
     stop("Expecting 'leadingEdge' column to be a list")
   }
 
-  message("Found ", nrow(fgsea_output), " gene sets in the file output from Enrichr of which ", sum(fgsea_output$padj <= 0.05), " are significant (p-value <= 0.05).")
+  message("Found ", nrow(fgsea_output), " gene sets in the file output from fgsea of which ", sum(fgsea_output$padj <= 0.05), " are significant (p-value <= 0.05).")
   message("Converting for usage in GeneTonic...")
 
   message(
