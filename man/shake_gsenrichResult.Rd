@@ -31,8 +31,8 @@ rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
 # res object
 data(res_de_macrophage, package = "GeneTonic")
 sorted_genes <- sort(
-  setNames(res_macrophage_IFNg_vs_naive$log2FoldChange, 
-           res_macrophage_IFNg_vs_naive$SYMBOL), 
+  setNames(res_macrophage_IFNg_vs_naive$log2FoldChange,
+           res_macrophage_IFNg_vs_naive$SYMBOL),
   decreasing = TRUE
 )
 \dontrun{
