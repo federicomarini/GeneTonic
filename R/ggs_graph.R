@@ -325,7 +325,6 @@ ggs_backbone <- function(res_enrich,
                          bb_method = c("sdsm", "fdsm", "fixedrow"),
                          bb_extract_alpha = 0.05,
                          bb_extract_fwer = c("none", "bonferroni", "holm"),
-                         # bb_fullinfo = FALSE,
                          bb_remove_singletons = TRUE,
                          color_graph = TRUE,
                          color_by_geneset = "z_score",
@@ -339,7 +338,6 @@ ggs_backbone <- function(res_enrich,
     annotation_obj <- gtl$annotation_obj
   }
 
-  # stopifnot(is.logical(bb_fullinfo))
   stopifnot(is.logical(bb_remove_singletons))
   stopifnot(is.logical(color_graph))
 
@@ -498,18 +496,6 @@ ggs_backbone <- function(res_enrich,
     }
   }
 
-  # if (bb_fullinfo) {
-  #   return(
-  #     list(
-  #       bbgraph = bbgraph,
-  #       bbobj = bbobj,
-  #       ggs = ggs
-  #     )
-  #   )
-  # } else {
-  #   return(bbgraph)
-  # }
-  
   return(bbgraph)
 }
 
