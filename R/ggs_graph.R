@@ -399,20 +399,18 @@ ggs_backbone <- function(res_enrich,
     bpm_for_backbone <- t(bpm)
   }
 
-  if (bb_method == "sdsm") {
-    bbobj <- backbone::sdsm(bpm_for_backbone, alpha = NULL)
+  if (bb_method %in% c("sdsm", "fixedrow")) {
+    bbobj <- backbone::backbone_from_projection(bpm_for_backbone, model = bb_method, alpha = bb_extract_alpha, mtc = bb_extract_fwer)
   } else if (bb_method == "fdsm") {
-    bbobj <- backbone::fdsm(bpm_for_backbone, trials = 1000, alpha = NULL)
-  } else if (bb_method == "fixedrow") {
-    bbobj <- backbone::fixedrow(bpm_for_backbone, alpha = NULL)
+    bbobj <- backbone::backbone_from_projection(bpm_for_backbone, model = 'fdsm', trials = 1000, alpha = bb_extract_alpha, mtc = bb_extract_fwer)
   }
 
-  bbextracted <- backbone::backbone.extract(bbobj,
-    alpha = bb_extract_alpha,
-    mtc = bb_extract_fwer
-  )
+  #bbextracted <- backbone::backbone.extract(bbobj,
+  #  alpha = bb_extract_alpha,
+  #  mtc = bb_extract_fwer
+  #)
 
-  bbgraph <- igraph::graph_from_adjacency_matrix(bbextracted, mode = "undirected")
+  bbgraph <- igraph::graph_from_adjacency_matrix(bbobj, mode = "undirected")
 
   if (bb_remove_singletons) {
     bbgraph <- igraph::delete_vertices(bbgraph, !(igraph::degree(bbgraph) >= 1))
