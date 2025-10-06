@@ -13,7 +13,7 @@
 #' code, and output coexist.
 #'
 #' @importFrom AnnotationDbi Definition GOID Ontology Secondary Synonym Term
-#' @importFrom backbone backbone.extract fdsm fixedrow sdsm
+#' @importFrom backbone backbone_from_projection
 #' @importFrom bs4Dash bs4Card bs4DashBody bs4DashControlbar
 #' bs4DashFooter bs4DashNavbar bs4DashPage bs4DashSidebar
 #' bs4InfoBox bs4InfoBoxOutput bs4SidebarMenu
