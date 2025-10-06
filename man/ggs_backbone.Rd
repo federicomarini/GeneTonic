@@ -15,7 +15,6 @@ ggs_backbone(
   bb_method = c("sdsm", "fdsm", "fixedrow"),
   bb_extract_alpha = 0.05,
   bb_extract_fwer = c("none", "bonferroni", "holm"),
-  bb_fullinfo = FALSE,
   bb_remove_singletons = TRUE,
   color_graph = TRUE,
   color_by_geneset = "z_score",
@@ -58,11 +57,6 @@ use when detecting the backbone of the network}
 which method to use for the multiple testing correction for controlling the
 family-wise error rate}
 
-\item{bb_fullinfo}{Logical value, determining what will be returned as output:
-either a simple \code{ìgraph} object with the graph backbone (if set to \code{FALSE}),
-or a list object containing also the \code{backbone} object, and the gene-geneset
-graph used for the computation (if \code{TRUE})}
-
 \item{bb_remove_singletons}{Logical value, defines whether to remove or leave
 in the returned graph the nodes that are not connected to other vertices}
 
@@ -82,13 +76,7 @@ DESeqResults object.}
 \item{...}{Additional parameters to be passed internally}
 }
 \value{
-According to the \code{bb_fullinfo}, either a simple \code{ìgraph} object with
-the graph backbone, or a named list object containing:
-\itemize{
-\item the \code{igraph} of the extracted backbone
-\item the \code{backbone} object itself
-\item the gene-geneset graph used for the computation
-}
+A simple \code{ìgraph} object with the graph backbone
 }
 \description{
 Extract the backbone for the gene-geneset graph, either for the genes or for the
