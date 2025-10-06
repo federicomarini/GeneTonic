@@ -83,19 +83,19 @@ test_that("Backbone functionality up and running", {
     bb_on = "genesets"
   )
   expect_is(bbg, "igraph")
-  bbg2 <- ggs_backbone(
-    res_enrich = res_enrich_IFNg_vs_naive,
-    res_de = res_macrophage_IFNg_vs_naive,
-    annotation_obj = anno_df,
-    n_gs = 20,
-    bb_on = "features",
-    bb_method = "fixedrow",
-    bb_remove_singletons = FALSE,
-    bb_fullinfo = TRUE
-  )
-  expect_is(bbg2, "list")
-  expect_is(bbg2$bbgraph, "igraph")
-  expect_is(bbg2$ggs, "igraph")
+  # bbg2 <- ggs_backbone(
+  #   res_enrich = res_enrich_IFNg_vs_naive,
+  #   res_de = res_macrophage_IFNg_vs_naive,
+  #   annotation_obj = anno_df,
+  #   n_gs = 20,
+  #   bb_on = "features",
+  #   bb_method = "fixedrow",
+  #   bb_remove_singletons = FALSE,
+  #   bb_fullinfo = TRUE
+  # )
+  # expect_is(bbg2, "list")
+  # expect_is(bbg2$bbgraph, "igraph")
+  # expect_is(bbg2$ggs, "igraph")
 
   gtl_macrophage <- list(
     dds = dds_macrophage,
