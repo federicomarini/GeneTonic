@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.3.3</span>
       </span>
     </div>
 
@@ -70,6 +70,7 @@
 <h3 id="other-notes-3-4-0">Other notes<a class="anchor" aria-label="anchor" href="#other-notes-3-4-0"></a></h3>
 <ul><li>The <code><a href="../reference/enrichment_map.html">enrichment_map()</a></code> function now also stores as attribute the original values of the property used to encode the color for the nodes. This change has been made to simplify the transfer of information to any gg-based visual representation where the value-to-color encoding is best left handled in an automated manner (i.e. without enforcing a color-centric attribute, as it is needed within <code>visNetwork</code>)</li>
 <li>The message content returned by the <code>shaker_</code> functions is not correctly matching the tools they were referring to, thanks <a href="https://github.com/NajlaAbassi" class="external-link">@NajlaAbassi</a> for the fix!</li>
+<li>The <code><a href="../reference/ggs_backbone.html">ggs_backbone()</a></code> function has been adapted to reflect the latest changes in version &gt;= 3.0.0 of the backbone package. Thanks to <a href="https://github.com/zpneal" class="external-link">@zpneal</a> for the heads up and to <a href="https://github.com/edo98811" class="external-link">@edo98811</a> for spotting this out (fixes <a href="https://github.com/federicomarini/GeneTonic/issues/67" class="external-link uri">https://github.com/federicomarini/GeneTonic/issues/67</a>)</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -392,7 +393,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.9000.</p>
 </div>
 
       </footer></div>
