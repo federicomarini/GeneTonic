@@ -253,10 +253,6 @@ ggs_graph <- function(res_enrich,
 #' @param bb_extract_fwer A character string, defaulting to "none", specifying
 #' which method to use for the multiple testing correction for controlling the
 #' family-wise error rate
-#' @param bb_fullinfo Logical value, determining what will be returned as output:
-#' either a simple `ìgraph` object with the graph backbone (if set to `FALSE`),
-#' or a list object containing also the `backbone` object, and the gene-geneset
-#' graph used for the computation (if `TRUE`)
 #' @param bb_remove_singletons Logical value, defines whether to remove or leave
 #' in the returned graph the nodes that are not connected to other vertices
 #' @param color_graph Logical value, specifies whether to use information about
@@ -271,11 +267,7 @@ ggs_graph <- function(res_enrich,
 #' DESeqResults object.
 #' @param ... Additional parameters to be passed internally
 #'
-#' @return According to the `bb_fullinfo`, either a simple `ìgraph` object with
-#' the graph backbone, or a named list object containing:
-#' - the `igraph` of the extracted backbone
-#' - the `backbone` object itself
-#' - the gene-geneset graph used for the computation
+#' @return A simple `ìgraph` object with the graph backbone
 #' @export
 #'
 #' @examples
@@ -333,7 +325,6 @@ ggs_backbone <- function(res_enrich,
                          bb_method = c("sdsm", "fdsm", "fixedrow"),
                          bb_extract_alpha = 0.05,
                          bb_extract_fwer = c("none", "bonferroni", "holm"),
-                         bb_fullinfo = FALSE,
                          bb_remove_singletons = TRUE,
                          color_graph = TRUE,
                          color_by_geneset = "z_score",
@@ -347,7 +338,6 @@ ggs_backbone <- function(res_enrich,
     annotation_obj <- gtl$annotation_obj
   }
 
-  stopifnot(is.logical(bb_fullinfo))
   stopifnot(is.logical(bb_remove_singletons))
   stopifnot(is.logical(color_graph))
 
@@ -399,21 +389,39 @@ ggs_backbone <- function(res_enrich,
     bpm_for_backbone <- t(bpm)
   }
 
-  if (bb_method == "sdsm") {
-    bbobj <- backbone::sdsm(bpm_for_backbone, alpha = NULL)
-  } else if (bb_method == "fdsm") {
-    bbobj <- backbone::fdsm(bpm_for_backbone, trials = 1000, alpha = NULL)
-  } else if (bb_method == "fixedrow") {
-    bbobj <- backbone::fixedrow(bpm_for_backbone, alpha = NULL)
+  # if (bb_method == "sdsm") {
+  #   bbobj <- backbone::sdsm(bpm_for_backbone, alpha = NULL)
+  # } else if (bb_method == "fdsm") {
+  #   bbobj <- backbone::fdsm(bpm_for_backbone, trials = 1000, alpha = NULL)
+  # } else if (bb_method == "fixedrow") {
+  #   bbobj <- backbone::fixedrow(bpm_for_backbone, alpha = NULL)
+  # }
+  # 
+  # bbextracted <- backbone::backbone.extract(bbobj,
+  #   alpha = bb_extract_alpha,
+  #   mtc = bb_extract_fwer
+  # )
+  # 
+  # bbgraph <- igraph::graph_from_adjacency_matrix(bbextracted, mode = "undirected")
+  # 
+  
+  if (bb_method == "fdsm") {
+    bb_trials <- 1000
+  } else {
+    bb_trials <- NULL
   }
-
-  bbextracted <- backbone::backbone.extract(bbobj,
-    alpha = bb_extract_alpha,
-    mtc = bb_extract_fwer
-  )
-
+    
+  bbextracted <- 
+    backbone::backbone_from_projection(
+      B = bpm_for_backbone,
+      alpha = bb_extract_alpha,
+      model = bb_method,
+      mtc = bb_extract_fwer,
+      trials = bb_trials
+    )
+  
   bbgraph <- igraph::graph_from_adjacency_matrix(bbextracted, mode = "undirected")
-
+  
   if (bb_remove_singletons) {
     bbgraph <- igraph::delete_vertices(bbgraph, !(igraph::degree(bbgraph) >= 1))
   }
@@ -488,17 +496,7 @@ ggs_backbone <- function(res_enrich,
     }
   }
 
-  if (bb_fullinfo) {
-    return(
-      list(
-        bbgraph = bbgraph,
-        bbobj = bbobj,
-        ggs = ggs
-      )
-    )
-  } else {
-    return(bbgraph)
-  }
+  return(bbgraph)
 }
 
 

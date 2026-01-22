@@ -3,6 +3,8 @@
 ## Other notes
 
 * The `enrichment_map()` function now also stores as attribute the original values of the property used to encode the color for the nodes. This change has been made to simplify the transfer of information to any gg-based visual representation where the value-to-color encoding is best left handled in an automated manner (i.e. without enforcing a color-centric attribute, as it is needed within `visNetwork`)
+* The message content returned by the `shaker_` functions is not correctly matching the tools they were referring to, thanks @NajlaAbassi for the fix!
+* The `ggs_backbone()` function has been adapted to reflect the latest changes in version >= 3.0.0 of the backbone package. Thanks to @zpneal for the heads up and to @edo98811 for spotting this out (fixes https://github.com/federicomarini/GeneTonic/issues/67)
 
 # GeneTonic 3.2.0
 
