@@ -11,7 +11,7 @@ map2color(x, pal, symmetric = TRUE, limits = NULL)
 be converted to a vector of colors}
 
 \item{pal}{A vector of characters specifying the definition of colors for the
-palette, e.g. obtained via \code{\link[RColorBrewer:ColorBrewer]{RColorBrewer::brewer.pal()}}}
+palette, e.g. obtained via \code{\link[RColorBrewer:brewer.pal]{RColorBrewer::brewer.pal()}}}
 
 \item{symmetric}{Logical value, whether to return a palette which is symmetrical
 with respect to the minimum and maximum values - "respecting" the zero.

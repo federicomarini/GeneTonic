@@ -20,12 +20,12 @@ data(fgseaRes, package = "GeneTonic")
 res_from_fgsea <- shake_fgseaResult(fgseaRes)
 }
 \seealso{
-Other shakers: 
-\code{\link{shake_davidResult}()},
-\code{\link{shake_enrichResult}()},
-\code{\link{shake_enrichrResult}()},
-\code{\link{shake_gprofilerResult}()},
-\code{\link{shake_gsenrichResult}()},
-\code{\link{shake_topGOtableResult}()}
+Other shakers:
+\code{\link[=shake_davidResult]{shake_davidResult()}},
+\code{\link[=shake_enrichResult]{shake_enrichResult()}},
+\code{\link[=shake_enrichrResult]{shake_enrichrResult()}},
+\code{\link[=shake_gprofilerResult]{shake_gprofilerResult()}},
+\code{\link[=shake_gsenrichResult]{shake_gsenrichResult()}},
+\code{\link[=shake_topGOtableResult]{shake_topGOtableResult()}}
 }
 \concept{shakers}

@@ -41,12 +41,12 @@ res_from_enrichr <- shake_enrichrResult(enrichr_output_file = enrichr_output_fil
 #   enrichr_output = enrichr_output_macrophage[["GO_Biological_Process_2018"]])
 }
 \seealso{
-Other shakers: 
-\code{\link{shake_davidResult}()},
-\code{\link{shake_enrichResult}()},
-\code{\link{shake_fgseaResult}()},
-\code{\link{shake_gprofilerResult}()},
-\code{\link{shake_gsenrichResult}()},
-\code{\link{shake_topGOtableResult}()}
+Other shakers:
+\code{\link[=shake_davidResult]{shake_davidResult()}},
+\code{\link[=shake_enrichResult]{shake_enrichResult()}},
+\code{\link[=shake_fgseaResult]{shake_fgseaResult()}},
+\code{\link[=shake_gprofilerResult]{shake_gprofilerResult()}},
+\code{\link[=shake_gsenrichResult]{shake_gsenrichResult()}},
+\code{\link[=shake_topGOtableResult]{shake_topGOtableResult()}}
 }
 \concept{shakers}
