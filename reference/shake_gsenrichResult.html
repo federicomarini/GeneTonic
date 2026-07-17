@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">GeneTonic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.3.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.7.1</span>
       </span>
     </div>
 
@@ -94,12 +94,12 @@ contains the information required to create correctly a <code>res_enrich</code> 
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p>Other shakers:
-<code><a href="shake_davidResult.html">shake_davidResult</a>()</code>,
-<code><a href="shake_enrichResult.html">shake_enrichResult</a>()</code>,
-<code><a href="shake_enrichrResult.html">shake_enrichrResult</a>()</code>,
-<code><a href="shake_fgseaResult.html">shake_fgseaResult</a>()</code>,
-<code><a href="shake_gprofilerResult.html">shake_gprofilerResult</a>()</code>,
-<code><a href="shake_topGOtableResult.html">shake_topGOtableResult</a>()</code></p></div>
+<code><a href="shake_davidResult.html">shake_davidResult()</a></code>,
+<code><a href="shake_enrichResult.html">shake_enrichResult()</a></code>,
+<code><a href="shake_enrichrResult.html">shake_enrichrResult()</a></code>,
+<code><a href="shake_fgseaResult.html">shake_fgseaResult()</a></code>,
+<code><a href="shake_gprofilerResult.html">shake_gprofilerResult()</a></code>,
+<code><a href="shake_topGOtableResult.html">shake_topGOtableResult()</a></code></p></div>
     </div>
 
     <div id="ref-examples">
@@ -107,13 +107,13 @@ contains the information required to create correctly a <code>res_enrich</code> 
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># dds</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"macrophage"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/thelovelab/DESeq2" class="external-link">"DESeq2"</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">gse</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">data</span><span class="op">(</span><span class="va">gse</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">dds_macrophage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html" class="external-link">DESeqDataSet</a></span><span class="op">(</span><span class="va">gse</span>, design <span class="op">=</span> <span class="op">~</span> <span class="va">line</span> <span class="op">+</span> <span class="va">condition</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> using counts and average transcript lengths from tximeta</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">dds_macrophage</span><span class="op">)</span>, <span class="fl">1</span>, <span class="fl">15</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># res object</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">res_de_macrophage</span>, package <span class="op">=</span> <span class="st">"GeneTonic"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">data</span><span class="op">(</span><span class="va">res_de_macrophage</span>, package <span class="op">=</span> <span class="st">"GeneTonic"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sorted_genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/sort.html" class="external-link">sort</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames</a></span><span class="op">(</span><span class="va">res_macrophage_IFNg_vs_naive</span><span class="op">$</span><span class="va">log2FoldChange</span>,</span></span>
 <span class="r-in"><span>           <span class="va">res_macrophage_IFNg_vs_naive</span><span class="op">$</span><span class="va">SYMBOL</span><span class="op">)</span>,</span></span>
@@ -156,7 +156,7 @@ contains the information required to create correctly a <code>res_enrich</code> 
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.9000.</p>
 </div>
 
       </footer></div>
