@@ -133,15 +133,15 @@ plot_emap_static <- function(emg,
   # There is a bug in hull function: if there is a cluster of 1 element it crashes, i delete the clusters of only one element
   # They can be added to the graph without hull. (todo)
   ## TODO: this part will be removed once v0.5.0 of ggforce hits CRAN
-  small_clusters <- which(igraph::sizes(gs_communities) <= 2)
-  nodes_to_remove <- unlist(igraph::groups(gs_communities)[small_clusters])
+  # small_clusters <- which(igraph::sizes(gs_communities) <= 2)
+  # nodes_to_remove <- unlist(igraph::groups(gs_communities)[small_clusters])
   
-  if (length(nodes_to_remove) > 0)
-    message("GeneTonicInfo: removing ", sum(small_clusters > 0),
-            " clusters of genesets with one or two members only",
-            " (total: ", length(nodes_to_remove), " nodes removed)")
-  
-  emg <- igraph::delete_vertices(emg, nodes_to_remove)
+  # if (length(nodes_to_remove) > 0)
+  #   message("GeneTonicInfo: removing ", sum(small_clusters > 0),
+  #           " clusters of genesets with one or two members only",
+  #           " (total: ", length(nodes_to_remove), " nodes removed)")
+  # 
+  # emg <- igraph::delete_vertices(emg, nodes_to_remove)
 
   # We create a layout dummy object to use artifcially created 
   # emg <- emg
