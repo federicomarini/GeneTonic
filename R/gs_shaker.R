@@ -602,3 +602,45 @@ shake_fgseaResult <- function(fgsea_output) {
 
   return(mydf)
 }
+
+#' prepare gsva results (after limma DE) for downstream genetonic
+#'
+#' @param obj limma toptable with gsva as input
+#' @param res_de DE dataframe with ensembl ids
+#' @param m_df annotations from msigdbr
+#' @param gset genesets from gsva results (geneSets(gsva_res))
+#' @param anno_df dataframe with ensembl to symbol mapping
+#'
+#' @return dataframe with standardized names for downstream genetonic
+#' @export
+#'
+#' @examples TODO
+shake_gsvaResult<-function(obj,res_de,m_df,gset,anno_df){
+  m_dfu=m_df[!duplicated(m_df$gs_name),c("gs_name","gs_id","gs_description")]
+  m_dfu=m_dfu[match(rownames(obj),m_dfu$gs_name),]
+  anno_df2=anno_df[match(res_de$id,anno_df$gene_id),]
+
+  gset2=gset[match(m_dfu$gs_name,names(gset))]
+  gcomb=sapply(gset2,function(x) paste(anno_df2$gene_name[anno_df2$gene_name %in% x],collapse=','))
+  gbg=sapply(gset2,function(x) length(x))
+  gsde=sapply(gset2,function(x) sum(anno_df2$gene_name %in% x))
+
+
+  mydf <- data.frame(
+    gs_id = m_dfu$gs_id,
+    gs_description = m_dfu$gs_name,
+    gs_fulldesc=m_dfu$gs_description,
+    gs_pvalue = obj$P.Value,
+    gs_genes = gcomb,
+    gs_de_count = gsde,
+    gs_bg_count = gbg,
+    gs_logFC = obj$logFC,
+    gs_p.adjust = obj$adj.P.Val,
+    stringsAsFactors = FALSE
+  )
+
+  rownames(mydf) <- mydf$gs_id
+
+  return(mydf)
+
+}

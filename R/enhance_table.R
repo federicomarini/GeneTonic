@@ -19,7 +19,7 @@
 #' available in `res_enrich`. Lists the gene sets to be displayed.
 #' @param chars_limit Integer, number of characters to be displayed for each
 #' geneset name.
-#' @param plot_style Character value, one of "point" or "ridgeline". Defines the 
+#' @param plot_style Character value, one of "point" or "ridgeline". Defines the
 #' style of the plot to summarize visually the table.
 #' @param ridge_color Character value, one of "gs_id" or "gs_score", controls the
 #' fill color of the ridge lines. If selecting "gs_score", the `z_score` column
@@ -69,7 +69,7 @@
 #'   anno_df,
 #'   n_gs = 10
 #' )
-#' 
+#'
 #' # using the ridge line as a style, also coloring by the Z score
 #' res_enrich_withscores <- get_aggrscores(
 #'   res_enrich,
@@ -79,7 +79,7 @@
 #' enhance_table(res_enrich_withscores,
 #'   res_de,
 #'   anno_df,
-#'   n_gs = 10, 
+#'   n_gs = 10,
 #'   plot_style = "ridgeline",
 #'   ridge_color = "gs_score"
 #' )
@@ -100,10 +100,10 @@ enhance_table <- function(res_enrich,
     res_enrich <- gtl$res_enrich
     annotation_obj <- gtl$annotation_obj
   }
-  
+
   plot_style <- match.arg(plot_style, c("point", "ridgeline"))
   ridge_color <- match.arg(ridge_color, c("gs_id", "gs_score"))
-  
+
   n_gs <- min(n_gs, nrow(res_enrich))
 
   gs_to_use <- unique(
@@ -118,7 +118,7 @@ enhance_table <- function(res_enrich,
     genes_thisset <- unlist(strsplit(genes_thisset, ","))
 
     genesid_thisset <- annotation_obj$gene_id[match(genes_thisset, annotation_obj$gene_name)]
-    
+
     # removing the genes not finding a match in the annotation
     no_anno_match <- is.na(genesid_thisset)
     genes_thisset_anno <- genes_thisset[!no_anno_match]
@@ -131,7 +131,7 @@ enhance_table <- function(res_enrich,
               " the gene(s) named: ",
               paste0(genes_thisset[no_anno_match], collapse = ", "))
     }
-    
+
     res_thissubset <- res_de[genesid_thisset_anno, ]
 
     res_thissubset <- as.data.frame(res_thissubset)
@@ -145,8 +145,11 @@ enhance_table <- function(res_enrich,
   gs_fulllist <- do.call(rbind, gs_fulllist)
   # message(dim(gs_fulllist)[1])
 
+  if(class(res_de)=="DESeqResults"){
   this_contrast <- (sub(".*p-value: (.*)", "\\1", mcols(res_de, use.names = TRUE)["pvalue", "description"]))
-
+  } else{
+    this_contrast <- ""
+  }
   # to have first rows viewed on top
   gs_fulllist <- gs_fulllist[rev(seq_len(nrow(gs_fulllist))), ]
   gs_fulllist$gs_desc <- factor(gs_fulllist$gs_desc, levels = rev(levels(gs_fulllist$gs_desc)))
@@ -157,7 +160,7 @@ enhance_table <- function(res_enrich,
     substr(as.character(unique(gs_fulllist$gs_desc)), 1, chars_limit),
     " | ", unique(gs_fulllist$gs_id)
   )
-  
+
   if (plot_style == "point") {
     p <- ggplot(
       gs_fulllist, aes(
@@ -177,14 +180,14 @@ enhance_table <- function(res_enrich,
         labels = gs_labels
       ) +
       labs(x = "log2 Fold Change")
-    
+
   } else if (plot_style == "ridgeline") {
-    
+
     if (ridge_color == "gs_score" & is.null(res_enrich$z_score)) {
       message("Fallback to plotting the ridgelines according to geneset id (Z score required)")
       ridge_color <- "gs_id"
-    }  
-    
+    }
+
     if (ridge_color == "gs_score") {
       gs_fulllist$gs_zscore <- res_enrich$z_score[match(gs_fulllist$gs_id, res_enrich$gs_id)]
       p <- ggplot(
@@ -194,8 +197,8 @@ enhance_table <- function(res_enrich,
           fill = .data$gs_zscore
         )
       ) +
-        scale_x_continuous(limits = c(-max_lfc, max_lfc)) + 
-        scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") + 
+        scale_x_continuous(limits = c(-max_lfc, max_lfc)) +
+        scale_fill_gradient2(low = "#313695", mid = "#FFFFE5", high = "#A50026") +
         ggridges::geom_density_ridges(
           aes(group = .data$gs_id),
           point_color = "#00000066",
@@ -218,7 +221,7 @@ enhance_table <- function(res_enrich,
           fill = .data$gs_id
         )
       ) +
-        scale_x_continuous(limits = c(-max_lfc, max_lfc)) + 
+        scale_x_continuous(limits = c(-max_lfc, max_lfc)) +
         ggridges::geom_density_ridges(
           aes(group = .data$gs_id),
           point_color = "#00000066",

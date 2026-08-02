@@ -6,7 +6,7 @@
 #' the components of the list should have.
 #' For backwards compatibility, the `GeneTonic_list` function is still provided
 #' as a synonim, and will likely be deprecated in the upcoming release cycles.
-#' 
+#'
 #' @param dds A `DESeqDataSet` object, normally obtained after running your data
 #' through the `DESeq2` framework.
 #' @param res_de A `DESeqResults` object. As for the `dds` parameter, this is
@@ -193,12 +193,12 @@ describe_gtl <- function(gtl) {
 #' go_2_html("GO:0043368")
 go_2_html <- function(go_id,
                       res_enrich = NULL) {
-  .Deprecated(old = "go_2_html", new = "mosdef::go_to_html", 
+  .Deprecated(old = "go_2_html", new = "mosdef::go_to_html",
               msg = paste0(
                 "Please use `mosdef::go_to_html()` in replacement of the `go_2_html()` function, ",
                 "originally located in the GeneTonic package. \nCheck the manual page for ",
                 "`?mosdef::go_to_html()` to see the details on how to use it"))
-  
+
   mycontent <- mosdef::go_to_html(go_id = go_id,
                                   res_enrich = res_enrich)
   return(mycontent)
@@ -211,12 +211,12 @@ go_2_html <- function(go_id,
 #' @return HTML for an action button
 #' @noRd
 .link2amigo <- function(val) {
-  .Deprecated(old = ".link2amigo", new = "mosdef::create_link_GO", 
+  .Deprecated(old = ".link2amigo", new = "mosdef::create_link_GO",
               msg = paste0(
                 "Please use `mosdef::create_link_GO()` in replacement of the `.link2amigo()` function, ",
                 "originally located in the GeneTonic package. \nCheck the manual page for ",
                 "`?mosdef::create_link_GO()` to see the details on how to use it"))
-  
+
   mosdef::create_link_GO(val = val)
 }
 
@@ -243,15 +243,15 @@ go_2_html <- function(go_id,
 #' geneinfo_2_html("Pf4")
 geneinfo_2_html <- function(gene_id,
                             res_de = NULL) {
-  .Deprecated(old = "geneinfo_2_html", new = "mosdef::geneinfo_to_html", 
+  .Deprecated(old = "geneinfo_2_html", new = "mosdef::geneinfo_to_html",
               msg = paste0(
                 "Please use `mosdef::geneinfo_to_html()` in replacement of the `geneinfo_2_html()` function, ",
                 "originally located in the GeneTonic package. \nCheck the manual page for ",
                 "`?mosdef::geneinfo_to_html()` to see the details on how to use it"))
-  
+
   mycontent <- mosdef::geneinfo_to_html(gene_id = gene_id,
                                         res_de = res_de)
-  
+
   return(mycontent)
 }
 
@@ -262,12 +262,12 @@ geneinfo_2_html <- function(gene_id,
 #' @return HTML for an action button
 #' @noRd
 .link2ncbi <- function(val) {
-  .Deprecated(old = ".link2ncbi", new = "mosdef::create_link_NCBI", 
+  .Deprecated(old = ".link2ncbi", new = "mosdef::create_link_NCBI",
               msg = paste0(
                 "Please use `mosdef::create_link_NCBI()` in replacement of the `.link2ncbi()` function, ",
                 "originally located in the GeneTonic package. \nCheck the manual page for ",
                 "`?mosdef::create_link_NCBI()` to see the details on how to use it"))
-  
+
   mosdef::create_link_NCBI(val = val)
 }
 
@@ -278,12 +278,12 @@ geneinfo_2_html <- function(gene_id,
 #' @return HTML for an action button
 #' @noRd
 .link2genecards <- function(val) {
-  .Deprecated(old = ".link2genecards", new = "mosdef::create_link_GeneCards", 
+  .Deprecated(old = ".link2genecards", new = "mosdef::create_link_GeneCards",
               msg = paste0(
                 "Please use `mosdef::create_link_GeneCards()` in replacement of the `.link2genecards()` function, ",
                 "originally located in the GeneTonic package. \nCheck the manual page for ",
                 "`?mosdef::create_link_GeneCards()` to see the details on how to use it"))
-  
+
   mosdef::create_link_GeneCards(val = val)
 }
 
@@ -294,12 +294,12 @@ geneinfo_2_html <- function(gene_id,
 #' @return HTML for an action button
 #' @noRd
 .link2gtex <- function(val) {
-  .Deprecated(old = ".link2gtex", new = "mosdef::create_link_GTEX", 
+  .Deprecated(old = ".link2gtex", new = "mosdef::create_link_GTEX",
               msg = paste0(
                 "Please use `mosdef::create_link_GTEX()` in replacement of the `.link2gtex()` function, ",
                 "originally located in the GeneTonic package. \nCheck the manual page for ",
                 "`?mosdef::create_link_GTEX()` to see the details on how to use it"))
-  
+
   mosdef::create_link_GTEX(val = val)
 }
 
@@ -463,18 +463,18 @@ overlap_jaccard_index <- function(x, y) {
 styleColorBar_divergent <- function(data,
                                     color_pos,
                                     color_neg) {
-  .Deprecated(old = "styleColorBar_divergent", new = "mosdef::styleColorBar_divergent", 
+  .Deprecated(old = "styleColorBar_divergent", new = "mosdef::styleColorBar_divergent",
               msg = paste0(
                 "Please use `mosdef::styleColorBar_divergent()` in replacement of the `styleColorBar_divergent()` function, ",
                 "originally located in the GeneTonic package. \nCheck the manual page for ",
                 "`?mosdef::styleColorBar_divergent()` to see the details on how to use it"))
-  
+
   code_ret <- mosdef::styleColorBar_divergent(
     data = data,
     color_pos = color_pos,
     color_neg = color_neg
   )
-  
+
   return(code_ret)
 }
 
@@ -511,13 +511,13 @@ styleColorBar_divergent <- function(data,
 #' )(50)
 #' plot(b, col = map2color(b, pal2), pch = 20, cex = 3)
 map2color <- function(x, pal, symmetric = TRUE, limits = NULL) {
-  .Deprecated(old = "map2color", new = "mosdef::map_to_color", 
+  .Deprecated(old = "map2color", new = "mosdef::map_to_color",
               msg = paste0(
                 "Please use `mosdef::map_to_color()` in replacement of the `map2color()` function, ",
                 "originally located in the GeneTonic package. \nCheck the manual page for ",
                 "`?mosdef::map_to_color()` to see the details on how to use it"))
-  
-  pal_ret <- map_to_color(x = x, 
+
+  pal_ret <- map_to_color(x = x,
                           pal = pal,
                           symmetric = symmetric,
                           limits = limits)
@@ -578,12 +578,12 @@ check_colors <- function(x) {
 #' res_df <- mosdef::deresult_to_df(res_macrophage_IFNg_vs_naive)
 #' head(res_df)
 deseqresult2df <- function(res_de, FDR = NULL) {
-  .Deprecated(old = "deseqresult2df", new = "mosdef::deresult_to_df", 
+  .Deprecated(old = "deseqresult2df", new = "mosdef::deresult_to_df",
               msg = paste0(
                 "Please use `mosdef::deresult_to_df()` in replacement of the `deseqresult2df()` function, ",
                 "originally located in the GeneTonic package. \nCheck the manual page for ",
                 "`?mosdef::deresult_to_df()` to see the details on how to use it"))
-  
+
   df <- mosdef::deresult_to_df(res_de = res_de,
                                FDR = FDR)
   return(df)
@@ -645,6 +645,26 @@ editor_to_vector_sanitized <- function(txt) {
   sub(" +$", "", rn)
 }
 
+#' convert limma results to dataframe with DESeq column names
+#'
+#' @param res_de limma toptable results
+#' @param FDR false discovery rate cutoff
+#'
+#' @return dataframe with deseq-like result column names
+#' @export
+#'
+#' @examples TODO
+limma2df<-function(res_de,FDR=NULL){
+  res<- cbind(rownames(res_de),res_de)
+  names(res)[c(1,2,6)]=c('id','log2FoldChange','padj')
+  res$id=as.character(res$id)
+  res=res[order(res$padj),]
+  if(!is.null(FDR)){
+    res=res[!is.na(res$padj) & res$padj<=FDR,]
+  }
+  return(res)
+}
+
 GeneTonic_footer <- fluidRow(
   column(
     width = 1,
@@ -668,6 +688,8 @@ GeneTonic_footer <- fluidRow(
     tags$a(href = "https://github.com/federicomarini/GeneTonic", "GitHub")
   )
 )
+
+
 
 # Shiny resource paths ----------------------------------------------------
 
