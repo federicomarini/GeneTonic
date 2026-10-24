@@ -59,7 +59,6 @@ export(summarize_ggs_hubgenes)
 import(GO.db)
 import(SummarizedExperiment)
 import(ggplot2)
-import(shiny)
 import(shiny, except = c(renderDataTable, dataTableOutput))
 importFrom(AnnotationDbi,
   Definition,
