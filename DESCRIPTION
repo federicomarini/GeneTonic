@@ -94,4 +94,4 @@ biocViews:
     GUI, GeneExpression, Software, Transcription, Transcriptomics, Visualization,
     DifferentialExpression, Pathways, ReportWriting, GeneSetEnrichment, 
     Annotation, GO, ShinyApps
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0
