@@ -59,160 +59,209 @@ export(summarize_ggs_hubgenes)
 import(GO.db)
 import(SummarizedExperiment)
 import(ggplot2)
+import(shiny)
 import(shiny, except = c(renderDataTable, dataTableOutput))
-importFrom(AnnotationDbi,Definition)
-importFrom(AnnotationDbi,GOID)
-importFrom(AnnotationDbi,Ontology)
-importFrom(AnnotationDbi,Secondary)
-importFrom(AnnotationDbi,Synonym)
-importFrom(AnnotationDbi,Term)
-importFrom(ComplexHeatmap,Heatmap)
-importFrom(ComplexHeatmap,HeatmapAnnotation)
-importFrom(ComplexHeatmap,draw)
-importFrom(ComplexUpset,intersection_matrix)
-importFrom(ComplexUpset,intersection_size)
-importFrom(ComplexUpset,upset)
-importFrom(DESeq2,counts)
-importFrom(DESeq2,estimateSizeFactors)
-importFrom(DESeq2,normalizationFactors)
-importFrom(DESeq2,sizeFactors)
-importFrom(DESeq2,vst)
-importFrom(DT,JS)
-importFrom(DT,dataTableOutput)
-importFrom(DT,datatable)
-importFrom(DT,formatRound)
-importFrom(DT,formatStyle)
-importFrom(DT,renderDataTable)
+importFrom(AnnotationDbi,
+  Definition,
+  GOID,
+  Ontology,
+  Secondary,
+  Synonym,
+  Term
+)
+importFrom(ComplexHeatmap,
+  Heatmap,
+  HeatmapAnnotation,
+  draw
+)
+importFrom(ComplexUpset,
+  intersection_matrix,
+  intersection_size,
+  upset
+)
+importFrom(DESeq2,
+  counts,
+  estimateSizeFactors,
+  normalizationFactors,
+  sizeFactors,
+  vst
+)
+importFrom(DT,
+  JS,
+  dataTableOutput,
+  datatable,
+  formatRound,
+  formatStyle,
+  renderDataTable
+)
 importFrom(RColorBrewer,brewer.pal)
 importFrom(S4Vectors,mcols)
 importFrom(backbone,backbone_from_projection)
-importFrom(bs4Dash,bs4Card)
-importFrom(bs4Dash,bs4DashBody)
-importFrom(bs4Dash,bs4DashControlbar)
-importFrom(bs4Dash,bs4DashFooter)
-importFrom(bs4Dash,bs4DashNavbar)
-importFrom(bs4Dash,bs4DashPage)
-importFrom(bs4Dash,bs4DashSidebar)
-importFrom(bs4Dash,bs4InfoBox)
-importFrom(bs4Dash,bs4InfoBoxOutput)
-importFrom(bs4Dash,bs4SidebarMenu)
-importFrom(bs4Dash,bs4SidebarMenuItem)
-importFrom(bs4Dash,bs4TabCard)
-importFrom(bs4Dash,bs4TabItem)
-importFrom(bs4Dash,bs4TabItems)
-importFrom(bs4Dash,bs4ValueBox)
-importFrom(bs4Dash,bs4ValueBoxOutput)
-importFrom(bs4Dash,renderbs4InfoBox)
-importFrom(bs4Dash,renderbs4ValueBox)
+importFrom(bs4Dash,
+  bs4Card,
+  bs4DashBody,
+  bs4DashControlbar,
+  bs4DashFooter,
+  bs4DashNavbar,
+  bs4DashPage,
+  bs4DashSidebar,
+  bs4InfoBox,
+  bs4InfoBoxOutput,
+  bs4SidebarMenu,
+  bs4SidebarMenuItem,
+  bs4TabCard,
+  bs4TabItem,
+  bs4TabItems,
+  bs4ValueBox,
+  bs4ValueBoxOutput,
+  renderbs4InfoBox,
+  renderbs4ValueBox
+)
 importFrom(circlize,colorRamp2)
 importFrom(colorspace,rainbow_hcl)
 importFrom(colourpicker,colourInput)
-importFrom(dendextend,branches_attr_by_clusters)
-importFrom(dendextend,set)
-importFrom(dplyr,"%>%")
-importFrom(dplyr,arrange)
-importFrom(dplyr,desc)
-importFrom(dplyr,group_by)
-importFrom(dplyr,mutate)
-importFrom(dplyr,pull)
-importFrom(dplyr,select)
-importFrom(dplyr,slice)
+importFrom(dendextend,
+  branches_attr_by_clusters,
+  set
+)
+importFrom(dplyr,
+  "%>%",
+  arrange,
+  desc,
+  group_by,
+  mutate,
+  pull,
+  select,
+  slice
+)
 importFrom(dynamicTreeCut,cutreeDynamic)
 importFrom(expm,"%^%")
-importFrom(ggforce,geom_mark_hull)
-importFrom(ggforce,geom_sina)
+importFrom(ggforce,
+  geom_mark_hull,
+  geom_sina
+)
 importFrom(ggraph,ggraph)
-importFrom(ggrepel,geom_label_repel)
-importFrom(ggrepel,geom_text_repel)
-importFrom(ggridges,geom_density_ridges)
-importFrom(ggridges,position_points_jitter)
-importFrom(grDevices,col2rgb)
-importFrom(grDevices,colorRampPalette)
-importFrom(grDevices,rgb)
-importFrom(graphics,par)
-importFrom(graphics,plot)
+importFrom(ggrepel,
+  geom_label_repel,
+  geom_text_repel
+)
+importFrom(ggridges,
+  geom_density_ridges,
+  position_points_jitter
+)
+importFrom(grDevices,
+  col2rgb,
+  colorRampPalette,
+  rgb
+)
+importFrom(graphics,
+  par,
+  plot
+)
 importFrom(grid,gpar)
-importFrom(igraph,"%du%")
-importFrom(igraph,"E<-")
-importFrom(igraph,"V<-")
-importFrom(igraph,E)
-importFrom(igraph,V)
-importFrom(igraph,add_edges)
-importFrom(igraph,as_adjacency_matrix)
-importFrom(igraph,as_biadjacency_matrix)
-importFrom(igraph,as_edgelist)
-importFrom(igraph,cluster_louvain)
-importFrom(igraph,cluster_walktrap)
-importFrom(igraph,degree)
-importFrom(igraph,delete_edges)
-importFrom(igraph,delete_vertices)
-importFrom(igraph,disjoint_union)
-importFrom(igraph,edge_attr_names)
-importFrom(igraph,graph_from_data_frame)
-importFrom(igraph,groups)
-importFrom(igraph,induced_subgraph)
-importFrom(igraph,layout_with_kk)
-importFrom(igraph,make_full_graph)
-importFrom(igraph,membership)
-importFrom(igraph,merge_coords)
-importFrom(igraph,permute)
-importFrom(igraph,sizes)
-importFrom(igraph,strength)
-importFrom(igraph,vcount)
-importFrom(igraph,vertex_attr_names)
+importFrom(igraph,
+  "%du%",
+  "E<-",
+  "V<-",
+  E,
+  V,
+  add_edges,
+  as_adjacency_matrix,
+  as_biadjacency_matrix,
+  as_edgelist,
+  cluster_louvain,
+  cluster_walktrap,
+  degree,
+  delete_edges,
+  delete_vertices,
+  disjoint_union,
+  edge_attr_names,
+  graph_from_data_frame,
+  groups,
+  induced_subgraph,
+  layout_with_kk,
+  make_full_graph,
+  membership,
+  merge_coords,
+  permute,
+  sizes,
+  strength,
+  vcount,
+  vertex_attr_names
+)
 importFrom(matrixStats,rowSds)
 importFrom(methods,is)
-importFrom(mosdef,create_link_GO)
-importFrom(mosdef,create_link_GeneCards)
-importFrom(mosdef,create_link_NCBI)
-importFrom(mosdef,deresult_to_df)
-importFrom(mosdef,gene_plot)
-importFrom(mosdef,geneinfo_to_html)
-importFrom(mosdef,go_to_html)
-importFrom(mosdef,map_to_color)
-importFrom(mosdef,styleColorBar_divergent)
-importFrom(plotly,add_trace)
-importFrom(plotly,ggplotly)
-importFrom(plotly,layout)
-importFrom(plotly,plot_ly)
-importFrom(plotly,plotlyOutput)
-importFrom(plotly,renderPlotly)
-importFrom(rintrojs,introjs)
-importFrom(rintrojs,introjsUI)
+importFrom(mosdef,
+  create_link_GO,
+  create_link_GeneCards,
+  create_link_NCBI,
+  deresult_to_df,
+  gene_plot,
+  geneinfo_to_html,
+  go_to_html,
+  map_to_color,
+  styleColorBar_divergent
+)
+importFrom(plotly,
+  add_trace,
+  ggplotly,
+  layout,
+  plot_ly,
+  plotlyOutput,
+  renderPlotly
+)
+importFrom(rintrojs,
+  introjs,
+  introjsUI
+)
 importFrom(rlang,.data)
 importFrom(rmarkdown,render)
-importFrom(scales,alpha)
-importFrom(scales,muted)
+importFrom(scales,
+  alpha,
+  muted
+)
 importFrom(shinyAce,aceEditor)
-importFrom(shinyWidgets,dropdownButton)
-importFrom(shinyWidgets,tooltipOptions)
+importFrom(shinyWidgets,
+  dropdownButton,
+  tooltipOptions
+)
 importFrom(shinycssloaders,withSpinner)
-importFrom(stats,as.dendrogram)
-importFrom(stats,as.dist)
-importFrom(stats,cmdscale)
-importFrom(stats,dist)
-importFrom(stats,hclust)
-importFrom(stats,median)
-importFrom(stats,na.omit)
-importFrom(stats,order.dendrogram)
-importFrom(stats,runif)
-importFrom(stats,var)
-importFrom(tidyr,pivot_longer)
-importFrom(tidyr,separate_rows)
+importFrom(stats,
+  as.dendrogram,
+  as.dist,
+  cmdscale,
+  dist,
+  hclust,
+  median,
+  na.omit,
+  order.dendrogram,
+  runif,
+  var
+)
+importFrom(tidyr,
+  pivot_longer,
+  separate_rows
+)
 importFrom(tippy,with_tippy)
-importFrom(tools,file_ext)
-importFrom(tools,file_path_sans_ext)
-importFrom(utils,browseURL)
-importFrom(utils,citation)
-importFrom(utils,data)
-importFrom(utils,head)
-importFrom(utils,packageDescription)
-importFrom(utils,read.delim)
-importFrom(utils,sessionInfo)
-importFrom(utils,write.table)
+importFrom(tools,
+  file_ext,
+  file_path_sans_ext
+)
+importFrom(utils,
+  browseURL,
+  citation,
+  data,
+  head,
+  packageDescription,
+  read.delim,
+  sessionInfo,
+  write.table
+)
 importFrom(viridis,viridis)
-importFrom(visNetwork,renderVisNetwork)
-importFrom(visNetwork,visExport)
-importFrom(visNetwork,visIgraph)
-importFrom(visNetwork,visNetworkOutput)
-importFrom(visNetwork,visOptions)
+importFrom(visNetwork,
+  renderVisNetwork,
+  visExport,
+  visIgraph,
+  visNetworkOutput,
+  visOptions
+)

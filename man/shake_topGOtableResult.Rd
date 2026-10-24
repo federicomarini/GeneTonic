@@ -26,12 +26,12 @@ data(res_enrich_macrophage, package = "GeneTonic")
 res_enrich <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
 }
 \seealso{
-Other shakers: 
-\code{\link{shake_davidResult}()},
-\code{\link{shake_enrichResult}()},
-\code{\link{shake_enrichrResult}()},
-\code{\link{shake_fgseaResult}()},
-\code{\link{shake_gprofilerResult}()},
-\code{\link{shake_gsenrichResult}()}
+Other shakers:
+\code{\link[=shake_davidResult]{shake_davidResult()}},
+\code{\link[=shake_enrichResult]{shake_enrichResult()}},
+\code{\link[=shake_enrichrResult]{shake_enrichrResult()}},
+\code{\link[=shake_fgseaResult]{shake_fgseaResult()}},
+\code{\link[=shake_gprofilerResult]{shake_gprofilerResult()}},
+\code{\link[=shake_gsenrichResult]{shake_gsenrichResult()}}
 }
 \concept{shakers}
