@@ -18,8 +18,8 @@
 #' @importFrom ggraph ggraph
 #' @importFrom ggforce geom_mark_hull
 #' @importFrom igraph edge_attr_names vertex_attr_names cluster_louvain
-#' cluster_walktrap sizes groups delete_vertices as_edgelist membership
-#' layout_with_kk
+#'   cluster_walktrap sizes groups delete_vertices as_edgelist membership
+#'   layout_with_kk
 #' @importFrom scales alpha
 #' 
 #' @seealso [enrichment_map()] is used to generate the input igraph object.
@@ -319,7 +319,7 @@ add_cluster_names <- function(emg, gs_communities, n_words = 4) {
 #' to `igraph::layout_with_kk()`
 #' 
 #' @importFrom igraph induced_subgraph merge_coords layout_with_kk
-#' disjoint_union
+#'   disjoint_union
 #'
 #' @returns A matrix containing the coordinates, to be passed and set manually
 #' for plotting
